@@ -136,8 +136,9 @@ class DTActiveRecord extends CActiveRecord {
                 $value = stripslashes(htmlspecialchars_decode($value, ENT_QUOTES));
             else if (is_array($value))
                 $value = self::decodeArray($value);
-            $d[$key] = $value;
+            $d[$key] = utf8_decode($value);
         }
+       
         return $d;
     }
 
