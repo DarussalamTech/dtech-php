@@ -66,7 +66,7 @@ class ProductController extends Controller {
 
         $cityList = CHtml::listData(City::model()->findAll(), 'city_id', 'city_name');
         $languageList = CHtml::listData(Language::model()->findAll(), 'language_id', 'language_name');
-        $authorList = CHtml::listData(Author::model()->findAll(), 'author_id', 'author_name');
+        $authorList = CHtml::listData(Author::model()->findAll(array('order' => 'author_name')), 'author_id', 'author_name');
 
 
         // Uncomment the following line if AJAX validation is needed
@@ -103,7 +103,7 @@ class ProductController extends Controller {
 
         $cityList = CHtml::listData(City::model()->findAll(), 'city_id', 'city_name');
         $languageList = CHtml::listData(Language::model()->findAll(), 'language_id', 'language_name');
-        $authorList = CHtml::listData(Author::model()->findAll(), 'author_id', 'author_name');
+        $authorList = CHtml::listData(Author::model()->findAll(array('order' => 'author_name')), 'author_id', 'author_name');
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
