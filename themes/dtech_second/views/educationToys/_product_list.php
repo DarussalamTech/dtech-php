@@ -28,7 +28,7 @@ foreach ($products as $product) {
     echo CHtml::closeTag("h3");
     echo CHtml::openTag("p");
     //echo implode(' ', array_slice(explode(' ', $product['product_description']), 0, 15));
-    echo substr($product['product_description'],0,90).'...';
+    echo substr($product['product_overview'],0,90).'...';
     echo CHtml::closeTag("p");
     /*
      * 
