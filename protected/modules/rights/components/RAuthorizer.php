@@ -39,6 +39,9 @@ class RAuthorizer extends CApplicationComponent {
      */
     public function getRoles($includeSuperuser = true, $sort = true) {
         $exclude = $includeSuperuser === false ? array($this->superuserName) : array();
+        if (!Yii::app()->user->isSuperuser) {
+            $exclude = array_merge($exclude,array(Rights::module()->cityAdmin));
+        }
         $roles = $this->getAuthItems(CAuthItem::TYPE_ROLE, null, null, $sort, $exclude);
         $roles = $this->attachAuthItemBehavior($roles);
         return $roles;
@@ -100,7 +103,7 @@ class RAuthorizer extends CApplicationComponent {
 
         $this->_authManager->_roleModel = $this->_roleModel;
 
-       
+
 
         // We have none or a single type.
         if ($types !== (array) $types) {
@@ -275,11 +278,33 @@ class RAuthorizer extends CApplicationComponent {
         $users = $this->attachUserBehavior($users);
 
         $superusers = array();
+
         foreach ($users as $user) {
             $items = $this->getAuthItems(CAuthItem::TYPE_ROLE, $user->getId());
             $items = $this->attachAuthItemBehavior($items, $user->id);
 
             if (isset($items[$this->superuserName]))
+                $superusers[] = $user->getName();
+        }
+        
+        return $superusers;
+    }
+    /**
+     * Returns the users with superuser priviledges.
+     * @return the City Admin.
+     */
+    public function getCityAdmin() {
+        $userClass = Rights::module()->userClass;
+        $users = CActiveRecord::model($userClass)->findAll();
+        $users = $this->attachUserBehavior($users);
+
+        $superusers = array();
+
+        foreach ($users as $user) {
+            $items = $this->getAuthItems(CAuthItem::TYPE_ROLE, $user->getId());
+            $items = $this->attachAuthItemBehavior($items, $user->id);
+
+            if (isset($items[Rights::module()->cityAdmin]))
                 $superusers[] = $user->getName();
         }
 
@@ -314,7 +339,7 @@ class RAuthorizer extends CApplicationComponent {
      */
     public function isSuperuser($userId) {
         $assignments = $this->_authManager->getAuthAssignments($userId);
-     
+
         return isset($assignments[$this->superuserName]);
     }
 
@@ -405,6 +430,7 @@ class RAuthorizer extends CApplicationComponent {
 
 
 
+
                 
 // Get a list of all defined functions
         $definedFunctions = get_defined_functions();
@@ -415,6 +441,7 @@ class RAuthorizer extends CApplicationComponent {
         foreach ($functions as $f)
             if (preg_match('/' . $f . '\ *\({1}/', $code) > 0)
                 return null; // Function call found, not safe for eval.
+
 
 
 

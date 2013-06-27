@@ -48,6 +48,7 @@ class AssignmentController extends Controller {
      * @return array access control rules
      */
     public function accessRules() {
+    
         return array(
             array('allow', // Allow superusers to access Rights
                 'actions' => array(
@@ -67,7 +68,7 @@ class AssignmentController extends Controller {
      * Displays an overview of the users and their assignments.
      */
     public function actionView() {
-
+        
         $criteria = new CDbCriteria();
         $criteria->addCondition("role_id = 2");
 

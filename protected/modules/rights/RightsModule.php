@@ -25,6 +25,12 @@ class RightsModule extends CWebModule
 	* @property string the name of the role with superuser priviledges.
 	*/
 	public $superuserName = 'super@yahoo.com';
+        
+        /**
+         * related to this project only
+         * @var type 
+         */
+        public $cityAdmin;
 	/**
 	* @property string the name of the guest role.
 	*/
@@ -88,6 +94,12 @@ class RightsModule extends CWebModule
 	public $debug = false;
 
 	private $_assetsUrl;
+               
+        /**
+         *  super actions
+         */
+        
+        public $superAllowedactions;
 
 	/**
 	* Initializes the "rights" module.

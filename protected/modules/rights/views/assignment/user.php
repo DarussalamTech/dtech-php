@@ -37,7 +37,7 @@
     				'header'=>'&nbsp;',
     				'type'=>'raw',
     				'htmlOptions'=>array('class'=>'actions-column'),
-    				'value'=>'$data->getRevokeAssignmentLink()',
+    				'value'=>'(Yii::app()->user->isSuperuser)?$data->getRevokeAssignmentLink():""',
     			),
 			)
 		)); ?>
