@@ -259,6 +259,7 @@ class Product extends DTActiveRecord {
                 'city_short' => $products->city->short_name,
                 'country_short' => $products->city->country->short_name,
                 'product_name' => $products->product_name,
+                'product_overview' => $products->product_overview,
                 'product_description' => $products->product_description,
                 'product_price' => $products->productProfile[0]->price,
                 'author' => $products->getAuthors(),
@@ -266,7 +267,7 @@ class Product extends DTActiveRecord {
             );
         }
 
-
+        
         return $all_pro;
     }
 
