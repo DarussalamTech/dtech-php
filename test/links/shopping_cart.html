@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="css/style.css" rel="stylesheet" />
+<link rel="stylesheet" href="css/gumby.css" />
+<script src="http://www.marghoobsuleman.com/misc/jquery.js"></script>
+<link rel="stylesheet" href="css/msdropdown/dd.css" />
+<script src="js/msdropdown/jquery.dd.min.js"></script>
+<link rel="stylesheet" href="css/msdropdown/flags.css" />
+<script src="js/sign_in.js"></script>
+<title>Shopping Cart</title>
+</head>
+
+<body>
+	<header>
+    	<div id="main_header">
+        	<div class="pretty navbar" gumby-fixed="top" id="nav3">
+                <nav class="row">
+                    <a class="toggle" gumby-trigger="#nav3 > .row > ul" href="#"><i class="icon-menu"></i></a>
+                    <ul class="eight columns">
+                        <li><a href="#">BOOKS</a></li>
+                        <li><a href="#">QURAN</a></li>
+                        <li><a href="#">EDUCATIONAL TOYS</a></li>
+                        <li><a href="#">OTHERS</a></li>
+                    </ul>
+                </nav>
+          	</div>
+            <div id="world">
+            	<div id="input">
+            	<select name="countries" id="countries" style="width:200px;">
+                      <option value='af' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag af" data-title="Afghanistan" selected="selected">Afghanistan - Pashto</option>
+                      <option value='ae' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag ae" data-title="United Arab Emirates">United Arab Emirates - Arabic</option>
+                      <option value='au' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag au" data-title="Australia">Australia - English</option>
+                      <option value='bd' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag bd" data-title="Bangladesh">Bangladesh - Bengali</option>
+                      <option value='bt' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag bt" data-title="Bhutan">Bhutan - Dzongkha</option>
+                      <option value='ca' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag ca" data-title="Canada">Canada - English</option>
+                      <option value='cn' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag cn" data-title="China">China - Standard Mandarin</option>
+                      <option value='de' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag de" data-title="Germany">Germany - German</option>
+                      <option value='eg' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag eg" data-title="Egypt">Egypt - Arabic</option>
+                      <option value='es' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag es" data-title="Spain">Spain - Spanish</option>
+                      <option value='fr' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag fr" data-title="France">France - French</option>
+                      <option value='gb' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag gb" data-title="Great Britain (UK)">Great Britain (UK) - English</option>
+                      <option value='hk' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag hk" data-title="Hong Kong">Hong Kong - Chinese</option>
+                      <option value='id' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag id" data-title="Indonesia">Indonesia - Indonesian</option>
+                      <option value='in' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag in" data-title="India">India - Hindi</option>
+                      <option value='lr' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag lr" data-title="Sri Lanka">Singapore - English</option>
+                      <option value='lk' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag lk" data-title="Sri Lanka">Sri Lanka - Sinhala</option>
+                      <option value='my' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag my" data-title="Malaysia">Malaysia - Malaysian</option>
+                      <option value='nl' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag nl" data-title="Netherlands">Netherlands - Dutch</option>
+                      <option value='om' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag om" data-title="Oman">Oman - Arabic</option>
+                      <option value='pk' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag pk" data-title="Pakistan">Pakistan - Urdu</option>
+                      <option value='qa' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag qa" data-title="Qatar">Qatar - Arabic</option>
+                      <option value='ru' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag ru" data-title="Russian Federation">Russian Federation - Russian</option>
+                      <option value='sa' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag sa" data-title="Saudi Arabia">Saudi Arabia - Arabic</option>
+                      <option value='tr' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag tr" data-title="Turkey">Turkey - Turkish</option>
+                      <option value='uk' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag uk" data-title="United Kingdom">United Kingdom - English</option>
+                      <option value='us' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag us" data-title="United States">United States - English</option>
+                      <option value='za' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag za" data-title="South Africa">South Africa - isiZulu</option>
+                      <option value='zw' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag zw" data-title="Zimbabwe">Zimbabwe - Shona</option>
+               	</select>
+				<script>
+                $(document).ready(function() {
+                    $("#countries").msDropdown();
+                })
+                </script>
+            	</div>
+            </div>
+            <div id="right_header_part">
+            	<a href="#"><img src="images/heart_img_03.jpg" alt="heart img" class="heart_img" /></a>
+                <a href="#"><img src="images/simple_cart_img_03.jpg" alt="cart img" class="cart_img" /></a>
+            </div>
+            <div id="text">
+                <div class="example2">
+                    <h1>Sign In</h1>
+                   	<p>EMAIL</p>
+                  	<input type="text" value="" class="second" />
+                  	<p>PASSWORD</p>
+                  	<input type="password" value="" class="second" />
+                  	<input type="checkbox" class="check" /><span> Stay Signed in</span>
+                   	<a href="#" class="forgot"> Forgot Password</a>
+                   	<div class="sign_in_button">
+                      	<input type="button" value="Sign In" class="btn" />
+                   	</div>
+                  	<h2 class="signinp">Sign in with</h2>
+                  	<div class="sign_in">
+                      	<a href="#"><img src="images/facebook_img_03.jpg"></a>
+                        <input type="button" class="f_img" value="Facebook" />
+                   	</div>
+                  	<div class="sign_in">
+                     	<a href="#"><img src="images/linkedin_img_03.jpg"></a>
+                       	<input type="button" class="l_img" value="Linkedin" />
+                  	</div>
+                   	<div class="sign_in">
+                      	<a href="#"><img src="images/twitter_img_03.jpg"></a>
+                      	<input type="button" class="t_img" value="Twitter" />
+                   	</div>
+                   	<div class="sign_in">
+                     	<a href="#"><img src="images/google_img_03.jpg"></a>
+                      	<input type="button" class="g_img" value="Google" />
+                  	</div>
+                  	<h3 class="dont">Don't have account?</h3>
+                  	<div class="sign_up_button">
+                      	<input type="button" value="Sign Up" class="btn" />
+                  	</div>
+               	</div>
+         	</div>
+        </div>
+    </header>
+    <div id="book_content">
+    	<div id="book_main_content">
+        	<div class="left_book_main_content">
+            	<a href="index.html"><img src="images/darussalam-inner-logo.png" alt="logo" /></a>
+            </div>
+            <div class="search_box">
+            	<input type="text" placeholder="Search keywords or image ids..." value="" class="search_text" />
+                <input type="button" name="" value="" class="search_btn" /><img src="images/searching_img_03.jpg" class="searching_img" />
+            </div>
+            <nav>
+            	<ul>
+                	<li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Help</a></li>
+                </ul>
+            </nav>
+      	</div>
+   	</div>
+    <div id="shopping_cart">
+    	<div id="main_shopping_cart">
+        	<div class="top_cart">
+            	<img src="images/shopping_cart_img_03.png" />
+            </div>
+            <div id="cart">
+                <div class="left_cart">
+                	<div class="upper_cart">
+                        <div class="left_left_cart">
+                            <img src="images/small_product_img.png" />
+                        </div>
+                        <div class="left_right_cart">
+                            <h1>Loving Our Parents</h1>
+                            <a href="#"><img src="images/close_img_03.png" class="close_img" /></a>
+                            <h2>Stories of duties & obligations</h2>
+                            <table width="100%">
+                                <tr class="cart_tr">
+                                    <td class="cart_left_td">Author</td>
+                                    <td class="cart_right_td">Abdul Malik Mujahid</td>
+                                </tr>
+                                <tr class="cart_tr">
+                                    <td class="cart_left_td">Language</td>
+                                    <td class="cart_right_td">English</td>
+                                </tr>
+                                <tr class="cart_tr">
+                                </tr>
+                            </table>
+                            <div class="quantity_cart">
+                                <p>$205</p>
+                                <span>Quantity</span> 
+                                <select>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                </select>
+                                <h3>$205</h3>
+                            </div>
+                        </div>
+                  	</div>
+                    <div class="upper_cart">
+                        <div class="left_left_cart">
+                            <img src="images/small_product_img.png" />
+                        </div>
+                        <div class="left_right_cart">
+                            <h1>Loving Our Parents</h1>
+                            <a href="#"><img src="images/close_img_03.png" class="close_img" /></a>
+                            <h2>Stories of duties & obligations</h2>
+                            <table width="100%">
+                                <tr class="cart_tr">
+                                    <td class="cart_left_td">Author</td>
+                                    <td class="cart_right_td">Abdul Malik Mujahid</td>
+                                </tr>
+                                <tr class="cart_tr">
+                                    <td class="cart_left_td">Language</td>
+                                    <td class="cart_right_td">English</td>
+                                </tr>
+                                <tr class="cart_tr">
+                                </tr>
+                            </table>
+                            <div class="quantity_cart">
+                                <p>$205</p>
+                                <span>Quantity</span> 
+                                <select>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                </select>
+                                <h3>$205</h3>
+                            </div>
+                        </div>
+                  	</div>
+                    <div class="bottom_cart">
+                        <div class="left_left_cart">
+                            <img src="images/small_product_img.png" />
+                        </div>
+                        <div class="left_right_cart">
+                            <h1>Loving Our Parents</h1>
+                            <a href="#"><img src="images/close_img_03.png" class="close_img" /></a>
+                            <h2>Stories of duties & obligations</h2>
+                            <table width="100%">
+                                <tr class="cart_tr">
+                                    <td class="cart_left_td">Author</td>
+                                    <td class="cart_right_td">Abdul Malik Mujahid</td>
+                                </tr>
+                                <tr class="cart_tr">
+                                    <td class="cart_left_td">Language</td>
+                                    <td class="cart_right_td">English</td>
+                                </tr>
+                                <tr class="cart_tr">
+                                </tr>
+                            </table>
+                            <div class="quantity_cart">
+                                <p>$205</p>
+                                <span>Quantity</span> 
+                                <select>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                </select>
+                                <h3>$205</h3>
+                            </div>
+                        </div>
+                  	</div>
+                </div>
+                <div class="right_right_cart">
+                	<div class="right_top_cart">
+                		<h1>Your Order</h1>
+                        <table width="100%">
+                            <tr class="right_cart_tr">
+                                <td class="left_cart_td">Order Subtotal</td>
+                                <td class="right_cart_td">$410</td>
+                            </tr>
+                            <tr class="right_cart_tr">
+                                <td class="left_cart_td">Shipping</td>
+                                <td class="right_cart_td">FREE</td>
+                            </tr>
+                            <tr class="right_cart_tr">
+                                <td class="left_left_cart_td">Total</td>
+                                <td class="right_right_cart_td">$395</td>
+                            </tr>
+                      	</table>
+                        <input type="button" value="Checkout" class="check_out" />
+                  	</div>
+                </div>
+           	</div>
+        </div>
+    </div>
+   	<footer>
+    	<div id="under_footer">
+       		<div id="left_footer">
+            	<h1>Connect to DARUSSALAM</h1>
+                <a href="#"><img src="images/f_img_03.jpg" alt="f"></a>
+                <a href="#"><img src="images/t_img_03.jpg" alt="t"></a>
+                <a href="#"><img src="images/dots_img_03.jpg" alt="dot"></a>
+                <a href="#"><img src="images/u_img_03.jpg" alt="u"></a>
+                <a href="#"><img src="images/subscriber_img_03.jpg" alt="sub"></a>
+                <div id="left_under_footer">
+                	<li><img src="images/phone_img_03.jpg" alt="phone"> +(92) 42 35254654 - 54</li><br />
+                    <li><img src="images/gmail_img_03.jpg" alt="phone"><a href="#"> support@darussalam.com</a></li><br />
+                    <li><img src="images/home_img_03.jpg" alt="phone"> Darussalam Publishers</li>
+                </div>
+               	<p>is a multilingual international Islamic publishing house, with headquarters in Riyadh, Kingdom of Saudi Arabia.</p>
+            </div>
+            <div id="middle_footer">
+            	<h1>Navigation</h1>
+                <article><a href="#">About Us</a></article>
+                <article><a href="#">Contact Us</a></article>
+                <article><a href="#">Careers</a></article>
+                <article><a href="#">FAQ's</a></article>
+                <article><a href="#">Terms &amp; Conditions</a></article>
+                <article><a href="#">Shipping Rates & Policies</a></article>
+            </div>
+            <div id="right_footer">
+            	<h1>What's New?</h1>
+                <p><a href="#">D-Tech - Working on technologies</a></p>
+                <article><i>iPhone, Android & iPad Islamic apps</i></article>
+                <p><a href="#">D-Tech - Working on technologies</a></p>
+                <article><i>iPhone, Android & iPad Islamic apps</i></article>
+                <section>&copy; 2013 Darussalam, Inc. All Rights Reserved.</section>
+            </div>
+       	</div>
+  	</footer>
+</body>
+</html>

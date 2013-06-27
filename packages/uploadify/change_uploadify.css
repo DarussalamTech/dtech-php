@@ -1,0 +1,22 @@
+/* 
+    Document   : change_uploadify
+    Created on : Aug 21, 2012, 12:32:51 PM
+    Author     : ali abbas
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+
+.swfupload
+{
+    float:right !important;
+
+}
+.uploadify-button
+{
+    float:right !important;
+     width:70px !important;
+     color: #0088C5;
+     font-size: 11px !important;
+
+}

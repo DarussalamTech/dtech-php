@@ -1,0 +1,35 @@
+
+
+
+These documentation is for Web services Copy Rights to Dtech.com
+We have a specific Model Which is extended from Product Model
+This model include all data related operation of Web Services
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+We have WS controller which will handle WebService requests 
+
+this controller have the following actions/methods.....
+
+
+------------------------------------------------------------------------------------------------------------------------------------------
+     1 - index(); 
+                              // index function operates on based of requested 'record_set' = 'prodcut' or product_catgory
+                              //http://dtechsystems.info/service.php/WS?record_set=product   for products
+                              //http://dtechsystems.info/service.php/WS?record_set=product_category     for categories
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+     2 - AllCategories(); 
+                              // request to this action will return all categories in DS database in JSON format 
+                              //   can make call to this service as (WS/allCategories)
+                              // http://dtechsystems.info/service.php/WS/allCategories
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+    3  - RequestedCategory($cat_id); 
+                              //request to this action will return all products of Requested Category
+                              // call this service in this pattern ( WS/allCategories/category_id/55)
+                              // http://dtechsystems.info/service.php/WS/allCategories/category_id/55
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------

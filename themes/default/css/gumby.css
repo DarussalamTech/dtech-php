@@ -1,0 +1,218 @@
+@charset "UTF-8";
+@import url(//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700);
+
+
+.hide { display: none; }
+
+.hide.active, .show { display: block; }
+
+
+@media screen and (max-width: 980px) {
+	
+#main_header { width:94%; }
+
+#main_banner { width:94%; height:auto; }
+
+#main_content { width:94%; }
+
+#main_section { width:94%; }
+
+.browse { background:none; }
+
+#left_banner { width:auto; float:left;  }
+
+#right_banner { float:right; }
+
+#under_footer { width:94%; }
+	
+.right_middle { float:right; width:auto; padding: 0; margin: -33px 0 0 0; }
+
+.navbar .logo a { line-height: 0px; }
+
+.navbar > ul > li > .btn a { padding: 0 10px 0 10px !important; }
+
+.navbar ul > li .dropdown ul li:hover .dropdown { left: -320px; }
+
+.navbar .dropdown li { max-width: 320px; word-wrap: break-word; } 
+
+}
+
+@media screen and (max-width: 700px) {
+	
+#main_header { width:auto; float:none; }
+
+#main_banner { width:auto; float:none; height:auto; }
+
+#main_content { width:auto; float:none; }
+
+#main_section { width:auto; float:none; height:auto; }
+
+#under_footer { width:auto; float:none; }
+	
+header { background:#f3f3f3; height:50px; border-bottom: 1px solid #a9a9a9; }
+
+#world { float:right; width:auto; padding: 0; margin: -25px 150px 0 0; }
+
+#text {  display:inline; }
+
+.right_middle { float:right; width:auto; padding: 0; margin: -30px 0 0 0; }
+
+#right_header_part {  display:inline; }
+
+#right_banner { visibility:hidden; }
+
+#left_banner nav { visibility:hidden; }
+
+img { width:auto; }
+
+a img { width:auto; }
+
+.navbar { position: relative; border: none; }
+
+.navbar .logo { float: left; display: inline; }
+
+.navbar .logo a { line-height: 0; padding-left: 2.12766%; }
+
+.navbar .logo a img { width: auto; height: inherit; }
+
+.navbar a.toggle { padding: 0; margin: 3px 0 0 0; top: 18%; left: 4%; width: 46px; position: absolute; text-align: center; display: inline-block; color: white; background: #f3f3f3; height: 40px; line-height: 38px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -ms-border-radius: 4px; -o-border-radius: 4px; border-radius: 4px; font-size: 30px; font-size: 1.875rem; }
+
+.navbar a.toggle:hover { background: #f3f3f3; }
+
+.navbar a.toggle:active, .navbar a.toggle.active { background: #3e4043; }
+
+.navbar.pretty a.toggle { border: 1px solid #3e4043; background:#333; }
+
+.navbar.pretty a.toggle i { text-shadow: 0 1px 1px #191a1b; }
+
+.navbar.pretty a.toggle:hover { background: #888d91; }
+
+.navbar ul { position: absolute; display: block; width: 100% !important; height: 0; max-height: 0; top: 60px; overflow: hidden; text-align: center; background: #f3f3f3; }
+
+.navbar ul.active { height: auto; max-height: 600px; z-index: 999999; -webkit-transition-duration: 0.5s; -moz-transition-duration: 0.5s; -o-transition-duration: 0.5s; transition-duration: 0.5s; }
+
+.navbar ul li { display: block; position: relative; min-height: 60px; max-height: 320px; height: auto; width: 100%; }
+
+.navbar ul li .dropdown { width: 100%; max-width: 100%; position: relative; }
+
+.navbar ul li:hover .dropdown ul { position: relative; top: 0; background: #36393b; min-height: 60px; max-height: 250px; height: auto; overflow: scroll; }
+
+.navbar ul li:hover .dropdown ul li a:hover { color: #d04526; }
+
+.pretty.navbar.row { -webkit-border-radius: 0; -moz-border-radius: 0; -ms-border-radius: 0; -o-border-radius: 0; border-radius: 0; }
+
+ul { text-align: left; } 
+
+.container { min-width: 0; margin-left: 0; margin-right: 0; }
+
+.row { width: 100%; min-width: 0; margin-left: 0; margin-right: 0; }
+
+.row .row .column, .row .row .columns { padding: 0; }
+
+.row .centered { margin: 0 !important; }
+
+.column, .columns { width: auto !important; float: none; margin-left: 0; margin-right: 0; }
+
+.column:last-child, .columns:last-child { margin-right: 0; float: none; }
+
+[class*="column"] + [class*="column"]:last-child { float: none; }
+
+[class*="column"]:before { display: table; }
+
+[class*="column"]:after { display: table; clear: both; }
+
+[class^="push_"], [class*="push_"] { margin-left: 0 !important; }
+
+#left_banner a img { padding: 0; margin: 0 20px; }
+
+.search_img a img { visibility:hidden; }
+
+.txt { padding: 0; margin: 100px 0 0 0px; }
+
+txt_bar { padding: 0; }
+
+.txt_btn { position:relative; padding: 0; left:182px; bottom:45px; margin: 0 0 0 0px; display:block; }
+
+#main_content { width:auto; }
+
+#left_content { padding: 0; margin: 0 0 0 10px;}
+
+#right_content { visibility:hidden; }
+
+#main_section h1 { border: none; background:none; text-align:left; }
+
+.browse { background:none; float:none; display:block; }
+
+#left_books { border:none; padding: 0; margin: 0; }
+
+#right_books { }
+
+footer { border:none; }
+
+#left_footer { float:none; visibility:hidden; }
+
+#middle_footer { float:none; padding: 0; margin: 0; display:block; }
+
+#right_footer { float:none; visibility:hidden; }
+
+}
+
+@media screen and (max-width: 480px) {
+	
+#main_header { width:auto; float:none; height:auto; }
+
+#main_banner { width:auto; float:none; }
+
+#main_content { width:auto; float:none; }
+
+#main_section { width:auto; float:none; }
+
+#under_footer { width:auto; float:none; }
+	
+.section_list { float:none; }
+
+#right_content { visibility:hidden; }
+
+#left_content h1 { font-size:15px; padding: 0; margin: 10px 0 0 10px; float:left; }
+
+.txt { visibility:hidden; }
+
+.txt_bar { padding: 0; }
+
+.txt_btn { position:relative; padding: 0; left:0px; bottom:45px; margin: 0 0 0 0px; display:block; }
+
+img { width:auto; border:none; }
+	
+.search_img a img { visibility:hidden; }
+
+a img { width:auto; border:none; }
+
+#left_banner a img { padding: 0; margin: 0 20px; }
+
+#right_banner { visibility:hidden; }
+
+#left_banner nav { visibility:hidden; }
+
+#world { display:none; }
+
+.right_middle { float:right; width:auto; padding: 0 0 0 0; margin: -30px 0px 0 0px; }
+
+#left_books { float:none; border:none; padding: 0; margin: 0; }
+
+.books { float:none; }
+
+.books2 { float:none; }
+
+.browse { display:block; float:none; }
+
+.section_list { height:auto; float:none; }
+
+.section_list ul { float:none; height:auto; }
+
+.section_list ul li { float:none; height:auto; }
+
+.section_list ul li a { float:none; }
+
+#right_books { float:none; }
+
+}

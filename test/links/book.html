@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="css/style.css" rel="stylesheet" />
+<link rel="stylesheet" href="css/gumby.css" />
+<script src="http://www.marghoobsuleman.com/misc/jquery.js"></script>
+<link rel="stylesheet" href="css/msdropdown/dd.css" />
+<script src="js/msdropdown/jquery.dd.min.js"></script>
+<link rel="stylesheet" href="css/msdropdown/flags.css" />
+<script src="js/sign_in.js"></script>
+<title>Book</title>
+</head>
+<body>
+	<header>
+    	<div id="main_header">
+        	<nav>
+            	<ul>
+                	<li><a href="#">BOOKS</a></li>
+                    <li><a href="#">QURAN</a></li>
+                    <li><a href="#">EDUCATIONAL TOYS</a></li>
+                    <li><a href="#">OTHERS</a></li>
+                </ul>
+            </nav>
+            <div id="world">
+            	<div id="input">
+            	<select name="countries" id="countries" style="width:200px;">
+                      <option value='af' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag af" data-title="Afghanistan" selected="selected">Afghanistan - Pashto</option>
+                      <option value='au' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag au" data-title="Australia">Australia - English</option>
+                      <option value='bd' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag bd" data-title="Bangladesh">Bangladesh - Bengali</option>
+                      <option value='bt' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag bt" data-title="Bhutan">Bhutan - Dzongkha</option>
+                      <option value='ca' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag ca" data-title="Canada">Canada - English</option>
+                      <option value='cn' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag cn" data-title="China">China - Standard Mandarin</option>
+                      <option value='de' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag de" data-title="Germany">Germany - German</option>
+                      <option value='eg' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag eg" data-title="Egypt">Egypt - Arabic</option>
+                      <option value='es' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag es" data-title="Spain">Spain - Spanish</option>
+                      <option value='fr' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag fr" data-title="France">France - French</option>
+                      <option value='hk' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag hk" data-title="Hong Kong">Hong Kong - Chinese</option>
+                      <option value='id' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag id" data-title="Indonesia">Indonesia - Indonesian</option>
+                      <option value='in' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag in" data-title="India">India - Hindi</option>
+                      <option value='lr' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag lr" data-title="Sri Lanka">Singapore - English</option>
+                      <option value='lk' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag lk" data-title="Sri Lanka">Sri Lanka - Sinhala</option>
+                      <option value='my' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag my" data-title="Malaysia">Malaysia - Malaysian</option>
+                      <option value='nl' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag nl" data-title="Netherlands">Netherlands - Dutch</option>
+                      <option value='om' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag om" data-title="Oman">Oman - Arabic</option>
+                      <option value='pk' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag pk" data-title="Pakistan">Pakistan - Urdu</option>
+                      <option value='qa' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag qa" data-title="Qatar">Qatar - Arabic</option>
+                      <option value='sa' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag sa" data-title="Saudi Arabia">Saudi Arabia - Arabic</option>
+                      <option value='tr' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag tr" data-title="Turkey">Turkey - Turkish</option>
+                      <option value='uk' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag uk" data-title="United Kingdom">United Kingdom - English</option>
+                      <option value='us' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag us" data-title="United States">United States - English</option>
+                      <option value='za' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag za" data-title="South Africa">South Africa - isiZulu</option>
+                      <option value='zw' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag zw" data-title="Zimbabwe">Zimbabwe - Shona</option>
+               	</select>
+				<script>
+                $(document).ready(function() {
+                    $("#countries").msDropdown();
+                })
+                </script>
+            	</div>
+            </div>
+            <div id="right_header_part">
+            	<a href="#"><img src="images/heart_img_03.jpg" alt="heart img" class="heart_img" /></a>
+                <a href="#"><img src="images/simple_cart_img_03.jpg" alt="cart img" class="cart_img" /></a>
+            </div>
+            <div id="text">
+               	<div class="example2">
+                  	<h1>Sign In</h1>
+                  	<p>EMAIL</p>
+                   	<input type="text" value="" class="second" />
+                   	<p>PASSWORD</p>
+                   	<input type="password" value="" class="second" />
+                  	<input type="checkbox" class="check" /><span> Stay Signed in</span>
+                   	<a href="#" class="forgot"> Forgot Password</a>
+                   	<div class="sign_in_button">
+                      	<input type="button" value="Sign In" class="btn" />
+                 	</div>
+                  	<h2 class="signinp">Sign in with</h2>
+                   	<div class="sign_in">
+                      	<a href="#"><img src="images/facebook_img_03.jpg"></a>
+                        <input type="button" class="f_img" value="Facebook" />
+                   	</div>
+                   	<div class="sign_in">
+                      	<a href="#"><img src="images/linkedin_img_03.jpg"></a>
+                      	<input type="button" class="l_img" value="Linkedin" />
+                  	</div>
+                  	<div class="sign_in">
+                      	<a href="#"><img src="images/twitter_img_03.jpg"></a>
+                       	<input type="button" class="t_img" value="Twitter" />
+                   	</div>
+                  	<div class="sign_in">
+                      	<a href="#"><img src="images/google_img_03.jpg"></a>
+                      	<input type="button" class="g_img" value="Google" />
+                  	</div>
+                   	<h3 class="dont">Don't have account?</h3>
+                   	<div class="sign_up_button">
+                    	<input type="button" value="Sign Up" class="btn" />
+                  	</div>
+          		</div>
+     		</div>
+        </div>
+    </header>
+    <div id="book_content">
+    	<div id="book_main_content">
+        	<div class="left_book_main_content">
+            	<a href="index.html"><img src="images/darussalam-inner-logo.png" alt="logo" /></a>
+            </div>
+            <div class="search_box">
+            	<input type="text" placeholder="Search keywords or image ids..." value="" class="search_text" />
+                <input type="button" name="" value="" class="search_btn" /><img src="images/searching_img_03.jpg" class="searching_img" />
+            </div>
+            <nav>
+            	<ul>
+                	<li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Help</a></li>
+                </ul>
+            </nav>
+      	</div>
+   	</div>
+    <div id="descritpion">
+        <div id="booked_content">
+        	<div class="left_book">
+            	<img src="images/WQS-Book-04_03.jpg" />
+            </div>
+            <div class="right_book">
+            	<h1>Golden Stories Of UMAR IBN AL KHATAM (R.A)</h1>
+                <table width="400">
+                	<tr>
+                    	<td class="left_td">Language:</td>
+                        <td class="right_td">English\Urdu\Spanish</td>
+                    </tr>
+                    <tr>
+                    	<td class="left_td">More Languages:</td>
+                        <td class="right_td">Arabic\Hindi\Persian</td>
+                    </tr>
+                    <tr>
+                    	<td class="left_td">Category:</td>
+                        <td class="right_td">Stories</td>
+                    </tr>
+                    <tr>
+                    	<td class="left_td">Writer:</td>
+                        <td class="right_td">Abdul Malik Mujahid</td>
+                    </tr>
+                    <tr>
+                    	<td class="left_td">Publishers:</td>
+                        <td class="right_td">Darussalam</td>
+                    </tr>
+                    <tr>
+                    	<td class="left_td">&pound; 25</td>
+                        <td><input type="button" value="Add to Cart" /></td>
+                        <td><input type="button" value="Add to Wishlist" /></td>
+                    </tr>
+                </table>
+                <h2>Description</h2>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.</p>
+            </div>
+        </div>
+   	</div>
+   	<footer>
+    	<div id="under_footer">
+       		<div id="left_footer">
+            	<h1>Connect to DARUSSALAM</h1>
+                <a href="#"><img src="images/f_img_03.jpg" alt="f"></a>
+                <a href="#"><img src="images/t_img_03.jpg" alt="t"></a>
+                <a href="#"><img src="images/dots_img_03.jpg" alt="dot"></a>
+                <a href="#"><img src="images/u_img_03.jpg" alt="u"></a>
+                <a href="#"><img src="images/subscriber_img_03.jpg" alt="sub"></a>
+                <div id="left_under_footer">
+                	<li><img src="images/phone_img_03.jpg" alt="phone"> +(92) 42 35254654 - 54</li><br />
+                    <li><img src="images/gmail_img_03.jpg" alt="phone"><a href="#"> support@darussalam.com</a></li><br />
+                    <li><img src="images/home_img_03.jpg" alt="phone"> Darussalam Publishers</li>
+                </div>
+               	<p>is a multilingual international Islamic publishing house, with headquarters in Riyadh, Kingdom of Saudi Arabia.</p>
+            </div>
+            <div id="middle_footer">
+            	<h1>Navigation</h1>
+                <article><a href="#">About Us</a></article>
+                <article><a href="#">Contact Us</a></article>
+                <article><a href="#">Careers</a></article>
+                <article><a href="#">FAQ's</a></article>
+                <article><a href="#">Terms &amp; Conditions</a></article>
+                <article><a href="#">Shipping Rates & Policies</a></article>
+            </div>
+            <div id="right_footer">
+            	<h1>What's New?</h1>
+                <p><a href="#">D-Tech - Working on technologies</a></p>
+                <article><i>iPhone, Android & iPad Islamic apps</i></article>
+                <p><a href="#">D-Tech - Working on technologies</a></p>
+                <article><i>iPhone, Android & iPad Islamic apps</i></article>
+                <section>&copy; 2013 Darussalam, Inc. All Rights Reserved.</section>
+            </div>
+       	</div>
+  	</footer>
+</body>
+</html>

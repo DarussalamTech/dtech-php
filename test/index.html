@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="css/style.css" />
+<script src="js/sign_in2.js"></script>
+<link rel="stylesheet" href="css/msdropdown/dd.css" />
+<script src="js/msdropdown/jquery.dd.min.js"></script>
+<link rel="stylesheet" href="css/msdropdown/flags.css" />
+<script src="js/sign_in.js"></script>
+<link rel="stylesheet" href="css/gumby.css">
+<script src="js/libs/modernizr-2.6.2.min.js"></script>
+<title>Darussalam</title>
+</head>
+
+<body>
+	<header>
+    	<div id="main_header">
+        	<div class="pretty navbar" gumby-fixed="top" id="nav3">
+                <nav class="row">
+                    <a class="toggle" gumby-trigger="#nav3 > .row > ul" href="#"><i class="icon-menu"></i></a>
+                    <ul class="eight columns">
+                        <li><a href="#">BOOKS</a></li>
+                        <li><a href="#">QURAN</a></li>
+                        <li><a href="#">EDUCATIONAL TOYS</a></li>
+                        <li><a href="#">OTHERS</a></li>
+                    </ul>
+                </nav>
+          	</div>
+            <div id="world">
+            	<div id="input">
+            	<select name="countries" id="countries" style="width:200px;">
+                      <option value='af' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag af" data-title="Afghanistan" selected="selected">Afghanistan - Pashto</option>
+                      <option value='au' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag au" data-title="Australia">Australia - English</option>
+                      <option value='bd' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag bd" data-title="Bangladesh">Bangladesh - Bengali</option>
+                      <option value='bt' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag bt" data-title="Bhutan">Bhutan - Dzongkha</option>
+                      <option value='ca' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag ca" data-title="Canada">Canada - English</option>
+                      <option value='cn' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag cn" data-title="China">China - Standard Mandarin</option>
+                      <option value='de' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag de" data-title="Germany">Germany - German</option>
+                      <option value='eg' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag eg" data-title="Egypt">Egypt - Arabic</option>
+                      <option value='es' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag es" data-title="Spain">Spain - Spanish</option>
+                      <option value='fr' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag fr" data-title="France">France - French</option>
+                      <option value='gb' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag gb" data-title="Great Britain (UK)">Great Britain (UK) - English</option>
+                      <option value='hk' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag hk" data-title="Hong Kong">Hong Kong - Chinese</option>
+                      <option value='id' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag id" data-title="Indonesia">Indonesia - Indonesian</option>
+                      <option value='in' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag in" data-title="India">India - Hindi</option>
+                      <option value='lr' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag lr" data-title="Sri Lanka">Singapore - English</option>
+                      <option value='lk' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag lk" data-title="Sri Lanka">Sri Lanka - Sinhala</option>
+                      <option value='my' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag my" data-title="Malaysia">Malaysia - Malaysian</option>
+                      <option value='nl' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag nl" data-title="Netherlands">Netherlands - Dutch</option>
+                      <option value='om' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag om" data-title="Oman">Oman - Arabic</option>
+                      <option value='pk' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag pk" data-title="Pakistan">Pakistan - Urdu</option>
+                      <option value='qa' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag qa" data-title="Qatar">Qatar - Arabic</option>
+                      <option value='ru' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag ru" data-title="Russian Federation">Russian Federation - Russian</option>
+                      <option value='sa' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag sa" data-title="Saudi Arabia">Saudi Arabia - Arabic</option>
+                      <option value='tr' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag tr" data-title="Turkey">Turkey - Turkish</option>
+                      <option value='uk' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag uk" data-title="United Kingdom">United Kingdom - English</option>
+                      <option value='us' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag us" data-title="United States">United States - English</option>
+                      <option value='za' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag za" data-title="South Africa">South Africa - isiZulu</option>
+                      <option value='zw' data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag zw" data-title="Zimbabwe">Zimbabwe - Shona</option>
+               	</select>
+				<script>
+                $(document).ready(function() {
+                    $("#countries").msDropdown();
+                })
+                </script>
+            	</div>
+            </div>
+            <div class="right_middle">
+                <div id="right_header_part">
+                    <a href="#"><img src="images/heart_img_03.jpg" alt="heart img" class="heart_img" /></a>
+                    <a href="#"><img src="images/simple_cart_img_03.jpg" alt="cart img" class="cart_img" /></a>
+                </div>
+                <div id="text">
+                	<div class="example2">
+                    	<h1>Sign In</h1>
+                       	<p>EMAIL</p>
+                        <input type="text" value="" class="second" />
+                       	<p>PASSWORD</p>
+                        <input type="password" value="" class="second" />
+                      	<input type="checkbox" class="check" /><span> Stay Signed in</span>
+                        <a href="#" class="forgot"> Forgot Password</a>
+                        <div class="sign_in_button">
+                      		<input type="button" value="Sign In" class="btn" />
+                      	</div>
+                  		<h2 class="signinp">Sign in with</h2>
+                      	<div class="sign_in">
+                      		<a href="#"><img src="images/facebook_img_03.jpg"></a>
+                        	<input type="button" class="f_img" value="Facebook" />
+                   		</div>
+                      	<div class="sign_in">
+                          	<a href="#"><img src="images/linkedin_img_03.jpg"></a>
+                           	<input type="button" class="l_img" value="Linkedin" />
+                      	</div>
+                     	<div class="sign_in">
+                         	<a href="#"><img src="images/twitter_img_03.jpg"></a>
+                        	<input type="button" class="t_img" value="Twitter" />
+                    	</div>
+                     	<div class="sign_in">
+                          	<a href="#"><img src="images/google_img_03.jpg"></a>
+                         	<input type="button" class="g_img" value="Google" />
+                      	</div>
+                          	<h3 class="dont">Don't have account?</h3>
+                           	<div class="sign_up_button">
+                      			<input type="button" value="Sign Up" class="btn" />
+                      		</div>
+                      	</div>
+                 	</div>
+                </div>
+          	</div>
+        </div>
+    </header>
+    <div id="banner">
+     	<div id="main_banner">
+        	<div id="left_banner">
+                <a href="index.html"><img src="images/logo_img.png" alt="logo" class="main_logo" /></a>
+                <nav>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact us</a></li>
+                        <li><a href="#">Help</a></li>
+                    </ul>
+                </nav>
+                <div class="txt">
+                	<div class="txt2">
+                        <div class="search_img">
+                            <a href="#"><img src="images/search_img_03.jpg" alt="search img" /></a>
+                        </div>
+                        <input type="text" name="" value="" class="txt_bar" />
+                        <input type="button" value="Search" name="" class="txt_btn" />
+                  	</div>
+              	</div>
+          	</div>
+             <div id="right_banner">
+                <div class="small_book">
+                	<div class="small_book_img">
+                		<img src="images/small_book_1_03.jpg" alt="scientific book" />
+                   	</div>
+                    <div class="small_book_content">
+                        <p><a href="#">Talha Jutt </a>recommended this book</p>
+                        <p><a href="#" class="science">Scientific Wonders on the earth and in space</a></p>
+                        <p class="minutes">about 2 seconds ago</p>
+                   	</div>
+                </div>
+                <div class="small_book">
+                	<div class="small_book_img">
+                		<img src="images/small_book_2_03.jpg" alt="scientific book" />
+                   	</div>
+                    <div class="small_book_content">
+                        <p><a href="#">Zain Khan </a>recommended this book</p>
+                        <p><a href="#" class="science">Scientific Wonders on the earth and in space</a></p>
+                        <p>about 2 seconds ago</p>
+                        <p class="blak">Sunt in culpa quie officia deserunt molit anim id est laborum sind occaecat.</p>
+                  	</div>
+                </div>
+                <div class="small_book">
+                	<div class="small_book_img">
+                		<img src="images/small_book_3_03.jpg" alt="scientific book" />
+                  	</div>
+                    <div class="small_book_content">
+                        <p><a href="#" class="science">Scientific Wonders on the earth and in space</a></p>
+                        <p>7,165 people recommended this book</p>
+                   	</div>
+                </div>
+                <div class="small_book">
+                	<div class="small_book_img">
+                		<img src="images/small_book_1_03.jpg" alt="scientific book" />
+                  	</div>
+                    <div class="small_book_content">
+                        <p><a href="#">Talha Jutt </a>recommended this book</p>
+                        <p><a href="#" class="science">Scientific Wonders on the earth and in space</a></p>
+                        <p class="minutes">about 2 seconds ago</p>
+                  	</div>
+                </div>
+                <div class="small_book">
+                	<div class="small_book_img">
+                		<img src="images/small_book_1_03.jpg" alt="scientific book" />
+                  	</div>
+                    <div class="small_book_content">
+                        <p><a href="#">Talha Jutt </a>recommended this book</p>
+                        <p><a href="#" class="science">Scientific Wonders on the earth and in space</a></p>
+                        <p class="minutes">about 2 seconds ago</p>
+                  	</div>
+                </div>
+            </div>
+       	</div>
+    </div>
+    <div id="content">
+    	<div id="main_content">
+        	<div id="left_content">
+            	<h1>Over 1500 books for every type</h1>
+            </div>
+            <div id="right_content">
+            	<ul>
+                	<li><a href="#">Careers</a></li>
+                    <li><a href="#">Becomes Our Partner</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <section>
+    	<div id="main_section">
+          	<h1>BROWSE BY CATEGORY</h1>
+            <div class="browse">
+                <div class="section_list">
+                    <ul>
+                        <li><a href="#">Aqeedah</a></li>
+                        <li><a href="#">Biography</a></li>
+                        <li><a href="#">Biography of the Prophet</a></li>
+                        <li><a href="#">Children</a></li>
+                        <li><a href="#">Fatawa</a></li>
+                        <li><a href="#">Fiqh</a></li>
+                    </ul>
+                </div>
+                <div class="section_list">
+                    <ul>
+                        <li><a href="#">General</a></li>
+                        <li><a href="#">Hadith</a></li>
+                        <li><a href="#">History</a></li>
+                        <li><a href="#">Islamic Culture</a></li>
+                        <li><a href="#">Non-Muslim</a></li>
+                        <li><a href="#">Worship</a></li>
+                    </ul>
+                </div>
+                <div class="section_list">
+                    <ul>
+                        <li><a href="#">Packet or Set</a></li>
+                        <li><a href="#">Qur'an</a></li>
+                        <li><a href="#">Stories</a></li>
+                        <li><a href="#">Supplication and Forgiveness</a></li>
+                        <li><a href="#">Tafsir</a></li>
+                        <li><a href="#">Women</a></li>
+                    </ul>
+                </div>
+                <div class="section_list">
+                    <ul>
+                        <li><a href="#">Aqeedah</a></li>
+                        <li><a href="#">Biography</a></li>
+                        <li><a href="#">Biography of the Prophet</a></li>
+                        <li><a href="#">Children</a></li>
+                        <li><a href="#">Fatawa</a></li>
+                        <li><a href="#">Fiqh</a></li>
+                    </ul>
+                </div>
+                <div class="section_list">
+                    <ul>
+                        <li><a href="#">General</a></li>
+                        <li><a href="#">Hadith</a></li>
+                        <li><a href="#">History</a></li>
+                        <li><a href="#">Islamic Culture</a></li>
+                        <li><a href="#">Non-Muslim</a></li>
+                        <li><a href="#">Worship</a></li>
+                    </ul>
+                </div>
+          	</div>
+            <div id="left_books">
+            	<h2>FEATURED PRODUCTS <span>( <a href="#">VIEW ALL</a> )</span></h2>
+                <div class="books">
+                	<a href="#"><img src="images/pen_QURAN_img_03.jpg" alt="Pen QURAN PAK" /></a>
+                    <p><a href="#">Pen Quran</a></p>
+                </div>
+                <div class="books">
+                	<a href="#"><img src="images/HAZRAT_KHADIJA_life_03.jpg" alt="Pen QURAN PAK" /></a>
+                    <p><a href="#">Pen Quran</a></p>
+                </div>
+                <div class="books">
+                	<a href="#"><img src="images/enjoy_your_life_book_03.jpg" alt="Pen QURAN PAK" /></a>
+                    <p><a href="#">Pen Quran</a></p>
+                </div>
+            </div>
+            <div id="right_books">
+            	<h2>BEST SELLING BOOKS <span>( <a href="#">VIEW ALL</a> )</h2>
+                <div class="books2">
+                	<a href="#"><img src="images/golden_rays_img_03.jpg" alt="Pen QURAN PAK" /></a>
+                    <p><a href="#">Pen Quran</a></p>
+                </div>
+                <div class="books2">
+                	<a href="#"><img src="images/HAZRAT_KHADIJA_life_03.jpg" alt="Pen QURAN PAK" /></a>
+                    <p><a href="#">Pen Quran</a></p>
+                </div>
+                <div class="books2">
+                	<a href="#"><img src="images/enjoy_your_life_book_03.jpg" alt="Pen QURAN PAK" /></a>
+                    <p><a href="#">Pen Quran</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer>
+    	<div id="under_footer">
+       		<div id="left_footer">
+            	<h1>Connect to DARUSSALAM</h1>
+                <a href="#"><img src="images/f_img_03.jpg" alt="f"></a>
+                <a href="#"><img src="images/t_img_03.jpg" alt="t"></a>
+                <a href="#"><img src="images/dots_img_03.jpg" alt="dot"></a>
+                <a href="#"><img src="images/u_img_03.jpg" alt="u"></a>
+                <a href="#"><img src="images/subscriber_img_03.jpg" alt="sub"></a>
+                <div id="left_under_footer">
+                	<li><img src="images/phone_img_03.jpg" alt="phone"> +(92) 42 35254654 - 54</li>
+                    <li><img src="images/gmail_img_03.jpg" alt="phone"><a href="#"> support@darussalam.com</a></li>
+                    <li><img src="images/home_img_03.jpg" alt="phone"> Darussalam Publishers</li>
+                </div>
+               	<p>is a multilingual international Islamic publishing house, with headquarters in Riyadh, Kingdom of Saudi Arabia.</p>
+            </div>
+            <div id="middle_footer">
+            	<h1>Navigation</h1>
+                <article><a href="#">About Us</a></article>
+                <article><a href="#">Contact Us</a></article>
+                <article><a href="#">Careers</a></article>
+                <article><a href="#">FAQ's</a></article>
+                <article><a href="#">Terms &amp; Conditions</a></article>
+                <article><a href="#">Shipping Rates & Policies</a></article>
+            </div>
+            <div id="right_footer">
+            	<h1>What's New?</h1>
+                <p><a href="#">D-Tech - Working on technologies</a></p>
+                <article><i>iPhone, Android & iPad Islamic apps</i></article>
+                <p><a href="#">D-Tech - Working on technologies</a></p>
+                <article><i>iPhone, Android & iPad Islamic apps</i></article>
+                <section>&copy; 2013 Darussalam, Inc. All Rights Reserved.</section>
+            </div>
+       	</div>
+  	</footer>
+      <!-- JavaScript at the bottom for fast page loading -->
+
+  <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="js/libs/jquery-1.8.3.min.js"><\/script>')</script>
+
+  <!--
+  Include gumby.js followed by UI modules.
+  Or concatenate and minify into a single file
+  <script src="js/libs/gumby.js"></script>
+  <script src="js/libs/ui/gumby.retina.js"></script>
+  <script src="js/libs/ui/gumby.fixed.js"></script>
+  <script src="js/libs/ui/gumby.skiplink.js"></script>
+  <script src="js/libs/ui/gumby.toggleswitch.js"></script>
+  <script src="js/libs/ui/gumby.checkbox.js"></script>
+  <script src="js/libs/ui/gumby.radiobtn.js"></script>
+  <script src="js/libs/ui/gumby.tabs.js"></script>
+  <script src="js/libs/ui/jquery.validation.js"></script>
+  <script src="js/libs/gumby.init.js"></script>
+  -->
+  <script src="js/libs/gumby.min.js"></script>
+  <script src="js/plugins.js"></script>
+  <script src="js/main.js"></script>
+
+  <!-- Change UA-XXXXX-X to be your site's ID -->
+  <script>
+    window._gaq = [['_setAccount','UAXXXXXXXX1'],['_trackPageview'],['_trackPageLoadTime']];
+    Modernizr.load({
+      load: ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'
+    });
+  </script>
+
+  <!-- Prompt IE 6 users to install Chrome Frame. Remove this if you want to support IE 6.
+       chromium.org/developers/how-tos/chrome-frame-getting-started -->
+  <!--[if lt IE 7 ]>
+    <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+    <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+  <![endif]-->
+</body>
+</html>

@@ -1,0 +1,12 @@
+Array
+(
+    [Filename] => TOYO5731.jpg
+    [temp_child_dir] => Car
+    [timestamp] => 1346517106
+    [current_user] => 1
+    [uploaded_path] => D:\xampp\htdocs\carbuy\temp
+    [token] => 8873075e199dd15e7c4fc0bc2dc1b03c
+    [Upload] => Submit Query
+)
+
+D:\xampp\htdocs\carbuy\temp

@@ -1,0 +1,225 @@
+* { margin: 0; padding: 0; }
+
+a { text-decoration:none; }
+
+a img { text-decoration:none; outline:none; }
+
+img { border:none; outline:none; }
+
+a img { border:none; outline:none; }
+
+body { background: #d6d4d3; padding: 0; margin: 0; min-width: 320px; max-width: 1900px; }
+
+@font-face { font-family:Helvetical TStd Light; src:url(../fonts/HELVETICALTSTD-LIGHT.OTF); }
+
+@font-face { font-family: Helvetical TStd Roman; src:url(../fonts/HELVETICALTSTD-ROMAN.OTF); }
+
+@font-face { font-family: HelveticaNeuel TStd Md; src:url(../fonts/HELVETICANEUELTSTD-BD.OTF) }
+
+.landing_page_wrap { background: #d6d4d3; padding: 0; min-width: 320px; max-width: 1900px; margin: 0px auto; border-top: 5px solid #092b71; border-bottom: 5px solid #092b71; }
+
+#landing_banner { background:url(../images/landing_page_background_img_02.png) no-repeat; background-size:cover; float:left; width:100%; height:100%; padding: 0; margin: 0; }
+
+.landing_logo_part { padding: 0; margin: 0 auto; width:600px; background:#092b71; display:block; }
+
+.landing_logo { width:173px; height:274px; padding: 0; margin: 180px 0 100px 0; float:left; border-radius: 5px 0 0 5px; background:#092b71; text-align:center; }
+
+.landing_logo_right { width:389px; height:274px; float:left; background:#d5d5d5; padding: 0 0 0 20px; margin: 180px 0 0 0; border-radius:5px; opacity:0.9; }
+
+.landing_logo_right h1 { font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; font-size:38.15px; font-weight:bold; text-height:auto; color:#092b71; }
+
+.landing_logo_right span { font-family: Helvetical TStd Roman; font-size:12px; }
+
+.landing_logo_right h2 { font-family: HelveticaNeuel TStd Md; font-size:16px; color:#313131; padding: 0; margin: 30px 0 0 0; }
+
+.landing_logo_right select { box-shadow: inset 0 0 2px #000000; width:374px; height:30px; padding: 5px 5px 5px 5px; margin: 5px 0; border:1px solid #898989; border:none; font-size:18px; color:#092b71; font-family: Helvetical TStd Roman; }
+
+.landing_logo_right select option { border:none; background:none; font-size:18px; color:#092b71; font-family: Helvetical TStd Roman; }
+
+.landing_logo_right h3 { float:left; font-family: HelveticaNeuel TStd Md; font-size:16px; color:#313131; padding: 0; margin: 40px 0 0 0; }
+
+.landing_logo img { padding: 0; margin: 33px 0 0 0; }
+
+.onoffswitch { float:left; padding: 0; margin: 35px 0 0 10px; position: relative; width: 90px; -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none; }
+
+.onoffswitch-checkbox { display: none; }
+
+.onoffswitch-label { display: block; overflow: hidden; cursor: pointer; border-radius: 20px; }
+
+.onoffswitch-inner { width: 200%; margin-left: -100%; -moz-transition: margin 0.3s ease-in 0s; -webkit-transition: margin 0.3s ease-in 0s; -o-transition: margin 0.3s ease-in 0s; transition: margin 0.3s ease-in 0s; }
+
+.onoffswitch-inner:before, .onoffswitch-inner:after { float: left; width: 50%; height: 30px; padding: 0; line-height: 30px; font-size: 14px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+    
+.onoffswitch-inner:before { content: "ON"; padding-left: 10px; background-color: #092b71; color: #FFFFFF; }
+
+.onoffswitch-inner:after { content: "OFF"; padding-right: 10px; background-color: #EEEEEE; color: #999999; text-align: right; }
+
+.onoffswitch-switch { width: 18px; margin: 6px; background: #FFFFFF; border-radius: 20px; position: absolute; top: 0; bottom: 0; right: 56px; -moz-transition: all 0.3s ease-in 0s; -webkit-transition: all 0.3s ease-in 0s; -o-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s; }
+
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner { margin-left: 0; }
+
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch { right: 0px; }
+
+.enter_button { padding: 0; margin: 35px 15px 0 0; float:right; width:100px; height:34px; border:none; background:none; background-color:#092b71; opacity:none; color:#FFF; border-radius:5px; font-family: Helvetical TStd Roman; font-size:15px; cursor: pointer; }
+
+.landing_arrow { float:left; padding: 0; margin: 0; }
+
+.landing_arrow img { position:absolute; padding: 0; margin: 60px 0 0 -32px;}
+
+.numbers { width:100%; float:left; padding: 20px 0 0 0; margin: 0px 0 0 0; background:#000; color:#FFF; opacity:0.8; height:50px; text-align:center; }
+
+.numbers span { font-family:Helvetical TStd Light; border-right: 2px solid #FFF; padding: 0 15px; margin: 0; font-size:24px; }
+
+.numbers span:last-child { border:none; }
+
+#landing_content { padding: 10px 100px; margin: 0; float:left; }
+
+#landing_content p { font-size:18px; color:#313030; font-family:Helvetical TStd Light; text-align:justify; }
+
+.landing_main_div { width:100%; padding: 20px 0; margin: 0; float:left; }
+
+.landing_div { width:19%; height:340px; padding: 0 20px; margin: 10px; background:#ecf0f1; border-radius:5px; float:left; text-align:center; }
+
+.landing_div img { padding: 0; margin: 50px 0 35px 0; height:100px; }
+
+.landing_div h4 { color:#34495e; font-size:20px; font-family:Helvetical TStd Light; }
+
+.landing_div article { font-family:Helvetical TStd Light; padding: 0; margin: 10px 0; font-size:14px; color:#34495e; }
+
+.shop_now { background:#f89e00; border: none; width:100%; height:45px; color:#FFF; border-radius:5px; }
+
+.popular { background:url(../images/popular_bg.png); position:relative; float:right; height:82px; width:82px; margin: -4px -24px 0 0; }
+
+.books_img { padding: 0; margin: 0 0px 0 0; }
+
+.books_img a img { padding: 0; margin: 50px 0 35px 50px; position:relative; }
+
+#wraper { padding: 0; margin: 0; width:100%; background:#FFF; float:left; }
+
+@font-face { font-family:Helvetical TStd Bold; src:url(../fonts/HELVETICALTSTD-BOLD.OTF); }
+
+header { padding: 0 20px; margin: 0; width:97%; background:#092b71; float:left; display:block; height:25px; }
+
+#left_header { float:left; padding: 3px 0; margin: 0; }
+
+#left_header img { padding: 0; margin: 0px 0 0 0; }
+
+#left_header span { font-family:Helvetical TStd Bold; font-size:11px; color:#FFF; padding: 0; margin: 0px 0 0px 0; float:none; }
+
+#right_header { float:right; padding: 0; margin: 0; }
+
+#right_header span { font-family:Helvetical TStd Bold; font-size:11px; color:#FFF; border-right:1px solid #FFF; margin: 0px 0 0 0; padding: 0 10px; }
+
+#right_header span a { font-family:Helvetical TStd Bold; font-size:11px; color:#FFF; text-decoration:none; margin: 0px 0 0 0; }
+
+#right_header span:last-child { border-right:none; }
+
+#banner { border-top: 1px solid #000; padding: 0 0px 0 0px; margin: 0 0px 0 0px; width:100%; float:left; background:#FFF; }
+
+.logo { width:30%; padding: 0; margin: 10px 0 0 0; float:left; }
+
+.logo a img { padding: 0; margin: 0 0 0 30px;}
+
+.search_with_box { padding: 0; margin: 35px 0 0 0; width:50%; float:left; }
+
+#search-box { position: relative; width: 100%; margin: 0; }
+
+#search-form { box-shadow: inset 2px 2px 3px #c5c5c5; height: 37px; border: 1px solid #7b7b7b; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; background-color: #fff; overflow: hidden; }
+
+#search-box img { padding: 0; margin: 10px 0 0 10px; position:relative; float:left; }
+
+#search-text { font-size: 14px; color: #ddd; border-width: 0; background: transparent; }
+
+#search-box input[type="text"] { width: 90%; padding: 11px 0 12px 1em; color: #333; outline: none; }
+
+#search-button { position: absolute; top: 0; right: 0; height: 38px; width: 97px; font-size: 17px; color: #fff; text-align: center; line-height: 30px; border-width: 0; background:url(images/search_bg_img_03.png) no-repeat; -webkit-border-radius: 0px 5px 5px 0px; -moz-border-radius: 0px 5px 5px 0px; border-radius: 0px 5px 5px 0px; cursor: pointer; }
+
+.cart_part { padding: 0px 0px; margin: 20px 0 0 0; float:right; width:13%; }
+
+.add_to_cart { padding: 0; margin: 0; float:left; }
+
+.wishlist { padding: 0; margin: 45px 0 0 0; float:left; }
+
+.left_bar { padding: 0; margin: 50px 0 0 -100px; width:50%; float:left; }
+
+.left_bar article { font-size:45.05px; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; color:#323232; }
+
+.left_bar article span { color:#092b71; }
+
+.left_bar article b { color:#f89e00; }
+
+.left_bar p { text-align:right; font-size:19.67px; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; color:#393939; }
+
+.activites { padding: 0; margin: 0px 0 0px 0; width:100%; background:url(../images/activites_bg_img_03.png) no-repeat; height:219px; opacity:0.97; }
+
+.activites table { padding: 10px 10px 10px 20px; margin: 0; width:100%; }
+
+.ativities_tr { padding: 0px 0 0 0; margin: 0px 0 0 0; }
+
+.best_seller { float:right; padding: 0; margin: -30px 0 0 0; }
+
+#footer_part { padding: 0; position:absolute; margin: 452px 0 0 0; }
+
+.left_activites { padding: 0; margin: 10px 0 0 0; width:10%; float:left; }
+
+.right_activites { padding: 0; margin: 10px 0 0 0; width:85%; float:left; }
+
+.right_activites p { font-size:14px; text-align:left; color:#FFF; font-family:Arial, Helvetica, sans-serif; line-height:normal; }
+
+.right_activites p span { color:#ffba00; font-family:Arial, Helvetica, sans-serif; }
+
+.right_activites section { font-size:16px; color:#f89e00; font-family:Arial, Helvetica, sans-serif; line-height:normal; }
+
+.right_activites article { font-size:11px; color:#FFF; text-align:left; padding: 0; margin: 0; font-family:Arial, Helvetica, sans-serif; line-height:14px; }
+
+#content { padding: 0; margin: 0; width:100%; background:#FFF; float:left; }
+
+.books_content { width:17%; padding: 20px 50px; margin: 0; float:left; text-align:center; }
+
+.books_content a img { height:136px; }
+
+.books_content h1 { color:#092b71; font-size:21.68px; font-family:Arial, Helvetica, sans-serif; }
+
+.books_content p { font-family: Helvetical TStd Roman; color:#333333; font-size:14px; padding: 0 17px; }
+
+.shop_now_arrow { background:#f89e00; border: none; width:60%; height:30px; color:#FFF; border-radius:5px; font-size:16.35px; font-family: Helvetical TStd Roman; padding: 0; margin: 10px 0 0 0; }
+
+.under_heading { width:100%; padding: 0; margin: 50px 0 50px 0; text-align:center; float:left; }
+
+.under_heading h2 { font-size:24px; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; color:#262626; font-weight:normal; }
+
+.featured_books { width:17%; padding: 20px 50px; margin: 0; float:left; text-align:center; }
+
+.featured_books h3 { color:#031778; font-size:15.88px; font-family:Helvetical TStd Bold; }
+
+.featured_books p { font-family: HelveticaNeuel TStd Md; color:#575757; font-size:12px; padding: 0 17px; }
+
+.under_content { padding: 10px; margin: 40px 0 20px 50px; width:90%; border-top: 1px solid #f89e00; float:left; }
+
+.left_under_content { height:200px; width:25%; padding: 0; margin: 10px 0 0 0; float:left; border-right: 1px solid #f89e00; }
+
+.left_under_content h4 { font-family:Helvetical TStd Bold; color:#092b71; font-size:24px; padding: 0; margin: 5px 0 20px 0; }
+
+.left_under_content p { font-family: Helvetical TStd Roman; color:#383838; font-size:20.85px; padding: 0; margin: 0; }
+
+.left_under_content h5 { font-family:Helvetical TStd Bold; font-size:26.47px; color:#f89e00; padding: 0; margin: 0 0 5px 0; }
+
+.left_under_content article { color:#383838; font-family: Helvetical TStd Roman; font-size:12px; padding: 0; margin: 0 0 20px 0; }
+
+.middle_under_content { height:200px; width:40%; padding: 0 30px; margin: 10px 0 0 0; float:left; border-right: 1px solid #f89e00; background:url(images/books_and_cards_img_07.png) no-repeat; background-position:right; }
+
+.middle_under_content p { width:237px; text-align:center; font-family: Helvetical TStd Roman; font-size:17.97px; color:#3e3e3e; }
+
+.middle_under_content h5 { color:#031778; font-size:30px; font-family: Helvetical TStd Roman; font-weight:normal; }
+
+.right_under_content { height:200px; width:25%; padding: 0; margin: 10px 0 0 0; float:left; background:url(../images/book_with_pages_img_07.png) no-repeat; background-position:bottom; text-align:right; }
+
+.right_under_content h5 { color:#031778; font-family:Helvetical TStd Bold; font-size:20.52px; }
+
+.right_under_content h6 { color:#f89e00; font-family: Helvetical TStd Roman; font-size:41.03px; }
+
+.right_under_content h6 span { color:#f89e00; font-size:15.39px; width:20px; float:none; }
+
+.right_under_content article { font-size:15.39px; color:#031778; font-family:Helvetical TStd Bold; }
+
+.right_under_content p { color:#454545; font-size:10px; font-family:Helvetical TStd Bold; }

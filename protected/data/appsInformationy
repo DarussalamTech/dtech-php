@@ -1,0 +1,84 @@
+We have configured our new email address
+
+For our own apps
+
+that is (gmail)
+username : dtechlocalhost@gmail.com
+password : dtech123
+
+same in facbook (App information)
+---------------------------------------------------
+
+Access url  :https://developers.facebook.com/apps	
+App name : dtechforlocal (only for localhost)
+App ID: 	389022244550135
+App Secret: 	b441df6bfaeda565b4bd5538824bf269(reset)
+This app is live(Visible to all users)
+
+
+GMail
+
+------------------------------------------------------
+
+Client ID:	
+100818598790-jdk41rfc59m77fu2u7gl194sr58snunu.apps.googleusercontent.com
+Email address:	
+100818598790-jdk41rfc59m77fu2u7gl194sr58snunu@developer.gserviceaccount.com
+Client secret:	
+3qTa6v6Lmd1JKSjQV5MN3BFH
+Redirect URIs:	http://localhost/darussalam/index.php/site/testHybrid?hauth.done=Google
+JavaScript origins:	https://localhost
+
+
+
+
+Twitter
+=------------------------------------------
+
+Access level	 Read-only 
+About the application permission model
+Consumer key	4yt5a8wQ9Rvo5rUqFuezUQ
+Consumer secret	jhFeogHWjkZblUgtVBde2BUEAdy9Av4hIhe77yensbQ
+Request token URL	https://api.twitter.com/oauth/request_token
+Authorize URL	https://api.twitter.com/oauth/authorize
+Access token URL	https://api.twitter.com/oauth/access_token
+Callback URL	None
+Sign in with Twitter	No
+
+
+Linkedin
+--------------------------------------------------------------
+
+Application Details
+Company:
+
+dtechlocal
+
+Application Name:
+
+dtechlocal
+
+API Key:
+
+eca0nfxfptda
+
+Secret Key:
+
+fPMWe3wrqYmbSWx5
+
+OAuth User Token:
+
+acfd72ab-aade-4d65-a3cc-76ec81dc4b88
+
+OAuth User Secret:
+
+2b310350-085f-426d-a2df-69ddf9457708
+
+
+
+
+
+
+
+
+
