@@ -7527,6 +7527,7 @@ abstract class CActiveRecord extends CModel
 	public function findAll($condition='',$params=array())
 	{
 		$criteria=$this->getCommandBuilder()->createCriteria($condition,$params);
+                
 		return $this->query($criteria,true);
 	}
 	public function findByPk($pk,$condition='',$params=array())
