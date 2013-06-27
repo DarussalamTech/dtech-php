@@ -53,7 +53,7 @@ class Product extends DTActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('parent_cateogry_id,product_name, city_id, is_featured,product_description', 'required'),
+            array('parent_cateogry_id,product_name, city_id, is_featured', 'required'),
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
             array('authors', 'safe'),
             array('discount_type,discount_type,parent_cateogry_id,no_image,authors,product_description,product_overview', 'safe'),
@@ -129,10 +129,6 @@ class Product extends DTActiveRecord {
             'is_featured' => 'Is Featured',
         );
     }
-
-
-
-
 
     /**
      *  get relavent product info
