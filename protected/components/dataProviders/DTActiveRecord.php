@@ -34,6 +34,8 @@ class DTActiveRecord extends CActiveRecord {
         if (isset(Yii::app()->controller->action->id)) {
             $this->_action = Yii::app()->controller->action->id;
         }
+
+        $this->attributes = $this->decodeArray($this->attributes);
         parent::afterFind();
     }
 
@@ -61,6 +63,7 @@ class DTActiveRecord extends CActiveRecord {
             $this->update_user_id = 1;
         }
         parent::beforeValidate();
+        $this->attributes = $this->decodeArray($this->attributes);
         return true;
     }
 
@@ -74,7 +77,7 @@ class DTActiveRecord extends CActiveRecord {
 
         $update_time = date("Y-m-d") . " " . date("H:i:s");
 
-
+        $this->attributes = CHtml::encodeArray($this->attributes);
         parent::beforeSave();
 
         return true;
@@ -117,6 +120,25 @@ class DTActiveRecord extends CActiveRecord {
         $command = $connection->createCommand("SELECT SUBSTRING(UUID(),1,$length) as uuid");
         $row = $command->queryRow();
         return $row['uuid'];
+    }
+
+    /*
+     * method to decode an array 
+     * removing special characters and slashes....
+     */
+
+    private function decodeArray($data) {
+        $d = array();
+        foreach ($data as $key => $value) {
+            if (is_string($key))
+                $key = stripslashes(htmlspecialchars_decode($key, ENT_QUOTES));
+            if (is_string($value))
+                $value = stripslashes(htmlspecialchars_decode($value, ENT_QUOTES));
+            else if (is_array($value))
+                $value = self::decodeArray($value);
+            $d[$key] = $value;
+        }
+        return $d;
     }
 
     /**
