@@ -50,14 +50,25 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/f
         <?php echo $form->textArea($model, 'product_overview', array("rows" => 4, "cols" => 81, 'style' => 'resize: none; width:300px;height:80px')); ?>
         <?php echo $form->error($model, 'product_overview'); ?>
     </div>
+
+
+
+
     <div class="row">
         <?php echo $form->labelEx($model, 'product_description'); ?>
-        <?php echo $form->textArea($model, 'product_description', array("rows" => 4, "cols" => 81, 'style' => 'resize: none; width:500px;')); ?>
+        <?php
+        $this->widget('application.extensions.tinymce.ETinyMce', array(
+            'editorTemplate' => 'full',
+            'model' => $model,
+            'attribute' => 'product_description',
+            'options' => array('theme' => 'advanced')));
+        ?>
+        <?php //echo $form->textArea($model, 'product_description', array("rows" => 4, "cols" => 81, 'style' => 'resize: none; width:500px;')); ?>
         <?php echo $form->error($model, 'product_description'); ?>
     </div>
     <div class="row">
         <?php echo $form->labelEx($model, 'is_featured'); ?>
-        <?php echo $form->dropDownList($model, 'is_featured', array('1' => 'Yes', '0' => 'No'), array('size' => 1, 'maxlength' => 1)); ?>
+        <?php echo $form->dropDownList($model, 'is_featured', array('0' => 'No', '1' => 'Yes'), array('size' => 1, 'maxlength' => 1)); ?>
         <?php echo $form->error($model, 'is_featured'); ?>
     </div>
 
