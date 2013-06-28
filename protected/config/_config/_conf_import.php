@@ -11,6 +11,7 @@ $import = array(
     'application.components.*',
     'application.modules.rights.*',
     'application.modules.rights.components.*',
+    'application.modules.rights.models.*',
     'application.components.classes.*',
     'application.components.classes.db.*',
     'application.components.widgets.*',

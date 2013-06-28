@@ -48,7 +48,6 @@ class RWebUser extends DTWebUser {
         }
         
         
-
         //if(Yii::app()->controller->id == )
         // Allow superusers access implicitly and do CWebUser::checkAccess for others.
         return $this->isSuperuser === true ? true : parent::checkAccess($operation, $params, $allowCaching);

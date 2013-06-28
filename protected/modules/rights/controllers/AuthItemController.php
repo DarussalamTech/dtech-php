@@ -24,6 +24,15 @@ class AuthItemController extends Controller {
     }
 
     /**
+     * 
+     * @return type
+     */
+    public function checkSuper_CityAdminUser() {
+
+        return in_array(Yii::app()->user->name, $this->_authorizer->getSuperusers());
+    }
+
+    /**
      * @property CAuthItem the currently loaded data model instance.
      */
     private $_model;
@@ -54,7 +63,7 @@ class AuthItemController extends Controller {
      */
     public function accessRules() {
 
-  
+
         $allowed_array = array('permissions',
             'operations',
             'tasks',
@@ -68,13 +77,13 @@ class AuthItemController extends Controller {
             'revoke',
             'sortable');
         if (!Yii::app()->user->isSuperuser) {
-            $allowed_array = array('permissions');
+            $allowed_array = array('permissions','roles',);
         }
-    
+
         return array(
             array('allow', // Allow superusers to access Rights
                 'actions' => $allowed_array,
-                'users' => $this->_authorizer->getSuperusers()+$this->_authorizer->getCityAdmin(),
+                 'expression' => 'Yii::app()->controller->checkSuper_CityAdminUser() == true'
             ),
             array('deny', // Deny all users
                 'users' => array('*'),

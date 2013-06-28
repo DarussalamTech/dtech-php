@@ -106,10 +106,11 @@ class User extends DTActiveRecord {
             'orders' => array(self::HAS_MANY, 'Order', 'user_id'),
             'status' => array(self::BELONGS_TO, 'Status', 'status_id', 'condition' => 'module="User"'),
             'site' => array(self::BELONGS_TO, 'Site', 'site_id'),
-            'role' => array(self::BELONGS_TO, 'UserRole', 'role_id'),
+            'role' => array(self::BELONGS_TO, 'Authassignment', 'user_id'),
             'userProfiles' => array(self::HAS_ONE, 'UserProfile', 'id'),
             'city' => array(self::BELONGS_TO, 'City', 'city_id'),
             'social' => array(self::HAS_MANY, 'Social', 'yiiuser'),
+            'authassignment' => array(self::BELONGS_TO, 'Authassignment', 'userid'),
         );
     }
 
@@ -121,7 +122,7 @@ class User extends DTActiveRecord {
             'user_id' => 'User',
             'user_name' => 'Name',
             'user_password' => 'Password',
-            'role_id' => 'Role',
+            'role_id' => 'Type',
             'status_id' => 'Status',
             'city_id' => 'City',
             'activation_key' => 'Activation Key:',
@@ -137,9 +138,8 @@ class User extends DTActiveRecord {
     static function getAccessLevelList($level = null) {
         $levelList = array(
             self::LEVEL_CUSTOMER => 'Customer',
-            self::LEVEL_ADMIN => 'Administrator',
-                //self::LEVEL_SUPERADMIN=> 'Superadmin',
-                // self::LEVEL_UNKNOWN=> 'Unknown..'
+            self::LEVEL_ADMIN => 'SystemUsers',
+       
         );
         if ($level === null)
             return $levelList;

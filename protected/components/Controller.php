@@ -116,6 +116,7 @@ class Controller extends RController {
             "SelfSite" => "View",
             "TranslatorCompiler" => "View",
             "User" => "View",
+            //"Assignment" => "View",
         );
     }
 

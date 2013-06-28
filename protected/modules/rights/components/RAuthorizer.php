@@ -283,7 +283,7 @@ class RAuthorizer extends CApplicationComponent {
             $items = $this->getAuthItems(CAuthItem::TYPE_ROLE, $user->getId());
             $items = $this->attachAuthItemBehavior($items, $user->id);
 
-            if (isset($items[$this->superuserName]))
+            if (isset($items[$this->superuserName]) || isset($items[Rights::module()->cityAdmin]))
                 $superusers[] = $user->getName();
         }
         
