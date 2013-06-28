@@ -41,6 +41,11 @@ $('.search-form form').submit(function(){
 
 <?php
 $button_template = ' {enableimg} {disableimg} {enable} {disable}';
+
+if (isset($this->OpPermission[ucfirst($this->id) . "Update"]) && $this->OpPermission[ucfirst($this->id) . "Update"]) {
+    $button_template.= "{enableimg} {disableimg} {enable} {disable}";
+}
+
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'user-grid',
     'dataProvider' => $model->searchCustomer(),
