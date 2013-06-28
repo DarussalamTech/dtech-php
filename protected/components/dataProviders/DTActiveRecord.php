@@ -23,11 +23,13 @@ class DTActiveRecord extends CActiveRecord {
     public $_action;
     public $_controller;
     public $_no_condition = false;
+    public $_current_module;
 
     public function __construct($scenario = 'insert') {
         parent::__construct($scenario);
         $this->_action = Yii::app()->controller->action->id;
         $this->_controller = Yii::app()->controller->id;
+        $this->_current_module = get_class(Yii::app()->controller->getModule());
     }
 
     public function afterFind() {
@@ -136,9 +138,9 @@ class DTActiveRecord extends CActiveRecord {
                 $value = stripslashes(htmlspecialchars_decode($value, ENT_QUOTES));
             else if (is_array($value))
                 $value = self::decodeArray($value);
-            $d[$key] = utf8_decode($value);
+            $d[$key] = $this->_current_module == "WebModule" ? utf8_decode($value) : $value;
         }
-       
+
         return $d;
     }
 
