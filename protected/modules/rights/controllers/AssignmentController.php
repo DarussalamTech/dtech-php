@@ -48,19 +48,35 @@ class AssignmentController extends Controller {
      * @return array access control rules
      */
     public function accessRules() {
+
         return array(
             array('allow', // Allow superusers to access Rights
                 'actions' => array(
                     'view',
                     'user',
+                ),
+                //'users' => array("customer@yahoo.com"),
+                'expression' => 'Yii::app()->controller->checkSuper_CityAdminUser() == true'
+            ),
+            array('allow', // Allow superusers to access Rights
+                'actions' => array(
                     'revoke',
                 ),
-                'users' => $this->_authorizer->getSuperusers(),
+                //'users' => array("customer@yahoo.com"),
+                'expression' => 'Yii::app()->user->isSuperuser == true'
             ),
             array('deny', // Deny all users
                 'users' => array('*'),
             ),
         );
+    }
+    /**
+     * 
+     * @return type
+     */
+    public function checkSuper_CityAdminUser() {
+
+        return in_array(Yii::app()->user->name, $this->_authorizer->getSuperusers());
     }
 
     /**
@@ -69,14 +85,14 @@ class AssignmentController extends Controller {
     public function actionView() {
 
         $criteria = new CDbCriteria();
-        $criteria->addCondition("role_id = 2");
-
+ 
+        $criteria->addCondition("role_id =2");
         // Create a data provider for listing the users
-        $dataProvider = new RAssignmentDataProvider("",array(
+        $dataProvider = new RAssignmentDataProvider("", array(
             'pagination' => array(
                 'pageSize' => 50,
             ),
-           'criteria' => $criteria,
+            'criteria' => $criteria,
         ));
 
         // Render the view
@@ -93,22 +109,34 @@ class AssignmentController extends Controller {
         $userClass = $this->module->userClass;
         $model = CActiveRecord::model($userClass)->findByPk($_GET['id']);
         $this->_authorizer->attachUserBehavior($model);
-        
+
         $assignedItems = $this->_authorizer->getAuthItems(null, $model->getId());
-       
+
         $assignments = array_keys($assignedItems);
-        
+
 
         // Make sure we have items to be selected
         $assignSelectOptions = Rights::getAuthItemSelectOptions(null, $assignments);
-       
+
         /**
          * not to assign any one as super admin role
          */
-        if(isset($assignSelectOptions['Roles']['SuperAdmin'])){
+        if (isset($assignSelectOptions['Roles']['SuperAdmin'])) {
             unset($assignSelectOptions['Roles']['SuperAdmin']);
         }
-        
+
+        /**
+         * if other user is login then City admin will also not show
+         */
+        $exclude = array();
+        if (!Yii::app()->user->isSuperuser) {
+            unset($assignSelectOptions['Roles']['CityAdmin']);
+            /*
+             * exclude city admin from list
+             */
+            $exclude = array("CityAdmin");
+        }
+
         if ($assignSelectOptions !== array()) {
             $formModel = new AssignmentForm();
 
@@ -136,6 +164,7 @@ class AssignmentController extends Controller {
         // Create a data provider for listing the assignments
         $dataProvider = new RAuthItemDataProvider('assignments', array(
             'userId' => $model->getId(),
+            'exclude' => $exclude,
         ));
 
         // Render the view

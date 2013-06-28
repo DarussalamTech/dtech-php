@@ -29,6 +29,9 @@ class UserIdentity extends CUserIdentity {
             $this->setState('role_id', $user->role_id);
             $this->setState('status_id', $user->status_id);
             $this->setState('city_id', $user->city_id);
+           
+           
+            
             $this->setState('site_id', $user->site_id);
             $this->setState('is_active', $user->is_active);
 

@@ -43,6 +43,7 @@ class Categories extends DTActiveRecord {
         return array(
             array('category_name, added_date, city_id', 'required'),
             array('category_name','uniqueCategory'),
+            //array('category_name','unique'),
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
             array('parent_id, city_id', 'numerical', 'integerOnly' => true),
             array('category_name, added_date', 'length', 'max' => 255),
@@ -60,7 +61,8 @@ class Categories extends DTActiveRecord {
         $criteria->addCondition("category_name ='".$this->$attribute."'");
         $criteria->addCondition("city_id = ".$this->city_id);
         if(!$this->isNewRecord){
-            $criteria->addCondition("category_id ='".$this->category_id."'");
+            $criteria->addCondition("category_id !='".$this->category_id."'");
+            
         }
         
         if($this->find($criteria)){

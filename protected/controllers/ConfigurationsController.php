@@ -39,14 +39,35 @@ class ConfigurationsController extends Controller {
     }
 
     /**
+     * General configurations
+     */
+    public function actionGeneral($m, $id = 0, $module = '', $type = '') {
+        if ($type == "general") {
+            $this->loadConfig($m, $id, $module, $type);
+        }
+    }
+
+    /**
      * Load Configuration
+     * for branch
      * 
      * @param <string> $m (Model name without Conf)
      * @param <int> $id
      */
     public function actionLoad($m, $id = 0, $module = '', $type = '') {
+        if ($type != "general") {
+            $this->loadConfig($m, $id, $module, $type);
+        }
+    }
 
-
+    /**
+     * function will be same for all actions
+     * @param type $m
+     * @param type $id
+     * @param type $module
+     * @param type $type
+     */
+    public function loadConfig($m, $id = 0, $module = '', $type = '') {
         /* Complete Model name */
         $model_name = 'Conf' . $m;
 
@@ -110,7 +131,35 @@ class ConfigurationsController extends Controller {
         $this->render("appSettings/index", array('model' => $model));
     }
 
-    public function actionDelete($m, $id = 0, $module = '', $type = '') {
+    /**
+     * action
+     * @param type $m
+     * @param type $id
+     * @param type $module
+     * @param type $type
+     */
+    public function actionDeleteGeneral($m, $id = 0, $module = '', $type = '') {
+        $this->delete($m, $id, $module, $type);
+    }
+    /**
+     * action
+     * @param type $m
+     * @param type $id
+     * @param type $module
+     * @param type $type
+     */
+    public function actionDeleteOther($m, $id = 0, $module = '', $type = '') {
+        $this->delete($m, $id, $module, $type);
+    }
+
+    /**
+     * 
+     * @param type $m
+     * @param type $id
+     * @param type $module
+     * @param type $type
+     */
+    public function delete($m, $id = 0, $module = '', $type = '') {
         $model_name = 'Conf' . $m;
 
         $model = $model_name::model()->findByPk($id);

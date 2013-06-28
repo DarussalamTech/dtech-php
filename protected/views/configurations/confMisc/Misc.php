@@ -112,7 +112,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
                 'update' => array
                     (
                     'label' => 'update',
-                    'url' => 'Yii::app()->controller->createUrl("load", array("m" => "' . $m . '", "id"=> $data->id,"type"=>$data->misc_type))',
+                    'url' => 'Yii::app()->controller->createUrl(isset( $_GET["type"]) &&  $_GET["type"] == "general"?"general":"load", array("m" => "' . $m . '", "id"=> $data->id,"type"=>$data->misc_type))',
                 ),
             ),
         ),

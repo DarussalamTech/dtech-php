@@ -60,8 +60,7 @@
                 foreach ($booksCategories as $cat) {
                     if ($count <= 1) {
                         echo CHtml::openTag("p");
-                        echo CHtml::link(
-                                $cat->category_name, $this->cObj->createUrl("/web/product/allproducts",array("category"=>$cat->category_id))
+                        echo CHtml::link($cat->category_name, $this->cObj->createUrl("/web/product/allproducts",array("category"=>$cat->category_id))
                         );
                         echo CHtml::closeTag("p");
                     }
@@ -76,8 +75,8 @@
 
                 foreach ($booksCategories as $subcat) {
                     echo CHtml::openTag("li");
-                    echo CHtml::link(
-                            $subcat->category_name, $this->cObj->createUrl("/web/product/allproducts",array("category"=>$cat->category_id))
+                    //echo CHtml::link($subcat->category_name, $this->cObj->createUrl("/web/product/allproducts",array("category"=>$cat->category_id))
+                    echo CHtml::link($subcats->category_name, $this->cObj->createUrl("/web/product/allproducts",array("category"=>$subcat->category_id))
                     );
                     echo CHtml::closeTag("li");
                 }

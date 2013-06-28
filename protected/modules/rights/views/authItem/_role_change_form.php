@@ -1,4 +1,4 @@
-<?php $form = $this->beginWidget('CActiveForm'); ?>
+<?php $form = $this->beginWidget('CActiveForm',array("id"=>"role_change_form")); ?>
 
 <div class="row">
     <?php echo $form->labelEx($model, 'role'); ?>
@@ -6,6 +6,9 @@
     $criteria = new CDbCriteria();
     $criteria->select = "name";
     $criteria->condition = "type = 2 AND name <> 'SuperAdmin'";
+    if(!Yii::app()->user->isSuperuser){
+        $criteria->addCondition("name <>'CityAdmin'");
+    }
     $data = CHtml::listData(Authitem::model()->findAll($criteria), "name", "name");
     echo $form->dropDownList($model, 'role', array(""=>"All")+$data);
     ?>

@@ -5,9 +5,14 @@
  */
 
 class ErrorController extends Controller {
+    
+    public function beforeAction($action) {
+        Yii::app()->theme = 'landing_page_theme';
+        Yii::app()->controller->layout = '';
+        return parent::beforeAction($action);
+    }
 
     public function actionError() {
-        Yii::app()->controller->layout = '//layouts/main';
         $error = Yii::app()->errorHandler->error;
         if ($error)
             $this->render('error', array('error' => $error));

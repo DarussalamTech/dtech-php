@@ -68,7 +68,7 @@ class RPermissionDataProvider extends CDataProvider {
      * @return array the roles.
      */
     public function getRoles() {
-          $this->setRoles();
+        $this->setRoles();
         return $this->_roles;
     }
 
@@ -187,6 +187,15 @@ class RPermissionDataProvider extends CDataProvider {
         if (isset($_POST['RoleForm'])) {
             $roleModel->attributes = $_POST['RoleForm'];
         }
+        /**
+         * in case of ajax 
+         */
+        if (isset($_POST['ajax'])) {           
+            $roleModel->role = $_POST['role'];
+            $roleModel->auth_item = $_POST['auth_item'];
+        }
+        
+       
         /**
          * for doing filtering of role and auth item
          */

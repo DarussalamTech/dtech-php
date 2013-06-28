@@ -7,8 +7,8 @@ $this->breadcrumbs = array(
     'Manage',
 );
 
-if(!(Yii::app()->user->isGuest)) {
-        $this->renderPartial("/common/_left_menu");
+if (!(Yii::app()->user->isGuest)) {
+    $this->renderPartial("/common/_left_menu");
 }
 
 Yii::app()->clientScript->registerScript('search', "
@@ -27,7 +27,7 @@ $this->PcmWidget['filter'] = array('name' => 'ItstLeftFilter',
     'attributes' => array(
         'model' => $model,
         'filters' => $this->filters,
-        'keyUrl'=>true,
+        'keyUrl' => true,
         'action' => Yii::app()->createUrl($this->route),
         'grid_id' => 'product-grid',
         ));
@@ -50,6 +50,16 @@ $this->PcmWidget['filter'] = array('name' => 'ItstLeftFilter',
 </div><!-- search-form -->
 
 <?php
+$template = "";
+if (isset($this->OpPermission[ucfirst($this->id) . ".View"]) && $this->OpPermission[ucfirst($this->id) . ".View"]) {
+    $template.= "{view}";
+}
+if (isset($this->OpPermission[ucfirst($this->id) . "Update"]) && $this->OpPermission[ucfirst($this->id) . "Update"]) {
+    $template.= "{update}";
+}
+if (isset($this->OpPermission[ucfirst($this->id) . "Delete"]) && $this->OpPermission[ucfirst($this->id) . "Delete"]) {
+    $template.= "{delete}";
+}
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'categories-grid',
     'dataProvider' => $model->search(),
@@ -89,6 +99,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         ),
         array(
             'class' => 'CButtonColumn',
+            'template' => $template
         ),
     ),
 ));

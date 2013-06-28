@@ -1,18 +1,68 @@
+<script type="text/javascript">
+
+
+    $(document).ready(function() {
+        $('div.read_more').slideToggle();
+
+        $('#more').click(function() {
+            $('div.brief').hide();
+            $('div.read_more').slideToggle('slow');
+        });
+        $('#close').click(function() {
+            $('div.brief').slideToggle('slow');
+            $('div.read_more').slideToggle('slow');
+        });
+
+
+    });
+
+</script>
+
+
+
+
 <div id="description_content">
-    <h1>Book Description</h1> 
+
+    <h1>Book Description</h1>
+    <article>Release date: March 2, 2004 | Series: Wicked Years (Book 1)</article>
+
+    <?php
+    if (str_word_count($product->product_description) < 500) {
+        echo CHtml::openTag('p');
+        echo $product->product_description;
+        echo CHtml::closeTag('p');
+    } else {
+
+        echo CHtml::openTag('div', array('class' => 'brief'));
+
+        echo CHtml::openTag('p');
+        echo substr($product->product_description, 0, 1000) . '.....';
+        ?>
+        <a id="more" href="#">Read Detail </a>
+        <?php
+        echo CHtml::closeTag('p');
+
+        echo CHtml::closeTag('div');
+
+
+        echo CHtml::openTag('div', array('class' => 'read_more'));
+
+        echo CHtml::openTag('p');
+        echo $product->product_description;
+        ?>
+        <a id="close" style="" href="#">Close Detail </a>
+        <?php
+        echo CHtml::closeTag('p');
+
+        echo CHtml::closeTag('div');
+    }
+    ?>
+
+    <h2>Product Reviews</h2>
+    
     <p>
-        <?php echo!empty($product->product_description) ? $product->product_description : "Not available"; ?>
+    <?php echo $product->product_overview; ?>
     </p>
+    <article>Copyright 1995 Reed Business Information, Inc.</article>
 
-</div>
-<div class="general_content">
-    <div class="under_heading">
-        <h6>Customers Who Bought This Item Also Bought</h6>
-    </div>
-    <div class="featured_books">
-        <a href="#" class="topopup"><img src="images/moon_split_img_03.png" /></a>
-        <h3>Moon Split</h3>
-        <p>Lorem ipsum color sit bla bla thhm ipoum deona</p> 
-
-    </div>
 </div>

@@ -40,7 +40,7 @@ class UserController extends Controller {
     public function actionRegister() {
 
         $model = new User;
-
+        Yii::app()->user->SiteSessions;
 
         if (isset($_POST['User'])) {
 
@@ -146,7 +146,7 @@ class UserController extends Controller {
     }
 
     public function actionForgot() {
-
+        Yii::app()->user->SiteSessions;
         if (isset($_POST['User'])) {
             $record = User::model()->find(array(
                 'select' => '*',
@@ -191,6 +191,7 @@ class UserController extends Controller {
      */
 
     public function actionChangePass() {
+        Yii::app()->user->SiteSessions;
         //Yii::app()->controller->layout = '//layouts/main';
         $model = new ChangePassword;
         if (Yii::app()->user->id) {

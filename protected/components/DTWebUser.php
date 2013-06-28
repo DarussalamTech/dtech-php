@@ -8,6 +8,13 @@
 class DTWebUser extends CWebUser {
 
     private $_user;
+    
+    /**
+     * when system will login it will help us to navigate to thats
+     * city
+     * @var type 
+     */
+    public $userCity;
 
     //is the user a superadmin ?
     function getIsSuperAdmin() {
@@ -16,6 +23,7 @@ class DTWebUser extends CWebUser {
 
     //is the user an administrator ?
     function getIsAdmin() {
+        
         return ( $this->user && $this->user->role_id == User::LEVEL_ADMIN );
     }
 
@@ -24,6 +32,7 @@ class DTWebUser extends CWebUser {
 
         return ($this->user && $this->user->role_id == User::LEVEL_CUSTOMER);
     }
+
 
     //get the logged user
     function getUser() {
