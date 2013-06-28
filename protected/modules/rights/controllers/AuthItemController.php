@@ -24,6 +24,15 @@ class AuthItemController extends Controller {
     }
 
     /**
+     * 
+     * @return type
+     */
+    public function checkSuper_CityAdminUser() {
+
+        return in_array(Yii::app()->user->name, $this->_authorizer->getSuperusers());
+    }
+
+    /**
      * @property CAuthItem the currently loaded data model instance.
      */
     private $_model;
@@ -53,23 +62,28 @@ class AuthItemController extends Controller {
      * @return array access control rules
      */
     public function accessRules() {
+
+
+        $allowed_array = array('permissions',
+            'operations',
+            'tasks',
+            'roles',
+            'generate',
+            'create',
+            'update',
+            'delete',
+            'removeChild',
+            'assign',
+            'revoke',
+            'sortable');
+        if (!Yii::app()->user->isSuperuser) {
+            $allowed_array = array('permissions','roles',);
+        }
+
         return array(
             array('allow', // Allow superusers to access Rights
-                'actions' => array(
-                    'permissions',
-                    'operations',
-                    'tasks',
-                    'roles',
-                    'generate',
-                    'create',
-                    'update',
-                    'delete',
-                    'removeChild',
-                    'assign',
-                    'revoke',
-                    'sortable',
-                ),
-                'users' => $this->_authorizer->getSuperusers(),
+                'actions' => $allowed_array,
+                 'expression' => 'Yii::app()->controller->checkSuper_CityAdminUser() == true'
             ),
             array('deny', // Deny all users
                 'users' => array('*'),
@@ -179,10 +193,10 @@ class AuthItemController extends Controller {
      */
     public function actionRoles() {
         Yii::app()->user->rightsReturnUrl = array('authItem/roles');
-        
+
         $dataProvider = new RAuthItemDataProvider('roles', array(
             'type' => CAuthItem::TYPE_ROLE,
-            'exclude'=>array('SuperAdmin'),
+            'exclude' => array('SuperAdmin'),
             'sortable' => array(
                 'id' => 'RightsRoleTableSort',
                 'element' => '.role-table',
@@ -365,16 +379,15 @@ class AuthItemController extends Controller {
         // We only allow deletion via POST request
         if (Yii::app()->request->isPostRequest === true) {
             $itemName = $this->getItemName();
-            
+
             /**
              * Not to be deleted city admin and super adminrole
              */
-           
-            if(in_array($itemName,array("SuperAdmin","CityAdmin"))){
+            if (in_array($itemName, array("SuperAdmin", "CityAdmin"))) {
                 throw new CHttpException(400, Rights::t('core', 'Invalid request. Please do not repeat this request again.'));
             }
-            
-      
+
+
 
             // Load the item and save the name for later use
             $item = $this->_authorizer->authManager->getAuthItem($itemName);

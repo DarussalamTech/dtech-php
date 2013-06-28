@@ -1,60 +1,70 @@
-<?php $this->breadcrumbs = array(
-	'Rights'=>Rights::getBaseUrl(),
-	Rights::t('core', 'Permissions'),
-); ?>
+<?php
+$this->breadcrumbs = array(
+    'Rights' => Rights::getBaseUrl(),
+    Rights::t('core', 'Permissions'),
+);
+?>
 
 <div id="permissions">
 
-	<h2><?php echo Rights::t('core', 'Permissions'); ?></h2>
+    <h2><?php echo Rights::t('core', 'Permissions'); ?></h2>
 
-	<p>
-		<?php echo Rights::t('core', 'Here you can view and manage the permissions assigned to each role.'); ?><br />
-		<?php echo Rights::t('core', 'Authorization items can be managed under {roleLink}, {taskLink} and {operationLink}.', array(
-			'{roleLink}'=>CHtml::link(Rights::t('core', 'Roles'), array('authItem/roles')),
-			'{taskLink}'=>CHtml::link(Rights::t('core', 'Tasks'), array('authItem/tasks')),
-			'{operationLink}'=>CHtml::link(Rights::t('core', 'Operations'), array('authItem/operations')),
-		)); ?>
-	</p>
-        <div class="clear"></div>
-        
-        <div class="form wide">
-            <?php
-                $this->renderPartial("_role_change_form",array("model"=>$roleModel));
-            ?>
-        </div>
+    <p>
+        <?php echo Rights::t('core', 'Here you can view and manage the permissions assigned to each role.'); ?><br />
+        <?php
+        echo Rights::t('core', 'Authorization items can be managed under {roleLink}, {taskLink} and {operationLink}.', array(
+            '{roleLink}' => CHtml::link(Rights::t('core', 'Roles'), array('authItem/roles')),
+            '{taskLink}' => CHtml::link(Rights::t('core', 'Tasks'), array('authItem/tasks')),
+            '{operationLink}' => CHtml::link(Rights::t('core', 'Operations'), array('authItem/operations')),
+        ));
+        ?>
+    </p>
+    <div class="clear"></div>
 
-	<p><?php echo CHtml::link(Rights::t('core', 'Generate items for controller actions'), array('authItem/generate'), array(
-	   	'class'=>'generator-link',
-	)); ?></p>
+    <div class="form wide">
+<?php
+$this->renderPartial("_role_change_form", array("model" => $roleModel));
+?>
+    </div>
 
-	<?php $this->widget('zii.widgets.grid.CGridView', array(
-		'dataProvider'=>$dataProvider,
-		'template'=>'{items}',
-		'emptyText'=>Rights::t('core', 'No authorization items found.'),
-		'htmlOptions'=>array('class'=>'grid-view permission-table'),
-		'columns'=>$columns,
-	)); ?>
+    <p><?php
+        if (Yii::app()->user->isSuperuser):
+            echo CHtml::link(Rights::t('core', 'Generate items for controller actions'), array('authItem/generate'), array(
+                'class' => 'generator-link',
+            ));
+        endif;
+        ?></p>
 
-	<p class="info">*) <?php echo Rights::t('core', 'Hover to see from where the permission is inherited.'); ?></p>
+    <?php
+    $this->widget('zii.widgets.grid.CGridView', array(
+        'dataProvider' => $dataProvider,
+        'template' => '{items}',
+        'emptyText' => Rights::t('core', 'No authorization items found.'),
+        'htmlOptions' => array('class' => 'grid-view permission-table'),
+        'columns' => $columns,
+    ));
+    ?>
 
-	<script type="text/javascript">
+    <p class="info">*) <?php echo Rights::t('core', 'Hover to see from where the permission is inherited.'); ?></p>
 
-		/**
-		* Attach the tooltip to the inherited items.
-		*/
-		jQuery('.inherited-item').rightsTooltip({
-			title:'<?php echo Rights::t('core', 'Source'); ?>: '
-		});
+    <script type="text/javascript">
 
-		/**
-		* Hover functionality for rights' tables.
-		*/
-		$('#rights tbody tr').hover(function() {
-			$(this).addClass('hover'); // On mouse over
-		}, function() {
-			$(this).removeClass('hover'); // On mouse out
-		});
+        /**
+         * Attach the tooltip to the inherited items.
+         */
+        jQuery('.inherited-item').rightsTooltip({
+            title: '<?php echo Rights::t('core', 'Source'); ?>: '
+        });
 
-	</script>
+        /**
+         * Hover functionality for rights' tables.
+         */
+        $('#rights tbody tr').hover(function() {
+            $(this).addClass('hover'); // On mouse over
+        }, function() {
+            $(this).removeClass('hover'); // On mouse out
+        });
+
+    </script>
 
 </div>

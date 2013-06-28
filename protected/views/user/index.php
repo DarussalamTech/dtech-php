@@ -62,14 +62,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
                 'style' => "text-align:left"
             )
         ),
-        array(
-            'name' => 'role_id',
-            'type' => 'Raw',
-            'value' => '!empty($data->role)?$data->role->role_title:""',
-            'headerHtmlOptions' => array(
-                'style' => "text-align:left"
-            )
-        ),
+
         array(
             'name' => 'status_id',
             'type' => 'Raw',

@@ -9,6 +9,7 @@ $this->widget('zii.widgets.CMenu', array(
 			'label'=>Rights::t('core', 'Assignments'),
 			'url'=>$this->createUrl('/rights/assignment/view'),
 			'itemOptions'=>array('class'=>'item-assignments'),
+                       
 		),
 		array(
 			'label'=>Rights::t('core', 'Permissions'),
@@ -24,11 +25,13 @@ $this->widget('zii.widgets.CMenu', array(
 			'label'=>Rights::t('core', 'Tasks'),
 			'url'=>array('authItem/tasks'),
 			'itemOptions'=>array('class'=>'item-tasks'),
+                        'visible'=>Yii::app()->user->isSuperuser?true:false,
 		),
 		array(
 			'label'=>Rights::t('core', 'Operations'),
 			'url'=>array('authItem/operations'),
 			'itemOptions'=>array('class'=>'item-operations'),
+                        'visible'=>Yii::app()->user->isSuperuser?true:false,
 		),
 	)
 ));	?>
