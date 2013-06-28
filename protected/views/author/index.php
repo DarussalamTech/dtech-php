@@ -43,13 +43,13 @@ $('.search-form form').submit(function(){
 
 <?php
 $template = "";
-if(isset($this->OpPermission["Author.View"]) && $this->OpPermission["Author.View"]){
+if(isset($this->OpPermission[ucfirst($this->id).".View"]) && $this->OpPermission[ucfirst($this->id).".View"]){
     $template.= "{view}";
 }
-if(isset($this->OpPermission["Author.Update"]) && $this->OpPermission["Author.Update"]){
+if(isset($this->OpPermission[ucfirst($this->id)."Update"]) && $this->OpPermission[ucfirst($this->id)."Update"]){
     $template.= "{update}";
 }
-if(isset($this->OpPermission["Author.Delete"]) && $this->OpPermission["Author.Delete"]){
+if(isset($this->OpPermission[ucfirst($this->id)."Delete"]) && $this->OpPermission[ucfirst($this->id)."Delete"]){
     $template.= "{delete}";
 }
 $this->widget('zii.widgets.grid.CGridView', array(
