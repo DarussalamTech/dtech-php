@@ -13,6 +13,8 @@ class AuthorController extends Controller {
         Yii::app()->theme = "admin";
         $operations = array('create', 'update', 'index', 'delete');
         parent::setPermissions($this->id, $operations);
+        
+
 
         return true;
     }

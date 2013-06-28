@@ -66,6 +66,7 @@ class AuthItemController extends Controller {
 
         $allowed_array = array('permissions',
             'operations',
+            'permissions',
             'tasks',
             'roles',
             'generate',
@@ -77,13 +78,14 @@ class AuthItemController extends Controller {
             'revoke',
             'sortable');
         if (!Yii::app()->user->isSuperuser) {
-            $allowed_array = array('permissions','roles',);
+            $allowed_array = array('permissions', 'roles', 'assign',
+                'revoke',);
         }
 
         return array(
             array('allow', // Allow superusers to access Rights
                 'actions' => $allowed_array,
-                 'expression' => 'Yii::app()->controller->checkSuper_CityAdminUser() == true'
+                'expression' => 'Yii::app()->controller->checkSuper_CityAdminUser() == true'
             ),
             array('deny', // Deny all users
                 'users' => array('*'),

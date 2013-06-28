@@ -96,6 +96,7 @@ class Authassignment extends CActiveRecord
         public function getNonAdminUsers(){
            $criteria = new CDbCriteria();
            $criteria->select = array("itemname","userid");
+           $criteria->distinct = "userid";
            $criteria->condition = "itemname<>'SuperAdmin' AND itemname<>'CityAdmin'";
            return CHtml::listData($this->findAll($criteria), "userid", "userid");
         }

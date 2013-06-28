@@ -139,7 +139,6 @@ class User extends DTActiveRecord {
         $levelList = array(
             self::LEVEL_CUSTOMER => 'Customer',
             self::LEVEL_ADMIN => 'SystemUsers',
-       
         );
         if ($level === null)
             return $levelList;
@@ -211,6 +210,19 @@ class User extends DTActiveRecord {
     }
 
     public function beforeSave() {
+
+        /*
+         * to handle the exception when 
+         * user name is empty then system will 
+         * assign user email as user name 
+         * by:ubd
+         */
+        if (empty($this->user_name)) {
+            $this->user_name = $this->user_email;
+        }
+
+
+
         if (empty($this->join_date)) {
             $this->join_date = date("Y-m-d");
         } else {

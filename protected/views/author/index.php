@@ -42,6 +42,16 @@ $('.search-form form').submit(function(){
 </div><!-- search-form -->
 
 <?php
+$template = "";
+if(isset($this->OpPermission["Author.View"]) && $this->OpPermission["Author.View"]){
+    $template.= "{view}";
+}
+if(isset($this->OpPermission["Author.Update"]) && $this->OpPermission["Author.Update"]){
+    $template.= "{update}";
+}
+if(isset($this->OpPermission["Author.Delete"]) && $this->OpPermission["Author.Delete"]){
+    $template.= "{delete}";
+}
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'author-grid',
     'dataProvider' => $model->search(),
@@ -57,6 +67,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         ),
         array(
             'class' => 'CButtonColumn',
+            'template'=>$template
         ),
     ),
 ));
