@@ -85,10 +85,7 @@ class AssignmentController extends Controller {
     public function actionView() {
 
         $criteria = new CDbCriteria();
-        if (!Yii::app()->user->isSuperuser) {
-            CVarDumper::dump(Authassignment::model()->getNonAdminUsers(),10,true);
-            $criteria->addInCondition("user_id", Authassignment::model()->getNonAdminUsers());
-        }
+ 
         $criteria->addCondition("role_id =2");
         // Create a data provider for listing the users
         $dataProvider = new RAssignmentDataProvider("", array(
