@@ -220,11 +220,18 @@ class ProductController extends Controller {
      * @throws CHttpException 
      */
     public function actionDeleteChildByAjax($id, $mName) {
-        if (Yii::app()->request->isPostRequest) {
+
+
+
+
+
+        if (Yii::app()->request->isAjaxRequest) {
             /* Get regarding model */
             $model = new $mName;
 
-            $model->findByPk($id)->delete();
+            $model = $model->findByPk($id);
+
+            $model->deleteByPk($id);
         }
         else
             throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
