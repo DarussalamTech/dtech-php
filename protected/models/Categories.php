@@ -42,7 +42,7 @@ class Categories extends DTActiveRecord {
         // will receive user inputs.
         return array(
             array('category_name, added_date, city_id', 'required'),
-            array('category_name','uniqueCategory'),
+            array('category_name', 'uniqueCategory'),
             //array('category_name','unique'),
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
             array('parent_id, city_id', 'numerical', 'integerOnly' => true),
@@ -52,20 +52,19 @@ class Categories extends DTActiveRecord {
             array('category_id, category_name, added_date, parent_id, city_id', 'safe', 'on' => 'search'),
         );
     }
-    
+
     /**
      * 
      */
-    public function uniqueCategory($attribute,$param){
+    public function uniqueCategory($attribute, $param) {
         $criteria = new CDbCriteria();
-        $criteria->addCondition("category_name ='".$this->$attribute."'");
-        $criteria->addCondition("city_id = ".$this->city_id);
-        if(!$this->isNewRecord){
-            $criteria->addCondition("category_id !='".$this->category_id."'");
-            
+        $criteria->addCondition("category_name ='" . $this->$attribute . "'");
+        $criteria->addCondition("city_id = " . $this->city_id);
+        if (!$this->isNewRecord) {
+            $criteria->addCondition("category_id !='" . $this->category_id . "'");
         }
-        
-        if($this->find($criteria)){
+
+        if ($this->find($criteria)) {
             $this->addError($attribute, "Category already exist");
         }
     }
@@ -102,12 +101,13 @@ class Categories extends DTActiveRecord {
      * @return type
      */
     public function allCategories($type = "", $parent_cat = 0) {
+        $city_id = isset(Yii::app()->session['city_id']) ? Yii::app()->session['city_id'] : $_REQUEST['city_id'];
 
         $criteriaC = new CDbCriteria(array(
             'select' => "COUNT(product_category_id ) as totalStock,t.category_id,t.category_name",
             'group' => 't.category_id',
             //'limit' => 14,
-            'condition' => "t.city_id=" . Yii::app()->session['city_id'] . " AND product.city_id=" . Yii::app()->session['city_id'], //parent id = 0 means category that is parent by itself.show only parent category in list
+            'condition' => "t.city_id=" . $city_id . " AND product.city_id=" . $city_id, //parent id = 0 means category that is parent by itself.show only parent category in list
             'order' => 'totalStock DESC',
         ));
         /**
@@ -218,7 +218,8 @@ class Categories extends DTActiveRecord {
      */
     public function getParentCategories() {
         $crtitera = new CDbCriteria();
-        $crtitera->addCondition("parent_id = 0 AND city_id = " . Yii::app()->session['city_id']);
+        $city_id = isset(Yii::app()->session['city_id']) ? Yii::app()->session['city_id'] : $_REQUEST['city_id'];
+        $crtitera->addCondition("parent_id = 0 AND city_id = " . $city_id);
         $crtitera->select = "category_id,category_name";
         $categories = CHtml::listData($this->findAll($crtitera), "category_id", "category_name");
 
@@ -236,10 +237,10 @@ class Categories extends DTActiveRecord {
      * return cateogores for menes
      * cateogry
      */
-    public function getchildrenCategory($parent_id = 0, $name = "", $order = "ASC",$limit = 2 ) {
-        $parent_id = ($name!="")?$this->getParentCategoryId($name):$parent_id;
+    public function getchildrenCategory($parent_id = 0, $name = "", $order = "ASC", $limit = 2) {
+        $parent_id = ($name != "") ? $this->getParentCategoryId($name) : $parent_id;
         $criteria = new CDbCriteria();
-        
+
         $criteria->addCondition("parent_id = " . $parent_id);
         $criteria->select = "category_name,category_id";
         $criteria->limit = $limit;
