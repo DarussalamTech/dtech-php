@@ -34,6 +34,11 @@
             </div>
             <?php
         }
+
+        /**
+         * Pcm temporary save session
+         */
+        $this->setTotalAmountSession($grand_total, $total_quantity, "");
         ?>
     </div>
     <div class="total">
