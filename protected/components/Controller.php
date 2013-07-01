@@ -447,7 +447,7 @@ class Controller extends RController {
     /**
      * set Total amount in session
      */
-    public function setTotalAmountSession($grand_total, $total_quantity, $description) {
+    public function setTotalAmountSession($grand_total, $total_quantity, $description ="") {
         Yii::app()->session['total_price'] = round($grand_total, 2);
         Yii::app()->session['quantity'] = $total_quantity;
         Yii::app()->session['description'] = $description;
