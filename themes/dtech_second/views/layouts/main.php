@@ -13,11 +13,13 @@
         <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl ?>/media/css/overlay.css" />
         <link rel="stylesheet" href="<?php echo Yii::app()->theme->baseUrl ?>/css/cart_view.css" />
         <link rel="stylesheet" href="<?php echo Yii::app()->theme->baseUrl ?>/css/page.css" />
-        
+
         <script type="text/javascript" src="<?php echo Yii::app()->theme->baseUrl ?>/js/dtech_new.js"></script>
         <script src="<?php echo Yii::app()->baseUrl; ?>/media/js/dtech.js"></script>
         <script type="text/javascript" src="<?php echo Yii::app()->theme->baseUrl ?>/js/msdropdown/jquery.dd.min.js"></script>
-
+        <script>
+            var yii_base_url = "<?php echo Yii::app()->baseUrl; ?>";
+        </script>
 
         <script type="text/javascript">
             $(document).ready(function() {
@@ -65,7 +67,7 @@
                             <?php
                             if (!Yii::app()->user->isGuest) {
                                 echo $this->renderPartial("//layouts/_logout_box");
-                            } else {    
+                            } else {
                                 $this->renderPartial("//layouts/_login_box");
                             }
                             ?>
