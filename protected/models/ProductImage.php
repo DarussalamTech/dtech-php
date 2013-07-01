@@ -176,7 +176,7 @@ class ProductImage extends DTActiveRecord {
 
         if (!empty($large_img)) {
            
-             $this->image_large = $its_t->getRanddomeNo(10);
+             $this->image_large = $its_t->getRanddomeNo(10).".".$large_img->extensionName;
              $this->image_small = str_replace(" ","_","small_" . $this->image_large);
         } else {
             $this->image_large = $this->oldLargeImg;
@@ -203,8 +203,8 @@ class ProductImage extends DTActiveRecord {
             $upload_path = DTUploadedFile::creeatRecurSiveDirectories($folder_array);
 
             $large_img->saveAs($upload_path . str_replace(" ","_",$this->image_large));
-
-            DTUploadedFile::createThumbs($upload_path . $large_img, $upload_path, 150, str_replace(" ","_","small_" . $this->image_large));
+           
+            DTUploadedFile::createThumbs($upload_path . $this->image_large, $upload_path, 150, str_replace(" ","_","small_" . $this->image_large));
             $this->deleteldImage();
         }
     }
