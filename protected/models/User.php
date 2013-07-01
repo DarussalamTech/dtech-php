@@ -136,9 +136,9 @@ class User extends DTActiveRecord {
     }
 
     static function getAccessLevelList($level = null) {
-        $levelList = array(
-            self::LEVEL_CUSTOMER => 'Customer',
+        $levelList = array(           
             self::LEVEL_ADMIN => 'SystemUsers',
+            self::LEVEL_CUSTOMER => 'Customer',
         );
         if ($level === null)
             return $levelList;
