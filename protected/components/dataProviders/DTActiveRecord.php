@@ -204,12 +204,12 @@ class DTActiveRecord extends CActiveRecord {
         $actions = array("login", "logout", "storehome", "activate");
 
         if (!in_array($controller, $controllers) && !in_array($this->_action, $actions) && !empty(Yii::app()->session['city_id'])) {
-            $isSuper = Yii::app()->session['isSuper'];
-            //$isSuper = 0;
 
-            if ($isSuper != 1 && array_key_exists('city_id', $this->attributes)) {
+            $city_id = isset(Yii::app()->session['city_id']) ? Yii::app()->session['city_id'] : $_REQUEST['city_id'];
+
+            if (!Yii::app()->user->isSuperuser && array_key_exists('city_id', $this->attributes)) {
                 if (!empty($condition)) {
-                    return " AND  t.city_id ='" . Yii::app()->session['city_id'] . "'  ";
+                    return " AND  t.city_id ='" . $city_id . "'  ";
                 }
                 return "   t.city_id ='" . Yii::app()->session['city_id'] . "'  ";
             }
@@ -232,11 +232,12 @@ class DTActiveRecord extends CActiveRecord {
             "install");
         $actions = array("login", "logout", "storehome", "activate"); // apply the criteria to all dtActiveRec execpt these methods..Ub
 
+        $city_id = isset(Yii::app()->session['city_id']) ? Yii::app()->session['city_id'] : $_REQUEST['city_id'];
+
         if (!in_array($controller, $controllers) && !in_array($this->_action, $actions) && !empty(Yii::app()->session['city_id'])) {
-            $isSuper = Yii::app()->session['isSuper'];
-            //$isSuper = 0;
-            if ($isSuper != 1 && array_key_exists('city_id', $this->attributes)) {
-                $criteria->addCondition("t.city_id ='" . Yii::app()->session['city_id'] . "'");
+
+            if (!Yii::app()->user->isSuperuser && array_key_exists('city_id', $this->attributes)) {
+                $criteria->addCondition("t.city_id ='" . $city_id . "'");
             }
         }
         return $criteria;
