@@ -9,8 +9,8 @@ $this->breadcrumbs = array(
     $model->product_id,
 );
 
-if(!(Yii::app()->user->isGuest)) {
-        $this->renderPartial("/common/_left_menu");
+if (!(Yii::app()->user->isGuest)) {
+    $this->renderPartial("/common/_left_menu");
 }
 ?>
 
@@ -24,7 +24,9 @@ if(!(Yii::app()->user->isGuest)) {
     <div class = "right_float">
         <span class="creatdate">
             <?php
-            echo CHtml::link("Edit", $this->createUrl("update", array("id" => $model->primaryKey)), array('class' => "print_link_btn"))
+            if (isset($this->OpPermission[ucfirst($this->id) . ".Update"]) && $this->OpPermission[ucfirst($this->id) . ".Update"]) {
+                echo CHtml::link("Edit", $this->createUrl("update", array("id" => $model->primaryKey)), array('class' => "print_link_btn"));
+            }
             ?>
         </span>
     </div>
@@ -40,23 +42,19 @@ $this->widget('zii.widgets.CDetailView', array(
         array(
             'name' => 'product_overview',
             'value' => $model->product_overview,
-            
         ),
         array(
             'name' => 'product_description',
             'value' => $model->product_description,
-            
         ),
         array(
             'name' => 'parent_cateogry_id',
-            'value' => !empty($model->parent_category)?$model->parent_category->category_name:"",
-            
+            'value' => !empty($model->parent_category) ? $model->parent_category->category_name : "",
         ),
         array(
             'name' => 'authors',
-            'value' => implode("/",$model->getAuthors()),
+            'value' => implode("/", $model->getAuthors()),
         ),
-
         array(
             'name' => 'create_time',
             'value' => $model->create_time,
@@ -65,29 +63,25 @@ $this->widget('zii.widgets.CDetailView', array(
             'name' => 'is_featured',
             'value' => $model->is_featured,
         ),
-
     ),
 ));
-/***
+/* * *
  * Pcm:
  * will only be use for some purposes
  * so dnt delete this line
  */
-echo CHtml::hiddenField("parent_cat_id",$model->parent_cateogry_id);
+echo CHtml::hiddenField("parent_cat_id", $model->parent_cateogry_id);
 /**
  * to handle parent cateogry flow
  */
-if($model->parent_category->category_name == "Others"){
+if ($model->parent_category->category_name == "Others") {
     $this->renderPartial('other/_container', array('model' => $model, "type" => "form"));
-}
-else if($model->parent_category->category_name == "Books") {
-     $this->renderPartial('productProfile/_container', array('model' => $model, "type" => "form"));
-}
-else if($model->parent_category->category_name == "Quran") {
-     $this->renderPartial('quranProfile/_container', array('model' => $model, "type" => "form"));
-}
-else if($model->parent_category->category_name == "Educational Toys") {
-     $this->renderPartial('educationToys/_container', array('model' => $model, "type" => "form"));
+} else if ($model->parent_category->category_name == "Books") {
+    $this->renderPartial('productProfile/_container', array('model' => $model, "type" => "form"));
+} else if ($model->parent_category->category_name == "Quran") {
+    $this->renderPartial('quranProfile/_container', array('model' => $model, "type" => "form"));
+} else if ($model->parent_category->category_name == "Educational Toys") {
+    $this->renderPartial('educationToys/_container', array('model' => $model, "type" => "form"));
 }
 $this->renderPartial('productCategories/_container', array('model' => $model, "type" => "form"));
 $this->renderPartial('discount/_container', array('model' => $model, "type" => "form"));
