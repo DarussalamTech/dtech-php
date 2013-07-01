@@ -59,9 +59,13 @@ class UserController extends Controller {
         if (isset($_POST['User'])) {
 
             $model->attributes = $_POST['User'];
+            $pass = $model->user_password;
 
             if ($model->save()) {
-
+                /**
+                 * will send the email to create user
+                 */
+                $this->sendUserCreateEmail($model, $pass);
                 $this->redirect(array('view', 'id' => $model->user_id));
             }
         }
@@ -70,6 +74,38 @@ class UserController extends Controller {
             'model' => $model,
             'cityList' => $cityList,
         ));
+    }
+
+    /**
+     * user creation email
+     */
+    public function sendUserCreateEmail($model, $password) {
+        $subject = "Your user is created  at " . Yii::app()->name;
+        $message = "";
+        if ($model->status_id == 2) {
+            $message = "
+                                    Your account is created  <br /><br />" .
+                    $this->createAbsoluteUrl('/web/user/activate', array('key' => $model->activation_key, 'user_id' => $model->user_id, 'city_id' => $model->city_id));
+        } else {
+            
+        }
+        /**
+         * 
+         */
+        if ($model->role_id == "2") {
+            $message.= "<br/>You are System User of ".$model->city->city_name;
+        }
+        $message.= "Your Password is : " . $password . "<br /><br /> Thanks you ";
+
+        $email['From'] = Yii::app()->params['adminEmail'];
+        $email['To'] = $model->user_email;
+        $email['Subject'] = $subject;
+        $body = "You are now registered on " . Yii::app()->name . ", please validate your email <br/>" . $message;
+
+        $email['Body'] = $body;
+        $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
+
+        $this->sendEmail2($email);
     }
 
     /**
