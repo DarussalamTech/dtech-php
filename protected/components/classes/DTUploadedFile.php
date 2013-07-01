@@ -117,6 +117,7 @@ class DTUploadedFile extends CUploadedFile {
         // open the directory
         // parse path for the extension
         $info = pathinfo($pathToImage);
+      
         // continue only if this is a JPEG image
         //echo "Creating thumbnail for {$pathToImage} <br />";
         // load image and get image size
