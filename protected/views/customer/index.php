@@ -40,9 +40,9 @@ $('.search-form form').submit(function(){
 </div><!-- search-form -->
 
 <?php
-$button_template = ' {enableimg} {disableimg} {enable} {disable}';
+$button_template = ' ';
 
-if (isset($this->OpPermission[ucfirst($this->id) . "Update"]) && $this->OpPermission[ucfirst($this->id) . "Update"]) {
+if (isset($this->OpPermission[ucfirst($this->id) . ".Update"]) && $this->OpPermission[ucfirst($this->id) . ".Update"]) {
     $button_template.= "{enableimg} {disableimg} {enable} {disable}";
 }
 

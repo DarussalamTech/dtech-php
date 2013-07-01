@@ -10,7 +10,11 @@ class UserIdentity extends CUserIdentity {
     private $id;
 
     public function authenticate() {
-        $user = User::model()->find('LOWER(user_email)=?', array(strtolower($this->username)));
+        $criteria = new CDbCriteria();
+        $condition = 'LOWER(user_email)="'.strtolower($this->username).'" OR user_name ="'.strtolower($this->username).'"';
+        $criteria->addCondition($condition);
+       
+        $user = User::model()->find($criteria);
 
         if ($user === null)
             $this->errorCode = self::ERROR_USERNAME_INVALID;
@@ -20,6 +24,7 @@ class UserIdentity extends CUserIdentity {
         else if ($user->status_id == '2')
             $this->errorCode = self::ERROR_PASSWORD_INVALID;
         else {
+            
 
             $this->id = $user->user_id;
             //$this->username=$user->user_name;
