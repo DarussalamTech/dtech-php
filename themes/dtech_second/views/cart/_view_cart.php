@@ -63,6 +63,11 @@
                             $total_quantity+=$pro->quantity;
                         }
                         echo $grand_total . ' <b>' . Yii::app()->session['currency'] . '</b>';
+
+                        /**
+                         * Pcm temporary save session
+                         */
+                        $this->setTotalAmountSession($grand_total, $total_quantity, "");
                         ?>
                     </span>   
 
