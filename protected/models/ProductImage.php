@@ -172,18 +172,20 @@ class ProductImage extends DTActiveRecord {
      */
     public function setUploadVars() {
         $large_img = DTUploadedFile::getInstance($this, '[' . $this->upload_key . ']image_large');
-       
+        $its_t = new DTFunctions();
 
         if (!empty($large_img)) {
            
-            $this->image_large = $large_img;
-            $this->image_small = "small_" . $large_img;
+             $this->image_large = $its_t->getRanddomeNo(10);
+             $this->image_small = str_replace(" ","_","small_" . $this->image_large);
         } else {
             $this->image_large = $this->oldLargeImg;
             $this->image_small = $this->oldSmallImg;
         }
 
-        $this->image_large;
+        //$this->image_large;
+        
+        
 
         
     }
@@ -196,14 +198,13 @@ class ProductImage extends DTActiveRecord {
         if (!empty($large_img)) {
 
 
-            $this->image_large = $large_img;
             $folder_array = array("product", $this->productProfile->primaryKey, "product_images", $this->id);
 
             $upload_path = DTUploadedFile::creeatRecurSiveDirectories($folder_array);
 
-            $large_img->saveAs($upload_path . $large_img->name);
+            $large_img->saveAs($upload_path . str_replace(" ","_",$this->image_large));
 
-            DTUploadedFile::createThumbs($upload_path . $this->image_large, $upload_path, 150, "small_" . $this->image_large);
+            DTUploadedFile::createThumbs($upload_path . $large_img, $upload_path, 150, str_replace(" ","_","small_" . $this->image_large));
             $this->deleteldImage();
         }
     }
