@@ -79,7 +79,9 @@ class DTActiveRecord extends CActiveRecord {
 
         $update_time = date("Y-m-d") . " " . date("H:i:s");
 
-        $this->attributes = CHtml::encodeArray($this->attributes);
+        if ($this->_controller != "product" && $this->_action == "viewImage") {
+            $this->attributes = CHtml::encodeArray($this->attributes);
+        }
         parent::beforeSave();
 
         return true;
