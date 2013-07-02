@@ -56,7 +56,7 @@ class ProductAttributes extends CActiveRecord {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'productAttributesConf' => array(self::BELONGS_TO, 'ProductAttributesConf', 'product_attribute_conf_id'),
+            'confProductAttributes' => array(self::BELONGS_TO, 'ConfProductAttributes', 'product_attribute_conf_id'),
         );
     }
 

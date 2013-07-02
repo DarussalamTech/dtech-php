@@ -8,9 +8,9 @@ $this->breadcrumbs = array(
 );
 ?>
 
-<h1>Book <?php echo $_GET['type']; ?></h1>
+<h1>Attributes <?php echo $_GET['type']; ?></h1>
 <?php
-$this->renderPartial("confProducts/_form", array("model" => $model));
+$this->renderPartial("ConfProductAttributes/_form", array("model" => $model));
 ?>
 <?php
 
@@ -23,7 +23,7 @@ $config = array(
         'condition' => 'type="' . $_GET['type'].'"',
     )
 );
-$provider = new CActiveDataProvider("ConfProducts", $config);
+$provider = new CActiveDataProvider("ConfProductAttributes", $config);
 
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'conf-products-grid',
