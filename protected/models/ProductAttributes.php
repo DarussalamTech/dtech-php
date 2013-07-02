@@ -74,12 +74,24 @@ class ProductAttributes extends CActiveRecord {
 
         return array(
             'productProfile' => array(self::BELONGS_TO, 'ProductProfile', 'product_profile_id'),
-            'conf_rel' => array(self::BELONGS_TO, 'ConfProductAttributes', 'product_attribute_conf_id', ),
+            'conf_rel' => array(self::BELONGS_TO, 'ConfProductAttributes', 'product_attribute_conf_id',),
             'books_rel' => array(self::BELONGS_TO, 'ConfProductAttributes', 'product_attribute_conf_id', 'condition' => 'type="Books"'),
             'others_rel' => array(self::BELONGS_TO, 'ConfProductAttributes', 'product_attribute_conf_id', 'condition' => 'type="Others"'),
             'quran_rel' => array(self::BELONGS_TO, 'ConfProductAttributes', 'product_attribute_conf_id', 'condition' => 'type="Quran"'),
             'edu_toys_rel' => array(self::BELONGS_TO, 'ConfProductAttributes', 'product_attribute_conf_id', 'condition' => 'type="Educational Toys"'),
         );
+    }
+
+    /*
+     * return additonal attributes 
+     */
+
+    public function ConfAttributes($profile_id) {
+        $criteria = new CDbCriteria();
+        $criteria->select = "product_attribute_conf_id,product_profile_id,attribute_value";
+        $criteria->condition = "product_profile_id = " . $profile_id;
+        $attributes = ProductAttributes::model()->findAll($criteria);
+        return $attributes;
     }
 
     /**
