@@ -97,6 +97,13 @@
 
 
     <section class="section_1">
+        <?php
+        if (!empty($product->productProfile[0]->title)) {
+            echo CHtml::openTag("section");
+            echo 'Title  : '.$product->productProfile[0]->title;
+            echo CHtml::closeTag("section");
+        }
+        ?>
         Available Languages: 
         <?php
         $languages = $product->getBookLanguages();
