@@ -56,7 +56,10 @@ class ProductAttributes extends CActiveRecord {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'confProductAttributes' => array(self::BELONGS_TO, 'ConfProductAttributes', 'product_attribute_conf_id'),
+            'books_rel' => array(self::BELONGS_TO, 'ConfProductAttributes', 'books', 'condition' => 'product_type="Books"'),
+            'others_rel' => array(self::BELONGS_TO, 'ConfProductAttributes', 'others', 'condition' => 'product_type="Others"'),
+            'quran_rel' => array(self::BELONGS_TO, 'ConfProductAttributes', 'quran', 'condition' => 'product_type="Quran"'),
+            'edu_toys_rel' => array(self::BELONGS_TO, 'ConfProductAttributes', 'educational_toys', 'condition' => 'product_type="Educational Toys"'),
         );
     }
 
