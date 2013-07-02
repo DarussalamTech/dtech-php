@@ -77,6 +77,7 @@ class ProductProfile extends DTActiveRecord {
             'orderDetails' => array(self::HAS_MANY, 'OrderDetail', 'product_profile_id'),
             'productLanguage' => array(self::BELONGS_TO, 'Language', 'language_id'),
             'productImages' => array(self::HAS_MANY, 'ProductImage', 'product_profile_id', 'order' => 'is_default DESC'),
+            'productAttributes' => array(self::HAS_MANY, 'ProductAttributes', 'product_profile_id'),
             /**
              * configuration relationship
              */

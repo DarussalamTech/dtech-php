@@ -8,7 +8,6 @@
  * @property integer $product_attribute_conf_id
  * @property integer $product_profile_id
  * @property string $attribute_value
- * @property double $price
  * @property string $create_time
  * @property string $create_user_id
  * @property string $update_time
@@ -41,11 +40,28 @@ class ProductAttributes extends CActiveRecord {
         return array(
             array('product_attribute_conf_id, product_profile_id, attribute_value ', 'required'),
             array('product_attribute_conf_id, product_profile_id', 'numerical', 'integerOnly' => true),
-            array('price', 'numerical'),
             array('product_attribute_conf_id, product_profile_id, attribute_value, create_time, create_user_id, update_time, update_user_id', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, product_attribute_conf_id, product_profile_id, attribute_value, price, create_time, create_user_id, update_time, update_user_id', 'safe', 'on' => 'search'),
+            array('id, product_attribute_conf_id, product_profile_id, attribute_value, create_time, create_user_id, update_time, update_user_id', 'safe', 'on' => 'search'),
+        );
+    }
+
+    /**
+     * Behaviour
+     *
+     */
+    public function behaviors() {
+        return array(
+            'CSaveRelationsBehavior' => array(
+                'class' => 'CSaveRelationsBehavior',
+                'relations' => array(
+                    'basicFeatures' => array("message" => "Please, fill required fields"),
+                ),
+            ),
+            'CMultipleRecords' => array(
+                'class' => 'CMultipleRecords'
+            ),
         );
     }
 
@@ -56,10 +72,12 @@ class ProductAttributes extends CActiveRecord {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'books_rel' => array(self::BELONGS_TO, 'ConfProductAttributes', 'books', 'condition' => 'product_type="Books"'),
-            'others_rel' => array(self::BELONGS_TO, 'ConfProductAttributes', 'others', 'condition' => 'product_type="Others"'),
-            'quran_rel' => array(self::BELONGS_TO, 'ConfProductAttributes', 'quran', 'condition' => 'product_type="Quran"'),
-            'edu_toys_rel' => array(self::BELONGS_TO, 'ConfProductAttributes', 'educational_toys', 'condition' => 'product_type="Educational Toys"'),
+            'productProfile' => array(self::BELONGS_TO, 'ProductProfile', 'product_profile_id'),
+            'conf_rel' => array(self::BELONGS_TO, 'ConfProductAttributes', 'product_attribute_conf_id', ),
+            'books_rel' => array(self::BELONGS_TO, 'ConfProductAttributes', 'product_attribute_conf_id', 'condition' => 'type="Books"'),
+            'others_rel' => array(self::BELONGS_TO, 'ConfProductAttributes', 'product_attribute_conf_id', 'condition' => 'type="Others"'),
+            'quran_rel' => array(self::BELONGS_TO, 'ConfProductAttributes', 'product_attribute_conf_id', 'condition' => 'type="Quran"'),
+            'edu_toys_rel' => array(self::BELONGS_TO, 'ConfProductAttributes', 'product_attribute_conf_id', 'condition' => 'type="Educational Toys"'),
         );
     }
 
@@ -72,7 +90,6 @@ class ProductAttributes extends CActiveRecord {
             'product_attribute_conf_id' => 'Product Attribute Conf',
             'product_profile_id' => 'Product Profile',
             'attribute_value' => 'Attribute Value',
-            'price' => 'Price',
             'create_time' => 'Create Time',
             'create_user_id' => 'Create User',
             'update_time' => 'Update Time',
@@ -94,7 +111,6 @@ class ProductAttributes extends CActiveRecord {
         $criteria->compare('product_attribute_conf_id', $this->product_attribute_conf_id);
         $criteria->compare('product_profile_id', $this->product_profile_id);
         $criteria->compare('attribute_value', $this->attribute_value, true);
-        $criteria->compare('price', $this->price);
         $criteria->compare('create_time', $this->create_time, true);
         $criteria->compare('create_user_id', $this->create_user_id, true);
         $criteria->compare('update_time', $this->update_time, true);
