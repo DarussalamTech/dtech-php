@@ -1,7 +1,7 @@
 <?php
 $relationName = "productAttributes";
 $mName = "ProductAttributes";
-$this->renderPartial("productProfile/_view", array("model" => $model));
+
 ?>
 <div class="<?php echo $relationName; ?> child" style="<?php echo 'display:block'; ?>">
     <?php

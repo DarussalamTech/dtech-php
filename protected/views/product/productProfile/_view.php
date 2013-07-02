@@ -88,5 +88,6 @@ $this->widget('zii.widgets.CDetailView', array(
 ));
 
 $this->renderPartial('productAttributes/_container', array('model' => $model, "type" => "form"));
+$this->renderPartial("productAttributes/_grid", array("id" => $model->id));
 $this->renderPartial('productImages/_container', array('model' => $model, "type" => "form"));
 ?>

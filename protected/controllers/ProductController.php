@@ -248,6 +248,7 @@ class ProductController extends Controller {
         $this->manageChild($model, "productImages", "productProfile", "", 0, $path);
         $this->manageChild($model, "productAttributes", "productProfile","",0,$path);
 
+     
         $this->render("productImages/_grid", array(
             "id" => $id,
             "model" => $model,
