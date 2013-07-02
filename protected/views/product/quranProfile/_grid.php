@@ -22,6 +22,16 @@ $mName = "Quran";
                 "type" => "raw",
             ),
             array(
+                'name' => 'title',
+                'value' => '$data->title',
+                "type" => "raw",
+            ),
+              array(
+                'name' => 'isbn',
+                'value' => '$data->isbn',
+                "type" => "raw",
+            ),
+            array(
                 'name' => 'language_id',
                 'value' => '!empty($data->productLanguage)?$data->productLanguage->language_name:""',
                 "type" => "raw",
@@ -61,11 +71,7 @@ $mName = "Quran";
                 'value' => '$data->no_of_pages',
                 "type" => "raw",
             ),
-            array(
-                'name' => 'isbn',
-                'value' => '$data->isbn',
-                "type" => "raw",
-            ),
+     
             array(
                 'name' => 'price',
                 'value' => '$data->price',

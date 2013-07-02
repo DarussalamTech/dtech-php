@@ -7,6 +7,7 @@
  * @property integer $id
  * @property integer $product_id
  * @property integer $item_code
+ * @property integer $title
  * @property integer $language_id
  * @property integer $discount_type
  * @property integer $discount_value
@@ -51,10 +52,15 @@ class ProductProfile extends DTActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('price,language_id,isbn', 'required'),
+            array('price,language_id', 'required'),
             array('item_code,isbn', 'unique'),
+            /**
+             * if item code set to automatic then it wont be requred
+             * other wise requried
+             */
+            array('item_code', Yii::app()->params['auto_item_code'] == 0 ? "required" : "safe"),
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
-            array('product_id', 'safe'),
+            array('title,product_id', 'safe'),
             array('id,size,no_of_pages,binding,printing,paper,edition,upload_index', 'safe'),
             array('dimension,translator_id,compiler_id', 'safe'),
             array('isbn', 'length', 'max' => 255),
@@ -236,7 +242,7 @@ class ProductProfile extends DTActiveRecord {
      */
 
     public function generateItemCode() {
-        if ($this->isNewRecord) {
+        if ($this->isNewRecord && Yii::app()->params['auto_item_code'] == 1) {
 
             $criteria = new CDbCriteria();
             $criteria->select = 'MAX(id) AS id';
@@ -248,6 +254,14 @@ class ProductProfile extends DTActiveRecord {
             $parent_category_name = substr(Categories::model()->findByPk($this->product->parent_cateogry_id)->category_name, 0, 1);
             $gen_code = strtoupper($city_name) . $parent_category_name . '-' . $last_product_id;
             $this->item_code = $gen_code;
+        }
+        /**
+         * if isbn no is empty then 
+         * it will be auto matic
+         */
+        if (empty($this->isbn)) {
+            $dt = new DTFunctions();
+            $this->isbn = "dt-" . time();
         }
     }
 
@@ -283,6 +297,21 @@ class ProductProfile extends DTActiveRecord {
         }
 
         return $images;
+    }
+
+    /**
+     * 
+     * @return type
+     */
+    public function afterFind() {
+        /**
+         * dt- means
+         * isbn is 
+         */
+        if (strstr($this->isbn, "dt-")) {
+            $this->isbn = "";
+        }
+        return parent::afterFind();
     }
 
 }

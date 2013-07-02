@@ -19,7 +19,29 @@ $relationName = "productProfile";
     echo CHtml::activeHiddenField($model, '[' . $index . ']upload_index', array("value" => $index));
     ?>
 
+    <?php
+    if (Yii::app()->params['auto_item_code'] == 0):
+        ?>
+        <div class="row">
+            <?php echo CHtml::activeLabelEx($model, 'item_code'); ?>
+            <?php
+            echo CHtml::activeTextField($model, '[' . $index . ']item_code')
+            ?>
+            <?php echo CHtml::error($model, 'item_code'); ?>
+        </div>
 
+        <?php
+    endif;
+    ?>
+    <div class="row">
+        <?php echo CHtml::activeLabelEx($model, 'title'); ?>
+        <?php
+        echo CHtml::activeTextField($model, '[' . $index . ']title')
+        ?>
+        <?php echo CHtml::error($model, 'title'); ?>
+    </div>
+
+    <div class="clear"></div>
     <div class="row">
         <?php echo CHtml::activeLabelEx($model, 'isbn'); ?>
         <?php

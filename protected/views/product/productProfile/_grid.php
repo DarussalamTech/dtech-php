@@ -10,6 +10,7 @@ $mName = "ProductProfile";
             'condition' => 'product_id=' . $model->primaryKey,
         )
     );
+    
     $mNameobj = new $mName;
     $mName_provider = new CActiveDataProvider($mName, $config);
     $this->widget('zii.widgets.grid.CGridView', array(
@@ -22,6 +23,11 @@ $mName = "ProductProfile";
                 "type" => "raw",
             ),
             array(
+                'name' => 'title',
+                'value' => '$data->title',
+                "type" => "raw",
+            ),
+            array(
                 'name' => 'isbn',
                 'value' => '$data->isbn',
                 "type" => "raw",
@@ -31,7 +37,6 @@ $mName = "ProductProfile";
                 'value' => '!empty($data->productLanguage)?$data->productLanguage->language_name:""',
                 "type" => "raw",
             ),
-
             array(
                 'name' => 'translator_id',
                 'value' => '!empty($data->translator_rel)?$data->translator_rel->name:""',
@@ -72,11 +77,7 @@ $mName = "ProductProfile";
                 'value' => '$data->no_of_pages',
                 "type" => "raw",
             ),
-            array(
-                'name' => 'isbn',
-                'value' => '$data->isbn',
-                "type" => "raw",
-            ),
+     
             array(
                 'name' => 'price',
                 'value' => '$data->price',

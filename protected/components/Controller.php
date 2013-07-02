@@ -65,6 +65,7 @@ class Controller extends RController {
 
 
         $this->setPages();
+        $this->installConfig();
         $this->registerWidget();
         $this->basePath = Yii::app()->basePath;
         if (strstr($this->basePath, "protected")) {
@@ -80,7 +81,7 @@ class Controller extends RController {
                 //'jquery-ui.min.js' => false,
                 //'jquery-ui.css' => false
         );
-        
+
         return true;
     }
 
@@ -116,7 +117,7 @@ class Controller extends RController {
             "SelfSite" => "View",
             "TranslatorCompiler" => "View",
             "User" => "View",
-            //"Assignment" => "View",
+                //"Assignment" => "View",
         );
     }
 
@@ -328,7 +329,7 @@ class Controller extends RController {
      * @param type $action
      *      based on action to view  
      */
-    public function getNavigation($pid = 0, $level = 0, $root_parent = 0, $pidArray = array(),$action = false) {
+    public function getNavigation($pid = 0, $level = 0, $root_parent = 0, $pidArray = array(), $action = false) {
 
         $model = Menu::model()->findAllByAttributes(array("pid" => $pid, "is_assigned" => "Yes"));
         $l = $level;
@@ -343,14 +344,12 @@ class Controller extends RController {
             }
             $foundAny = false;
             foreach ($model as $menu) {
-               
-                $operation = ($level==0)?$menu->min_permission:$menu->min_permission;
-            
-                
+
+                $operation = ($level == 0) ? $menu->min_permission : $menu->min_permission;
+
+
                 $childCount = Menu::model()->count("pid = $menu->id");
                 if (
-                        
-                
                         $menu->min_permission == "" || ($menu->min_permission != "" && $this->getPermission(ucfirst($menu->controller) . "." . ucfirst($operation)))
                 ) {
                     $foundAny = true;
@@ -369,7 +368,7 @@ class Controller extends RController {
                     $this->menuHtml .='</a>';
 
                     if (in_array($menu->id, $pidArray))
-                        $this->getNavigation($menu->id, $l, 0, $pidArray,true);
+                        $this->getNavigation($menu->id, $l, 0, $pidArray, true);
                     $this->menuHtml .='</li>';
                 }
             }
@@ -378,8 +377,6 @@ class Controller extends RController {
             $this->menuHtml .='<span class="noItemFound"></span>';
         $this->menuHtml .='</ul>';
     }
-
-
 
     /**
      * general mesg for sending 
@@ -447,7 +444,7 @@ class Controller extends RController {
     /**
      * set Total amount in session
      */
-    public function setTotalAmountSession($grand_total, $total_quantity, $description ="") {
+    public function setTotalAmountSession($grand_total, $total_quantity, $description = "") {
         Yii::app()->session['total_price'] = round($grand_total, 2);
         Yii::app()->session['quantity'] = $total_quantity;
         Yii::app()->session['description'] = $description;
@@ -487,6 +484,25 @@ class Controller extends RController {
 
     public function dtdump($var) {
         return CVarDumper::dump($var, 10, TRUE);
+    }
+
+    /*
+     * Install configurations
+     * for soical application
+     */
+
+    public function installConfig() {
+
+        $criteria = new CDbCriteria();
+        $criteria->addCondition("misc_type='other'");
+        $selected = array("dateformat", "auto_item_code");
+        $criteria->addInCondition("param", $selected);
+        $conf = ConfMisc::model()->findAll($criteria);
+        if (!empty($conf)) {
+            foreach ($conf as $data) {
+                Yii::app()->params[$data->param] = $data->value;
+            }
+        }
     }
 
 }
