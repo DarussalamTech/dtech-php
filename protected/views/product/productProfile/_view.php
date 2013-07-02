@@ -30,6 +30,10 @@ $this->widget('zii.widgets.CDetailView', array(
             'value' => $model->item_code,
         ),
         array(
+            'name' => 'isbn',
+            'value' => $model->isbn,
+        ),
+        array(
             'name' => 'language_id',
             'value' => $model->productLanguage->language_name,
         ),

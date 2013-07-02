@@ -22,15 +22,16 @@ $mName = "ProductProfile";
                 "type" => "raw",
             ),
             array(
+                'name' => 'isbn',
+                'value' => '$data->isbn',
+                "type" => "raw",
+            ),
+            array(
                 'name' => 'language_id',
                 'value' => '!empty($data->productLanguage)?$data->productLanguage->language_name:""',
                 "type" => "raw",
             ),
-//            array(
-//                'name' => 'size',
-//                'value' => '$data->size',
-//                "type" => "raw",
-//            ),
+
             array(
                 'name' => 'translator_id',
                 'value' => '!empty($data->translator_rel)?$data->translator_rel->name:""',

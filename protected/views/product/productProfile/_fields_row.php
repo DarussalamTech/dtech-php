@@ -19,6 +19,24 @@ $relationName = "productProfile";
     echo CHtml::activeHiddenField($model, '[' . $index . ']upload_index', array("value" => $index));
     ?>
 
+
+    <div class="row">
+        <?php echo CHtml::activeLabelEx($model, 'isbn'); ?>
+        <?php
+        echo CHtml::activeTextField($model, '[' . $index . ']isbn')
+        ?>
+        <?php echo CHtml::error($model, 'isbn'); ?>
+    </div>
+
+    <div class="row">
+        <?php echo CHtml::activeLabelEx($model, 'price'); ?>
+        <?php
+        echo CHtml::activeTextField($model, '[' . $index . ']price')
+        ?>
+        <?php echo CHtml::error($model, 'price'); ?>
+    </div>
+
+    <div class="clear"></div>
     <div class="row">
         <?php echo CHtml::activeLabelEx($model, 'language_id'); ?>
         <?php
@@ -37,7 +55,7 @@ $relationName = "productProfile";
         $criteria->select = "id,type,name";
         $criteria->condition = "type='translator'";
         $prod_pro = TranslatorCompiler::model()->findAll($criteria);
-        echo CHtml::activeDropDownList($model, '[' . $index . ']translator_id', CHtml::listData($prod_pro, "id", "name"),array('prompt'=>'Select a Translator'));
+        echo CHtml::activeDropDownList($model, '[' . $index . ']translator_id', CHtml::listData($prod_pro, "id", "name"), array('prompt' => 'Select a Translator'));
         ?>
         <?php echo CHtml::error($model, 'translator_id'); ?>
     </div>
@@ -53,7 +71,7 @@ $relationName = "productProfile";
         $criteria->condition = "type='compiler'";
         $prod_pro = TranslatorCompiler::model()->findAll($criteria);
         //CVarDumper::dump(CHtml::listData($prod_pro, "id", "type"),20,TRUE);die;        
-        echo CHtml::activeDropDownList($model, '[' . $index . ']compiler_id', CHtml::listData($prod_pro, "id", "name"),array('prompt'=>'Select a Compiler'));
+        echo CHtml::activeDropDownList($model, '[' . $index . ']compiler_id', CHtml::listData($prod_pro, "id", "name"), array('prompt' => 'Select a Compiler'));
         ?>
         <?php echo CHtml::error($model, 'compiler_id'); ?>
     </div>
@@ -64,7 +82,7 @@ $relationName = "productProfile";
         $criteria->select = "id,type,title";
         $criteria->condition = "type='Dimensions'";
         $prod_pro = ConfProducts::model()->findAll($criteria);
-        echo CHtml::activeDropDownList($model, '[' . $index . ']dimension', CHtml::listData($prod_pro, "id", "title"),array('prompt'=>'Select a Dimension'));
+        echo CHtml::activeDropDownList($model, '[' . $index . ']dimension', CHtml::listData($prod_pro, "id", "title"), array('prompt' => 'Select a Dimension'));
         ?>
         <?php echo CHtml::error($model, 'dimension'); ?>
     </div>
@@ -77,7 +95,7 @@ $relationName = "productProfile";
         $criteria->select = "id,type,title";
         $criteria->condition = "type='binding'";
         $prod_pro = ConfProducts::model()->findAll($criteria);
-        echo CHtml::activeDropDownList($model, '[' . $index . ']binding', CHtml::listData($prod_pro, "id", "title"),array('prompt'=>'Select a Binding'));
+        echo CHtml::activeDropDownList($model, '[' . $index . ']binding', CHtml::listData($prod_pro, "id", "title"), array('prompt' => 'Select a Binding'));
         ?>
         <?php echo CHtml::error($model, 'binding'); ?>
     </div>
@@ -88,7 +106,7 @@ $relationName = "productProfile";
         $criteria->select = "id,type,title";
         $criteria->condition = "type='printing'";
         $prod_pro = ConfProducts::model()->findAll($criteria);
-        echo CHtml::activeDropDownList($model, '[' . $index . ']printing', CHtml::listData($prod_pro, "id", "title"),array('prompt'=>'Select a Printing'));
+        echo CHtml::activeDropDownList($model, '[' . $index . ']printing', CHtml::listData($prod_pro, "id", "title"), array('prompt' => 'Select a Printing'));
         ?>
         <?php echo CHtml::error($model, 'printing'); ?>
     </div>
@@ -133,22 +151,6 @@ $relationName = "productProfile";
         <?php echo CHtml::error($model, 'edition'); ?>
     </div>
 
-    <div class="row">
-        <?php echo CHtml::activeLabelEx($model, 'isbn'); ?>
-        <?php
-        echo CHtml::activeTextField($model, '[' . $index . ']isbn')
-        ?>
-        <?php echo CHtml::error($model, 'isbn'); ?>
-    </div>
-
-    <div class="clear"></div>
-    <div class="row">
-        <?php echo CHtml::activeLabelEx($model, 'price'); ?>
-        <?php
-        echo CHtml::activeTextField($model, '[' . $index . ']price')
-        ?>
-        <?php echo CHtml::error($model, 'price'); ?>
-    </div>
 
 
 
