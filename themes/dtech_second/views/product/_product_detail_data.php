@@ -20,7 +20,7 @@
         Price: 
         <span>
             <?php
-            echo isset($product->educationToys[0]->price) ? round($product->educationToys[0]->price, 2).' '.Yii::app()->session['currency']  : "";
+            echo isset($product->educationToys[0]->price) ? round($product->educationToys[0]->price, 2) . ' ' . Yii::app()->session['currency'] : "";
             ?>
 
         </span>
@@ -188,6 +188,18 @@
                 echo ' / ' . $cat->category->category_name;
             }
             $cat_count++;
+        }
+        ?>
+    </section>
+    <section>
+        <?php
+        $profile_id = $product->productProfile[0]->id;
+        $attributes = ProductAttributes::model()->ConfAttributes($profile_id);
+
+        foreach ($attributes as $att) {
+            echo $att->books_rel->title, ' : ';
+            echo $att->attribute_value;
+            echo '</br>';
         }
         ?>
     </section>
