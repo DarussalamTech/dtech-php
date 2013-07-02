@@ -176,6 +176,18 @@
         echo isset($product->productProfile[0]->item_code) ? $product->productProfile[0]->item_code : "";
         ?>
     </section>
+    <section>
+        <?php
+        $profile_id = $product->productProfile[0]->id;
+        $attributes = ProductAttributes::model()->ConfAttributes($profile_id);
+
+        foreach ($attributes as $att) {
+            echo $att->books_rel->title, ' : ';
+            echo $att->attribute_value;
+            echo '</br>';
+        }
+        ?>
+    </section>
     <section>Category: <?php
         $cat_count = 0;
         foreach ($product->productCategories as $cat) {
