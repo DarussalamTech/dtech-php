@@ -87,7 +87,7 @@ var dtech_new = {
     },
     /*********** Listing page detail PopUp *****************************/
     registerPopUp: function() {
-        $("a.topopup").live('click', function() {
+        jQuery("a.topopup").live('click', function() {
             dtech_new.loading(); // loading
             setTimeout(function() { // then show popup, deley in .5 second
                 dtech_new.loadPopup(); // function show popup 
@@ -96,41 +96,41 @@ var dtech_new = {
         }); // end of event
 
 
-        $("div.close").live('hover',
+        jQuery("div.close").live('hover',
                 function() {
-                    $('span.ecs_tooltip').show();
+                    jQuery('span.ecs_tooltip').show();
                 },
                 function() {
-                    $('span.ecs_tooltip').hide();
+                    jQuery('span.ecs_tooltip').hide();
                 }
         );
 
-        $("div.close").live('click', function() {
+        jQuery("div.close").live('click', function() {
             dtech_new.disablePopup();  // function close pop up
         });
 
-        $(this).keyup(function(event) {
+        jQuery(this).keyup(function(event) {
             if (event.which == 27) { // 27 is 'Ecs' in the keyboard
                 dtech_new.disablePopup();  // function close pop up
             }
         });
 
-        $("div#backgroundPopup").click(function() {
+        jQuery("div#backgroundPopup").click(function() {
             dtech_new.disablePopup();  // function close pop up
         });
 
-        $('a.livebox').click(function() {
+        jQuery('a.livebox').click(function() {
             alert('Hello World!');
             return false;
         });
     },
     changeBookImgHover: function() {
-        $(".books_content a img").hover(
+        jQuery(".books_content a img").hover(
                 function() {
-                    $(this).attr("src", $(this).attr("hover_img"));
+                    jQuery(this).attr("src", $(this).attr("hover_img"));
                 },
                 function() {
-                    $(this).attr("src", $(this).attr("unhover_img"));
+                    jQuery(this).attr("src", $(this).attr("unhover_img"));
                 }
         );
 
@@ -138,16 +138,16 @@ var dtech_new = {
     loadPopup: function() {
         if (dtech_new.popupStatus == 0) { // if value is 0, show popup
             dtech_new.closeloading(); // fadeout loading
-            $("#toPopup").fadeIn(0500); // fadein popup div
-            $("#backgroundPopup").css("opacity", "0.7"); // css opacity, supports IE7, IE8
-            $("#backgroundPopup").fadeIn(0001);
+            jQuery("#toPopup").fadeIn(0500); // fadein popup div
+            jQuery("#backgroundPopup").css("opacity", "0.7"); // css opacity, supports IE7, IE8
+            jQuery("#backgroundPopup").fadeIn(0001);
             dtech_new.popupStatus = 1; // and set value to 1
         }
     },
     disablePopup: function() {
         if (dtech_new.popupStatus == 1) { // if value is 1, close popup
-            $("#toPopup").fadeOut("normal");
-            $("#backgroundPopup").fadeOut("normal");
+            jQuery("#toPopup").fadeOut("normal");
+            jQuery("#backgroundPopup").fadeOut("normal");
             dtech_new.popupStatus = 0;  // and set value to 0
         }
     },
@@ -158,7 +158,7 @@ var dtech_new = {
         $("div.loader").fadeOut('normal');
     },
     showBestSeller: function() {
-        $(".under_best_seller").toggle('fast');
+        jQuery(".under_best_seller").toggle('fast');
     },
     registerCountryDropDown: function() {
         jQuery("#countries").msDropdown();

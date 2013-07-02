@@ -48,6 +48,14 @@
                             )) . '</li>' .
                         '<li>' . CHtml::link('Translator Compiler', array('/translatorCompiler/index', 
                             )) . '</li>' .
+                        '<li>' . CHtml::link('Book Attributes', array('/configurations/load', 
+                            "m" => "ProductAttributes","type"=>"Books")) . '</li>' .
+                        '<li>' . CHtml::link('Quran Attributes', array('/configurations/load', 
+                            "m" => "ProductAttributes","type"=>"Quran")) . '</li>' .
+                        '<li>' . CHtml::link('Educational Toys Attributes', array('/configurations/load', 
+                            "m" => "ProductAttributes","type"=>"Educational Toys")) . '</li>' .
+                        '<li>' . CHtml::link('Others Attributes', array('/configurations/load', 
+                            "m" => "ProductAttributes","type"=>"Others")) . '</li>' .
                         '</ul>',
                     ),
                     // additional javascript options for the accordion plugin

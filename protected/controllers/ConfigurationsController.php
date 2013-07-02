@@ -55,8 +55,13 @@ class ConfigurationsController extends Controller {
      * @param <int> $id
      */
     public function actionLoad($m, $id = 0, $module = '', $type = '') {
+        
         if ($type != "general") {
             $this->loadConfig($m, $id, $module, $type);
+        }
+        else {
+             
+             $this->loadConfig($m, $id, $module, $type);
         }
     }
 
@@ -70,6 +75,7 @@ class ConfigurationsController extends Controller {
     public function loadConfig($m, $id = 0, $module = '', $type = '') {
         /* Complete Model name */
         $model_name = 'Conf' . $m;
+     
 
         $model = new $model_name;
 
@@ -103,7 +109,6 @@ class ConfigurationsController extends Controller {
                 }
             };
         }
-
 
         $this->render($model->confViewName, array('model' => $model, 'm' => $m, 'module' => $module));
     }
@@ -149,6 +154,7 @@ class ConfigurationsController extends Controller {
      * @param type $type
      */
     public function actionDeleteOther($m, $id = 0, $module = '', $type = '') {
+  
         $this->delete($m, $id, $module, $type);
     }
 
@@ -161,6 +167,7 @@ class ConfigurationsController extends Controller {
      */
     public function delete($m, $id = 0, $module = '', $type = '') {
         $model_name = 'Conf' . $m;
+     
 
         $model = $model_name::model()->findByPk($id);
         $model->delete();

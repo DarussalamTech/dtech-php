@@ -6,13 +6,15 @@
  * The followings are the available columns in table 'product_attributes_conf':
  * @property integer $id
  * @property string $title
- * @property string $product_type
+ * @property string $type
  * @property string $create_time
  * @property string $create_user_id
  * @property string $update_time
  * @property string $update_user_id
  */
-class ProductAttributesConf extends CActiveRecord {
+class ConfProductAttributes extends DTActiveRecord {
+
+    public $confViewName = 'ConfProductAttributes/index';
 
     /**
      * Returns the static model of the specified AR class.
@@ -27,7 +29,7 @@ class ProductAttributesConf extends CActiveRecord {
      * @return string the associated database table name
      */
     public function tableName() {
-        return 'product_attributes_conf';
+        return 'conf_product_attributes';
     }
 
     /**
@@ -37,11 +39,12 @@ class ProductAttributesConf extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('title, product_type', 'required'),
-            array('title, product_type, create_time, create_user_id, update_time, update_user_id', 'safe'),
+            array('title, type', 'required'),
+            array("title","unique"),
+            array('title, type, create_time, create_user_id, update_time, update_user_id', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, title, product_type, create_time, create_user_id, update_time, update_user_id', 'safe', 'on' => 'search'),
+            array('id, title, type, create_time, create_user_id, update_time, update_user_id', 'safe', 'on' => 'search'),
         );
     }
 
@@ -64,7 +67,7 @@ class ProductAttributesConf extends CActiveRecord {
         return array(
             'id' => 'ID',
             'title' => 'Title',
-            'product_type' => 'Product Type',
+            'type' => 'Type',
             'create_time' => 'Create Time',
             'create_user_id' => 'Create User',
             'update_time' => 'Update Time',
@@ -84,7 +87,7 @@ class ProductAttributesConf extends CActiveRecord {
 
         $criteria->compare('id', $this->id);
         $criteria->compare('title', $this->title, true);
-        $criteria->compare('product_type', $this->product_type, true);
+        $criteria->compare('type', $this->type, true);
         $criteria->compare('create_time', $this->create_time, true);
         $criteria->compare('create_user_id', $this->create_user_id, true);
         $criteria->compare('update_time', $this->update_time, true);

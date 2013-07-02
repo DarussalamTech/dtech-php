@@ -1,16 +1,16 @@
 <script type="text/javascript">
 
 
-    $(document).ready(function() {
-        $('div.read_more').slideToggle();
+    jQuery(document).ready(function() {
+        jQuery('div.read_more').slideToggle();
 
-        $('#more').click(function() {
-            $('div.brief').hide();
-            $('div.read_more').slideToggle('slow');
+        jQuery('#more').click(function() {
+            jQuery('div.brief').hide();
+            jQuery('div.read_more').slideToggle('slow');
         });
-        $('#close').click(function() {
-            $('div.brief').slideToggle('slow');
-            $('div.read_more').slideToggle('slow');
+        jQuery('#close').click(function() {
+            jQuery('div.brief').slideToggle('slow');
+            jQuery('div.read_more').slideToggle('slow');
         });
 
 

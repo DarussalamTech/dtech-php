@@ -7,7 +7,9 @@
     <div class = "right_float">
         <span class="creatdate">
             <?php
-            echo CHtml::link("Update Book", $this->createUrl("update", array("id" => $model->product->product_id)), array('class' => "print_link_btn"))
+            if (isset($this->OpPermission[ucfirst($this->id) . ".Update"]) && $this->OpPermission[ucfirst($this->id) . ".Update"]) {
+                echo CHtml::link("Update Book", $this->createUrl("update", array("id" => $model->product->product_id)), array('class' => "print_link_btn"));
+            }
             ?>
         </span>
         <span class="creatdate">
@@ -45,32 +47,32 @@ $this->widget('zii.widgets.CDetailView', array(
         ),
         array(
             'name' => 'translator_id',
-            'value' => !empty($model->translator_rel)?$model->translator_rel->name:"",
+            'value' => !empty($model->translator_rel) ? $model->translator_rel->name : "",
             "type" => "raw",
         ),
         array(
             'name' => 'compiler_id',
-            'value' => !empty($model->compiler_rel)?$model->compiler_rel->name:"",
+            'value' => !empty($model->compiler_rel) ? $model->compiler_rel->name : "",
             "type" => "raw",
         ),
         array(
             'name' => 'binding',
-            'value' => !empty($model->binding_rel)?$model->binding_rel->title:"",
+            'value' => !empty($model->binding_rel) ? $model->binding_rel->title : "",
             "type" => "raw",
         ),
         array(
             'name' => 'dimension',
-            'value' => !empty($model->dimension_rel)?$model->dimension_rel->title:"",
+            'value' => !empty($model->dimension_rel) ? $model->dimension_rel->title : "",
             "type" => "raw",
         ),
         array(
             'name' => 'paper',
-            'value' => !empty($model->paper_rel)?$model->paper_rel->title:"",
+            'value' => !empty($model->paper_rel) ? $model->paper_rel->title : "",
             "type" => "raw",
         ),
         array(
             'name' => 'printing',
-            'value' => !empty($model->printing_rel)?$model->printing_rel->title:"",
+            'value' => !empty($model->printing_rel) ? $model->printing_rel->title : "",
             "type" => "raw",
         ),
         array(
