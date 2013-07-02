@@ -65,6 +65,7 @@ class Controller extends RController {
 
 
         $this->setPages();
+        $this->installConfig();
         $this->registerWidget();
         $this->basePath = Yii::app()->basePath;
         if (strstr($this->basePath, "protected")) {
@@ -503,6 +504,25 @@ class Controller extends RController {
 
     public function dtdump($var) {
         return CVarDumper::dump($var, 10, TRUE);
+    }
+
+    /*
+     * Install configurations
+     * for soical application
+     */
+
+    public function installConfig() {
+
+        $criteria = new CDbCriteria();
+        $criteria->addCondition("misc_type='other'");
+        $selected = array("dateformat", "auto_item_code");
+        $criteria->addInCondition("param", $selected);
+        $conf = ConfMisc::model()->findAll($criteria);
+        if (!empty($conf)) {
+            foreach ($conf as $data) {
+                Yii::app()->params[$data->param] = $data->value;
+            }
+        }
     }
 
 }
