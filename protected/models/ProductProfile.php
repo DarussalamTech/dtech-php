@@ -51,15 +51,15 @@ class ProductProfile extends DTActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('price,language_id', 'required'),
-            array('item_code', 'unique'),
+            array('price,language_id,isbn', 'required'),
+            array('item_code,isbn', 'unique'),
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
             array('product_id', 'safe'),
             array('id,size,no_of_pages,binding,printing,paper,edition,upload_index', 'safe'),
             array('dimension,translator_id,compiler_id', 'safe'),
             array('isbn', 'length', 'max' => 255),
             array('price', 'numerical', 'integerOnly' => FALSE),
-            array('language_id', 'UniqueLanguage'),
+            //array('language_id', 'UniqueLanguage'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('profile_id, author_id, isbn', 'safe', 'on' => 'search'),
@@ -181,7 +181,7 @@ class ProductProfile extends DTActiveRecord {
         return array(
             'profile_id' => 'Profile',
             'product_id' => 'Product',
-            'isbn' => 'Isbn',
+            'isbn' => 'ISBN',
             'price' => 'Price',
             'no_of_pages' => 'No Of Pages',
             'binding' => 'Binding',
