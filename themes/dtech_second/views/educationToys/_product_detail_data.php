@@ -84,6 +84,18 @@
         echo isset($product->educationToys[0]->item_code) ? $product->educationToys[0]->item_code : "";
         ?>
     </section>
+    <section>
+        <?php
+        $profile_id = $product->productProfile[0]->id;
+        $attributes = ProductAttributes::model()->ConfAttributes($profile_id);
+
+        foreach ($attributes as $att) {
+            echo $att->books_rel->title, ' : ';
+            echo $att->attribute_value;
+            echo '</br>';
+        }
+        ?>
+    </section>
     <section>Category: <?php
         if (!empty($product->productCategories)) {
             $cat_count = 0;
