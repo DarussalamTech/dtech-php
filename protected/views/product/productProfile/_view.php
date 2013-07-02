@@ -30,6 +30,10 @@ $this->widget('zii.widgets.CDetailView', array(
             'value' => $model->item_code,
         ),
         array(
+            'name' => 'isbn',
+            'value' => $model->isbn,
+        ),
+        array(
             'name' => 'language_id',
             'value' => $model->productLanguage->language_name,
         ),
@@ -83,5 +87,7 @@ $this->widget('zii.widgets.CDetailView', array(
     ),
 ));
 
+$this->renderPartial('productAttributes/_container', array('model' => $model, "type" => "form"));
+$this->renderPartial("productAttributes/_grid", array("id" => $model->id));
 $this->renderPartial('productImages/_container', array('model' => $model, "type" => "form"));
 ?>

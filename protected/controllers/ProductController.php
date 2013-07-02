@@ -246,7 +246,9 @@ class ProductController extends Controller {
         $model = ProductProfile::model()->findByPk($id);
         $path = $this->createUrl("viewImage", array("id" => $id));
         $this->manageChild($model, "productImages", "productProfile", "", 0, $path);
+        $this->manageChild($model, "productAttributes", "productProfile","",0,$path);
 
+     
         $this->render("productImages/_grid", array(
             "id" => $id,
             "model" => $model,

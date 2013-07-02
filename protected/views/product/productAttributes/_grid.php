@@ -1,7 +1,6 @@
 <?php
-$relationName = "productImages";
-$mName = "ProductImage";
-$this->renderPartial("productProfile/_view", array("model" => $model));
+$relationName = "productAttributes";
+$mName = "ProductAttributes";
 
 ?>
 <div class="<?php echo $relationName; ?> child" style="<?php echo 'display:block'; ?>">
@@ -18,18 +17,14 @@ $this->renderPartial("productProfile/_view", array("model" => $model));
         'dataProvider' => $mName_provider,
         'columns' => array(
             array(
-                'name' => 'image_small',
-                'value' => 'CHtml::link($data->image_small,$data->image_url["image_large"],array("rel" => "lightbox[_default]"))',
-                "type" => "raw",
+                'name' => 'product_attribute_conf_id',
+                'value' => '$data->conf_rel->title'
             ),
             array(
-                'name' => 'image_large',
-                'value' => '$data->image_large'
+                'name' => 'attribute_value',
+                'value' => '$data->attribute_value'
             ),
-            array(
-                'name' => 'is_default',
-                'value' => '($data->is_default==1)?"Yes":"No"'
-            ),
+           
             array
                 (
                 'class' => 'CButtonColumn',
