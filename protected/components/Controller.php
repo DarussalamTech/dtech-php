@@ -71,6 +71,8 @@ class Controller extends RController {
             $this->basePath = realPath($this->basePath . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR);
         }
 
+        $this->isChangeAdminCity();
+
         /**
          * Check if script is already loaded then not reload it.
          * This is used in case of ajax calls.
@@ -80,7 +82,7 @@ class Controller extends RController {
                 //'jquery-ui.min.js' => false,
                 //'jquery-ui.css' => false
         );
-        
+
         return true;
     }
 
@@ -116,7 +118,7 @@ class Controller extends RController {
             "SelfSite" => "View",
             "TranslatorCompiler" => "View",
             "User" => "View",
-            //"Assignment" => "View",
+                //"Assignment" => "View",
         );
     }
 
@@ -190,6 +192,24 @@ class Controller extends RController {
      */
     public function checkViewAccess($operation) {
         return Yii::app()->user->checkAccess($operation);
+    }
+
+    /*
+     * to check if admin change his city 
+     * which is not allowed with sessions
+     */
+
+    public function isChangeAdminCity() {
+       
+        if (!empty($this->controllers)) {
+             $controllers = array_keys($this->controllers);
+           
+            if (in_array(ucfirst($this->id),$controllers) && Yii::app()->user->User->city_id != Yii::app()->session['city_id']) {
+                
+                Yii::app()->user->logout();
+                 //$this->redirect(Yii::app()->homeUrl);
+            }
+        }
     }
 
     /**
@@ -328,7 +348,7 @@ class Controller extends RController {
      * @param type $action
      *      based on action to view  
      */
-    public function getNavigation($pid = 0, $level = 0, $root_parent = 0, $pidArray = array(),$action = false) {
+    public function getNavigation($pid = 0, $level = 0, $root_parent = 0, $pidArray = array(), $action = false) {
 
         $model = Menu::model()->findAllByAttributes(array("pid" => $pid, "is_assigned" => "Yes"));
         $l = $level;
@@ -343,14 +363,12 @@ class Controller extends RController {
             }
             $foundAny = false;
             foreach ($model as $menu) {
-               
-                $operation = ($level==0)?$menu->min_permission:$menu->min_permission;
-            
-                
+
+                $operation = ($level == 0) ? $menu->min_permission : $menu->min_permission;
+
+
                 $childCount = Menu::model()->count("pid = $menu->id");
                 if (
-                        
-                
                         $menu->min_permission == "" || ($menu->min_permission != "" && $this->getPermission(ucfirst($menu->controller) . "." . ucfirst($operation)))
                 ) {
                     $foundAny = true;
@@ -369,7 +387,7 @@ class Controller extends RController {
                     $this->menuHtml .='</a>';
 
                     if (in_array($menu->id, $pidArray))
-                        $this->getNavigation($menu->id, $l, 0, $pidArray,true);
+                        $this->getNavigation($menu->id, $l, 0, $pidArray, true);
                     $this->menuHtml .='</li>';
                 }
             }
@@ -378,8 +396,6 @@ class Controller extends RController {
             $this->menuHtml .='<span class="noItemFound"></span>';
         $this->menuHtml .='</ul>';
     }
-
-
 
     /**
      * general mesg for sending 
@@ -447,7 +463,7 @@ class Controller extends RController {
     /**
      * set Total amount in session
      */
-    public function setTotalAmountSession($grand_total, $total_quantity, $description ="") {
+    public function setTotalAmountSession($grand_total, $total_quantity, $description = "") {
         Yii::app()->session['total_price'] = round($grand_total, 2);
         Yii::app()->session['quantity'] = $total_quantity;
         Yii::app()->session['description'] = $description;
