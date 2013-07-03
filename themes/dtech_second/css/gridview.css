@@ -16,7 +16,7 @@
     border-collapse: collapse;
     width: 100%;
     border: 1px #E9E9E9 solid;
-    font-size:13px;
+    font-size:12px;
 }
 
 
@@ -112,7 +112,7 @@
 }
 .grid-view .summary
 {
-    
+
     margin: 0px; padding: 5px;
     text-align: left; font-size: 12px;
     width:48%;
@@ -182,7 +182,7 @@ footer row of grid
     font-weight: bold;
 }
 
- use for Pgrid countcolumn 
+use for Pgrid countcolumn 
 .pointerlabel label
 {
     cursor: pointer;
@@ -198,11 +198,11 @@ used in the css of status Report grid if location is not empty
 * ----------- extra css used for media wike ******
 #content div div table.items td a
 {
-	float:left;
-	clear:both;
-	color:#333;
-	font-size:11px;
-	text-decoration:underline;
+    float:left;
+    clear:both;
+    color:#333;
+    font-size:11px;
+    text-decoration:underline;
 }
 input.error
 {

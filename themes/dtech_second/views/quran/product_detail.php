@@ -27,6 +27,9 @@ $this->webPcmWidget['best'] = array('name' => 'DtechBestSelling',
 
     </div>
 </div>
+<div id="right_description">
+    <?php $this->renderPartial("//quran/_profile_items", array("product" => $product)) ?>
+</div>
 <?php $this->renderPartial("//product/_editorial_reviews", array("product" => $product, "rating_value" => $rating_value)); ?>   
 <?php //$this->renderPartial("//product/_related_products", array("product" => $product, "rating_value" => $rating_value)); ?>
 <?php $this->renderPartial("//product/_product_comments", array("product" => $product, "rating_value" => $rating_value)); ?>

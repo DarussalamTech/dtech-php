@@ -52,17 +52,16 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'buttons' => array
                 (
                 'view' => array(
-                    'url' => 'Yii::app()->controller->createUrl("/web/product/productDetailLang", array("id" => '.$product->product_id.',"profile_id"=>$data->id)) ',
+                    'url' => 'Yii::app()->controller->createUrl("/web/quran/productDetailLang", array("id" => $data->id)) ',
                     'click' => "js:function() {
                                             jQuery('#loading').toggle();
                                             jQuery.ajax({
                                                 url: jQuery(this).attr('href'),
-                                                dataType: 'json',
-                                                
+                                                 dataType: 'json',
                                                 success: function(response)
                                                 {
                                                     jQuery('#loading').hide();
-                                                    console.log(response);    
+   
                                                     jQuery('#img_detail').html(response['left_data']);
                                                     jQuery('#prod_detail').html(response['right_data']);
                                                 }

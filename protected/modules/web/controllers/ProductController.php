@@ -193,6 +193,7 @@ class ProductController extends Controller {
             throw new CHttpException(500, "   Sorry ! Record Not found");
         }
     }
+
     /**
      * Prview detail
      */
@@ -219,17 +220,23 @@ class ProductController extends Controller {
     /**
      * product detail change
      */
-    public function actionproductDetailLang($id) {
+    public function actionproductDetailLang($id = "") {
 
-        if (isset($_POST['lang_id'])) {
+        if (isset($_POST['lang_id']) || isset($_REQUEST['profile_id'])) {
 
 
             Yii::app()->user->SiteSessions;
             $product = Product::model();
 
             $product = $product->findByPk($id);
-            $product->productProfile = $product->productSelectedProfile;
-
+            
+            if(!empty($_POST['lang_id'])){
+                $product->productProfile = $product->productSelectedProfile;
+            }
+            else if(!empty($_REQUEST['profile_id'])){
+                $product->productProfile = $product->productloadProfile;
+                
+            }
 
             /**
              *  getting value of poduct rating
