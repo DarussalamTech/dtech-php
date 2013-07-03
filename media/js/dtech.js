@@ -384,5 +384,12 @@ var dtech = {
         var left = (screen.width / 2) - (w / 2);
         var top = (screen.height / 2) - (h / 2);
         return window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, copyhistory=no, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+    },
+    disabledPrview: function() {
+        jQuery(".add_to_cart_button input").attr("disabled", "disabled");
+
+        jQuery("body").click(function(event) {
+            event.preventDefault();
+        })
     }
 }
