@@ -26,7 +26,7 @@ $mName = "Quran";
                 'value' => '$data->title',
                 "type" => "raw",
             ),
-              array(
+            array(
                 'name' => 'isbn',
                 'value' => '$data->isbn',
                 "type" => "raw",
@@ -71,10 +71,14 @@ $mName = "Quran";
                 'value' => '$data->no_of_pages',
                 "type" => "raw",
             ),
-     
             array(
                 'name' => 'price',
                 'value' => '$data->price',
+                "type" => "raw",
+            ),
+            array(
+                'name' => 'quantity',
+                'value' => '$data->quantity',
                 "type" => "raw",
             ),
             array

@@ -12,6 +12,7 @@
  * @property integer $discount_type
  * @property integer $discount_value
  * @property integer $language_id
+ * @property integer $quantity
  * @property string $isbn
  * @property string $price
  *
@@ -64,7 +65,7 @@ class ProductProfile extends DTActiveRecord {
             array('id,size,no_of_pages,binding,printing,paper,edition,upload_index', 'safe'),
             array('dimension,translator_id,compiler_id,quantity', 'safe'),
             array('isbn', 'length', 'max' => 255),
-            array('price', 'numerical', 'integerOnly' => FALSE),
+            array('price,quantity', 'numerical', 'integerOnly' => FALSE),
             //array('language_id', 'UniqueLanguage'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.

@@ -13,6 +13,18 @@ class CartController extends Controller {
 
         $ip = Yii::app()->request->getUserHostAddress();
         $cart_model = new Cart();
+
+        $criteria = new CDbCriteria();
+        $criteria->select = "quantity";
+        $product_pf = ProductProfile::model()->findByPk($_REQUEST['product_profile_id'], $criteria);
+
+        /**
+         * get particular product counter in cart
+         */
+        $total_in_cart = Cart::model()->getTotalCountProduct($_REQUEST['product_profile_id']);
+
+        $total_available = $product_pf->quantity - $total_in_cart;
+
         if (isset(Yii::app()->user->id)) {
             $cart = $cart_model->find('product_profile_id=' . $_REQUEST['product_profile_id'] . ' AND (user_id=' . Yii::app()->user->id . ' OR session_id="' . $ip . '")');
             $ip = '';
@@ -32,16 +44,16 @@ class CartController extends Controller {
             $cart_model->session_id = $ip;
         }
 
-        $cart_model->save();
-
-
+        if ($total_available > 0) {
+            $cart_model->save();
+        }
         //count total added products in cart
-        
+
         $cart_tot = Cart::model()->getCartListCount();
 
-        echo CJSON::encode(array('product_profile_id' => $_REQUEST['product_profile_id'], 'cart_counter' => $cart_tot['cart_total']));
+        echo CJSON::encode(array('product_profile_id' => $_REQUEST['product_profile_id'], 'cart_counter' => $cart_tot['cart_total'], "total_available" => $total_available));
     }
-    
+
     /**
      * 
      */

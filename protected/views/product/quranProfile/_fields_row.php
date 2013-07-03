@@ -171,8 +171,13 @@ $relationName = "productProfile";
         <?php echo CHtml::error($model, 'price'); ?>
     </div>
 
-
-
+    <div class="row">
+        <?php echo CHtml::activeLabelEx($model, 'quantity'); ?>
+        <?php
+        echo CHtml::activeTextField($model, '[' . $index . ']quantity')
+        ?>
+        <?php echo CHtml::error($model, 'quantity'); ?>
+    </div>
 
     <div class="clear"></div>
 

@@ -10,7 +10,7 @@ $mName = "ProductProfile";
             'condition' => 'product_id=' . $model->primaryKey,
         )
     );
-    
+
     $mNameobj = new $mName;
     $mName_provider = new CActiveDataProvider($mName, $config);
     $this->widget('zii.widgets.grid.CGridView', array(
@@ -77,10 +77,14 @@ $mName = "ProductProfile";
                 'value' => '$data->no_of_pages',
                 "type" => "raw",
             ),
-     
             array(
                 'name' => 'price',
                 'value' => '$data->price',
+                "type" => "raw",
+            ),
+            array(
+                'name' => 'quantity',
+                'value' => '$data->quantity',
                 "type" => "raw",
             ),
             array

@@ -173,6 +173,24 @@
                             ?>
                             (7)
                         </article>
+
+                        <p>More Available: 
+                            <?php
+                            /**
+                             * get particular product counter in cart
+                             */
+                            $criteria = new CDbCriteria();
+                            $criteria->select = "quantity";
+                            $product_pf = ProductProfile::model()->findByPk($pro->product_profile_id, $criteria);
+                            $total_in_cart = Cart::model()->getTotalCountProduct($pro->product_profile_id);
+
+                            $total_available = $product_pf->quantity - $total_in_cart;
+                            ?>
+                            <?php echo ($total_available > 0) ? "Yes" : "No"; ?>
+                        </p>
+                        <article>
+
+                        </article>
                         <section>Price   :<?php echo round($pro->productProfile->price, 2) . '  ' . Yii::app()->session['currency']; ?> 
                             <div class="clear"></div>
                             <div class="quantity_text">
@@ -182,13 +200,26 @@
                             </div>
                             <div class="up_down">
                                 <?php
-                                echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/up_img_03.png", "", array("class" => "shipping_up_img")), 'javascript:void(0)', array(
-                                    "onclick" => "
+                                
+                                // if total avaialble is greater then zero then 
+                                // it wont be possible to 
+                                if ($total_available > 0) {
+                                    echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/up_img_03.png", "", array("class" => "shipping_up_img")), 'javascript:void(0)', array(
+                                        "onclick" => "
                                         dtech.increaseQuantity(this);
                                         var txt_obj = jQuery(this).parent().prev().children().eq(0);
                                         dtech_new.updateCart('" . $this->createUrl('/web/cart/editcart') . "',txt_obj,'" . $pro->cart_id . "');
-                                        "
-                                ));
+                                        dtech_new.updateMainCartPage('" . $this->createUrl('/web/cart/editcart') . "',txt_obj,'" . $pro->cart_id . "');
+                                           
+                                        ",
+                                    ));
+                                } else {
+                                    echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/up_img_03.png", "", array("class" => "shipping_up_img")), 'javascript:void(0)', array(
+                                        "onclick" => "
+                                            void(0);
+                                        ","disabled"=>"disabled"
+                                    ));
+                                }
                                 ?>
                                 <?php
                                 echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/down_img_03.png", "", array("class" => "shipping_down_img")), 'javascript:void(0)', array(
@@ -196,6 +227,7 @@
                                             dtech.decreaseQuantity(this);
                                             var txt_obj = jQuery(this).parent().prev().children().eq(0);
                                             dtech_new.updateCart('" . $this->createUrl('/web/cart/editcart') . "',txt_obj,'" . $pro->cart_id . "');
+                                            dtech_new.updateMainCartPage('" . $this->createUrl('/web/cart/editcart') . "',txt_obj,'" . $pro->cart_id . "');
                                             "
                                 ));
                                 ?>

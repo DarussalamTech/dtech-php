@@ -156,5 +156,22 @@ class Cart extends DTActiveRecord {
 
         return $tot;
     }
+    /**
+     * 
+     * @param type $product_profile_id
+     * get total particular product 
+     * in cart
+     */
+    public function getTotalCountProduct($product_profile_id){
+        $tot = Yii::app()->db->createCommand()
+                    ->select('sum(quantity) as quantity')
+                    ->from('cart')
+                    ->where('product_profile_id=' . $product_profile_id)
+                    ->queryRow();
+        if(empty($tot['quantity'])){
+            $tot['quantity'] = 0;
+        }
+        return $tot['quantity'];
+    }
 
 }

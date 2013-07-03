@@ -27,15 +27,11 @@ $mName = "EducationToys";
                 "type" => "raw",
             ),
             array(
-                'name' => 'attribute',
-                'value' => '$data->attribute',
+                'name' => 'quantity',
+                'value' => '$data->quantity',
                 "type" => "raw",
             ),
-            array(
-                'name' => 'attribute_value',
-                'value' => '$data->attribute_value',
-                "type" => "raw",
-            ),
+          
             array
                 (
                 'class' => 'CButtonColumn',

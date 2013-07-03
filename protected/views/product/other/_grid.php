@@ -27,13 +27,8 @@ $mName = "Other";
                 "type" => "raw",
             ),
             array(
-                'name' => 'attribute',
-                'value' => '$data->attribute',
-                "type" => "raw",
-            ),
-            array(
-                'name' => 'attribute_value',
-                'value' => '$data->attribute_value',
+                'name' => 'quantity',
+                'value' => '$data->quantity',
                 "type" => "raw",
             ),
             array
@@ -83,7 +78,7 @@ $mName = "Other";
     ));
     ?>
 </div>
-    <?php
-    $this->widget('ext.lyiightbox.LyiightBox2', array(
-    ));
-    ?>
+<?php
+$this->widget('ext.lyiightbox.LyiightBox2', array(
+));
+?>

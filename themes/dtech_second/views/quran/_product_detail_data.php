@@ -55,7 +55,12 @@
                                 }).done(function( msg ) {
                                
                                 jQuery("#loading").hide();
-                                dtech.custom_alert("Item has added to cart" ,"Add to Cart");
+                                if(msg["total_available"]>0){
+                                    dtech.custom_alert("Item has added to cart" ,"Add to Cart");
+                                }
+                                else {
+                                    dtech.custom_alert("Item is out of stock" ,"Add to Cart");
+                                }
                                 dtech_new.loadCartAgain("' . $this->createUrl("/web/cart/loadCart") . '");
                                
                             });    
@@ -130,6 +135,15 @@
         } else {
 
             echo $product->productProfile[0]->language_name;
+        }
+        ?>
+    </section>
+    <section>Availability : 
+        <?php
+        if ($product->productProfile[0]->quantity == 0) {
+            echo "No";
+        } else {
+           echo "Yes";
         }
         ?>
     </section>

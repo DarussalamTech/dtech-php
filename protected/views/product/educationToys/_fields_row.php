@@ -18,8 +18,8 @@ $relationName = "educationToys";
         $criteria->select = "language_id";
         $criteria->condition = "LOWER(language_name) = LOWER('english') ";
         $language = Language::model()->find($criteria);
- 
-      
+
+
 
         echo CHtml::activeHiddenField($model, '[' . $index . ']language_id', array("value" => $language->language_id));
         echo CHtml::activeTextField($model, '[' . $index . ']price');
@@ -28,14 +28,10 @@ $relationName = "educationToys";
 
     <div class="field" style="width:200px">
         <?php
-        echo CHtml::activeTextField($model, '[' . $index . ']attribute');
+        echo CHtml::activeTextField($model, '[' . $index . ']quantity')
         ?>
     </div>
-    <div class="field" style="width:200px">
-        <?php
-        echo CHtml::activeTextField($model, '[' . $index . ']attribute_value');
-        ?>
-    </div>
+
 
 
 

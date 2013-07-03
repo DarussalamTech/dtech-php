@@ -68,6 +68,11 @@ $this->widget('zii.widgets.CDetailView', array(
             'value' => $model->edition,
             "type" => "raw",
         ),
+        array(
+            'name' => 'quantity',
+            'value' => $model->quantity,
+            "type" => "raw",
+        ),
     ),
 ));
 
