@@ -111,22 +111,28 @@ class QuranController extends Controller {
      */
     public function actionproductDetailLang($id) {
         Yii::app()->user->SiteSessions;
-        if (isset($_POST['lang_id'])) {
+        if (isset($_POST['lang_id']) || isset($_REQUEST['profile_id'])) {
 
 
-
+            Yii::app()->user->SiteSessions;
             $product = Product::model();
 
             $product = $product->findByPk($id);
-            $product->productProfile = $product->productSelectedProfile;
+
+            if (!empty($_POST['lang_id'])) {
+                $product->productProfile = $product->productSelectedProfile;
+            } else if (!empty($_REQUEST['profile_id'])) {
+                $product->productProfile = $product->productloadProfile;
+            }
+
 
 
             /**
              *  getting value of poduct rating
              */
             $rating_value = ProductReviews::model()->calculateRatingValue($product->product_id);
-            $right_data = $this->renderPartial("_product_detail_data", array('product' => $product, "rating_value" => $rating_value), true, true);
-            $left_data = $this->renderPartial("_product_detail_image", array('product' => $product), true, false);
+            $right_data = $this->renderPartial("//quran/_product_detail_data", array('product' => $product, "rating_value" => $rating_value), true, true);
+            $left_data = $this->renderPartial("//quran/_product_detail_image", array('product' => $product), true, false);
 
             echo CJSON::encode(array(
                 "right_data" => $right_data,
