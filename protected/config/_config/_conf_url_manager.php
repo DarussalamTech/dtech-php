@@ -29,7 +29,9 @@ $url_manager = array(
         '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/<product_id:[\w-\.]+>/bookDetail' => '/web/product/productPreview',
         '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/<product_id:[\w-\.]+>/toyDetail' => '/web/educationToys/productPreview',
         '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/<product_id:[\w-\.]+>/otherDetail' => '/web/others/productPreview',
-        '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/<product_id:[\w-\.]+>/quranDetail' => '/web/quran/productPreview',
+        '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/quranDetail/<id:[\w-\.]+>' => '/web/quran/productPreview',
+        
+        '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/pagesPreview/<id:[\w-\.]+>' =>'/web/page/pagesPreview',
         
         
         
