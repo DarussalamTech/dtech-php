@@ -1,29 +1,23 @@
 <div class="right_detail">
     <h1><?php echo $product->product_name; ?></h1>
-    <h2>
-        Author: 
-        <span>
-            <?php
-            echo isset($product->author->author_name) ? $product->author->author_name : "";
-            ?>
-        </span>
-    </h2>
-    <h2>
-        ISBN: 
-        <span>
-            <?php
-            echo isset($product->productProfile[0]->isbn) ? $product->productProfile[0]->isbn : "";
-            ?>
-        </span>
-    </h2>
-    <h2>
-        Price: 
-        <span>
-            <?php
-            echo isset($product->productProfile[0]->price) ? round($product->productProfile[0]->price, 2) . ' ' . Yii::app()->session['currency'] : "";
-            ?>
 
-        </span>
+    <h2>
+
+        <?php
+        echo isset($product->author->author_name) ? "Author:" . "<span>" . $product->author->author_name . "</span>" : "";
+        ?>
+
+    </h2>
+    <h2>
+
+        <?php
+        echo isset($product->productProfile[0]->isbn) ? "ISBN:<span>" . $product->productProfile[0]->isbn . "</span>" : "";
+        ?>       
+    </h2>
+    <h2>
+        <?php
+        echo isset($product->productProfile[0]->price) ? " Price: <span>" . round($product->productProfile[0]->price, 2) . ' ' . Yii::app()->session['currency'] . "</span>" : "";
+        ?>
     </h2>
     <p>
         <?php
@@ -67,6 +61,8 @@
                             });    
                       ', 'class' => 'add_to_cart_arrow'));
         ?>
+
+
         <?php
         echo CHtml::ajaxLink(' Add to wishlist', $this->createUrl('/cart/addtowishlist'), array('data' => array(
                 'product_profile_id' => $product->productProfile[0]->id,
@@ -137,50 +133,109 @@
         }
         ?>
     </section>
-
-    <section>Translator: 
-        <?php
-        echo isset($product->productProfile[0]->translator_rel->name) ? $product->productProfile[0]->translator_rel->name : "";
+    <?php
+    if (!empty($product->productProfile[0]->translator_rel->name)):
         ?>
-    </section>
-    <section>Compiler: 
+        <section>Translator: 
+            <?php
+            echo $product->productProfile[0]->translator_rel->name;
+            ?>
+        </section>
         <?php
-        echo isset($product->productProfile[0]->compiler_rel->name) ? $product->productProfile[0]->compiler_rel->name : "";
+    endif;
+    ?>
+    <?php
+    if (!empty($product->productProfile[0]->compiler_rel->name)):
         ?>
-    </section>
-    <section>Dimension: 
+        <section>Compiler: 
+            <?php
+            echo $product->productProfile[0]->compiler_rel->name;
+            ?>
+        </section>
         <?php
-        echo isset($product->productProfile[0]->dimension_rel->title) ? $product->productProfile[0]->dimension_rel->title : "";
+    endif;
+    ?>
+    <?php
+    if (!empty($product->productProfile[0]->dimension_rel->title)):
         ?>
-    </section>
-    <section>Binding: 
+        <section>Dimension: 
+            <?php
+            echo $product->productProfile[0]->dimension_rel->title;
+            ?>
+        </section>
         <?php
-        echo isset($product->productProfile[0]->binding_rel->title) ? $product->productProfile[0]->binding_rel->title : "";
+    endif;
+    ?>
+    <?php
+    if (!empty($product->productProfile[0]->binding_rel->title)):
         ?>
-    </section>
-    <section>Printing: 
+        <section>Binding: 
+            <?php
+            echo $product->productProfile[0]->binding_rel->title;
+            ?>
+        </section>
         <?php
-        echo isset($product->productProfile[0]->printing_rel->title) ? $product->productProfile[0]->printing_rel->title : "";
+    endif;
+    ?>
+    <?php
+    if (!empty($product->productProfile[0]->printing_rel->title)):
         ?>
-    </section>
-    <section>Paper Type: 
+        <section>Printing: 
+            <?php
+            echo $product->productProfile[0]->printing_rel->title;
+            ?>
+        </section>
         <?php
-        echo isset($product->productProfile[0]->paper_rel->title) ? $product->productProfile[0]->paper_rel->title : "";
+    endif;
+    ?>
+    <?php
+    if (!empty($product->productProfile[0]->paper_rel->title)):
         ?>
-    </section>
-    <section>No Of Pages: 
+        <section>Paper Type: 
+            <?php
+            echo $product->productProfile[0]->paper_rel->title;
+            ?>
+        </section>
         <?php
-        echo isset($product->productProfile[0]->no_of_pages) ? $product->productProfile[0]->no_of_pages : "";
+    endif;
+    ?>
+    <?php
+    if (!empty($product->productProfile[0]->no_of_pages)):
         ?>
-    </section>
-    <section>Edition: 
+        <section>No Of Pages: 
+            <?php
+            echo $product->productProfile[0]->no_of_pages;
+            ?>
+        </section>
         <?php
-        echo isset($product->productProfile[0]->edition) ? $product->productProfile[0]->edition : "";
+    endif;
+    ?>
+    <?php
+    if (!empty($product->productProfile[0]->edition)):
         ?>
-    </section>
+        <section>Edition: 
+            <?php
+            echo $product->productProfile[0]->edition;
+            ?>
+        </section>
+        <?php
+    endif;
+    ?>
     <section>
         Item Code:    <?php
         echo isset($product->productProfile[0]->item_code) ? $product->productProfile[0]->item_code : "";
+        ?>
+    </section>
+    <section>Category: <?php
+        $cat_count = 0;
+        foreach ($product->productCategories as $cat) {
+            if ($cat_count == 0) {
+                echo $cat->category->category_name;
+            } else {
+                echo ' / ' . $cat->category->category_name;
+            }
+            $cat_count++;
+        }
         ?>
     </section>
     <section>
@@ -195,23 +250,8 @@
         }
         ?>
     </section>
-    <section>Category: <?php
-        $cat_count = 0;
-        foreach ($product->productCategories as $cat) {
-            if ($cat_count == 0) {
-                echo $cat->category->category_name;
-            } else {
-                echo ' / ' . $cat->category->category_name;
-            }
-            $cat_count++;
-        }
-        ?></section>
-    <section>Price: <?php
-        echo isset($product->productProfile[0]->price) ? round($product->productProfile[0]->price, 2) . ' ' . Yii::app()->session['currency'] : "";
-        ?>
-    </section>
-
 </div>
+
 
 <script>
     function totalPrice(quantity, price)
