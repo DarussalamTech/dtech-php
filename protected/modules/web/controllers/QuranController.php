@@ -84,6 +84,29 @@ class QuranController extends Controller {
     }
 
     /**
+     * Prview detail
+     */
+    public function actionproductPreview() {
+        Yii::app()->user->SiteSessions;
+
+
+        try {
+            $product = Product::model()->findByPk($_REQUEST['product_id']);
+
+
+            /**
+             *  getting value of poduct rating
+             */
+            $rating_value = ProductReviews::model()->calculateRatingValue($product->product_id);
+
+            $this->render('//product/product_detail', array('product' => $product, "rating_value" => $rating_value));
+        } catch (Exception $e) {
+            Yii::app()->theme = 'landing_page_theme';
+            throw new CHttpException(500, "   Sorry ! Record Not found");
+        }
+    }
+
+    /**
      * product detail change
      */
     public function actionproductDetailLang($id) {
