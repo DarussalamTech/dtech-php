@@ -379,5 +379,10 @@ var dtech = {
     go_history: function() {
         var previous_page = document.referrer;
         window.location = previous_page;
+    },
+    popupwindow: function(url, title, w, h) {
+        var left = (screen.width / 2) - (w / 2);
+        var top = (screen.height / 2) - (h / 2);
+        return window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, copyhistory=no, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
     }
 }

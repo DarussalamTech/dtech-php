@@ -96,10 +96,11 @@ class Pages extends DTActiveRecord {
         $criteria->compare('create_user_id', $this->create_user_id, true);
         $criteria->compare('update_time', $this->update_time, true);
         $criteria->compare('update_user_id', $this->update_user_id, true);
-
+       
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
                 ));
+        
     }
 
     /**
