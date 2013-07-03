@@ -26,25 +26,25 @@ class SiteController extends Controller {
      * New landing page
      */
     public function actionIndex() {
-      
-      
+
+
         $model = new LandingModel();
         $this->countryLanding($model);
-     
+
         if (Yii::app()->theme->name != "dtech_second") {
-           
+
             Yii::app()->user->SiteSessions;
             $this->redirect($this->createUrl("/site/storeHome"));
         }
-        
-        
+
+
 
         Yii::app()->controller->layout = "";
         Yii::app()->user->SiteSessions;
         Yii::app()->theme = 'landing_page_theme';
 
 
-        
+
         $this->render('landing_page', array("model" => $model));
     }
 
@@ -55,7 +55,7 @@ class SiteController extends Controller {
         $host = Yii::app()->request->hostInfo . "/" . Yii::app()->baseUrl;
         $site = SelfSite::model()->getSiteInfo($host);
         $columns = array("site_id" => $site['site_id']);
-        
+
         Yii::app()->db->createCommand()->update("country", $columns);
         Yii::app()->db->createCommand()->update("user", $columns);
         Yii::app()->db->createCommand()->update("layout", $columns);
@@ -246,16 +246,17 @@ class SiteController extends Controller {
                 Yii::app()->session['isSuper'] = 0;
 
                 if (Yii::app()->user->isSuperAdmin) {
-                    
+                    $_REQUEST['city_id'] = Yii::app()->user->user->city_id;
+                    Yii::app()->user->SiteSessions;
                     Yii::app()->session['isSuper'] = 1;
 
                     $this->redirect($this->createUrl('/user/index'));
                 }
                 if (Yii::app()->user->isAdmin) {
-                   
+
                     $_REQUEST['city_id'] = Yii::app()->user->user->city_id;
                     Yii::app()->user->SiteSessions;
-                    
+
                     $this->redirect($this->createUrl('/product/index'));
                 }
                 if (Yii::app()->user->isCustomer) {
