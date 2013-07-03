@@ -182,7 +182,6 @@ class ProductController extends Controller {
         try {
             $product = Product::model()->findByPk($_REQUEST['product_id']);
 
-
             /**
              *  getting value of poduct rating
              */

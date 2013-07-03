@@ -245,20 +245,23 @@ div.country_submit .btn-submit:hover { color:#FFF; }
 
 
 /*//for cloase and open of product detail page*/
-    
-    #more {
-            margin: 1em .5em;margin: 0;
-           padding: .25em;
-           background: #bfcd93;
-           border-top: 1px solid #386785;
-           border-bottom: 1px solid #386785;
-           border-radius: 0 24em 20em 0;
-    }
-    #close {
-            margin: 1em .5em;margin: 0;
-           padding: .25em;
-           background: #bfcd93;
-           border-top: 1px solid #386785;
-           border-bottom: 1px solid #386785;border-radius: 18em 0 0 17em;
-    }
 
+#more {
+    margin: 1em .5em;margin: 0;
+    padding: .25em;
+    background: #bfcd93;
+    border-top: 1px solid #386785;
+    border-bottom: 1px solid #386785;
+    border-radius: 0 24em 20em 0;
+}
+#close {
+    margin: 1em .5em;margin: 0;
+    padding: .25em;
+    background: #bfcd93;
+    border-top: 1px solid #386785;
+    border-bottom: 1px solid #386785;border-radius: 18em 0 0 17em;
+}
+
+#right_description {
+    width: 34%!important;
+}

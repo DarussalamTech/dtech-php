@@ -20,8 +20,8 @@ $this->widget('ext.lyiightbox.LyiightBox2', array(
 /**
  * product preview
  */
-if($this->action->id == "productPreview"){
-        Yii::app()->clientScript->registerScript('disabled', "
+if ($this->action->id == "productPreview") {
+    Yii::app()->clientScript->registerScript('disabled', "
             dtech.disabledPrview();
         ", CClientScript::POS_READY);
 }
@@ -39,7 +39,10 @@ if($this->action->id == "productPreview"){
 
     </div>
 </div>
+<div id="right_description">
+    <?php $this->renderPartial("//product/_profile_items", array("product" => $product)) ?>
+</div>
 <?php $this->renderPartial("//product/_editorial_reviews", array("product" => $product, "rating_value" => $rating_value)); ?>   
-<?php //$this->renderPartial("//product/_related_products", array("product" => $product, "rating_value" => $rating_value)); ?>
+<?php //$this->renderPartial("//product/_related_products", array("product" => $product, "rating_value" => $rating_value));  ?>
 <?php $this->renderPartial("//product/_product_comments", array("product" => $product, "rating_value" => $rating_value)); ?>
 

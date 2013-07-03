@@ -30,7 +30,7 @@ $url_manager = array(
         '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/<product_id:[\w-\.]+>/toyPrev' => '/web/educationToys/productPreview',
         '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/<product_id:[\w-\.]+>/otherPrev' => '/web/others/productPreview',
         '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/<product_id:[\w-\.]+>/quranPrev' => '/web/quran/productPreview',
-        
+        '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/pagesPreview/<id:[\w-\.]+>' =>'/web/page/pagesPreview',
         
         
         '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/bookDetailLang/<id:[\w-\.]+>' => '/web/product/productDetailLang',
