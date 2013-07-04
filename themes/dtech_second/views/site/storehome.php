@@ -25,7 +25,7 @@ $this->webPcmWidget['best'] = array('name' => 'DtechBestSelling',
 
 
     <h1>Quran</h1>
-    <p>Lorem ipsum color sit bla bla thhm ipoum deona eio a ea sho moxnt</p>
+    <p>Darussalam has stock of Holy Quran with it's tafseer written by Scholars</p>
 
     <?php
     echo CHtml::button("Shop Now", array(
@@ -42,7 +42,7 @@ $this->webPcmWidget['best'] = array('name' => 'DtechBestSelling',
             )), $this->createUrl('/web/product/allproducts'));
     ?>
     <h1>Books</h1>
-    <p>Lorem ipsum color sit bla bla thhm ipoum deona eio a ea sho moxnt</p>
+    <p>Darussalam is Global Islamic Books Publishers and Distributors</p>
 
     <?php
     echo CHtml::button("Shop Now", array(
@@ -60,7 +60,7 @@ $this->webPcmWidget['best'] = array('name' => 'DtechBestSelling',
             )), $this->createUrl('/web/educationToys/index'));
     ?>
     <h1>Educational Toys</h1>
-    <p>Lorem ipsum color sit bla bla thhm ipoum deona eio a ea sho moxnt</p>
+    <p>Darussalam also provides Eductaional toys for Children promoting islamic soul in them</p>
 
     <?php
     echo CHtml::button("Shop Now", array(
@@ -77,7 +77,7 @@ $this->webPcmWidget['best'] = array('name' => 'DtechBestSelling',
             )), $this->createUrl('/web/others/index'));
     ?>
     <h1>Other Products</h1>
-    <p>Lorem ipsum color sit bla bla thhm ipoum deona eio a ea sho moxnt</p>
+    <p>In other products of Darussalam there are Electronic pen, quran, DVD and many more</p>
 
     <?php
     echo CHtml::button("Shop Now", array(
