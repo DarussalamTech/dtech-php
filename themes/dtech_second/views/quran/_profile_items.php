@@ -54,6 +54,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
                 'view' => array(
                     'url' => 'Yii::app()->controller->createUrl("/web/quran/productDetailLang", array("id" => '.$product->product_id.',"profile_id"=>$data->id)) ',
                     'click' => "js:function() {
+                                              dtech_new.loadWaitmsg();
                                             jQuery('#load_subpanel_div').toggle();
                                             jQuery.ajax({
                                                 url: jQuery(this).attr('href'),

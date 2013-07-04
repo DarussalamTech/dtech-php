@@ -265,3 +265,12 @@ div.country_submit .btn-submit:hover { color:#FFF; }
 #right_description {
     width: 34%!important;
 }
+
+.under_left_method h2,.credit_card_fields{
+    color: #003366;
+    float: left;
+    font-size: 17px;
+    font-weight: normal;
+    margin: 0;
+    padding: 0;
+}

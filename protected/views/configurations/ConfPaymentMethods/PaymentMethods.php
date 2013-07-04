@@ -18,10 +18,25 @@ if (!$model->isNewRecord) {
             <?php echo $form->error($model, 'name'); ?>
         </div>
         <div class="row">
+            <?php echo $form->labelEx($model, 'secret'); ?>
+            <?php echo $form->textField($model, 'secret', array('maxlength' => 255)); ?>
+            <?php echo $form->error($model, 'secret'); ?>
+        </div>
+        <div class="row">
+            <?php echo $form->labelEx($model, 'key'); ?>
+            <?php echo $form->textField($model, 'key', array('maxlength' => 255)); ?>
+            <?php echo $form->error($model, 'key'); ?>
+        </div>
+        <div class="row">
+            <?php echo $form->labelEx($model, 'signature'); ?>
+            <?php echo $form->textField($model, 'signature', array('maxlength' => 255)); ?>
+            <?php echo $form->error($model, 'signature'); ?>
+        </div>
+        <div class="row">
             <?php echo $form->labelEx($model, 'status'); ?>
 
             <?php
-            echo $form->dropDownList($model, 'name', array('Disable' => 'Disable', 'Enable' => 'Enable'));
+            echo $form->dropDownList($model, 'status', array('Disable' => 'Disable', 'Enable' => 'Enable'));
             ?>
             <?php echo $form->error($model, 'status'); ?>
         </div>
