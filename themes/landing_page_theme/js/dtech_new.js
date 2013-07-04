@@ -241,28 +241,17 @@ var dtech_new = {
      *  load oer lay funciton
      * @returns {undefined}
      */
-    loadWaitmsg: function() {
-        jQuery("#load_subpanel_div").remove();
-        var load_div = '<div id="load_subpanel_div" class="overlay2" style="display:none">' +
+    loadoverlay: function() {
+        var load_div = '<div id="load_subpanel_div" class="overlay" style="display:none">' +
                 '<div class="loadingBar">' +
                 '<span class="lodingString">Please Wait....</span><span class="loading">. . . .</span>' +
                 '</div>' +
                 '</div>';
 
         //$("#loading").show();
-        rite_html = jQuery("#content").html();
+        rite_html =jQuery("#content").html();
         jQuery("#content").html(load_div + rite_html);
+      
+    }
 
-    },
-    showPaymentMethods: function(obj) {
-        if ($(obj).val() == "Credit Card") {
-
-            $(".credit_card_fields").show();
-
-        }
-        else {
-            $(".credit_card_fields").hide();
-        }
-
-    },
 }

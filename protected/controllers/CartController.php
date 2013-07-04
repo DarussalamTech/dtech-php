@@ -82,6 +82,30 @@ class CartController extends Controller {
         echo CJSON::encode(array('product_profile_id' => $_REQUEST['product_profile_id'], 'wishlist_counter' => $tot_wishlists['total_pro']));
     }
 
+    /**
+     * email to us when quantity is not available
+     */
+
+    /**
+     * 
+     */
+    public function actionEmailtous($product_profile_id) {
+        $email['From'] = Yii::app()->user->User->user_email;
+
+        $model = ProductProfile::model()->findByPk($product_profile_id);
+
+        $email['To'] = User::model()->getCityAdmin();
+        $email['Subject'] = "This product is out of stock";
+        $email['Body'] = "This product is out of stock kindly make available to us and send me email";
+        $url = Yii::app()->request->hostInfo . $this->createUrl("/product/viewImage/", array("id" => $product_profile_id));
+        $email['Body'].=" <br/>" . CHtml::link($model->item_code, $url);
+        $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
+
+        $this->sendEmail2($email);
+    }
+
+  
+
 }
 
 ?>

@@ -9,6 +9,11 @@ $this->breadcrumbs = array(
 if (!(Yii::app()->user->isGuest)) {
     $this->renderPartial("/common/_left_single_menu");
 }
+if (Yii::app()->user->hasFlash('status')) {
+    echo CHtml::openTag("div",array("class"=>"flash-success"));
+    echo Yii::app()->user->getFlash("status");
+    echo CHtml::closeTag("div");
+}
 ?>
 
 

@@ -167,26 +167,36 @@
                             </span>
                         </p>
 
-                        <article>
-                            <?php
-                            echo CHtml::image(Yii::app()->theme->baseUrl . "/images/good_stars_img_03.png");
+                        <?php
+                        /**
+                         * when no ajax
+                         */
+                        if (!isset($available)  || $available) :
                             ?>
-                            (7)
-                        </article>
 
-                        <p>More Available: 
-                            <?php
-                            /**
-                             * get particular product counter in cart
-                             */
-                            $criteria = new CDbCriteria();
-                            $criteria->select = "quantity";
-                            $product_pf = ProductProfile::model()->findByPk($pro->product_profile_id, $criteria);
-                            $total_in_cart = Cart::model()->getTotalCountProduct($pro->product_profile_id);
+                            <p>More Available: 
+                                <?php
+                                /**
+                                 * get particular product counter in cart
+                                 */
+                                $criteria = new CDbCriteria();
+                                $criteria->select = "quantity";
+                                $product_pf = ProductProfile::model()->findByPk($pro->product_profile_id, $criteria);
+                                $total_in_cart = Cart::model()->getTotalCountProduct($pro->product_profile_id);
 
-                            $total_available = $product_pf->quantity - $total_in_cart;
+                                $total_available = $product_pf->quantity - $total_in_cart;
+                                ?>
+                                <?php
+                                if ($total_available > 0) {
+                                    echo "Yes ";
+                                    echo CHtml::image(Yii::app()->theme->baseUrl . '/images/yes.png');
+                                } else {
+                                    echo "No ";
+                                    echo CHtml::image(Yii::app()->theme->baseUrl . '/images/no.png');
+                                }
+                            endif;
                             ?>
-                            <?php echo ($total_available > 0) ? "Yes" : "No"; ?>
+
                         </p>
                         <article>
 
@@ -195,12 +205,24 @@
                             <div class="clear"></div>
                             <div class="quantity_text">
                                 <?php
-                                echo CHtml::textField("cart_list_" . $pro->cart_id, $pro->quantity, array("readOnly" => "readOnly"));
+                                echo CHtml::textField("cart_list_" . $pro->cart_id, $pro->quantity, array(
+                                    "maxlength" => "3",
+                                    "onKeyUp" => "
+                                        var txt_obj = jQuery(this);
+                                        if(!dtech.isNumber(txt_obj.val())){
+                                             dtech.custom_alert('Quantity should be Numeric....!');
+                                        }
+                                        else {
+                                                dtech_new.updateCart('" . $this->createUrl('/web/cart/editcart') . "',txt_obj,'" . $pro->cart_id . "');
+                                                dtech_new.updateMainCartPage('" . $this->createUrl('/web/cart/editcart') . "',txt_obj,'" . $pro->cart_id . "');
+                                            }
+                                        "
+                                ));
                                 ?>
+
                             </div>
                             <div class="up_down">
                                 <?php
-                                
                                 // if total avaialble is greater then zero then 
                                 // it wont be possible to 
                                 if ($total_available > 0) {
@@ -217,7 +239,7 @@
                                     echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/up_img_03.png", "", array("class" => "shipping_up_img")), 'javascript:void(0)', array(
                                         "onclick" => "
                                             void(0);
-                                        ","disabled"=>"disabled"
+                                        ", "disabled" => "disabled"
                                     ));
                                 }
                                 ?>
@@ -232,6 +254,19 @@
                                 ));
                                 ?>
                             </div>
+
+                            <span>
+
+                                <?php
+                                /**
+                                 * after ajax action
+                                 */
+                                if (isset($available) && !$available) {
+                                    echo "Not Available in this quantity " .'"'.$request_quantity.'" ';
+                                    echo CHtml::image(Yii::app()->theme->baseUrl . '/images/no.png');
+                                }
+                                ?>
+                            </span>
 
                         </section>
 

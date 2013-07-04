@@ -232,6 +232,7 @@ div.country_submit .btn-submit:hover { color:#FFF; }
 .right_comments {
     float: left;
     padding-left: 30px;
+    margin-bottom: 41px;
 }
 .detail_image {
     width:92px; height:138px;
@@ -264,4 +265,30 @@ div.country_submit .btn-submit:hover { color:#FFF; }
 
 #right_description {
     width: 34%!important;
+}
+
+.under_left_method h2,.credit_card_fields{
+    color: #003366;
+    float: left;
+    font-size: 17px;
+    font-weight: normal;
+    margin: 0;
+    padding: 0;
+}
+#status_available {
+    color:green !important;
+}
+#status_un_available {
+    color:red !important;
+}
+.email_cart_arrow {
+    width: 44% !important;
+}
+.comments { 
+    float: left;
+    font-size: 17px;
+    font-weight: normal;
+    margin: 0;
+    padding: 0;
+
 }

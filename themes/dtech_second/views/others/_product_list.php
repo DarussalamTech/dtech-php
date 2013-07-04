@@ -23,10 +23,10 @@ foreach ($products as $product) {
     echo CHtml::link(CHtml::image($image, $name, array('style' => 'width:92px; height:138px;margin:0 0 17px 0px; box-shadow: 0 0 5px 5px #888; padding:2px 2px')), $this->createUrl('/web/others/productDetail', array("product_id" => $product['product_id'])), array("class" => ""));
 
     echo CHtml::openTag("h3");
-    echo implode(' ', array_slice(explode(' ', $name), 0, 4));
+    echo substr($name, 0, 20) . '...';
     echo CHtml::closeTag("h3");
     echo CHtml::openTag("p");
-    echo substr($product['product_overview'],0,90).'...';
+    echo substr($product['product_overview'],0,80).'...';
     echo CHtml::closeTag("p");
     /*
      * 

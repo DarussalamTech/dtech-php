@@ -7,6 +7,10 @@
  * @property string $id
  * @property string $name
  * @property string $status
+ * @property string $key
+ * @property string $secret
+ * @property string $signature
+ * @property string $city_id
  * @property string $sandbox
  * @property string $create_time
  * @property string $create_user_id
@@ -44,7 +48,7 @@ class ConfPaymentMethods extends DTActiveRecord {
             array('name', 'length', 'max' => 255),
             array('status, sandbox', 'length', 'max' => 7),
             array('create_user_id, update_user_id', 'length', 'max' => 11),
-            
+            array('signature,secret ,key , city_id', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, name, status, sandbox, create_time, create_user_id, update_time, update_user_id', 'safe', 'on' => 'search'),
@@ -70,11 +74,13 @@ class ConfPaymentMethods extends DTActiveRecord {
             'name' => 'Name',
             'status' => 'Status',
             'sandbox' => 'Sanbox',
+            'secret'=>'apiPassword (TRANSACTION_KEY)',
+            'key'=>'apiUsername (LOGIN_ID)',
+            'signature'=>'apiSignature',
             'create_time' => 'Create Time',
             'create_user_id' => 'Create User',
             'update_time' => 'Update Time',
             'update_user_id' => 'Update User',
-            
         );
     }
 
@@ -96,7 +102,7 @@ class ConfPaymentMethods extends DTActiveRecord {
         $criteria->compare('create_user_id', $this->create_user_id, true);
         $criteria->compare('update_time', $this->update_time, true);
         $criteria->compare('update_user_id', $this->update_user_id, true);
-       
+
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,

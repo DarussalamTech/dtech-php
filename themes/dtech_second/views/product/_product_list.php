@@ -28,11 +28,11 @@ foreach ($products as $product) {
     //echo CHtml::link(CHtml::image($image, $name, array('style' => '', 'title' => $product['product_name'])), $this->createUrl('/web/product/productDetail', array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'], 'product_id' => $product['product_id'])), array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'], 'product_id' => $product['product_id']));
 
     echo CHtml::openTag("h3");
-    echo implode(' ', array_slice(explode(' ', $name), 0, 4));
+    echo substr($name, 0, 20) . '...';
     echo CHtml::closeTag("h3");
     echo CHtml::openTag("p");
     //echo $product['product_description'];
-    echo substr($product['product_overview'],0,90).'...';
+    echo substr($product['product_overview'],0,80).'...';
     echo CHtml::closeTag("p");
     /*
      * 

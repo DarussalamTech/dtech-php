@@ -191,6 +191,7 @@ class OrderDetail extends DTActiveRecord {
                 'product_id' => $products->product_id,
                 'product_name' => $products->product_name,
                 'product_description' => $products->product_description,
+                'product_overview' => $products->product_overview,
                 'product_author' => !empty($products->author) ? $products->author->author_name : "",
                 'product_price' => $products->productProfile[0]->price,
                 'no_image' => $products->no_image,
