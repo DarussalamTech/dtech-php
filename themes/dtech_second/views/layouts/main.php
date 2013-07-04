@@ -22,7 +22,7 @@
         </script>
 
         <script type="text/javascript">
-            $(document).ready(function() {
+            jQuery(document).ready(function() {
                 dtech_new.toggleLogin();
                 dtech_new.toggleSideBar();
                 dtech_new.footerToggle();
@@ -31,10 +31,12 @@
                 jQuery("#LandingModel_country").msDropdown();
                 jQuery("#countries").msDropdown();
                 dtech_new.registerPopUp();
-                dtech_new.loadoverlay();
+               
                 if (jQuery("#LandingModel_city").attr("type") != "hidden") {
                     jQuery("#LandingModel_city").msDropdown();
                 }
+                
+               
 
             });
         </script>

@@ -241,8 +241,9 @@ var dtech_new = {
      *  load oer lay funciton
      * @returns {undefined}
      */
-    loadoverlay: function() {
-        var load_div = '<div id="load_subpanel_div" class="overlay" style="display:none">' +
+    loadWaitmsg: function() {
+        jQuery("#load_subpanel_div").remove();
+        var load_div = '<div id="load_subpanel_div" class="overlay2" style="display:none">' +
                 '<div class="loadingBar">' +
                 '<span class="lodingString">Please Wait....</span><span class="loading">. . . .</span>' +
                 '</div>' +
