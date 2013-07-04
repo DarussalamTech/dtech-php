@@ -13,7 +13,10 @@ $this->webPcmWidget['best'] = array('name' => 'DtechBestSelling',
         'cssFile' => Yii::app()->theme->baseUrl . "/css/side_bar.css",
         'is_cat_filter' => 0,
         ));
+$this->widget('ext.lyiightbox.LyiightBox2', array(
+));
 ?>
+
 <div id="left_description">
     <div id="image_detail">
         <div class="left_detail" id="img_detail">
