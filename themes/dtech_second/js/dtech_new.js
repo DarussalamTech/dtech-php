@@ -193,7 +193,7 @@ var dtech_new = {
             type: "POST",
             url: ajax_url,
             dataType: 'json',
-            async : false,
+            async: false,
             data:
                     {
                         'quantity': jQuery(obj).val(),
@@ -204,7 +204,7 @@ var dtech_new = {
         }).done(function(response) {
 
             jQuery("#cart_control").html(response._view_cart);
-            
+
             if (jQuery(".grand_total_bag").length > 0) {
                 jQuery(".grand_total_bag").html(jQuery(".grand_total").html());
             }
@@ -223,20 +223,35 @@ var dtech_new = {
             type: "POST",
             url: ajax_url,
             dataType: 'json',
-            async : false,
+            async: false,
             data:
                     {
                         'quantity': jQuery(obj).val(),
                         'type': '',
-                   
                         'cart_id': cart_id
                     }
         }).done(function(response) {
 
             jQuery("#cart_container").html(response._view_cart);
-            
-         
+
+
         });
+    },
+    /**
+     *  load oer lay funciton
+     * @returns {undefined}
+     */
+    loadoverlay: function() {
+        var load_div = '<div id="load_subpanel_div" class="overlay" style="display:none">' +
+                '<div class="loadingBar">' +
+                '<span class="lodingString">Please Wait....</span><span class="loading">. . . .</span>' +
+                '</div>' +
+                '</div>';
+
+        //$("#loading").show();
+        rite_html =jQuery("#content").html();
+        jQuery("#content").html(load_div + rite_html);
+      
     }
 
 }
