@@ -274,3 +274,12 @@ div.country_submit .btn-submit:hover { color:#FFF; }
     margin: 0;
     padding: 0;
 }
+#status_available {
+    color:green !important;
+}
+#status_un_available {
+    color:red !important;
+}
+.email_cart_arrow {
+    width: 44% !important;
+}
