@@ -62,8 +62,23 @@ class OrderController extends Controller {
      */
     public function actionUpdate($id) {
         $model = $this->loadModel($id);
+
+        $old_status = $model->status;
+        
         if (isset($_POST['Order'])) {
             $model->attributes = $_POST['Order'];
+          
+            /*
+             * check wether the order status is completed or not
+             * if completed the manage the stock 
+             * by calling the function 
+             */
+            if($old_status
+                    == "process"  && $model->status == 'completed')
+            {
+                $model->updateProductQuantity();
+                Yii::app()->user->setFlash("status","Your products stock has been updated");
+            }
             $model->updateByPk($id, array("status" => $model->status));
             $this->redirect(array("view", "id" => $id));
         }

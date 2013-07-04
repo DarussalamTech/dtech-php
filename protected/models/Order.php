@@ -91,7 +91,7 @@ class Order extends DTActiveRecord {
 
     public function beforeSave() {
         $this->city_id = Yii::app()->session['city_id'];
-        
+
         return parent::beforeSave();
     }
 
@@ -137,6 +137,21 @@ class Order extends DTActiveRecord {
     public function afterFind() {
         $this->order_date = DTFunctions::dateFormatForView($this->order_date);
         parent::afterFind();
+    }
+
+    /*
+     * Stock Managment Method 
+     * Subtracting the order quantity form stock (product profile quantity)
+     * and managing the stock
+     */
+
+    public function updateProductQuantity() {
+        foreach ($this->orderDetails as $orderDet) {
+            $stock = $orderDet->product_profile->quantity - $orderDet->quantity;
+  
+            
+            ProductProfile::model()->updateByPk($orderDet->product_profile->id, array('quantity' => $stock));
+        }
     }
 
 }
