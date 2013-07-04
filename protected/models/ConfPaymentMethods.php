@@ -9,6 +9,7 @@
  * @property string $status
  * @property string $key
  * @property string $secret
+ * @property string $signature
  * @property string $city_id
  * @property string $sandbox
  * @property string $create_time
@@ -47,7 +48,7 @@ class ConfPaymentMethods extends DTActiveRecord {
             array('name', 'length', 'max' => 255),
             array('status, sandbox', 'length', 'max' => 7),
             array('create_user_id, update_user_id', 'length', 'max' => 11),
-            array('secret ,key , city_id', 'safe'),
+            array('signature,secret ,key , city_id', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, name, status, sandbox, create_time, create_user_id, update_time, update_user_id', 'safe', 'on' => 'search'),
@@ -73,6 +74,9 @@ class ConfPaymentMethods extends DTActiveRecord {
             'name' => 'Name',
             'status' => 'Status',
             'sandbox' => 'Sanbox',
+            'secret'=>'apiPassword (TRANSACTION_KEY)',
+            'key'=>'apiUsername (LOGIN_ID)',
+            'signature'=>'apiSignature',
             'create_time' => 'Create Time',
             'create_user_id' => 'Create User',
             'update_time' => 'Update Time',

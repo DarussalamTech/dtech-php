@@ -249,9 +249,19 @@ var dtech_new = {
                 '</div>';
 
         //$("#loading").show();
-        rite_html =jQuery("#content").html();
+        rite_html = jQuery("#content").html();
         jQuery("#content").html(load_div + rite_html);
-      
-    }
 
+    },
+    showPaymentMethods: function(obj) {
+        if ($(obj).val() == "Credit Card") {
+
+            $(".credit_card_fields").show();
+
+        }
+        else {
+            $(".credit_card_fields").hide();
+        }
+
+    },
 }
