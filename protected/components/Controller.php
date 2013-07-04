@@ -110,6 +110,7 @@ class Controller extends RController {
             "City" => "View",
             "Configurations" => "View",
             "Country" => "View",
+            "Layout" => "View",
             "Customer" => "View",
             "Language" => "View",
             "Menus" => "View",
