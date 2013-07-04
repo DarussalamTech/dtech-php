@@ -1,6 +1,6 @@
 <div class="right_detail">
     <h1><?php echo $product->product_name; ?></h1>
-
+    <h3 style="font-size: 14px; margin-top: 8px"><?php echo $product->product_overview; ?></h3>
     <h2>
 
         <?php

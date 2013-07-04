@@ -24,7 +24,7 @@
 <div id="description_content">
 
     <h1>Book Description</h1>
-    <article>Release date: March 2, 2004 | Series: Wicked Years (Book 1)</article>
+    <article>Release date: <b><?php  echo date('S:M:H:D:M:Y',$product->create_time); ?></b> </article>
 
     <?php
     if (str_word_count($product->product_description) < 500) {
@@ -58,11 +58,11 @@
     }
     ?>
 
-    <h2>Product Reviews</h2>
+<!--    <h2>Product Reviews</h2>
     
     <p>
     <?php echo $product->product_overview; ?>
     </p>
-    <article>Copyright 1995 Reed Business Information, Inc.</article>
+    <article>Copyright 1995 Reed Business Information, Inc.</article>-->
 
 </div>
