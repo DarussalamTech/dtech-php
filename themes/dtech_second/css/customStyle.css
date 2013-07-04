@@ -232,6 +232,7 @@ div.country_submit .btn-submit:hover { color:#FFF; }
 .right_comments {
     float: left;
     padding-left: 30px;
+    margin-bottom: 41px;
 }
 .detail_image {
     width:92px; height:138px;
