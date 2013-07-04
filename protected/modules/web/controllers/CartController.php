@@ -34,6 +34,8 @@ class CartController extends Controller {
 
         Yii::app()->user->SiteSessions;
 
+
+
         $view = "//cart/_view_cart";
         if ($_REQUEST['type'] == 'delete_cart') {
             $cart_model = new Cart();
@@ -44,7 +46,28 @@ class CartController extends Controller {
             $cart = $cart_model->find('cart_id=' . $_REQUEST['cart_id']);
             $cart_model = $cart;
             $cart_model->quantity = $_REQUEST['quantity'];
-            $cart_model->save();
+
+            $criteria = new CDbCriteria();
+            $criteria->select = "quantity";
+            $product_pf = ProductProfile::model()->findByPk($cart_model->product_profile_id, $criteria);
+
+            /**
+             * get particular product counter in cart
+             */
+            $total_in_cart = Cart::model()->getTotalCountProduct($cart_model->product_profile_id);
+
+            $total_available = $product_pf->quantity - $total_in_cart;
+
+            /**
+             * available is fal
+             */
+            $available = false;
+
+            if ($cart_model->quantity < $total_available) {
+
+                $cart_model->save();
+                $available = true;
+            }
         }
         /*         * -
          * handling for cart on front page
@@ -57,8 +80,11 @@ class CartController extends Controller {
         $cart_list_count = Cart::model()->getCartListCount();
 
 
-        $_view_cart = $this->renderPartial($view, array('cart' => $cart), true, true);
-        echo CJSON::encode(array("_view_cart" => $_view_cart, "cart_list_count" => $cart_list_count));
+        $_view_cart = $this->renderPartial($view, array('cart' => $cart, "available" => isset($available) ? $available : "",
+            "request_quantity" => isset($_REQUEST['quantity']) ? $_REQUEST['quantity'] : ""), true, true);
+        echo CJSON::encode(array("_view_cart" => $_view_cart, "cart_list_count" => $cart_list_count,
+            "total_available" => isset($total_available) ? $total_available : "",
+        ));
     }
 
     /**

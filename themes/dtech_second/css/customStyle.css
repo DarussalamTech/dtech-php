@@ -284,3 +284,11 @@ div.country_submit .btn-submit:hover { color:#FFF; }
 .email_cart_arrow {
     width: 44% !important;
 }
+.comments { 
+    float: left;
+    font-size: 17px;
+    font-weight: normal;
+    margin: 0;
+    padding: 0;
+
+}

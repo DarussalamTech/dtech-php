@@ -29,11 +29,22 @@
         <?php
         echo CHtml::textField('quantity', '1', array('onKeyUp' => 'javascript:totalPrice(this.value,"' . $product->productProfile[0]->price . '")', 'style' => 'width:40px', 'maxlength' => '3'));
         ?>
+        <span id="status_available" style="display:none">
+            <?php echo CHtml::image(Yii::app()->theme->baseUrl . '/images/yes.png'); ?>
+            Available in this quantity
+        </span>
+        <span id="status_un_available" style="display:none">
+            <?php echo CHtml::image(Yii::app()->theme->baseUrl . '/images/no.png'); ?>
+            Not available in this quantity
+        </span>
     </article>
     <div class="add_to_cart_button">
 
         <?php
-        echo CHtml::button('Add to Cart', array('onclick' => '
+        $total_in_cart = Cart::model()->getTotalCountProduct($product->productProfile[0]->id);
+        $total_av = $product->productProfile[0]->quantity - $total_in_cart;
+        if ($total_av > 0) {
+            echo CHtml::button('Add to Cart', array('onclick' => '
                             jQuery("#loading").show();
                             jQuery.ajax({
                                 type: "POST",
@@ -47,15 +58,22 @@
                                
                                 jQuery("#loading").hide();
                                 if(msg["total_available"]>0){
+                                    jQuery("#status_available").show();  
                                     dtech.custom_alert("Item has added to cart" ,"Add to Cart");
                                 }
                                 else {
+                                    jQuery("#status_un_available").show();    
                                     dtech.custom_alert("Item is out of stock" ,"Add to Cart");
                                 }
                                 dtech_new.loadCartAgain("' . $this->createUrl("/web/cart/loadCart") . '");
                                
                             });    
                       ', 'class' => 'add_to_cart_arrow'));
+        } else {
+            echo CHtml::button('Email me when available', array('onclick' => '
+                          
+                      ', 'class' => 'add_to_cart_arrow email_cart_arrow'));
+        }
         ?>
         <?php
         echo CHtml::ajaxLink(' Add to wishlist', $this->createUrl('/cart/addtowishlist'), array('data' => array(
@@ -91,10 +109,12 @@
     </section>
     <section>Availability : 
         <?php
-        if ($product->productProfile[0]->quantity == 0) {
-            echo "No";
+        if ($total_av > 0) {
+            echo "Yes ";
+            echo CHtml::image(Yii::app()->theme->baseUrl . '/images/yes.png');
         } else {
-            echo "Yes";
+            echo "No ";
+            echo CHtml::image(Yii::app()->theme->baseUrl . '/images/no.png');
         }
         ?>
     </section>
