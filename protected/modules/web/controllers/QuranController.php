@@ -133,7 +133,8 @@ class QuranController extends Controller {
             $rating_value = ProductReviews::model()->calculateRatingValue($product->product_id);
             $right_data = $this->renderPartial("//quran/_product_detail_data", array('product' => $product, "rating_value" => $rating_value), true, true);
             $left_data = $this->renderPartial("//quran/_product_detail_image", array('product' => $product), true, false);
-
+            
+            
             echo CJSON::encode(array(
                 "right_data" => $right_data,
                 "left_data" => $left_data,
