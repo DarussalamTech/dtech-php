@@ -69,11 +69,31 @@
                                
                             });    
                       ', 'class' => 'add_to_cart_arrow'));
-        }
-         else {
-            echo CHtml::button('Email me when available', array('onclick' => '
-                          
-                      ', 'class' => 'add_to_cart_arrow email_cart_arrow'));
+        } else {
+            if (!empty(Yii::app()->user->id)) {
+                echo CHtml::button('Email me when available', array('onclick' => '
+                                dtech_new.loadWaitmsg();
+                               jQuery("#load_subpanel_div").toggle(); 
+                               jQuery.ajax({
+                                    type: "POST",
+                                    dataType: "json",
+                                    url: "' . $this->createUrl("/cart/emailtous", array("product_profile_id" => $product->productProfile[0]->id)) . '",
+                                    data: 
+                                        { 
+
+                                        }
+                                    }).done(function( msg ) {      
+                                        jQuery("#load_subpanel_div").hide(); 
+                                        dtech.custom_alert("Email send successfully" ,"Notification");
+                                }); 
+                          ', 'class' => 'add_to_cart_arrow email_cart_arrow'));
+            } else {
+                echo CHtml::button('Email me when available', array(
+                    'onclick' => '
+                       window.open(
+                        "' . $this->createUrl("/web/cart/emailtoAdmin", array("id" => $product->productProfile[0]->id)) . '", "" )     
+                ','class'=>'add_to_cart_arrow email_cart_arrow'));
+            }
         }
         ?>
         <?php
@@ -110,7 +130,6 @@
     </section>
     <section>Availability : 
         <?php
-     
         if ($total_av > 0) {
             echo "Yes ";
             echo CHtml::image(Yii::app()->theme->baseUrl . '/images/yes.png');
@@ -154,11 +173,11 @@
 </div>
 
 <script>
-            function totalPrice(quantity, price)
+    function totalPrice(quantity, price)
     {
-            if (dtech.isNumber(quantity))
+        if (dtech.isNumber(quantity))
         {
-    //total_price = quantity * price;
+            //total_price = quantity * price;
             //jQuery('#price').html('$ ' + total_price);
         }
         else

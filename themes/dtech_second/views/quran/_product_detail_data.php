@@ -78,32 +78,32 @@
                                
                             });    
                       ', 'class' => 'add_to_cart_arrow'));
-        }
-        else {
-                        echo CHtml::button('Email me when available', array('onclick' => '
-                          jQuery.ajax({
-                                type: "POST",
-                                dataType: "json",
-                                url: "' . $this->createUrl("/cart/addtocart", array("product_profile_id" => $product->productProfile[0]->id)) . '",
-                                data: 
-                                    { 
-                                        quantity: jQuery("#quantity").val(),
-                                    }
-                                }).done(function( msg ) {
-                               
-                                jQuery("#loading").hide();
-                                if(msg["total_available"]>0){
-                                    jQuery("#status_available").show();  
-                                    dtech.custom_alert("Item has added to cart" ,"Add to Cart");
-                                }
-                                else {
-                                    jQuery("#status_un_available").show();    
-                                    dtech.custom_alert("Item is out of stock" ,"Add to Cart");
-                                }
-                                dtech_new.loadCartAgain("' . $this->createUrl("/web/cart/loadCart") . '");
-                               
-                            });   
-                      ', 'class' => 'add_to_cart_arrow email_cart_arrow'));
+        } else {
+            if(!empty(Yii::app()->user->id)){
+                echo CHtml::button('Email me when available', array('onclick' => '
+                                dtech_new.loadWaitmsg();
+                               jQuery("#load_subpanel_div").toggle(); 
+                               jQuery.ajax({
+                                    type: "POST",
+                                    dataType: "json",
+                                    url: "' . $this->createUrl("/cart/emailtous", array("product_profile_id" => $product->productProfile[0]->id)) . '",
+                                    data: 
+                                        { 
+
+                                        }
+                                    }).done(function( msg ) {      
+                                        jQuery("#load_subpanel_div").hide(); 
+                                        dtech.custom_alert("Email send successfully" ,"Notification");
+                                }); 
+                          ', 'class' => 'add_to_cart_arrow email_cart_arrow'));
+            }
+            else {
+                 echo CHtml::button('Email me when available', array(
+                     'onclick' => '
+                       window.open(
+                        "'.$this->createUrl("/web/cart/emailtoAdmin",array("id"=> $product->productProfile[0]->id)).'", "" )     
+                ','class'=>'add_to_cart_arrow email_cart_arrow'));
+            }
         }
         ?>
 
@@ -279,8 +279,8 @@
     ?>
     <section>
         Item Code:    <?php
-        echo isset($product->productProfile[0]->item_code) ? $product->productProfile[0]->item_code : "";
-        ?>
+    echo isset($product->productProfile[0]->item_code) ? $product->productProfile[0]->item_code : "";
+    ?>
     </section>
     <section>Category: <?php
         $cat_count = 0;
@@ -292,7 +292,7 @@
             }
             $cat_count++;
         }
-        ?>
+    ?>
     </section>
     <section>
         <?php
@@ -310,9 +310,9 @@
 
 
 <script>
-        function totalPrice(quantity, price)
+    function totalPrice(quantity, price)
     {
-            if (dtech.isNumber(quantity))
+        if (dtech.isNumber(quantity))
         {
             //total_price = quantity * price;
             //jQuery('#price').html('$ ' + total_price);
@@ -320,7 +320,7 @@
         else
         {
             dtech.custom_alert('Quantity should be Numeric....!');
-    jQuery('#quantity').val('1');
+            jQuery('#quantity').val('1');
         }
     }
 </script>

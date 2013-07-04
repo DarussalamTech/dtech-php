@@ -102,6 +102,38 @@ class CartController extends Controller {
         echo CJSON::encode(array("_view_cart" => $_view_cart, "cart_list_count" => $cart_list_count));
     }
 
+    /**
+     * on email admin
+     */
+    public function actionEmailtoAdmin($id) {
+
+        Yii::app()->user->SiteSessions;
+
+        $model = new EmailToAdmin();
+
+        if (isset($_POST['EmailToAdmin'])) {
+            $model->attributes = $_POST['EmailToAdmin'];
+            if ($model->validate()) {
+                $email['From'] = $model->email;
+
+                $productProfile = ProductProfile::model()->findByPk($id);
+
+                $email['To'] = User::model()->getCityAdmin();
+                $email['Subject'] = "This product is out of stock";
+                $email['Body'] = "This product is out of stock kindly make available to us and send me email";
+                $url = Yii::app()->request->hostInfo . $this->createUrl("/product/viewImage/", array("id" => $product_profile_id));
+                $email['Body'].=" <br/>" . CHtml::link($productProfile->item_code, $url);
+                $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
+
+                $this->sendEmail2($email);
+                Yii::app()->user->setFlash('send', "Your Query has been send to admin successfully");
+                $this->redirect($this->createUrl("/web/cart/emailtoAdmin",array("id"=>$id)));
+            }
+        }
+
+        $this->render("//cart/emailtoadmin", array("model" => $model));
+    }
+
 }
 
 ?>

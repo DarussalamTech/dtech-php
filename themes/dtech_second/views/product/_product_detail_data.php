@@ -82,9 +82,33 @@
                 'class' => 'add_to_cart_arrow',
             ));
         } else {
-            echo CHtml::button('Email me when available', array('onclick' => '
-                          
-                      ', 'class' => 'add_to_cart_arrow email_cart_arrow'));
+            if(!empty(Yii::app()->user->id)){
+                echo CHtml::button('Email me when available', array('onclick' => '
+                                dtech_new.loadWaitmsg();
+                               jQuery("#load_subpanel_div").toggle(); 
+                               jQuery.ajax({
+                                    type: "POST",
+                                    dataType: "json",
+                                    url: "' . $this->createUrl("/cart/emailtous", array("product_profile_id" => $product->productProfile[0]->id)) . '",
+                                    data: 
+                                        { 
+
+                                        }
+                                    }).done(function( msg ) {      
+                                        jQuery("#load_subpanel_div").hide(); 
+                                        dtech.custom_alert("Email send successfully" ,"Notification");
+                                }); 
+                          ', 'class' => 'add_to_cart_arrow email_cart_arrow'));
+            }
+            else {
+                
+                 echo CHtml::button('Email me when available', array(
+                     'onclick' => '
+                       window.open(
+                        "'.$this->createUrl("/web/cart/emailtoAdmin",array("id"=> $product->productProfile[0]->id)).'", "" )     
+                ','class'=>'add_to_cart_arrow email_cart_arrow'));
+                
+            }
         }
         ?>
 
