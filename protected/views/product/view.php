@@ -54,10 +54,12 @@ $this->widget('zii.widgets.CDetailView', array(
         array(
             'name' => 'product_overview',
             'value' => $model->product_overview,
+            'type'=>'raw',
         ),
         array(
             'name' => 'product_description',
             'value' => $model->product_description,
+            'type'=>'raw',
         ),
         array(
             'name' => 'parent_cateogry_id',

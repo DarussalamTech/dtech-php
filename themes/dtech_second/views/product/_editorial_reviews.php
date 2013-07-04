@@ -2,15 +2,15 @@
 
 
     jQuery(document).ready(function() {
-        jQuery('div.read_more').slideToggle();
+        //jQuery('div.read_more').slideToggle();
 
         jQuery('#more').click(function() {
             jQuery('div.brief').hide();
-            jQuery('div.read_more').slideToggle('slow');
+            jQuery('div.read_more').show('slow');
         });
         jQuery('#close').click(function() {
-            jQuery('div.brief').slideToggle('slow');
-            jQuery('div.read_more').slideToggle('slow');
+            jQuery('div.brief').show('slow');
+            jQuery('div.read_more').hide();
         });
 
 
@@ -38,19 +38,19 @@
         echo CHtml::openTag('p');
         echo substr($product->product_description, 0, 1000) . '.....';
         ?>
-        <a id="more" href="#">Read Detail </a>
+        <a id="more" href="javascript:void(0)">Read Detail </a>
         <?php
         echo CHtml::closeTag('p');
 
         echo CHtml::closeTag('div');
 
 
-        echo CHtml::openTag('div', array('class' => 'read_more'));
+        echo CHtml::openTag('div', array('class' => 'read_more',"style"=>"display:none"));
 
         echo CHtml::openTag('p');
         echo $product->product_description;
         ?>
-        <a id="close" style="" href="#">Close Detail </a>
+        <a id="close" style="" href="javascript:void(0)">Close Detail </a>
         <?php
         echo CHtml::closeTag('p');
 
