@@ -84,7 +84,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         array(
             'name' => 'parent_id',
             'type' => 'Raw',
-            'value' => '$data->parent_id',
+            'value' => '$data->getparent->category_name',
             'headerHtmlOptions' => array(
                 'style' => "text-align:left"
             )
