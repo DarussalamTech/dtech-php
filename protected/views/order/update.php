@@ -1,8 +1,10 @@
 <h1>Update Status</h1>
 <?php
-if(!(Yii::app()->user->isGuest)) {
-        $this->renderPartial("/common/_left_single_menu");
+if (!(Yii::app()->user->isGuest)) {
+    $this->renderPartial("/common/_left_single_menu");
 }
+
+
 ?>
 <div class="form wide">
 
@@ -26,9 +28,9 @@ if(!(Yii::app()->user->isGuest)) {
     </div>
 
     <div class="row buttons">
-<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save', array("class" => "btn")); ?>
+        <?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save', array("class" => "btn")); ?>
     </div>
 
-<?php $this->endWidget(); ?>
+    <?php $this->endWidget(); ?>
 
 </div><!-- for
