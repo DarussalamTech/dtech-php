@@ -1,19 +1,20 @@
 <div class="clear"></div>
-<?php
-/**
- * product comments will be called from here
- * 
- */
-$form = $this->beginWidget('CActiveForm', array(
-    'id' => 'login-form',
-    'action' => $this->createUrl('/web/user/ProductReview'),
-    'enableClientValidation' => true,
-    'clientOptions' => array(
-        'validateOnSubmit' => true,
-    ),
-        ));
-?>
+
 <div class="comments">
+    <?php
+    /**
+     * product comments will be called from here
+     * 
+     */
+    $form = $this->beginWidget('CActiveForm', array(
+        'id' => 'login-form',
+        'action' => $this->createUrl('/web/user/ProductReview'),
+        'enableClientValidation' => true,
+        'clientOptions' => array(
+            'validateOnSubmit' => true,
+        ),
+    ));
+    ?>
     <div class="left_comments">
         <?php echo CHtml::image(Yii::app()->baseUrl . "/images/noImage.png"); ?>
     </div>
@@ -57,7 +58,9 @@ $form = $this->beginWidget('CActiveForm', array(
         </div>
 
 
-    </div>
+    </div><br></br><br></br><br></br>
+    <?php $this->endWidget(); ?>
+
 </div>
-<div class="clear"></div>
-<?php $this->endWidget(); ?>
+
+

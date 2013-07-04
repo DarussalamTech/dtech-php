@@ -29,10 +29,10 @@ foreach ($featured_products as $featured) {
     echo CHtml::openTag("div", array("class" => "featured_books", 'style' => 'padding:28px 50px'));
     echo CHtml::link(CHtml::image($image, $name, array('style' => 'width:92px; height:138px;margin:0 0 17px 0px; box-shadow: 0 0 5px 5px #888; padding:2px 2px')), $this->createUrl('/web/product/productDetail', array('product_id' => $featured['product_id'])), array('title' => $name));
     echo CHtml::openTag("h3");
-    echo implode(' ', array_slice(explode(' ', $name), 0, 4));
+    echo substr($name, 0, 20) . '...';
     echo CHtml::closeTag("h3");
     echo CHtml::openTag("p");
-    echo $featured['product_description'];
+    echo substr($featured['product_overview'], 0, 80) . '...';
     echo CHtml::closeTag("p");
     echo CHtml::closeTag("div");
 }

@@ -41,7 +41,7 @@ class Categories extends DTActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('category_name, added_date, city_id', 'required'),
+            array('category_name,parent_id, added_date, city_id', 'required'),
             array('category_name', 'uniqueCategory'),
             //array('category_name','unique'),
             array('create_time,create_user_id,update_time,update_user_id', 'required'),

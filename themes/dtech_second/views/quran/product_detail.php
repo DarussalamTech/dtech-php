@@ -30,9 +30,13 @@ $this->widget('ext.lyiightbox.LyiightBox2', array(
 
     </div>
 </div>
-<div id="right_description">
-    <?php $this->renderPartial("//quran/_profile_items", array("product" => $product)) ?>
-</div>
+<?php
+if (count($product->productProfile) > 1) {
+    echo CHtml::openTag('div', array('id' => 'right_description'));
+    $this->renderPartial("//product/_profile_items", array("product" => $product));
+    echo CHtml::closeTag('div');
+}
+?>
 <?php $this->renderPartial("//product/_editorial_reviews", array("product" => $product, "rating_value" => $rating_value)); ?>   
 <?php //$this->renderPartial("//product/_related_products", array("product" => $product, "rating_value" => $rating_value)); ?>
 <?php $this->renderPartial("//product/_product_comments", array("product" => $product, "rating_value" => $rating_value)); ?>

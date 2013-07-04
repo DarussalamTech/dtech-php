@@ -23,21 +23,21 @@
         </script>
 
         <script type="text/javascript">
-            jQuery(document).ready(function() {
+            $(document).ready(function() {
                 dtech_new.toggleLogin();
                 dtech_new.toggleSideBar();
                 dtech_new.footerToggle();
-                dtech_new.changeBookImgHover();
+               
                 dtech_new.registerCountryDropDown();
                 jQuery("#LandingModel_country").msDropdown();
                 jQuery("#countries").msDropdown();
                 dtech_new.registerPopUp();
-               
+                dtech_new.loadoverlay();
                 if (jQuery("#LandingModel_city").attr("type") != "hidden") {
                     jQuery("#LandingModel_city").msDropdown();
                 }
                 
-               
+                 dtech_new.changeBookImgHover();
 
             });
         </script>
