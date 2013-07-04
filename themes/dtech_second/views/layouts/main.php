@@ -26,7 +26,7 @@
                 dtech_new.toggleLogin();
                 dtech_new.toggleSideBar();
                 dtech_new.footerToggle();
-                dtech_new.changeBookImgHover();
+               
                 dtech_new.registerCountryDropDown();
                 jQuery("#LandingModel_country").msDropdown();
                 jQuery("#countries").msDropdown();
@@ -35,6 +35,8 @@
                 if (jQuery("#LandingModel_city").attr("type") != "hidden") {
                     jQuery("#LandingModel_city").msDropdown();
                 }
+                
+                 dtech_new.changeBookImgHover();
 
             });
         </script>
