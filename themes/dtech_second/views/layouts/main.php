@@ -19,6 +19,7 @@
         <script type="text/javascript" src="<?php echo Yii::app()->theme->baseUrl ?>/js/msdropdown/jquery.dd.min.js"></script>
         <script>
             var yii_base_url = "<?php echo Yii::app()->baseUrl; ?>";
+            var yii_base_theme_url = "<?php echo Yii::app()->theme->baseUrl; ?>";
         </script>
 
         <script type="text/javascript">
@@ -31,7 +32,7 @@
                 jQuery("#LandingModel_country").msDropdown();
                 jQuery("#countries").msDropdown();
                 dtech_new.registerPopUp();
-                dtech_new.loadoverlay();
+                
                 if (jQuery("#LandingModel_city").attr("type") != "hidden") {
                     jQuery("#LandingModel_city").msDropdown();
                 }
