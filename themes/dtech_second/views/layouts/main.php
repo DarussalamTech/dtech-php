@@ -19,6 +19,7 @@
         <script type="text/javascript" src="<?php echo Yii::app()->theme->baseUrl ?>/js/msdropdown/jquery.dd.min.js"></script>
         <script>
             var yii_base_url = "<?php echo Yii::app()->baseUrl; ?>";
+            var yii_base_theme_url = "<?php echo Yii::app()->theme->baseUrl; ?>";
         </script>
 
         <script type="text/javascript">
