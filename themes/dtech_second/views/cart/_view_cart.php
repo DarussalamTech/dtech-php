@@ -231,7 +231,7 @@
                                         dtech.increaseQuantity(this);
                                         var txt_obj = jQuery(this).parent().prev().children().eq(0);
                                         dtech_new.updateCart('" . $this->createUrl('/web/cart/editcart') . "',txt_obj,'" . $pro->cart_id . "');
-                                        dtech_new.updateMainCartPage('" . $this->createUrl('/web/cart/editcart') . "',txt_obj,'" . $pro->cart_id . "');
+                                        
                                            
                                         ",
                                     ));
@@ -249,7 +249,7 @@
                                             dtech.decreaseQuantity(this);
                                             var txt_obj = jQuery(this).parent().prev().children().eq(0);
                                             dtech_new.updateCart('" . $this->createUrl('/web/cart/editcart') . "',txt_obj,'" . $pro->cart_id . "');
-                                            dtech_new.updateMainCartPage('" . $this->createUrl('/web/cart/editcart') . "',txt_obj,'" . $pro->cart_id . "');
+                                            
                                             "
                                 ));
                                 ?>
@@ -261,7 +261,9 @@
                                 /**
                                  * after ajax action
                                  */
-                                if (isset($available) && !$available) {
+                                //echo $available."---".$request_quantity;
+                                if (isset($available) && $available==0) {
+                                      echo $available;    
                                     echo "Not Available in this quantity " .'"'.$request_quantity.'" ';
                                     echo CHtml::image(Yii::app()->theme->baseUrl . '/images/no.png');
                                 }
