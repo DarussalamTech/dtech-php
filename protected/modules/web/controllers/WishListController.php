@@ -19,8 +19,9 @@ class WishListController extends Controller {
      * For Edit or delete the wishlist product
      */
     public function actionEditwishlist() {
-        Yii::app()->user->SiteSessions;
+
         if ($_REQUEST['type'] == 'delete_wishlist') {
+            Yii::app()->user->SiteSessions;
             $wishlist_model = new WishList();
             $wishlist_model->findByPk($_REQUEST['id'])->delete();
             /**

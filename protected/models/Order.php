@@ -145,9 +145,24 @@ class Order extends DTActiveRecord {
      * and managing the stock
      */
 
-    public function updateProductQuantity() {
+    public function decreaseStock() {
         foreach ($this->orderDetails as $orderDet) {
             $stock = $orderDet->product_profile->quantity - $orderDet->quantity;
+  
+            
+            ProductProfile::model()->updateByPk($orderDet->product_profile->id, array('quantity' => $stock));
+        }
+    }
+    /*
+     * Stock Managment Method 
+     * Adding the order quantity to stock (product profile quantity)
+     * and managing the stock
+     * when order is declined
+     */
+
+    public function increaseStock() {
+        foreach ($this->orderDetails as $orderDet) {
+            $stock = $orderDet->product_profile->quantity + $orderDet->quantity;
   
             
             ProductProfile::model()->updateByPk($orderDet->product_profile->id, array('quantity' => $stock));
