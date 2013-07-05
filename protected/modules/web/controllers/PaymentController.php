@@ -56,14 +56,14 @@ class PaymentController extends Controller {
                 $creditCardModel->payment_method = $model->payment_method;
 
                 switch ($model->payment_method) {
-                    case 2: // credit card
+                    case "Credit Card": // credit card
 
                         $this->processCreditCard($model, $creditCardModel);
                         break;
-                    case 3: // manual
+                    case "Cash On Delievery": // manual
                         $this->processManual($creditCardModel);
                         break;
-                    case 1: //paypal
+                    case "Pay Pal": //paypal
                         UserProfile::model()->saveShippingInfo($_POST['ShippingInfoForm']);
                         $this->redirect($this->createUrl("/web/paypal/buy"));
                         break;
@@ -87,7 +87,7 @@ class PaymentController extends Controller {
      */
     public function validateCreditCard($model, $creditCardModel) {
 
-        if ($model->payment_method == "2") {
+        if ($model->payment_method == "Credit Card") {
             if (isset($_POST['CreditCardForm'])) {
                 $creditCardModel->attributes = $_POST['CreditCardForm'];
 
