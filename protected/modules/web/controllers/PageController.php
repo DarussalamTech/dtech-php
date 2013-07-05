@@ -24,7 +24,7 @@ class PageController extends Controller {
     /**
      * Prview detail
      */
-    public function actionpagesPreview($id) {
+    public function actionPagesPreview($id) {
         Yii::app()->user->SiteSessions;
 
 
