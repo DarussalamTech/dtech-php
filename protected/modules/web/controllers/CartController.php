@@ -61,14 +61,22 @@ class CartController extends Controller {
             /**
              * available is fal
              */
-            $available = false;
-
-            if ($cart_model->quantity < $total_available) {
+            $available = 0;
+            
+            
+            if ($cart_model->quantity < $total_in_cart) {
 
                 $cart_model->save();
-                $available = true;
+                $available = 1;
+                
+            } else if ($cart_model->quantity > $total_in_cart) {
+                if ($cart_model->quantity < $total_available) {
+                    $cart_model->save();
+                    $available = 1;
+                }
             }
         }
+        
         /*         * -
          * handling for cart on front page
          */
@@ -79,16 +87,25 @@ class CartController extends Controller {
         $cart = Cart::model()->getCartLists();
         $cart_list_count = Cart::model()->getCartListCount();
 
-
-        $_view_cart = $this->renderPartial($view, array('cart' => $cart, "available" => isset($available) ? $available : "",
-            "request_quantity" => isset($_REQUEST['quantity']) ? $_REQUEST['quantity'] : ""), true, true);
+        $_view_cart = $this->renderPartial($view, array('cart' => $cart, 
+                
+            ), true, true);
+        
+        /**
+         * for main cart
+         */
+                
+        $_view_cart_main = $this->renderPartial("//cart/_view_cart", array('cart' => $cart, 
+                "available" => isset($available) ? $available : "",        
+                "request_quantity" => isset($_REQUEST['quantity']) ? $_REQUEST['quantity'] : ""), true, true);
         echo CJSON::encode(array("_view_cart" => $_view_cart, "cart_list_count" => $cart_list_count,
-            "total_available" => isset($total_available) ? $total_available : "",
+            "_view_main_cart" => $_view_cart_main,
         ));
     }
 
     /**
      * load cart again
+     * small cart on left side
      */
     public function actionLoadCart() {
 
@@ -96,11 +113,17 @@ class CartController extends Controller {
 
         $cart = Cart::model()->getCartLists();
         $cart_list_count = Cart::model()->getCartListCount();
-
-
-        $_view_cart = $this->renderPartial("//cart/_cart", array('cart' => $cart), true, true);
+        $view = "//cart/_cart";
+        /**
+         * if request set for main cart then it will be loaded
+         */
+        if(isset($_REQUEST['type']) && $_REQUEST['type'] == "main"){
+            $view = "//cart/_view_cart";
+        }
+        $_view_cart = $this->renderPartial($view, array('cart' => $cart), true, true);
         echo CJSON::encode(array("_view_cart" => $_view_cart, "cart_list_count" => $cart_list_count));
     }
+    
 
     /**
      * on email admin
@@ -127,7 +150,7 @@ class CartController extends Controller {
 
                 $this->sendEmail2($email);
                 Yii::app()->user->setFlash('send', "Your Query has been send to admin successfully");
-                $this->redirect($this->createUrl("/web/cart/emailtoAdmin",array("id"=>$id)));
+                $this->redirect($this->createUrl("/web/cart/emailtoAdmin", array("id" => $id)));
             }
         }
 
