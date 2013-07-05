@@ -53,7 +53,7 @@
         <?php
         $total_in_cart = Cart::model()->getTotalCountProduct($product->productProfile[0]->id);
         $total_av = $product->productProfile[0]->quantity - $total_in_cart;
-        echo $total_av;
+      
         if ($total_av > 0) {
             echo CHtml::button('Add to Cart', array('onclick' => '
                             jQuery("#loading").show();
