@@ -97,7 +97,7 @@
                                         }
                                     }).done(function( msg ) {      
                                         jQuery("#load_subpanel_div").hide(); 
-                                        dtech.custom_alert("Email send successfully" ,"Notification");
+                                        dtech.custom_alert("You will be notified by email" ,"Notification");
                                 }); 
                           ', 'class' => 'add_to_cart_arrow email_cart_arrow'));
             } else {
