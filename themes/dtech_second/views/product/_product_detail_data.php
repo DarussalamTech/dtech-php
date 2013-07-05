@@ -56,8 +56,8 @@
         if ($total_av > 0) {
             echo CHtml::button('Add to Cart', array('onclick' => '
                             jQuery("#loading").show();
-                            jQuery("#status_available").show();  
-                            jQuery("#status_un_available").show();  
+                            jQuery("#status_available").hide();  
+                            jQuery("#status_un_available").hide();  
                             jQuery.ajax({
                                 type: "POST",
                                 dataType: "json",
