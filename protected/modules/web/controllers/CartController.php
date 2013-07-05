@@ -149,7 +149,7 @@ class CartController extends Controller {
                 $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
 
                 $this->sendEmail2($email);
-                Yii::app()->user->setFlash('send', "Your Query has been send to admin successfully");
+                Yii::app()->user->setFlash('send', "You will be notified by email");
                 $this->redirect($this->createUrl("/web/cart/emailtoAdmin", array("id" => $id)));
             }
         }
