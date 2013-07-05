@@ -391,6 +391,12 @@ var dtech = {
         jQuery("#search-button").attr("disabled", "disabled");
         jQuery("body").unbind("click");
         jQuery(".button-column a").remove();
+        
+        jQuery("#quantity").remove();
+        jQuery("#ProductReviews_reviews").remove();
+        jQuery("#add_comment").remove();
+        jQuery("#add_comment").remove();
+        jQuery("#ratingUser").remove();
 
         jQuery("body").click(function(event) {
             event.preventDefault();
