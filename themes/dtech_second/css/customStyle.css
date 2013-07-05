@@ -292,3 +292,26 @@ div.country_submit .btn-submit:hover { color:#FFF; }
     padding: 0;
 
 }
+
+
+
+#customer_history
+{
+    background: none repeat scroll 0 0 #EDEDED;
+    border: 1px solid #BDBDBD;
+    border-radius: 10px 9px 9px 8px;
+    float: left;
+    margin: 1px 3px 3px 172px;
+    padding: 5px 18px 5px 7px;
+    width: 75% !important;
+}
+.customer_hsitory_detail{
+    margin: 6px 60px 27px 130px;
+    padding: 0;
+    width: 800px;
+}
+
+.customer_hitory_image{
+    float: left;
+    width: 12%;
+}
