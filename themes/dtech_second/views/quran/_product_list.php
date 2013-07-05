@@ -19,8 +19,8 @@ foreach ($products as $product) {
         $image = $product['image'][0]['image_small'];
     }
     echo CHtml::openTag("div", array("class" => "featured_books", 'style' => 'padding:28px 50px'));
-
-    echo CHtml::link(CHtml::image($image, $name),$this->createUrl('/web/quran/productDetail', array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'], 'product_id' => $product['product_id'])), array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'], 'product_id' => $product['product_id']));
+    //CHtml::image($image, $name)
+    echo CHtml::link("d",$this->createUrl('/web/quran/productDetail', array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'], 'product_id' => $product['product_id'])), array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'], 'product_id' => $product['product_id']));
 
     echo CHtml::openTag("h3");
     echo substr($name, 0, 20) . '...';
