@@ -393,9 +393,9 @@ var dtech = {
         jQuery(".button-column a").remove();
         
         jQuery("#quantity").remove();
-        jQuery("#ProductReviews_reviews").remove();
-        jQuery("#add_comment").remove();
-        jQuery("#add_comment").remove();
+        jQuery("#ProductReviews_reviews").attr("disabled", "disabled");
+        jQuery("#add_comment").attr("disabled", "disabled");
+      
         jQuery("#ratingUser").remove();
 
         jQuery("body").click(function(event) {
