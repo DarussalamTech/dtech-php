@@ -103,6 +103,14 @@ $this->widget('zii.widgets.grid.CGridView', array(
             ),
         ),
         array(
+            'name' => 'City',
+            'type' => 'Raw',
+            'value' => '$data->city_rel->city_name',
+            'headerHtmlOptions' => array(
+                'style' => "text-align:left"
+            ),
+        ),
+        array(
             'class' => 'CButtonColumn',
             'template' => '{update}',
             'buttons' => array

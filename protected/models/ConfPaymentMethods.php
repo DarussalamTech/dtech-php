@@ -62,6 +62,7 @@ class ConfPaymentMethods extends DTActiveRecord {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
+            'city_rel' => array(self::BELONGS_TO, 'City', 'city_id'),
         );
     }
 
@@ -74,9 +75,9 @@ class ConfPaymentMethods extends DTActiveRecord {
             'name' => 'Name',
             'status' => 'Status',
             'sandbox' => 'Sanbox',
-            'secret'=>'apiPassword (TRANSACTION_KEY)',
-            'key'=>'apiUsername (LOGIN_ID)',
-            'signature'=>'apiSignature',
+            'secret' => 'apiPassword (TRANSACTION_KEY)',
+            'key' => 'apiUsername (LOGIN_ID)',
+            'signature' => 'apiSignature',
             'create_time' => 'Create Time',
             'create_user_id' => 'Create User',
             'update_time' => 'Update Time',
