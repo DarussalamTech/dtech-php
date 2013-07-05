@@ -24,7 +24,7 @@
 <div id="description_content">
 
     <h1>Book Description</h1>
-    <article>Release date: <b><?php  echo date('S:M:H:D:M:Y',$product->create_time); ?></b> </article>
+   
 
     <?php
     if (str_word_count($product->product_description) < 500) {

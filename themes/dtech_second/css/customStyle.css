@@ -292,3 +292,6 @@ div.country_submit .btn-submit:hover { color:#FFF; }
     padding: 0;
 
 }
+.featured_books a img {
+    width:92px; height:138px;margin:0 0 17px 0px; box-shadow: 0 0 5px 5px #888; padding:2px 2px;
+}
