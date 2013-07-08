@@ -20,6 +20,13 @@
         echo isset($product->productProfile[0]->price) ? " Price: <span>" . round($product->productProfile[0]->price, 2) . ' ' . Yii::app()->session['currency'] . "</span>" : "";
         ?>
     </h2>
+    <h2>
+        <?php
+        $total_in_cart = Cart::model()->getTotalCountProduct($product->productProfile[0]->id);
+        $total_av = $product->productProfile[0]->quantity - $total_in_cart;
+        echo " Quantity: <span>" . $total_av . "</span>";
+        ?>
+    </h2>
     <p>
         <?php
         /** rating value is comming from controller * */
@@ -37,10 +44,7 @@
 
     <article>
         <?php
-        $total_in_cart = Cart::model()->getTotalCountProduct($product->productProfile[0]->id);
-        $total_av = $product->productProfile[0]->quantity - $total_in_cart;
-        
-        if ($total_av > 1) {
+        if ($total_av >= 1) {
             echo CHtml::textField('quantity', '1', array('onKeyUp' => 'javascript:totalPrice(this.value,"' . $product->productProfile[0]->price . '")', 'style' => 'width:40px', 'maxlength' => '3'));
         }
         ?>
@@ -323,11 +327,11 @@
 <script>
     function totalPrice(quantity, price)
     {
-    if (dtech.isNumber(quantity))
+        if (dtech.isNumber(quantity))
         {
-        //total_price = quantity * price;
+            //total_price = quantity * price;
             //jQuery('#price').html('$ ' + total_price);
-            }
+        }
         else
         {
             dtech.custom_alert('Quantity should be Numeric....!');

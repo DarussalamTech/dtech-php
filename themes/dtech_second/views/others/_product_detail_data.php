@@ -25,11 +25,18 @@
         </span>
     </h2>
 
-    <article>
+    <h2>
         <?php
         $total_in_cart = Cart::model()->getTotalCountProduct($product->productProfile[0]->id);
         $total_av = $product->productProfile[0]->quantity - $total_in_cart;
-        if ($total_av > 1) {
+        echo " Quantity: <span>" . $total_av . "</span>";
+        ?>
+    </h2>
+
+    <article>
+        <?php
+
+        if ($total_av >= 1) {
             echo CHtml::textField('quantity', '1', array('onKeyUp' => 'javascript:totalPrice(this.value,"' . $product->productProfile[0]->price . '")', 'style' => 'width:40px', 'maxlength' => '3'));
         }
         ?>
@@ -45,7 +52,6 @@
     <div class="add_to_cart_button">
 
         <?php
-        
         if ($total_av > 1) {
             echo CHtml::button('Add to Cart', array('onclick' => '
                             jQuery("#loading").show();
