@@ -25,5 +25,5 @@
     );
      
     ?>
-
+ <?php echo CHtml::submitButton('Submit', array('class' => 'secure_button')); ?>
 </div>
