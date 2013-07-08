@@ -15,7 +15,7 @@
  */
 class OrderDetail extends DTActiveRecord {
 
-    public $totalOrder;
+    public $totalOrder,$total_price;
 
     /**
      * used for deleting
@@ -336,6 +336,13 @@ class OrderDetail extends DTActiveRecord {
         }
 
         parent::afterSave();
+    }
+    /**
+     * used for calculating of total price
+     */
+    public function afterFind() {
+        $this->total_price = $this->product_price * $this->quantity;
+        parent::afterFind();
     }
 
 }

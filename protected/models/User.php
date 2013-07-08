@@ -136,7 +136,7 @@ class User extends DTActiveRecord {
     }
 
     static function getAccessLevelList($level = null) {
-        $levelList = array(           
+        $levelList = array(
             self::LEVEL_ADMIN => 'SystemUsers',
             self::LEVEL_CUSTOMER => 'Customer',
         );
@@ -275,9 +275,12 @@ class User extends DTActiveRecord {
         $id = Yii::app()->user->id;
         $criteria = new CDbCriteria();
         $criteria->condition = 'user_id=' . $id;
-       $mod = new Order;
-        $data =  new CActiveDataProvider($mod, array(
+        $criteria->order = "status ='process' DESC";
+        $data = new CActiveDataProvider('Order', array(
             'criteria' => $criteria,
+            'pagination' => array(
+                'pageSize' => 100,
+            ),
         ));
         return $data;
     }
