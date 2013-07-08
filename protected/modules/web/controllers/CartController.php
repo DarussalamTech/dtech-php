@@ -26,6 +26,14 @@ class CartController extends Controller {
         Yii::app()->session['quantity'] = $total_quantity;
         Yii::app()->session['description'] = $description;
     }
+    
+    /**
+     * delete Cart 
+     */
+    
+    public function actionDeleteCart($id){
+        Cart::model()->findByPk($id)->delete();
+    }
 
     /**
      * edit or delete cart
@@ -84,6 +92,7 @@ class CartController extends Controller {
             "request_quantity" => isset($_REQUEST['quantity']) ? $_REQUEST['quantity'] : ""), true, true);
         echo CJSON::encode(array("_view_cart" => $_view_cart, "cart_list_count" => $cart_list_count,
             "total_available" => isset($total_available) ? $total_available : "",
+            "available" => $available,
         ));
     }
 

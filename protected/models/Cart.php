@@ -14,6 +14,28 @@
 class Cart extends DTActiveRecord {
 
     /**
+     * caluclated or drieved attribue
+     * @var type 
+     */
+    public $price, $image, $image_link, $link;
+    public $view_array = array(
+        "Books" => array(
+            "controller" => "product",
+            "view" => "_books/_book_info"
+        ),
+        "Educational Toys" => array(
+            "controller" => "educationToys",
+        ),
+        "Quran" => array(
+            "controller" => "quran",
+            "view" => "_quran/_quran_info"
+        ),
+        "Others" => array(
+            "controller" => "others",
+        ),
+    );
+
+    /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
      * @return Cart the static model class
@@ -40,6 +62,7 @@ class Cart extends DTActiveRecord {
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
             array('product_profile_id', 'numerical', 'integerOnly' => true),
             array('added_date', 'length', 'max' => 255),
+            array('price,image', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('cart_id, product_profile_id, added_date', 'safe', 'on' => 'search'),
@@ -121,19 +144,22 @@ class Cart extends DTActiveRecord {
     function getCartLists() {
         $cart = "";
         $ip = Yii::app()->request->getUserHostAddress();
-  
-        
-        $criteria  = new CDbCriteria();
-        
+
+
+        $criteria = new CDbCriteria();
+
         if (isset(Yii::app()->user->id)) {
             $criteria->condition = 'city_id=' . Yii::app()->session['city_id'] . ' AND (user_id=' . Yii::app()->user->user_id . ' OR session_id="' . $ip . '")';
         } else {
             $criteria->condition = 'city_id=' . Yii::app()->session['city_id'] . ' AND session_id="' . $ip . '"';
         }
-        
 
-        $cart =  new CActiveDataProvider($this, array(
+
+        $cart = new CActiveDataProvider($this, array(
             'criteria' => $criteria,
+            'pagination' => array(
+                'pageSize' => 100,
+            ),
         ));
 
         return $cart;
@@ -181,6 +207,36 @@ class Cart extends DTActiveRecord {
             $tot['quantity'] = 0;
         }
         return $tot['quantity'];
+    }
+
+    /**
+     * price set to 
+     * 
+     */
+    public function afterFind() {
+        /**
+         * price to be set
+         * and image to be set of product profile 
+         * 
+         */
+            $this->price = isset($this->productProfile->price) ? $this->productProfile->price*$this->quantity : 0;
+        $images = $this->productProfile->getImage();
+        if (!empty($images[0] ['image_small'])) {
+            $this->image = $images[0] ['image_small'];
+        } else {
+            $this->image = $this->productProfile->product["no_image"];
+        }
+        $parent_cat = "Books";
+        if (!empty($pro->productProfile->product->parent_category->category_name)) {
+            $parent_cat = $pro->productProfile->product->parent_category->category_name;
+        }
+        $this->image_link = CHtml::link(CHtml::image($this->image, 'image', array('title' => $this->productProfile->product->product_name)), Yii::app()->controller->createUrl('/web/' . $this->view_array[$parent_cat]['controller'] . '/productDetail', array('country' => Yii::app()->session['country_short_name'],
+                            'product_id' => $this->productProfile->product->product_id)));
+        
+        $this->link = CHtml::link($this->productProfile->product->product_name, Yii::app()->controller->createUrl('/web/' . $this->view_array[$parent_cat]['controller'] . '/productDetail', array('country' => Yii::app()->session['country_short_name'],
+                            'product_id' => $this->productProfile->product->product_id)));
+
+        parent::afterFind();
     }
 
 }
