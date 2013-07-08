@@ -244,22 +244,7 @@ class UserController extends Controller {
     public function actionCustomerHistory() {
         Yii::app()->user->SiteSessions;
         $ip = Yii::app()->request->getUserHostAddress();
-//        Yii::app()->theme = Yii::app()->session['layout'];
-        Yii::app()->layout = '//layouts/column2';
-
-        //$this->dtdump(Yii::app()->getTheme());die;
-//        $cart_model = new Cart();
-//        if (isset(Yii::app()->user->id)) {
-//            $cart = $cart_model->findAll('city_id=' . Yii::app()->session['city_id'] . ' AND (user_id=' . Yii::app()->user->id . ' OR session_id="' . $ip . '")');
-//        } else {
-//            $cart = $cart_model->findAll('city_id=' . Yii::app()->session['city_id'] . ' AND session_id="' . $ip . '"');
-//        }
-        $model = new User;
-        $history = $model->customerHistory();
-
-        //CVarDumper::dump($history,10,true);die;
-
-
+        $history = User::model()->customerHistory();
         $this->render('//user/customer_history', array('cart' => $history));
     }
 

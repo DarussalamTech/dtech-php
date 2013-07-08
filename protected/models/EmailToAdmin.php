@@ -7,7 +7,6 @@ class EmailToAdmin extends CFormModel {
 
     public $email;
 
-
     /**
      * Declares the validation rules.
      */
@@ -15,7 +14,14 @@ class EmailToAdmin extends CFormModel {
         return array(
             array('email', 'required'),
             array('email', 'email'),
-         
         );
     }
+
+    public function attributeLabels() {
+        return array(
+            'email' => 'Email Address',
+           
+        );
+    }
+
 }

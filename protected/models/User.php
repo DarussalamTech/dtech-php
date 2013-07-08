@@ -271,9 +271,14 @@ class User extends DTActiveRecord {
     }
 
     public function customerHistory() {
+        $data = "";
         $id = Yii::app()->user->id;
-        $model = new Order;
-        $data = $model->with('orderDetails')->findAll('user_id=' . $id);
+        $criteria = new CDbCriteria();
+        $criteria->condition = 'user_id=' . $id;
+       $mod = new Order;
+        $data =  new CActiveDataProvider($mod, array(
+            'criteria' => $criteria,
+        ));
         return $data;
     }
 

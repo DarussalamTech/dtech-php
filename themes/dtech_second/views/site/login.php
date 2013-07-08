@@ -19,7 +19,16 @@ $this->webPcmWidget['best'] = array('name' => 'DtechBestSelling',
     //echo CHtml::image(Yii::app()->theme->baseUrl . "/images/shopping_cart_img_03.png");
     ?>
     <h6>Already a member?</h6>
+    <?php if (Yii::app()->user->hasFlash('registration') || Yii::app()->user->hasFlash('login')) { ?>
+
+        <div id="flash" style="text-align: center; color: green" >
+            <?php echo Yii::app()->user->getFlash('registration'); ?>
+            <?php echo Yii::app()->user->getFlash('login'); ?>
+        </div>
+
     <?php
+    }
+
     $form = $this->beginWidget('CActiveForm', array(
         'id' => 'login-form',
         'action' => Yii::app()->createUrl('/site/login'),
@@ -30,13 +39,13 @@ $this->webPcmWidget['best'] = array('name' => 'DtechBestSelling',
     ));
     ?>
     <div id="errors" style="color: red">
-        <?php echo $form->errorSummary($model); ?>
+<?php echo $form->errorSummary($model); ?>
     </div>
     <div class="login_part">
         <p>User Name</p>
         <?php echo $form->textField($model, 'username', array("class" => "text")); ?>
         <p>Password</p>
-        <?php echo $form->passwordField($model, 'password', $htmlOptions = array("class" => "text")); ?>
+<?php echo $form->passwordField($model, 'password', $htmlOptions = array("class" => "text")); ?>
         <article> <?php echo CHtml::link('Forgot password?', $this->createUrl('/web/user/forgot')); ?></article>
         <div id="main_login_pointer">
         </div>
@@ -45,7 +54,7 @@ $this->webPcmWidget['best'] = array('name' => 'DtechBestSelling',
         echo CHtml::submitButton("User Login", array("class" => "user_login_button"));
         ?>
     </div>
-    <?php $this->endWidget(); ?>
+<?php $this->endWidget(); ?>
     <div class="login_with_images">
         <h4>Login with</h4>
 
