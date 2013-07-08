@@ -46,7 +46,7 @@ class CartController extends Controller {
         }
       
         
-        if ($total_available > 0 && $total_available>$_REQUEST['quantity']) {
+        if ($total_available > 0 && $total_available>=$_REQUEST['quantity']) {
             $cart_model->save();
         }
         else {
