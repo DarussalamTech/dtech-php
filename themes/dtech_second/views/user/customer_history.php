@@ -10,72 +10,51 @@ if (empty($cart)) {
     </div>
     <?php
 } else {
+    //CVarDumper::dump($cart->getData()->order_id,20,TRUE);die;
+    $config = array(
+        'criteria' => array(
+        //'condition' => 'order_id=' . $cart->order_id,
+        )
+    );
+    $mName_provider = new CActiveDataProvider("Order");
 
-
-    $this->widget('ext.lyiightbox.LyiightBox2', array());
-
-    $grand_total = 0;
-    $total_quantity = 0;
-    $description = '';
-    foreach ($cart as $pro) {
-        $total_quantity+=$pro->orderDetails->quantity;
-        $description.=$pro->orderDetails->product_profile->product->product_description . ' , ';
-        ?>
-        <div id="customer_history">
-            <div class="customer_hitory_image" id="img_detail">
-                <?php
-                //echo CHtml::link(CHtml::image($pro->orderDetails[0]->product_profile->productImages[0]->image_url['image_small']),array('rel'=>'lightbox[_default]'));
-                //$detail_img = $pro->orderDetails[0]->product_profile->product->no_image;
-
-
-                //CVarDumper::dump($pro->orderDetails[0]->product_profile->productImages[0],20,true);die;
-                if (!empty($pro)) {
-                    $detail_img = CHtml::image($pro->orderDetails[0]->product_profile->productImages[0]->image_url['image_large'], '');
-
-                    echo CHtml::link($detail_img, $pro->orderDetails[0]->product_profile->productImages[0]->image_url['image_large'], array("rel" => 'lightbox[_default]',));
-                } else {
-
-                    //CVarDumper::dump($pro->orderDetails[0]->product_profile->productImages[0],20,true);die;
-                    $detail_img = CHtml::image($pro->orderDetails[0]->product_profile->productImages[0]->no_image);
-
-                    echo CHtml::link($detail_img, $pro->orderDetails[0]->product_profile->productImages[0]->no_image, array("rel" => 'lightbox[_default]',));
-                }
-                ?>
-            </div>
-            <div class="customer_hsitory_detail">
-                <?php echo $pro->orderDetails[0]->product_profile->product->product_name; ?>
-                <h2><?php echo $pro->orderDetails[0]->product_profile->product->product_description; ?></h2>
-                Author:
-                <?php
-                echo!empty($pro->orderDetails[0]->product_profile->product->author->author_name) ? $pro->orderDetails[0]->product_profile->product->author->author_name : "";
-                ?><br>
-                Language:
-                <?php
-                echo!empty($pro->orderDetails[0]->product_profile->productLanguage->language_name) ? $pro->orderDetails[0]->product_profile->productLanguage->language_name : "";
-                ?><br>
-                Order Date:
-                <?php
-                echo $pro->order_date;
-                ?>
-                <p>
-                    <span> Quantity : &nbsp; &nbsp;</span> 
-                    <?php
-                    echo CHtml::label($pro->orderDetails[0]->quantity, '');
-                    ?>
-                </p>
-                <p><span>Unit Price :</span>
-                    $<?php echo round($pro->orderDetails[0]->product_price, 2); ?>
-                </p>
-
-                <p>
-                    <span>Sub Total :</span>
-                    $<?php echo round($pro->orderDetails[0]->quantity * $pro->orderDetails[0]->product_price, 2); ?>
-                </p>
-            </div>
-        </div>
-
-
-        <?php
-    }
+    $this->widget('zii.widgets.grid.CGridView', array(
+        'id' => 'hsi-grid',
+        'dataProvider' => $cart,
+        //'filter'=>false,
+        'cssFile' => Yii::app()->theme->baseUrl . '/css/gridview.css',
+        'columns' => array(
+            array(
+                'name' => 'Product Name',
+                'value' => '!empty($data->orderDetails[0]->product_profile->product->product_name)?$data->orderDetails[0]->product_profile->product->product_name:""',
+                "type" => "raw",
+            ),
+            array(
+                'name' => 'Product Description',
+                'value' => '!empty($data->orderDetails[0]->product_profile->product->product_description)?$data->orderDetails[0]->product_profile->product->product_description:""',
+                "type" => "raw",
+            ),
+            array(
+                'name' => 'Language',
+                'value' => '!empty($data->orderDetails[0]->product_profile->productLanguage->language_name)?$data->orderDetails[0]->product_profile->productLanguage->language_name:""',
+                "type" => "raw",
+            ),
+            array(
+                'name' => 'Quantity',
+                'value' => '!empty($data->orderDetails[0]->quantity)?$data->orderDetails[0]->quantity:""',
+                "type" => "raw",
+            ),
+            array(
+                'name' => 'Unit Price',
+                'value' => '!empty($data->orderDetails[0]->product_price)?$data->orderDetails[0]->product_price:""',
+                "type" => "raw",
+            ),
+            array(
+                'name' => 'Sub Total',
+                'value' => '!empty($data->orderDetails[0]->product_price)?$data->orderDetails[0]->quantity * $data->orderDetails[0]->product_price." ".Yii::app()->session[currency]:""',
+                "type" => "raw",
+            ),
+        ),
+    ));
 }
 ?>
