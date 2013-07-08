@@ -175,8 +175,11 @@ class DtGridView extends CGridView
 
             $this->summaryText = 'Displaying {start}-{end} of ' . $this->dataProvider->pagination->itemCount . ' result(s).';
         }
-        else
+        else if(count($this->dataProvider->getData ())==0)
         {
+            $this->summaryText = 'No Record Found';
+        }
+        else {
             $this->summaryText = '';
         }
         parent::renderSummary();

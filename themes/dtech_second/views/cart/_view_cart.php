@@ -51,6 +51,17 @@
             //'filter'=>false,
             'summaryText' => '{count} records(s) found.',
             'cssFile' => Yii::app()->theme->baseUrl . '/css/cart_gridview.css',
+            'afterAjaxUpdate'=>"function(id,data){
+                console.log(jQuery('#cart-grid table tbody tr td.empty').length);
+                if(jQuery('#cart-grid table tbody tr td.empty').length!=0){
+                    jQuery('.check_out_cart').hide();
+                }
+                else {
+                    jQuery('.check_out_cart').show();
+                }
+                
+                return true;
+            }",
             'columns' => array(
                 array(
                     'name' => 'Product Name',
@@ -75,7 +86,6 @@
                     'columnName' => 'price',
                     'class' => 'DtGridCountColumn',
                     'decimal' => true,
-                    
                     "htmlOptions" => array("class" => 'cart-ourprice'),
                     'currencySymbol' => Yii::app()->session['currency'],
                     'footer' => ''
@@ -122,6 +132,7 @@
                                             
                                             setTimeout(function(){
                                                   $('#cart-grid').yiiGridView.update('cart-grid');
+                                                  
                                             },1000);
 
                                         }
@@ -141,3 +152,14 @@
     }
     ?>
 </div>
+<?php
+$cart_data = $cart->getData();
+
+if (!empty($cart_data)) {
+    echo CHtml::button("CHECKOUT", array(
+        "class" => "check_out_cart",
+        "onclick" => "window.location = '" . $this->createUrl('/web/payment/paymentmethod') . "'"));
+} else {
+    
+}
+?>

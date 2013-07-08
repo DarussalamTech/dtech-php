@@ -250,3 +250,5 @@ customized code
     width: 16px;
     height: 16px;
 }
+
+.check_out_cart { cursor:pointer;float:right;padding: 0; margin-right: 50px; width:10%; border: none; background:#10459c; color:#FFF; border-radius:3px; height:30px; }
