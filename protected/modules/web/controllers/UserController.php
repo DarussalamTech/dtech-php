@@ -28,7 +28,7 @@ class UserController extends Controller {
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('updateprofile', 'ChangePass', 'CustomerHistory'),
+                'actions' => array('updateprofile', 'ChangePass', 'CustomerHistory', 'OrderDetail'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -97,7 +97,7 @@ class UserController extends Controller {
         if ($obj != NULL) {
             if ($obj[0]->status_id == '1') {
                 //already activated
-                Yii::app()->user->setFlash('login', 'Your account already activated. Please try login or if you miss your login information then go to forgot password section. Thank You');
+                Yii::app()->user->setFlash('login', 'Your account is already activated. Please try login or if you have missed your login information then go to forgot password section. Thank You');
                 $this->redirect(array('site/login'));
             } else if ($obj[0]->activation_key != $activation_key) {
                 Yii::app()->user->setFlash('login', 'Your activation key not registered. Please resend activation key and activate your account. Thank You');
@@ -106,10 +106,10 @@ class UserController extends Controller {
             $modelUser = new User;
             $modelUser->updateByPk($user_id, array('status_id' => '1'));
 
-            Yii::app()->user->setFlash('login', 'Thank You ! Login Please...Your account has been activated....Now Login');
+            Yii::app()->user->setFlash('login', 'Thank You ! Your account has been activated....Now Please Login');
             $this->redirect(array('site/login'));
         } else {
-            Yii::app()->user->setFlash('login', 'User not exist. Please signup and get activation link again.');
+            Yii::app()->user->setFlash('login', 'User does not exist. Please signup and get activation link.');
             $this->redirect(array('site/login'));
         }
     }
@@ -246,6 +246,21 @@ class UserController extends Controller {
         $ip = Yii::app()->request->getUserHostAddress();
         $history = User::model()->customerHistory();
         $this->render('//user/customer_history', array('cart' => $history));
+    }
+
+    public function actionOrderDetail($id) {
+
+        Yii::app()->user->SiteSessions;
+        $model = new OrderDetail('Search');
+        $model->unsetAttributes();  // clear any default values
+        $model->order_id = $id;
+        if (isset($_GET['Order'])) {
+            $model->attributes = $_GET['Order'];
+        }
+        $this->renderPartial('//user/_order_detail', array(
+            'model' => $model,
+        ));
+        Yii::app()->end();
     }
 
     /**
