@@ -80,7 +80,7 @@ class DtGridView extends CGridView
 
     /* If sort url is given than this component will enable dragable rows. */
     public $sortUrl;
-    public $rowCssClass = array('odd', 'odd');
+    public $rowCssClass = array('even', 'odd');
 
     /**
      * Init Par grid view. 
@@ -190,7 +190,7 @@ class DtGridView extends CGridView
         }
         else
         {
-            echo "";
+            echo "No record ";
         }
     }
 
@@ -275,6 +275,9 @@ class DtGridView extends CGridView
          * of check box
          * 
          */
+        
+        
+        
         if ($this->colorBox == true)
         {
             $this->generateChecBoxCol($this->dataProvider->data[$row]->id);
