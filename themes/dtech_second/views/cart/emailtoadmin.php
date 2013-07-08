@@ -22,7 +22,7 @@
                 ));
                 ?>
                 <div class="shipping_address_heading">
-                    <h2>Email to Admin</h2>
+                    <h2>Please enter your email address. You will be notified when this item is available.</h2>
                     <div class="clear"></div>
                 </div>
 
