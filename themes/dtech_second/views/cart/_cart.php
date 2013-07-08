@@ -9,6 +9,7 @@
         <?php
         $grand_total = 0;
         $total_quantity = 0;
+        $cart = $cart->getData();
         foreach ($cart as $pro) {
             $grand_total = $grand_total + ($pro->quantity * $pro->productProfile->price);
             $total_quantity+=$pro->quantity;
