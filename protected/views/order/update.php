@@ -18,8 +18,8 @@ if (!(Yii::app()->user->isGuest)) {
         <?php echo $form->label($model, 'status'); ?>
         <?php
         echo $form->dropDownList($model, 'status', array(
+            'pending' => "pending",
             'process' => "process",
-            'approved' => "approved",
             'completed' => "completed",
             'declined' => "declined",
                 )

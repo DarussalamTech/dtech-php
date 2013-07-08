@@ -11,7 +11,7 @@ class WishListController extends Controller {
     public function actionViewwishlist() {
         Yii::app()->user->SiteSessions;
         $wishlist = WishList::model()->getWishLists();
-       
+
         $this->render('//wishList/viewwishlist', array('wishList' => $wishlist));
     }
 
@@ -21,6 +21,7 @@ class WishListController extends Controller {
     public function actionEditwishlist() {
 
         if ($_REQUEST['type'] == 'delete_wishlist') {
+            Yii::app()->user->SiteSessions;
             $wishlist_model = new WishList();
             $wishlist_model->findByPk($_REQUEST['id'])->delete();
             /**
