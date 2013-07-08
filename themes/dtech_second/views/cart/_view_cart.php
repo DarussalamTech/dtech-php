@@ -19,7 +19,7 @@
 
             $config = array(
                 'criteria' => array(
-                    'condition' => 'cart_id=' . $prod->cart_id,
+                    'condition' => 'cart_id=' . $cart->getData()->cart_id,
                 )
             );
             $mName_provider = new CActiveDataProvider("Cart", $config);
