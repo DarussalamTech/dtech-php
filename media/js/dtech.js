@@ -387,6 +387,16 @@ var dtech = {
     },
     disabledPrview: function() {
         jQuery(".add_to_cart_button input").attr("disabled", "disabled");
+        jQuery("#search-text").attr("disabled", "disabled");
+        jQuery("#search-button").attr("disabled", "disabled");
+        jQuery("body").unbind("click");
+        jQuery(".button-column a").remove();
+        
+        jQuery("#quantity").remove();
+        jQuery("#ProductReviews_reviews").attr("disabled", "disabled");
+        jQuery("#add_comment").attr("disabled", "disabled");
+      
+        jQuery("#ratingUser").remove();
 
         jQuery("body").click(function(event) {
             event.preventDefault();

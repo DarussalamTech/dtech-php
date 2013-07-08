@@ -14,6 +14,15 @@ $this->webPcmWidget['best'] = array('name' => 'DtechBestSelling',
         'cssFile' => Yii::app()->theme->baseUrl . "/css/side_bar.css",
         'is_cat_filter' => 0,
         ));
+
+/**
+ * product preview
+ */
+if ($this->action->id == "pagesPreview") {
+    Yii::app()->clientScript->registerScript('disabled', "
+            dtech.disabledPrview();
+        ", CClientScript::POS_READY);
+}
 ?>
 <div class="page_content">
     <h2><?php echo $page->title; ?></h2>

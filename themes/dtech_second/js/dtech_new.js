@@ -204,7 +204,9 @@ var dtech_new = {
         }).done(function(response) {
 
             jQuery("#cart_control").html(response._view_cart);
-
+            if(typeof(response._view_main_cart)){
+                 jQuery("#cart_container").html(response._view_main_cart);
+            }
             if (jQuery(".grand_total_bag").length > 0) {
                 jQuery(".grand_total_bag").html(jQuery(".grand_total").html());
             }
@@ -227,7 +229,7 @@ var dtech_new = {
             data:
                     {
                         'quantity': jQuery(obj).val(),
-                        'type': '',
+                        'type': 'main',
                         'cart_id': cart_id
                     }
         }).done(function(response) {

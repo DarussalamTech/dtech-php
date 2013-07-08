@@ -116,6 +116,14 @@
                                 ));
                                 ?>
                             </div>
+                            <span id="status_available" style="display:none">
+                                <?php echo CHtml::image(Yii::app()->theme->baseUrl . '/images/yes.png'); ?>
+                                Available in this quantity
+                            </span>
+                            <span id="status_un_available" style="display:none">
+                                <?php echo CHtml::image(Yii::app()->theme->baseUrl . '/images/no.png'); ?>
+                                Not available in this quantity
+                            </span>
                         </section>
                         <div class="shipping_button">
                             <?php
@@ -154,9 +162,19 @@
                                 'type' => 'POST',
                                 'dataType' => 'json',
                                 'success' => 'function(data){
+                                                    jQuery("#status_available").hide();  
+                                                    jQuery("#status_un_available").hide();  
                                                     dtech_new.loadCartAgain("' . $this->createUrl("/web/cart/loadCart") . '");
-                                                    dtech.custom_alert("Item has added to cart" ,"Add to Cart");
-                                                }',
+                                                   
+                                                    if(data["total_available"]>0){
+                                                        jQuery("#status_available").show();  
+                                                        dtech.custom_alert("Item has added to cart" ,"Add to Cart");
+                                                    }
+                                                    else {
+                                                        jQuery("#status_un_available").show();    
+                                                        dtech.custom_alert("Item is out of stock" ,"Add to Cart");
+                                                    }
+                                                                    }',
                                     ), array('class' => 'add_shipping')
                             );
                             ?>

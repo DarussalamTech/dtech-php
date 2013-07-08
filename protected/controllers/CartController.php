@@ -24,6 +24,7 @@ class CartController extends Controller {
         $total_in_cart = Cart::model()->getTotalCountProduct($_REQUEST['product_profile_id']);
 
         $total_available = $product_pf->quantity - $total_in_cart;
+        
 
         if (isset(Yii::app()->user->id)) {
             $cart = $cart_model->find('product_profile_id=' . $_REQUEST['product_profile_id'] . ' AND (user_id=' . Yii::app()->user->id . ' OR session_id="' . $ip . '")');
@@ -43,9 +44,16 @@ class CartController extends Controller {
             $cart_model->added_date = date(Yii::app()->params['dateformat']);
             $cart_model->session_id = $ip;
         }
-
-        if ($total_available > 0) {
+      
+        
+        if ($total_available > 0 && $total_available>=$_REQUEST['quantity']) {
             $cart_model->save();
+        }
+        else {
+            /**
+             * in this case no quanity will be shown
+             */
+            $total_available = 0;
         }
         //count total added products in cart
 

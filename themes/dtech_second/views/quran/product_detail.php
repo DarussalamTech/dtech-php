@@ -15,6 +15,14 @@ $this->webPcmWidget['best'] = array('name' => 'DtechBestSelling',
         ));
 $this->widget('ext.lyiightbox.LyiightBox2', array(
 ));
+/**
+ * product preview
+ */
+if ($this->action->id == "productPreview") {
+    Yii::app()->clientScript->registerScript('disabled', "
+            dtech.disabledPrview();
+        ", CClientScript::POS_READY);
+}
 ?>
 
 <div id="left_description">

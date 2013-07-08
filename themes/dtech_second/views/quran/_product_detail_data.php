@@ -19,6 +19,15 @@
         echo isset($product->productProfile[0]->price) ? " Price: <span>" . round($product->productProfile[0]->price, 2) . ' ' . Yii::app()->session['currency'] . "</span>" : "";
         ?>
     </h2>
+
+    <h2>
+        <?php
+        $total_in_cart = Cart::model()->getTotalCountProduct($product->productProfile[0]->id);
+        $total_av = $product->productProfile[0]->quantity - $total_in_cart;
+        echo " Quantity: <span>" . $total_av . "</span>";
+        ?>
+    </h2>
+
     <p>
         <?php
         /** rating value is comming from controller * */
@@ -36,7 +45,10 @@
 
     <article>
         <?php
-        echo CHtml::textField('quantity', '1', array('onKeyUp' => 'javascript:totalPrice(this.value,"' . $product->productProfile[0]->price . '")', 'style' => 'width:40px', 'maxlength' => '3'));
+       
+        if ($total_av >= 1) {
+            echo CHtml::textField('quantity', '1', array('onKeyUp' => 'javascript:totalPrice(this.value,"' . $product->productProfile[0]->price . '")', 'style' => 'width:40px', 'maxlength' => '3'));
+        }
         ?>
         <span id="status_available" style="display:none">
             <?php echo CHtml::image(Yii::app()->theme->baseUrl . '/images/yes.png'); ?>
@@ -50,13 +62,11 @@
     <div class="add_to_cart_button">
 
         <?php
-        $total_in_cart = Cart::model()->getTotalCountProduct($product->productProfile[0]->id);
-        $total_av = $product->productProfile[0]->quantity - $total_in_cart;
-        if ($total_av > 0) {
+        if ($total_av > 1) {
             echo CHtml::button('Add to Cart', array('onclick' => '
                             jQuery("#loading").show();
-                            jQuery("#status_available").show();  
-                            jQuery("#status_un_available").show();
+                            jQuery("#status_available").hide();  
+                            jQuery("#status_un_available").hide();
                             jQuery.ajax({
                                 type: "POST",
                                 dataType: "json",
@@ -81,7 +91,7 @@
                             });    
                       ', 'class' => 'add_to_cart_arrow'));
         } else {
-            if(!empty(Yii::app()->user->id)){
+            if (!empty(Yii::app()->user->id)) {
                 echo CHtml::button('Email me when available', array('onclick' => '
                                 dtech_new.loadWaitmsg();
                                jQuery("#load_subpanel_div").toggle(); 
@@ -95,16 +105,15 @@
                                         }
                                     }).done(function( msg ) {      
                                         jQuery("#load_subpanel_div").hide(); 
-                                        dtech.custom_alert("Email send successfully" ,"Notification");
+                                        dtech.custom_alert("You will be notified by email" ,"Notification");
                                 }); 
                           ', 'class' => 'add_to_cart_arrow email_cart_arrow'));
-            }
-            else {
-                 echo CHtml::button('Email me when available', array(
-                     'onclick' => '
+            } else {
+                echo CHtml::button('Email me when available', array(
+                    'onclick' => '
                        window.open(
-                        "'.$this->createUrl("/web/cart/emailtoAdmin",array("id"=> $product->productProfile[0]->id)).'", "" )     
-                ','class'=>'add_to_cart_arrow email_cart_arrow'));
+                        "' . $this->createUrl("/web/cart/emailtoAdmin", array("id" => $product->productProfile[0]->id)) . '", "" )     
+                ', 'class' => 'add_to_cart_arrow email_cart_arrow'));
             }
         }
         ?>
@@ -182,7 +191,7 @@
     </section>
     <section>Availability : 
         <?php
-        if ($total_av > 0) {
+        if ($total_av > 1) {
             echo "Yes ";
             echo CHtml::image(Yii::app()->theme->baseUrl . '/images/yes.png');
         } else {
@@ -281,8 +290,8 @@
     ?>
     <section>
         Item Code:    <?php
-    echo isset($product->productProfile[0]->item_code) ? $product->productProfile[0]->item_code : "";
-    ?>
+        echo isset($product->productProfile[0]->item_code) ? $product->productProfile[0]->item_code : "";
+        ?>
     </section>
     <section>Category: <?php
         $cat_count = 0;
@@ -294,7 +303,7 @@
             }
             $cat_count++;
         }
-    ?>
+        ?>
     </section>
     <section>
         <?php
