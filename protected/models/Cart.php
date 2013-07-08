@@ -38,7 +38,6 @@ class Cart extends DTActiveRecord {
         return array(
             array('product_profile_id, added_date', 'required'),
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
-            
             array('product_profile_id', 'numerical', 'integerOnly' => true),
             array('added_date', 'length', 'max' => 255),
             // The following rule is used by search().
@@ -122,11 +121,20 @@ class Cart extends DTActiveRecord {
     function getCartLists() {
         $cart = "";
         $ip = Yii::app()->request->getUserHostAddress();
+  
+        
+        $criteria  = new CDbCriteria();
+        
         if (isset(Yii::app()->user->id)) {
-            $cart = $this->findAll('city_id=' . Yii::app()->session['city_id'] . ' AND (user_id=' . Yii::app()->user->user_id . ' OR session_id="' . $ip . '")');
+            $criteria->condition = 'city_id=' . Yii::app()->session['city_id'] . ' AND (user_id=' . Yii::app()->user->user_id . ' OR session_id="' . $ip . '")';
         } else {
-            $cart = $this->findAll('city_id=' . Yii::app()->session['city_id'] . ' AND session_id="' . $ip . '"');
+            $criteria->condition = 'city_id=' . Yii::app()->session['city_id'] . ' AND session_id="' . $ip . '"';
         }
+        
+
+        $cart =  new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+        ));
 
         return $cart;
     }
@@ -139,14 +147,14 @@ class Cart extends DTActiveRecord {
         $ip = Yii::app()->request->getUserHostAddress();
 
         if (isset(Yii::app()->user->id)) {
-          
+
             $tot = Yii::app()->db->createCommand()
                     ->select('sum(quantity) as cart_total')
                     ->from('cart')
                     ->where('city_id=' . Yii::app()->session['city_id'] . ' AND user_id=' . Yii::app()->user->user_id)
                     ->queryRow();
         } else {
-           
+
             $tot = Yii::app()->db->createCommand()
                     ->select('sum(quantity) as cart_total')
                     ->from('cart')
@@ -156,19 +164,20 @@ class Cart extends DTActiveRecord {
 
         return $tot;
     }
+
     /**
      * 
      * @param type $product_profile_id
      * get total particular product 
      * in cart
      */
-    public function getTotalCountProduct($product_profile_id){
+    public function getTotalCountProduct($product_profile_id) {
         $tot = Yii::app()->db->createCommand()
-                    ->select('sum(quantity) as quantity')
-                    ->from('cart')
-                    ->where('product_profile_id=' . $product_profile_id)
-                    ->queryRow();
-        if(empty($tot['quantity'])){
+                ->select('sum(quantity) as quantity')
+                ->from('cart')
+                ->where('product_profile_id=' . $product_profile_id)
+                ->queryRow();
+        if (empty($tot['quantity'])) {
             $tot['quantity'] = 0;
         }
         return $tot['quantity'];
