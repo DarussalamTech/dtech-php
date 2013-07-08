@@ -43,7 +43,7 @@ if ($cart->getItemCount() <= 0) {
                 "onclick" => '
                     $("#loading").show();
                     ajax_url = $(this).attr("href");
-                    user_name = $(this).parent().prev().prev().prev().prev().prev().prev().html();
+                   
                     $.ajax({
                         type: "POST",
                         url: ajax_url,
