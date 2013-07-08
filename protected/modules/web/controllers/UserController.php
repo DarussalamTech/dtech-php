@@ -28,7 +28,7 @@ class UserController extends Controller {
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('updateprofile', 'ChangePass', 'CustomerHistory'),
+                'actions' => array('updateprofile', 'ChangePass', 'CustomerHistory', 'OrderDetail'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -246,6 +246,21 @@ class UserController extends Controller {
         $ip = Yii::app()->request->getUserHostAddress();
         $history = User::model()->customerHistory();
         $this->render('//user/customer_history', array('cart' => $history));
+    }
+
+    public function actionOrderDetail($id) {
+
+        Yii::app()->user->SiteSessions;
+        $model = new OrderDetail('Search');
+        $model->unsetAttributes();  // clear any default values
+        $model->order_id = $id;
+        if (isset($_GET['Order'])) {
+            $model->attributes = $_GET['Order'];
+        }
+        $this->renderPartial('//user/_order_detail', array(
+            'model' => $model,
+        ));
+        Yii::app()->end();
     }
 
     /**
