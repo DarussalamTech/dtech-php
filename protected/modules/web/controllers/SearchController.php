@@ -47,49 +47,50 @@ class SearchController extends Controller {
 
         if (isset($_REQUEST['serach_field'])) {
             $q = $_REQUEST['serach_field'];
-
+            $q = utf8_decode($q);
             $sql = "Select " .
-                    " DISTINCT(product.product_id), " .
-                    " product.product_name, " .
-                    " city.short_name as city_short, " .
-                    " product.city_id, " .
-                    " product.authors, " .
-                    // " product.languages, " .
-                    " country.short_name " .
-                    " FROM product " .
-                    " LEFT OUTER JOIN city " .
-                    " ON city.city_id = product.city_id " .
-                    " LEFT OUTER JOIN author " .
-                    " ON author.author_id = product.authors " .
-                    " LEFT outer JOIN product_profile " .
-                    " ON product_profile.product_id = product.product_id " .
-                    " LEFT  JOIN language " .
-                    " ON language.language_id = product_profile.language_id " .
-                    " INNER JOIN country " .
-                    " ON country.country_id = city.country_id " .
-                    " LEFT OUTER JOIN product_categories ON " .
-                    " product_categories.product_id = product.product_id " .
-                    "  LEFT OUTER JOIN categories ON " .
-                    " categories.category_id = product_categories.category_id " .
-                    " WHERE " .
-                    " ( " .
-                    " product.product_name LIKE '%" . $q . "%' " .
-                    " OR " .
-                    " author.author_name LIKE '%" . $q . "%' " .
-                    " OR " .
-                    " categories.category_name LIKE '%" . $q . "%' " .
-                    " OR " .
-                    " city.short_name LIKE '%" . $q . "%' " .
-                    " OR " .
-                    " city.city_name LIKE '%" . $q . "%' " .
-                    " OR " .
-                    " language.language_name LIKE '%" . $q . "%' " .
-                    " OR " .
-                    " country.country_name LIKE '%" . $q . "%' " .
-                    " OR " .
-                    " country.short_name LIKE '%" . $q . "%' " .
-                    " OR " .
-                    " categories.category_name LIKE '%" . $q . "%' ) ";
+            " DISTINCT(product.product_id), " .
+            " product.product_name, " .
+            " city.short_name as city_short, " .
+            " product.city_id, " .
+            " product.authors, " .
+            // " product.languages, " .
+            " country.short_name " .
+            " FROM product " .
+            " LEFT OUTER JOIN city " .
+            " ON city.city_id = product.city_id " .
+            " LEFT OUTER JOIN author " .
+            " ON author.author_id = product.authors " .
+            " LEFT outer JOIN product_profile " .
+            " ON product_profile.product_id = product.product_id " .
+            " LEFT  JOIN language " .
+            " ON language.language_id = product_profile.language_id " .
+            " INNER JOIN country " .
+            " ON country.country_id = city.country_id " .
+            " LEFT OUTER JOIN product_categories ON " .
+            " product_categories.product_id = product.product_id " .
+            "  LEFT OUTER JOIN categories ON " .
+            " categories.category_id = product_categories.category_id " .
+            " WHERE " .
+            " ( " .
+            " product.product_name LIKE '%" . $q . "%' " .
+            " OR " .
+            " author.author_name LIKE '%" . $q . "%' " .
+            " OR " .
+            " categories.category_name LIKE '%" . $q . "%' " .
+            " OR " .
+            " city.short_name LIKE '%" . $q . "%' " .
+            " OR " .
+            " city.city_name LIKE '%" . $q . "%' " .
+            " OR " .
+            " language.language_name LIKE '%" . $q . "%' " .
+            " OR " .
+            " country.country_name LIKE '%" . $q . "%' " .
+            " OR " .
+            " country.short_name LIKE '%" . $q . "%' " .
+            " OR " .
+            " categories.category_name LIKE '%" . $q . "%' ) ";
+          
             $connection = Yii::app()->db;
             $command = $connection->createCommand($sql);
             $rows = $command->queryAll();
@@ -98,10 +99,10 @@ class SearchController extends Controller {
             foreach ($rows as $row) {
                 $product_array[$row['product_id']] = $row['product_id'];
             }
-
+            
             $dataProvider = Product::model()->allProducts($product_array);
+           
             $all_products = Product::model()->returnProducts($dataProvider);
-
 
 
 
@@ -118,6 +119,7 @@ class SearchController extends Controller {
 
             $dataProvider = Product::model()->allProducts();
             $all_products = Product::model()->returnProducts($dataProvider);
+            
             $this->productfilter($dataProvider, $all_products);
 
 
@@ -158,8 +160,8 @@ class SearchController extends Controller {
                 "controller" => "others",
             ),
         );
-        
-        if(!isset($view_array[$product->parent_category->category_name])){
+
+        if (!isset($view_array[$product->parent_category->category_name])) {
             $view_array[$product->parent_category->category_name] = "product";
         }
 
