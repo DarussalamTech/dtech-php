@@ -29,7 +29,7 @@ class ShippingInfoForm extends CFormModel {
     public function rules() {
         return array(
             // username and password are required
-            array('shipping_first_name, shipping_last_name,
+            array('payment_method,shipping_first_name, shipping_last_name,
                    shipping_address1,shipping_country,
                    shipping_city, shipping_state, shipping_zip, shipping_phone', 'required'),
             array('shipping_phone', 'length', 'max' => 10),
