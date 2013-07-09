@@ -49,7 +49,7 @@ class PaymentController extends Controller {
             $model->attributes = $_POST['ShippingInfoForm'];
 
             $is_valid = $this->validateCreditCard($model, $creditCardModel);
-
+            
 
             if ($model->validate() && $is_valid) {
 
@@ -128,6 +128,7 @@ class PaymentController extends Controller {
      * @param type $creditCardModel
      */
     public function processManual($creditCardModel) {
+        
         $order_id = $creditCardModel->saveOrder("");
 
         UserProfile::model()->saveShippingInfo($_POST['ShippingInfoForm'], $order_id);
