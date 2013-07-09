@@ -42,8 +42,8 @@ class SearchController extends Controller {
         /*
          * for new theme....
          */
-       
-     Yii::app()->user->SiteSessions;
+
+        Yii::app()->user->SiteSessions;
 
         if (isset($_REQUEST['serach_field'])) {
             $q = $_REQUEST['serach_field'];
@@ -98,11 +98,11 @@ class SearchController extends Controller {
             foreach ($rows as $row) {
                 $product_array[$row['product_id']] = $row['product_id'];
             }
-           
+
             $dataProvider = Product::model()->allProducts($product_array);
             $all_products = Product::model()->returnProducts($dataProvider);
-            
-          
+
+
 
 
             $allCategories = Categories::model()->allCategories();
@@ -110,8 +110,8 @@ class SearchController extends Controller {
             if (isset($_POST['ajax'])) {
                 $this->productfilter($dataProvider, $all_products);
             } else {
-                 
-                
+
+
                 $this->render('//product/all_products', array('products' => $all_products, 'allCate' => $allCategories, "dataProvider" => $dataProvider));
             }
         } else {
@@ -138,8 +138,32 @@ class SearchController extends Controller {
     public function actionSearchDetail() {
         Yii::app()->user->SiteSessions;
 
+        $criteria = new CDbCriteria();
 
-        $uri = $this->createUrl('/web/product/productDetail', array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'], 'product_id' => $_REQUEST['product_id']));
+        $product = Product::model()->findByPk($_REQUEST['product_id'], $criteria);
+
+        $view_array = array(
+            "Books" => array(
+                "controller" => "product",
+                "view" => "_books/_book_info"
+            ),
+            "Educational Toys" => array(
+                "controller" => "educationToys",
+            ),
+            "Quran" => array(
+                "controller" => "quran",
+                "view" => "_quran/_quran_info"
+            ),
+            "Others" => array(
+                "controller" => "others",
+            ),
+        );
+        
+        if(!isset($view_array[$product->parent_category->category_name])){
+            $view_array[$product->parent_category->category_name] = "product";
+        }
+
+        $uri = $this->createUrl('/web/' . $view_array[$product->parent_category->category_name]['controller'] . '/productDetail', array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'], 'product_id' => $_REQUEST['product_id']));
         $this->redirect($uri);
     }
 
