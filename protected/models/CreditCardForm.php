@@ -58,17 +58,17 @@ class CreditCardForm extends CFormModel {
     public function CreditCardPayment($shippingModel, $model) {
 
         Yii::import('application.extensions.anet_php_sdk.AuthorizeNetException');
-        
+
         $criteria = new CDbCriteria();
         $criteria->addCondition("name = 'Credit Card'");
         $model = ConfPaymentMethods::model()->find($criteria);
-        
+
         /**
          * fetching information from db
          */
         define("AUTHORIZENET_API_LOGIN_ID", $model->key);
         define("AUTHORIZENET_TRANSACTION_KEY", $model->secret);
-        define("AUTHORIZENET_SANDBOX", ($model->sandbox)=="Enable"?true:false);
+        define("AUTHORIZENET_SANDBOX", ($model->sandbox) == "Enable" ? true : false);
 
         $author_rize = new AuthorizeNetException();
         $sale = new AuthorizeNetAIM;
@@ -112,7 +112,7 @@ class CreditCardForm extends CFormModel {
             //error
         }
 
-      
+
         return $error;
     }
 
@@ -145,8 +145,10 @@ class CreditCardForm extends CFormModel {
         $order->total_price = Yii::app()->session['total_price'];
         $order->order_date = date('Y-m-d');
         $order->transaction_id = $transaction_id;
-        $order->payment_method_id = $this->payment_method;
 
+
+        $confM = ConfPaymentMethods::model()->find("name = '" . $this->payment_method . "'");
+        $order->payment_method_id = $confM->id;
         $ordetail = array();
         $cart_model = new Cart();
         $cart = $cart_model->findAll('user_id=' . Yii::app()->user->id);
