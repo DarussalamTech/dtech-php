@@ -29,6 +29,7 @@ class DTPager extends CLinkPager {
             * extra param will be append
             */
             if (!empty($this->append_param)) {
+                $this->append_param = utf8_decode($this->append_param);
                 if (strstr($pageUrl, "?")) {
                     $pageUrl.= "&" . $this->append_param;
                 } else {
