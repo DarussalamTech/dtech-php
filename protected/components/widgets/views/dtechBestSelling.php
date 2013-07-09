@@ -43,7 +43,7 @@
         echo CHtml::link(implode(' ', array_slice(explode(' ', $pro_name), 0, 4)), $this->cObj->createUrl('/web/product/productDetail', array('product_id' => $bests['product_id'])));
         echo CHtml::closeTag("h2");
         echo CHtml::openTag("p");
-        echo $bests[product_description];
+        echo $bests[product_overview];
         echo CHtml::closeTag("p");
         echo CHtml::openTag("article");
         echo CHtml::image(Yii::app()->theme->baseUrl . "/images/good_stars_img_03.png");
