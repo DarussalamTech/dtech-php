@@ -133,6 +133,11 @@ class DTActiveRecord extends CActiveRecord {
 
     private function decodeArray($data) {
         $d = array();
+        /**
+         * not keys
+         */
+        $not_keys = array("product_description", "product_overview");
+
         foreach ($data as $key => $value) {
             if (is_string($key))
                 $key = stripslashes(htmlspecialchars_decode($key, ENT_QUOTES));
@@ -140,7 +145,11 @@ class DTActiveRecord extends CActiveRecord {
                 $value = stripslashes(htmlspecialchars_decode($value, ENT_QUOTES));
             else if (is_array($value))
                 $value = self::decodeArray($value);
-            $d[$key] = $this->_current_module == "WebModule" ? utf8_decode($value) : $value;
+
+            if (mb_detect_encoding($value) == "UTF-8" && !in_array($key,$not_keys)) {
+
+                $d[$key] = $this->_current_module == "WebModule" ? utf8_decode($value) : $value;
+            }
         }
 
         return $d;
