@@ -91,6 +91,7 @@ class Order extends DTActiveRecord {
 
     public function beforeSave() {
         $this->city_id = Yii::app()->session['city_id'];
+        $this->status = "pending";
 
         return parent::beforeSave();
     }
