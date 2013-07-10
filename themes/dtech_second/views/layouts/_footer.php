@@ -10,7 +10,7 @@
                         <h1>Connect to DARUSSALAM</h1>
                         <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/f_img_06.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "facebook"))); ?>
                         <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/t_img_06.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "twitter"))); ?>
-                        <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/in_img_06.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "linkedin"))); ?>
+                        <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/in_img_06.png",'',array('style'=>'width:28px; height:24px')), $this->createUrl('/web/hybrid/login/', array("provider" => "linkedin"))); ?>
                         <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/google_img_06.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "google"))); ?>
                         <div id = "left_under_footer">
                             <li>
