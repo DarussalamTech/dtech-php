@@ -13,7 +13,7 @@
         <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl ?>/media/css/overlay.css" />
         <link rel="stylesheet" href="<?php echo Yii::app()->theme->baseUrl ?>/css/cart_view.css" />
         <link rel="stylesheet" href="<?php echo Yii::app()->theme->baseUrl ?>/css/page.css" />
-
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
         <script type="text/javascript" src="<?php echo Yii::app()->theme->baseUrl ?>/js/dtech_new.js"></script>
         <script src="<?php echo Yii::app()->baseUrl; ?>/media/js/dtech.js"></script>
         <script type="text/javascript" src="<?php echo Yii::app()->theme->baseUrl ?>/js/msdropdown/jquery.dd.min.js"></script>
@@ -27,17 +27,17 @@
                 dtech_new.toggleLogin();
                 dtech_new.toggleSideBar();
                 dtech_new.footerToggle();
-               
+
                 dtech_new.registerCountryDropDown();
                 jQuery("#LandingModel_country").msDropdown();
                 jQuery("#countries").msDropdown();
                 dtech_new.registerPopUp();
-                
+
                 if (jQuery("#LandingModel_city").attr("type") != "hidden") {
                     jQuery("#LandingModel_city").msDropdown();
                 }
-                
-                 dtech_new.changeBookImgHover();
+
+                dtech_new.changeBookImgHover();
 
             });
         </script>
