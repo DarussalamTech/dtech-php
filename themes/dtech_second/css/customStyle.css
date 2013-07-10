@@ -224,6 +224,7 @@ div.country_submit .btn-submit:hover { color:#FFF; }
     padding: 0;
     width: 30%;
     cursor: pointer;
+    margin: 24px 0 0 -100px;
 }
 .left_comments {
     float: left;
@@ -322,3 +323,22 @@ div.country_submit .btn-submit:hover { color:#FFF; }
     line-height: 24px;
     text-align: justify;
 }
+
+#comment_content {
+
+    color: #2E2E2E;
+    font-size: 14px;
+    line-height: 24px;
+    text-align: justify;
+    /*    //margin: 336px 60px 27px 130px;*/
+}
+.detail_ratings {
+
+    margin: 8px 0 0 -2px;
+    padding: 1px;
+}
+.no_ratting {
+
+    margin: 3px 26px;
+}
+
