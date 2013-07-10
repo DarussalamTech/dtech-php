@@ -145,10 +145,17 @@ class DTActiveRecord extends CActiveRecord {
                 $value = stripslashes(htmlspecialchars_decode($value, ENT_QUOTES));
             else if (is_array($value))
                 $value = self::decodeArray($value);
+            /*
+             * IF condition is for arabic and internatational data handling 
+             * 
+             * and the else part is for local data entry for system
+             */
 
-            if (mb_detect_encoding($value) == "UTF-8" && !in_array($key,$not_keys)) {
+            if (mb_detect_encoding($value) == "UTF-8" && !in_array($key, $not_keys)) {
 
                 $d[$key] = $this->_current_module == "WebModule" ? utf8_decode($value) : $value;
+            } else {
+                $d[$key] = $value;
             }
         }
 
