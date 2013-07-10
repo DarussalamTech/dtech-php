@@ -318,7 +318,7 @@ div.country_submit .btn-submit:hover { color:#FFF; }
 }
 
 #description_content * {
-    color: #2E2E2E;
+    /*    color: #2E2E2E;*/
     font-size: 14px;
     line-height: 24px;
     text-align: justify;
@@ -341,4 +341,5 @@ div.country_submit .btn-submit:hover { color:#FFF; }
 
     margin: 3px 26px;
 }
+
 
