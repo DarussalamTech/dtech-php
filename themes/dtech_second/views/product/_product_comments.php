@@ -1,11 +1,22 @@
-<div id="description_content">
-    <h4>Most Recent Customer Reviews</h4>
+
+<div id="comment_content">
+    <div class="clear"></div>
+    <div class="no_ratting">
+        <h4>Most Recent Customer Reviews</h4>
+    </div>
+
     <?php
     if (!empty($product->product_reviews)) {
         foreach ($product->product_reviews as $rev) {
             echo CHtml::openTag("div", array("class" => "stars_description"));
             echo CHtml::openTag("div", array('class' => 'left_comments'));
-            echo CHtml::image(Yii::app()->baseUrl . "/images/noImage.png");
+            if (!empty($rev->user->userProfiles)) {
+                echo CHtml::image($rev->user->userProfiles->uploaded_img, "", array('style' => 'width:65px;height:75px;'));
+            } else {
+
+                echo CHtml::image(Yii::app()->baseUrl . "/images/noImage.png", "");
+            }
+
             echo CHtml::closeTag("div");
 
             echo CHtml::openTag("div", array('class' => 'right_comments'));
@@ -32,11 +43,11 @@
             echo CHtml::closeTag("div");
 
             echo CHtml::closeTag("div");
-            
-            echo CHtml::Tag("div",array("class"=>"clear"));
+
+            echo CHtml::Tag("div", array("class" => "clear"));
         }
     } else {
-        echo CHtml::openTag("div", array("class" => "stars_description"));
+        echo CHtml::openTag("div", array("class" => "no_ratting"));
         echo CHtml::openTag("article");
         echo 'No Reviews Yet';
         echo CHtml::closeTag("article");
