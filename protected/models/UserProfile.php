@@ -27,7 +27,7 @@ class UserProfile extends DTActiveRecord {
      * @var type 
      * uploaded path for image
      */
-    public $uploaded_img = "";
+    public $uploaded_img = "",$temp_avatar;
     public $oldImg = "";
 
     /**
@@ -61,11 +61,11 @@ class UserProfile extends DTActiveRecord {
         return array(
             array('first_name, last_name', 'required'),
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
-            array('avatar', 'file', 'types' => 'jpg, gif, png', 'allowEmpty' => true),
+            //array('avatar', 'file', 'types' => 'jpg, gif, png', 'allowEmpty' => true),
             //array('user_id', 'numerical', 'integerOnly'=>true),
             array('first_name, last_name, address,  contact_number', 'length', 'max' => 255),
             array('id, first_name, last_name, address, gender, contact_number,city', 'safe'),
-            array('avatar,date_of_birth,state_province,address_2,country,zip_code', 'safe'),
+            array('temp_avatar,avatar,date_of_birth,state_province,address_2,country,zip_code', 'safe'),
             array('shipping_prefix,shipping_first_name,shipping_last_name,shipping_address1,shipping_address2,shipping_country', 'safe'),
             array('shipping_state,shipping_city,shipping_zip,shipping_phone,mobile_number,is_shipping_address', 'safe'),
             // The following rule is used by search().

@@ -433,4 +433,72 @@ class SiteController extends Controller {
         echo CJSON::encode($books);
     }
 
+    public function actionTest() {
+   
+
+        $this->layout = "";
+
+        $filename = Yii::app()->basePath . "/data/Dictionary.docx";
+
+        $content = $this->read_file_docx($filename);
+        if ($content !== false) {
+          
+            $Arabic = new I18N_Arabic('CharsetC'); 
+           // $input = iconv("ISO-8859-1","UTF-8//IGNORE",$content);
+            //$str = mb_convert_encoding($content, 'UTF-8', 'ISO-8859-1');
+            
+            //echo nl2br(utf8_decode($content));
+            //echo u("Ø¹Ø§Ø¨Ø¯ (Ø¹Ø¨Ø§Ø¯)");die;
+            echo iconv(mb_detect_encoding("Ø¹Ø§Ø¨Ø¯ (Ø¹Ø¨Ø§Ø¯)"), "UTF-8", "Ø¹Ø§Ø¨Ø¯ (Ø¹Ø¨Ø§Ø¯)");
+            
+           echo $str2 =  mb_convert_encoding ($content,"HTML-ENTITIES","UTF-8");
+            die;
+            echo nl2br(htmlentities($content, ENT_QUOTES, "UTF-8"));
+            
+            $arabic_data = iconv("windows-1256" , "utf8" , nl2br(htmlentities($content, ENT_QUOTES, "UTF-8")));
+        } else {
+            echo 'Couldn\'t the file. Please check that file.';
+        }
+    }
+
+    function read_file_docx($filename) {
+
+        $striped_content = '';
+        $content = '';
+
+        if (!$filename || !file_exists($filename))
+            return false;
+
+        $zip = zip_open($filename);
+
+        if (!$zip || is_numeric($zip))
+            return false;
+
+
+        while ($zip_entry = zip_read($zip)) {
+
+            if (zip_entry_open($zip, $zip_entry) == FALSE)
+                continue;
+
+            if (zip_entry_name($zip_entry) != "word/document.xml")
+                continue;
+
+            $content .= zip_entry_read($zip_entry, zip_entry_filesize($zip_entry));
+
+            zip_entry_close($zip_entry);
+        }// end while
+
+        zip_close($zip);
+
+        //echo $content;
+        //echo "<hr>";
+        //file_put_contents('1.xml', $content);		
+
+        $content = str_replace('</w:r></w:p></w:tc><w:tc>', " ", $content);
+        $content = str_replace('</w:r></w:p>', "\r\n", $content);
+        $striped_content = strip_tags($content);
+
+        return $striped_content;
+    }
+
 }

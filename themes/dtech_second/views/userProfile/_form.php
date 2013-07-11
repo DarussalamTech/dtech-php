@@ -1,6 +1,42 @@
 <?php
 Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/form.css');
+Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/uploadify/uploadify.css');
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/uploadify/jquery.uploadify.min.js');
 ?>
+<script type="text/javascript">
+<?php $timestamp = time(); ?>
+    $(function() {
+        $('#UserProfile_temp_avatar').uploadify({
+            'formData': {
+                'timestamp': '<?php echo $timestamp; ?>',
+                'token': '<?php echo md5('unique_salt' . $timestamp); ?>',
+                'user_Id': '<?php echo Yii::app()->user->id ?>',
+                'bastPath': '<?php echo Yii::app()->basePath ?>'
+            },
+            'swf': '<?php echo Yii::app()->baseUrl . '/uploadify/' ?>uploadify.swf',
+            'uploader': '<?php echo Yii::app()->baseUrl . '/uploadify/' ?>uploadify.php',
+            'buttonImage': '<?php echo $model->uploaded_img ?>',
+            'fileTypeDesc': 'Image Files',
+            'fileTypeExts': '*.gif; *.jpg; *.png',
+            'onSWFReady': function() {
+                $('#UserProfile_temp_avatar-button').css('background-image', 'none');
+                $('#UserProfile_temp_avatar-button').css('text-indent', '0');
+
+                $('#UserProfile_temp_avatar-button').html('<img src ="<?php echo $model->uploaded_img ?>" />');
+            },
+            'onUploadSuccess': function(file, data, response) {
+                path = '<?php echo Yii::app()->baseUrl . '/uploadify/temp/' . Yii::app()->user->id ?>/';
+
+                $('#UserProfile_temp_avatar-button').css('background-image', 'none');
+                $('#UserProfile_temp_avatar-button').css('text-indent', '0');
+
+                $('#UserProfile_temp_avatar-button').html('<img src ="' + path + file.name + '" />');
+                $('#UserProfile_avatar').val(file.name);
+
+            }
+        });
+    });
+</script>
 <?php
 $form = $this->beginWidget(
         'CActiveForm', array('id' => 'upload-form',
@@ -36,14 +72,15 @@ $form = $this->beginWidget(
             </div>
             <div class="row_input_type">
                 <?php
-                echo CHtml::image($model->uploaded_img, '', array(
-                    "width" => "80",
-                    "height" => "80",
-                    "style" => "cursor:pointer",
-                    "onclick" => "$('#UserProfile_avatar').trigger('click')",
-                ));
+//                echo CHtml::image($model->uploaded_img, '', array(
+//                    "width" => "80",
+//                    "height" => "80",
+//                    "style" => "cursor:pointer",
+//                    "onclick" => "$('#UserProfile_avatar').trigger('click')",
+//                ));
                 ?>
-                <?php echo $form->fileField($model, 'avatar', array("style" => "display:none")); ?>
+                <?php echo $form->hiddenField($model, 'avatar', array("style" => "display:none")); ?>
+                <?php echo $form->fileField($model, 'temp_avatar', array("style" => "display:none")); ?>
             </div>
         </div>
         <div class="row_input">

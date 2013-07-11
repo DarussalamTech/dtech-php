@@ -1,0 +1,8 @@
+Array
+(
+    [name] => yes_product_img_03.jpg
+    [type] => application/octet-stream
+    [tmp_name] => /tmp/php1svT8d
+    [error] => 0
+    [size] => 2099
+)

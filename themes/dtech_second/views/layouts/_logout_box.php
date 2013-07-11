@@ -23,7 +23,7 @@
 if (!Yii::app()->user->isGuest) {
     echo CHtml::link('Logout', $this->createUrl('/site/logout'),array('style'=>'color:black;font-weight:bold'));
     echo '<br>';
-    echo CHtml::link('My Account', $this->createUrl('/web/userProfile', array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'])),array('style'=>'color:black;'));
+    echo CHtml::link('My Account', $this->createUrl('/web/userProfile/index', array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'])),array('style'=>'color:black;'));
     echo '<br>';
     echo CHtml::link('Change Password', $this->createUrl('/web/user/changePass', array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'])),array('style'=>'color:black;'));
     echo '<br>';
