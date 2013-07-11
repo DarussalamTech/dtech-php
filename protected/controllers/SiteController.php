@@ -31,14 +31,6 @@ class SiteController extends Controller {
         $model = new LandingModel();
         $this->countryLanding($model);
 
-        if (Yii::app()->theme->name != "dtech_second") {
-
-            Yii::app()->user->SiteSessions;
-            $this->redirect($this->createUrl("/site/storeHome"));
-        }
-
-
-
         Yii::app()->controller->layout = "";
         Yii::app()->user->SiteSessions;
         Yii::app()->theme = 'landing_page_theme';
@@ -94,13 +86,13 @@ class SiteController extends Controller {
          * best selling
          */
         $dataProvider = $order_detail->bestSellings($limit);
-        $bestSellings = $order_detail->getBestSelling($dataProvider);
+       // $bestSellings = $order_detail->getBestSelling($dataProvider);
 
         $segments_footer_cats = Categories::model()->getCategoriesInSegment(5);
         $dataProviderAll = Product::model()->allProducts();
         $this->render('//site/storehome', array(
             'featured_products' => $featured_products,
-            'best_sellings' => $bestSellings,
+            //'best_sellings' => $bestSellings,
             'segments_footer_cats' => $segments_footer_cats,
             'dataProvider' => $dataProviderAll,
         ));

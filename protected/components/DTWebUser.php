@@ -164,6 +164,7 @@ class DTWebUser extends CWebUser {
         $criteria->addCondition("misc_type='general'");
         $selected = array("fb_key", "fb_secret", "google_key", "google_secret", "twitter_key", 'twitter_secret', 'linkedin_key', 'linkedin_secret');
         $criteria->addInCondition("param", $selected);
+        $criteria->select = "param,value";
         $conf = ConfMisc::model()->findAll($criteria);
         if (!empty($conf)) {
             foreach ($conf as $data) {

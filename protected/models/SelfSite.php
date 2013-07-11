@@ -102,7 +102,7 @@ class SelfSite extends DTActiveRecord {
         $criteria = new CDbCriteria();
         $criteria->select = "city_id,city_name";
         $criteria->condition = "country_id = " . $city->country_id;
-        
+
         if (!empty($city->country_id)) {
             $this->_cites = CHtml::listData(City::model()->findAll($criteria), "city_id", "city_name");
         }
@@ -115,7 +115,7 @@ class SelfSite extends DTActiveRecord {
 
     public function getSiteInfo($url) {
         $site = Yii::app()->db->createCommand()
-                ->select('*')
+                ->select('site_id,site_name,site_descriptoin,site_headoffice')
                 ->from($this->tableName())
                 ->where("LOCATE(site_name,'$url')")
                 ->queryAll();
@@ -136,27 +136,31 @@ class SelfSite extends DTActiveRecord {
             "t.short_name,layout_id",
             'condition' => "t.city_id='" . $city_id . "'"
         ));
-       
+
         $cityfind = City::model()->with(array(
                     'country' => array(
                         'select' => 'c.country_name,c.short_name',
                         'joinType' => 'INNER JOIN', 'alias' => 'c'),
                     'currency' => array('select' => 'name,symbol', 'joinType' => 'INNER JOIN'),
                 ))->find($criteria);
-      
-        
+
+
         return $cityfind;
     }
 
+    /**
+     *  find layout name against
+     * layout id
+     * @param type $layout_id
+     * @return string
+     */
     public function findLayout($layout_id) {
-        if(!empty($layout_id)){
-             $layout = Layout::model()->find("layout_id=" . $layout_id);
-             return $layout;
-        }
-        else {
+        if (!empty($layout_id)) {
+            $layout = Layout::model()->find("layout_id=" . $layout_id);
+            return $layout;
+        } else {
             return "default";
         }
-        
     }
 
 }

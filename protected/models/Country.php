@@ -65,21 +65,18 @@ class Country extends DTActiveRecord {
     }
 
     /**
-     * get States for particular country
+     * get Cities for particular country
      */
     public function getCities() {
 
-        // $city = City::model()->findByAttributes($this->country_id);
-        //$this->country_id = $city->country->country_id;
         $criteria = new CDbCriteria();
         $criteria->select = "city_id,city_name";
         $criteria->condition = "country_id = " . $this->country_id;
         $this->_cities = CHtml::listData(City::model()->findAll($criteria), "city_id", "city_name");
-        //CVarDumper::dump( CHtml::listData(City::model()->findAll($criteria), "city_id", "city_name"),10,TRUE);die;
+        
     }
 
     public function afterFind() {
-        $this->getCities();
         parent::afterFind();
     }
 

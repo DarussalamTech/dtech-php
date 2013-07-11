@@ -518,6 +518,7 @@ class Controller extends RController {
         $criteria->addCondition("misc_type='other'");
         $selected = array("dateformat", "auto_item_code");
         $criteria->addInCondition("param", $selected);
+        $criteria->select = "param,value";
         $conf = ConfMisc::model()->findAll($criteria);
         if (!empty($conf)) {
             foreach ($conf as $data) {
