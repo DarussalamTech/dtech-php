@@ -284,6 +284,7 @@ var dtech = {
             jQuery.ajax({
                 type: "POST",
                 url: ajax_url,
+                async:false,
                 data:
                         {
                             resource_elem_id: jQuery("#" + resource_elem_id).val(),
