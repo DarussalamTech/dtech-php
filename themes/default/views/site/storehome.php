@@ -2,7 +2,6 @@
 
 <div class="browse">
     <?php
-    
     foreach ($segments_footer_cats as $cats) :
         ?>
         <div class="section_list">
@@ -48,6 +47,11 @@
     <h2>BEST SELLING BOOKS <span><?php echo CHtml::link('( VIEW ALL )', array('/web/product/bestSellings', 'country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id']), array('class' => 'blue-title-link')); ?></h2>
 
     <?php
+    $order_detail = new OrderDetail;
+    $dataProvider = $order_detail->bestSellings(5);
+    $best_sellings = $order_detail->getBestSelling($dataProvider);
+
+    
     foreach ($best_sellings as $bests) {
         $pro_name = $bests['product_name'];
         $orders = $bests['totalOrder'];
