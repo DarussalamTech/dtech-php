@@ -76,11 +76,11 @@ var dtech_new = {
     },
     footerToggle: function() {
         jQuery('.btnToggle').click(function() {
-            jQuery('#dvText').slideToggle(300);
+            jQuery('#dvText').show();
             return false;
         });
         jQuery('#div_img').click(function() {
-            jQuery('#dvText').slideToggle(300);
+            jQuery('#dvText').hide();   
             return false;
         });
 
