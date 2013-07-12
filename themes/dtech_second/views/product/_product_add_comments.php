@@ -32,9 +32,9 @@
         $modelC = new ProductReviews;
         $pid = $product->product_id;
         if (Yii::app()->user->id != NUll) {
-            echo $form->textArea($modelC, 'reviews', $htmlOptions = array('maxlength' => 300, 'rows' => '2', 'cols' => '59'));
+            echo $form->textArea($modelC, 'reviews', $htmlOptions = array('rows' => '2', 'cols' => '59'));
         } else {
-            echo $form->textArea($modelC, 'reviews', $htmlOptions = array('maxlength' => 300, 'rows' => '2', 'cols' => '59', 'readonly' => 'readonly'));
+            echo $form->textArea($modelC, 'reviews', $htmlOptions = array('rows' => '2', 'cols' => '59', 'readonly' => 'readonly'));
         }
 
         echo $form->hiddenField($modelC, 'product_id', array('value' => $pid));
