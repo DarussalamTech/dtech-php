@@ -86,13 +86,13 @@ class SiteController extends Controller {
          * best selling
          */
         $dataProvider = $order_detail->bestSellings($limit);
-       // $bestSellings = $order_detail->getBestSelling($dataProvider);
+        
 
         $segments_footer_cats = Categories::model()->getCategoriesInSegment(5);
         $dataProviderAll = Product::model()->allProducts();
         $this->render('//site/storehome', array(
             'featured_products' => $featured_products,
-            //'best_sellings' => $bestSellings,
+            
             'segments_footer_cats' => $segments_footer_cats,
             'dataProvider' => $dataProviderAll,
         ));
@@ -426,7 +426,7 @@ class SiteController extends Controller {
     }
 
     public function actionTest() {
-   
+
 
         $this->layout = "";
 
@@ -434,20 +434,19 @@ class SiteController extends Controller {
 
         $content = $this->read_file_docx($filename);
         if ($content !== false) {
-          
-            $Arabic = new I18N_Arabic('CharsetC'); 
-           // $input = iconv("ISO-8859-1","UTF-8//IGNORE",$content);
+
+            $Arabic = new I18N_Arabic('CharsetC');
+            // $input = iconv("ISO-8859-1","UTF-8//IGNORE",$content);
             //$str = mb_convert_encoding($content, 'UTF-8', 'ISO-8859-1');
-            
             //echo nl2br(utf8_decode($content));
             //echo u("Ø¹Ø§Ø¨Ø¯ (Ø¹Ø¨Ø§Ø¯)");die;
             echo iconv(mb_detect_encoding("Ø¹Ø§Ø¨Ø¯ (Ø¹Ø¨Ø§Ø¯)"), "UTF-8", "Ø¹Ø§Ø¨Ø¯ (Ø¹Ø¨Ø§Ø¯)");
-            
-           echo $str2 =  mb_convert_encoding ($content,"HTML-ENTITIES","UTF-8");
+
+            echo $str2 = mb_convert_encoding($content, "HTML-ENTITIES", "UTF-8");
             die;
             echo nl2br(htmlentities($content, ENT_QUOTES, "UTF-8"));
-            
-            $arabic_data = iconv("windows-1256" , "utf8" , nl2br(htmlentities($content, ENT_QUOTES, "UTF-8")));
+
+            $arabic_data = iconv("windows-1256", "utf8", nl2br(htmlentities($content, ENT_QUOTES, "UTF-8")));
         } else {
             echo 'Couldn\'t the file. Please check that file.';
         }
