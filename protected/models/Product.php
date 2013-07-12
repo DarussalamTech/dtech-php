@@ -91,8 +91,7 @@ class Product extends DTActiveRecord {
              */
             'productSelectedProfile' => array(self::HAS_MANY, 'ProductProfile', 'product_id', 'condition' => 'language_id=' . $lang_id),
             'productloadProfile' => array(self::HAS_MANY, 'ProductProfile', 'product_id', 'condition' => 'id =' . $profile_id),
-            
-            'product_reviews' => array(self::HAS_MANY, 'ProductReviews', 'product_id'), 
+            'product_reviews' => array(self::HAS_MANY, 'ProductReviews', 'product_id'),
             'author' => array(self::BELONGS_TO, 'Author', 'authors'),
             'language' => array(self::BELONGS_TO, 'Language', 'languages'),
         );
@@ -225,35 +224,30 @@ class Product extends DTActiveRecord {
         $all_pro = array();
         $data = $dataProvider->getData();
 
-        $featured_products = array();
-        $product = array();
-        $images = array();
         foreach ($data as $products) {
-            $product_id = $products->product_id;
 
-            $criteria2 = new CDbCriteria;
-            $criteria2->select = '*';  // only select the 'title' column
-            $criteria2->condition = "product_profile_id='" . $products->productProfile[0]->id . "'";
+            $criteria = new CDbCriteria;
+            $criteria->select = 'id,product_profile_id,image_small,image_large,is_default';  // only select the 'title' column
+            $criteria->condition = "product_profile_id='" . $products->productProfile[0]->id . "'";
 
-            $imagedata = ProductImage::model()->findAll($criteria2);
+            $criteria->addCondition("(is_default =0 OR is_default=1)");
+            $criteria->order = "is_default DESC";
+
+            $imagedata = ProductImage::model()->find($criteria);
+            
             $images = array();
-            foreach ($imagedata as $img) {
 
-                if ($img->is_default == 1) {
-                    $images[] = array('id' => $img->id,
-                        'image_large' => $img->image_url['image_large'],
-                        'image_small' => $img->image_url['image_small'],
-                    );
-                    break;
-                } else {
-                    $images[] = array('id' => $img->id,
-                        'image_large' => $img->image_url['image_large'],
-                        'image_small' => $img->image_url['image_small'],
-                    );
-                    break;
-                }
+            if ($imagedata->is_default == 1) {
+                $images[] = array('id' => $imagedata->id,
+                    'image_large' => $imagedata->image_url['image_large'],
+                    'image_small' => $imagedata->image_url['image_small'],
+                );
+            } else {
+                $images[] = array('id' => $imagedata->id,
+                    'image_large' => $imagedata->image_url['image_large'],
+                    'image_small' => $imagedata->image_url['image_small'],
+                );
             }
-
 
             $all_pro[] = array(
                 'product_id' => $products->product_id,
@@ -270,7 +264,7 @@ class Product extends DTActiveRecord {
             );
         }
 
-        
+
         return $all_pro;
     }
 
