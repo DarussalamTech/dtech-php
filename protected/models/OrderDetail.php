@@ -139,7 +139,6 @@ class OrderDetail extends DTActiveRecord {
                 $criteria->addCondition("product_categories.category_id='" . $_POST['cat_id'] . "'");
             }
             $criteria->distinct = "t.product_id";
-            //$model = Product::model()->with('productProfile','productCategories');
         }
 
         $model = Product::model()->with(array('productProfile' => array('select' => '*')));
@@ -161,13 +160,14 @@ class OrderDetail extends DTActiveRecord {
 
         $data = $dataProvider->getData();
         $featured_products = array();
-        
+
         foreach ($data as $products) {
 
             $criteria = new CDbCriteria;
             $criteria->select = 'id,product_profile_id,image_small,image_large,is_default';
             $criteria->condition = "product_profile_id='" . $products->productProfile[0]->id . "'";
             $criteria->addCondition("(is_default =0 OR is_default=1)");
+            $criteria->order = "is_default DESC";
             $imagedata = ProductImage::model()->find($criteria);
             $images = array();
 
@@ -210,7 +210,7 @@ class OrderDetail extends DTActiveRecord {
         $criteria = new CDbCriteria(array(
             'select' => "COUNT( product.product_id ) as totalOrder,product.*,product_profile.*",
             'group' => 'product.product_id',
-            'distinct' => 'product.product_id',       
+            'distinct' => 'product.product_id',
             'condition' => "product.city_id = '" . $city_id . "'",
             'order' => 'totalOrder DESC',
         ));
@@ -235,7 +235,6 @@ class OrderDetail extends DTActiveRecord {
                 $langs = explode(",", $_POST['langs']);
 
                 $criteria->addInCondition("product_profile.language_id", $langs);
-
             }
             if (!empty($_POST['cat_id'])) {
 
@@ -279,7 +278,7 @@ class OrderDetail extends DTActiveRecord {
         $best_products = array();
         $best_join = $dataProvider->getData();
         $counter = count($best_join);
-        
+
         for ($i = 0; $i < $counter; $i++) {
 
             $product_name = $best_join[$i]->product_profile->product->product_name;
@@ -292,6 +291,7 @@ class OrderDetail extends DTActiveRecord {
             $criteria->select = 'id,product_profile_id,image_small,image_large,is_default';  // only select the 'title' column
             $criteria->condition = 'product_profile_id="' . $best_join[$i]->product_profile->id . '"';
             $criteria->addCondition("(is_default =0 OR is_default=1)");
+            $criteria->order = "is_default DESC";
             $imagebest = ProductImage::model()->find($criteria);
 
             $images = array();
@@ -318,8 +318,6 @@ class OrderDetail extends DTActiveRecord {
                         'totalOrder' => $product_totalOrder,
                         'no_image' => $best_join[$i]->product_profile->product->no_image,
                         'image' => $images);
-
-            
         }
 
         return $best_products;
