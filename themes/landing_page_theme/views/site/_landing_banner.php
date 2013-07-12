@@ -21,17 +21,16 @@
 
             <h2>Select Your Country</h2>
             <?php
-           
             echo $form->dropDownList($model, 'country', CHtml::listData(Country::model()->findAll(), 'country_id', 'country_name'), array(
                 'empty' => 'Please Select Country',
                 'onchange' => ' 
-                                jQuery(".enter_button").attr("disabled");
-                                dtech.updateElementAjax("'.$this->createDTUrl('/CommonSystem/getCity').'","cities","LandingModel_country")
-                                jQuery(".enter_button").removeAttr("disabled");    
+                                jQuery(".enter_button").hide();
+                                dtech.updateElementAjax("' . $this->createDTUrl('/CommonSystem/getCity') . '","cities","LandingModel_country")
+                                jQuery(".enter_button").show();    
                                 '));
             ?>
             <div id="cities">
-                
+
             </div>
             <h3>Remember me</h3>
             <div class="onoffswitch">
