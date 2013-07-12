@@ -342,4 +342,6 @@ div.country_submit .btn-submit:hover { color:#FFF; }
     margin: 3px 26px;
 }
 
-
+.yiiLog{
+    clear: both;
+}

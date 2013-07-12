@@ -15,7 +15,7 @@
  */
 class OrderDetail extends DTActiveRecord {
 
-    public $totalOrder,$total_price;
+    public $totalOrder, $total_price;
 
     /**
      * used for deleting
@@ -161,30 +161,26 @@ class OrderDetail extends DTActiveRecord {
 
         $data = $dataProvider->getData();
         $featured_products = array();
-        $product = array();
-        $images = array();
+        
         foreach ($data as $products) {
 
-            $product_id = $products->product_id;
-            $criteria2 = new CDbCriteria;
-            $criteria2->select = '*';  // only select the 'title' column
-            $criteria2->condition = "product_profile_id='" . $products->productProfile[0]->id . "'";
-            $imagedata = ProductImage::model()->findAll($criteria2);
+            $criteria = new CDbCriteria;
+            $criteria->select = 'id,product_profile_id,image_small,image_large,is_default';
+            $criteria->condition = "product_profile_id='" . $products->productProfile[0]->id . "'";
+            $criteria->addCondition("(is_default =0 OR is_default=1)");
+            $imagedata = ProductImage::model()->find($criteria);
             $images = array();
-            foreach ($imagedata as $img) {
-                if ($img->is_default == 1) {
-                    $images[] = array('id' => $img->id,
-                        'image_large' => $img->image_url['image_large'],
-                        'image_small' => $img->image_url['image_small'],
-                    );
-                    break;
-                } else {
-                    $images[] = array('id' => $img->id,
-                        'image_large' => $img->image_url['image_large'],
-                        'image_small' => $img->image_url['image_small'],
-                    );
-                    break;
-                }
+
+            if ($imagedata->is_default == 1) {
+                $images[] = array('id' => $imagedata->id,
+                    'image_large' => $imagedata->image_url['image_large'],
+                    'image_small' => $imagedata->image_url['image_small'],
+                );
+            } else {
+                $images[] = array('id' => $imagedata->id,
+                    'image_large' => $imagedata->image_url['image_large'],
+                    'image_small' => $imagedata->image_url['image_small'],
+                );
             }
 
             $featured_products[] = array(
@@ -214,10 +210,8 @@ class OrderDetail extends DTActiveRecord {
         $criteria = new CDbCriteria(array(
             'select' => "COUNT( product.product_id ) as totalOrder,product.*,product_profile.*",
             'group' => 'product.product_id',
-            'distinct' => 'product.product_id',
-            //'condition'=>"is_featured='".$is_featured."' AND city_id='".Yii::app()->session['city_id']."'",
+            'distinct' => 'product.product_id',       
             'condition' => "product.city_id = '" . $city_id . "'",
-            //'limit' => $limit,
             'order' => 'totalOrder DESC',
         ));
 
@@ -242,7 +236,6 @@ class OrderDetail extends DTActiveRecord {
 
                 $criteria->addInCondition("product_profile.language_id", $langs);
 
-                //$model = OrderDetail::model()->with(array('product_profile', 'product_profile.product' => array('alias' => 'product', 'joinType' => "INNER JOIN ")));
             }
             if (!empty($_POST['cat_id'])) {
 
@@ -286,8 +279,8 @@ class OrderDetail extends DTActiveRecord {
         $best_products = array();
         $best_join = $dataProvider->getData();
         $counter = count($best_join);
+        
         for ($i = 0; $i < $counter; $i++) {
-            $product_id = $best_join[$i]->product_profile->product_id;
 
             $product_name = $best_join[$i]->product_profile->product->product_name;
             $product_description = $best_join[$i]->product_profile->product->product_description;
@@ -295,34 +288,38 @@ class OrderDetail extends DTActiveRecord {
             $product_price = $best_join[$i]->product_profile->price;
             $product_totalOrder = $best_join[$i]->totalOrder;
 
-            $criteria6 = new CDbCriteria;
-            $criteria6->select = '*';  // only select the 'title' column
-            $criteria6->condition = 'product_profile_id="' . $best_join[$i]->product_profile->id . '"';
-            $imagebest = ProductImage::model()->findAll($criteria6);
+            $criteria = new CDbCriteria;
+            $criteria->select = 'id,product_profile_id,image_small,image_large,is_default';  // only select the 'title' column
+            $criteria->condition = 'product_profile_id="' . $best_join[$i]->product_profile->id . '"';
+            $criteria->addCondition("(is_default =0 OR is_default=1)");
+            $imagebest = ProductImage::model()->find($criteria);
+
             $images = array();
-            foreach ($imagebest as $img) {
-                if ($img->is_default == 1) {
-                    $images[] = array('id' => $img->id,
-                        'image_large' => $img->image_url['image_large'],
-                        'image_small' => $img->image_url['image_small'],
-                    );
-                    break;
-                } else {
-                    $images[] = array('id' => $img->id,
-                        'image_large' => $img->image_url['image_large'],
-                        'image_small' => $img->image_url['image_small'],
-                    );
-                    break;
-                }
+
+            if ($imagebest->is_default == 1) {
+                $images[] = array('id' => $imagebest->id,
+                    'image_large' => $imagebest->image_url['image_large'],
+                    'image_small' => $imagebest->image_url['image_small'],
+                );
+            } else {
+                $images[] = array('id' => $imagebest->id,
+                    'image_large' => $imagebest->image_url['image_large'],
+                    'image_small' => $imagebest->image_url['image_small'],
+                );
             }
-            $best_products[$product_id] = array('product_id' => $product_id,
-                'product_name' => $product_name,
-                'product_description' => $product_description,
-                'product_overview' => $product_overview,
-                'product_price' => $product_price,
-                'totalOrder' => $product_totalOrder,
-                'no_image' => $best_join[$i]->product_profile->product->no_image,
-                'image' => $images);
+
+            $best_products[$best_join[$i]->product_profile->product_id] =
+                    array(
+                        'product_id' => $best_join[$i]->product_profile->product_id,
+                        'product_name' => $product_name,
+                        'product_description' => $product_description,
+                        'product_overview' => $product_overview,
+                        'product_price' => $product_price,
+                        'totalOrder' => $product_totalOrder,
+                        'no_image' => $best_join[$i]->product_profile->product->no_image,
+                        'image' => $images);
+
+            
         }
 
         return $best_products;
@@ -338,6 +335,7 @@ class OrderDetail extends DTActiveRecord {
 
         parent::afterSave();
     }
+
     /**
      * used for calculating of total price
      */
