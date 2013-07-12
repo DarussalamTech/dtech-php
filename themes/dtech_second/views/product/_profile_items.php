@@ -66,6 +66,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
                                                     
                                                     jQuery('#img_detail').html(response['left_data']);
                                                     jQuery('#prod_detail').html(response['right_data']);
+                                                    dtech_new.footerToggle();
                                                 }
                                             }); return false; }",
                 )
