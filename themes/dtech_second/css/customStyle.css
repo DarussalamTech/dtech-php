@@ -346,3 +346,9 @@ div.country_submit .btn-submit:hover { color:#FFF; }
 .yiiLog{
     clear: both;
 }
+/**
+pagination div
+/*/
+ul.yiiPager li.first,ul.yiiPager li.last {
+    display: inline !important;
+}
