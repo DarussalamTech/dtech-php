@@ -125,6 +125,8 @@ class Order extends DTActiveRecord {
         $criteria->compare('total_price', $this->total_price, true);
         $criteria->compare('order_date', $this->order_date, true);
         $criteria->compare('status', $this->status, true);
+        
+        $criteria->compare('city_id', Yii::app()->request->getQuery("city_id"), true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
