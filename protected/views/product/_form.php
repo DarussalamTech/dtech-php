@@ -39,7 +39,15 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/f
         $categories = Categories::model()->findAll($criteria);
         echo $form->dropDownList($model, 'parent_cateogry_id', array("" => "Select") + CHtml::listData($categories, "category_id", "category_name"), array(
             "onchange" => "dtech.showProductChildren(this)",
-            "onclick" => "dtech.preserveOldVal(this)"
+            "onclick" => "
+                    dtech.preserveOldVal(this);
+                       if( $('#Product_parent_cateogry_id option:selected').text()!='Books'){
+                            $('#Product_authors').hide();
+                        }
+                        else {
+                             $('#Product_authors').show();
+                        }
+                    "
                 )
         );
         ?>
@@ -74,9 +82,13 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/f
 
     <?php
     $this->renderPartial("/common/_city_field", array("form" => $form, "model" => $model, "cityList" => $cityList));
+    $display = "";
+    if(isset($model->parent_category) && $model->parent_category->category_name!="Books"){
+        $display = "display:none";
+    }
     ?>
 
-    <div class="row">
+    <div class="row" style="<?php echo $display ?>">
         <?php echo $form->labelEx($model, 'authors'); ?>
         <?php echo $form->dropDownList($model, 'authors', $authorList, array('prompt' => 'Select Author')); ?>
         <?php echo $form->error($model, 'authors'); ?>

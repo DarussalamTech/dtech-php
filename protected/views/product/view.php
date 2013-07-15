@@ -68,6 +68,7 @@ $this->widget('zii.widgets.CDetailView', array(
         array(
             'name' => 'authors',
             'value' => implode("/", $model->getAuthors()),
+            'visible' =>$model->parent_category->category_name == "Books"?true:false,
         ),
         array(
             'name' => 'create_time',
