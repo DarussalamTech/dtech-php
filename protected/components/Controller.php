@@ -18,6 +18,10 @@ class Controller extends RController {
      */
     public $cs;
     public $scriptMap = array();
+    
+    //PCM Will handle languages by session
+    
+    public $currentLang = "en";
 
     /**
      * @var array context menu items. This property will be assigned to {@link CMenu::items}.
@@ -202,14 +206,14 @@ class Controller extends RController {
      */
 
     public function isChangeAdminCity() {
-       
+
         if (!empty($this->controllers)) {
-             $controllers = array_keys($this->controllers);
-           
-            if (in_array(ucfirst($this->id),$controllers) && Yii::app()->user->User->city_id != Yii::app()->session['city_id']) {
-                
+            $controllers = array_keys($this->controllers);
+
+            if (in_array(ucfirst($this->id), $controllers) && Yii::app()->user->User->city_id != Yii::app()->session['city_id']) {
+
                 Yii::app()->user->logout();
-                 //$this->redirect(Yii::app()->homeUrl);
+                //$this->redirect(Yii::app()->homeUrl);
             }
         }
     }
