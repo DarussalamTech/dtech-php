@@ -18,19 +18,19 @@
             ?>
         </td>
     </tr></table>
-   
+
 <?php
 if (!Yii::app()->user->isGuest) {
-    echo CHtml::link('Logout', $this->createUrl('/site/logout'),array('style'=>'color:black;font-weight:bold'));
+    echo CHtml::link(Yii::t('header_footer', 'Logout', array(), NULL, $this->currentLang), $this->createUrl('/site/logout'), array('style' => 'color:black;font-weight:bold'));
     echo '<br>';
-    echo CHtml::link('My Account', $this->createUrl('/web/userProfile/index', array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'])),array('style'=>'color:black;'));
+    echo CHtml::link(Yii::t('header_footer', 'My Profile', array(), NULL, $this->currentLang), $this->createUrl('/web/userProfile/index', array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'])), array('style' => 'color:black;'));
     echo '<br>';
-    echo CHtml::link('Change Password', $this->createUrl('/web/user/changePass', array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'])),array('style'=>'color:black;'));
+    echo CHtml::link(Yii::t('header_footer', 'Change Password', array(), NULL, $this->currentLang), $this->createUrl('/web/user/changePass', array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'])), array('style' => 'color:black;'));
     echo '<br>';
-    echo CHtml::link('Order History', $this->createUrl('/web/user/customerHistory', array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'])),array('style'=>'color:black;'));
+    echo CHtml::link(Yii::t('header_footer', 'Order History', array(), NULL, $this->currentLang), $this->createUrl('/web/user/customerHistory', array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'])), array('style' => 'color:black;'));
 }
 ?>
-   
+
 </div>
 <style>
     .logoutPopup{
@@ -45,7 +45,7 @@ if (!Yii::app()->user->isGuest) {
         jQuery('.logout-btn').hover(function() {
             mouse_is_inside_logout = true;
             jQuery('.logoutPopup').toggle();
-            
+
             if (jQuery(".logoutPopup").is(':visible') == true) {
 
                 dtech_new.onShowLogin();
@@ -53,7 +53,7 @@ if (!Yii::app()->user->isGuest) {
             else {
                 dtech_new.onHideLogin();
             }
-            
+
         }, function() {
             mouse_is_inside_logout = false;
             //jQuery('.logoutPopup').hide();

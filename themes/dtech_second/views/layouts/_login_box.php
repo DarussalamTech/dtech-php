@@ -1,12 +1,11 @@
 <a href="#" id="login_btn">
     <span>
-        Login 
+        <?php echo Yii::t('header_footer', 'Login', array(), NULL, $this->currentLang); ?>
     </span>
 </a>
 <div style="clear:both"></div>
 <div id="login_bx">  
     <?php
-   
     $login_model = new LoginForm;
     $form = $this->beginWidget('CActiveForm', array(
         'id' => 'login_frm',
@@ -34,6 +33,6 @@
             ?>
         </fieldset>
     </fieldset>
-    <?php echo CHtml::submitButton("User Login", array("class" => "user_login_btn")); ?>
+    <?php echo CHtml::submitButton(Yii::t('header_footer', 'User Login', array(), NULL, $this->currentLang), array("class" => "user_login_btn")); ?>
     <?php $this->endWidget(); ?>
 </div>

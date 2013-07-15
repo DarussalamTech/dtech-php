@@ -61,7 +61,7 @@
                     <?php
                     if (Yii::app()->user->isGuest) {
                         echo CHtml::openTag("span");
-                        echo CHtml::link("Sign Up", $this->createUrl('/web/user/register'));
+                        echo CHtml::link(Yii::t('header_footer', 'Sign Up', array(), NULL, $this->currentLang), $this->createUrl('/web/user/register'));
                         echo CHtml::closeTag("span");
                     }
                     ?>
@@ -79,11 +79,11 @@
                     </span>
                     <span>
                         <?php
-                        echo CHtml::link('Contact Us', $this->createUrl('/site/contact'));
+                        echo CHtml::link(Yii::t('header_footer', 'Contact Us', array(), NULL, $this->currentLang), $this->createUrl('/site/contact'));
                         ?>
                     </span>
                     <span>
-                        <?php echo CHtml::link('Blog', Yii::app()->createUrl('/?r=blog'), array("target" => "_blank")); ?>
+                        <?php echo CHtml::link(Yii::t('header_footer', 'Blog', array(), NULL, $this->currentLang), Yii::app()->createUrl('/?r=blog'), array("target" => "_blank")); ?>
                     </span>
                 </div>
             </header>
@@ -115,11 +115,15 @@
                                     'htmlOptions' => array(
                                         'id' => 'search-text',
                                         'value' => (isset($_POST['serach_field']) ? $_POST['serach_field'] : ""),
-                                        'placeholder' => 'type here',
+                                        'placeholder' => Yii::t('header_footer','type here',array(),NULL,$this->currentLang)
                                     ),
                                 ));
                                 ?>
-                                <button id='search-button' type='submit' onclick="dtech.doGloblSearch()"><span>Search</span></button>
+                                <button id='search-button' type='submit' onclick="dtech.doGloblSearch()">
+                                    <span>
+                                        <?php echo Yii::t('header_footer','Search',array(),NULL,$this->currentLang) ?>
+                                    </span>
+                                </button>
                             </form>
                         </div>
                     </div>
