@@ -333,7 +333,12 @@ class MenusController extends Controller {
         /** FOr order module * */
         $ary[] = array("id" => "40", "pid" => "0", "root_parent" => "40", "controller" => "order", "action" => "index", "default_title" => "Order", "user_title" => "Order", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "3");
         $ary[] = array("id" => "41", "pid" => "40", "root_parent" => "40", "controller" => "order", "action" => "index", "default_title" => "List All", "user_title" => "List All", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "0");
-
+        
+        /**
+         * Category other links
+         */
+        $ary[] = array("id" => "42", "pid" => "29", "root_parent" => "29", "controller" => "categories", "action" => "createParent", "default_title" => "Create Parent", "user_title" => "Create Parent", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "2");
+        $ary[] = array("id" => "43", "pid" => "29", "root_parent" => "29", "controller" => "categories", "action" => "indexParent", "default_title" => "List All Parent", "user_title" => "List All Parent", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "2");
 
         $this->updateWpbaseUrl();
         foreach ($ary as $attr) {
@@ -361,12 +366,11 @@ class MenusController extends Controller {
      * 
      * 
      */
-    
-    
+
     public function actionRebuildAssets() {
         $this->deleteDir();
     }
-    
+
     /**
      * for linux
      */

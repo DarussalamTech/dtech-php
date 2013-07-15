@@ -24,7 +24,11 @@ if (!(Yii::app()->user->isGuest)) {
         <span class="creatdate">
             <?php
             if (isset($this->OpPermission[ucfirst($this->id) . ".Update"]) && $this->OpPermission[ucfirst($this->id) . ".Update"]) {
-                echo CHtml::link("Edit", $this->createUrl("update", array("id" => $model->primaryKey)), array('class' => "print_link_btn"));
+                $action = "update";
+                if($model->parent_id == '0'){
+                    $action = "updateParent";
+                }
+                echo CHtml::link("Edit", $this->createUrl($action, array("id" => $model->primaryKey)), array('class' => "print_link_btn"));
             }
             ?>
         </span>

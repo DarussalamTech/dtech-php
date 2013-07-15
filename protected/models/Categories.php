@@ -80,6 +80,7 @@ class Categories extends DTActiveRecord {
             'childs' => array(self::HAS_MANY, 'Categories', 'parent_id', 'order' => 'categories_id ASC'),
             'city' => array(self::BELONGS_TO, 'City', 'city_id'),
             'productCategories' => array(self::HAS_MANY, 'ProductCategories', 'category_id'),
+            'catlangs' => array(self::HAS_MANY, 'CategoriesLang', 'category_id'),
         );
     }
 
@@ -160,9 +161,22 @@ class Categories extends DTActiveRecord {
         $criteria->compare('added_date', $this->added_date, true);
         $criteria->compare('parent_id', $this->parent_id);
         $criteria->compare('city_id', $this->city_id);
-        $criteria->addCondition("parent_id <> 0");
+        /**
+         * if flag for parent then only will be parent
+         */
+        if ($this->parent_id != '0') {
+            $criteria->addCondition("parent_id <> 0");
+        } else {
+           
+            $criteria->addCondition("parent_id = 0");
+           
+            $criteria->compare('city_id', Yii::app()->request->getQuery("city_id"), true);
+        }
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
+            'pagination' => array(
+                'pageSize' => 40,
+            ),
         ));
     }
 

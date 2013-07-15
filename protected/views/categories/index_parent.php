@@ -23,14 +23,7 @@ $('.search-form form').submit(function(){
 	return false;
 });
 ");
-$this->PcmWidget['filter'] = array('name' => 'ItstLeftFilter',
-    'attributes' => array(
-        'model' => $model,
-        'filters' => $this->filters,
-        'keyUrl' => true,
-        'action' => Yii::app()->createUrl($this->route),
-        'grid_id' => 'product-grid',
-        ));
+
 ?>
 
 <h1>Add Product Categories</h1>
@@ -100,7 +93,12 @@ $grid_array = array(
         ),
         array(
             'class' => 'CButtonColumn',
-            'template' => $template
+            'template' => $template,
+            'buttons'=>array(
+                'update'=>array(
+                    'url' => 'Yii::app()->controller->createUrl("/categories/updateParent",array("id"=>$data->category_id))',
+                )
+            ),
         ),
     ),
 );
