@@ -5,6 +5,7 @@
         <script type="text/javascript" src="<?php echo Yii::app()->baseUrl ?>/packages/jui/js/jquery.js"></script>
         <link rel="stylesheet" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/style.css" />
         <script src="<?php echo Yii::app()->baseUrl; ?>/media/js/dtech.js"></script>
+         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
         <?php Yii::app()->clientScript->registerCoreScript('jquery'); ?>
         <link href='<?php echo Yii::app()->theme->baseUrl; ?>/images/favicon.ico' rel='icon' type='image/x-icon'/>
         <style type="text/css"> 

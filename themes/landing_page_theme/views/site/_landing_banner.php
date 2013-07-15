@@ -17,9 +17,13 @@
                 <?php echo CHtml::image(Yii::app()->theme->baseUrl . "/images/right_arrow_img_03.png", '') ?>
             </div>
             <h1>Darussalam</h1>
-            <span>Your authentic source of knowledge</span>
+            <span>
+                <?php echo Yii::t('common', 'Your authentic source of knowledge', array(), NULL, $this->currentLang); ?>
+            </span>
 
-            <h2>Select Your Country</h2>
+            <h2>
+                <?php echo Yii::t('common', 'Select Your Country', array(), NULL, $this->currentLang); ?>
+            </h2>
             <?php
             echo $form->dropDownList($model, 'country', CHtml::listData(Country::model()->findAll(), 'country_id', 'country_name'), array(
                 'empty' => 'Please Select Country',
@@ -32,7 +36,9 @@
             <div id="cities">
 
             </div>
-            <h3>Remember me</h3>
+            <h3>
+                <?php echo Yii::t('common', 'Remember me', array(), NULL, $this->currentLang); ?>
+            </h3>
             <div class="onoffswitch">
                 <?php
                 echo CHtml::checkBox('onoffswitch', 'checked', array("class" => "onoffswitch-checkbox", "id" => "myonoffswitch"));
@@ -48,7 +54,11 @@
         </div>
     </div>
     <div class="numbers">
-        <span>15,008 Members Shopping</span>
-        <span>235,875 Active Members</span>
+        <span>15,008 
+            <?php echo Yii::t('common', 'Members Shopping', array(), NULL, $this->currentLang); ?>
+        </span>
+        <span>235,875 
+            <?php echo Yii::t('common', 'Active Members', array(), NULL, $this->currentLang); ?>
+        </span>
     </div>
 </div>
