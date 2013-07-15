@@ -103,6 +103,26 @@ class CategoriesController extends Controller {
         ));
     }
 
+    /**
+     * Creating parent categories
+     */
+    public function actionCreateParent() {
+
+        $model = new Categories;
+
+        // Uncomment the following line if AJAX validation is needed
+        if (isset($_POST['Categories'])) {
+            $model->attributes = $_POST['Categories'];
+            $model->added_date = time();
+            if ($model->save())
+                $this->redirect(array('view', 'id' => $model->category_id));
+        }
+
+        $this->render('create', array(
+            'model' => $model,
+        ));
+    }
+
     public function getSubCategories($sub_catetory_id, $category_name) {
         global $categotyList;
         $childCategories = Categories::model()->findAllByAttributes(array('parent_id' => $sub_catetory_id));
@@ -156,6 +176,26 @@ class CategoriesController extends Controller {
     }
 
     /**
+     * Creating parent categories
+     */
+    public function actionUpdateParent($id) {
+
+        $model = $this->loadModel($id);
+
+        // Uncomment the following line if AJAX validation is needed
+        if (isset($_POST['Categories'])) {
+            $model->attributes = $_POST['Categories'];
+
+            if ($model->save())
+                $this->redirect(array('view', 'id' => $model->category_id));
+        }
+
+        $this->render('update', array(
+            'model' => $model,
+        ));
+    }
+
+    /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
      * @param integer $id the ID of the model to be deleted
@@ -173,12 +213,34 @@ class CategoriesController extends Controller {
      */
     public function actionIndex() {
         $model = new Categories('search');
+
         $this->init();
         $model->unsetAttributes();  // clear any default values
         if (isset($_GET['Categories']))
             $model->attributes = $_GET['Categories'];
 
         $this->render('index', array(
+            'model' => $model,
+        ));
+    }
+
+    /**
+     * Manage parent categories
+     */
+    public function actionIndexParent() {
+
+        $model = new Categories('search');
+        
+        $this->init();
+        $model->unsetAttributes();   // clear any default values
+        
+        $model->parent_id = 0 ;
+        if (isset($_GET['Categories']))
+            $model->attributes = $_GET['Categories'];
+        
+       
+        
+        $this->render('index_parent', array(
             'model' => $model,
         ));
     }

@@ -28,7 +28,19 @@ if(!(Yii::app()->user->isGuest)) {
 </div>
 <div class="clear"></div>
 
-
-<?php echo $this->renderPartial('_form', array('model'=>$model,
+<?php
+/**
+ * for differntitating parent and childs
+ */
+if ($this->action->id != "updateParent") {
+   
+   echo $this->renderPartial('_form', array('model'=>$model,
                         'categoriesList'=>$categoriesList,
-                        'cityList'=>$cityList)); ?>
+                        'cityList'=>$cityList)); 
+} else {
+   
+    echo $this->renderPartial('_form_parent', array('model' => $model,
+    ));
+}
+?>
+<?php ?>

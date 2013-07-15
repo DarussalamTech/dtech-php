@@ -164,7 +164,7 @@ class RDbAuthManager extends CDbAuthManager {
 					LEFT JOIN {$this->rightsTable} t2 ON name=itemname
 					WHERE t1.type=:type " . $cond . " 
                                         
-					ORDER BY t1.type DESC, weight ASC";
+					ORDER BY t1.name, t1.type DESC, weight ASC";
 
 
                 $command = $this->db->createCommand($sql);
