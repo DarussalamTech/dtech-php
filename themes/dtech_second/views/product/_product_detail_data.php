@@ -61,7 +61,7 @@
 
         <?php
         if ($total_av > 1) {
-            echo CHtml::button('Add to Cart', array('onclick' => '
+            echo CHtml::button(Yii::t('common','Add to Cart',array(),NULL,$this->currentLang), array('onclick' => '
                             jQuery("#loading").show();
                             jQuery("#status_available").hide();  
                             jQuery("#status_un_available").hide();  
@@ -92,7 +92,7 @@
             ));
         } else {
             if (!empty(Yii::app()->user->id)) {
-                echo CHtml::button('Email me when available', array('onclick' => '
+                echo CHtml::button(Yii::t('common','Email me when available',array(),NULL,$this->currentLang), array('onclick' => '
                                 dtech_new.loadWaitmsg();
                                jQuery("#load_subpanel_div").toggle(); 
                                jQuery.ajax({
@@ -110,7 +110,7 @@
                           ', 'class' => 'add_to_cart_arrow email_cart_arrow'));
             } else {
 
-                echo CHtml::button('Email me when available', array(
+                echo CHtml::button(Yii::t('common','Email me when available',array(),NULL,$this->currentLang), array(
                     'onclick' => '
                        window.open(
                         "' . $this->createUrl("/web/cart/emailtoAdmin", array("id" => $product->productProfile[0]->id)) . '", "" )     
@@ -121,7 +121,7 @@
 
 
         <?php
-        echo CHtml::ajaxLink(' Add to wishlist', $this->createUrl('/cart/addtowishlist'), array('data' => array(
+        echo CHtml::ajaxLink(Yii::t('common','Add to wishlist',array(),NULL,$this->currentLang), $this->createUrl('/cart/addtowishlist'), array('data' => array(
                 'product_profile_id' => $product->productProfile[0]->id,
                 'city_id' => !empty($_REQUEST['city_id']) ? $_REQUEST['city_id'] : Yii::app()->session['city_id'],
                 'city' => !empty($_REQUEST['city_id']) ? $_REQUEST['city_id'] : Yii::app()->session['city_id'],

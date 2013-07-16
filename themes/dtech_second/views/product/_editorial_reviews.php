@@ -23,8 +23,10 @@
 
 <div id="description_content">
 
-    <h1>Book Description</h1>
-   
+    <h1>
+        <?php echo Yii::t('product_detail', 'Book Description', array(), NULL, $this->currentLang); ?>
+    </h1>
+
 
     <?php
     if (str_word_count($product->product_description) < 500) {
@@ -45,7 +47,7 @@
         echo CHtml::closeTag('div');
 
 
-        echo CHtml::openTag('div', array('class' => 'read_more',"style"=>"display:none"));
+        echo CHtml::openTag('div', array('class' => 'read_more', "style" => "display:none"));
 
         echo CHtml::openTag('p');
         echo $product->product_description;
@@ -58,11 +60,11 @@
     }
     ?>
 
-<!--    <h2>Product Reviews</h2>
-    
-    <p>
+    <!--    <h2>Product Reviews</h2>
+        
+        <p>
     <?php echo $product->product_overview; ?>
-    </p>
-    <article>Copyright 1995 Reed Business Information, Inc.</article>-->
+        </p>
+        <article>Copyright 1995 Reed Business Information, Inc.</article>-->
 
 </div>

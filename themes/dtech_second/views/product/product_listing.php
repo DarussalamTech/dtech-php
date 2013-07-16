@@ -16,7 +16,9 @@ $this->webPcmWidget['best'] = array('name' => 'DtechBestSelling',
 ?>
 <div class="general_content">
     <div class="under_heading">
-        <h2 id="heading_filter">All Books</h2>
+        <h2 id="heading_filter">
+            <?php echo Yii::t('common', 'All Books', array(), NULL, $this->currentLang); ?>
+        </h2>
         <?php
         echo CHtml::image(Yii::app()->theme->baseUrl . "/images/under_heading_07.png") . '<br>';
         ?>

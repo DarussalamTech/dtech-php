@@ -2,7 +2,9 @@
 <div id="comment_content">
     <div class="clear"></div>
     <div class="no_ratting">
-        <h4>Most Recent Customer Reviews</h4>
+        <h4>
+        <?php echo Yii::t('product_detail','Most Recent Customer Reviews',array(),NULL,$this->currentLang)?>
+        </h4>
     </div>
 
     <?php

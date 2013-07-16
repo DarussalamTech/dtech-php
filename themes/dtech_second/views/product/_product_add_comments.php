@@ -54,9 +54,9 @@
         <div>
             <?php
             if (Yii::app()->user->id != NUll) {
-                echo CHtml::submitButton('Add Comments', array('class' => 'add_comment'));
+                echo CHtml::submitButton(Yii::t('common', 'Add Comments', array(), NULL, $this->currentLang), array('class' => 'add_comment'));
             } else {
-                echo CHtml::submitButton('Add Comments', $htmlOptions = array('class' => 'add_comment', 'disabled' => 'disabled'));
+                echo CHtml::submitButton(Yii::t('common', 'Add Comments', array(), NULL, $this->currentLang), $htmlOptions = array('class' => 'add_comment', 'disabled' => 'disabled'));
             }
             ?>
         </div>

@@ -1,5 +1,7 @@
 <div class="under_heading">
-    <h2>Featured Books</h2>
+    <h2>
+    <?php echo Yii::t('header_footer', 'Featured Books', array(), NULL, Yii::app()->Controller->currentLang) ?>
+    </h2>
 
     <?php
     echo CHtml::image(Yii::app()->theme->baseUrl . "/images/under_heading_07.png");
