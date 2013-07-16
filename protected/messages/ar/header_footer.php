@@ -27,6 +27,19 @@ return array(
     "My Shopping Bag" => "بلدي حقيبة تسوق",
     "Total" => "مجموع",
     "CHECKOUT" => "الخروج",
-    "Logins" => "",
+    
+    //footer part
+    "Connect to DARUSSALAM" => "اتصال دار السلام",
+    "Navigation" => "ملاحة",
+    "What's New?" => "ما الجديد؟",
+    "About Us" => "من نحن",
+    "Help" => "مساعدة",
+    "FAQ's" => "التعليمات",
+    "Terms & Conditions" => "الشروط والأحكام",
+    "Shipping Rates and Policies" => "معدلات الشحن والسياسات",
+    "Featured Books" => "كتب مميزة",
+    "Best Sellers" => "أكثر الكتب مبيعا",
+ 
+   
 );
 ?>
