@@ -119,19 +119,21 @@ class User extends DTActiveRecord {
      */
     public function attributeLabels() {
         return array(
-            'user_id' => 'User',
-            'user_name' => 'Name',
-            'user_password' => 'Password',
-            'role_id' => 'Type',
-            'status_id' => 'Status',
-            'city_id' => 'City',
-            'activation_key' => 'Activation Key:',
-            'is_active' => 'Is Active:',
-            'site_id' => 'Site',
-            'user_email' => 'Email',
-            'join_date' => 'Registration date',
-            'user_password2' => 'Confirm Password',
-            'old_password' => 'Old Password',
+            'user_id' => Yii::t('common', 'User', array(), NULL, Yii::app()->controller->currentLang),
+            'user_name' => Yii::t('common', 'Name', array(), NULL, Yii::app()->controller->currentLang),
+            'user_password' => Yii::t('common', 'Password', array(), NULL, Yii::app()->controller->currentLang),
+            'role_id' => Yii::t('common', 'Type', array(), NULL, Yii::app()->controller->currentLang),
+            'status_id' => Yii::t('common', 'Status', array(), NULL, Yii::app()->controller->currentLang),
+            'city_id' => Yii::t('common', 'City', array(), NULL, Yii::app()->controller->currentLang),
+            'activation_key' => Yii::t('common', 'Activation Key', array(), NULL, Yii::app()->controller->currentLang),
+            'is_active' => Yii::t('common', 'Is Active', array(), NULL, Yii::app()->controller->currentLang),
+            'site_id' => Yii::t('common', 'Site', array(), NULL, Yii::app()->controller->currentLang),
+            'user_email' => Yii::t('common', 'Email', array(), NULL, Yii::app()->controller->currentLang),
+            'join_date' => Yii::t('common', 'Registration date', array(), NULL, Yii::app()->controller->currentLang),
+            'user_password2' => Yii::t('common', 'Confirm Password', array(), NULL, Yii::app()->controller->currentLang),
+            'old_password' => Yii::t('common', 'Old Password', array(), NULL, Yii::app()->controller->currentLang),
+            'special_offer' => Yii::t('common', 'Special Offers', array(), NULL, Yii::app()->controller->currentLang),
+            'agreement_status' => Yii::t('common', 'Agreement Status', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 

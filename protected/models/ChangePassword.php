@@ -17,10 +17,10 @@ class ChangePassword extends CFormModel {
     public function rules() {
         return array(
             array('user_password, user_conf_password', 'required'),
-            array('old_password', 'compare','operator'=>'!=', 
+            array('old_password', 'compare', 'operator' => '!=',
                 'compareAttribute' => 'user_password',
-                'message'=>"Old and New password should not be same"
-                ),
+                'message' => "Old and New password should not be same"
+            ),
             array('user_conf_password', 'compare', 'compareAttribute' => 'user_password'),
             array('user_password, user_conf_password,old_password', 'safe'),
             array('old_password', 'validateOldPassword'),
@@ -34,9 +34,9 @@ class ChangePassword extends CFormModel {
      */
     public function attributeLabels() {
         return array(
-            'old_password' => 'Old Password',
-            'user_password' => 'New Password',
-            'user_conf_password' => 'Confirm Password',
+            'old_password' => Yii::t('common', 'Old Password', array(), NULL, Yii::app()->controller->currentLang),
+            'user_password' => Yii::t('common', 'New Password', array(), NULL, Yii::app()->controller->currentLang),
+            'user_conf_password' => Yii::t('common', 'Confirm Password', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 
