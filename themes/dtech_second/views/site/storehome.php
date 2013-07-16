@@ -24,11 +24,11 @@ $this->webPcmWidget['best'] = array('name' => 'DtechBestSelling',
     ?>
 
 
-    <h1>Quran</h1>
+    <h1><?php echo Yii::t('common', 'Quran', array(), NULL, $this->currentLang); ?></h1>
     <p>Darussalam has stock of Holy Quran with it's tafseer written by Scholars</p>
 
     <?php
-    echo CHtml::button("Shop Now", array(
+    echo CHtml::button(Yii::t('common', 'Shop Now', array(), NULL, $this->currentLang), array(
         "class" => "shop_now_arrow",
         "onclick" => "window.location ='" . $this->createUrl('/web/quran/index') . "'"
     ));
@@ -41,11 +41,13 @@ $this->webPcmWidget['best'] = array('name' => 'DtechBestSelling',
                 "unhover_img" => Yii::app()->theme->baseUrl . "/images/books_bw.png"
             )), $this->createUrl('/web/product/allproducts'));
     ?>
-    <h1>Books</h1>
+    <h1>
+        <?php echo Yii::t('common', 'Books', array(), NULL, $this->currentLang); ?>
+    </h1>
     <p>Darussalam is Global Islamic Books Publishers and Distributors</p>
 
     <?php
-    echo CHtml::button("Shop Now", array(
+    echo CHtml::button(Yii::t('common', 'Shop Now', array(), NULL, $this->currentLang), array(
         "class" => "shop_now_arrow",
         "onclick" => "window.location ='" . $this->createUrl('/web/product/allproducts') . "'"
     ));
@@ -59,11 +61,11 @@ $this->webPcmWidget['best'] = array('name' => 'DtechBestSelling',
                 "unhover_img" => Yii::app()->theme->baseUrl . "/images/toys_bw.png"
             )), $this->createUrl('/web/educationToys/index'));
     ?>
-    <h1>Educational Toys</h1>
+    <h1><?php echo Yii::t('common', 'Educational Toys', array(), NULL, $this->currentLang); ?></h1>
     <p>Darussalam also provides Eductaional toys for Children promoting islamic soul in them</p>
 
     <?php
-    echo CHtml::button("Shop Now", array(
+    echo CHtml::button(Yii::t('common', 'Shop Now', array(), NULL, $this->currentLang), array(
         "class" => "shop_now_arrow",
         "onclick" => "window.location ='" . $this->createUrl('/web/educationToys/index') . "'"
     ));
@@ -76,11 +78,11 @@ $this->webPcmWidget['best'] = array('name' => 'DtechBestSelling',
                 "unhover_img" => Yii::app()->theme->baseUrl . "/images/other_bw.png"
             )), $this->createUrl('/web/others/index'));
     ?>
-    <h1>Other Products</h1>
+    <h1><?php echo Yii::t('common', 'Other Items', array(), NULL, $this->currentLang); ?></h1>
     <p>In other products of Darussalam there are Electronic pen, quran, DVD and many more</p>
 
     <?php
-    echo CHtml::button("Shop Now", array(
+    echo CHtml::button(Yii::t('common', 'Shop Now', array(), NULL, $this->currentLang), array(
         "class" => "shop_now_arrow",
         "onclick" => "window.location ='" . $this->createUrl('/web/others/index') . "'"
     ));

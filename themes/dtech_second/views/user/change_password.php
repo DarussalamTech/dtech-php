@@ -16,7 +16,9 @@ $this->webPcmWidget['best'] = array('name' => 'DtechBestSelling',
         ));
 ?>
 <div id="login_content">
-    <h6>Change Password</h6>
+    <h6>
+    <?php echo Yii::t('header_footer', 'Change Password', array(), NULL, $this->currentLang); ?>
+    </h6>
     <?php
     $form = $this->beginWidget('CActiveForm', array(
         'id' => 'password-change-form',
@@ -44,14 +46,14 @@ $this->webPcmWidget['best'] = array('name' => 'DtechBestSelling',
         <p><?php echo $form->labelEx($model, 'user_conf_password'); ?></p>
         <?php echo $form->passwordField($model, 'user_conf_password', array('class' => 'text')); ?>
 
-        <article style="text-align: right;margin-top: 4px"> <?php echo CHtml::link('Forgot password?', $this->createUrl('/web/user/forgot')); ?></article>
+        <article style="text-align: right;margin-top: 4px"> <?php echo CHtml::link(Yii::t('common', 'Forgot password?', array(), NULL, $this->currentLang), $this->createUrl('/web/user/forgot')); ?></article>
         <?php
-        echo CHtml::submitButton("Submit", array("class" => "chang_password_button"));
+        echo CHtml::submitButton(Yii::t('common', 'Submit', array(), NULL, $this->currentLang), array("class" => "chang_password_button"));
         ?>
     </div>
     <?php $this->endWidget(); ?>
     <div class="login_with_images">
-        <h4>Login with</h4>
+        <h4><?php echo Yii::t('common', 'Login with', array(), NULL, $this->currentLang) ?></h4>
 
         <?php
         echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/facebook_login_03.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "facebook")), array("onclick" => "dtech.doSocial('login-form',this);return false;"));

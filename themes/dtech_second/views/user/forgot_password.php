@@ -19,7 +19,7 @@ $this->webPcmWidget['best'] = array('name' => 'DtechBestSelling',
     <?php
     echo CHtml::image(Yii::app()->theme->baseUrl . "/images/shopping_cart_img_03.png");
     ?>
-    <h6>Forgot Password?</h6>
+    <h6><?php echo Yii::t('common', 'Forgot password?', array(), NULL, $this->currentLang) ?></h6>
 
     <?php
     $login_model = new LoginForm;
@@ -43,18 +43,18 @@ $this->webPcmWidget['best'] = array('name' => 'DtechBestSelling',
                     <?php echo Yii::app()->user->getFlash('password_reset'); ?>
                     <?php echo Yii::app()->user->getFlash('superAdmin'); ?>
                 </div>
-            <hr>
+                <hr>
 
             <?php } ?>
         </div>
-        <p>Your Email</p><br>
+        <p><?php echo Yii::t('common', 'Your Email', array(), NULL, $this->currentLang) ?></p><br>
         <?php echo $form->textField($model, 'user_email', array("class" => "text")); ?>
         <br> <br>
-        <?php echo CHtml::submitButton("Send", array("class" => "user_login_button", 'style' => 'width:150px;margin:1px 100px 0px')); ?> 
+        <?php echo CHtml::submitButton(Yii::t('common', 'Send', array(), NULL, $this->currentLang), array("class" => "user_login_button", 'style' => 'width:150px;margin:1px 100px 0px')); ?> 
     </div>
     <?php $this->endWidget(); ?>
     <div class="login_with_images">
-        <h4>Login with</h4>
+        <h4><?php echo Yii::t('common', 'Login with', array(), NULL, $this->currentLang) ?></h4>
 
         <?php
         echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/facebook_login_03.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "facebook")));
