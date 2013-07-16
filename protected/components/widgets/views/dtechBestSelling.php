@@ -15,7 +15,9 @@
     <?php
     echo CHtml::image(Yii::app()->theme->baseUrl . "/images/crown_img_03.png", '', array("class" => "crown_img"));
     ?>
-    <h1>Best Sellers</h1>
+    <h1>
+        <?php echo Yii::t('header_footer', 'Featured Books', array(), NULL, Yii::app()->controller->currentLang) ?>
+    </h1>
 
     <?php
     $order_detail = new OrderDetail;
@@ -55,8 +57,8 @@
 
 
 
-        echo CHtml::button('Shop Now', array('onclick' => '
-                            window.location.href = "'.$this->cObj->createUrl('/web/product/productDetail', array('product_id' => $bests['product_id'])).'";
+        echo CHtml::button(Yii::t('common', 'Shop Now', array(), NULL, Yii::app()->controller->currentLang), array('onclick' => '
+                            window.location.href = "' . $this->cObj->createUrl('/web/product/productDetail', array('product_id' => $bests['product_id'])) . '";
                       ', 'class' => 'shop_now_arrow'));
 
 

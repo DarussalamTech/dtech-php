@@ -17,7 +17,9 @@
 <div id="sideBarBox">                
     <div id="sideBarForm">
         <ul class="makeMenu">
-            <h1>Browse Through</h1>
+            <h1>
+            <?php echo Yii::t('common', 'Browse Through', array(), NULL, Yii::app()->controller->currentLang); ?>
+            </h1>
             <li class="quran">
                 <?php
                 echo CHtml::link("Quran", $this->cObj->createUrl("/web/quran/index"));
