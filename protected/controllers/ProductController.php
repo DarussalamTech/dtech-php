@@ -143,6 +143,9 @@ class ProductController extends Controller {
         $this->init();
         $model = new Product('search');
         $model->unsetAttributes();  // clear any default values
+        
+        $model->city_id =  Yii::app()->request->getQuery('city_id');
+        
         if (isset($_GET['Product']))
             $model->attributes = $_GET['Product'];
 

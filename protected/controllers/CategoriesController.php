@@ -216,6 +216,8 @@ class CategoriesController extends Controller {
 
         $this->init();
         $model->unsetAttributes();  // clear any default values
+        $model->city_id =  Yii::app()->request->getQuery('city_id');
+        
         if (isset($_GET['Categories']))
             $model->attributes = $_GET['Categories'];
 
@@ -233,6 +235,8 @@ class CategoriesController extends Controller {
         
         $this->init();
         $model->unsetAttributes();   // clear any default values
+        
+        $model->city_id =  Yii::app()->request->getQuery('city_id');
         
         $model->parent_id = 0 ;
         if (isset($_GET['Categories']))
