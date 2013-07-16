@@ -209,11 +209,11 @@ class Controller extends RController {
 
         if (!empty($this->controllers)) {
             $controllers = array_keys($this->controllers);
-
-            if (in_array(ucfirst($this->id), $controllers) && Yii::app()->user->User->city_id != Yii::app()->session['city_id']) {
-
+          
+            if (in_array(ucfirst($this->id), $controllers) && Yii::app()->user->User->city_id != Yii::app()->request->getQuery('city_id')) {
+               
                 Yii::app()->user->logout();
-                //$this->redirect(Yii::app()->homeUrl);
+                $this->redirect(Yii::app()->homeUrl);
             }
         }
     }
