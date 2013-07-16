@@ -7,10 +7,12 @@
             <div id="dvText">
                 <div id="div_text">
                     <div id="left_footer">
-                        <h1>Connect to DARUSSALAM</h1>
+                        <h1>
+                            <?php echo Yii::t('header_footer', 'Connect to DARUSSALAM', array(), NULL, $this->currentLang); ?>
+                        </h1>
                         <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/f_img_06.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "facebook"))); ?>
                         <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/t_img_06.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "twitter"))); ?>
-                        <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/in_img_06.png",'',array('style'=>'width:28px; height:24px')), $this->createUrl('/web/hybrid/login/', array("provider" => "linkedin"))); ?>
+                        <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/in_img_06.png", '', array('style' => 'width:28px; height:24px')), $this->createUrl('/web/hybrid/login/', array("provider" => "linkedin"))); ?>
                         <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/google_img_06.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "google"))); ?>
                         <div id = "left_under_footer">
                             <li>
@@ -30,7 +32,9 @@
                         <p>is a multilingual international Islamic publishing house, with headquarters in Riyadh, Kingdom of Saudi Arabia.</p>
                     </div>
                     <div id="middle_footer">
-                        <h1>Navigation</h1>
+                        <h1>
+                            <?php echo Yii::t('header_footer', 'Navigation', array(), NULL, $this->currentLang); ?>
+                        </h1>
                         <?php
                         $not_required_pages = array("Contact Us");
                         $pages = Pages::model()->getPages();
@@ -54,10 +58,10 @@
                         ?>
                     </div>
                     <div id="right_footer">
-                        <h1>What's New?</h1>
+                        <h1>
+                            <?php echo Yii::t('header_footer', "What's New?", array(), NULL, $this->currentLang); ?>
+                        </h1>
                         <p style='color: #888888;'>D-Tech - Working on technologies</p>
-                        <article><i>iPhone, Android & iPad Islamic apps</i></article>
-                        <p style='color: #888888;'>D-Tech - Working on technologies</a></p>
                         <article><i>iPhone, Android & iPad Islamic apps</i></article>
                         <section>&copy; 2013 Darussalam, Inc. All Rights Reserved.</section>
                     </div>
