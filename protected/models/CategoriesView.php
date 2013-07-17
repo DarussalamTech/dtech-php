@@ -14,11 +14,9 @@
  * @property City $city
  * @property ProductCategories[] $productCategories
  */
-class Categories extends DTActiveRecord {
+class CategoriesView extends DTActiveRecord {
 
     public $totalStock;
-    
-    
 
     /**
      * Returns the static model of the specified AR class.
@@ -28,7 +26,6 @@ class Categories extends DTActiveRecord {
     public static function model($className = __CLASS__) {
         return parent::model($className);
     }
-   
 
     /**
      * @return string the associated database table name
@@ -83,12 +80,13 @@ class Categories extends DTActiveRecord {
             'childs' => array(self::HAS_MANY, 'Categories', 'parent_id', 'order' => 'categories_id ASC'),
             'city' => array(self::BELONGS_TO, 'City', 'city_id'),
             'productCategories' => array(self::HAS_MANY, 'ProductCategories', 'category_id'),
-            'catlangs' => array(self::HAS_MANY, 'CategoriesLang', 'category_id'),
+            'catlangsa' => array(self::HAS_MANY, 'CategoriesLang', 'category_id'),
         );
     }
 
     public function behaviors() {
         $setArr = array(
+     
             'CSaveRelationsBehavior' => array(
                 'class' => 'CSaveRelationsBehavior',
                 'relations' => array(
@@ -99,16 +97,7 @@ class Categories extends DTActiveRecord {
                 'class' => 'CMultipleRecords'
             ),
         );
-        /**
-         * PCM : flag for setting 
-         * checking if id is present then no 
-         * need to create dynamic reocrd
-         * record is created
-         */
-        unset($setArr['ml']);
-        if ($this->scenario == "update") {
-            //unset($setArr['ml']);
-        }
+
         return $setArr;
     }
 
@@ -247,7 +236,7 @@ class Categories extends DTActiveRecord {
      */
     public function getParentCategoryId($cat_name) {
         $criteria = new CDbCriteria();
-        $criteria->addCondition("t.category_name = '" . $cat_name . "'");
+        $criteria->addCondition("category_name = '" . $cat_name . "'");
         $criteria->select = "category_id";
 
         $category = $this->find($criteria);
@@ -287,57 +276,9 @@ class Categories extends DTActiveRecord {
         $criteria->select = "category_name,category_id";
         $criteria->limit = $limit;
 
-        $criteria->order = "t.category_id " . $order;
+        $criteria->order = "category_id " . $order;
         $categories = $this->findAll($criteria);
         return $categories;
-    }
-
-    public function attachBehaviors($behaviors) {
-
-        $bhv = array('ml'=> array(
-                'class' => 'MultilingualBehavior',
-                'langClassName' => 'CategoriesLang',
-                'langTableName' => 'categories_lang',
-                'langForeignKey' => 'category_id',
-                //'langField' => 'lang_id',
-                'localizedAttributes' => array('category_name'), //attributes of the model to be translated
-                'localizedPrefix' => '',
-                'languages' => Yii::app()->params['translatedLanguages'], // array of your translated languages. Example : array('fr' => 'Français', 'en' => 'English')
-                'defaultLanguage' => Yii::app()->params['defaultLanguage'], //your main language. Example : 'fr'
-            //'createScenario' => 'insert',
-            //'localizedRelation' => 'postLangs',
-            //'multilangRelation' => 'multilangPost',
-            //'forceOverwrite' => false,
-            //'forceDelete' => true, 
-            //'dynamicLangClass' => true, //Set to true if you don't want to create a 'PostLang.php' in your models folder
-        ));
-      
-        if (Yii::app()->request->getQuery('id') == "") {
-            $behaviors = array_merge($behaviors, $bhv);
-        }
-        
-        parent::attachBehaviors($behaviors);
-        return true;
-    }
-    /**
-     * 
-     */
-    public function afterSave() {
-        $this->updateEnglishRecord();
-        parent::afterSave();
-    }
-    /**
-     * for updating english record
-     * on each case
-     * when parent record is updated
-     */
-    public function updateEnglishRecord(){
-        if($this->_controller == "categories" && $this->_action == "update"){
-            $condition = "category_id = ".$this->primaryKey." AND lang_id ='".Yii::app()->params['defaultLanguage']."'";
-            $categories = CategoriesLang::model()->find($condition);
-            $categories->category_name = $this->category_name;
-            $categories->save();
-        }
     }
 
 }

@@ -1,6 +1,8 @@
 <?php
 /* @var $this CategoriesController */
 /* @var $model Categories */
+Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/gridform.css');
+Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/functions.js');
 
 $this->breadcrumbs = array(
     'Categories' => array('index'),
@@ -43,4 +45,6 @@ $this->widget('zii.widgets.CDetailView', array(
         'added_date',
     ),
 ));
+
+ $this->renderPartial('catlangs/_container', array('model' => $model, "type" => "form"));
 ?>

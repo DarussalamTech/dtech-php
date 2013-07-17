@@ -315,4 +315,5 @@ class ProductProfile extends DTActiveRecord {
         return parent::afterFind();
     }
 
+
 }

@@ -50,8 +50,21 @@ class CategoriesController extends Controller {
      * @param integer $id the ID of the model to be displayed
      */
     public function actionView($id) {
+        
+        if (!isset($_POST['children'])) {
+            
+             $model = $this->loadModel($id,true);
+             
+        } else {
+        
+            $model = $this->loadModel($id);
+        }
+
+
+        $this->manageChildrens($model);
+
         $this->render('view', array(
-            'model' => $this->loadModel($id),
+            'model' => $model,
         ));
     }
 
@@ -60,7 +73,7 @@ class CategoriesController extends Controller {
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
     public function actionCreate() {
-        $model = new Categories;
+        $model = new Categories();
 
         global $categotyList;
 
@@ -109,6 +122,7 @@ class CategoriesController extends Controller {
     public function actionCreateParent() {
 
         $model = new Categories;
+        $model->attachCbehavour();
 
         // Uncomment the following line if AJAX validation is needed
         if (isset($_POST['Categories'])) {
@@ -216,8 +230,8 @@ class CategoriesController extends Controller {
 
         $this->init();
         $model->unsetAttributes();  // clear any default values
-        $model->city_id =  Yii::app()->request->getQuery('city_id');
-        
+        $model->city_id = Yii::app()->request->getQuery('city_id');
+
         if (isset($_GET['Categories']))
             $model->attributes = $_GET['Categories'];
 
@@ -232,18 +246,18 @@ class CategoriesController extends Controller {
     public function actionIndexParent() {
 
         $model = new Categories('search');
-        
+
         $this->init();
         $model->unsetAttributes();   // clear any default values
-        
-        $model->city_id =  Yii::app()->request->getQuery('city_id');
-        
-        $model->parent_id = 0 ;
+
+        $model->city_id = Yii::app()->request->getQuery('city_id');
+
+        $model->parent_id = 0;
         if (isset($_GET['Categories']))
             $model->attributes = $_GET['Categories'];
-        
-       
-        
+
+
+
         $this->render('index_parent', array(
             'model' => $model,
         ));
@@ -256,10 +270,17 @@ class CategoriesController extends Controller {
      * @return Categories the loaded model
      * @throws CHttpException
      */
-    public function loadModel($id) {
-        $model = Categories::model()->findByPk($id);
+    public function loadModel($id, $ml = false) {
+        if ($ml) {
+            $model = Categories::model();
+            $model->attachCbehavour();
+            $model = $model->multilang()->findByPk((int) $id);
+           
+        } else {
+            $model = Categories::model()->findByPk((int) $id);
+        }
         if ($model === null)
-            throw new CHttpException(404, 'The requested page does not exist.');
+            throw new CHttpException(404, 'The requested post does not exist.');
         return $model;
     }
 
@@ -272,6 +293,93 @@ class CategoriesController extends Controller {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
+    }
+
+    /*
+     * managing recrods
+     * at create
+     */
+
+    private function checkCilds($model) {
+
+        if (isset($_POST['ProductCategories'])) {
+            $model->setRelationRecords('productCategories', is_array($_POST['ProductCategories']) ? $_POST['ProductCategories'] : array());
+        }
+
+        return true;
+    }
+
+    /**
+     * will be used to manage child at 
+     * view mode
+     * @param type $model 
+     */
+    private function manageChildrens($model) {
+
+        $this->manageChild($model, "catlangs", "category");
+    }
+
+    /**
+     *
+     * @param <type> $mName
+     * @param <type> $index
+     */
+    public function actionLoadChildByAjax($mName, $dir, $load_for, $index, $upload_index = "") {
+        /* Get regarding model */
+        $model = new $mName;
+
+        $this->renderPartial($dir . '/_fields_row', array(
+            'index' => $index,
+            'model' => $model,
+            "load_for" => $load_for,
+            'dir' => $dir,
+            'upload_index' => isset($_REQUEST['upload_index']) ? $_REQUEST['upload_index'] : "",
+            'fields_div_id' => $dir . '_fields'), false, true);
+    }
+
+    /**
+     *
+     * @param <type> $id
+     * @param <type> $mName
+     * @param <type> $dir 
+     */
+    public function actionEditChild($id, $mName = "", $dir = "") {
+
+        /* Get regarding model */
+        $model = new $mName;
+        $render_view = $dir . '/_fields_row';
+
+        $model = $model->findByPk($id);
+
+
+        $this->renderPartial($render_view, array('index' => 1, 'model' => $model,
+            "load_for" => "view", 'dir' => $dir, "displayd" => "block",
+            'fields_div_id' => $dir . '_fields',
+                ), false, true);
+    }
+
+    /**
+     * delete child by ajax
+     * @param type $id
+     * @param type $mName
+     * @throws CHttpException 
+     */
+    public function actionDeleteChildByAjax($id, $mName) {
+
+
+
+
+
+        if (Yii::app()->request->isAjaxRequest) {
+            /* Get regarding model */
+            $model = new $mName;
+
+            $model = $model->findByPk($id);
+
+            $model->deleteByPk($id);
+        }
+        else
+            throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
     }
 
 }

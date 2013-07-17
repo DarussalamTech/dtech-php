@@ -9,8 +9,6 @@
             <?php
             if (isset($this->OpPermission[ucfirst($this->id) . ".Update"]) && $this->OpPermission[ucfirst($this->id) . ".Update"]) {
                 echo CHtml::link("Update Book", $this->createUrl("update", array("id" => $model->product->product_id)), array('class' => "print_link_btn"));
-                
-                echo CHtml::link("Update Translations", $this->createUrl("/product/profileLanguage", array("id" => $model->id)), array('class' => "print_link_btn"));
             }
             ?>
         </span>

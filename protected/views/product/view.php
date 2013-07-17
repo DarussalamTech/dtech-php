@@ -26,6 +26,7 @@ if (!(Yii::app()->user->isGuest)) {
             <?php
             if (isset($this->OpPermission[ucfirst($this->id) . ".Update"]) && $this->OpPermission[ucfirst($this->id) . ".Update"]) {
                 echo CHtml::link("Edit", $this->createUrl("update", array("id" => $model->primaryKey)), array('class' => "print_link_btn"));
+                echo CHtml::link("Language Translation", $this->createUrl("/product/language", array("id" => $model->primaryKey)), array('class' => "print_link_btn"));
             }
             $controller = array(
                 "Others"=>"others",
@@ -39,6 +40,8 @@ if (!(Yii::app()->user->isGuest)) {
                             'class' => "print_link_btn",
                             "onclick"=>"dtech.popupwindow(jQuery(this).attr('href'),'Preview','900','600');return false;"
                         ));
+            
+            
             ?>
         </span>
     </div>
@@ -86,6 +89,7 @@ $this->widget('zii.widgets.CDetailView', array(
  * so dnt delete this line
  */
 echo CHtml::hiddenField("parent_cat_id", $model->parent_cateogry_id);
+
 /**
  * to handle parent cateogry flow
  */

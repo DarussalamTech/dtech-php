@@ -35,7 +35,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/f
         $criteria->addCondition("parent_id = 0");
         $criteria->select = "category_id,category_name";
         $criteria->addCondition("city_id =" . Yii::app()->session['city_id']);
-        $criteria->order = " FIELD(category_name ,'Books') DESC ";
+        $criteria->order = " FIELD(t.category_name ,'Books') DESC ";
         $categories = Categories::model()->findAll($criteria);
         echo $form->dropDownList($model, 'parent_cateogry_id', array("" => "Select") + CHtml::listData($categories, "category_id", "category_name"), array(
             "onchange" => "dtech.showProductChildren(this)",

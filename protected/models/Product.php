@@ -94,6 +94,7 @@ class Product extends DTActiveRecord {
             'product_reviews' => array(self::HAS_MANY, 'ProductReviews', 'product_id'),
             'author' => array(self::BELONGS_TO, 'Author', 'authors'),
             'language' => array(self::BELONGS_TO, 'Language', 'languages'),
+            'productlangs' => array(self::HAS_MANY, 'ProductLang', 'product_id'),
         );
     }
 
@@ -234,7 +235,7 @@ class Product extends DTActiveRecord {
             $criteria->order = "is_default DESC";
 
             $imagedata = ProductImage::model()->find($criteria);
-            
+
             $images = array();
 
             if ($imagedata->is_default == 1) {
@@ -328,6 +329,43 @@ class Product extends DTActiveRecord {
         $criteria->join = "INNER JOIN language ON language.language_id =t.language_id";
 
         return CHtml::listData(ProductProfile::model()->findAll($criteria), "language_id", "language_name");
+    }
+
+    /**
+     * for updating english record
+     * on each case
+     * when parent record is updated
+     */
+    public function attachBehaviors($behaviors) {
+
+        $bhv = array('ml' => array(
+                'class' => 'MultilingualBehavior',
+                'langClassName' => 'ProductLang',
+                'langTableName' => 'product_lang',
+                'langForeignKey' => 'product_id',
+                //'langField' => 'lang_id',
+                'localizedAttributes' => array(
+                    'product_name',
+                    'product_description',
+                    'product_overview'
+                ), //attributes of the model to be translated
+                'localizedPrefix' => '',
+                'languages' => Yii::app()->params['translatedLanguages'], // array of your translated languages. Example : array('fr' => 'Français', 'en' => 'English')
+                'defaultLanguage' => Yii::app()->params['defaultLanguage'], //your main language. Example : 'fr'
+            //'createScenario' => 'insert',
+            //'localizedRelation' => 'postLangs',
+            //'multilangRelation' => 'multilangPost',
+            //'forceOverwrite' => false,
+            //'forceDelete' => true, 
+            //'dynamicLangClass' => true, //Set to true if you don't want to create a 'PostLang.php' in your models folder
+        ));
+
+        if (Yii::app()->request->getQuery('id') == "") {
+            $behaviors = array_merge($behaviors, $bhv);
+        }
+
+        parent::attachBehaviors($behaviors);
+        return true;
     }
 
 }

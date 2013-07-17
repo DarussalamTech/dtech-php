@@ -26,10 +26,12 @@ class DTActiveRecord extends CActiveRecord {
     public $_current_module;
 
     public function __construct($scenario = 'insert') {
-        parent::__construct($scenario);
+       
         $this->_action = Yii::app()->controller->action->id;
         $this->_controller = Yii::app()->controller->id;
         $this->_current_module = get_class(Yii::app()->controller->getModule());
+        
+         parent::__construct($scenario);
     }
 
     public function afterFind() {
@@ -259,6 +261,32 @@ class DTActiveRecord extends CActiveRecord {
             }
         }
         return $criteria;
+    }
+
+    /**
+     * attach behaviour for our own logic
+     */
+    public function attachCbehavour() {
+         $this->attachBehavior('ml', array(
+            'class' => 'MultilingualBehavior',
+            'langClassName' => 'CategoriesLang',
+            'langTableName' => 'categories_lang',
+            'langForeignKey' => 'category_id',
+            //'langField' => 'lang_id',
+           
+            'localizedAttributes' => array('category_name'), //attributes of the model to be translated
+            'localizedPrefix' => '',
+            'languages' => Yii::app()->params['translatedLanguages'], // array of your translated languages. Example : array('fr' => 'Français', 'en' => 'English')
+            'defaultLanguage' => Yii::app()->params['defaultLanguage'], //your main language. Example : 'fr'
+                //'createScenario' => 'insert',
+                //'localizedRelation' => 'postLangs',
+                //'multilangRelation' => 'multilangPost',
+                //'forceOverwrite' => false,
+                //'forceDelete' => true, 
+                //'dynamicLangClass' => true, //Set to true if you don't want to create a 'PostLang.php' in your models folder
+        ));
+      
+       return $this;  
     }
 
 }

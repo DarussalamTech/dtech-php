@@ -268,7 +268,7 @@ class MultilingualBehavior extends CActiveRecordBehavior {
         $owner_classname = get_class($owner);
         $table_name_chunks = explode('.', $owner->tableName());
         $simple_table_name = str_replace(array('{{', '}}'), '', array_pop($table_name_chunks));
-       
+
         if (!isset($this->langClassName)) {
             $this->langClassName = $owner_classname . 'Lang';
         }
@@ -312,7 +312,6 @@ class MultilingualBehavior extends CActiveRecordBehavior {
                 }
             }
         }
-        
     }
 
     /**
@@ -362,7 +361,7 @@ class MultilingualBehavior extends CActiveRecordBehavior {
         $owner->getDbCriteria()->mergeWith(
                 $this->localizedCriteria()
         );
-       
+
         return $owner;
     }
 
@@ -383,7 +382,7 @@ class MultilingualBehavior extends CActiveRecordBehavior {
      * @return array 
      */
     public function localizedCriteria() {
-   
+
         return array(
             'with' => array(
                 $this->localizedRelation => array(),
@@ -433,17 +432,17 @@ class MultilingualBehavior extends CActiveRecordBehavior {
      */
     public function afterConstruct($event) {
         $owner = $this->getOwner();
+
         if ($owner->scenario == $this->createScenario) {
-           
+
             $owner = new $this->langClassName;
-            
+
             foreach ($this->languages as $lang) {
                 foreach ($this->localizedAttributes as $field) {
                     $ownerfield = $this->localizedPrefix . $field;
                     $this->setLangAttribute($field . '_' . $lang, $owner->$ownerfield);
                 }
             }
-            
         }
     }
 
@@ -470,31 +469,29 @@ class MultilingualBehavior extends CActiveRecordBehavior {
      */
     public function afterFind($event) {
         $owner = $this->getOwner();
-       
+
         if ($owner->hasRelated($this->multilangRelation)) {
-         
+
             $related = $owner->getRelated($this->multilangRelation);
             foreach ($this->languages as $lang)
                 foreach ($this->localizedAttributes as $field)
                     $this->setLangAttribute($field . '_' . $lang, isset($related[$lang][$this->localizedPrefix . $field]) ? $related[$lang][$this->localizedPrefix . $field] : null);
         } else if ($owner->hasRelated($this->localizedRelation)) {
             $related = $owner->getRelated($this->localizedRelation);
-          
+
             if ($row = current($related)) {
                 foreach ($this->localizedAttributes as $field)
-                    if (isset($owner->$field) && (!empty($row[$this->localizedPrefix . $field]) || $this->forceOverwrite)){
-                       
+                    if (isset($owner->$field) && (!empty($row[$this->localizedPrefix . $field]) || $this->forceOverwrite)) {
+
                         $owner->$field = $row[$this->localizedPrefix . $field];
                     }
             }
-           
+
             if ($this->_notDefaultLanguage) {
                 $this->createLocalizedRelation($owner, Yii::app()->language);
                 $this->_notDefaultLanguage = false;
             }
         }
-         
-        
     }
 
     /**
@@ -504,19 +501,23 @@ class MultilingualBehavior extends CActiveRecordBehavior {
         $main_owner = $this->getOwner();
         $ownerPk = $main_owner->getPrimaryKey();
         $rs = array();
-       
+
         if (!$main_owner->isNewRecord) {
             $model = call_user_func(array($this->langClassName, 'model'));
             $c = new CdbCriteria();
-          
+
             $c->condition = "{$this->langForeignKey}=:id";
             $c->params = array('id' => $ownerPk);
-            
+
             $c->index = $this->langField;
+
             $rs = $model->findAll($c);
         }
+
         foreach ($this->languages as $lang) {
             $defaultLanguage = $lang == $this->defaultLanguage;
+
+
             if (!isset($rs[$lang])) {
                 $owner = new $this->langClassName;
                 $owner->{$this->langField} = $lang;
@@ -535,8 +536,27 @@ class MultilingualBehavior extends CActiveRecordBehavior {
                     $owner->$langfield = $value;
                 }
             }
+
+
+            /**
+             * extending 
+             * for our own features
+             */
+            if ($owner->isNewRecord) {
+
+                // set the create date, last updated date and the user doing the creating
+                $owner->create_time = $owner->update_time = date("Y-m-d H:i:s"); //new CDbExpression('NOW()');
+                $owner->create_user_id = $owner->update_user_id = Yii::app()->user->id;
+                // $this->users_id=1;//$this->update_user_id=Yii::app()->user->id;
+            } else {
+                //not a new record, so just set the last updated time and last updated user id
+                $owner->update_time = new CDbExpression('NOW()');
+                $owner->update_user_id = Yii::app()->user->id;
+                // $this->users_id=1;
+            }
             $owner->save(false);
         }
+     
     }
 
     /**

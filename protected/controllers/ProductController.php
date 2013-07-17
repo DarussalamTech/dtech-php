@@ -143,9 +143,9 @@ class ProductController extends Controller {
         $this->init();
         $model = new Product('search');
         $model->unsetAttributes();  // clear any default values
-        
-        $model->city_id =  Yii::app()->request->getQuery('city_id');
-        
+
+        $model->city_id = Yii::app()->request->getQuery('city_id');
+
         if (isset($_GET['Product']))
             $model->attributes = $_GET['Product'];
 
@@ -249,9 +249,9 @@ class ProductController extends Controller {
         $model = ProductProfile::model()->findByPk($id);
         $path = $this->createUrl("viewImage", array("id" => $id));
         $this->manageChild($model, "productImages", "productProfile", "", 0, $path);
-        $this->manageChild($model, "productAttributes", "productProfile","",0,$path);
+        $this->manageChild($model, "productAttributes", "productProfile", "", 0, $path);
 
-     
+
         $this->render("productImages/_grid", array(
             "id" => $id,
             "model" => $model,
@@ -304,6 +304,65 @@ class ProductController extends Controller {
         $this->manageChild($model, "other", "product");
         $this->manageChild($model, "productCategories", "product");
         $this->manageChild($model, "discount", "product");
+    }
+
+    /**
+     * languages 
+     * of all translations
+     */
+    public function actionLanguage($id, $lang_id = "") {
+        $model = new ProductLang;
+        if (!empty($lang_id)) {
+            $model = ProductLang::model()->findByPk($lang_id);
+        }
+
+        if (isset($_POST['ProductLang'])) {
+            $model->attributes = $_POST['ProductLang'];
+            $model->product_id = $id;
+            if ($model->save()) {
+                $this->redirect($this->createUrl("/product/language", array("id" => $id)));
+            }
+        }
+        $this->render("language", array("id" => $id, "model" => $model));
+    }
+
+    /**
+     * Delete language translation
+     * @param type $id
+     */
+    public function actionLanguageDelete($id) {
+        $model = ProductLang::model()->findByPk($id);
+        $model->delete();
+        $this->redirect($this->createUrl("/product/language", array("id" => $model->product_id)));
+    }
+    /**
+     * languages 
+     * of all translations
+     */
+    public function actionProfileLanguage($id, $lang_id = "") {
+        $model = new ProductProfileLang;
+        if (!empty($lang_id)) {
+            $model = ProductProfileLang::model()->findByPk($lang_id);
+        }
+
+        if (isset($_POST['ProductProfileLang'])) {
+            $model->attributes = $_POST['ProductProfileLang'];
+            $model->product_profile_id = $id;
+            if ($model->save()) {
+                $this->redirect($this->createUrl("/product/profileLanguage", array("id" => $id)));
+            }
+        }
+        $this->render("languageProfile", array("id" => $id, "model" => $model));
+    }
+
+    /**
+     * Delete language translation
+     * @param type $id
+     */
+    public function actionProfileLanguageDelete($id) {
+        $model = ProductProfileLang::model()->findByPk($id);
+        $model->delete();
+        $this->redirect($this->createUrl("/product/profileLanguage", array("id" => $model->product_id)));
     }
 
 }
