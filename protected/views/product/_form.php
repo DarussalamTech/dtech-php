@@ -42,10 +42,10 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/f
             "onclick" => "
                     dtech.preserveOldVal(this);
                        if( $('#Product_parent_cateogry_id option:selected').text()!='Books'){
-                            $('#Product_authors').hide();
+                            $('#Product_authors').parent().hide();
                         }
                         else {
-                             $('#Product_authors').show();
+                             $('#Product_authors').parent().show();
                         }
                     "
                 )
