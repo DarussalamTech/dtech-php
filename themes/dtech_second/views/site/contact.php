@@ -17,7 +17,9 @@ $this->webPcmWidget['best'] = array('name' => 'DtechBestSelling',
 ?>
 <div class="contact_us">
     <div class="left_contact_part">
-        <h1>Contact Us</h1>
+        <h1>
+        <?php echo Yii::t('header_footer', 'Contact Us', array(), NULL, $this->currentLang) ?>
+        </h1>
         <div class="contact_field">
 
             <?php
@@ -30,7 +32,7 @@ $this->webPcmWidget['best'] = array('name' => 'DtechBestSelling',
             ));
             ?>
 
-            <h2><span>*</span>Mandatory Fields</h2>
+            <h2><span>*</span><?php echo Yii::t('common', 'Mandatory Fields', array(), NULL, $this->currentLang) ?></h2>
             <?php if (Yii::app()->user->hasFlash('contact'))  ?>
             <div class="flash-success" style="color:green">
                 <?php echo '<br/><tt>' . Yii::app()->user->getFlash('contact') . '</tt>'; ?>
@@ -53,7 +55,7 @@ $this->webPcmWidget['best'] = array('name' => 'DtechBestSelling',
             <div class="contact_form">
                 <p><?php echo $form->labelEx($model, 'body'); ?></p>
                 <?php echo $form->textArea($model, 'body', array('rows' => 5, 'cols' => 31, 'style' => 'resize:none')); ?>
-                <?php echo CHtml::submitButton('Submit', array('class' => 'submit_btn')); ?>
+                <?php echo CHtml::submitButton(Yii::t('common', 'Submit', array(), NULL, $this->currentLang), array('class' => 'submit_btn')); ?>
             </div>
 
             <?php $this->endWidget(); ?>
