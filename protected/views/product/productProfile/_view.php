@@ -32,6 +32,10 @@ $this->widget('zii.widgets.CDetailView', array(
             'value' => $model->item_code,
         ),
         array(
+            'name' => 'title',
+            'value' => $model->title,
+        ),
+        array(
             'name' => 'isbn',
             'value' => $model->isbn,
         ),
