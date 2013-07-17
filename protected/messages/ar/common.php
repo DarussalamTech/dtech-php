@@ -56,6 +56,8 @@ return array(
     "Your Email" => "البريد الالكتروني",
     "Send" => "إرسال",
     "Add Comments" => "إضافة تعليقات",
+    "User Login" => "دخول المستخدم",
+    "Already a member?" => "عضو بالفعل؟",
     
 );
 ?>
