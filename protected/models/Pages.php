@@ -42,7 +42,6 @@ class Pages extends DTActiveRecord {
             array('city_id', 'numerical', 'integerOnly' => true),
             array('title', 'length', 'max' => 255),
             array('create_user_id, update_user_id', 'length', 'max' => 11),
-            
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, city_id, title, content, create_time, create_user_id, update_time, update_user_id', 'safe'),
@@ -66,15 +65,14 @@ class Pages extends DTActiveRecord {
      */
     public function attributeLabels() {
         return array(
-            'id' => 'ID',
-            'city_id' => 'City',
-            'title' => 'Title',
-            'content' => 'Content',
-            'create_time' => 'Create Time',
-            'create_user_id' => 'Create User',
-            'update_time' => 'Update Time',
-            'update_user_id' => 'Update User',
-            
+            'id' => Yii::t('model_labels', 'ID', array(), NULL, Yii::app()->controller->currentLang),
+            'city_id' => Yii::t('model_labels', 'City', array(), NULL, Yii::app()->controller->currentLang),
+            'title' => Yii::t('model_labels', 'Title', array(), NULL, Yii::app()->controller->currentLang),
+            'content' => Yii::t('model_labels', 'Content', array(), NULL, Yii::app()->controller->currentLang),
+            'create_time' => Yii::t('model_labels', 'Create Time', array(), NULL, Yii::app()->controller->currentLang),
+            'create_user_id' => Yii::t('model_labels', 'Create User', array(), NULL, Yii::app()->controller->currentLang),
+            'update_time' => Yii::t('model_labels', 'Update Time', array(), NULL, Yii::app()->controller->currentLang),
+            'update_user_id' => Yii::t('model_labels', 'Update User', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 
@@ -96,11 +94,10 @@ class Pages extends DTActiveRecord {
         $criteria->compare('create_user_id', $this->create_user_id, true);
         $criteria->compare('update_time', $this->update_time, true);
         $criteria->compare('update_user_id', $this->update_user_id, true);
-       
+
         return new CActiveDataProvider($this, array(
-                    'criteria' => $criteria,
-                ));
-        
+            'criteria' => $criteria,
+        ));
     }
 
     /**
@@ -121,11 +118,10 @@ class Pages extends DTActiveRecord {
             return array();
         }
         $criteria = new CDbCriteria();
-        $criteria->select  = "id,title";
-        $criteria->condition  = "city_id=" . Yii::app()->session['city_id'];
+        $criteria->select = "id,title";
+        $criteria->condition = "city_id=" . Yii::app()->session['city_id'];
         $pages = $this->findAll($criteria);
         return $pages;
-        
     }
 
 }

@@ -28,9 +28,9 @@ class LandingModel extends CFormModel {
      */
     public function attributeLabels() {
         return array(
-            'country' => 'Country',
-            'city' => 'City',
-            'rememeber_me' => 'Remember me',
+            'country' => Yii::t('model_labels', 'Country', array(), NULL, Yii::app()->controller->currentLang),
+            'city' => Yii::t('model_labels', 'City', array(), NULL, Yii::app()->controller->currentLang),
+            'rememeber_me' => 'Remember me', Yii::t('model_labels', 'Remember me', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 

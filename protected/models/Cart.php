@@ -85,9 +85,9 @@ class Cart extends DTActiveRecord {
      */
     public function attributeLabels() {
         return array(
-            'cart_id' => 'Cart',
-            'product_profile_id' => 'Product',
-            'added_date' => 'Added Date',
+            'cart_id' => Yii::t('model_labels', 'Cart', array(), NULL, Yii::app()->controller->currentLang),
+            'product_profile_id' => Yii::t('model_labels', 'Product', array(), NULL, Yii::app()->controller->currentLang),
+            'added_date' =>  Yii::t('model_labels','Added Date',array(),NULL,  Yii::app()->controller->currentLang),
         );
     }
 

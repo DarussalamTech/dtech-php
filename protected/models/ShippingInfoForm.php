@@ -51,17 +51,17 @@ class ShippingInfoForm extends CFormModel {
      */
     public function attributeLabels() {
         return array(
-            'shipping_prefix' => 'Prefix',
-            'shipping_first_name' => 'First Name',
-            'shipping_last_name' => 'Last Name',
-            'shipping_address1' => 'Address 1',
-            'shipping_address2' => 'Address 2',
-            'shipping_country' => 'Country',
-            'shipping_city' => 'City',
-            'shipping_state' => 'State',
-            'shipping_zip' => 'Zip Code',
-            'shipping_phone' => 'Phone',
-            'payment_method' => 'Payment Method',
+            'shipping_prefix' => Yii::t('model_labels', 'Prefix', array(), NULL, Yii::app()->controller->currentLang),
+            'shipping_first_name' => Yii::t('model_labels', 'First Name', array(), NULL, Yii::app()->controller->currentLang),
+            'shipping_last_name' => Yii::t('model_labels', 'Last Name', array(), NULL, Yii::app()->controller->currentLang),
+            'shipping_address1' => Yii::t('model_labels', 'Address 1', array(), NULL, Yii::app()->controller->currentLang),
+            'shipping_address2' => Yii::t('model_labels', 'Address 2', array(), NULL, Yii::app()->controller->currentLang),
+            'shipping_country' => Yii::t('model_labels', 'Country', array(), NULL, Yii::app()->controller->currentLang),
+            'shipping_city' => Yii::t('model_labels', 'City', array(), NULL, Yii::app()->controller->currentLang),
+            'shipping_state' => Yii::t('model_labels', 'State', array(), NULL, Yii::app()->controller->currentLang),
+            'shipping_zip' => Yii::t('model_labels', 'Zip Code', array(), NULL, Yii::app()->controller->currentLang),
+            'shipping_phone' => Yii::t('model_labels', 'Phone', array(), NULL, Yii::app()->controller->currentLang),
+            'payment_method' => Yii::t('model_labels', 'Payment Method', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 
@@ -81,7 +81,7 @@ class ShippingInfoForm extends CFormModel {
             /*
              * PCM
              */
-            $stateList = Subregion::model()->findAll('region_id="' . $this->shipping_country.'"');
+            $stateList = Subregion::model()->findAll('region_id="' . $this->shipping_country . '"');
 
             $stateList = CHtml::listData($stateList, 'name', 'name');
         }

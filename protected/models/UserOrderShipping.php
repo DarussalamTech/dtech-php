@@ -83,7 +83,7 @@ class UserOrderShipping extends DTActiveRecord {
         return array(
             'id' => 'ID',
             'user_id' => 'User',
-            'order_id' => 'Order',
+            'order_id' => Yii::t('model_labels', 'Order', array(), NULL, Yii::app()->controller->currentLang),
             'shipping_prefix' => 'Shipping Prefix',
             'shipping_first_name' => 'Shipping First Name',
             'shipping_last_name' => 'Shipping Last Name',

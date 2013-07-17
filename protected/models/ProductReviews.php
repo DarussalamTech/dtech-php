@@ -71,13 +71,13 @@ class ProductReviews extends DTActiveRecord {
      */
     public function attributeLabels() {
         return array(
-            'reviews_id' => 'Reviews',
-            'product_id' => 'Product',
-            'user_id' => 'User',
-            'reviews' => 'Reviews',
-            'added_date' => 'Added Date',
-            'is_approved' => 'Is Approved',
-            'is_email' => 'Is Email',
+            'reviews_id' => Yii::t('model_labels', 'Reviews', array(), NULL, Yii::app()->controller->currentLang),
+            'product_id' => Yii::t('model_labels', 'Product', array(), NULL, Yii::app()->controller->currentLang),
+            'user_id' => Yii::t('model_labels', 'User', array(), NULL, Yii::app()->controller->currentLang),
+            'reviews' => Yii::t('model_labels', 'Reviews', array(), NULL, Yii::app()->controller->currentLang),
+            'added_date' => Yii::t('model_labels', 'Added Date', array(), NULL, Yii::app()->controller->currentLang),
+            'is_approved' => Yii::t('model_labels', 'Is Approved', array(), NULL, Yii::app()->controller->currentLang),
+            'is_email' => Yii::t('model_labels', 'Is Email', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 

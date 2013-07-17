@@ -74,17 +74,16 @@ class WishList extends CActiveRecord {
      */
     public function attributeLabels() {
         return array(
-            'id' => 'ID',
-            'product_profile_id' => 'Product',
-            'user_id' => 'User',
-            'city_id' => 'City',
-            'added_date' => 'Added Date',
-            'session_id' => 'Session',
-            'create_time' => 'Create Time',
-            'create_user_id' => 'Create User',
-            'update_time' => 'Update Time',
-            'update_user_id' => 'Update User',
-           
+            'id' => Yii::t('model_labels', 'ID', array(), NULL, Yii::app()->controller->currentLang),
+            'product_profile_id' => Yii::t('model_labels', 'Product', array(), NULL, Yii::app()->controller->currentLang),
+            'user_id' => Yii::t('model_labels', 'User', array(), NULL, Yii::app()->controller->currentLang),
+            'city_id' => Yii::t('model_labels', 'City', array(), NULL, Yii::app()->controller->currentLang),
+            'added_date' => Yii::t('model_labels', 'Added Date', array(), NULL, Yii::app()->controller->currentLang),
+            'session_id' => Yii::t('model_labels', 'Session', array(), NULL, Yii::app()->controller->currentLang),
+            'create_time' => Yii::t('model_labels', 'Create Time', array(), NULL, Yii::app()->controller->currentLang),
+            'create_user_id' => Yii::t('model_labels', 'Create User', array(), NULL, Yii::app()->controller->currentLang),
+            'update_time' => Yii::t('model_labels', 'Update Time', array(), NULL, Yii::app()->controller->currentLang),
+            'update_user_id' => Yii::t('model_labels', 'Update User', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 

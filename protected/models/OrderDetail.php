@@ -76,10 +76,10 @@ class OrderDetail extends DTActiveRecord {
      */
     public function attributeLabels() {
         return array(
-            'user_order_id' => 'User Order',
-            'order_id' => 'Order',
-            'product_profile_id' => 'Product',
-            'product_price' => 'Product Price',
+            'user_order_id' => Yii::t('model_labels', 'Order', array(), NULL, Yii::app()->controller->currentLang),
+            'order_id' => Yii::t('model_labels', 'Order', array(), NULL, Yii::app()->controller->currentLang),
+            'product_profile_id' => Yii::t('model_labels', 'Product', array(), NULL, Yii::app()->controller->currentLang),
+            'product_price' => Yii::t('model_labels', 'Product Price', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 

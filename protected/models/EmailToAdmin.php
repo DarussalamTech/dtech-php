@@ -19,7 +19,7 @@ class EmailToAdmin extends CFormModel {
 
     public function attributeLabels() {
         return array(
-            'email' => 'Email Address',
+            'email' => Yii::t('model_labels', 'Email Address', array(), NULL, Yii::app()->controller->currentLang),
            
         );
     }

@@ -27,7 +27,7 @@ class UserProfile extends DTActiveRecord {
      * @var type 
      * uploaded path for image
      */
-    public $uploaded_img = "",$temp_avatar;
+    public $uploaded_img = "", $temp_avatar;
     public $oldImg = "";
 
     /**
@@ -90,20 +90,21 @@ class UserProfile extends DTActiveRecord {
      */
     public function attributeLabels() {
         return array(
-            'id' => 'User Profile',
-            'first_name' => 'First Name',
-            'last_name' => 'Last Name',
-            'address' => 'Address Line 1',
-            'address_2' => 'Address Line 2',
-            'city' => 'City',
-            'country' => 'Country',
-            'state_province' => 'State/Province',
-            'gender' => 'Gender	',
-            'zip_code' => 'Zip Code	',
-            'contact_number' => 'Phone Number',
-            'mobile_number' => 'Mobile Number',
-            'is_shipping_address' => 'Is Shipping Address Also ?',
-            'avatar' => 'Profile Picture',
+            'id' => Yii::t('model_labels', 'Profile', array(), NULL, Yii::app()->controller->currentLang),
+            'first_name' => Yii::t('model_labels', 'First Name', array(), NULL, Yii::app()->controller->currentLang),
+            'last_name' => Yii::t('model_labels', 'Last Name', array(), NULL, Yii::app()->controller->currentLang),
+            'address' => Yii::t('model_labels', 'Address 1', array(), NULL, Yii::app()->controller->currentLang),
+            'address_2' => Yii::t('model_labels', 'Address 2', array(), NULL, Yii::app()->controller->currentLang),
+            'city' => Yii::t('model_labels', 'City', array(), NULL, Yii::app()->controller->currentLang),
+            'country' => Yii::t('model_labels', 'Country', array(), NULL, Yii::app()->controller->currentLang),
+            'state_province' => Yii::t('model_labels', 'State/Province', array(), NULL, Yii::app()->controller->currentLang),
+            'gender' => Yii::t('model_labels', 'Gender', array(), NULL, Yii::app()->controller->currentLang),
+            'zip_code' => Yii::t('model_labels', 'Zip Code', array(), NULL, Yii::app()->controller->currentLang),
+            'contact_number' => Yii::t('model_labels', 'Phone Number', array(), NULL, Yii::app()->controller->currentLang),
+            'mobile_number' => Yii::t('model_labels', 'Mobile Number', array(), NULL, Yii::app()->controller->currentLang),
+            'is_shipping_address' => Yii::t('model_labels', 'Is Shipping Address Also ?', array(), NULL, Yii::app()->controller->currentLang),
+            'avatar' => Yii::t('model_labels', 'Profile Picture', array(), NULL, Yii::app()->controller->currentLang),
+            'date_of_birth' => Yii::t('model_labels', 'Date Of Birth', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 

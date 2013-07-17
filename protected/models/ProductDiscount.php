@@ -78,11 +78,11 @@ class ProductDiscount extends DTActiveRecord {
      */
     public function attributeLabels() {
         return array(
-            'id' => 'Discount',
-            'product_id' => 'Product',
-            'discount_type' => 'Discount Type',
-            'applied' => 'Applied',
-            'discount_value' => 'Discount Value',
+            'id' => Yii::t('model_labels', 'Discount', array(), NULL, Yii::app()->controller->currentLang),
+            'product_id' => Yii::t('model_labels', 'Product', array(), NULL, Yii::app()->controller->currentLang),
+            'discount_type' => Yii::t('model_labels', 'Discount Type', array(), NULL, Yii::app()->controller->currentLang),
+            'applied' => Yii::t('model_labels', 'Applied', array(), NULL, Yii::app()->controller->currentLang),
+            'discount_value' => Yii::t('model_labels', 'Discount Value', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 
@@ -110,7 +110,7 @@ class ProductDiscount extends DTActiveRecord {
     public function beforeSave() {
         if (!empty($this->product_id)) {
             $connection = Yii::app()->db;
-            $sql = "UPDATE ".$this->tableName()." t SET t.applied=0 WHERE t.product_id =".$this->product_id;
+            $sql = "UPDATE " . $this->tableName() . " t SET t.applied=0 WHERE t.product_id =" . $this->product_id;
             $command = $connection->createCommand($sql);
             $command->execute();
         }

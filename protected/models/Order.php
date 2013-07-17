@@ -101,12 +101,12 @@ class Order extends DTActiveRecord {
      */
     public function attributeLabels() {
         return array(
-            'order_id' => 'Order',
-            'user_id' => 'User',
-            'total_price' => 'Total Price',
-            'order_date' => 'Order Date',
-            'status' => 'Status',
-            'payment_method_id' => "Payment Method"
+            'order_id' => Yii::t('model_labels', 'Order', array(), NULL, Yii::app()->controller->currentLang),
+            'user_id' => Yii::t('model_labels', 'User', array(), NULL, Yii::app()->controller->currentLang),
+            'total_price' => Yii::t('model_labels', 'Total Price', array(), NULL, Yii::app()->controller->currentLang),
+            'order_date' => Yii::t('model_labels', 'Order Date', array(), NULL, Yii::app()->controller->currentLang),
+            'status' => Yii::t('common', 'Status', array(), NULL, Yii::app()->controller->currentLang),
+            'payment_method_id' => Yii::t('model_labels', 'Payment Method', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 
@@ -125,7 +125,7 @@ class Order extends DTActiveRecord {
         $criteria->compare('total_price', $this->total_price, true);
         $criteria->compare('order_date', $this->order_date, true);
         $criteria->compare('status', $this->status, true);
-        
+
         $criteria->compare('city_id', Yii::app()->request->getQuery("city_id"), true);
 
         return new CActiveDataProvider($this, array(
@@ -151,11 +151,12 @@ class Order extends DTActiveRecord {
     public function decreaseStock() {
         foreach ($this->orderDetails as $orderDet) {
             $stock = $orderDet->product_profile->quantity - $orderDet->quantity;
-  
-            
+
+
             ProductProfile::model()->updateByPk($orderDet->product_profile->id, array('quantity' => $stock));
         }
     }
+
     /*
      * Stock Managment Method 
      * Adding the order quantity to stock (product profile quantity)
@@ -166,8 +167,8 @@ class Order extends DTActiveRecord {
     public function increaseStock() {
         foreach ($this->orderDetails as $orderDet) {
             $stock = $orderDet->product_profile->quantity + $orderDet->quantity;
-  
-            
+
+
             ProductProfile::model()->updateByPk($orderDet->product_profile->id, array('quantity' => $stock));
         }
     }

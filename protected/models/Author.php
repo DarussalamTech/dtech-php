@@ -67,8 +67,8 @@ class Author extends DTActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'author_id' => 'Author',
-			'author_name' => 'Author Name',
+			'author_id' => Yii::t('model_labels', 'Author', array(), NULL, Yii::app()->controller->currentLang),
+			'author_name' => Yii::t('model_labels', 'Author Name', array(), NULL, Yii::app()->controller->currentLang),
 		);
 	}
 

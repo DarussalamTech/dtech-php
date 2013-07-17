@@ -33,10 +33,10 @@ class ContactForm extends CFormModel {
      */
     public function attributeLabels() {
         return array(
-            'name' => 'Name',
-            'email' => 'Email',
-            'subject' => 'Subject',
-            'body' => 'Message',
+            'name' => Yii::t('common', 'Name', array(), NULL, Yii::app()->controller->currentLang),
+            'email' => Yii::t('common', 'Email', array(), NULL, Yii::app()->controller->currentLang),
+            'subject' => Yii::t('model_labels', 'Subject', array(), NULL, Yii::app()->controller->currentLang),
+            'body' => Yii::t('model_labels', 'Message', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 

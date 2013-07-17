@@ -43,7 +43,6 @@ class Country extends DTActiveRecord {
             array('country_name, short_name, site_id', 'required'),
             array('country_name', 'unique'),
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
-            
             array('site_id', 'numerical', 'integerOnly' => true),
             array('country_name, short_name', 'length', 'max' => 255),
             // The following rule is used by search().
@@ -73,7 +72,6 @@ class Country extends DTActiveRecord {
         $criteria->select = "city_id,city_name";
         $criteria->condition = "country_id = " . $this->country_id;
         $this->_cities = CHtml::listData(City::model()->findAll($criteria), "city_id", "city_name");
-        
     }
 
     public function afterFind() {
@@ -85,10 +83,10 @@ class Country extends DTActiveRecord {
      */
     public function attributeLabels() {
         return array(
-            'country_id' => 'Country',
-            'country_name' => 'Country Name',
-            'short_name' => 'Short Name',
-            'site_id' => 'Site',
+            'country_id' => Yii::t('common', 'Country', array(), NULL, Yii::app()->controller->currentLang),
+            'country_name' => Yii::t('common', 'Country Name', array(), NULL, Yii::app()->controller->currentLang),
+            'short_name' => Yii::t('common', 'Short Name', array(), NULL, Yii::app()->controller->currentLang),
+            'site_id' => Yii::t('common', 'Site', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 

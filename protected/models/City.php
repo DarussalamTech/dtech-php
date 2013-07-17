@@ -75,12 +75,12 @@ class City extends DTActiveRecord {
      */
     public function attributeLabels() {
         return array(
-            'city_id' => 'City',
-            'country_id' => 'Country',
-            'city_name' => 'City Name',
-            'short_name' => 'Short Name',
-            'address' => 'Address',
-            'layout_id' => 'Layout',
+            'city_id' => Yii::t('model_labels', 'City', array(), NULL, Yii::app()->controller->currentLang),
+            'country_id' => Yii::t('model_labels', 'Country', array(), NULL, Yii::app()->controller->currentLang),
+            'city_name' => Yii::t('model_labels', 'City Name', array(), NULL, Yii::app()->controller->currentLang),
+            'short_name' => Yii::t('model_labels', 'Short Name', array(), NULL, Yii::app()->controller->currentLang),
+            'address' => Yii::t('model_labels', 'Address', array(), NULL, Yii::app()->controller->currentLang),
+            'layout_id' => Yii::t('model_labels', 'Layout', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 

@@ -90,11 +90,11 @@ class ProductImage extends DTActiveRecord {
      */
     public function attributeLabels() {
         return array(
-            'id' => 'Product Image',
-            'product_profile_id' => 'Product',
-            'is_default' => 'Default',
-            'image_small' => 'Image Small',
-            'image_large' => 'Image Large',
+            'id' => Yii::t('model_labels', 'Product Image', array(), NULL, Yii::app()->controller->currentLang),
+            'product_profile_id' => Yii::t('model_labels', 'Product', array(), NULL, Yii::app()->controller->currentLang),
+            'is_default' => Yii::t('model_labels', 'Default', array(), NULL, Yii::app()->controller->currentLang),
+            'image_small' => Yii::t('model_labels', 'Image Small', array(), NULL, Yii::app()->controller->currentLang),
+            'image_large' => Yii::t('model_labels', 'Image Large', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 
@@ -175,19 +175,15 @@ class ProductImage extends DTActiveRecord {
         $its_t = new DTFunctions();
 
         if (!empty($large_img)) {
-           
-             $this->image_large = $its_t->getRanddomeNo(10).".".$large_img->extensionName;
-             $this->image_small = str_replace(" ","_","small_" . $this->image_large);
+
+            $this->image_large = $its_t->getRanddomeNo(10) . "." . $large_img->extensionName;
+            $this->image_small = str_replace(" ", "_", "small_" . $this->image_large);
         } else {
             $this->image_large = $this->oldLargeImg;
             $this->image_small = $this->oldSmallImg;
         }
 
         //$this->image_large;
-        
-        
-
-        
     }
 
     /**
@@ -202,9 +198,9 @@ class ProductImage extends DTActiveRecord {
 
             $upload_path = DTUploadedFile::creeatRecurSiveDirectories($folder_array);
 
-            $large_img->saveAs($upload_path . str_replace(" ","_",$this->image_large));
-           
-            DTUploadedFile::createThumbs($upload_path . $this->image_large, $upload_path, 150, str_replace(" ","_","small_" . $this->image_large));
+            $large_img->saveAs($upload_path . str_replace(" ", "_", $this->image_large));
+
+            DTUploadedFile::createThumbs($upload_path . $this->image_large, $upload_path, 150, str_replace(" ", "_", "small_" . $this->image_large));
             $this->deleteldImage();
         }
     }

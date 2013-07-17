@@ -11,7 +11,6 @@ class LoginForm extends CFormModel {
     public $password;
     public $rememberMe;
     private $_identity;
-    
     public $route;
 
     /**
@@ -26,7 +25,7 @@ class LoginForm extends CFormModel {
             array('username', 'email'),
             // rememberMe needs to be a boolean
             array('rememberMe', 'boolean'),
-            array('route',"safe"),
+            array('route', "safe"),
             // password needs to be authenticated
             array('password', 'authenticate'),
         );
@@ -37,9 +36,9 @@ class LoginForm extends CFormModel {
      */
     public function attributeLabels() {
         return array(
-            'username' => 'Email',
-            'password' => 'Password',
-            'rememberMe' => 'Stay Signed in',
+            'username' => Yii::t('common', 'Email', array(), NULL, Yii::app()->controller->currentLang),
+            'password' => Yii::t('common', 'Password', array(), NULL, Yii::app()->controller->currentLang),
+            'rememberMe' => Yii::t('common', 'Remember me', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 

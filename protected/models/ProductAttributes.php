@@ -99,14 +99,14 @@ class ProductAttributes extends CActiveRecord {
      */
     public function attributeLabels() {
         return array(
-            'id' => 'ID',
-            'product_attribute_conf_id' => 'Product Attribute Conf',
-            'product_profile_id' => 'Product Profile',
-            'attribute_value' => 'Attribute Value',
-            'create_time' => 'Create Time',
-            'create_user_id' => 'Create User',
-            'update_time' => 'Update Time',
-            'update_user_id' => 'Update User',
+            'id' => Yii::t('model_labels', 'ID', array(), NULL, Yii::app()->controller->currentLang),
+            'product_attribute_conf_id' => Yii::t('model_labels', 'Product Attribute Configuration', array(), NULL, Yii::app()->controller->currentLang),
+            'product_profile_id' => Yii::t('model_labels', 'Product Profile', array(), NULL, Yii::app()->controller->currentLang),
+            'attribute_value' => Yii::t('model_labels', 'Attribute Value', array(), NULL, Yii::app()->controller->currentLang),
+            'create_time' => Yii::t('model_labels', 'Create Time', array(), NULL, Yii::app()->controller->currentLang),
+            'create_user_id' => Yii::t('model_labels', 'Create User', array(), NULL, Yii::app()->controller->currentLang),
+            'update_time' => Yii::t('model_labels', 'Update Time', array(), NULL, Yii::app()->controller->currentLang),
+            'update_user_id' => Yii::t('model_labels', 'Update User', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 

@@ -65,11 +65,11 @@ class SelfSite extends DTActiveRecord {
      */
     public function attributeLabels() {
         return array(
-            'site_id' => 'Site',
-            'site_name' => 'Site Name',
-            'country_id' => 'Country',
-            'site_headoffice' => 'Head Office',
-            'site_descriptoin' => 'Site Descriptoin',
+            'site_id' => Yii::t('model_labels', 'Site', array(), NULL, Yii::app()->controller->currentLang),
+            'site_name' => Yii::t('model_labels', 'Site Name', array(), NULL, Yii::app()->controller->currentLang),
+            'country_id' => Yii::t('model_labels', 'Country', array(), NULL, Yii::app()->controller->currentLang),
+            'site_headoffice' => Yii::t('model_labels', 'Head Office', array(), NULL, Yii::app()->controller->currentLang),
+            'site_descriptoin' => Yii::t('model_labels', 'Site Description', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 
