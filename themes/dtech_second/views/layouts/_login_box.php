@@ -20,14 +20,14 @@
         <fieldset>
             <div id="login_pointer">
             </div>
-            <label for="email">User Name</label>
+            <label for="email"><?php echo Yii::t('common', 'Email', array(), NULL, Yii::app()->controller->currentLang); ?></label>
             <?php
             echo $form->textField($login_model, 'username', array("id" => "email"));
             echo $form->hiddenField($login_model, 'route', array("value" => Yii::app()->request->getUrl()));
             ?>
         </fieldset>
         <fieldset>
-            <label for="password">Password</label>
+            <label for="password"><?php echo Yii::t('common', 'Password', array(), NULL, Yii::app()->controller->currentLang); ?></label>
             <?php
             echo $form->passwordField($login_model, 'password', array("id" => "password"));
             ?>
