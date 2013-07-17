@@ -40,7 +40,7 @@
 
                 <div class="row_input">
                     <div class="row_input_type">
-                        <?php echo CHtml::submitButton('Send', array('class' => 'row_button')); ?>
+                        <?php echo CHtml::submitButton(Yii::t('common', 'Send', array(), NULL, Yii::app()->controller->currentLang), array('class' => 'row_button')); ?>
                     </div>
                 </div>
                 <?php $this->endWidget(); ?>
