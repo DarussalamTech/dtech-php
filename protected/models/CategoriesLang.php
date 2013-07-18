@@ -70,14 +70,14 @@ class CategoriesLang extends DTActiveRecord {
      */
     public function attributeLabels() {
         return array(
-            'id' => 'ID',
-            'category_id' => 'Category',
-            'category_name' => 'Category Name',
-            'lang_id' => 'Language',
-            'create_time' => 'Create Time',
-            'create_user_id' => 'Create User',
-            'update_time' => 'Update Time',
-            'update_user_id' => 'Update User',
+            'id' => Yii::t('model_labels', 'ID', array(), NULL, Yii::app()->controller->currentLang),
+            'category_id' => Yii::t('model_labels', 'Category', array(), NULL, Yii::app()->controller->currentLang),
+            'category_name' => Yii::t('model_labels', 'Category Name', array(), NULL, Yii::app()->controller->currentLang),
+            'lang_id' => Yii::t('model_labels', 'Language', array(), NULL, Yii::app()->controller->currentLang),
+            'create_time' => Yii::t('model_labels', 'Create Time', array(), NULL, Yii::app()->controller->currentLang),
+            'create_user_id' => Yii::t('model_labels', 'Create User', array(), NULL, Yii::app()->controller->currentLang),
+            'update_time' => Yii::t('model_labels', 'Update Time', array(), NULL, Yii::app()->controller->currentLang),
+            'update_user_id' => Yii::t('model_labels', 'Update User', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 
@@ -105,7 +105,7 @@ class CategoriesLang extends DTActiveRecord {
 
             $this->addError($attribute, "Language Must be unique");
         }
-        
+
         $is_error = $this->getLangsLists();
         if ($is_error) {
             $this->addError($attribute, "Language Must be unique");
@@ -129,7 +129,7 @@ class CategoriesLang extends DTActiveRecord {
                 $criteria->addCondition("id <>" . $this->id);
             }
             $categories = CategoriesLang::model()->findAll($criteria);
-            
+
             if (!empty($categories)) {
                 return true;
             }
