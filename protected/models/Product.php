@@ -121,15 +121,15 @@ class Product extends DTActiveRecord {
      */
     public function attributeLabels() {
         return array(
-            'product_id' => 'Product',
-            'product_name' => 'Product Name',
-            'parent_cateogry_id' => 'Parent Category',
-            '_parent_category' => 'Category',
-            'product_description' => 'Product Description',
-            'product_overview' => 'Product Overview',
-            'city_id' => 'City',
-            'authors' => 'Author',
-            'is_featured' => 'Is Featured',
+            'product_id' => Yii::t('model_labels', 'Product', array(), NULL, Yii::app()->controller->currentLang),
+            'product_name' => Yii::t('model_labels', 'Product Name', array(), NULL, Yii::app()->controller->currentLang),
+            'parent_cateogry_id' => '', Yii::t('model_labels', 'Parent Category', array(), NULL, Yii::app()->controller->currentLang),
+            '_parent_category' => Yii::t('model_labels', 'Category', array(), NULL, Yii::app()->controller->currentLang),
+            'product_description' => Yii::t('model_labels', 'Product Description', array(), NULL, Yii::app()->controller->currentLang),
+            'product_overview' => Yii::t('model_labels', 'Product Overview', array(), NULL, Yii::app()->controller->currentLang),
+            'city_id' => Yii::t('model_labels', 'City', array(), NULL, Yii::app()->controller->currentLang),
+            'authors' => Yii::t('model_labels', 'Author', array(), NULL, Yii::app()->controller->currentLang),
+            'is_featured' => Yii::t('model_labels', 'Is Featured', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 

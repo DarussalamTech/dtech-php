@@ -17,8 +17,6 @@
 class Categories extends DTActiveRecord {
 
     public $totalStock;
-    
-    
 
     /**
      * Returns the static model of the specified AR class.
@@ -28,7 +26,6 @@ class Categories extends DTActiveRecord {
     public static function model($className = __CLASS__) {
         return parent::model($className);
     }
-   
 
     /**
      * @return string the associated database table name
@@ -117,11 +114,11 @@ class Categories extends DTActiveRecord {
      */
     public function attributeLabels() {
         return array(
-            'category_id' => 'Category',
-            'category_name' => 'Category Name',
-            'added_date' => 'Added Date',
-            'parent_id' => 'Parent',
-            'city_id' => 'City',
+            'category_id' => Yii::t('model_labels', 'Category', array(), NULL, Yii::app()->controller->currentLang),
+            'category_name' => Yii::t('model_labels', 'Category Name', array(), NULL, Yii::app()->controller->currentLang),
+            'added_date' => Yii::t('model_labels', 'Added Date', array(), NULL, Yii::app()->controller->currentLang),
+            'parent_id' => Yii::t('model_labels', 'Parent', array(), NULL, Yii::app()->controller->currentLang),
+            'city_id' => Yii::t('model_labels', 'City', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 
@@ -294,7 +291,7 @@ class Categories extends DTActiveRecord {
 
     public function attachBehaviors($behaviors) {
 
-        $bhv = array('ml'=> array(
+        $bhv = array('ml' => array(
                 'class' => 'MultilingualBehavior',
                 'langClassName' => 'CategoriesLang',
                 'langTableName' => 'categories_lang',
@@ -311,14 +308,15 @@ class Categories extends DTActiveRecord {
             //'forceDelete' => true, 
             //'dynamicLangClass' => true, //Set to true if you don't want to create a 'PostLang.php' in your models folder
         ));
-      
+
         if (Yii::app()->request->getQuery('id') == "") {
             $behaviors = array_merge($behaviors, $bhv);
         }
-        
+
         parent::attachBehaviors($behaviors);
         return true;
     }
+
     /**
      * 
      */
@@ -326,14 +324,15 @@ class Categories extends DTActiveRecord {
         $this->updateEnglishRecord();
         parent::afterSave();
     }
+
     /**
      * for updating english record
      * on each case
      * when parent record is updated
      */
-    public function updateEnglishRecord(){
-        if($this->_controller == "categories" && $this->_action == "update"){
-            $condition = "category_id = ".$this->primaryKey." AND lang_id ='".Yii::app()->params['defaultLanguage']."'";
+    public function updateEnglishRecord() {
+        if ($this->_controller == "categories" && $this->_action == "update") {
+            $condition = "category_id = " . $this->primaryKey . " AND lang_id ='" . Yii::app()->params['defaultLanguage'] . "'";
             $categories = CategoriesLang::model()->find($condition);
             $categories->category_name = $this->category_name;
             $categories->save();
