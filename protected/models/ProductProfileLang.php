@@ -69,13 +69,13 @@ class ProductProfileLang extends DTActiveRecord {
      */
     public function attributeLabels() {
         return array(
-            'id' => 'ID',
-            'product_profile_id' => 'Product Profile',
-            'title' => 'Title',
-            'create_time' => 'Create Time',
-            'create_user_id' => 'Create User',
-            'update_time' => 'Update Time',
-            'update_user_id' => 'Update User',
+            'id' => Yii::t('model_labels', 'ID', array(), NULL, Yii::app()->controller->currentLang),
+            'product_profile_id' => Yii::t('model_labels', 'Product Profile', array(), NULL, Yii::app()->controller->currentLang),
+            'title' => Yii::t('model_labels', 'Title', array(), NULL, Yii::app()->controller->currentLang),
+            'create_time' => Yii::t('model_labels', 'Create Time', array(), NULL, Yii::app()->controller->currentLang),
+            'create_user_id' => Yii::t('model_labels', 'Create User', array(), NULL, Yii::app()->controller->currentLang),
+            'update_time' => Yii::t('model_labels', 'Update Time', array(), NULL, Yii::app()->controller->currentLang),
+            'update_user_id' => Yii::t('model_labels', 'Update User', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 
@@ -138,5 +138,4 @@ class ProductProfileLang extends DTActiveRecord {
         return false;
     }
 
-    
 }
