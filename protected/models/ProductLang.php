@@ -72,16 +72,16 @@ class ProductLang extends DTActiveRecord {
      */
     public function attributeLabels() {
         return array(
-            'id' => 'ID',
-            'product_id' => 'Product',
-            'product_name' => 'Product Name',
-            'product_description' => 'Product Description',
-            'product_overview' => 'Product Overview',
-            'lang_id' => 'Lang',
-            'create_time' => 'Create Time',
-            'create_user_id' => 'Create User',
-            'update_time' => 'Update Time',
-            'update_user_id' => 'Update User',
+            'id' => Yii::t('model_labels', 'ID', array(), NULL, Yii::app()->controller->currentLang),
+            'product_id' => Yii::t('model_labels', 'Product', array(), NULL, Yii::app()->controller->currentLang),
+            'product_name' => Yii::t('model_labels', 'Product Name', array(), NULL, Yii::app()->controller->currentLang),
+            'product_description' => Yii::t('model_labels', 'Product Description', array(), NULL, Yii::app()->controller->currentLang),
+            'product_overview' => Yii::t('model_labels', 'Product Overview', array(), NULL, Yii::app()->controller->currentLang),
+            'lang_id' => Yii::t('model_labels', 'Language', array(), NULL, Yii::app()->controller->currentLang),
+            'create_time' => Yii::t('model_labels', 'Create Time', array(), NULL, Yii::app()->controller->currentLang),
+            'create_user_id' => Yii::t('model_labels', 'Create User', array(), NULL, Yii::app()->controller->currentLang),
+            'update_time' => Yii::t('model_labels', 'Update Time', array(), NULL, Yii::app()->controller->currentLang),
+            'update_user_id' => Yii::t('model_labels', 'Update User', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 
@@ -118,8 +118,6 @@ class ProductLang extends DTActiveRecord {
      */
     public function UniqueLanguage($attribute, $params) {
         /** in case while creating new product * */
-
-
         $is_error = $this->getLangsLists();
         if ($is_error) {
             $this->addError($attribute, "Language Must be unique");
@@ -140,7 +138,7 @@ class ProductLang extends DTActiveRecord {
 
                 $criteria->addCondition("id <>" . $this->id);
             }
-            $productLang= ProductLang::model()->findAll($criteria);
+            $productLang = ProductLang::model()->findAll($criteria);
 
             if (!empty($productLang)) {
                 return true;
