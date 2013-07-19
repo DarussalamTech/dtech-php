@@ -14,6 +14,7 @@ $this->webPcmWidget['best'] = array('name' => 'DtechBestSelling',
         'is_cat_filter' => 0,
         ));
 ?>
+
 <div class="general_content">
     <div class="under_heading">
         <h2 id="heading_filter">
@@ -22,8 +23,19 @@ $this->webPcmWidget['best'] = array('name' => 'DtechBestSelling',
         <?php
         echo CHtml::image(Yii::app()->theme->baseUrl . "/images/under_heading_07.png") . '<br>';
         ?>
+    </div><div class="clear"></div>  
+    <div class="clear"></div>  
+    <div class="pagingdiv" style='display: none' >
+        <?php
+        $this->widget('DTScroller', array(
+            'pages' => $dataProvider->pagination,
+            'ajax' => true,
+            'append_param' => (!empty($_REQUEST['serach_field'])) ? "serach_field=" . $_REQUEST['serach_field'] : "",
+            'jsMethod' => 'dtech.updateListingOnScrolling(this);return false;',
+                )
+        );
+        ?>
     </div>
-
     <div id="right_main_content">
         <?php
         $this->renderPartial("//product/_product_list", array(
@@ -32,6 +44,10 @@ $this->webPcmWidget['best'] = array('name' => 'DtechBestSelling',
             'allCate' => $allCate));
         ?>
     </div>
+    <div class="clear"></div>    
+
+    <div class="clear"></div>  
+    <div class="clear"></div>  
 </div>
 
 
