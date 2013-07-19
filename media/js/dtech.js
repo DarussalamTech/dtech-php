@@ -69,7 +69,56 @@ var dtech = {
         return false;
     },
     updatePaginationFilter: function(obj) {
+        
         dtech.updateProductListing($(obj).attr("href"), "");
+    },
+            /*
+             * 
+             * For pag loading on based 
+             * of
+             */
+            updateListingOnScrolling:function(obj){
+        var id= "";
+        var ajax_url = $(obj).attr("href");
+        
+        var load_div = '<div id="load_subpanel_div" class="overlay" style="display:none">' +
+                '<div class="loadingBar">' +
+                '<span class="lodingString">Please Wait....</span><span class="loading">. . . .</span>' +
+                '</div>' +
+                '</div>';
+
+        rite_html = $("#right_main_content").html();
+        $("#right_main_content").html(load_div + rite_html);
+        $("#load_subpanel_div").show();
+
+        jQuery.ajax({
+            type: "POST",
+            url: ajax_url,
+            data:
+                    {
+                        cat_id: id,
+                        ajax: 1,
+                        author: $("#author_id").val(),
+                        langs: dtech.getmultiplechecboxValue("filter_checkbox"),
+                    }
+        }).done(function(msg) {
+            $("#right_main_content").append(msg);
+
+            if (id != "") {
+                s_url = "cat=" + id;
+                dtech.updatehashBrowerUrl(s_url);
+                dtech.updateCategoryStatus(id);
+            }
+            else {
+                //dtech.updatehashBrowerUrl("");
+                dtech.updateCategoryStatus(id);
+            }
+
+            $("#load_subpanel_div").remove();
+            jQuery("#sideBarBox").hide();
+            jQuery(".under_best_seller").hide();
+        });
+        return false;
     },
     /**
      *  detail image change on runtime
