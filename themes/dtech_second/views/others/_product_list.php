@@ -1,15 +1,4 @@
-<div class="pagingdiv">
-<?php
-$this->widget('DTPager', array(
-    'pages' => $dataProvider->pagination,
-    'ajax' => true,
-    'append_param' => (!empty($_REQUEST['serach_field'])) ? "serach_field=" . $_REQUEST['serach_field'] : "",
-    'jsMethod' => 'dtech.updatePaginationFilter(this);return false;',
-        )
-);
-?>
-</div>
-<div class="clear"></div>
+
 <?php
 foreach ($products as $product) {
     $name = $product['product_name'];
@@ -52,17 +41,4 @@ if (empty($products)) {
 }
 ?>
 <div class="clear"></div>    
-<div class="pagingdiv">
-
-    <?php
-    $this->widget('DTPager', array(
-        'pages' => $dataProvider->pagination,
-        'ajax' => true,
-        'append_param' => (!empty($_REQUEST['serach_field'])) ? "serach_field=" . $_REQUEST['serach_field'] : "",
-        'jsMethod' => 'dtech.updatePaginationFilter(this);return false;',
-            )
-    );
-    ?>  
-</div>
-<div class="clear"></div>  
 <div class="clear"></div>  
