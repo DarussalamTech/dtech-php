@@ -52,6 +52,7 @@ class OthersController extends Controller {
      *  for filter of category
      */
     public function productfilter() {
+        Yii::app()->user->SiteSessions;
         $dataProvider = Product::model()->allProducts(array(), 30, "Others");
         $all_products = Product::model()->returnProducts($dataProvider);
         $this->renderPartial("//others/_product_list", array('products' => $all_products, 'dataProvider' => $dataProvider,));
