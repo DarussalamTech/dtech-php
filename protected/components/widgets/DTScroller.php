@@ -5,7 +5,6 @@
  * extention 
  */
 
-
 class DTScroller extends CLinkPager {
 
     public $ajax = false;
@@ -16,30 +15,44 @@ class DTScroller extends CLinkPager {
      * @var type 
      */
     public $append_param;
-    
+
     public function init() {
-        Yii::app()->clientScript->registerScript('DTScroller', '
-            
 
-        jQuery(window).scroll(function() {
-        
-        pos = $("#right_main_content div.featured_books").last().position();
-        top =Math.floor(pos[\'top\']);
-        top = top - 500;
-       
-        console.log($(window).scrollTop()+"==="+Math.floor(pos[\'top\']-500));
-                if($(window).scrollTop() == $(document).height() - $(window).height()) {
-            console.log("ubaid khaliq");
-                nextelem = jQuery(".yiiPager li.selected").next().children().eq(0);
-                nextelem.trigger("click");
-                jQuery(".yiiPager li.selected").attr("class", "page");
-                jQuery(nextelem).parent().attr("class", "page selected");
-            }
+        Yii::app()->getClientScript()->registerScriptFile(Yii::app()->baseUrl . "/media/js/scrollpagination.js", CClientScript::POS_HEAD);
 
-           
-        
-    })');
-        
+        Yii::app()->clientScript->registerScript('DTScroller', "
+         
+         $('#content').scrollPagination({
+                    'contentPage': 'democontent.html', // the url you are fetching the results
+                    'contentData': {}, // these are the variables you can pass to the request, for example: children().size() to know which page you are
+                    'scrollTarget': $(window), // who gonna scroll? in this example, the full window
+                    'heightOffset': 10, // it gonna request when scroll is 10 pixels before the page ends
+                    'beforeLoad': function(){ // before load function, you can display a preloader div
+                        //$('#loading').fadeIn();
+                     },
+                     loaddata : function (){
+                        
+                        nextelem = jQuery('.yiiPager li.selected').next().children().eq(0);
+                        nextelem.trigger('click');
+                        jQuery('.yiiPager li.selected').attr('class', 'page');
+                        jQuery(nextelem).parent().attr('class', 'page selected');
+
+                     }
+                 
+                });
+
+                // code for fade in element by element
+                $.fn.fadeInWithDelay = function(){
+                    var delay = 0;
+                    return this.each(function(){
+                        $(this).delay(delay).animate({opacity:1}, 200);
+                        delay += 100;
+                    });
+                };
+                       
+
+    ");
+      
         parent::init();
     }
 
