@@ -21,7 +21,15 @@ class Controller extends RController {
     
     //PCM Will handle languages by session
     
-    public $currentLang = "en";
+    public $currentLang = "ar";
+    /**
+     *
+     * @var type 
+     */
+    public $definedLangActions = array(
+                        "productDetail",
+                        "productDetailLang",
+                    );
 
     /**
      * @var array context menu items. This property will be assigned to {@link CMenu::items}.
@@ -229,6 +237,10 @@ class Controller extends RController {
             $this->webPages = Pages::model()->getPages();
             //$this->configureTheme();
         } else {
+            /**
+             * for admin site
+             */
+            $this->currentLang = "en";
             $this->setPermissions();
         }
     }

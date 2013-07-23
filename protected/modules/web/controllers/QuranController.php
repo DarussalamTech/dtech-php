@@ -69,7 +69,7 @@ class QuranController extends Controller {
 
         try {
 
-            $product = Product::model()->findByPk($_REQUEST['product_id']);
+            $product = Product::model()->localized(Yii::app()->controller->currentLang)->findByPk($_REQUEST['product_id']);
 
             /**
              *  getting value of poduct rating
@@ -117,7 +117,7 @@ class QuranController extends Controller {
             Yii::app()->user->SiteSessions;
             $product = Product::model();
 
-            $product = $product->findByPk($id);
+            $product = $product->localized(Yii::app()->controller->currentLang)->findByPk($id);
 
             if (!empty($_POST['lang_id'])) {
                 $product->productProfile = $product->productSelectedProfile;

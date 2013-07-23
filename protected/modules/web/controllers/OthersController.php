@@ -62,7 +62,7 @@ class OthersController extends Controller {
         Yii::app()->user->SiteSessions;
 
         try {
-            $product = Product::model()->findByPk($_REQUEST['product_id']);
+            $product = Product::model()->localized(Yii::app()->controller->currentLang)->findByPk($_REQUEST['product_id']);
 
 
 

@@ -141,7 +141,7 @@ class Product extends DTActiveRecord {
     public function allProducts($product_array = array(), $limit = 30, $parent_category = "Books") {
 
 
-
+       
 
         $city_id = Yii::app()->session['city_id'];
 
@@ -206,7 +206,7 @@ class Product extends DTActiveRecord {
             $criteria->addCondition("product_categories.category_id='" . $_GET['category'] . "'");
         }
 
-        $dataProvider = new CActiveDataProvider($this, array(
+        $dataProvider = new DTActiveDataProvider($this, array(
             'pagination' => array(
                 'pageSize' => 12,
             ),
@@ -337,7 +337,7 @@ class Product extends DTActiveRecord {
      * when parent record is updated
      */
     public function attachBehaviors($behaviors) {
-
+        
         $bhv = array('ml' => array(
                 'class' => 'MultilingualBehavior',
                 'langClassName' => 'ProductLang',
@@ -359,11 +359,14 @@ class Product extends DTActiveRecord {
             //'forceDelete' => true, 
             //'dynamicLangClass' => true, //Set to true if you don't want to create a 'PostLang.php' in your models folder
         ));
-
+        $controller = Yii::app()->controller;
         if (Yii::app()->request->getQuery('id') == "") {
             $behaviors = array_merge($behaviors, $bhv);
         }
-
+        else if(in_array($controller->action->id,$controller->definedLangActions)){
+            $behaviors = array_merge($behaviors, $bhv);
+        }
+        
         parent::attachBehaviors($behaviors);
         return true;
     }

@@ -18,10 +18,11 @@ class DTScroller extends CLinkPager {
 
     public function init() {
 
+      
         Yii::app()->getClientScript()->registerScriptFile(Yii::app()->baseUrl . "/media/js/scrollpagination.js", CClientScript::POS_HEAD);
 
         Yii::app()->clientScript->registerScript('DTScroller', "
-         
+         var total_no_of_pages = '".$this->pages->getPageCount()."';
          $('#content').scrollPagination({
                     'contentPage': 'democontent.html', // the url you are fetching the results
                     'contentData': {}, // these are the variables you can pass to the request, for example: children().size() to know which page you are
@@ -34,9 +35,11 @@ class DTScroller extends CLinkPager {
                         
                         setTimeout(function(){
                             nextelem = jQuery('.yiiPager li.selected').next().children().eq(0);
-                            nextelem.trigger('click');
-                            jQuery('.yiiPager li.selected').attr('class', 'page');
-                            jQuery(nextelem).parent().attr('class', 'page selected');
+                            if(jQuery.trim(nextelem.html())<=total_no_of_pages){
+                                nextelem.trigger('click');                          
+                                jQuery('.yiiPager li.selected').attr('class', 'page');
+                                jQuery(nextelem).parent().attr('class', 'page selected');
+                            }
                         },500)
                         
                       
