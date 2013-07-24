@@ -9,6 +9,7 @@
  * @property string $added_date
  * @property integer $parent_id
  * @property integer $city_id
+ * @property integer $category_image
  *
  * The followings are the available model relations:
  * @property City $city
@@ -17,6 +18,7 @@
 class Categories extends DTActiveRecord {
 
     public $totalStock;
+    public $cat_image_url = array();
 
     /**
      * Returns the static model of the specified AR class.
@@ -49,6 +51,7 @@ class Categories extends DTActiveRecord {
             array('category_name, added_date', 'length', 'max' => 255),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
+            array('category_image', 'safe'),
             array('category_id, category_name, added_date, parent_id, city_id', 'safe', 'on' => 'search'),
         );
     }
@@ -82,6 +85,14 @@ class Categories extends DTActiveRecord {
             'productCategories' => array(self::HAS_MANY, 'ProductCategories', 'category_id'),
             'catlangs' => array(self::HAS_MANY, 'CategoriesLang', 'category_id'),
         );
+    }
+
+    public function afterFind() {
+        if (!empty($this->category_image)) {
+            $this->cat_image_url = Yii::app()->baseUrl . "/uploads/parent_category/" . $this->category_id . '/' . $this->category_image;
+        }
+
+        parent::afterFind();
     }
 
     public function behaviors() {
@@ -119,6 +130,7 @@ class Categories extends DTActiveRecord {
             'added_date' => Yii::t('model_labels', 'Added Date', array(), NULL, Yii::app()->controller->currentLang),
             'parent_id' => Yii::t('model_labels', 'Parent', array(), NULL, Yii::app()->controller->currentLang),
             'city_id' => Yii::t('model_labels', 'City', array(), NULL, Yii::app()->controller->currentLang),
+            'category_image' => Yii::t('model_labels', 'Category Image', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 
@@ -310,7 +322,7 @@ class Categories extends DTActiveRecord {
         ));
 
         if (Yii::app()->request->getQuery('id') == "") {
-            $behaviors = array_merge($behaviors, $bhv);
+            // $behaviors = array_merge($behaviors, $bhv);
         }
 
         parent::attachBehaviors($behaviors);
