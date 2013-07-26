@@ -259,7 +259,7 @@ class OrderDetail extends DTActiveRecord {
 
             $criteria->distinct = "t.product_id";
         }
-        $dataProvider = new DTActiveDataProvider($model, array(
+        $dataProvider = new CActiveDataProvider($model, array(
             'pagination' => array(
                 'pageSize' => $limit,
             ),

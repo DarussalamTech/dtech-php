@@ -119,8 +119,8 @@ var dtech_new = {
                 '</div>';
 
         //$("#loading").show();
-        rite_html = jQuery("#content").html();
-        jQuery("#content").html(load_div + rite_html);
+        rite_html = jQuery("#main_features_part").html();
+        jQuery("#main_features_part").html(load_div + rite_html);
 
     },
     showPaymentMethods: function(obj) {
@@ -175,8 +175,11 @@ var dtech_new = {
         });
     },
     fillFeaturedBox: function(obj) {
+        
         jQuery(".feature_btn").attr("class", "feature_btn");
         jQuery(obj).attr("class", "featured_btn_selected feature_btn");
+        dtech_new.loadWaitmsg();
+        jQuery("#load_subpanel_div").show();
         ajax_url = jQuery(obj).attr("url");
         jQuery.ajax({
             type: "POST",
@@ -188,6 +191,7 @@ var dtech_new = {
                     }
         }).done(function(response) {
             $(".featured_box").html(response);
+            jQuery("#load_subpanel_div").remove();
         });
     }
 }

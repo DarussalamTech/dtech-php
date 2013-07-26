@@ -114,18 +114,21 @@ class SiteController extends Controller {
     public function actionFillFeaturedBox() {
         Yii::app()->user->SiteSessions;
         if (isset($_POST['value'])) {
-            $order_detail = new OrderDetail;
+
             $limit = 6;
             switch ($_POST['value']) {
                 case "Featured":
+                    $order_detail = new OrderDetail;
                     $dataProvider = $order_detail->featuredBooks($limit);
                     $products = $order_detail->getFeaturedProducts($dataProvider);
                     break;
                 case "Latest":
-                    $dataProvider = $order_detail->bestSellings($limit);
-                    $products = $order_detail->getBestSelling($dataProvider);
+                    
+                    $dataProvider = Product::model()->allProducts(array(),$limit);
+                    $products = Product::model()->returnProducts($dataProvider);
                     break;
                 case "Best Seller":
+                    $order_detail = new OrderDetail;
                     $dataProvider = $order_detail->bestSellings($limit);
                     $products = $order_detail->getBestSelling($dataProvider);
                     break;

@@ -151,7 +151,7 @@ class Product extends DTActiveRecord {
             $criteria = new CDbCriteria(array(
                 'select' => '*',
                 'limit' => $limit,
-                'order' => 't.product_id ASC',
+                'order' => 't.product_id DESC',
                     //'with'=>'commentCount' 
             ));
             $criteria->addInCondition('t.product_id', $product_array);
@@ -160,7 +160,7 @@ class Product extends DTActiveRecord {
                 'select' => '*',
                 'condition' => "t.city_id='" . $city_id . "' ",
                 'limit' => $limit,
-                'order' => 't.product_id ASC',
+                'order' => 't.product_id DESC',
                     //'with'=>'commentCount' 
             ));
 
@@ -208,7 +208,7 @@ class Product extends DTActiveRecord {
 
         $dataProvider = new DTActiveDataProvider($this, array(
             'pagination' => array(
-                'pageSize' => 12,
+                'pageSize' => $limit,
             ),
             'criteria' => $criteria,
         ));

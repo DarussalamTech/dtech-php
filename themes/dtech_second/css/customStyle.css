@@ -40,3 +40,10 @@
 .featured_cover_part h2{
     font-size: 18px;
 }
+.section_part section span a {
+    color: #FFFFFF !important;;
+    text-decoration: none;
+}
+input[type=button] {
+    cursor: pointer;
+}

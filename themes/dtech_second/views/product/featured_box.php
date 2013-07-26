@@ -10,12 +10,23 @@ foreach ($products as $product):
     ?>
     <div class="featured_cover">
         <div class="featured_cover_part">
-            <img src="<?php echo $image; ?>" />
+           
+            <?php
+            echo CHtml::link(CHtml::image($image, ""), $this->createUrl('/web/product/productDetail', array('product_id' => $product['product_id'])), array('title' => $name));
+            ?>
             <h2><?php echo $name ?></h2>
-            <p>Lorem ipsum color sit bla bla thhm ipoum deona</p>
+            <p>
+                <?php
+                if (!empty($product['product_overview'])) {
+                    echo substr($product['product_overview'], 0, 20);
+                } else {
+                    echo "&nbsp;";
+                }
+                ?>
+            </p>
         </div>
         <div class="featured_bottom">
-            <span>$185.99</span>
+            <span><?php  echo Yii::app()->session['currency']." ".$product['product_price']; ?></span>
             <div class="white_basket">
                 <img src="<?php echo Yii::app()->theme->baseUrl; ?>/images/white_basket_03.jpg" />
             </div>
