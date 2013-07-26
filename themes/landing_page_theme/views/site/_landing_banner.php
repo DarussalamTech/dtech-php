@@ -7,6 +7,7 @@
             <?php
             $form = $this->beginWidget('CActiveForm', array(
                 'id' => 'country_selection_form',
+                'action' => Yii::app()->createUrl('/site/storeHome'),
                 'enableClientValidation' => FALSE,
                 'clientOptions' => array(
                     'validateOnSubmit' => true,
@@ -25,7 +26,9 @@
                 <?php echo Yii::t('common', 'Select Your Country', array(), NULL, $this->currentLang); ?>
             </h2>
             <?php
-            echo $form->dropDownList($model, 'country', CHtml::listData(Country::model()->findAll(), 'country_id', 'country_name'), array(
+            echo $form->dropDownList($model, 'country', CHtml::listData(Country::model()->with(
+                                    array('cities' => array('join' => 'JOIN city ON city.country_id = t.country_id',))
+                            )->findAll(), 'country_id', 'country_name'), array(
                 'empty' => 'Please Select Country',
                 'onchange' => ' 
                                 jQuery(".enter_button").hide();
