@@ -10,6 +10,7 @@
     $form = $this->beginWidget('CActiveForm', array(
         'id' => 'categories-form',
         'enableAjaxValidation' => false,
+        'htmlOptions' => array('enctype' => 'multipart/form-data'),
     ));
     ?>
 
@@ -23,6 +24,12 @@
         <?php echo $form->textField($model, 'category_name', array('size' => 60, 'maxlength' => 255)); ?>
         <?php echo $form->error($model, 'category_name'); ?>
     </div>
+    <div class="row">
+        <?php echo $form->labelEx($model, 'category_image'); ?>
+        <?php echo $form->fileField($model, 'category_image'); ?>
+        <?php echo $form->error($model, 'category_image'); ?>
+    </div>
+
 
     <?php
     $this->renderPartial("/common/_city_field", array("form" => $form, "model" => $model, "cityList" => $cityList));

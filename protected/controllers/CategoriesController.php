@@ -50,13 +50,12 @@ class CategoriesController extends Controller {
      * @param integer $id the ID of the model to be displayed
      */
     public function actionView($id) {
-        
+
         if (!isset($_POST['children'])) {
-            
-             $model = $this->loadModel($id,true);
-             
+
+            $model = $this->loadModel($id, true);
         } else {
-        
+
             $model = $this->loadModel($id);
         }
 
@@ -103,6 +102,8 @@ class CategoriesController extends Controller {
 
         // Uncomment the following line if AJAX validation is needed
         if (isset($_POST['Categories'])) {
+
+
             $model->attributes = $_POST['Categories'];
             $model->added_date = time();
             if ($model->save())
@@ -122,14 +123,25 @@ class CategoriesController extends Controller {
     public function actionCreateParent() {
 
         $model = new Categories;
-        $model->attachCbehavour();
-
+        // $model->attachCbehavour();
         // Uncomment the following line if AJAX validation is needed
         if (isset($_POST['Categories'])) {
+
             $model->attributes = $_POST['Categories'];
             $model->added_date = time();
-            if ($model->save())
+
+            //making instance of the uploaded image 
+            $img_file = DTUploadedFile::getInstance($model, 'category_image');
+            $model->category_image = $img_file;
+            if ($model->save()) {
+
+                $upload_path = DTUploadedFile::creeatRecurSiveDirectories(array("parent_category", $model->category_id));
+                if (!empty($img_file)) {
+                    $img_file->saveAs($upload_path . $img_file->name);
+                }
+
                 $this->redirect(array('view', 'id' => $model->category_id));
+            }
         }
 
         $this->render('create', array(
@@ -196,12 +208,29 @@ class CategoriesController extends Controller {
 
         $model = $this->loadModel($id);
 
+        $old_img = $model->category_image;
+
         // Uncomment the following line if AJAX validation is needed
         if (isset($_POST['Categories'])) {
             $model->attributes = $_POST['Categories'];
 
-            if ($model->save())
+            $img_file = DTUploadedFile::getInstance($model, 'category_image');
+            $model->category_image = $img_file;
+
+            if (empty($model->category_image)) {
+
+                // conditon for if no image submited then old img should not be deleted
+                $model->category_image = $old_img;
+            }
+
+            if ($model->save()) {
+                $upload_path = DTUploadedFile::creeatRecurSiveDirectories(array("parent_category", $model->category_id));
+                if (!empty($img_file)) {
+                    $img_file->saveAs($upload_path . $img_file->name);
+                }
+
                 $this->redirect(array('view', 'id' => $model->category_id));
+            }
         }
 
         $this->render('update', array(
@@ -275,7 +304,6 @@ class CategoriesController extends Controller {
             $model = Categories::model();
             $model->attachCbehavour();
             $model = $model->multilang()->findByPk((int) $id);
-           
         } else {
             $model = Categories::model()->findByPk((int) $id);
         }

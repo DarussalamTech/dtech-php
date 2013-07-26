@@ -23,7 +23,6 @@ $('.search-form form').submit(function(){
 	return false;
 });
 ");
-
 ?>
 
 <h1>Add Product Categories</h1>
@@ -43,6 +42,9 @@ $('.search-form form').submit(function(){
 </div><!-- search-form -->
 
 <?php
+$this->widget('ext.lyiightbox.LyiightBox2', array(
+));
+
 $template = "";
 if (isset($this->OpPermission[ucfirst($this->id) . ".View"]) && $this->OpPermission[ucfirst($this->id) . ".View"]) {
     $template.= "{view}";
@@ -52,14 +54,14 @@ if (isset($this->OpPermission[ucfirst($this->id) . ".Update"]) && $this->OpPermi
 }
 if (isset($this->OpPermission[ucfirst($this->id) . ".Delete"]) && $this->OpPermission[ucfirst($this->id) . ".Delete"]) {
     $template.= "{delete}";
-}
+}//CVarDumper::dump($model->cat_image_url,20,TRUE);
 $grid_array = array(
     'id' => 'categories-grid',
     'dataProvider' => $model->search(),
     'filter' => $model,
-
     'columns' => array(
         array(
+        
             'name' => 'category_name',
             'type' => 'Raw',
             'value' => '$data->category_name',
@@ -84,6 +86,15 @@ $grid_array = array(
             )
         ),
         array(
+            'name' => 'category_image',
+            "type" => "raw",
+          
+           'value'=>'CHtml::link($data->category_image,$data->cat_image_url,array("rel" => "lightbox[_default]"))',
+            'headerHtmlOptions' => array(
+                'style' => "text-align:left"
+            )
+        ),
+        array(
             'name' => 'city_id',
             'type' => 'Raw',
             'value' => '!empty($data->city)?$data->city->city_name:""',
@@ -94,8 +105,8 @@ $grid_array = array(
         array(
             'class' => 'CButtonColumn',
             'template' => $template,
-            'buttons'=>array(
-                'update'=>array(
+            'buttons' => array(
+                'update' => array(
                     'url' => 'Yii::app()->controller->createUrl("/categories/updateParent",array("id"=>$data->category_id))',
                 )
             ),
