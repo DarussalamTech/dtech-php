@@ -5,7 +5,7 @@
         <link rel="stylesheet" href="<?php echo Yii::app()->theme->baseUrl ?>/css/style.css" />
         <link rel="stylesheet" href="<?php echo Yii::app()->theme->baseUrl ?>/css/customStyle.css" />
         <script type="text/javascript" src="<?php echo Yii::app()->theme->baseUrl ?>/js/dtech_new.js"></script>
-           <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl ?>/media/css/overlay.css" />
+        <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl ?>/media/css/overlay.css" />
         <script src="<?php echo Yii::app()->baseUrl; ?>/media/js/dtech.js"></script>
         <script type="text/javascript" src="<?php echo Yii::app()->theme->baseUrl ?>/js/msdropdown/jquery.dd.min.js"></script>
         <meta charset="utf-8">
@@ -141,55 +141,34 @@
             <div id="navigation_part">
                 <nav>
                     <ul>
-                        <li class="nav_hover"><a href="#" class="top_link_hover">Quran</a>
-                            <div class="nav_dropdown" style="display:none;">
-                                <div class="nav_pointer">
+                        <?php
+                        $paren_categories = Categories::model()->getParentCategories();
+
+                        foreach ($paren_categories as $id => $name):
+                            ?>
+                            <li class="nav_hover">
+                                <?php
+                                echo CHtml::link(Yii::t('common', $name, array(), NULL, $this->currentLang), $this->createUrl("#"), array("class" => "top_link_hover"));
+                                ?>
+                                <div class="nav_dropdown" style="display:none;">
+                                    <div class="nav_pointer">
+                                    </div>
+                                    <p><a href="#">English Books</a></p>
+                                    <p><a href="#">Urdu Books</a></p>
+                                    <p><a href="#">Arabic Books</a></p>
+                                    <p><a href="#">Spanish Books</a></p>
+                                    <p><a href="#">French Books</a></p>
+                                    <p><a href="#">Hindi Books</a></p>
+                                    <p><a href="#">Indonesian Books</a></p>
+                                    <p><a href="#">Bengali Books</a></p>
+                                    <p><a href="#">Misc Language Books</a></p>
                                 </div>
-                                <p><a href="#">English Books</a></p>
-                                <p><a href="#">Urdu Books</a></p>
-                                <p><a href="#">Arabic Books</a></p>
-                                <p><a href="#">Spanish Books</a></p>
-                                <p><a href="#">French Books</a></p>
-                                <p><a href="#">Hindi Books</a></p>
-                                <p><a href="#">Indonesian Books</a></p>
-                                <p><a href="#">Bengali Books</a></p>
-                                <p><a href="#">Misc Language Books</a></p>
-                            </div>
-                        </li>
-                        <li class="nav_hover"><a href="#" class="top_link_hover">Books</a>
-                            <div class="nav_dropdown" style="display:none;">
-                                <div class="nav_pointer">
-                                </div>
-                                <p><a href="#">English Books</a></p>
-                                <p><a href="#">Urdu Books</a></p>
-                                <p><a href="#">Arabic Books</a></p>
-                                <p><a href="#">Spanish Books</a></p>
-                                <p><a href="#">French Books</a></p>
-                                <p><a href="#">Hindi Books</a></p>
-                                <p><a href="#">Indonesian Books</a></p>
-                                <p><a href="#">Bengali Books</a></p>
-                                <p><a href="#">Misc Language Books</a></p>
-                            </div>
-                        </li>
-                        <li class="nav_hover"><a href="#" class="top_link_hover">Fiqh</a>
-                            <div class="nav_dropdown" style="display:none;">
-                                <div class="nav_pointer">
-                                </div>
-                                <p><a href="#">English Books</a></p>
-                                <p><a href="#">Urdu Books</a></p>
-                                <p><a href="#">Arabic Books</a></p>
-                                <p><a href="#">Spanish Books</a></p>
-                                <p><a href="#">French Books</a></p>
-                                <p><a href="#">Hindi Books</a></p>
-                                <p><a href="#">Indonesian Books</a></p>
-                                <p><a href="#">Bengali Books</a></p>
-                                <p><a href="#">Misc Language Books</a></p>
-                            </div>
-                        </li>
-                        <li class="nav_hover"><a href="#" class="top_link_hover">Supplication &amp; Forgiveness</a></li>
-                        <li class="nav_hover"><a href="#" class="top_link_hover">Educational Toys</a></li>
-                        <li class="nav_hover"><a href="#" class="top_link_hover">Media / News</a></li>
-                        <li class="nav_hover"><a href="#" class="top_link_hover">Branches</a></li>
+                            </li>
+
+                            <?php
+                        endforeach;
+                        ?>
+
                     </ul>
                 </nav>
                 <div class="wishlist">
@@ -203,7 +182,7 @@
         <?php
         echo $content;
         ?>
-      
+
         <?php echo $this->renderPartial("//layouts/_footer") ?>
     </body>
 </html>
