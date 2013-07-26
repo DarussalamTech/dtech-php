@@ -1,0 +1,74 @@
+@charset "utf-8";
+/* CSS Document */
+
+img { border:none; }
+
+a img { border:none; }
+
+body { padding: 0; margin: 0; width:100%; background:url(../images/landing_bg_03.jpg) repeat; }
+
+#landing_page { padding: 0; margin: 0 auto; width:960px; text-align:center; border-right: 1px solid #d4d4d4; border-left: 1px solid #d4d4d4; }
+
+.landing_full_page { padding: 0; margin: 0; width:100%; float:left; }
+
+.bottom_landing { padding: 0; margin: 0 auto; width:960px; height:255px; border-right: 1px solid #d4d4d4; border-left: 1px solid #d4d4d4; }
+
+#landing_page a img { padding: 0; margin: 50px 0 30px 0; }
+
+#landing_banner { background:url(../images/landing_main_bg_03.jpg) repeat-x; float:left; width:100%; height:488px; padding: 0; margin: 0; }
+
+.landing_banner_part { padding: 0; margin: 0 auto; width:960px; }
+
+.landing_logo_part { padding: 0; margin: 0 auto; width:575px; background:#FFF; display:block; }
+
+.landing_logo { width:173px; height:274px; padding: 0; margin: 180px 0 100px 0; float:left; border-radius: 5px 0 0 5px; background:#FFF; text-align:center; }
+
+.landing_logo_right { width:463px; height:274px; float:left; background:#FFF; padding: 0 0 0 20px; margin: 154px 0 0 53px; border-radius:5px; opacity:0.9; }
+
+.landing_logo_right h2 { font-size:20px; font-family:Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif; color:#0d80b3; padding: 0; margin: 30px 0 0 0; }
+
+.landing_logo_right h3 { float:left; padding: 0; margin: 70px 0 0 30px; font-size:16px; color:#242424; font-family:Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif; }
+
+.landing_logo img { padding: 0; margin: 33px 0 0 0; }
+
+.onoffswitch { float:left; padding: 0; margin: 65px 0 0 10px; position: relative; width: 90px; -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none; }
+
+.onoffswitch-checkbox { display: none; }
+
+.onoffswitch-label { display: block; overflow: hidden; cursor: pointer; border-radius: 20px; }
+
+.onoffswitch-inner { width: 200%; margin-left: -100%; -moz-transition: margin 0.3s ease-in 0s; -webkit-transition: margin 0.3s ease-in 0s; -o-transition: margin 0.3s ease-in 0s; transition: margin 0.3s ease-in 0s; }
+
+.onoffswitch-inner:before, .onoffswitch-inner:after { float: left; width: 50%; height: 30px; padding: 0; line-height: 30px; font-size: 14px; color: white; font-weight: bold; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+    
+.onoffswitch-inner:before { content: "ON"; padding-left: 10px; background-color: #ebb91c; color:#3f3f3f; font-family:Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif; }
+
+.onoffswitch-inner:after { content: "OFF"; padding-right: 10px; background-color: #EEEEEE; color: #999999; text-align: right; font-family:Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif; }
+
+.onoffswitch-switch { width: 18px; margin: 6px; background: #FFFFFF; border-radius: 20px; position: absolute; top: 0; bottom: 0; right: 56px; -moz-transition: all 0.3s ease-in 0s; -webkit-transition: all 0.3s ease-in 0s; -o-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s; }
+
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner { margin-left: 0; }
+
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch { right: 0px; }
+
+.enter_button { padding: 0; margin: 60px 15px 0 0; float:right; width:100px; height:34px; border:none; background:none; background-color:#ebb91c; opacity:none; color:#3f3f3f; border-radius:5px; font-size:15px; font-family:Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif; border:1px solid #858585; }
+
+.main_numbers { padding: 0; margin: 310px 0 0 0px; float:left; text-align:center; width:170px; }
+
+.main_numbers h1 { padding: 0; margin: 0; color:#FFF; font-size:40px; font-family:Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif; }
+
+.main_numbers p { padding: 0; margin: 0; color:#FFF; font-weight:bold; font-size:15px; font-family:Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif; }
+
+.numbers { padding: 0; margin: 310px 0px 0 0px; float:left; text-align:center; width:170px; }
+
+.numbers h1 { padding: 0; margin: 0; color:#FFF; font-size:40px; font-family:Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif; }
+
+.numbers p { padding: 0; margin: 0; color:#FFF; font-weight:bold; font-size:15px; font-family:Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif; }
+
+.landing_logo_bg { padding: 0; margin: 0; width:575px; background:url(../images/shadow.png) 0 400px no-repeat; float:left; }
+
+.custom-select { padding: 0 0; margin: 10px 0; }
+
+.custom-select select { width:445px; padding: 5px 5px; color:#909090; font-size:13px; font-family:Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif; border: none; border-radius:5px; border: 1px solid #cccccc; }
+
+.lamp img { padding: 0; margin: 0 0px 0 170px; position:absolute; float:right; }
