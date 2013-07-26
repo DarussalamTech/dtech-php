@@ -272,6 +272,7 @@ class Categories extends DTActiveRecord {
         $city_id = isset(Yii::app()->session['city_id']) ? Yii::app()->session['city_id'] : $_REQUEST['city_id'];
         $crtitera->addCondition("parent_id = 0 AND city_id = " . $city_id);
         $crtitera->select = "category_id,category_name";
+        $crtitera->order = "FIELD(t.category_name ,'Books') DESC";
         $categories = CHtml::listData($this->findAll($crtitera), "category_id", "category_name");
 
         return $categories;
