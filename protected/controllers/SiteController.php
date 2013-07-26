@@ -61,6 +61,21 @@ class SiteController extends Controller {
      */
     public function actionStoreHome() {
 
+
+
+        if (!empty($_POST['onoffswitch'])) {
+            $_REQUEST['city_id'] = $_POST['LandingModel']['city'];
+            Yii::app()->user->SiteSessions;
+            $session_model = new Session;
+
+            if ($session_model->validate()) {
+
+                if ($session_model->save()) {
+                    
+                }
+            }
+        }
+
         $model = new LandingModel();
         $this->countryLanding($model);
 
@@ -86,13 +101,12 @@ class SiteController extends Controller {
          * best selling
          */
         $dataProvider = $order_detail->bestSellings($limit);
-        
+
 
         $segments_footer_cats = Categories::model()->getCategoriesInSegment(5);
         $dataProviderAll = Product::model()->allProducts();
         $this->render('//site/storehome', array(
             'featured_products' => $featured_products,
-            
             'segments_footer_cats' => $segments_footer_cats,
             'dataProvider' => $dataProviderAll,
         ));
