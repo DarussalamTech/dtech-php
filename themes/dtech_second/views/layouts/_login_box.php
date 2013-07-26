@@ -1,10 +1,5 @@
-<a href="#" id="login_btn">
-    <span>
-        <?php echo Yii::t('header_footer', 'Login', array(), NULL, $this->currentLang); ?>
-    </span>
-</a>
-<div style="clear:both"></div>
-<div id="login_bx">  
+
+<div class="login_bx">                
     <?php
     $login_model = new LoginForm;
     $form = $this->beginWidget('CActiveForm', array(
@@ -17,9 +12,9 @@
     ));
     ?> 
     <fieldset id="body">
+        <div class="pointer">
+        </div>
         <fieldset>
-            <div id="login_pointer">
-            </div>
             <label for="email"><?php echo Yii::t('common', 'Email', array(), NULL, Yii::app()->controller->currentLang); ?></label>
             <?php
             echo $form->textField($login_model, 'username', array("id" => "email"));
@@ -33,6 +28,15 @@
             ?>
         </fieldset>
     </fieldset>
+    <div class="login_img">
+
+
+        <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/login_t_img_03.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "facebook"))); ?>
+        <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/login_in_img_03.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "twitter"))); ?>
+        <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/login_f_img_03.png", ''), $this->createUrl('/web/hybrid/login/', array("provider" => "linkedin"))); ?>
+        <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/login_g_img_03.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "google"))); ?>
+    </div>
+
     <?php echo CHtml::submitButton(Yii::t('header_footer', 'User Login', array(), NULL, $this->currentLang), array("class" => "user_login_btn")); ?>
     <?php $this->endWidget(); ?>
 </div>

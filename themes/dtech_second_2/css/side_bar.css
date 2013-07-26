@@ -1,0 +1,39 @@
+#sideBarContainer { margin: 0 0px 0 0; position:relative; font-size:12px; }
+
+#sideBarButton { padding: 0; margin: 0 0px 0 0px; display:inline-block; border-radius:3px; -moz-border-radius:3px; position:relative; z-index:30; cursor:pointer; }
+
+#sideBarButton img { float:left; padding: 0; margin: 0 0px 0 0; display:block; }
+
+#sideBarBox { position:absolute; top:34px; right:0; display:none; z-index:29; }
+
+#sideBarButton.active { border-radius:3px 3px 0 0; }
+
+#sideBarButton.active span { background-position:53px -76px; }
+
+#sideBarButton.active em { position:absolute; width:100%; height:1px; background:#d2e0ea; bottom:-1px; }
+
+#sideBarForm { position:absolute; padding: 0; margin: 0 0px 0 -150px; background:#dedede; width:218px; height:450px; border:1px solid #bababa; border-radius: 0 5px 5px 0; opacity:0.9; }
+
+#sideBarForm ul { padding: 0 5px; margin: 0; }
+
+#sideBarForm ul h1 { color:#092b71; font-size:26px; line-height:36px; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; padding: 0 0 0 10px; margin: 20px 0 10px 0; }
+
+#sideBarForm ul li { list-style:none; padding: 0 0 0 10px; margin: 0; }
+
+#sideBarForm ul li a { color:#494949; font-size:24px; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; line-height:48px; padding: 0; margin: 0; }
+
+#sideBarForm ul li p a { color:#494949; font-size:18px; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; line-height:24px; padding: 0; margin: 0; }
+
+#sideBarForm ul li ul { padding: 0; margin: -115px 0 0 0; float:left; }
+
+#sideBarForm ul li ul h2 { color:#f89e00; font-size:25px; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; line-height:36px; padding: 10px 0 0 10px; margin: 0; }
+
+#sideBarForm ul li ul li { padding: 0 0 0 10px; margin: 0; }
+
+#sideBarForm ul li ul li p { font-size:14px; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; color:#6f6e6e; padding: 0; margin: 0; }
+
+#sideBarForm ul li.full_storage { font-weight:bold; font-size:14px; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; text-align:right; }
+
+#sideBarForm ul li.full_storage a { font-weight:bold; font-size:14px; color:#494949; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; }
+
+#sideBarForm ul li.full_storage span { float:right; color:#f89e00; font-weight:bold; font-size:40px; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; padding: 0; margin: -3px 0 0px 0; }

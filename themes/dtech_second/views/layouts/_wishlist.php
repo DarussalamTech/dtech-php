@@ -1,3 +1,4 @@
+
 <?php
 echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/wishlist_img_03.png"), $this->createUrl('/web/wishList/viewwishlist'));
 
@@ -17,4 +18,6 @@ if (isset(Yii::app()->user->id)) {
 }
 $wishlistCount = ($tot['total_pro'] > 0) ? $tot['total_pro'] : 0;
 ?>
-<span id="wishlist_counter"><?php echo $wishlistCount; ?></span>
+<div class="wishlist_counter">
+    <span><?php echo $wishlistCount ?></span>
+</div>

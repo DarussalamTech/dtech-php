@@ -1,0 +1,26 @@
+@charset "utf-8";
+/* CSS Document */
+
+.list_all { padding: 0; margin: 20px 0;}
+
+.list_all h1 { color:#000; font-size:16px; font-family:Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif; background:#d6d6d6; padding: 4px 0 0 5px; margin: 0; border:1px solid #c3c3c3; height:21px; font-weight:normal; }
+
+.listing { color:#383838; font-size:15px; font-family:Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif; background:#f5f5f5; padding: 5px 0 5px 5px; margin: 10px 0; border:1px solid #c3c3c3; font-weight:normal; }
+
+.inner_list { padding: 10px 0 0 10px; margin: 0; }
+
+.inner_list li a { text-decoration:none; color:#383838; font-size:11px; }
+
+.inner_list li { padding: 2px 0; margin: 0 10px; }
+
+.list_all p { padding: 0; margin: 0; }
+
+.list_all p a { color:#383838; font-size:15px; font-family:Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif; text-decoration:none; }
+
+.list_all p a img { padding: 0; margin: 0; width:9px; height:10px; }
+
+#list_bg_part { width:100%; background:url(../images/list_bg.png) repeat-x; height:34px; float:left; padding: 0; margin: 0; }
+
+#list_featured { width:690px; padding: 0; margin: 20px 0 0 10px; float:left; border: 1px solid #c3c3c3; }
+
+#list_featured h6 { padding: 7px 0 0 12px; margin: 0; color:#000000; font-size:16px; font-family:Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight:normal; width:678px; background:#f0f0f0; height:28px; border-bottom:1px solid #c3c3c3; }

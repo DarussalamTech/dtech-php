@@ -1,140 +1,7 @@
 var dtech_new = {
     popupStatus: 0,
     is_filter: "",
-    toggleLogin: function() {
-        var button = jQuery('#login_btn');
-        var box = jQuery('#login_bx');
-        var form = jQuery('#login_frm');
-        button.removeAttr('href');
-        jQuery("#upper_banner").css("position", "fixed");
-        button.mouseup(function(ev) {
-            box.toggle();
-
-            if (box.is(':visible') == true) {
-
-                dtech_new.onShowLogin();
-            }
-            else {
-                dtech_new.onHideLogin();
-            }
-            button.toggleClass('active');
-
-        });
-        form.mouseup(function() {
-
-            return false;
-        });
-        jQuery(this).mouseup(function(login) {
-            if (!(jQuery(login.target).parent('#login_btn').length > 0)) {
-                button.removeClass('active');
-                //$("#upper_banner").css("position","fixed");
-
-                box.hide();
-            }
-        });
-    },
-    onShowLogin: function() {
-        jQuery("#upper_banner").removeAttr("style");
-        jQuery("button#search-button").hide();
-        jQuery(".add_to_cart").hide();
-        jQuery("#search-box").css("z-index", "-1");
-        jQuery("#below_banner").css("margin-top", "0");
-    },
-    onHideLogin: function() {
-        jQuery("#upper_banner").css("position", "fixed");
-        jQuery("button#search-button").show();
-        jQuery(".add_to_cart").show();
-        jQuery("#search-box").removeAttr("style");
-        jQuery("#below_banner").removeAttr("style");
-    },
-    toggleSideBar: function() {
-        var button = jQuery('#sideBarButton');
-        var box = jQuery('#sideBarBox');
-        var form = jQuery('#sideBarForm');
-        button.removeAttr('href');
-        button.mouseup(function(ev) {
-
-            box.toggle('slow');
-            button.toggleClass('active');
-        });
-        form.mouseup(function() {
-            return false;
-        });
-        jQuery("#sideBarBox").click(function() {
-            jQuery("#sideBarBox").show();
-            //console.log("helo");
-        })
-
-        jQuery(this).mouseup(function(login) {
-            if (!(jQuery(login.target).parent('#sideBarButton').length > 0)) {
-                button.removeClass('active');
-                box.hide();
-            }
-        });
-
-
-    },
-    footerToggle: function() {
-        jQuery('.btnToggle').click(function() {
-            jQuery('#dvText').show();
-            return false;
-        });
-        jQuery('#div_img').click(function() {
-            jQuery('#dvText').hide();   
-            return false;
-        });
-
-    },
-    /*********** Listing page detail PopUp *****************************/
-    registerPopUp: function() {
-        jQuery("a.topopup").live('click', function() {
-            dtech_new.loading(); // loading
-            setTimeout(function() { // then show popup, deley in .5 second
-                dtech_new.loadPopup(); // function show popup 
-            }, 500); // .5 second
-            return false;
-        }); // end of event
-
-
-        jQuery("div.close").live('hover',
-                function() {
-                    jQuery('span.ecs_tooltip').show();
-                },
-                function() {
-                    jQuery('span.ecs_tooltip').hide();
-                }
-        );
-
-        jQuery("div.close").live('click', function() {
-            dtech_new.disablePopup();  // function close pop up
-        });
-
-        jQuery(this).keyup(function(event) {
-            if (event.which == 27) { // 27 is 'Ecs' in the keyboard
-                dtech_new.disablePopup();  // function close pop up
-            }
-        });
-
-        jQuery("div#backgroundPopup").click(function() {
-            dtech_new.disablePopup();  // function close pop up
-        });
-
-        jQuery('a.livebox').click(function() {
-            alert('Hello World!');
-            return false;
-        });
-    },
-    changeBookImgHover: function() {
-        jQuery(".books_content a img").hover(
-                function() {
-                    jQuery(this).attr("src", $(this).attr("hover_img"));
-                },
-                function() {
-                    jQuery(this).attr("src", $(this).attr("unhover_img"));
-                }
-        );
-
-    },
+    mouse_is_inside: false,
     loadPopup: function() {
         if (dtech_new.popupStatus == 0) { // if value is 0, show popup
             dtech_new.closeloading(); // fadeout loading
@@ -204,8 +71,8 @@ var dtech_new = {
         }).done(function(response) {
 
             jQuery("#cart_control").html(response._view_cart);
-            if(typeof(response._view_main_cart)){
-                 jQuery("#cart_container").html(response._view_main_cart);
+            if (typeof(response._view_main_cart)) {
+                jQuery("#cart_container").html(response._view_main_cart);
             }
             if (jQuery(".grand_total_bag").length > 0) {
                 jQuery(".grand_total_bag").html(jQuery(".grand_total").html());
@@ -267,4 +134,60 @@ var dtech_new = {
         }
 
     },
+    showCartBox: function(obj) {
+        if ($(".cart_bx").is(":visible") == false) {
+            $(obj).attr("src", $(obj).attr("hover"));
+            $(".cart_bx").show();
+
+        }
+        else {
+            $(obj).attr("src", $(obj).attr("unhover"));
+            $(".cart_bx").hide();
+        }
+    },
+    showLoginBox: function(obj) {
+        if ($(".login_bx").is(":visible") == false) {
+            dtech_new.mouse_is_inside = true;
+            $(".login_bx").show();
+
+        }
+        else {
+
+            $(".login_bx").hide();
+        }
+    },
+    /**
+     *  hiding the box
+     *  where ever click
+     * @returns {undefined}
+     */
+    hideLoginBox: function() {
+
+        $('.login_bx').hover(function() {
+            dtech_new.mouse_is_inside = true;
+        }, function() {
+            dtech_new.mouse_is_inside = false;
+        });
+
+        $("body").click(function() {
+            if (!dtech_new.mouse_is_inside)
+                $(".login_bx").hide();
+        });
+    },
+    fillFeaturedBox: function(obj) {
+        jQuery(".feature_btn").attr("class", "feature_btn");
+        jQuery(obj).attr("class", "featured_btn_selected feature_btn");
+        ajax_url = jQuery(obj).attr("url");
+        jQuery.ajax({
+            type: "POST",
+            url: ajax_url,
+            async: false,
+            data:
+                    {
+                        'value': jQuery(obj).val(),
+                    }
+        }).done(function(response) {
+            $(".featured_box").html(response);
+        });
+    }
 }
