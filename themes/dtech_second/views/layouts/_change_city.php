@@ -9,19 +9,16 @@ $form = $this->beginWidget('CActiveForm', array(
         ));
 $model = new LandingModel();
 ?>
-
-<div id="country_container">
+<div class="countries">
     <?php
     $model->country = Yii::app()->session['country_id'];
     echo $form->dropDownList($model, 'country', CHtml::listData(Country::model()->findAll(), 'country_id', 'country_name'), array(
         'onchange' => '
                             dtech.updateElementCountry("' . $this->createDTUrl('/CommonSystem/getCity') . '","cities","LandingModel_country")',
-        'style' => 'width:180px'
     ));
     ?>
 </div>
-
-<div id="cities">
+<div class="cities">
     <?php
     $cityList = City::model()->findAll('country_id=' . Yii::app()->session['country_id']);
     if (count($cityList) == 1) {
@@ -29,14 +26,10 @@ $model = new LandingModel();
     } else {
         $cityList = CHtml::listData($cityList, 'city_id', 'city_name');
         $model->city = Yii::app()->session['city_id'];
-        echo CHtml::activeDropDownList($model, 'city', $cityList, array('style' => 'width:100px'));
+        echo CHtml::activeDropDownList($model, 'city', $cityList, array());
     }
     ?>
 </div>
-<div class="country_submit">
-    <?php
-    echo CHtml::submitButton("Change", array("class" => "btn-submit"))
-    ?>
-</div>
+
 
 <?php $this->endWidget(); ?>

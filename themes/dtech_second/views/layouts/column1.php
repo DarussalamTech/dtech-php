@@ -1,81 +1,30 @@
 <?php $this->beginContent('//layouts/main'); ?>
-    <div class="left_bar">
-
-        <?php
-        echo CHtml::image(Yii::app()->theme->baseUrl . "/images/banner_img_02.png");
-        ?>
-    </div>
-    <div id="right_banner">
-        <h2>Activites</h2>
-        <div class="small_book">
-            <div class="small_book_img">
-
-                <?php
-                echo CHtml::image(Yii::app()->theme->baseUrl . "/images/small_book_1_03.jpg", 'scientific book');
-                ?>
-            </div>
-            <div class="small_book_content">
-                <p><a href="#">Talha Jutt </a>recommended this book</p>
-                <p><a href="#" class="science">Scientific Wonders on the earth and in space</a></p>
-                <p class="minutes">about 2 seconds ago</p>
+<div id="banner_part">
+    <div id="banner">
+        <div class="left_banner">
+            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/images/banner_book_img_03.jpg" />
+        </div>
+        <div class="right_banner">
+            <p><img src="<?php echo Yii::app()->theme->baseUrl; ?>/images/left_colons_03.jpg" class="left_colon" />A Man who does not read</p><p>has no advantage over</p><p>the man who cannot read.<img src="<?php echo Yii::app()->theme->baseUrl; ?>/images/right_colons_03.jpg" class="right_colon" /></p>
+            <article>~ Mark Twain</article>
+            <input type="button" value="Shop Now" class="shop_now_button" />
+            <div class="banner_dots">
+                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/images/banner_dots_03.jpg" />
             </div>
         </div>
-        <div class="small_book">
-            <div class="small_book_img">
-
-                <?php
-                echo CHtml::image(Yii::app()->theme->baseUrl . "/images/small_book_2_03.jpg", 'scientific book');
-                ?>
-            </div>
-            <div class="small_book_content">
-                <p><a href="#">Zain Khan </a>recommended this book</p>
-                <p><a href="#" class="science">Scientific Wonders on the earth and in space</a></p>
-                <p>about 2 seconds ago</p>
-                <p class="blak">Sunt in culpa quie officia deserunt molit anim id est laborum sind occaecat.</p>
-            </div>
-        </div>
-        <div class="small_book">
-            <div class="small_book_img">
-
-                <?php
-                echo CHtml::image(Yii::app()->theme->baseUrl . "/images/small_book_3_03.jpg", 'scientific book');
-                ?>
-            </div>
-            <div class="small_book_content">
-                <p><a href="#" class="science">Scientific Wonders on the earth and in space</a></p>
-                <p>7,165 people recommended this book</p>
-            </div>
-        </div>
-        <div class="small_book">
-            <div class="small_book_img">
-
-                <?php
-                echo CHtml::image(Yii::app()->theme->baseUrl . "/images/small_book_1_03.jpg", 'scientific book');
-                ?>
-            </div>
-            <div class="small_book_content">
-                <p><a href="#">Talha Jutt </a>recommended this book</p>
-                <p><a href="#" class="science">Scientific Wonders on the earth and in space</a></p>
-                <p class="minutes">about 2 seconds ago</p>
-            </div>
-        </div>
-        <div class="small_book">
-            <div class="small_book_img">
-
-                <?php
-                echo CHtml::image(Yii::app()->theme->baseUrl . "/images/small_book_1_03.jpg", 'scientific book');
-                ?>
-            </div>
-            <div class="small_book_content">
-                <p><a href="#">Talha Jutt </a>recommended this book</p>
-                <p><a href="#" class="science">Scientific Wonders on the earth and in space</a></p>
-                <p class="minutes">about 2 seconds ago</p>
-            </div>
+        <div id="shipping_right_banner">
+            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/images/basket_img_03.jpg" />
+            <span>$185.99</span>
+            <p>FREE SHIPPING</p>
         </div>
     </div>
-    
-    <div id="content">
-        <?php echo $content; ?>
-        <?php echo $this->renderPartial("//layouts/_footer") ?>
+</div>
+<div id="best_seller_tikker">
+    <div id="best_seller_tikker_bar">
+        <p>Best Sellers Tikker bar</p>
     </div>
+</div>
+
+<?php echo $content; ?>
+
 <?php $this->endContent(); ?>

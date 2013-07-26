@@ -1,65 +1,70 @@
+<div id="cart_row" onclick='jQuery("#cart_click").trigger("click");'>
+    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/images/shopping_cart_img_03.jpg" 
+         class="cart_img" />
+    <span>Shopping Cart</span>
+    <article><?php echo count($cart) . " item(s)" ?></article> 
+</div>
 
-<ul class="sub-menu">
-    <div id="pointer">
-    </div>
-    <h1>My Shopping Bag</h1>
-    <div class="sub-menu-child">
-
-
-        <?php
-        $grand_total = 0;
-        $total_quantity = 0;
-        $cart = $cart->getData();
-        foreach ($cart as $pro) {
-            $grand_total = $grand_total + ($pro->quantity * $pro->productProfile->price);
-            $total_quantity+=$pro->quantity;
-            ?>
-            <div class="sub-sub-menu">
-                <?php
-                echo CHtml::textField('quantity' . $pro->cart_id, $pro->quantity, array(
-                    "class" => "_small_cart_text",
-                    "onkeyup" => "
+<?php
+$grand_total = 0;
+$total_quantity = 0;
+$cart = $cart->getData();
+$count = 1;
+$css_alternat = "";
+$cart_html = "";
+foreach ($cart as $pro) {
+    $grand_total = $grand_total + ($pro->quantity * $pro->productProfile->price);
+    $total_quantity+=$pro->quantity;
+    if ($count % 2 == 0) {
+        $css_alternat = "alternate_row_cart";
+    }
+    $cart_html = "<div class='login_img  " . $css_alternat . "'>";
+    $cart_html .= "<p>";
+    $cart_html .= CHtml::textField('quantity' . $pro->cart_id, $pro->quantity, array(
+                "class" => "tafsir_text",
+                "onkeyup" => "
                             dtech_new.updateCart('" . $this->createUrl('/web/cart/editcart') . "',this,'" . $pro->cart_id . "');
                     ")
-                );
-                ?>
-                <h2><?php echo substr($pro->productProfile->product->product_name, 0, 10) . ".."; ?></h2>
-                <span>
-                    <span class="unit_price">
-                        <?php echo round($pro->productProfile->price, 2); ?> =
-                    </span>
+    );
+    $cart_html .= substr($pro->productProfile->product->product_name, 0, 20) . "..";
+    $cart_html .="<b>" . Yii::app()->session['currency'] . " " . round($pro->quantity * $pro->productProfile->price, 2) . "</b>";
+    $cart_html .= "</p>";
+    $cart_html .= " </div>";
+    $count++;
+}
+$this->setTotalAmountSession($grand_total, $total_quantity, "");
+?>
 
-                    <span class="sub_total"><?php echo round($pro->quantity * $pro->productProfile->price, 2) . ' <b>' . Yii::app()->session['currency'] . '</b>'; ?> </span>
-                </span>
+<span id="cart_span" onclick='jQuery("#cart_click").trigger("click");'> - <?php echo Yii::app()->session['currency'] . " " . $grand_total; ?></span>
+<div class="cart_arrow">
 
-            </div>
-            <?php
-        }
-
-        /**
-         * Pcm temporary save session
-         */
-        $this->setTotalAmountSession($grand_total, $total_quantity, "");
-        ?>
-    </div>
-    <div class="total">
-        <?php
-        echo CHtml::image(Yii::app()->theme->baseUrl . "/images/total_little_img_03.png");
-        ?>
-        <h3>TOTAL:</h3>
-        <h4><span class="grand_total"><?php echo $grand_total . ' <b>' . Yii::app()->session['currency'] . '</b>'; ?></span></h4>
-    </div>
-    <div id="check_out_pointer">
-    </div>
     <?php
-    if (!empty($cart)) {
-        echo CHtml::button("CHECKOUT", array(
-            "class" => "check_out",
-            "onclick" => "window.location = '" . $this->createUrl('/web/payment/paymentmethod') . "'"));
-    } else {
-        echo CHtml::button("CHECKOUT", array(
-            "class" => "check_out",
-            "onclick" => "window.location = '" . $this->createUrl('/web/cart/viewcart') . "'"));
-    }
+    echo CHtml::image(Yii::app()->theme->baseUrl . "/images/cart_down_arrow_03.png", '', array(
+        "unhover" => Yii::app()->theme->baseUrl . "/images/cart_down_arrow_03.png",
+        "hover" => Yii::app()->theme->baseUrl . "/images/cart_up_arrow_03.jpg",
+        "id" => "cart_click",
+        "onclick" => "dtech_new.showCartBox(this)"
+    ));
     ?>
-</ul>
+    <div style="clear:both"></div>
+    <div class="cart_bx">
+        <?php
+        echo $cart_html;
+        ?>
+        <div class="checkout">
+            <p>TOTAL : <?php echo Yii::app()->session['currency'] . " " . $grand_total; ?> </p>
+
+            <?php
+            if (!empty($cart)) {
+                echo CHtml::button("CHECKOUT", array(
+                    "class" => "checkout_btn",
+                    "onclick" => "window.location = '" . $this->createUrl('/web/payment/paymentmethod') . "'"));
+            } else {
+                echo CHtml::button("CHECKOUT", array(
+                    "class" => "checkout_btn",
+                    "onclick" => "window.location = '" . $this->createUrl('/web/cart/viewcart') . "'"));
+            }
+            ?>
+        </div>
+    </div>
+</div>

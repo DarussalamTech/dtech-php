@@ -322,7 +322,7 @@ class Categories extends DTActiveRecord {
         ));
 
         if (Yii::app()->request->getQuery('id') == "") {
-            // $behaviors = array_merge($behaviors, $bhv);
+            //$behaviors = array_merge($behaviors, $bhv);
         }
 
         parent::attachBehaviors($behaviors);
@@ -348,6 +348,14 @@ class Categories extends DTActiveRecord {
             $categories = CategoriesLang::model()->find($condition);
             $categories->category_name = $this->category_name;
             $categories->save();
+        }
+        else if ($this->_controller == "categories" && $this->_action == "create") {
+            $categories = new CategoriesLang;
+            $categories->category_name = $this->category_name;
+            $categories->lang_id = Yii::app()->params['defaultLanguage'];
+            $categories->category_id = $this->category_id;
+            $categories->save();
+            
         }
     }
 

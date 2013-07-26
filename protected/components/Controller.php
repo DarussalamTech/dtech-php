@@ -21,7 +21,7 @@ class Controller extends RController {
     
     //PCM Will handle languages by session
     
-    public $currentLang = "ar";
+    public $currentLang = "en";
     /**
      *
      * @var type 

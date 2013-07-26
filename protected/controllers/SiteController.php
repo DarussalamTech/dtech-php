@@ -85,12 +85,6 @@ class SiteController extends Controller {
 
 
 
-
-
-        //die("HERE");
-        //to laod the new layout bar uncomment this lin
-        //Yii::app()->controller->layout = '//layouts/search_bar_slider';
-
         $order_detail = new OrderDetail;
         $limit = 18; // 3 limits for old desing 8 limit for new design
         /** featured products * */
@@ -104,12 +98,44 @@ class SiteController extends Controller {
 
 
         $segments_footer_cats = Categories::model()->getCategoriesInSegment(5);
+
         $dataProviderAll = Product::model()->allProducts();
         $this->render('//site/storehome', array(
             'featured_products' => $featured_products,
             'segments_footer_cats' => $segments_footer_cats,
             'dataProvider' => $dataProviderAll,
         ));
+    }
+
+    /**
+     * filling featured box for home page
+     * 
+     */
+    public function actionFillFeaturedBox() {
+        Yii::app()->user->SiteSessions;
+        if (isset($_POST['value'])) {
+            $order_detail = new OrderDetail;
+            $limit = 6;
+            switch ($_POST['value']) {
+                case "Featured":
+                    $dataProvider = $order_detail->featuredBooks($limit);
+                    $products = $order_detail->getFeaturedProducts($dataProvider);
+                    break;
+                case "Latest":
+                    $dataProvider = $order_detail->bestSellings($limit);
+                    $products = $order_detail->getBestSelling($dataProvider);
+                    break;
+                case "Best Seller":
+                    $dataProvider = $order_detail->bestSellings($limit);
+                    $products = $order_detail->getBestSelling($dataProvider);
+                    break;
+            }
+            $this->renderPartial(
+                    "//product/featured_box", array(
+                "dataProvider" => $dataProvider,
+                "products" => $products,
+            ));
+        }
     }
 
     /**

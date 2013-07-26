@@ -1,0 +1,18 @@
+
+#bar { float:left; width:100%; padding:20px 0; }
+
+#description_bar { float:left; width:100%; padding:20px 0; border-bottom: 5px solid #092b71; }
+
+#books_bar { float:left; width:100%; padding:20px 0; border-bottom: 5px solid #092b71; }
+
+#container { width:1%; margin: 20px 0 0 0; padding: 0; float:left; }
+
+ul.makeMenu, ul.makeMenu ul { width: 218px; border: 1px solid #bababa; border-radius: 0 5px 5px 0; background-color: #dedede; padding-left: 0px; cursor: default; position:absolute; left: 130px; height:470px; }
+
+ul.makeMenu li { list-style-type: none; margin: 0px 0 0 0; position: relative; color: #000; }
+
+ul.makeMenu li > ul { width:280px; display: none; position: absolute; margin: 0 0 0 0; left: 223px; }
+  
+ul.makeMenu li:hover > ul { display: block; }
+
+ul.makeMenu ul.CSStoShow { display: block; }
