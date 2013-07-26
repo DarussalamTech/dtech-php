@@ -32,12 +32,9 @@ class SiteController extends Controller {
         $this->countryLanding($model);
 
         Yii::app()->controller->layout = "";
+        Yii::app()->theme = 'dtech_second';
         Yii::app()->user->SiteSessions;
-        Yii::app()->theme = 'landing_page_theme';
-
-
-
-        $this->render('landing_page', array("model" => $model));
+        $this->renderPartial("//site/landing_page", array("model" => $model));
     }
 
     /**
@@ -123,8 +120,8 @@ class SiteController extends Controller {
                     $products = $order_detail->getFeaturedProducts($dataProvider);
                     break;
                 case "Latest":
-                    
-                    $dataProvider = Product::model()->allProducts(array(),$limit);
+
+                    $dataProvider = Product::model()->allProducts(array(), $limit);
                     $products = Product::model()->returnProducts($dataProvider);
                     break;
                 case "Best Seller":
