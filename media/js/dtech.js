@@ -84,7 +84,7 @@ var dtech = {
         var load_div = '<div id="load_subpanel_div" class="overlay" style="display:none">' +
                 '<div class="loadingBar">' +
                 '<span class="lodingString">Please Wait....</span><span class="loading">. . . .</span>' +
-                '</div>' +  
+                '</div>' +
                 '</div>';
 
         rite_html = $("#list_featured").html();
@@ -365,6 +365,8 @@ var dtech = {
                 if (jQuery("#LandingModel_city").attr("type") != "hidden") {
                     //jQuery("#LandingModel_city").msDropdown();
                 }
+
+                jQuery("#country_selection_form").submit();
 
             });
         }

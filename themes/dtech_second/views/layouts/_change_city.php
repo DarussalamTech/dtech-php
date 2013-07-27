@@ -28,7 +28,8 @@ $model = new LandingModel();
     } else {
         $cityList = CHtml::listData($cityList, 'city_id', 'city_name');
         $model->city = Yii::app()->session['city_id'];
-        echo CHtml::activeDropDownList($model, 'city', $cityList, array());
+        echo CHtml::activeDropDownList($model, 'city', $cityList, 
+                array('onchange'=>'jQuery("#country_selection_form").submit();'));
     }
     ?>
 </div>

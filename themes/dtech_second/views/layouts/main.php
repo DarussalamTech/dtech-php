@@ -32,18 +32,18 @@
                      */
                     $this->renderPartial("//layouts/_change_city");
                     ?>
-                    <a href="#" class="countries_img">
+                    <a href="#" class="countries_img flag">
                         <?php
                         echo CHtml::image(Yii::app()->theme->baseUrl . "/images/saudi_arabia_flag_03.png");
                         ?>
                     </a>
-                    <a href="#">
+                    <a href="#" class="flag">
 
                         <?php
                         echo CHtml::image(Yii::app()->theme->baseUrl . "/images/USA_flag_03.png");
                         ?>
                     </a>
-                    <a href="#">
+                    <a href="#" class="flag">
 
                         <?php
                         echo CHtml::image(Yii::app()->theme->baseUrl . "/images/portugal_flag_03.png");
@@ -117,28 +117,31 @@
                         ?>
                     </p>
                     <div>
+                        <form id="search_form" method="post" 
+                              action="<?php echo $this->createUrl("/web/search/getSearch") ?>" target='_top'>
+                                  <?php
+                                  $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+                                      'name' => 'serach_field',
+                                      'source' => $this->createUrl("/web/search/dosearch"),
+                                      // additional javascript options for the autocomplete plugin
+                                      'options' => array(
+                                          'minLength' => '1',
+                                      ),
+                                      'htmlOptions' => array(
+                                          'id' => 'serach_field',
+                                          'class' => 'search_here',
+                                          'value' => (isset($_POST['serach_field']) ? $_POST['serach_field'] : ""),
+                                          'placeholder' => Yii::t('header_footer', 'type here', array(), NULL, $this->currentLang)
+                                      ),
+                                  ));
 
-                        <?php
-                        $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
-                            'name' => 'serach_field',
-                            'source' => $this->createUrl("/web/search/dosearch"),
-                            // additional javascript options for the autocomplete plugin
-                            'options' => array(
-                                'minLength' => '1',
-                            ),
-                            'htmlOptions' => array(
-                                'id' => 'search-text',
-                                'class' => 'search_here',
-                                'value' => (isset($_POST['serach_field']) ? $_POST['serach_field'] : ""),
-                                'placeholder' => Yii::t('header_footer', 'type here', array(), NULL, $this->currentLang)
-                            ),
-                        ));
-                        ?>
+                                  echo CHtml::link(
+                                          CHtml::image(Yii::app()->theme->baseUrl . "/images/search_img_03.jpg", 'Logo', array(
+                                              "class" => "search_img", 'onclick' => 'dtech.doGloblSearch()')), 'javascript:void(0)'
+                                  );
+                                  ?>
+                        </form>
 
-                        <?php
-                        echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/search_img_03.jpg", 'Logo', array("class" => "search_img")), $this->createUrl('/site/storeHome')
-                        );
-                        ?>
                         </a>
                     </div>
                 </div>
@@ -148,48 +151,47 @@
             <div id="navigation_part">
                 <nav>
                     <ul>
-                        <?php
-                        foreach ($this->menu_categories as $id => $data):
-                            echo '<li class="nav_hover">';
-                            echo CHtml::link(Yii::t('common', $data['name'], array(), NULL, $this->currentLang), $this->createUrl("#"), array("class" => "top_link_hover"));
-                           
-                            if (isset($data['data'])):
-                                echo CHtml::openTag("div", array(
-                                    "class" => "nav_dropdown",
-                                    "style" => "display:none;"
-                                        )
-                                );
+<?php
+foreach ($this->menu_categories as $id => $data):
+    echo '<li class="nav_hover">';
+    echo CHtml::link(Yii::t('common', $data['name'], array(), NULL, $this->currentLang), $this->createUrl("#"), array("class" => "top_link_hover"));
 
-                                echo '<div class="nav_pointer"></div>';
-                                
-                                foreach ($data['data'] as $cat):
-                                   
-                                    echo "<p>";
-                                    echo CHtml::link($cat->category_name);
-                                    echo "</p>";
-                                endforeach;
-                               
-                                echo CHtml::closeTag("div");
+    if (isset($data['data'])):
+        echo CHtml::openTag("div", array(
+            "class" => "nav_dropdown",
+            "style" => "display:none;"
+                )
+        );
 
-                            endif;
-                            echo "</li>";
-                        endforeach;
-                        ?>
+        echo '<div class="nav_pointer"></div>';
+
+        foreach ($data['data'] as $cat):
+
+            echo "<p>";
+            echo CHtml::link($cat->category_name);
+            echo "</p>";
+        endforeach;
+
+        echo CHtml::closeTag("div");
+
+    endif;
+    echo "</li>";
+endforeach;
+?>
 
                     </ul>
                 </nav>
                 <div class="wishlist">
 
-                    <?php
-                    $this->renderPartial("//layouts/_wishlist");
-                    ?>
+<?php
+$this->renderPartial("//layouts/_wishlist");
+?>
                 </div>
             </div>
         </div>
-        <?php
-      
-        echo $content;
-        ?>
+<?php
+echo $content;
+?>
 
         <?php echo $this->renderPartial("//layouts/_footer") ?>
     </body>

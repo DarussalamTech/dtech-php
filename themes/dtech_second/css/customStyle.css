@@ -50,3 +50,6 @@ input[type=button] {
 .nav_dropdown {
     height: auto;
 }
+.flag {
+    text-decoration: none;
+}
