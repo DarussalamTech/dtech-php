@@ -19,6 +19,15 @@ class Controller extends RController {
     public $cs;
     public $scriptMap = array();
     
+    /**
+     * Menu categories
+     * for web pages
+     * purspose to make one time
+     * ans used multiple times
+     * @var type 
+     */
+    public $menu_categories ;
+    
     //PCM Will handle languages by session
     
     public $currentLang = "en";
@@ -235,6 +244,7 @@ class Controller extends RController {
         if ($this->id == "site" || get_class($module) == "WebModule") {
 
             $this->webPages = Pages::model()->getPages();
+            $this->menu_categories = Categories::model()->getMenuCategories();
             //$this->configureTheme();
         } else {
             /**

@@ -302,6 +302,23 @@ class Categories extends DTActiveRecord {
         return $categories;
     }
 
+    /**
+     * get parent categories
+     * for displaying menu items
+     */
+    public function getMenuCategories() {
+        $paren_categories = Categories::model()->getParentCategories();
+        $showCategories = array();
+        foreach ($paren_categories as $id => $name) {
+            $showCategories[$id] = array("name" => $name);
+            $childrenCats = Categories::model()->getchildrenCategory($id, "", "", 200);
+            if (count($childrenCats) >= 1):
+              $showCategories[$id]['data'] = $childrenCats;
+            endif;
+        }
+        return $showCategories;
+    }
+
     public function attachBehaviors($behaviors) {
 
         $bhv = array('ml' => array(
@@ -349,14 +366,12 @@ class Categories extends DTActiveRecord {
             $categories = CategoriesLang::model()->find($condition);
             $categories->category_name = $this->category_name;
             $categories->save();
-        }
-        else if ($this->_controller == "categories" && $this->_action == "create") {
+        } else if ($this->_controller == "categories" && $this->_action == "create") {
             $categories = new CategoriesLang;
             $categories->category_name = $this->category_name;
             $categories->lang_id = Yii::app()->params['defaultLanguage'];
             $categories->category_id = $this->category_id;
             $categories->save();
-            
         }
     }
 

@@ -45,8 +45,22 @@ var dtech_new = {
         jQuery(".top_link_hover").parent().hover(function() {
             $(this).children().eq(1).show();
         }, function() {
-              $(this).children().eq(1).hide();
+            $(this).children().eq(1).hide();
         });
+    },
+    aquardinaMenu: function(obj) {
+        //
+        if ($(obj).parent().siblings().is(":visible") == false) {
+            $(".inner_list").hide();
+             $(".aquardian_img").attr("src", $(".aquardian_img").attr("invisible"));
+            $(obj).children().eq(0).attr("src", $(obj).children().eq(0).attr("visible"));
+            $(obj).parent().siblings().show();
+
+        }
+        else {
+            $(obj).children().eq(0).attr("src", $(obj).children().eq(0).attr("invisible"));
+            $(obj).parent().siblings().hide();
+        }
     },
     loadCartAgain: function(ajax_url) {
         jQuery.ajax({

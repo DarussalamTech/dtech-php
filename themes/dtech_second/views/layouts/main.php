@@ -134,6 +134,12 @@
                             ),
                         ));
                         ?>
+
+                        <?php
+                        echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/search_img_03.jpg", 'Logo', array("class" => "search_img")), $this->createUrl('/site/storeHome')
+                        );
+                        ?>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -143,30 +149,26 @@
                 <nav>
                     <ul>
                         <?php
-                        $paren_categories = Categories::model()->getParentCategories();
-
-                        foreach ($paren_categories as $id => $name):
+                        foreach ($this->menu_categories as $id => $data):
                             echo '<li class="nav_hover">';
-                            ?>
-
-                            <?php
-                            echo CHtml::link(Yii::t('common', $name, array(), NULL, $this->currentLang), $this->createUrl("#"), array("class" => "top_link_hover"));
-                            $childrenCats = Categories::model()->getchildrenCategory($id, "", "", 200);
-
-                            if (count($childrenCats) >= 1):
+                            echo CHtml::link(Yii::t('common', $data['name'], array(), NULL, $this->currentLang), $this->createUrl("#"), array("class" => "top_link_hover"));
+                           
+                            if (isset($data['data'])):
                                 echo CHtml::openTag("div", array(
-                                        "class" => "nav_dropdown",
-                                        "style" => "display:none;"
-                                   )
+                                    "class" => "nav_dropdown",
+                                    "style" => "display:none;"
+                                        )
                                 );
 
                                 echo '<div class="nav_pointer"></div>';
-                                        
-                                foreach ($childrenCats as $cat):
+                                
+                                foreach ($data['data'] as $cat):
+                                   
                                     echo "<p>";
                                     echo CHtml::link($cat->category_name);
                                     echo "</p>";
                                 endforeach;
+                               
                                 echo CHtml::closeTag("div");
 
                             endif;
@@ -185,6 +187,7 @@
             </div>
         </div>
         <?php
+      
         echo $content;
         ?>
 

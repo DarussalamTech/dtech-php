@@ -8,31 +8,51 @@ $cs->registerCssFile(Yii::app()->theme->baseUrl . '/css/list.css');
             <div id="right_featured">
                 <div class="list_all">
                     <h1>List All</h1>
-                    <div class="listing">
-                        <p><a href="#">
-                                <img src="<?php echo Yii::app()->theme->baseUrl ?>/images/bottom_list_03.jpg"> Quran</a>
-                        </p>
-                        <div class="inner_list">
-                            <li><a href="#">ABC</a></li>
-                            <li><a href="#">DEF</a></li>
-                            <li><a href="#">GHI</a></li>
+                    <?php
+                    foreach ($this->menu_categories as $id => $data):
+                        ?>
+                        <div class="listing">
+                            <p>
+                                <a href="javascript:void(0)" onclick="dtech_new.aquardinaMenu(this)">
+
+                                    <?php
+                                    echo CHtml::image(
+                                            Yii::app()->theme->baseUrl . "/images/list_arrow_03.jpg", '', array(
+                                        "visible" => Yii::app()->theme->baseUrl . "/images/bottom_list_03.jpg",
+                                        "invisible" => Yii::app()->theme->baseUrl . "/images/list_arrow_03.jpg",
+                                        "class" => "aquardian_img",
+                                            )
+                                    );
+                                    echo " ";
+                                    echo Yii::t('common', $data['name'], array(), NULL, $this->currentLang);
+                                    ?>
+
+                                </a>
+                            </p>
+                            <?php
+                            if (isset($data['data'])):
+                                echo CHtml::openTag("div", array(
+                                    "class" => "inner_list",
+                                    "style" => "display:none",
+                                        )
+                                );
+                                foreach ($data['data'] as $cat):
+
+                                    echo "<li>";
+                                    echo CHtml::link($cat->category_name);
+                                    echo "</li>";
+                                endforeach;
+
+                                echo CHtml::closeTag("div");
+
+                            endif;
+                            ?>
+
                         </div>
-                    </div>
-                    <div class="listing">
-                        <p><a href="#"><img src="<?php echo Yii::app()->theme->baseUrl ?>/images/list_arrow_03.jpg"> Books</a></p>
-                    </div>
-                    <div class="listing">
-                        <p><a href="#"><img src="<?php echo Yii::app()->theme->baseUrl ?>/images/list_arrow_03.jpg"> Books</a></p>
-                    </div>
-                    <div class="listing">
-                        <p><a href="#"><img src="<?php echo Yii::app()->theme->baseUrl ?>/images/list_arrow_03.jpg"> Books</a></p>
-                    </div>
-                    <div class="listing">
-                        <p><a href="#"><img src="<?php echo Yii::app()->theme->baseUrl ?>/images/list_arrow_03.jpg"> Books</a></p>
-                    </div>
-                    <div class="listing">
-                        <p><a href="#"><img src="<?php echo Yii::app()->theme->baseUrl ?>/images/list_arrow_03.jpg"> Books</a></p>
-                    </div>
+
+                        <?php
+                    endforeach;
+                    ?>
                 </div>
                 <div id="tweets">
                     <h3><img src="<?php echo Yii::app()->theme->baseUrl ?>/images/tweets_img_03.jpg"><span>Tweets</span></h3>
@@ -52,8 +72,8 @@ $cs->registerCssFile(Yii::app()->theme->baseUrl . '/css/list.css');
                 </div>
             </div>
 
-       
-           
+
+
             <div id="list_featured">
                 <h6><?php echo Yii::t('common', 'All Books', array(), NULL, $this->currentLang); ?></h6>
                 <?php
@@ -63,8 +83,8 @@ $cs->registerCssFile(Yii::app()->theme->baseUrl . '/css/list.css');
                     'allCate' => $allCate));
                 ?>
             </div>
-             <div class="clear"></div>
-                 <div class="pagingdiv" style="display: none" >
+            <div class="clear"></div>
+            <div class="pagingdiv" style="display: none" >
                 <?php
                 $this->widget('DTScroller', array(
                     'pages' => $dataProvider->pagination,

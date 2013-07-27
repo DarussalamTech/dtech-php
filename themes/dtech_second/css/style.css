@@ -83,8 +83,6 @@ footer { width:960px; padding: 0; margin: 0 auto; }
 
 #right_logo p a { text-decoration:none; color:#696969; }
 
-.search_here { float:right; padding: 0; margin: 10px 15px 0 0; background:#f7f7f7; width:228px; height:29px; border:none; border-radius:5px; border:#cccccc 1px solid; color:#636363; padding: 5px; }
-
 #navigation_part nav { width:800px; float:left; padding: 0; margin: 0; }
 
 #navigation_part nav ul { padding: 0; margin: 10px 0 0 0; }
@@ -316,3 +314,7 @@ fieldset#body { padding:10px 13px; margin:0; }
 .nav_dropdown p:last-child { border:none; }
 
 .nav_pointer { border:solid 10px transparent; border-bottom-color:#e0e0e0; position: absolute; margin: -20px 0 0 70px; }
+
+.search_img { position:absolute; padding: 0; margin: 11px 0 0 250px; float:right; }
+
+.search_here { float:right; margin: 10px 15px 0 0; background:#f7f7f7; width:228px; height:31px; border:none; border-radius:5px; border:#cccccc 1px solid; color:#636363; padding: 0 5px; }
