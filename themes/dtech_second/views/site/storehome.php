@@ -1,3 +1,10 @@
+<?php
+/*
+ * jquery code to load the featurd product on page loading by:ubd
+ */
+Yii::app()->clientScript->registerScript('load_featured', 'jQuery(document).ready(function() {
+        jQuery("#featured_buttons,input.feature_btn ").children().eq(0).trigger("click")})');
+?>
 <div id="main_features_part">
     <div id="features_part">
         <div id="main_features">
@@ -110,8 +117,9 @@
 
 
                 </div>
+
                 <div class='featured_box'>
-           
+
                 </div>
 
             </div>
