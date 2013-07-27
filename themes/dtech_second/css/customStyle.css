@@ -53,3 +53,9 @@ input[type=button] {
 .flag {
     text-decoration: none;
 }
+.search_img {
+    z-index: 10;
+}
+.cart_bx {
+    z-index: 20;
+}

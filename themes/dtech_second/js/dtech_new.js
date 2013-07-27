@@ -158,11 +158,13 @@ var dtech_new = {
     showCartBox: function(obj) {
         if ($(".cart_bx").is(":visible") == false) {
             $(obj).attr("src", $(obj).attr("hover"));
+            $(".search_img").css("z-index","-1");
             $(".cart_bx").show();
 
         }
         else {
             $(obj).attr("src", $(obj).attr("unhover"));
+            $(".search_img").css("z-index","10");
             $(".cart_bx").hide();
         }
     },

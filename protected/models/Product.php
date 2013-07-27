@@ -180,7 +180,7 @@ class Product extends DTActiveRecord {
 
         if (isset($_POST['ajax'])) {
 
-
+            
             if (!empty($_POST['author'])) {
                 $author = explode(",", $_POST['author']);
                 $criteria->addInCondition("authors", $author);
@@ -198,6 +198,7 @@ class Product extends DTActiveRecord {
                 $criteria->addCondition("product_categories.category_id='" . $_POST['cat_id'] . "'");
             }
             $criteria->distinct = "t.product_id";
+            
         }
         /**
          * 
