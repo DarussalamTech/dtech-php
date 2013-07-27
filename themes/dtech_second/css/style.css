@@ -7,9 +7,9 @@ a img { border:none; }
 
 body { padding: 0; margin: 0; background:#FFF; width:100%; }
 
-header { width:100%; padding: 0; margin: 0; background:url(../images/header_bg_img_02.jpg) repeat-x; height:33px; }
+header { width:100%; padding: 0; margin: 0; background:url(../images/header_bg_img_02.jpg) repeat-x; height:33px; position:fixed; }
 
-#header_bottom  { width:100%; padding: 10px 0; margin: 0; background:#f7f7f7; float:left; }
+#header_bottom  { width:100%; padding: 10px 0; margin: 35px 0 0 0; background:#f7f7f7; float:left; }
 
 #navigation { width:100%; padding: 10px 0; margin: 0; background:#ebebeb; float:left; border-bottom:1px solid #c7c7c7; border-top:1px solid #c7c7c7; height:40px; }
 
