@@ -1,5 +1,3 @@
-
-<div class="clear"></div>
 <?php
 foreach ($products as $product) {
     $name = $product['product_name'];
@@ -8,33 +6,41 @@ foreach ($products as $product) {
     if (isset($product['image'][0]['image_small'])) {
         $image = $product['image'][0]['image_small'];
     }
-    echo CHtml::openTag("div", array("class" => "featured_books", 'style' => 'padding:28px 50px'));
-    
-    echo CHtml::link(CHtml::image($image, "image"),$this->createUrl('/web/quran/productDetail', array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'], 'product_id' => $product['product_id'])), array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'], 'product_id' => $product['product_id']));
+    echo CHtml::openTag("div", array("class" => "featured_cover"));
+    echo CHtml::openTag("div", array("class" => "featured_cover_part", 'style' => 'height: 232px;'));
 
-    echo CHtml::openTag("h3");
-    echo substr($name, 0, 20) . '...';
-    echo CHtml::closeTag("h3");
+    if (Yii::app()->controller->action->id == "getSearch") {
+        echo CHtml::link(CHtml::image($image, 'image', array("title" => $name)), Yii::app()->createUrl('/web/search/searchDetail', array('country' => $product['country_short'], 'city' => $product['city_short'], 'city_id' => $product['city_id'], 'product_id' => $product['product_id'])));
+    } else {
+        echo CHtml::link(CHtml::image($image, 'image', array("title" => $name)), $this->createUrl('/web/product/productDetail', array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'], 'product_id' => $product['product_id'])), array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'], 'product_id' => $product['product_id']));
+    }
+    echo CHtml::openTag("h2");
+    echo substr($name, 0, 15) . '...';
+    echo CHtml::closeTag("h2");
     echo CHtml::openTag("p");
-    echo substr($product['product_overview'],0,80).'...';
+    echo substr($product['product_overview'], 0, 35) . '...';
     echo CHtml::closeTag("p");
-    /*
-     * 
-     * temprary rendering ajax data work will be done here
-     * because each product has its own data /image so with
-     * ajax pass of product id will return to popup page with all data...
-     */
-
-
-    //$this->renderPartial('//product/_popup_product', array('image' => $image));
+    echo CHtml::closeTag("div");
+    echo CHtml::openTag("div", array("class" => "featured_bottom"));
+    echo CHtml::openTag("span");
+    echo round($product['product_price'], 2) . ' ' . Yii::app()->session['currency'];
+    echo CHtml::closeTag("span");
+    echo CHtml::openTag("div", array('class' => 'white_basket'));
+    echo CHtml::image(Yii::app()->theme->baseUrl . '/images/white_basket_03.jpg');
+    echo CHtml::closeTag("div");
+    echo CHtml::closeTag("div");
     ?>
-
     <div class = "loader"></div>
     <div id = "backgroundPopup"></div>
     <?php
     echo CHtml::closeTag("div");
+    /*
+     * temprary rendering ajax data work will be done here
+     * because each product has its own data /image so with
+     * ajax pass of product id will return to popup page with all data...
+     */
+    //$this->renderPartial('//product/_popup_product', array('image' => $image));
 }
-
 if (empty($products)) {
     echo '<center><tt>';
     echo "Sorry Your searched  did not Matched.Try again";
@@ -42,5 +48,3 @@ if (empty($products)) {
 }
 ?>
 
-<div class="clear"></div>  
-<div class="clear"></div>  
