@@ -57,6 +57,7 @@ class Product extends DTActiveRecord {
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
             array('authors', 'safe'),
             array('discount_type,discount_type,parent_cateogry_id,no_image,authors,product_description,product_overview', 'safe'),
+            array('slag', 'safe'),
             array('city_id', 'numerical', 'integerOnly' => true),
             array('product_name', 'length', 'max' => 255),
             array('is_featured', 'length', 'max' => 1),
@@ -130,6 +131,7 @@ class Product extends DTActiveRecord {
             'city_id' => Yii::t('model_labels', 'City', array(), NULL, Yii::app()->controller->currentLang),
             'authors' => Yii::t('model_labels', 'Author', array(), NULL, Yii::app()->controller->currentLang),
             'is_featured' => Yii::t('model_labels', 'Is Featured', array(), NULL, Yii::app()->controller->currentLang),
+            'slag' => Yii::t('model_labels', 'Slag', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 
@@ -141,7 +143,7 @@ class Product extends DTActiveRecord {
     public function allProducts($product_array = array(), $limit = 30, $parent_category = "Books") {
 
 
-       
+
 
         $city_id = Yii::app()->session['city_id'];
 
@@ -285,6 +287,7 @@ class Product extends DTActiveRecord {
         $criteria->compare('product_description', $this->product_description, true);
         $criteria->compare('city_id', $this->city_id);
         $criteria->compare('is_featured', $this->is_featured, true);
+        $criteria->compare('slag', $this->slag, true);
 
 
         return new CActiveDataProvider($this, array(
@@ -337,7 +340,7 @@ class Product extends DTActiveRecord {
      * when parent record is updated
      */
     public function attachBehaviors($behaviors) {
-        
+
         $bhv = array('ml' => array(
                 'class' => 'MultilingualBehavior',
                 'langClassName' => 'ProductLang',
@@ -362,11 +365,10 @@ class Product extends DTActiveRecord {
         $controller = Yii::app()->controller;
         if (Yii::app()->request->getQuery('id') == "") {
             $behaviors = array_merge($behaviors, $bhv);
-        }
-        else if(in_array($controller->action->id,$controller->definedLangActions)){
+        } else if (in_array($controller->action->id, $controller->definedLangActions)) {
             $behaviors = array_merge($behaviors, $bhv);
         }
-        
+
         parent::attachBehaviors($behaviors);
         return true;
     }
