@@ -69,26 +69,26 @@ var dtech = {
         return false;
     },
     updatePaginationFilter: function(obj) {
-        
+
         dtech.updateProductListing($(obj).attr("href"), "");
     },
-            /*
-             * 
-             * For pag loading on based 
-             * of
-             */
-            updateListingOnScrolling:function(obj){
-        var id= "";
+    /*
+     * 
+     * For pag loading on based 
+     * of
+     */
+    updateListingOnScrolling: function(obj) {
+        var id = "";
         var ajax_url = $(obj).attr("href");
-        
+
         var load_div = '<div id="load_subpanel_div" class="overlay" style="display:none">' +
                 '<div class="loadingBar">' +
                 '<span class="lodingString">Please Wait....</span><span class="loading">. . . .</span>' +
-                '</div>' +
+                '</div>' +  
                 '</div>';
 
-        rite_html = $("#right_main_content").html();
-        $("#right_main_content").html(load_div + rite_html);
+        rite_html = $("#list_featured").html();
+        $("#list_featured").html(load_div + rite_html);
         $("#load_subpanel_div").show();
 
         jQuery.ajax({
@@ -102,7 +102,7 @@ var dtech = {
                         langs: dtech.getmultiplechecboxValue("filter_checkbox"),
                     }
         }).done(function(msg) {
-            $("#right_main_content").append(msg);
+            $("#list_featured").append(msg);
 
             if (id != "") {
                 s_url = "cat=" + id;
@@ -333,7 +333,7 @@ var dtech = {
             jQuery.ajax({
                 type: "POST",
                 url: ajax_url,
-                async:false,
+                async: false,
                 data:
                         {
                             resource_elem_id: jQuery("#" + resource_elem_id).val(),
@@ -441,11 +441,11 @@ var dtech = {
         jQuery("#search-button").attr("disabled", "disabled");
         jQuery("body").unbind("click");
         jQuery(".button-column a").remove();
-        
+
         jQuery("#quantity").remove();
         jQuery("#ProductReviews_reviews").attr("disabled", "disabled");
         jQuery("#add_comment").attr("disabled", "disabled");
-      
+
         jQuery("#ratingUser").remove();
 
         jQuery("body").click(function(event) {
