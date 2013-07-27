@@ -18,7 +18,7 @@ class DTScroller extends CLinkPager {
 
     public function init() {
 
-
+        $this->maxButtonCount = $this->pages->getPageCount(); // to remove the next and first label from pagination menu
         Yii::app()->getClientScript()->registerScriptFile(Yii::app()->baseUrl . "/media/js/scrollpagination.js", CClientScript::POS_HEAD);
 
         Yii::app()->clientScript->registerScript('DTScroller', "
