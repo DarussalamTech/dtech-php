@@ -41,6 +41,13 @@ var dtech_new = {
             dtech.updateProductListing($(obj).attr("href"), hash_split[1]);
         }
     },
+    showtopMenu: function() {
+        jQuery(".top_link_hover").parent().hover(function() {
+            $(this).children().eq(1).show();
+        }, function() {
+              $(this).children().eq(1).hide();
+        });
+    },
     loadCartAgain: function(ajax_url) {
         jQuery.ajax({
             type: "POST",
@@ -175,7 +182,7 @@ var dtech_new = {
         });
     },
     fillFeaturedBox: function(obj) {
-        
+
         jQuery(".feature_btn").attr("class", "feature_btn");
         jQuery(obj).attr("class", "featured_btn_selected feature_btn");
         dtech_new.loadWaitmsg();

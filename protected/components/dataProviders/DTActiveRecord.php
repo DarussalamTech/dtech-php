@@ -26,12 +26,12 @@ class DTActiveRecord extends CActiveRecord {
     public $_current_module;
 
     public function __construct($scenario = 'insert') {
-       
+
         $this->_action = Yii::app()->controller->action->id;
         $this->_controller = Yii::app()->controller->id;
         $this->_current_module = get_class(Yii::app()->controller->getModule());
-        
-         parent::__construct($scenario);
+
+        parent::__construct($scenario);
     }
 
     public function afterFind() {
@@ -210,7 +210,15 @@ class DTActiveRecord extends CActiveRecord {
      *  for city admin we have to access only city base record
      */
     public function makeCityAdminCondition($condition) {
-
+        /**
+         * PCM special condition
+         * for city model it is temporary
+         * bcoz it will take problem city id 
+         * is primary key of City model
+         */
+        if (get_class($this) == "City") {
+            return " ";
+        }
         $controller = Yii::app()->controller->id;
         $controllers = array(
             "search", "site",
@@ -242,7 +250,15 @@ class DTActiveRecord extends CActiveRecord {
      * @return string
      */
     public function makeCriteriaCityAdmin($criteria) {
-
+        /**
+         * PCM special condition
+         * for city model it is temporary
+         * bcoz it will take problem city id 
+         * is primary key of City model
+         */
+        if (get_class($this) == "City") {
+            return $criteria;
+        }
         $controller = Yii::app()->controller->id;
 
         $controllers = array("search", "site", "wS",
@@ -267,13 +283,12 @@ class DTActiveRecord extends CActiveRecord {
      * attach behaviour for our own logic
      */
     public function attachCbehavour() {
-         $this->attachBehavior('ml', array(
+        $this->attachBehavior('ml', array(
             'class' => 'MultilingualBehavior',
             'langClassName' => 'CategoriesLang',
             'langTableName' => 'categories_lang',
             'langForeignKey' => 'category_id',
             //'langField' => 'lang_id',
-           
             'localizedAttributes' => array('category_name'), //attributes of the model to be translated
             'localizedPrefix' => '',
             'languages' => Yii::app()->params['translatedLanguages'], // array of your translated languages. Example : array('fr' => 'Français', 'en' => 'English')
@@ -285,8 +300,8 @@ class DTActiveRecord extends CActiveRecord {
                 //'forceDelete' => true, 
                 //'dynamicLangClass' => true, //Set to true if you don't want to create a 'PostLang.php' in your models folder
         ));
-      
-       return $this;  
+
+        return $this;
     }
 
 }

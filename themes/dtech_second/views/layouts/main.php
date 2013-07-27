@@ -13,6 +13,7 @@
         <script type="text/javascript">
             $(document).ready(function() {
                 dtech_new.hideLoginBox();
+                dtech_new.showtopMenu();
             });
         </script>
 
@@ -145,27 +146,31 @@
                         $paren_categories = Categories::model()->getParentCategories();
 
                         foreach ($paren_categories as $id => $name):
+                            echo '<li class="nav_hover">';
                             ?>
-                            <li class="nav_hover">
-                                <?php
-                                echo CHtml::link(Yii::t('common', $name, array(), NULL, $this->currentLang), $this->createUrl("#"), array("class" => "top_link_hover"));
-                                ?>
-                                <div class="nav_dropdown" style="display:none;">
-                                    <div class="nav_pointer">
-                                    </div>
-                                    <p><a href="#">English Books</a></p>
-                                    <p><a href="#">Urdu Books</a></p>
-                                    <p><a href="#">Arabic Books</a></p>
-                                    <p><a href="#">Spanish Books</a></p>
-                                    <p><a href="#">French Books</a></p>
-                                    <p><a href="#">Hindi Books</a></p>
-                                    <p><a href="#">Indonesian Books</a></p>
-                                    <p><a href="#">Bengali Books</a></p>
-                                    <p><a href="#">Misc Language Books</a></p>
-                                </div>
-                            </li>
 
                             <?php
+                            echo CHtml::link(Yii::t('common', $name, array(), NULL, $this->currentLang), $this->createUrl("#"), array("class" => "top_link_hover"));
+                            $childrenCats = Categories::model()->getchildrenCategory($id, "", "", 200);
+
+                            if (count($childrenCats) >= 1):
+                                echo CHtml::openTag("div", array(
+                                        "class" => "nav_dropdown",
+                                        "style" => "display:none;"
+                                   )
+                                );
+
+                                echo '<div class="nav_pointer"></div>';
+                                        
+                                foreach ($childrenCats as $cat):
+                                    echo "<p>";
+                                    echo CHtml::link($cat->category_name);
+                                    echo "</p>";
+                                endforeach;
+                                echo CHtml::closeTag("div");
+
+                            endif;
+                            echo "</li>";
                         endforeach;
                         ?>
 

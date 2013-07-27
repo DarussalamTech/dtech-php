@@ -40,7 +40,7 @@ body { padding: 0; margin: 0; width:100%; background:url(../images/landing_bg_03
 .onoffswitch-inner { width: 200%; margin-left: -100%; -moz-transition: margin 0.3s ease-in 0s; -webkit-transition: margin 0.3s ease-in 0s; -o-transition: margin 0.3s ease-in 0s; transition: margin 0.3s ease-in 0s; }
 
 .onoffswitch-inner:before, .onoffswitch-inner:after { float: left; width: 50%; height: 30px; padding: 0; line-height: 30px; font-size: 14px; color: white; font-weight: bold; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
-    
+
 .onoffswitch-inner:before { content: "ON"; padding-left: 10px; background-color: #ebb91c; color:#3f3f3f; font-family:Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif; }
 
 .onoffswitch-inner:after { content: "OFF"; padding-right: 10px; background-color: #EEEEEE; color: #999999; text-align: right; font-family:Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif; }
@@ -51,7 +51,7 @@ body { padding: 0; margin: 0; width:100%; background:url(../images/landing_bg_03
 
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch { right: 0px; }
 
-.enter_button { padding: 0; margin: 60px 15px 0 0; float:right; width:100px; height:34px; border:none; background:none; background-color:#ebb91c; opacity:none; color:#3f3f3f; border-radius:5px; font-size:15px; font-family:Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif; border:1px solid #858585; }
+.enter_button { cursor: pointer;padding: 0; margin: 60px 15px 0 0; float:right; width:100px; height:34px; border:none; background:none; background-color:#ebb91c; opacity:none; color:#3f3f3f; border-radius:5px; font-size:15px; font-family:Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif; border:1px solid #858585; }
 
 .main_numbers { padding: 0; margin: 310px 0 0 0px; float:left; text-align:center; width:170px; }
 

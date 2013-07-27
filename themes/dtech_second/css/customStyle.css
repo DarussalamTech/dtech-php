@@ -47,3 +47,6 @@
 input[type=button] {
     cursor: pointer;
 }
+.nav_dropdown {
+    height: auto;
+}

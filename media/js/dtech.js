@@ -363,7 +363,7 @@ var dtech = {
             }).done(function(response) {
                 jQuery("#" + update_element_id).html(response);
                 if (jQuery("#LandingModel_city").attr("type") != "hidden") {
-                    jQuery("#LandingModel_city").msDropdown();
+                    //jQuery("#LandingModel_city").msDropdown();
                 }
 
             });

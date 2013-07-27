@@ -18,9 +18,11 @@ $model = new LandingModel();
     ));
     ?>
 </div>
-<div class="cities">
+<div class="cities" id="cities">
     <?php
+    
     $cityList = City::model()->findAll('country_id=' . Yii::app()->session['country_id']);
+    
     if (count($cityList) == 1) {
         echo CHtml::activeHiddenField($model, 'city', array("value" => $cityList[0]['city_id']));
     } else {
