@@ -54,6 +54,11 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/f
         <?php echo $form->error($model, 'parent_cateogry_id'); ?>
     </div>
     <div class="row">
+        <?php echo $form->labelEx($model, 'slag'); ?>
+        <?php echo $form->textField($model, 'slag'); ?>
+        <?php echo $form->error($model, 'slag'); ?>
+    </div>
+    <div class="row">
         <?php echo $form->labelEx($model, 'product_overview'); ?>
         <?php echo $form->textArea($model, 'product_overview', array("rows" => 4, "cols" => 81, 'style' => 'resize: none; width:300px;height:80px')); ?>
         <?php echo $form->error($model, 'product_overview'); ?>

@@ -124,7 +124,7 @@ class Product extends DTActiveRecord {
         return array(
             'product_id' => Yii::t('model_labels', 'Product', array(), NULL, Yii::app()->controller->currentLang),
             'product_name' => Yii::t('model_labels', 'Product Name', array(), NULL, Yii::app()->controller->currentLang),
-            'parent_cateogry_id' => '', Yii::t('model_labels', 'Parent Category', array(), NULL, Yii::app()->controller->currentLang),
+            'parent_cateogry_id' => Yii::t('model_labels', 'Parent Category', array(), NULL, Yii::app()->controller->currentLang),
             '_parent_category' => Yii::t('model_labels', 'Category', array(), NULL, Yii::app()->controller->currentLang),
             'product_description' => Yii::t('model_labels', 'Product Description', array(), NULL, Yii::app()->controller->currentLang),
             'product_overview' => Yii::t('model_labels', 'Product Overview', array(), NULL, Yii::app()->controller->currentLang),
@@ -180,7 +180,7 @@ class Product extends DTActiveRecord {
 
         if (isset($_POST['ajax'])) {
 
-            
+
             if (!empty($_POST['author'])) {
                 $author = explode(",", $_POST['author']);
                 $criteria->addInCondition("authors", $author);
@@ -198,7 +198,6 @@ class Product extends DTActiveRecord {
                 $criteria->addCondition("product_categories.category_id='" . $_POST['cat_id'] . "'");
             }
             $criteria->distinct = "t.product_id";
-            
         }
         /**
          * 
@@ -372,6 +371,47 @@ class Product extends DTActiveRecord {
 
         parent::attachBehaviors($behaviors);
         return true;
+    }
+
+    /**
+     * slag filling
+     */
+    public function beforeSave() {
+        $this->saveSlug();
+        parent::beforeSave();
+        return true;
+    }
+
+    /**
+     * setting slug
+     * for url
+     */
+    public function afterFind() {
+        $this->setSlug();
+        parent::afterFind();
+    }
+
+    /**
+     * setting slug
+     * for url
+     */
+    public function setSlug() {
+        $module = Yii::app()->controller->getModule();
+        if ($this->_controller == "site" || get_class($module) == "WebModule") {
+            $this->slag = $this->primaryKey . "-" . $this->slag;
+        }
+    }
+
+    /**
+     * setting slug
+     * for url
+     */
+    public function saveSlug() {
+        if (!empty($this->slag)) {
+            $this->slag = str_replace(" ", "-", $this->slag);
+        } else {
+            $this->slag = str_replace(" ", "-", $this->product_name);
+        }
     }
 
 }

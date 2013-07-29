@@ -217,7 +217,7 @@ class DTActiveRecord extends CActiveRecord {
          * is primary key of City model
          */
         if (get_class($this) == "City") {
-            return " ";
+            return empty($condition)?" 1=1 ":" AND 1=1 ";
         }
         $controller = Yii::app()->controller->id;
         $controllers = array(
@@ -242,7 +242,7 @@ class DTActiveRecord extends CActiveRecord {
                 return "   t.city_id ='" . Yii::app()->session['city_id'] . "'  ";
             }
         }
-        return "";
+       return empty($condition)?" 1=1 ":" AND 1=1 ";
     }
 
     /**

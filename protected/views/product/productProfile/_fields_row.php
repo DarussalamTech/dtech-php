@@ -40,6 +40,13 @@ $relationName = "productProfile";
         ?>
         <?php echo CHtml::error($model, 'title'); ?>
     </div>
+    <div class="row">
+        <?php echo CHtml::activeLabelEx($model, 'slag'); ?>
+        <?php
+        echo CHtml::activeTextField($model, '[' . $index . ']slag')
+        ?>
+        <?php echo CHtml::error($model, 'slag'); ?>
+    </div>
 
     <div class="clear"></div>
     <div class="row">

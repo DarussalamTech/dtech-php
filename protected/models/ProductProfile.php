@@ -355,4 +355,27 @@ class ProductProfile extends DTActiveRecord {
         return true;
     }
 
+    /**
+     * setting slug
+     * for url
+     */
+    public function setSlug() {
+        $module = Yii::app()->controller->getModule();
+        if ($this->_controller == "site" || get_class($module) == "WebModule") {
+            $this->slag = $this->primaryKey . "-" . $this->slag;
+        }
+    }
+
+    /**
+     * setting slug
+     * for url
+     */
+    public function saveSlug() {
+        if (!empty($this->slag)) {
+            $this->slag = str_replace(" ", "-", $this->slag);
+        } else {
+            $this->slag = str_replace(" ", "-", $this->title);
+        }
+    }
+
 }

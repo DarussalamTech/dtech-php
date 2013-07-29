@@ -30,10 +30,12 @@ $relationName = "educationToys";
         <?php
         echo CHtml::activeTextField($model, '[' . $index . ']quantity')
         ?>
+    </div>    
+    <div class="field" style="width:100px">
+        <?php
+        echo CHtml::activeTextField($model, '[' . $index . ']slag')
+        ?>
     </div>
-
-
-
 
     <div class="del del-icon" >
 
