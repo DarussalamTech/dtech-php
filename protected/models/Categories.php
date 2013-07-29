@@ -19,6 +19,8 @@ class Categories extends DTActiveRecord {
 
     public $totalStock;
     public $cat_image_url = array();
+    
+    public $slug;
 
     /**
      * Returns the static model of the specified AR class.
@@ -51,7 +53,7 @@ class Categories extends DTActiveRecord {
             array('category_name, added_date', 'length', 'max' => 255),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('category_image', 'safe'),
+            array('slug,category_image', 'safe'),
             array('category_id, category_name, added_date, parent_id, city_id', 'safe', 'on' => 'search'),
         );
     }
@@ -91,7 +93,7 @@ class Categories extends DTActiveRecord {
         if (!empty($this->category_image)) {
             $this->cat_image_url = Yii::app()->baseUrl . "/uploads/parent_category/" . $this->category_id . '/' . $this->category_image;
         }
-
+        $this->slug = str_replace(" ","-", $this->category_name);
         parent::afterFind();
     }
 
@@ -354,6 +356,8 @@ class Categories extends DTActiveRecord {
         $this->updateEnglishRecord();
         parent::afterSave();
     }
+    
+    
 
     /**
      * for updating english record
