@@ -244,7 +244,12 @@ class Controller extends RController {
         if ($this->id == "site" || get_class($module) == "WebModule") {
 
             $this->webPages = Pages::model()->getPages();
-            $this->menu_categories = Categories::model()->getMenuCategories();
+            /**
+             * only in case of when city id is started
+             */
+            if(isset(Yii::app()->session['city_id'])){
+                $this->menu_categories = Categories::model()->getMenuCategories();
+            }
             //$this->configureTheme();
         } else {
             /**
