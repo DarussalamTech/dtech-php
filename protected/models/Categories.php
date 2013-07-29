@@ -96,6 +96,7 @@ class Categories extends DTActiveRecord {
     }
 
     public function behaviors() {
+        
         $setArr = array(
             'CSaveRelationsBehavior' => array(
                 'class' => 'CSaveRelationsBehavior',
@@ -106,17 +107,18 @@ class Categories extends DTActiveRecord {
             'CMultipleRecords' => array(
                 'class' => 'CMultipleRecords'
             ),
+            'DTMultiLangBehaviour' => array(
+                'class' => 'DTMultiLangBehaviour',
+                'langClassName' => 'CategoriesLang',
+                'relation' => 'catlangs',
+                'langTableName' => 'categories_lang',
+                'langForeignKey' => 'category_id',
+                'localizedAttributes' => array('category_name'), //attributes of the model to be translated
+                'localizedPrefix' => '',
+                'languages' => Yii::app()->params['translatedLanguages'], // array of your translated languages. Example : array('fr' => 'Français', 'en' => 'English')
+                'defaultLanguage' => Yii::app()->params['defaultLanguage'], //your main language. Example : 'fr'
+            ),
         );
-        /**
-         * PCM : flag for setting 
-         * checking if id is present then no 
-         * need to create dynamic reocrd
-         * record is created
-         */
-        unset($setArr['ml']);
-        if ($this->scenario == "update") {
-            //unset($setArr['ml']);
-        }
         return $setArr;
     }
 
@@ -313,38 +315,10 @@ class Categories extends DTActiveRecord {
             $showCategories[$id] = array("name" => $name);
             $childrenCats = Categories::model()->getchildrenCategory($id, "", "", 200);
             if (count($childrenCats) >= 1):
-              $showCategories[$id]['data'] = $childrenCats;
+                $showCategories[$id]['data'] = $childrenCats;
             endif;
         }
         return $showCategories;
-    }
-
-    public function attachBehaviors($behaviors) {
-
-        $bhv = array('ml' => array(
-                'class' => 'MultilingualBehavior',
-                'langClassName' => 'CategoriesLang',
-                'langTableName' => 'categories_lang',
-                'langForeignKey' => 'category_id',
-                //'langField' => 'lang_id',
-                'localizedAttributes' => array('category_name'), //attributes of the model to be translated
-                'localizedPrefix' => '',
-                'languages' => Yii::app()->params['translatedLanguages'], // array of your translated languages. Example : array('fr' => 'Français', 'en' => 'English')
-                'defaultLanguage' => Yii::app()->params['defaultLanguage'], //your main language. Example : 'fr'
-            //'createScenario' => 'insert',
-            //'localizedRelation' => 'postLangs',
-            //'multilangRelation' => 'multilangPost',
-            //'forceOverwrite' => false,
-            //'forceDelete' => true, 
-            //'dynamicLangClass' => true, //Set to true if you don't want to create a 'PostLang.php' in your models folder
-        ));
-
-        if (Yii::app()->request->getQuery('id') == "") {
-            //$behaviors = array_merge($behaviors, $bhv);
-        }
-
-        parent::attachBehaviors($behaviors);
-        return true;
     }
 
     /**
