@@ -111,11 +111,24 @@ class Product extends DTActiveRecord {
                     'basicFeatures' => array("message" => "Please, fill required fields"),
                 ),
             ),
-            'CMultipleRecords' => array(
+            'CMultipleRecords' => array(    
                 'class' => 'CMultipleRecords'
+            ),
+            'DTMultiLangBehaviour' => array(
+                'class' => 'DTMultiLangBehaviour',
+                'langClassName' => 'productlangs',
+                'relation' => 'productlangs',
+                'langTableName' => 'product_lang',
+                'langForeignKey' => 'product_id',
+                'localizedAttributes' => array('product_name','product_description','product_overview'), //attributes of the model to be translated
+                'localizedPrefix' => '',
+                'languages' => Yii::app()->params['translatedLanguages'], // array of your translated languages. Example : array('fr' => 'Français', 'en' => 'English')
+                'defaultLanguage' => Yii::app()->params['defaultLanguage'], //your main language. Example : 'fr'
             ),
         );
     }
+    
+
 
     /**
      * @return array customized attribute labels (name=>label)
@@ -334,44 +347,7 @@ class Product extends DTActiveRecord {
         return CHtml::listData(ProductProfile::model()->findAll($criteria), "language_id", "language_name");
     }
 
-    /**
-     * for updating english record
-     * on each case
-     * when parent record is updated
-     */
-    public function attachBehaviors($behaviors) {
 
-        $bhv = array('ml' => array(
-                'class' => 'MultilingualBehavior',
-                'langClassName' => 'ProductLang',
-                'langTableName' => 'product_lang',
-                'langForeignKey' => 'product_id',
-                //'langField' => 'lang_id',
-                'localizedAttributes' => array(
-                    'product_name',
-                    'product_description',
-                    'product_overview'
-                ), //attributes of the model to be translated
-                'localizedPrefix' => '',
-                'languages' => Yii::app()->params['translatedLanguages'], // array of your translated languages. Example : array('fr' => 'Français', 'en' => 'English')
-                'defaultLanguage' => Yii::app()->params['defaultLanguage'], //your main language. Example : 'fr'
-            //'createScenario' => 'insert',
-            //'localizedRelation' => 'postLangs',
-            //'multilangRelation' => 'multilangPost',
-            //'forceOverwrite' => false,
-            //'forceDelete' => true, 
-            //'dynamicLangClass' => true, //Set to true if you don't want to create a 'PostLang.php' in your models folder
-        ));
-        $controller = Yii::app()->controller;
-        if (Yii::app()->request->getQuery('id') == "") {
-            $behaviors = array_merge($behaviors, $bhv);
-        } else if (in_array($controller->action->id, $controller->definedLangActions)) {
-            $behaviors = array_merge($behaviors, $bhv);
-        }
-
-        parent::attachBehaviors($behaviors);
-        return true;
-    }
 
     /**
      * slag filling
