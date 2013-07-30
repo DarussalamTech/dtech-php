@@ -1,161 +1,12 @@
-<div class="right_detail">
-    <h1><?php echo $product->product_name; ?></h1>
-    <h3 style="font-size: 14px; margin-top: 8px"><?php echo $product->product_overview; ?></h3>
-
-    <h2>
-
-        <?php
-        echo isset($product->author->author_name) ? "Author:" . "<span>" . $product->author->author_name . "</span>" : "";
-        ?>
-
-    </h2>
-    <h2>
-
-        <?php
-        echo isset($product->productProfile[0]->isbn) ? "ISBN:<span>" . $product->productProfile[0]->isbn . "</span>" : "";
-        ?>       
-    </h2>
-    <h2>
-        <?php
-        echo isset($product->productProfile[0]->price) ? " Price: <span>" . round($product->productProfile[0]->price, 2) . ' ' . Yii::app()->session['currency'] . "</span>" : "";
-        ?>
-    </h2>
-    <h2>
-        <?php
-        $total_in_cart = Cart::model()->getTotalCountProduct($product->productProfile[0]->id);
-        $total_av = $product->productProfile[0]->quantity - $total_in_cart;
-        echo " Quantity: <span>" . $total_av . "</span>";
-        ?>
-    </h2>
-    <p>
-        <?php
-        /** rating value is comming from controller * */
-        $this->widget('CStarRating', array(
-            'name' => 'ratings',
-            'minRating' => 1,
-            'maxRating' => 5,
-            'starCount' => 5,
-            'value' => round($rating_value),
-            'readOnly' => true,
-        ));
-        echo "(" . round($rating_value) . ")";
-        ?>
-    </p>
-
-    <article>
-        <?php
-        if ($total_av >= 1) {
-            echo CHtml::textField('quantity', '1', array('onKeyUp' => 'javascript:totalPrice(this.value,"' . $product->productProfile[0]->price . '")', 'style' => 'width:40px', 'maxlength' => '3'));
-        }
-        ?>
-        <span id="status_available" style="display:none">
-            <?php echo CHtml::image(Yii::app()->theme->baseUrl . '/images/yes.png'); ?>
-            Available in this quantity
-        </span>
-        <span id="status_un_available" style="display:none">
-            <?php echo CHtml::image(Yii::app()->theme->baseUrl . '/images/no.png'); ?>
-            Not available in this quantity
-        </span>
-    </article>
-    <div class="add_to_cart_button">
-
-        <?php
-        if ($total_av > 1) {
-            echo CHtml::button(Yii::t('common','Add to Cart',array(),NULL,$this->currentLang), array('onclick' => '
-                            jQuery("#loading").show();
-                            jQuery("#status_available").hide();  
-                            jQuery("#status_un_available").hide();  
-                            jQuery.ajax({
-                                type: "POST",
-                                dataType: "json",
-                                url: "' . $this->createUrl("/cart/addtocart", array("product_profile_id" => $product->productProfile[0]->id)) . '",
-                                data: 
-                                    { 
-                                        quantity: jQuery("#quantity").val(),
-                                    }
-                                }).done(function( msg ) {
-                               
-                                jQuery("#loading").hide();
-                                if(msg["total_available"]>0){
-                                    jQuery("#status_available").show();  
-                                    dtech.custom_alert("Item has added to cart" ,"Add to Cart");
-                                }
-                                else {
-                                    jQuery("#status_un_available").show();    
-                                    dtech.custom_alert("Item is out of stock" ,"Add to Cart");
-                                }
-                                dtech_new.loadCartAgain("' . $this->createUrl("/web/cart/loadCart") . '");
-                               
-                            });    
-                      ',
-                'class' => 'add_to_cart_arrow',
-            ));
-        } else {
-            if (!empty(Yii::app()->user->id)) {
-                echo CHtml::button(Yii::t('common','Email me when available',array(),NULL,$this->currentLang), array('onclick' => '
-                                dtech_new.loadWaitmsg();
-                               jQuery("#load_subpanel_div").toggle(); 
-                               jQuery.ajax({
-                                    type: "POST",
-                                    dataType: "json",
-                                    url: "' . $this->createUrl("/cart/emailtous", array("product_profile_id" => $product->productProfile[0]->id)) . '",
-                                    data: 
-                                        { 
-
-                                        }
-                                    }).done(function( msg ) {      
-                                        jQuery("#load_subpanel_div").hide(); 
-                                        dtech.custom_alert("You will be notified by email" ,"Notification");
-                                }); 
-                          ', 'class' => 'add_to_cart_arrow email_cart_arrow'));
-            } else {
-
-                echo CHtml::button(Yii::t('common','Email me when available',array(),NULL,$this->currentLang), array(
-                    'onclick' => '
-                       window.open(
-                        "' . $this->createUrl("/web/cart/emailtoAdmin", array("id" => $product->productProfile[0]->id)) . '", "" )     
-                ', 'class' => 'add_to_cart_arrow email_cart_arrow'));
-            }
-        }
-        ?>
-
-
-        <?php
-        echo CHtml::ajaxLink(Yii::t('common','Add to wishlist',array(),NULL,$this->currentLang), $this->createUrl('/cart/addtowishlist'), array('data' => array(
-                'product_profile_id' => $product->productProfile[0]->id,
-                'city_id' => !empty($_REQUEST['city_id']) ? $_REQUEST['city_id'] : Yii::app()->session['city_id'],
-                'city' => !empty($_REQUEST['city_id']) ? $_REQUEST['city_id'] : Yii::app()->session['city_id'],
-            ),
-            'type' => 'POST',
-            'dataType' => 'json',
-            'success' => 'function(data){
-                                           old_counter = jQuery.trim(jQuery("#wishlist_counter").html());
-                                           jQuery("#wishlist_counter").html(data.wishlist_counter);
-                                           if(old_counter < data.wishlist_counter){
-                                                 dtech.custom_alert("Item has added to Wishlist","Add to Wishlist");
-                                           }
-                                           else {
-                                                dtech.custom_alert("Already in Wishlist", "Add to Wishlist");
-                                           }
-                                      }',
-                ), array('id' => 'add-wish-list' . uniqid(), 'class' => 'add_to_wish_list')
-        );
-        ?>
-
-    </div>
-</div>
-<div class="product_detail">
-
-
-    <section class="section_1">
+<div class="center_detail">
+    <p>Title:
         <?php
         if (!empty($product->productProfile[0]->title)) {
-            echo CHtml::openTag("section");
-            echo 'Title  : ' . $product->productProfile[0]->title;
-            echo CHtml::closeTag("section");
+            echo $product->productProfile[0]->title;
         }
         ?>
-        Available Languages: 
+    </p>
+    <p>Available Languages: 
         <?php
         $languages = $product->getBookLanguages();
 
@@ -180,124 +31,36 @@
                                 dtech.updatehashBrowerUrl(browser_string);
                                 
                                 
-                                jQuery("#img_detail").html(msg["left_data"]);
-                                jQuery("#prod_detail").html(msg["right_data"]);
-                            });    
-                      '));
+                                jQuery(".left_upper_part").html(msg["image_data"]);
+                                jQuery(".right_upper_part").html(msg["upper_detail_data"]);
+                                jQuery(".center_detail").html(msg["lower_detail_data"]);
+                            });'));
         } else {
 
             echo $product->productProfile[0]->language_name;
         }
         ?>
-    </section>
-    <section>Availability : 
+    </p>
+    <p>Availability : 
         <?php
+        $total_in_cart = Cart::model()->getTotalCountProduct($product->productProfile[0]->id);
+        $total_av = $product->productProfile[0]->quantity - $total_in_cart;
         if ($total_av > 1) {
             echo "Yes ";
-            echo CHtml::image(Yii::app()->theme->baseUrl . '/images/yes.png');
+            echo CHtml::image(Yii::app()->theme->baseUrl . '/images/tick_03.jpg');
         } else {
             echo "No ";
             echo CHtml::image(Yii::app()->theme->baseUrl . '/images/no.png');
         }
         ?>
-    </section>
-    <?php
-    if (!empty($product->productProfile[0]->translator_rel->name)):
-        ?>
-        <section>Translator: 
-            <?php
-            echo $product->productProfile[0]->translator_rel->name;
-            ?>
-        </section>
+    </p>
+    <p>Item Code: 
         <?php
-    endif;
-    ?>
-
-
-
-    <?php
-    if (!empty($product->productProfile[0]->compiler_rel->name)):
+        echo isset($product->productProfile[0]->isbn) ? $product->productProfile[0]->isbn : "";
         ?>
-        <section>Compiler: 
-            <?php
-            echo $product->productProfile[0]->compiler_rel->name;
-            ?>
-        </section>
+    </p>
+    <p>Category: 
         <?php
-    endif;
-    ?>
-    <?php
-    if (!empty($product->productProfile[0]->dimension_rel->title)):
-        ?>
-        <section>Dimension: 
-            <?php
-            echo $product->productProfile[0]->dimension_rel->title;
-            ?>
-        </section>
-        <?php
-    endif;
-    ?>
-    <?php
-    if (!empty($product->productProfile[0]->binding_rel->title)):
-        ?>
-        <section>Binding: 
-            <?php
-            echo $product->productProfile[0]->binding_rel->title;
-            ?>
-        </section>
-        <?php
-    endif;
-    ?>
-    <?php
-    if (!empty($product->productProfile[0]->printing_rel->title)):
-        ?>
-        <section>Printing: 
-            <?php
-            echo $product->productProfile[0]->printing_rel->title;
-            ?>
-        </section>
-        <?php
-    endif;
-    ?>
-    <?php
-    if (!empty($product->productProfile[0]->paper_rel->title)):
-        ?>
-        <section>Paper Type: 
-            <?php
-            echo $product->productProfile[0]->paper_rel->title;
-            ?>
-        </section>
-        <?php
-    endif;
-    ?>
-    <?php
-    if (!empty($product->productProfile[0]->no_of_pages)):
-        ?>
-        <section>No Of Pages: 
-            <?php
-            echo $product->productProfile[0]->no_of_pages;
-            ?>
-        </section>
-        <?php
-    endif;
-    ?>
-    <?php
-    if (!empty($product->productProfile[0]->edition)):
-        ?>
-        <section>Edition: 
-            <?php
-            echo $product->productProfile[0]->edition;
-            ?>
-        </section>
-        <?php
-    endif;
-    ?>
-    <section>
-        Item Code:    <?php
-        echo isset($product->productProfile[0]->item_code) ? $product->productProfile[0]->item_code : "";
-        ?>
-    </section>
-    <section>Category: <?php
         $cat_count = 0;
         foreach ($product->productCategories as $cat) {
             if ($cat_count == 0) {
@@ -308,34 +71,116 @@
             $cat_count++;
         }
         ?>
-    </section>
-    <section>
-        <?php
-        $profile_id = $product->productProfile[0]->id;
-        $attributes = ProductAttributes::model()->ConfAttributes($profile_id);
-
-        foreach ($attributes as $att) {
-            echo $att->books_rel->title, ' : ';
-            echo $att->attribute_value;
-            echo '</br>';
-        }
+    </p>
+    <?php
+    if (!empty($product->productProfile[0]->translator_rel->name)):
         ?>
-    </section>
-</div>
+        <p>Translator: 
+            <?php
+            echo $product->productProfile[0]->translator_rel->name;
+            ?>
+        </p>
+        <?php
+    endif;
+    ?>
+    <?php
+    if (!empty($product->productProfile[0]->compiler_rel->name)):
+        ?>
+        <p>Compiler: 
+            <?php
+            echo $product->productProfile[0]->compiler_rel->name;
+            ?>
+        </p>
+        <?php
+    endif;
+    ?>
+    <?php
+    if (!empty($product->productProfile[0]->dimension_rel->title)):
+        ?>
+        <p>Dimension: 
+            <?php
+            echo $product->productProfile[0]->dimension_rel->title;
+            ?>
+        </p>
+        <?php
+    endif;
+    ?>
+    <?php
+    if (!empty($product->productProfile[0]->binding_rel->title)):
+        ?>
+        <p>Binding: 
+            <?php
+            echo $product->productProfile[0]->binding_rel->title;
+            ?>
+        </p>
+        <?php
+    endif;
+    ?>
+    <?php
+    if (!empty($product->productProfile[0]->printing_rel->title)):
+        ?>
+        <p>Printing: 
+            <?php
+            echo $product->productProfile[0]->printing_rel->title;
+            ?>
+        </p>
+        <?php
+    endif;
+    ?>
+    <?php
+    if (!empty($product->productProfile[0]->paper_rel->title)):
+        ?>
+        <p>Paper Type: 
+            <?php
+            echo $product->productProfile[0]->paper_rel->title;
+            ?>
+        </p>
+        <?php
+    endif;
+    ?>
+    <?php
+    if (!empty($product->productProfile[0]->no_of_pages)):
+        ?>
+        <p>No Of Pages: 
+            <?php
+            echo $product->productProfile[0]->no_of_pages;
+            ?>
+        </p>
+        <?php
+    endif;
+    ?>
+    <?php
+    if (!empty($product->productProfile[0]->edition)):
+        ?>
+        <p>Edition: 
+            <?php
+            echo $product->productProfile[0]->edition;
+            ?>
+        </p>
+        <?php
+    endif;
+    ?>
+    <?php
+    if (!empty($product->productProfile[0]->edition)):
+        ?>
+        <p>Edition: 
+            <?php
+            echo $product->productProfile[0]->edition;
+            ?>
+        </p>
+        <?php
+    endif;
+    ?>
+    <?php
+    $profile_id = $product->productProfile[0]->id;
+    $attributes = ProductAttributes::model()->ConfAttributes($profile_id);
 
-
-<script>
-    function totalPrice(quantity, price)
-    {
-        if (dtech.isNumber(quantity))
-        {
-            //total_price = quantity * price;
-            //jQuery('#price').html('$ ' + total_price);
-        }
-        else
-        {
-            dtech.custom_alert('Quantity should be Numeric....!');
-            jQuery('#quantity').val('1');
-        }
+    foreach ($attributes as $att) {
+        echo CHtml::openTag('p');
+        echo $att->books_rel->title, ' : ';
+        echo $att->attribute_value;
+        echo CHtml::closeTag('p');
     }
-</script>
+    ?>
+    <?php $this->renderPartial("//product/_editorial_reviews", array("product" => $product, "rating_value" => $rating_value)); ?>
+</div>

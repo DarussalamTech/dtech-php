@@ -1,5 +1,4 @@
 <?php
-
 foreach ($products as $product):
     $name = str_replace("_", " ", $product['product_name']);
 
@@ -10,9 +9,16 @@ foreach ($products as $product):
     ?>
     <div class="featured_cover">
         <div class="featured_cover_part">
-           
+
             <?php
-            echo CHtml::link(CHtml::image($image, ""), $this->createUrl('/web/product/productDetail', array('product_id' => $product['product_id'])), array('title' => $name));
+            //echo CHtml::link(CHtml::image($image, ""), $this->createUrl('/web/product/productDetail', array('product_id' => $product['product_id'])), array('title' => $name));
+            echo CHtml::link(CHtml::image($image, 'image', array("title" => "")), $this->createUrl('/web/product/productDetail', array(
+            'country' => Yii::app()->session['country_short_name'],
+            'city' => Yii::app()->session['city_short_name'],
+            'city_id' => Yii::app()->session['city_id'],
+            "pcategory" => $product['category'],
+            "slug" => $product['slug'],
+            )));
             ?>
             <h2><?php echo $name ?></h2>
             <p>
@@ -26,7 +32,7 @@ foreach ($products as $product):
             </p>
         </div>
         <div class="featured_bottom">
-            <span><?php  echo Yii::app()->session['currency']." ".$product['product_price']; ?></span>
+            <span><?php echo Yii::app()->session['currency'] . " " . $product['product_price']; ?></span>
             <div class="white_basket">
                 <img src="<?php echo Yii::app()->theme->baseUrl; ?>/images/white_basket_03.jpg" />
             </div>
