@@ -33,7 +33,7 @@ class DTMultiLangBehaviour extends CActiveRecordBehavior {
         $owner = $this->getOwner();
         if ($this->current_lang != $this->defaultLanguage) {
             $relation = $owner->getRelated($this->relation);
-           
+
             foreach ($this->localizedAttributes as $attr) {
                 
                 $owner->$attr = $relation[0]->$attr;

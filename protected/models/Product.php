@@ -111,7 +111,7 @@ class Product extends DTActiveRecord {
                     'basicFeatures' => array("message" => "Please, fill required fields"),
                 ),
             ),
-            'CMultipleRecords' => array(    
+            'CMultipleRecords' => array(
                 'class' => 'CMultipleRecords'
             ),
             'DTMultiLangBehaviour' => array(
@@ -120,15 +120,13 @@ class Product extends DTActiveRecord {
                 'relation' => 'productlangs',
                 'langTableName' => 'product_lang',
                 'langForeignKey' => 'product_id',
-                'localizedAttributes' => array('product_name','product_description','product_overview'), //attributes of the model to be translated
+                'localizedAttributes' => array('product_name', 'product_description', 'product_overview'), //attributes of the model to be translated
                 'localizedPrefix' => '',
                 'languages' => Yii::app()->params['translatedLanguages'], // array of your translated languages. Example : array('fr' => 'Français', 'en' => 'English')
                 'defaultLanguage' => Yii::app()->params['defaultLanguage'], //your main language. Example : 'fr'
             ),
         );
     }
-    
-
 
     /**
      * @return array customized attribute labels (name=>label)
@@ -153,15 +151,18 @@ class Product extends DTActiveRecord {
      * @param type $limit
      * @return type #
      */
-    public function allProducts($product_array = array(), $limit = 30, $parent_category = "Books") {
+    public function allProducts($product_array = array(), $limit = 30, $parent_category = "Books", $category = "") {
 
-
-
-
+        /**
+         * all parent categories 
+         * will be here
+         */
+        $parent_categories = array_keys(Yii::app()->controller->menu_categories);
         $city_id = Yii::app()->session['city_id'];
 
-
-
+        /**
+         * for search we will provide the list of product
+         */
         if (!empty($product_array)) {
             $criteria = new CDbCriteria(array(
                 'select' => '*',
@@ -179,18 +180,32 @@ class Product extends DTActiveRecord {
                     //'with'=>'commentCount' 
             ));
 
+
             /**
              * that should only be book
              */
-            $parent_cat = Categories::model()->getParentCategoryId($parent_category);
-
-
-
-            $criteria->addCondition('parent_cateogry_id = ' . $parent_cat);
+            if ($category != "") {
+                $category = explode("-", $category);
+                if (in_array($category[count($category) - 1], $parent_categories)) {
+                    $criteria->addCondition('t.parent_cateogry_id = ' . $category[count($category) - 1]);
+                } else {
+                    /**
+                     * it could be the  ajax scanario 
+                     */
+                    $criteria->join.= ' LEFT JOIN product_categories  ON ' .
+                            't.product_id=product_categories.product_id';
+                    $criteria->addCondition('product_categories.category_id= ' . $category[count($category) - 1]);
+                }
+            } else if(!isset($_POST['ajax'])) {
+                $parent_cat = Categories::model()->getParentCategoryId($parent_category);
+                $criteria->addCondition('parent_cateogry_id = ' . $parent_cat);
+            }
         }
 
 
-
+        /**
+         * ajax based filtering
+         */
         if (isset($_POST['ajax'])) {
 
 
@@ -206,9 +221,12 @@ class Product extends DTActiveRecord {
                 $criteria->addInCondition("product_profile.language_id", $langs);
             }
             if (!empty($_POST['cat_id'])) {
-                $criteria->join.= ' LEFT JOIN product_categories  ON ' .
-                        't.product_id=product_categories.product_id';
-                $criteria->addCondition("product_categories.category_id='" . $_POST['cat_id'] . "'");
+                $criteria->addCondition('parent_cateogry_id = ' . $_POST['cat_id']);
+            }
+            if (!empty($_POST['categories'])) {
+                $categories = explode(",", $_POST['categories']);
+
+                $criteria->addInCondition("product_categories.category_id", $categories);
             }
             $criteria->distinct = "t.product_id";
         }
@@ -220,16 +238,13 @@ class Product extends DTActiveRecord {
                     't.product_id=product_categories.product_id';
             $criteria->addCondition("product_categories.category_id='" . $_GET['category'] . "'");
         }
-
+       
         $dataProvider = new DTActiveDataProvider($this, array(
             'pagination' => array(
                 'pageSize' => $limit,
             ),
             'criteria' => $criteria,
-        ));
-
-
-
+        ));       
         return $dataProvider;
     }
 
@@ -269,6 +284,7 @@ class Product extends DTActiveRecord {
                 'product_id' => $products->product_id,
                 'no_image' => $products->no_image,
                 'city_id' => $products->city_id,
+                'slug' => $products->slag,
                 'city_short' => $products->city->short_name,
                 'country_short' => $products->city->country->short_name,
                 'product_name' => $products->product_name,
@@ -347,8 +363,6 @@ class Product extends DTActiveRecord {
         return CHtml::listData(ProductProfile::model()->findAll($criteria), "language_id", "language_name");
     }
 
-
-
     /**
      * slag filling
      */
@@ -374,7 +388,8 @@ class Product extends DTActiveRecord {
     public function setSlug() {
         $module = Yii::app()->controller->getModule();
         if ($this->_controller == "site" || get_class($module) == "WebModule") {
-            $this->slag = $this->primaryKey . "-" . $this->slag;
+            $this->slag = $this->slag . "-" . $this->primaryKey;
+            $this->slag = str_replace(" ", "-", $this->slag);
         }
     }
 

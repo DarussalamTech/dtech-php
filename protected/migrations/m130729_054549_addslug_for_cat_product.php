@@ -8,6 +8,7 @@ class m130729_054549_addslug_for_cat_product extends DTDbMigration {
         $data = $this->findAllRecords($table, $columns, "product_id", "product_name");
         foreach ($data as $id =>$product_name) {
             $slug = str_replace(" ", "-", $product_name);
+            $slug = str_replace("_", "-", $slug);
             $this->update($table, array("slag" => $slug), "product_id = " . $id);
         }
 
@@ -18,6 +19,7 @@ class m130729_054549_addslug_for_cat_product extends DTDbMigration {
         $data = $this->findAllRecords($table, $columns, "id", "title");
         foreach ($data as $id =>$product_name) {
             $slug = str_replace(" ", "-", $product_name);
+            $slug = str_replace("_", "-", $slug);
             $this->update($table, array("slag" => $slug), "id = " . $id);
         }
         //

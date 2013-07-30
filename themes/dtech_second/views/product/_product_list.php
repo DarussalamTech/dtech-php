@@ -12,7 +12,15 @@ foreach ($products as $product) {
     if (Yii::app()->controller->action->id == "getSearch") {
         echo CHtml::link(CHtml::image($image, 'image', array("title" => $name)), Yii::app()->createUrl('/web/search/searchDetail', array('country' => $product['country_short'], 'city' => $product['city_short'], 'city_id' => $product['city_id'], 'product_id' => $product['product_id'])));
     } else {
-        echo CHtml::link(CHtml::image($image, 'image', array("title" => $name)), $this->createUrl('/web/product/productDetail', array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'], 'product_id' => $product['product_id'])), array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'], 'product_id' => $product['product_id']));
+
+        echo CHtml::link(CHtml::image($image, 'image', array("title" => $name)), $this->createUrl('/web/product/productDetail', array(
+                    'country' => Yii::app()->session['country_short_name'],
+                    'city' => Yii::app()->session['city_short_name'],
+                    'city_id' => Yii::app()->session['city_id'],
+                    "pcategory" => $category,
+                    "slug" => $product['slug'],
+                ))
+        );
     }
     echo CHtml::openTag("h2");
     echo substr($name, 0, 15) . '...';
@@ -47,4 +55,16 @@ if (empty($products)) {
     echo '</tt></center>';
 }
 ?>
+<div class="clear"></div>
+<div class="pagingdiv" style="display: none" >
+    <?php
+    $this->widget('DTScroller', array(
+        'pages' => $dataProvider->pagination,
+        'ajax' => true,
+        'append_param' => (!empty($_REQUEST['serach_field'])) ? "serach_field=" . $_REQUEST['serach_field'] : "",
+        'jsMethod' => 'dtech.updateListingOnScrolling(this);return false;',
+            )
+    );
+    ?>
+</div>
 

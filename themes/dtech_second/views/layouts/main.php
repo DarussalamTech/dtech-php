@@ -154,10 +154,11 @@
             <div id="navigation_part">
                 <nav>
                     <ul>
-                        <?php
-                        foreach ($this->menu_categories as $id => $data):
-                            echo '<li class="nav_hover">';
-                            echo CHtml::link(Yii::t('common', $data['name'], array(), NULL, $this->currentLang), $this->createUrl("#"), array("class" => "top_link_hover"));
+<?php
+foreach ($this->menu_categories as $id => $data):
+    echo '<li class="nav_hover">';
+    echo CHtml::link(Yii::t('common', $data['name'], array(), NULL, $this->currentLang), 
+            $this->createUrl("/web/product/category",array("slug"=>$data['slug'])), array("class" => "top_link_hover"));
 
                             if (isset($data['data'])):
                                 echo CHtml::openTag("div", array(
@@ -170,10 +171,10 @@
 
                                 foreach ($data['data'] as $cat):
 
-                                    echo "<p>";
-                                    echo CHtml::link($cat->category_name);
-                                    echo "</p>";
-                                endforeach;
+            echo "<p>";
+            echo CHtml::link($cat->category_name,$this->createUrl("/web/product/category", array("slug" => $cat->slug)));
+            echo "</p>";
+        endforeach;
 
                                 echo CHtml::closeTag("div");
 

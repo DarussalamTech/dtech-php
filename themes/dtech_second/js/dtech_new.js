@@ -52,9 +52,14 @@ var dtech_new = {
         //
         if ($(obj).parent().siblings().is(":visible") == false) {
             $(".inner_list").hide();
-             $(".aquardian_img").attr("src", $(".aquardian_img").attr("invisible"));
+            $(".aquardian_img").attr("src", $(".aquardian_img").attr("invisible"));
             $(obj).children().eq(0).attr("src", $(obj).children().eq(0).attr("visible"));
             $(obj).parent().siblings().show();
+
+            $('.listing input[type=checkbox]').each(function()
+            {
+                this.checked = false;
+            });
 
         }
         else {
@@ -158,13 +163,13 @@ var dtech_new = {
     showCartBox: function(obj) {
         if ($(".cart_bx").is(":visible") == false) {
             $(obj).attr("src", $(obj).attr("hover"));
-            $(".search_img").css("z-index","-1");
+            $(".search_img").css("z-index", "-1");
             $(".cart_bx").show();
 
         }
         else {
             $(obj).attr("src", $(obj).attr("unhover"));
-            $(".search_img").css("z-index","10");
+            $(".search_img").css("z-index", "10");
             $(".cart_bx").hide();
         }
     },
