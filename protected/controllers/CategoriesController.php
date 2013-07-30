@@ -300,13 +300,7 @@ class CategoriesController extends Controller {
      * @throws CHttpException
      */
     public function loadModel($id, $ml = false) {
-        if ($ml) {
-            $model = Categories::model();
-            $model->attachCbehavour();
-            $model = $model->multilang()->findByPk((int) $id);
-        } else {
-            $model = Categories::model()->findByPk((int) $id);
-        }
+          $model = Categories::model()->findByPk((int) $id);
         if ($model === null)
             throw new CHttpException(404, 'The requested post does not exist.');
         return $model;

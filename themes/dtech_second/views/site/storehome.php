@@ -10,82 +10,39 @@ Yii::app()->clientScript->registerScript('load_featured', 'jQuery(document).read
         <div id="main_features">
             <h1>Main Features</h1>
             <div class="main_features_books_part">
-                <div class="qurani_books">
-                    <?php
-                    echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/quran.png", '', array(
-                            )), $this->createUrl('/web/quran/index'));
-                    ?>
+                <?php
+                $counter = 1;
+                foreach ($this->menu_categories as $id => $p_cat) {
 
-                    <h2>
-                        <?php echo Yii::t('common', 'Quran', array(), NULL, $this->currentLang); ?>
-                    </h2>
-                    <p>&nbsp;</p>
+                    if ($counter <= 4) {
+                        $category_id = $p_cat['category_id'];
+                        $name = $p_cat['name'];
+                        $slug = $p_cat['slug'];
+                        $image = $p_cat['image'];
+                        ?>
+                        <div class = "qurani_books">
+                            <?php
+                            echo CHtml::link(CHtml::image(Yii::app()->baseUrl . "/uploads/parent_category/" . $category_id . '/' . $image, '', array(
+                                    )), $this->createUrl('/web/quran/index'));
+                            ?>
 
-                    <?php
-                    echo CHtml::button(Yii::t('common', 'Shop Now', array(), NULL, $this->currentLang), array(
-                        "class" => "shop_now",
-                        "onclick" => "window.location ='" . $this->createUrl('/web/quran/index') . "'"
-                    ));
-                    ?>
-                </div>
+                            <h2>
+                                <?php echo Yii::t('common', $name, array(), NULL, $this->currentLang); ?>
+                            </h2>
+                            <p>&nbsp;</p>
 
-                <div class="qurani_books">
-                    <?php
-                    echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/books.png", '', array(
-                            )), $this->createUrl('/web/product/allproducts'));
-                    ?>
-
-                    <h2>
-                        <?php echo Yii::t('common', 'Books', array(), NULL, $this->currentLang); ?>
-                    </h2>
-                    <p>&nbsp;</p>
-
-                    <?php
-                    echo CHtml::button(Yii::t('common', 'Shop Now', array(), NULL, $this->currentLang), array(
-                        "class" => "shop_now",
-                        "onclick" => "window.location ='" . $this->createUrl('/web/product/allproducts') . "'"
-                    ));
-                    ?>
-                </div>
-
-                <div class="qurani_books">
-                    <?php
-                    echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/toys.png", '', array(
-                            )), $this->createUrl('/web/educationToys/index'));
-                    ?>
-
-                    <h2>
-                        <?php echo Yii::t('common', 'Educational Toys', array(), NULL, $this->currentLang); ?>
-                    </h2>
-                    <p>&nbsp;</p>
-
-                    <?php
-                    echo CHtml::button(Yii::t('common', 'Shop Now', array(), NULL, $this->currentLang), array(
-                        "class" => "shop_now",
-                        "onclick" => "window.location ='" . $this->createUrl('/web/educationToys/index') . "'"
-                    ));
-                    ?>
-                </div>
-
-                <div class="qurani_books">
-                    <?php
-                    echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/other.png", '', array(
-                            )), $this->createUrl('/web/others/index'));
-                    ?>
-
-                    <h2>
-                        <?php echo Yii::t('common', 'Other Items', array(), NULL, $this->currentLang); ?>
-                    </h2>
-                    <p>&nbsp;</p>
-
-                    <?php
-                    echo CHtml::button(Yii::t('common', 'Shop Now', array(), NULL, $this->currentLang), array(
-                        "class" => "shop_now",
-                        "onclick" => "window.location ='" . $this->createUrl('/web/others/index') . "'"
-                    ));
-                    ?>
-                </div>
-
+                            <?php
+                            echo CHtml::button(Yii::t('common', 'Shop Now', array(), NULL, $this->currentLang), array(
+                                "class" => "shop_now",
+                                "onclick" => "window.location ='" . $this->createUrl('/web/quran/index') . "'"
+                            ));
+                            ?>
+                        </div>
+                        <?php
+                    }
+                    $counter++;
+                }
+                ?>
 
             </div>
         </div>
