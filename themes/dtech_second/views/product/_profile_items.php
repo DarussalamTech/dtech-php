@@ -53,6 +53,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
                 (
                 'view' => array(
                     'url' => 'Yii::app()->controller->createUrl("/web/product/productDetailLang", array("id" => '.$product->product_id.',"profile_id"=>$data->id)) ',
+                    'options'=>array("id"=>  uniqid()),
                     'click' => "js:function() {
                                             dtech_new.loadWaitmsg();
                                             jQuery('#load_subpanel_div').toggle();
@@ -60,13 +61,14 @@ $this->widget('zii.widgets.grid.CGridView', array(
                                                 url: jQuery(this).attr('href'),
                                                 dataType: 'json',
                                                 
-                                                success: function(response)
+                                                success: function(msg)
                                                 {
                                                     jQuery('#load_subpanel_div').hide();
                                                     
-                                                    jQuery('#img_detail').html(response['left_data']);
-                                                    jQuery('#prod_detail').html(response['right_data']);
-                                                    dtech_new.footerToggle();
+                                                    jQuery('.left_upper_part').html(msg['image_data']);
+                                                    jQuery('.right_upper_part').html(msg['upper_detail_data']);
+                                                    jQuery('.center_detail').html(msg['lower_detail_data']);
+                                                    
                                                 }
                                             }); return false; }",
                 )
