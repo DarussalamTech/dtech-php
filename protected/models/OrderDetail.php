@@ -182,7 +182,14 @@ class OrderDetail extends DTActiveRecord {
                     'image_small' => $imagedata->image_url['image_small'],
                 );
             }
-
+            /**
+             * get category from slug
+             */
+            $category = "";
+            if (isset($products->slag)) {
+                $category = explode("-", $products->slag);
+                $category = $category[0];
+            }
             $featured_products[] = array(
                 'product_id' => $products->product_id,
                 'product_name' => $products->product_name,
@@ -191,6 +198,8 @@ class OrderDetail extends DTActiveRecord {
                 'product_author' => !empty($products->author) ? $products->author->author_name : "",
                 'product_price' => $products->productProfile[0]->price,
                 'no_image' => $products->no_image,
+                'slug' => $products->slag,
+                'category' => $category,
                 'image' => $images
             );
         }
