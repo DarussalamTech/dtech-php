@@ -9,7 +9,10 @@
         <script src="<?php echo Yii::app()->baseUrl; ?>/media/js/dtech.js"></script>
         <script type="text/javascript" src="<?php echo Yii::app()->theme->baseUrl ?>/js/msdropdown/jquery.dd.min.js"></script>
         <meta charset="utf-8">
-
+        <script>
+            var yii_base_url = "<?php echo Yii::app()->baseUrl; ?>";
+            var yii_base_theme_url = "<?php echo Yii::app()->theme->baseUrl; ?>";
+        </script>
         <script type="text/javascript">
             $(document).ready(function() {
                 dtech_new.hideLoginBox();
@@ -151,47 +154,47 @@
             <div id="navigation_part">
                 <nav>
                     <ul>
-<?php
-foreach ($this->menu_categories as $id => $data):
-    echo '<li class="nav_hover">';
-    echo CHtml::link(Yii::t('common', $data['name'], array(), NULL, $this->currentLang), $this->createUrl("#"), array("class" => "top_link_hover"));
+                        <?php
+                        foreach ($this->menu_categories as $id => $data):
+                            echo '<li class="nav_hover">';
+                            echo CHtml::link(Yii::t('common', $data['name'], array(), NULL, $this->currentLang), $this->createUrl("#"), array("class" => "top_link_hover"));
 
-    if (isset($data['data'])):
-        echo CHtml::openTag("div", array(
-            "class" => "nav_dropdown",
-            "style" => "display:none;"
-                )
-        );
+                            if (isset($data['data'])):
+                                echo CHtml::openTag("div", array(
+                                    "class" => "nav_dropdown",
+                                    "style" => "display:none;"
+                                        )
+                                );
 
-        echo '<div class="nav_pointer"></div>';
+                                echo '<div class="nav_pointer"></div>';
 
-        foreach ($data['data'] as $cat):
+                                foreach ($data['data'] as $cat):
 
-            echo "<p>";
-            echo CHtml::link($cat->category_name);
-            echo "</p>";
-        endforeach;
+                                    echo "<p>";
+                                    echo CHtml::link($cat->category_name);
+                                    echo "</p>";
+                                endforeach;
 
-        echo CHtml::closeTag("div");
+                                echo CHtml::closeTag("div");
 
-    endif;
-    echo "</li>";
-endforeach;
-?>
+                            endif;
+                            echo "</li>";
+                        endforeach;
+                        ?>
 
                     </ul>
                 </nav>
                 <div class="wishlist">
 
-<?php
-$this->renderPartial("//layouts/_wishlist");
-?>
+                    <?php
+                    $this->renderPartial("//layouts/_wishlist");
+                    ?>
                 </div>
             </div>
         </div>
-<?php
-echo $content;
-?>
+        <?php
+        echo $content;
+        ?>
 
         <?php echo $this->renderPartial("//layouts/_footer") ?>
     </body>
