@@ -229,25 +229,27 @@ class ProductController extends Controller {
             $product = Product::model();
 
             $product = Product::model()->localized(Yii::app()->controller->currentLang)->findByPk($id);
-            
-            if(!empty($_POST['lang_id'])){
+
+            if (!empty($_POST['lang_id'])) {
+
+
                 $product->productProfile = $product->productSelectedProfile;
-            }
-            else if(!empty($_REQUEST['profile_id'])){
+            } else if (!empty($_REQUEST['profile_id'])) {
                 $product->productProfile = $product->productloadProfile;
-                
             }
 
             /**
              *  getting value of poduct rating
              */
             $rating_value = ProductReviews::model()->calculateRatingValue($product->product_id);
-            $right_data = $this->renderPartial("//product/_product_detail_data", array('product' => $product, "rating_value" => $rating_value), true, true);
-            $left_data = $this->renderPartial("//product/_product_detail_image", array('product' => $product), true, false);
 
+            $lower_detail_data = $this->renderPartial("//product/_product_detail_data", array('product' => $product, "rating_value" => $rating_value), true, true);
+            $upper_detail_data = $this->renderPartial("//product/_product_add_to_cart", array('product' => $product, "rating_value" => $rating_value), true, true);
+            $image_data = $this->renderPartial("//product/_product_detail_image", array('product' => $product), true, false);
             echo CJSON::encode(array(
-                "right_data" => $right_data,
-                "left_data" => $left_data,
+                "lower_detail_data" => $lower_detail_data,
+                "upper_detail_data" => $upper_detail_data,
+                "image_data" => $image_data,
             ));
         }
     }
