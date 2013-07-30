@@ -38,11 +38,11 @@ $this->widget('ext.lyiightbox.LyiightBox2', array(
             <div class='clear'></div>
             <div id='gridd'>
                 <?php
-                //if (count($product->productProfile) > 1) {
+                if (count($product->productProfile) > 1) {
                 echo CHtml::openTag('div', array('id' => 'right_description'));
                 $this->renderPartial("//product/_profile_items", array("product" => $product));
                 echo CHtml::closeTag('div');
-                //}
+                }
                 ?>
             </div>
             <?php $this->renderPartial("//product/_product_comments", array("product" => $product, "rating_value" => $rating_value)); ?>    
