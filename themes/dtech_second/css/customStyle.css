@@ -59,3 +59,35 @@ input[type=button] {
 .cart_bx {
     z-index: 20;
 }
+
+.add_to_wish_list {
+    background: none repeat scroll 0 0 #FFBB1D;
+    border: medium none;
+    border-radius: 5px 5px 5px 5px;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: block;
+    float: left;
+    font-size: 13px;
+    height: 25px;
+    margin: -1px 10px 2px 12px;
+    padding-left: 12px;
+    padding-top: 11px;
+    text-decoration: none;
+    width: 21%;
+    text-decoration: none;
+}
+.submit_comment{
+    background: none repeat scroll 0 0 #EBB91C;
+    border: medium none;
+    border-radius: 3px 3px 3px 3px;
+    clear: both;
+    color: #FFFFFF;
+    float: right;
+    font-family: Gotham,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 13px;
+    height: 35px;
+    margin: 10px 0 0;
+    padding: 0 10px;
+
+}
