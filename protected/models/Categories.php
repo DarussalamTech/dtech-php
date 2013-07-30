@@ -291,7 +291,7 @@ class Categories extends DTActiveRecord {
         $crtitera = new CDbCriteria();
         $city_id = isset(Yii::app()->session['city_id']) ? Yii::app()->session['city_id'] : $_REQUEST['city_id'];
         $crtitera->addCondition("parent_id = 0 AND city_id = " . $city_id);
-        $crtitera->select = "category_id,category_name";
+        $crtitera->select = "category_id,category_name,category_image";
         $crtitera->order = "FIELD(t.category_name ,'Books') DESC";
         $categories = $this->findAll($crtitera);
 
@@ -331,8 +331,10 @@ class Categories extends DTActiveRecord {
         $showCategories = array();
         foreach ($paren_categories as $model) {
             $showCategories[$model->category_id] = array(
+                            "category_id" => $model->category_id,
                             "name" => $model->category_name,
                             "slug" => $model->slug,
+                            "image" => $model->category_image,
                     );
             $childrenCats = Categories::model()->getchildrenCategory($model->category_id, "", "", 200);
             if (count($childrenCats) >= 1):
