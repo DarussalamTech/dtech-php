@@ -338,7 +338,7 @@ class ProductProfile extends DTActiveRecord {
     public function setSlug() {
         $module = Yii::app()->controller->getModule();
         if ($this->_controller == "site" || get_class($module) == "WebModule") {
-            $this->slag = $this->primaryKey . "-" . $this->slag;
+            $this->slag = $this->slag . "-" . $this->primaryKey;
         }
     }
 

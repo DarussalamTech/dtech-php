@@ -93,7 +93,8 @@ class Categories extends DTActiveRecord {
         if (!empty($this->category_image)) {
             $this->cat_image_url = Yii::app()->baseUrl . "/uploads/parent_category/" . $this->category_id . '/' . $this->category_image;
         }
-        $this->slug = str_replace(" ","-", $this->category_name);
+        $this->slug = str_replace(" ","-", $this->category_name."-".$this->primaryKey);
+        $this->slug = str_replace("/","-", $this->slug);
         parent::afterFind();
     }
 
@@ -281,6 +282,21 @@ class Categories extends DTActiveRecord {
 
         return $categories;
     }
+    /**
+     * retreving parent category for current city
+     * for menu
+     * 
+     */
+    public function getMenuParentCategories() {
+        $crtitera = new CDbCriteria();
+        $city_id = isset(Yii::app()->session['city_id']) ? Yii::app()->session['city_id'] : $_REQUEST['city_id'];
+        $crtitera->addCondition("parent_id = 0 AND city_id = " . $city_id);
+        $crtitera->select = "category_id,category_name";
+        $crtitera->order = "FIELD(t.category_name ,'Books') DESC";
+        $categories = $this->findAll($crtitera);
+
+        return $categories;
+    }
 
     /**
      * 
@@ -311,13 +327,16 @@ class Categories extends DTActiveRecord {
      * for displaying menu items
      */
     public function getMenuCategories() {
-        $paren_categories = Categories::model()->getParentCategories();
+        $paren_categories = Categories::model()->getMenuParentCategories();
         $showCategories = array();
-        foreach ($paren_categories as $id => $name) {
-            $showCategories[$id] = array("name" => $name);
-            $childrenCats = Categories::model()->getchildrenCategory($id, "", "", 200);
+        foreach ($paren_categories as $model) {
+            $showCategories[$model->category_id] = array(
+                            "name" => $model->category_name,
+                            "slug" => $model->slug,
+                    );
+            $childrenCats = Categories::model()->getchildrenCategory($model->category_id, "", "", 200);
             if (count($childrenCats) >= 1):
-                $showCategories[$id]['data'] = $childrenCats;
+                $showCategories[$model->category_id]['data'] = $childrenCats;
             endif;
         }
         return $showCategories;

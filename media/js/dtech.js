@@ -20,24 +20,11 @@ var dtech = {
                 '</div>';
 
         //$("#loading").show();
-        rite_html = $("#right_main_content").html();
-        $("#right_main_content").html(load_div + rite_html);
+        rite_html = $("#right_main_conent").html();
+        $("#right_main_conent").html(load_div + rite_html);
         $("#load_subpanel_div").show();
 
-        url_hash = window.location.hash;
 
-        if (id == "" && id != "all" && url_hash != "") {
-            url_hash = url_hash.split("=");
-            if (url_hash[0] == "#cat") {
-                id = url_hash[1];
-            }
-        }
-        /**
-         * in case of all id will be nul
-         */
-        if (id == "all") {
-            id = "";
-        }
 
         jQuery.ajax({
             type: "POST",
@@ -46,25 +33,24 @@ var dtech = {
                     {
                         cat_id: id,
                         ajax: 1,
-                        author: $("#author_id").val(),
-                        langs: dtech.getmultiplechecboxValue("filter_checkbox"),
+                        categories: dtech.getmultiplechecboxValue("filter_checkbox"),
+                        author: dtech.getmultiplechecboxValue("author_checkbox"),
+                        langs: dtech.getmultiplechecboxValue("lang_checkbox"),
                     }
         }).done(function(msg) {
-            $("#right_main_content").html(msg);
+            $("#right_main_conent").html(msg);
 
             if (id != "") {
-                s_url = "cat=" + id;
-                dtech.updatehashBrowerUrl(s_url);
-                dtech.updateCategoryStatus(id);
+                // s_url = "cat=" + id;
+                // dtech.updatehashBrowerUrl(s_url);
+                // dtech.updateCategoryStatus(id);
             }
             else {
-                dtech.updatehashBrowerUrl("");
-                dtech.updateCategoryStatus(id);
+                // dtech.updatehashBrowerUrl("");
+                // dtech.updateCategoryStatus(id);
             }
 
-            //$("#loading").hide();
-            jQuery("#sideBarBox").hide();
-            jQuery(".under_best_seller").hide();
+            jQuery("#load_subpanel_div").remove();
         });
         return false;
     },
@@ -98,11 +84,13 @@ var dtech = {
                     {
                         cat_id: id,
                         ajax: 1,
-                        author: $("#author_id").val(),
-                        langs: dtech.getmultiplechecboxValue("filter_checkbox"),
+                        author: dtech.getmultiplechecboxValue("author_checkbox"),
+                        langs: dtech.getmultiplechecboxValue("lang_checkbox"),
+                        categories: dtech.getmultiplechecboxValue("filter_checkbox"),
                     }
         }).done(function(msg) {
             $("#list_featured").append(msg);
+            $("#list_featured")
 
             if (id != "") {
                 s_url = "cat=" + id;
