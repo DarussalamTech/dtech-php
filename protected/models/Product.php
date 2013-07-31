@@ -401,6 +401,7 @@ class Product extends DTActiveRecord {
         if ($this->_controller == "site" || get_class($module) == "WebModule") {
             $this->slag = trim($this->slag) . "-" . $this->primaryKey;
             $this->slag = str_replace(" ", "-", $this->slag);
+            $this->slag = str_replace(Yii::app()->params['notallowdCharactorsUrl'],'',$this->slag);
         }
     }
 

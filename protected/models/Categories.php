@@ -10,6 +10,7 @@
  * @property integer $parent_id
  * @property integer $city_id
  * @property integer $category_image
+ * @property integer $is_main_featured
  *
  * The followings are the available model relations:
  * @property City $city
@@ -19,8 +20,24 @@ class Categories extends DTActiveRecord {
 
     public $totalStock;
     public $cat_image_url = array();
-    
     public $slug;
+    public $imageUrl = array();
+
+    /**
+     * set some good images for parent categories
+     * other has to upload
+     * @param type $scenario
+     */
+    public function __construct($scenario = 'insert') {
+        $this->imageUrl = array(
+            "Books" => Yii::app()->baseUrl . "/themes/dtech_second/images/books.png",
+            "Quran" => Yii::app()->baseUrl . "/themes/dtech_second/images/quran.png",
+            "Islamic devices" => Yii::app()->baseUrl . "/themes/dtech_second/images/toys.png",
+            "Others" => Yii::app()->baseUrl . "/themes/dtech_second/images/other.png",
+            "Educational Toys" => Yii::app()->baseUrl . "/themes/dtech_second/images/toys.png",
+        );
+        parent::__construct($scenario);
+    }
 
     /**
      * Returns the static model of the specified AR class.
@@ -53,7 +70,7 @@ class Categories extends DTActiveRecord {
             array('category_name, added_date', 'length', 'max' => 255),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('slug,category_image', 'safe'),
+            array('is_main_featured,slug,category_image', 'safe'),
             array('category_id, category_name, added_date, parent_id, city_id', 'safe', 'on' => 'search'),
         );
     }
@@ -92,14 +109,18 @@ class Categories extends DTActiveRecord {
     public function afterFind() {
         if (!empty($this->category_image)) {
             $this->cat_image_url = Yii::app()->baseUrl . "/uploads/parent_category/" . $this->category_id . '/' . $this->category_image;
+        } else {
+
+            $this->cat_image_url = isset($this->imageUrl[$this->category_name]) ? $this->imageUrl[$this->category_name] : "";
         }
-        $this->slug = str_replace(" ","-", $this->category_name."-".$this->primaryKey);
-        $this->slug = str_replace("/","-", $this->slug);
+        $this->slug = str_replace(" ", "-", $this->category_name . "-" . $this->primaryKey);
+        $this->slug = str_replace("/", "-", $this->slug);
+        $this->slug = str_replace(Yii::app()->params['notallowdCharactorsUrl'],'',$this->slug);
         parent::afterFind();
     }
 
     public function behaviors() {
-        
+
         $setArr = array(
             'CSaveRelationsBehavior' => array(
                 'class' => 'CSaveRelationsBehavior',
@@ -282,6 +303,7 @@ class Categories extends DTActiveRecord {
 
         return $categories;
     }
+
     /**
      * retreving parent category for current city
      * for menu
@@ -291,7 +313,7 @@ class Categories extends DTActiveRecord {
         $crtitera = new CDbCriteria();
         $city_id = isset(Yii::app()->session['city_id']) ? Yii::app()->session['city_id'] : $_REQUEST['city_id'];
         $crtitera->addCondition("parent_id = 0 AND city_id = " . $city_id);
-        $crtitera->select = "category_id,category_name,category_image";
+        $crtitera->select = "category_id,category_name,category_image,is_main_featured";
         $crtitera->order = "FIELD(t.category_name ,'Books') DESC";
         $categories = $this->findAll($crtitera);
 
@@ -331,47 +353,17 @@ class Categories extends DTActiveRecord {
         $showCategories = array();
         foreach ($paren_categories as $model) {
             $showCategories[$model->category_id] = array(
-                            "category_id" => $model->category_id,
-                            "name" => $model->category_name,
-                            "slug" => $model->slug,
-                            "image" => $model->category_image,
-                    );
+                "category_id" => $model->category_id,
+                "name" => $model->category_name,
+                "slug" => $model->slug,
+                "image" => $model->cat_image_url,
+            );
             $childrenCats = Categories::model()->getchildrenCategory($model->category_id, "", "", 200);
             if (count($childrenCats) >= 1):
                 $showCategories[$model->category_id]['data'] = $childrenCats;
             endif;
         }
         return $showCategories;
-    }
-
-    /**
-     * 
-     */
-    public function afterSave() {
-        $this->updateEnglishRecord();
-        parent::afterSave();
-    }
-    
-    
-
-    /**
-     * for updating english record
-     * on each case
-     * when parent record is updated
-     */
-    public function updateEnglishRecord() {
-        if ($this->_controller == "categories" && $this->_action == "update") {
-            $condition = "category_id = " . $this->primaryKey . " AND lang_id ='" . Yii::app()->params['defaultLanguage'] . "'";
-            $categories = CategoriesLang::model()->find($condition);
-            $categories->category_name = $this->category_name;
-            $categories->save();
-        } else if ($this->_controller == "categories" && $this->_action == "create") {
-            $categories = new CategoriesLang;
-            $categories->category_name = $this->category_name;
-            $categories->lang_id = Yii::app()->params['defaultLanguage'];
-            $categories->category_id = $this->category_id;
-            $categories->save();
-        }
     }
 
 }

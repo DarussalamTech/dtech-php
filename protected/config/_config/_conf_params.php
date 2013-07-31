@@ -43,5 +43,6 @@ $params = array(
     'mailSecuity' => 'ssl',
     'defaultLanguage' => 'en',
     'translatedLanguages' => array('en', 'ar'),
+    'notallowdCharactorsUrl' => array('[',']','@','!','$','&','(',')','*','+',';'),
 );
 ?>
