@@ -22,7 +22,7 @@ class Categories extends DTActiveRecord {
     public $cat_image_url = array();
     public $slug;
     public $imageUrl = array();
-    
+
     /**
      * set some good images for parent categories
      * other has to upload
@@ -115,6 +115,7 @@ class Categories extends DTActiveRecord {
         }
         $this->slug = str_replace(" ", "-", $this->category_name . "-" . $this->primaryKey);
         $this->slug = str_replace("/", "-", $this->slug);
+        $this->slug = str_replace(Yii::app()->params['notallowdCharactorsUrl'],'',$this->slug);
         parent::afterFind();
     }
 
@@ -312,7 +313,7 @@ class Categories extends DTActiveRecord {
         $crtitera = new CDbCriteria();
         $city_id = isset(Yii::app()->session['city_id']) ? Yii::app()->session['city_id'] : $_REQUEST['city_id'];
         $crtitera->addCondition("parent_id = 0 AND city_id = " . $city_id);
-        $crtitera->select = "category_id,category_name,category_image";
+        $crtitera->select = "category_id,category_name,category_image,is_main_featured";
         $crtitera->order = "FIELD(t.category_name ,'Books') DESC";
         $categories = $this->findAll($crtitera);
 
@@ -363,34 +364,6 @@ class Categories extends DTActiveRecord {
             endif;
         }
         return $showCategories;
-    }
-
-    /**
-     * 
-     */
-    public function afterSave() {
-        $this->updateEnglishRecord();
-        parent::afterSave();
-    }
-
-    /**
-     * for updating english record
-     * on each case
-     * when parent record is updated
-     */
-    public function updateEnglishRecord() {
-        if ($this->_controller == "categories" && $this->_action == "update") {
-            $condition = "category_id = " . $this->primaryKey . " AND lang_id ='" . Yii::app()->params['defaultLanguage'] . "'";
-            $categories = CategoriesLang::model()->find($condition);
-            $categories->category_name = $this->category_name;
-            $categories->save();
-        } else if ($this->_controller == "categories" && $this->_action == "create") {
-            $categories = new CategoriesLang;
-            $categories->category_name = $this->category_name;
-            $categories->lang_id = Yii::app()->params['defaultLanguage'];
-            $categories->category_id = $this->category_id;
-            $categories->save();
-        }
     }
 
 }
