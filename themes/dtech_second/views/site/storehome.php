@@ -15,15 +15,16 @@ Yii::app()->clientScript->registerScript('load_featured', 'jQuery(document).read
                 foreach ($this->menu_categories as $id => $p_cat) {
 
                     if ($counter <= 4) {
+                       
                         ?>
                         <div class = "qurani_books">
                             <?php
-                            echo CHtml::link(CHtml::image(Yii::app()->baseUrl . "/uploads/parent_category/" . $p_cat['category_id'] . '/' . $p_cat['image'], '', array(
+                            echo CHtml::link(CHtml::image($p_cat['image'], '', array(
                                     )), $this->createUrl("/web/product/category", array("slug" => $p_cat['slug'])));
                             ?>
 
                             <h2>
-                                <?php echo Yii::t('common', $name, array(), NULL, $this->currentLang); ?>
+                                <?php echo Yii::t('common', $p_cat['name'], array(), NULL, $this->currentLang); ?>
                             </h2>
                             <p>&nbsp;</p>
 

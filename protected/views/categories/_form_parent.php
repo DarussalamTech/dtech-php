@@ -29,6 +29,11 @@
         <?php echo $form->fileField($model, 'category_image'); ?>
         <?php echo $form->error($model, 'category_image'); ?>
     </div>
+    <div class="row">
+        <?php echo $form->labelEx($model, 'is_main_featured'); ?>
+        <?php echo $form->checkBox($model, 'is_main_featured'); ?>
+        <?php echo $form->error($model, 'is_main_featured'); ?>
+    </div>
 
 
     <?php

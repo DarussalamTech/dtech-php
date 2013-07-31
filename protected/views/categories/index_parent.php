@@ -77,14 +77,7 @@ $grid_array = array(
                 'style' => "text-align:left"
             )
         ),
-        array(
-            'name' => 'parent_id',
-            'type' => 'Raw',
-            'value' => '$data->getparent->category_name',
-            'headerHtmlOptions' => array(
-                'style' => "text-align:left"
-            )
-        ),
+
         array(
             'name' => 'category_image',
             "type" => "raw",
