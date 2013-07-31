@@ -1,0 +1,152 @@
+
+#content {
+    background: none repeat scroll 0 0 #FFFFFF;
+    float: left;
+    margin: 30px 0 0;
+    padding: 0;
+    width: 100%;
+}
+
+
+img {
+    border: medium none;
+    outline: medium none;
+}
+
+.general_content {
+    background: none repeat scroll 0 0 #FFFFFF;
+    margin: 0 0 0 348px;
+}
+
+
+
+.shipping_books_and_content {
+    float: left;
+    margin: 8px 19px 5px 98px;
+    width: 63%;
+}
+
+.shipping_books {
+    display: block;
+    margin: 0;
+    width: 90%;
+}
+.shipping_book {
+    float: left;
+}
+.shipping_content {
+    float: left;
+    margin: 0;
+    padding: 10px 0 0 30px;
+}
+
+.shipping_content h4 {
+    color: #0A1354;
+    font-size: 24px;
+}
+.shipping_content p {
+    color: #565656;
+    font-size: 12px;
+}
+.shipping_content article {
+    color: #0A1354;
+    font-size: 12px;
+}
+
+.shipping_content section {
+    color: #464646;
+    font-size: 10px;
+}
+
+.clear {
+    clear: both;
+}
+
+.quantity_text {
+    float: left;
+}
+
+.shipping_content section input {
+    background: none repeat scroll 0 0 #EBE9E9;
+    border: medium none;
+    border-radius: 3px 3px 3px 3px;
+    color: #888888;
+    font-size: 11px;
+    height: 21px;
+    width: 40px;
+}
+
+.up_down {
+    display: block;
+    float: left;
+    margin-left: -13px;
+    padding: 0;
+    width: 20px;
+}
+
+.up_down a {
+    float: left;
+    height: 10px;
+    margin: 0;
+    padding: 0;
+}
+a {
+    text-decoration: none;
+}
+
+.up_down a img {
+    height: 10px;
+    margin: 0;
+    padding: 0;
+}
+.shipping_up_img {
+    height: 10px;
+    margin: 0;
+    padding: 0;
+}
+a img {
+    border: medium none;
+    outline: medium none;
+}
+
+#status_available {
+    color: green !important;
+}
+* {
+    margin: 0;
+    padding: 0;
+}
+.shipping_button {
+    float: left;
+    margin: 0;
+    padding: 0;
+}
+
+.remove_shipping {
+    background: none repeat scroll 0 0 #EBB91C;
+    border: medium none;
+    border-radius: 5px 5px 5px 5px;
+    color: #F8F8F8;
+    cursor: pointer;
+    font-size: 16.35px;
+    height: 30px;
+    margin: 30px 0 0;
+    width: 200px;
+}
+
+.add_shipping {
+    background: none repeat scroll 0 0 #EBB91C;
+    border: medium none;
+    border-radius: 5px 5px 5px 5px;
+    color: #F8F8F8;
+    cursor: pointer;
+    font-size: 16.35px;
+    height: 30px;
+    margin: 0 0 0 20px;
+    width: 200px;
+}
+
+.under_view_heading {
+    margin: 0;
+    padding: 7px 0 0;
+}
