@@ -182,14 +182,7 @@ class OrderDetail extends DTActiveRecord {
                     'image_small' => $imagedata->image_url['image_small'],
                 );
             }
-            /**
-             * get category from slug
-             */
-            $category = "";
-            if (isset($products->slag)) {
-                $category = explode("-", $products->slag);
-                $category = $category[0];
-            }
+
             $featured_products[] = array(
                 'product_id' => $products->product_id,
                 'product_name' => $products->product_name,
@@ -199,7 +192,7 @@ class OrderDetail extends DTActiveRecord {
                 'product_price' => $products->productProfile[0]->price,
                 'no_image' => $products->no_image,
                 'slug' => $products->slag,
-                'category' => $category,
+                'category' => $products->parent_category->category_name,
                 'image' => $images
             );
         }
@@ -290,6 +283,7 @@ class OrderDetail extends DTActiveRecord {
 
         for ($i = 0; $i < $counter; $i++) {
 
+
             $product_name = $best_join[$i]->product_profile->product->product_name;
             $product_description = $best_join[$i]->product_profile->product->product_description;
             $product_overview = $best_join[$i]->product_profile->product->product_overview;
@@ -316,6 +310,7 @@ class OrderDetail extends DTActiveRecord {
                     'image_small' => $imagebest->image_url['image_small'],
                 );
             }
+   
 
             $best_products[$best_join[$i]->product_profile->product_id] =
                     array(
@@ -324,6 +319,9 @@ class OrderDetail extends DTActiveRecord {
                         'product_description' => $product_description,
                         'product_overview' => $product_overview,
                         'product_price' => $product_price,
+                        'slug' => $best_join[$i]->product_profile->product->slag,
+                        'category' => $best_join[$i]->product_profile->product->parent_category->category_name,
+                       
                         'totalOrder' => $product_totalOrder,
                         'no_image' => $best_join[$i]->product_profile->product->no_image,
                         'image' => $images);
