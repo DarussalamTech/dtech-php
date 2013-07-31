@@ -153,6 +153,7 @@ class Product extends DTActiveRecord {
      */
     public function allProducts($product_array = array(), $limit = 30, $parent_category = "Books", $category = "") {
 
+
         /**
          * all parent categories 
          * will be here
@@ -164,6 +165,8 @@ class Product extends DTActiveRecord {
          * for search we will provide the list of product
          */
         if (!empty($product_array)) {
+
+
             $criteria = new CDbCriteria(array(
                 'select' => '*',
                 'limit' => $limit,
@@ -185,10 +188,12 @@ class Product extends DTActiveRecord {
              * that should only be book
              */
             if ($category != "") {
+
                 $category = explode("-", $category);
                 if (in_array($category[count($category) - 1], $parent_categories)) {
                     $criteria->addCondition('t.parent_cateogry_id = ' . $category[count($category) - 1]);
                 } else {
+
                     /**
                      * it could be the  ajax scanario 
                      */
@@ -196,7 +201,7 @@ class Product extends DTActiveRecord {
                             't.product_id=product_categories.product_id';
                     $criteria->addCondition('product_categories.category_id= ' . $category[count($category) - 1]);
                 }
-            } else if(!isset($_POST['ajax'])) {
+            } else if (!isset($_POST['ajax'])) {
                 $parent_cat = Categories::model()->getParentCategoryId($parent_category);
                 $criteria->addCondition('parent_cateogry_id = ' . $parent_cat);
             }
@@ -238,13 +243,17 @@ class Product extends DTActiveRecord {
                     't.product_id=product_categories.product_id';
             $criteria->addCondition("product_categories.category_id='" . $_GET['category'] . "'");
         }
-       
+
+        /**
+         * get category from slug
+         */
         $dataProvider = new DTActiveDataProvider($this, array(
             'pagination' => array(
                 'pageSize' => $limit,
             ),
             'criteria' => $criteria,
-        ));       
+        ));
+
         return $dataProvider;
     }
 
@@ -280,11 +289,13 @@ class Product extends DTActiveRecord {
                 );
             }
 
+
             $all_pro[] = array(
                 'product_id' => $products->product_id,
                 'no_image' => $products->no_image,
                 'city_id' => $products->city_id,
                 'slug' => $products->slag,
+                'category' => $products->parent_category->category_name,
                 'city_short' => $products->city->short_name,
                 'country_short' => $products->city->country->short_name,
                 'product_name' => $products->product_name,
