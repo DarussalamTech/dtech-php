@@ -32,15 +32,15 @@ class ProductController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow all users to perform 'index' and 'view' actions
-                'actions' => array('viewcart', 
-                    'editcart', 
+                'actions' => array('viewcart',
+                    'editcart',
                     'viewwishlist', 'editwishlist', 'allproducts',
-                    'featuredproducts', 
-                    'bestsellings', 
-                    'productdetail', 
+                    'featuredproducts',
+                    'bestsellings',
+                    'productdetail',
                     'productlisting',
                     'productfilter',
-                    'productDetailLang','category'),
+                    'productDetailLang', 'category'),
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -86,11 +86,12 @@ class ProductController extends Controller {
                 'allCate' => $allCategories));
         }
     }
+
     //front site actions
     public function actionCategory($slug) {
 
-        
-        
+
+
         $this->is_cat_filter = true;
         Yii::app()->user->SiteSessions;
 
@@ -104,7 +105,7 @@ class ProductController extends Controller {
             //queries 
 
 
-            $dataProvider = Product::model()->allProducts("","","",$slug);
+            $dataProvider = Product::model()->allProducts("", "", "", $slug);
             $all_products = Product::model()->returnProducts($dataProvider);
 
             /**
@@ -128,10 +129,17 @@ class ProductController extends Controller {
      *  to get product on ajax bases
      *  for filter of category
      */
-    public function productfilter($slug ="") {
-        $dataProvider = Product::model()->allProducts("","","",$slug);
+    public function productfilter($slug = "") {
+        $dataProvider = Product::model()->allProducts("", "", "", $slug);
         $all_products = Product::model()->returnProducts($dataProvider);
-        $this->renderPartial("//product/_product_list", array('products' => $all_products,
+        $category = "";
+        if (isset($_REQUEST['slug'])) {
+            $title = explode("-", $_REQUEST['slug']);
+            $category = $title = $title[0];
+        }
+        $this->renderPartial("//product/_product_list", array(
+            'products' => $all_products,
+            'category' => $category,
             'dataProvider' => $dataProvider,));
     }
 
@@ -220,16 +228,28 @@ class ProductController extends Controller {
         Yii::app()->user->SiteSessions;
 
         try {
-            $id = explode("-",$_REQUEST['slug']);
-            $id = $id[count($id)-1];
+            $id = explode("-", $_REQUEST['slug']);
+            $id = $id[count($id) - 1];
             $product = Product::model()->localized(Yii::app()->controller->currentLang)->findByPk($id);
+            /**
+             * defining array for rendarparital for two main categories
+             */
+            $view_array = array(
+                "Books" => 'product',
+                "Quran" => 'quran'
+            );
+            $view = "others";
 
+            if (isset($view_array[$product->parent_category->category_name])) {
+                $view = $view_array[$product->parent_category->category_name];
+            }
+        
             /**
              *  getting value of poduct rating
              */
             $rating_value = ProductReviews::model()->calculateRatingValue($product->product_id);
 
-            $this->render('//product/product_detail', array('product' => $product, "rating_value" => $rating_value));
+            $this->render('//' . $view . '/product_detail', array('product' => $product, "rating_value" => $rating_value));
         } catch (Exception $e) {
             Yii::app()->theme = 'landing_page_theme';
             throw new CHttpException(500, "   Sorry ! Record Not found");
