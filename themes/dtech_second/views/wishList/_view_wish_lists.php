@@ -2,14 +2,18 @@
     <?php
     if (empty($wishList)) {
         ?>
-        <div id="login_content" style="margin-top: -2px">
-            <div class="payment_method_big_img">
+
+        <div class="shipping_books_and_content"  style="height: 303px;">
+            <div class="under_view_heading">
+                <h2>Wishlist</h2>
                 <?php
-                echo CHtml::image(Yii::app()->theme->baseUrl . "/images/shopping_cart_img_03.png", '', array('class' => "payment_method_big_img"));
+                echo CHtml::image(Yii::app()->theme->baseUrl . "/images/under_heading_07.png");
                 ?>
             </div>
-            <div class="secure_payment">
-                <h2 style="font-size:17px; color:#003366;margin: 20px 0 0 15px;">Your Wish List is empty.....</h2>
+            <div class="shipping_books_and_content">
+            <div class="shipping_book">
+                <h2 style="font-size:17px; color:#003366;margin: 6px 0 0 -88px;">Your Wish List is empty.....</h2>
+            </div>
             </div>
         </div>
     <?php } else {
@@ -24,39 +28,7 @@
             </div>
         </div>
         <?php
-        /**
-         * to handle the views 
-         * links becasue every category may have different things
-         * so 
-         */
-        $view_array = array(
-            "Books" => array(
-                "controller" => "product",
-                "view" => "_books/_book_info"
-            ),
-            "Educational Toys" => array(
-                "controller" => "educationToys",
-            ),
-            "Quran" => array(
-                "controller" => "quran",
-                "view" => "_quran/_quran_info"
-            ),
-            "Others" => array(
-                "controller" => "others",
-            ),
-        );
-
-
         foreach ($wishList as $pro) {
-
-
-            /**
-             * setting parent category
-             */
-            $parent_cat = "Books";
-            if (!empty($pro->productProfile->product->parent_category->category_name)) {
-                $parent_cat = $pro->productProfile->product->parent_category->category_name;
-            }
 
             $images = $pro->productProfile->getImage();
             $image = $pro->productProfile->product['no_image'];
@@ -70,7 +42,15 @@
                     <div class="shipping_book">
                         <?php
                         //echo CHtml::image(Yii::app()->theme->baseUrl . "/images/friendship_img_03.png");
-                        echo CHtml::link(CHtml::image($image, 'image', array('title' => $pro->productProfile->product->product_name)), $this->createUrl('/web/' . $view_array[$parent_cat]['controller'] . '/productDetail', array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'], 'product_id' => $pro->productProfile->product->product_id)), array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'], 'product_id' => $pro->productProfile->product->product_id));
+                        //echo CHtml::link(CHtml::image($image, 'image', array('title' => $pro->productProfile->product->product_name)), $this->createUrl('/web/' . $view_array[$parent_cat]['controller'] . '/productDetail', array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'], 'product_id' => $pro->productProfile->product->product_id)), array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'], 'product_id' => $pro->productProfile->product->product_id));
+                        echo CHtml::link(CHtml::image($image, 'image', array('style'=>'height:170px;width: 120px;')), $this->createUrl('/web/product/productDetail', array(
+                                    'country' => Yii::app()->session['country_short_name'],
+                                    'city' => Yii::app()->session['city_short_name'],
+                                    'city_id' => Yii::app()->session['city_id'],
+                                    "pcategory" => $pro->productProfile->product->parent_category->category_name,
+                                    "slug" => $pro->productProfile->product->slag,
+                                ))
+                        );
                         ?>
                     </div>
                     <div class="shipping_content">
@@ -84,12 +64,7 @@
                                 <?php echo isset($pro->productProfile->item_code) ? $pro->productProfile->item_code : ""; ?>
                             </span>
                         </p>
-                        <article>
-                            <?php
-                            echo CHtml::image(Yii::app()->theme->baseUrl . "/images/good_stars_img_03.png");
-                            ?>
-                            (7)
-                        </article>
+
                         <section>Price   :<?php echo round($pro->productProfile->price, 2) . ' <b>' . Yii::app()->session['currency'] . '</b>'; ?>
                             <div class="clear"></div>
                             <div class="quantity_text">
