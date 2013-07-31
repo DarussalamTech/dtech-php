@@ -105,7 +105,7 @@ $this->widget('CStarRating', array(
     ?>
 
     <?php
-    echo CHtml::ajaxLink(Yii::t('common', 'ADD TO WISHLIST', array(), NULL, $this->currentLang), $this->createUrl('/cart/addtowishlist'), array('data' => array(
+    echo CHtml::ajaxButton(Yii::t('common', 'ADD TO WISHLIST', array(), NULL, $this->currentLang), $this->createUrl('/cart/addtowishlist'), array('data' => array(
             'product_profile_id' => $product->productProfile[0]->id,
             'city_id' => !empty($_REQUEST['city_id']) ? $_REQUEST['city_id'] : Yii::app()->session['city_id'],
             'city' => !empty($_REQUEST['city_id']) ? $_REQUEST['city_id'] : Yii::app()->session['city_id'],
@@ -114,7 +114,7 @@ $this->widget('CStarRating', array(
         'dataType' => 'json',
         'success' => 'function(data){
                                            old_counter = jQuery.trim(jQuery("#wishlist_counter").html());
-                                           jQuery("#wishlist_counter").html(data.wishlist_counter);
+                                           jQuery(".wishlist_counter span").html(data.wishlist_counter);
                                            if(old_counter < data.wishlist_counter){
                                                  dtech.custom_alert("Item has added to Wishlist","Add to Wishlist");
                                            }

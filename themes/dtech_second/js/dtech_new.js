@@ -77,7 +77,7 @@ var dtech_new = {
                     }
         }).done(function(response) {
 
-            jQuery("#cart_control").html(response._view_cart);
+            jQuery("#cart").html(response._view_cart);
         });
     },
     updateCart: function(ajax_url, obj, cart_id) {

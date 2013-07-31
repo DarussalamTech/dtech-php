@@ -48,10 +48,10 @@ if (!Yii::app()->user->isGuest) {
 
             if (jQuery(".logoutPopup").is(':visible') == true) {
 
-                dtech_new.onShowLogin();
+                //dtech_new.onShowLogin();
             }
             else {
-                dtech_new.onHideLogin();
+               // dtech_new.onHideLogin();
             }
 
         }, function() {
