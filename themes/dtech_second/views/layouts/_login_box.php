@@ -31,9 +31,9 @@
     <div class="login_img">
 
 
-        <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/login_t_img_03.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "facebook"))); ?>
-        <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/login_in_img_03.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "twitter"))); ?>
-        <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/login_f_img_03.png", ''), $this->createUrl('/web/hybrid/login/', array("provider" => "linkedin"))); ?>
+        <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/login_t_img_03.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "twitter"))); ?>
+        <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/login_in_img_03.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "linkedin"))); ?>
+        <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/login_f_img_03.png", ''), $this->createUrl('/web/hybrid/login/', array("provider" => "facebook"))); ?>
         <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/login_g_img_03.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "google"))); ?>
     </div>
 
