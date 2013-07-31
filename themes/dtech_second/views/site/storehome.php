@@ -15,15 +15,11 @@ Yii::app()->clientScript->registerScript('load_featured', 'jQuery(document).read
                 foreach ($this->menu_categories as $id => $p_cat) {
 
                     if ($counter <= 4) {
-                        $category_id = $p_cat['category_id'];
-                        $name = $p_cat['name'];
-                        $slug = $p_cat['slug'];
-                        $image = $p_cat['image'];
                         ?>
                         <div class = "qurani_books">
                             <?php
-                            echo CHtml::link(CHtml::image(Yii::app()->baseUrl . "/uploads/parent_category/" . $category_id . '/' . $image, '', array(
-                                    )), $this->createUrl('/web/quran/index'));
+                            echo CHtml::link(CHtml::image(Yii::app()->baseUrl . "/uploads/parent_category/" . $p_cat['category_id'] . '/' . $p_cat['image'], '', array(
+                                    )), $this->createUrl("/web/product/category", array("slug" => $p_cat['slug'])));
                             ?>
 
                             <h2>
@@ -33,8 +29,8 @@ Yii::app()->clientScript->registerScript('load_featured', 'jQuery(document).read
 
                             <?php
                             echo CHtml::button(Yii::t('common', 'Shop Now', array(), NULL, $this->currentLang), array(
-                                "class" => "shop_now",
-                                "onclick" => "window.location ='" . $this->createUrl('/web/quran/index') . "'"
+                            "class" => "shop_now",
+                            "onclick" => "window.location ='" . $this->createUrl("/web/product/category", array("slug" => $p_cat['slug'])) . "'"
                             ));
                             ?>
                         </div>
