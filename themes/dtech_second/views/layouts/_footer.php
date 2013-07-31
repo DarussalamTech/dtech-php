@@ -29,9 +29,9 @@
                 <?php echo Yii::t('header_footer', 'get in TOUCH.', array(), NULL, $this->currentLang); ?>
             </h4>
             <div class="under_center_footer">
-                <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/t_img_03.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "facebook"))); ?>
-                <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/in_img_03.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "twitter"))); ?>
-                <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/f_img_03.png", ''), $this->createUrl('/web/hybrid/login/', array("provider" => "linkedin"))); ?>
+                <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/t_img_03.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "twitter"))); ?>
+                <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/in_img_03.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "linkedin"))); ?>
+                <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/f_img_03.png", ''), $this->createUrl('/web/hybrid/login/', array("provider" => "facebook"))); ?>
                 <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/g_img_03.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "google"))); ?>
             </div>
         </div>
