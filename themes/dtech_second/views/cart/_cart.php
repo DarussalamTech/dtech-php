@@ -18,7 +18,7 @@ foreach ($cart as $pro) {
     if ($count % 2 == 0) {
         $css_alternat = "alternate_row_cart";
     }
-    $cart_html = "<div class='login_img  " . $css_alternat . "'>";
+    $cart_html .= "<div class='login_img  " . $css_alternat . "'>";
     $cart_html .= "<p>";
     $cart_html .= CHtml::textField('quantity' . $pro->cart_id, $pro->quantity, array(
                 "class" => "tafsir_text",
