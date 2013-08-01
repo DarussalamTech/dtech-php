@@ -243,13 +243,17 @@ class ProductController extends Controller {
             if (isset($view_array[$product->parent_category->category_name])) {
                 $view = $view_array[$product->parent_category->category_name];
             }
-        
+
             /**
              *  getting value of poduct rating
              */
             $rating_value = ProductReviews::model()->calculateRatingValue($product->product_id);
 
-            $this->render('//' . $view . '/product_detail', array('product' => $product, "rating_value" => $rating_value));
+            $this->render('//product/product_detail', array(
+                'product' => $product,
+                "rating_value" => $rating_value,
+                "view" => $view
+            ));
         } catch (Exception $e) {
             Yii::app()->theme = 'landing_page_theme';
             throw new CHttpException(500, "   Sorry ! Record Not found");
