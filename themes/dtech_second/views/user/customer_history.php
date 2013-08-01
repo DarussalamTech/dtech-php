@@ -1,15 +1,33 @@
 <?php
+Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/cart_gridview.css');
 if ($cart->getItemCount() <= 0) {
     ?>
-    <div id="shopping_cart" style="height:308px;text-align:center;  ">
-        <div id="main_shopping_cart">
-            <div class="left_right_cart">
-                You have not place any Order Yet..... Please Place some orders
+    <div class="no_orders">
+        <div class="under_view_heading">
+            <h2>Your Orders</h2>
+            <?php
+            echo CHtml::image(Yii::app()->theme->baseUrl . "/images/under_heading_07.png");
+            ?>
+        </div>
+        <div class="shipping_books_and_content">
+            <div class="shipping_book">
+                <h2 style="font-size:17px; color:#003366;">You have placed NO orders Yet...</h2>
             </div>
-        </div>                                        
+        </div>
     </div>
+
     <?php
 } else {
+    ?>
+    
+        <div class="heading_cart">
+            <h2>Your Orders</h2>
+            <?php
+            echo CHtml::image(Yii::app()->theme->baseUrl . "/images/under_heading_07.png");
+            ?>
+        </div>
+
+    <?php
     //CVarDumper::dump($cart,20,TRUE);die;
     $config = array(
         'criteria' => array(
@@ -35,12 +53,12 @@ if ($cart->getItemCount() <= 0) {
                 "type" => "raw",
             ),
             array(
-            'class' => 'CLinkColumn',
-            'label' => 'View Detail',
-            'header' => 'View Order Detail',
-            'urlExpression' => 'Yii::app()->controller->createUrl("user/orderDetail",array("id"=>$data->order_id))',
-            'linkHtmlOptions' => array(
-                "onclick" => '
+                'class' => 'CLinkColumn',
+                'label' => 'View Detail',
+                'header' => 'View Order Detail',
+                'urlExpression' => 'Yii::app()->controller->createUrl("user/orderDetail",array("id"=>$data->order_id))',
+                'linkHtmlOptions' => array(
+                    "onclick" => '
                     $("#loading").show();
                     ajax_url = $(this).attr("href");
                    
@@ -53,9 +71,8 @@ if ($cart->getItemCount() <= 0) {
                     });
                     return false;
                     '
+                ),
             ),
-        ),
-
         ),
     ));
 }

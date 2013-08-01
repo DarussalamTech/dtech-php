@@ -4,21 +4,22 @@
     background:url(loading.gif) no-repeat;
 }
 
-.grid-view{
+
+.grid-view {
     font-size: 0.9em;
-    margin-bottom: 10px;
-    width: 95%;
-    margin-left: 3%;
+    margin: auto;
+    width: 960px;
 }
 .attachment_files_grid{
     margin: 0px 40px;
 }
 .grid-view table.items {
-    background: white;
+    background: none repeat scroll 0 0 white;
+    border: 1px solid #E9E9E9;
     border-collapse: collapse;
+    font-size: 12px;
+
     width: 100%;
-    border: 1px #E9E9E9 solid;
-    font-size:12px;
 }
 
 
@@ -104,8 +105,18 @@
 
 .grid-view .button-column img
 {
-    border: 0;
-    padding: 2px;
+    background: none repeat scroll 0 0 #10459C;
+    border: medium none;
+    border-radius: 5px 5px 5px 5px;
+    color: #FFFFFF;
+    cursor: pointer;
+    float: left;
+    font-family: Gotham,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 13px;
+    height: 21px;
+    margin: 1px -5px 2px 19px;
+    text-align: center;
+    width: 55px;
 }
 
 .grid-view .checkbox-column
@@ -251,4 +262,31 @@ customized code
     height: 16px;
 }
 
-.check_out_cart { cursor:pointer;float:right;padding: 0; margin-right: 50px; width:10%; border: none; background:#10459c; color:#FFF; border-radius:3px; height:30px; }
+.check_out_cart {
+    background: none repeat scroll 0 0 #10459C;
+    border: medium none;
+    border-radius: 3px 3px 3px 3px;
+    color: #FFFFFF;
+    cursor: pointer;
+    float: right;
+    height: 30px;
+    margin: 12px 364px -8px 0;
+    padding: 0;
+    width: 9%;
+}
+.heading_cart{
+    margin: auto;
+    width: 960px;
+}
+.heading_cart h2{
+    margin: 0 0 6px;
+}
+#order_detail{
+    margin: auto;
+    width: 960px;
+}
+.no_orders{
+    margin: auto;
+    width: 960px;
+    height: 430px;
+}

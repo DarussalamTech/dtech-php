@@ -23,7 +23,7 @@ $('.search-form form').submit(function(){
 ?>
 <br/>
 <div>
-    <h4 style="margin-left: 3%;">Your Order Details</h4>
+    <h4>Your Order Details</h4>
 </div>
 
 
