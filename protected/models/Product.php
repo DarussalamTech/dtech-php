@@ -249,7 +249,7 @@ class Product extends DTActiveRecord {
          */
         $dataProvider = new DTActiveDataProvider($this, array(
             'pagination' => array(
-                'pageSize' => $limit,
+                'pageSize' => 12,
             ),
             'criteria' => $criteria,
         ));
@@ -401,7 +401,7 @@ class Product extends DTActiveRecord {
         if ($this->_controller == "site" || get_class($module) == "WebModule") {
             $this->slag = trim($this->slag) . "-" . $this->primaryKey;
             $this->slag = str_replace(" ", "-", $this->slag);
-            $this->slag = str_replace(Yii::app()->params['notallowdCharactorsUrl'],'',$this->slag);
+            $this->slag = str_replace(Yii::app()->params['notallowdCharactorsUrl'], '', $this->slag);
         }
     }
 
