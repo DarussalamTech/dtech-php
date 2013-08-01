@@ -56,6 +56,12 @@
     </p>
     <p>Item Code: 
         <?php
+        echo isset($product->productProfile[0]->item_code) ? $product->productProfile[0]->item_code : "";
+        ?>
+    </p>
+    </p>
+    <p>ISBN : 
+        <?php
         echo isset($product->productProfile[0]->isbn) ? $product->productProfile[0]->isbn : "";
         ?>
     </p>
