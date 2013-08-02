@@ -230,11 +230,17 @@ class ProductController extends Controller {
         try {
             $id = explode("-", $_REQUEST['slug']);
             $id = $id[count($id) - 1];
-           
+
             $product = Product::model()->localized(Yii::app()->controller->currentLang)->findByPk($id);
-            
-            //$product = Product::model()->findByPk($id);
-           
+
+            /**
+             * if no record found in english
+             */
+            if (empty($product)) {
+                $product = Product::model()->findByPk($id);
+            }
+
+
             /**
              * defining array for rendarparital for two main categories
              */
@@ -247,8 +253,8 @@ class ProductController extends Controller {
             if (isset($view_array[$product->parent_category->category_name])) {
                 $view = $view_array[$product->parent_category->category_name];
             }
-            
-           
+
+
 
             /**
              *  getting value of poduct rating
@@ -261,7 +267,7 @@ class ProductController extends Controller {
                 "view" => $view
             ));
         } catch (Exception $e) {
-        
+
             Yii::app()->theme = 'landing_page_theme';
             throw new CHttpException(500, "   Sorry ! Record Not found in this language");
         }
@@ -275,17 +281,44 @@ class ProductController extends Controller {
 
 
         try {
-            $product = Product::model()->localized("ar")->findByPk($_REQUEST['product_id']);
 
- 
+            ;
+            $product = Product::model()->findByPk($_REQUEST['product_id']);
+
+            /**
+             * if no record found in english
+             */
+            if (empty($product)) {
+                $product = Product::model()->findByPk($id);
+            }
+
+
+            /**
+             * defining array for rendarparital for two main categories
+             */
+            $view_array = array(
+                "Books" => 'product',
+                "Quran" => 'quran'
+            );
+            $view = "other";
+
+            if (isset($view_array[$product->parent_category->category_name])) {
+                $view = $view_array[$product->parent_category->category_name];
+            }
+
+
             /**
              *  getting value of poduct rating
              */
             $rating_value = ProductReviews::model()->calculateRatingValue($product->product_id);
 
-            $this->render('//product/product_detail', array('product' => $product, "rating_value" => $rating_value));
+            $this->render('//product/product_detail', array(
+                'product' => $product,
+                "rating_value" => $rating_value,
+                "view" => $view
+            ));
         } catch (Exception $e) {
-          
+
             Yii::app()->theme = 'landing_page_theme';
             throw new CHttpException(500, "   Sorry ! Record Not found");
         }

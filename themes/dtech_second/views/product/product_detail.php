@@ -17,7 +17,7 @@ $this->widget('ext.lyiightbox.LyiightBox2', array(
 ?>
 <div id="book_detail_part">
     <div id="book_detail">
-        <h1><?php echo $product->product_name; ?></h1>
+        
         <div class="upper_detail">
             <div class="left_upper_part">
                 <?php echo $this->renderPartial("//product/_product_detail_image", array("product" => $product)) ?>

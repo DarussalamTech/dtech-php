@@ -116,7 +116,7 @@ class Product extends DTActiveRecord {
             ),
             'DTMultiLangBehaviour' => array(
                 'class' => 'DTMultiLangBehaviour',
-                'langClassName' => 'productlangs',
+                'langClassName' => 'ProductLang',
                 'relation' => 'productlangs',
                 'langTableName' => 'product_lang',
                 'langForeignKey' => 'product_id',

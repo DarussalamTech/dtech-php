@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Language tranlsation 
+ * libraray
+ */
 class DTMultiLangBehaviour extends CActiveRecordBehavior {
 
     /**
@@ -22,7 +26,7 @@ class DTMultiLangBehaviour extends CActiveRecordBehavior {
         $this->current_lang = $lang;
 
         $owner = $this->getOwner();
-      
+
         if ($this->current_lang != $this->defaultLanguage) {
             $owner->getDbCriteria()->with = array($this->relation => array('joinType' => 'INNER JOIN',
                     "condition" => "lang_id='$lang'"));
@@ -39,12 +43,36 @@ class DTMultiLangBehaviour extends CActiveRecordBehavior {
 
             foreach ($this->localizedAttributes as $attr) {
                 $owner->$attr = isset($relation[0]->$attr) ? $relation[0]->$attr : "";
-               
             }
         }
 
 
         parent::afterFind($event);
+    }
+
+    /**
+     * every time when english or parent records
+     * is created then 
+     * afterSave will be called
+     * to save in other languages
+     * @param type $event
+     */
+    public function afterSave($event) {
+        $owner = $this->getOwner();
+        $languages = Yii::app()->params['otherLanguages'];
+        foreach($languages as $lang){
+            $chilModel = new $this->langClassName;
+            $chilModel->lang_id = $lang;
+            foreach($this->localizedAttributes as $attr){
+                $chilModel->$attr = "";
+                
+            }
+            $foreign_key = $this->langForeignKey;
+            $chilModel->$foreign_key = $owner->primaryKey;
+         
+            $chilModel->save();
+        }
+        return parent::afterSave($event);
     }
 
 }
