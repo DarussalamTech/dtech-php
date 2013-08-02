@@ -1,7 +1,7 @@
 <?php
 $dir = "other";
 $fields_div_id = $dir . '_fields';
-$heading = "Other";
+$heading = "Detail";
 $mName = "Other";
 
 /* when page is rediretc it contains #relation name use same name to go at that child at page */
