@@ -13,6 +13,7 @@ $form = $this->beginWidget('CActiveForm', array(
 <div class="form_container">
     <div class="row_left_form row_center_form">
         <div class="shipping_address_heading">
+            <h3 style="color:#003366">Sign In</h3>
             <h2><?php echo Yii::t('common', 'Already a member?', array(), NULL, $this->currentLang) ?></h2>
             <div class="clear"></div>
             <div id="errors" style="color: red">
@@ -73,7 +74,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
             <div class="row_text">
                 <article>
-                <h2><?php echo Yii::t('common', 'Login with', array(), NULL, $this->currentLang) ?></h2>
+                    <h2><?php echo Yii::t('common', 'Login with', array(), NULL, $this->currentLang) ?></h2>
                 </article>
             </div>
             <div class="row_input_type">

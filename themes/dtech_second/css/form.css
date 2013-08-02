@@ -63,7 +63,7 @@ hr.style-two {
 }
 
 .row_center_form { 
-    height: 718px;
+
     margin: 7px auto -20px;
     padding: 1px;
     width: 960px;
@@ -88,7 +88,7 @@ hr.style-two {
 
 .row_input_type { padding: 0; margin: 0; float:left; width:50%; }
 
-.row_button { padding: 0; margin: 0 40px 0 0; float:right; width:61px; height:31px; border: none; background:url(../images/save_bg_img_03.png) no-repeat; color:#FFF; font-size:14px;cursor: pointer; }
+.row_button { padding: 0; margin: 0 55px 4px 0; float:right; width:61px; height:31px; border: none; background:url(../images/save_bg_img_03.png) no-repeat; color:#FFF; font-size:14px;cursor: pointer; }
 
 .row_text_type { height:21px; border: none; border: 1px solid #c0c0c0; width:88%; }
 .row_drop_down { height:21px; border: none; border: 1px solid #c0c0c0; width:90%; }

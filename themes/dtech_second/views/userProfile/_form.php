@@ -59,11 +59,12 @@ $form = $this->beginWidget(
             <h2>My Account Detail</h2>
             <div class="clear"></div>
             <article><span>*</span>Mandatory Fields</article>
+            <article> 
+                <div id='error' style="color: red">
+                    <?php echo $form->errorSummary($model); ?>
+                </div>
+            </article>
         </div>
-
-        <?php
-        echo CHtml::submitButton("Save", array("class" => "row_button"))
-        ?>
         <div class="row_input">
             <div class="row_text">
                 <article>
@@ -71,14 +72,6 @@ $form = $this->beginWidget(
                 </article>
             </div>
             <div class="row_input_type">
-                <?php
-//                echo CHtml::image($model->uploaded_img, '', array(
-//                    "width" => "80",
-//                    "height" => "80",
-//                    "style" => "cursor:pointer",
-//                    "onclick" => "$('#UserProfile_avatar').trigger('click')",
-//                ));
-                ?>
                 <?php echo $form->hiddenField($model, 'avatar', array("style" => "display:none")); ?>
                 <?php echo $form->fileField($model, 'temp_avatar', array("style" => "display:none")); ?>
             </div>
@@ -245,6 +238,19 @@ $form = $this->beginWidget(
                 <?php echo $form->checkBox($model, 'is_shipping_address', array('class' => 'account_text')); ?>
             </div>
         </div>
+        <div class="row_input">
+            <div class="row_text">
+                <article>
+
+                </article>
+            </div>
+            <div class="row_input_type">
+                <?php
+                echo CHtml::submitButton("Save", array("class" => "row_button"))
+                ?>
+            </div>
+        </div>
+
     </div>
 
 </div>
