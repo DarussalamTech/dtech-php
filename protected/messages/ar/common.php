@@ -15,6 +15,7 @@ return array(
     "Quran" => "القرآن",
     "Educational Toys" => "ألعاب تعليمية",
     "Other Items" => "الأصناف الأخرى",
+    "Others" => "آخرون",
     "Popular" => "شعبي ",
     "Select Your Country" => "حدد بلدك",
     "Remember me" => " تذكرني",

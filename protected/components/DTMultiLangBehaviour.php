@@ -28,7 +28,7 @@ class DTMultiLangBehaviour extends CActiveRecordBehavior {
         $owner = $this->getOwner();
 
         if ($this->current_lang != $this->defaultLanguage) {
-            $owner->getDbCriteria()->with = array($this->relation => array('joinType' => 'INNER JOIN',
+            $owner->getDbCriteria()->with = array($this->relation => array('joinType' => 'LEFT JOIN',
                     "condition" => "lang_id='$lang'"));
         }
 
