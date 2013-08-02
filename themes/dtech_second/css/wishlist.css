@@ -15,15 +15,14 @@ img {
 
 .general_content {
     background: none repeat scroll 0 0 #FFFFFF;
-    margin: 0 0 0 348px;
 }
 
 
 
 .shipping_books_and_content {
-    float: left;
-    margin: 8px 19px 5px 98px;
-    width: 63%;
+    margin: 0 auto;
+    padding: 1px;
+    width: 960px;
 }
 
 .shipping_books {
@@ -149,4 +148,9 @@ a img {
 .under_view_heading {
     margin: 0;
     padding: 7px 0 0;
+}
+
+.wishlist_content_data{
+    margin: 3px 3px 189px 26px;
+    padding: 1px;
 }

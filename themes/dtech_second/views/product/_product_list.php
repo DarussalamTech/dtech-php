@@ -8,9 +8,15 @@ foreach ($products as $product) {
     }
     echo CHtml::openTag("div", array("class" => "featured_cover"));
     echo CHtml::openTag("div", array("class" => "featured_cover_part", 'style' => 'height: 232px;'));
-
     if (Yii::app()->controller->action->id == "getSearch") {
-        echo CHtml::link(CHtml::image($image, 'image', array("title" => "")), Yii::app()->createUrl('/web/search/searchDetail', array('country' => $product['country_short'], 'city' => $product['city_short'], 'city_id' => $product['city_id'], 'product_id' => $product['product_id'])));
+
+        echo CHtml::link(CHtml::image($image, 'image', array("title" => "")), $this->createUrl('/web/product/productDetail', array(
+                    'country' => Yii::app()->session['country_short_name'],
+                    'city' => Yii::app()->session['city_short_name'],
+                    'city_id' => Yii::app()->session['city_id'],
+                    "pcategory" => $product['category'],
+                    "slug" => $product['slug'],
+        )));
     } else {
 
         echo CHtml::link(CHtml::image($image, 'image', array("title" => "")), $this->createUrl('/web/product/productDetail', array(

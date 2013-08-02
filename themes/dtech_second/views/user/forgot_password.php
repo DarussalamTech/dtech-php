@@ -1,39 +1,23 @@
-
 <?php
-$this->webPcmWidget['filter'] = array('name' => 'DtechSecondSidebar',
-    'attributes' => array(
-        'cObj' => $this,
-        'cssFile' => Yii::app()->theme->baseUrl . "/css/side_bar.css",
-        'is_cat_filter' => 1,
+Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/login_style.css');
+
+$form = $this->beginWidget('CActiveForm', array(
+    'id' => 'login-form',
+    'enableClientValidation' => true,
+    'clientOptions' => array(
+        'validateOnSubmit' => true,
+    ),
         ));
 ?>
-<?php
-$this->webPcmWidget['best'] = array('name' => 'DtechBestSelling',
-    'attributes' => array(
-        'cObj' => $this,
-        'cssFile' => Yii::app()->theme->baseUrl . "/css/side_bar.css",
-        'is_cat_filter' => 0,
-        ));
-?>
-<div id="login_content">
-    <?php
-    echo CHtml::image(Yii::app()->theme->baseUrl . "/images/shopping_cart_img_03.png");
-    ?>
-    <h6><?php echo Yii::t('common', 'Forgot password?', array(), NULL, $this->currentLang) ?></h6>
-
-    <?php
-    $login_model = new LoginForm;
-    $form = $this->beginWidget('CActiveForm', array(
-        'id' => 'login-form',
-        //'action' => Yii::app()->createUrl('/web/user/forgot'),
-        'enableClientValidation' => true,
-        'clientOptions' => array(
-            'validateOnSubmit' => true,
-        ),
-    ));
-    ?>
-
-    <div class="login_part">
+<div class="form_container">
+    <div class="row_left_form row_center_form">
+        <div class="shipping_address_heading">
+            <h2><?php echo Yii::t('common', 'Forgot password?', array(), NULL, $this->currentLang) ?></h2>
+            <div class="clear"></div>
+            <div id="errors" style="color: red">
+                <?php echo $form->errorSummary($model); ?>
+            </div>
+        </div>
         <div id="mydi" style="color:red">
             <?php
             if (Yii::app()->user->hasFlash('incorrect_email') || Yii::app()->user->hasFlash('password_reset') || Yii::app()->user->hasFlash('superAdmin')) {
@@ -47,20 +31,39 @@ $this->webPcmWidget['best'] = array('name' => 'DtechBestSelling',
 
             <?php } ?>
         </div>
-        <p><?php echo Yii::t('common', 'Your Email', array(), NULL, $this->currentLang) ?></p><br>
-        <?php echo $form->textField($model, 'user_email', array("class" => "text")); ?>
-        <br> <br>
-        <?php echo CHtml::submitButton(Yii::t('common', 'Send', array(), NULL, $this->currentLang), array("class" => "user_login_button", 'style' => 'width:150px;margin:1px 100px 0px')); ?> 
-    </div>
-    <?php $this->endWidget(); ?>
-    <div class="login_with_images">
-        <h4><?php echo Yii::t('common', 'Login with', array(), NULL, $this->currentLang) ?></h4>
+        <div class="row_input">
+            <div class="row_text">
+                <article>
+                    <?php echo Yii::t('common', 'Your Email', array(), NULL, $this->currentLang) ?>
+                </article>
+            </div>
+            <div class="row_input_type">
+                <?php echo $form->textField($model, 'user_email', array("class" => "text")); ?>
+                <br> <br>
+            </div>
+        </div>
+        <div class="row_input">
 
-        <?php
-        echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/facebook_login_03.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "facebook")));
-        echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/bird_login_03.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "twitter")));
-        echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/google_login_03.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "google")));
-        echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/in_img_06.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "linkden")));
-        ?>
+            <?php
+            echo CHtml::submitButton(Yii::t('common', 'Send', array(), NULL, Yii::app()->controller->currentLang), array("class" => "row_button"));
+            ?>
+        </div>
+        <div class="row_input">
+            <div class="row_text">
+                <article>
+                    <h2><?php echo Yii::t('common', 'Login with', array(), NULL, $this->currentLang) ?></h2>
+                </article>
+            </div>
+            <div class="row_input_type">
+                <?php
+                echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/facebook_login_03.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "facebook")), array("onclick" => "dtech.doSocial('login-form',this);return false;"));
+                echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/bird_login_03.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "twitter")), array("onclick" => "dtech.doSocial('login-form',this);return false;"));
+                echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/google_login_03.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "google")), array("onclick" => "dtech.doSocial('login-form',this);return false;"));
+                echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/in_img_06.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "linkedin")), array("onclick" => "dtech.doSocial('login-form',this);return false;"));
+                ?>
+            </div>
+        </div>
     </div>
+
 </div>
+<?php $this->endWidget(); ?>

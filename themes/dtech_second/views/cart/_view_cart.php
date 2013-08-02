@@ -11,7 +11,7 @@
     if ($cart->getItemCount() == 0) {
         Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/wishlist.css');
         ?>
-        <div class="shipping_books_and_content"  style="height: 303px;">
+        <div class="shipping_books_and_content"  style="height: 393px;">
             <div class="under_view_heading">
                 <h2>Shoppin Cart</h2>
                 <?php
@@ -20,7 +20,7 @@
             </div>
             <div class="shipping_books_and_content">
                 <div class="shipping_book">
-                    <h2 style="font-size:17px; color:#003366;margin: 6px 0 0 -88px;">Your Shopping Cart is empty.....</h2>
+                    <h2 style="font-size:17px; color:#003366;">Your Shopping Cart is empty.....</h2>
                 </div>
             </div>
         </div>
