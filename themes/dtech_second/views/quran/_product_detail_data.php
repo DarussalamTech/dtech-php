@@ -1,12 +1,16 @@
 <div class="center_detail">
-    <p>Title:
+    <p> <?php
+        echo Yii::t('model_labels', 'Title', array(), NULL, $this->currentLang) . ":";
+        ?>
         <?php
         if (!empty($product->productProfile[0]->title)) {
             echo $product->productProfile[0]->title;
         }
         ?>
     </p>
-    <p>Available Languages: 
+    <p> <?php
+        echo Yii::t('model_labels', 'Available Languages', array(), NULL, $this->currentLang) . ":";
+        ?>
         <?php
         $languages = $product->getBookLanguages();
 
@@ -41,7 +45,10 @@
         }
         ?>
     </p>
-    <p>Availability : 
+    <p> 
+        <?php
+        echo Yii::t('model_labels', 'Availability', array(), NULL, $this->currentLang) . ":";
+        ?>
         <?php
         $total_in_cart = Cart::model()->getTotalCountProduct($product->productProfile[0]->id);
         $total_av = $product->productProfile[0]->quantity - $total_in_cart;
@@ -54,17 +61,27 @@
         }
         ?>
     </p>
-    <p>Item Code: 
+    <p>
+        <?php
+        echo Yii::t('model_labels', 'Item Code', array(), NULL, $this->currentLang) . ":";
+        ?>
         <?php
         echo isset($product->productProfile[0]->item_code) ? $product->productProfile[0]->item_code : "";
         ?>
     </p>
-    <p>ISBN: 
+    <p>
+
+        <?php
+        echo Yii::t('model_labels', 'ISBN', array(), NULL, $this->currentLang) . ":";
+        ?>
         <?php
         echo isset($product->productProfile[0]->isbn) ? $product->productProfile[0]->isbn : "";
         ?>
     </p>
-    <p>Category: 
+    <p>
+        <?php
+        echo Yii::t('model_labels', 'Category', array(), NULL, $this->currentLang) . ":";
+        ?>
         <?php
         $cat_count = 0;
         foreach ($product->productCategories as $cat) {
@@ -80,7 +97,10 @@
     <?php
     if (!empty($product->productProfile[0]->translator_rel->name)):
         ?>
-        <p>Translator: 
+        <p>
+            <?php
+            echo Yii::t('model_labels', 'Translator', array(), NULL, $this->currentLang) . ":";
+            ?>
             <?php
             echo $product->productProfile[0]->translator_rel->name;
             ?>
@@ -91,7 +111,10 @@
     <?php
     if (!empty($product->productProfile[0]->compiler_rel->name)):
         ?>
-        <p>Compiler: 
+        <p> 
+            <?php
+            echo Yii::t('model_labels', 'Compiler', array(), NULL, $this->currentLang) . ":";
+            ?>
             <?php
             echo $product->productProfile[0]->compiler_rel->name;
             ?>
@@ -102,7 +125,10 @@
     <?php
     if (!empty($product->productProfile[0]->dimension_rel->title)):
         ?>
-        <p>Dimension: 
+        <p>
+            <?php
+            echo Yii::t('model_labels', 'Dimension', array(), NULL, $this->currentLang) . ":";
+            ?>
             <?php
             echo $product->productProfile[0]->dimension_rel->title;
             ?>
@@ -113,7 +139,10 @@
     <?php
     if (!empty($product->productProfile[0]->binding_rel->title)):
         ?>
-        <p>Binding: 
+        <p>
+            <?php
+            echo Yii::t('model_labels', 'Binding', array(), NULL, $this->currentLang) . ":";
+            ?>
             <?php
             echo $product->productProfile[0]->binding_rel->title;
             ?>
@@ -124,7 +153,10 @@
     <?php
     if (!empty($product->productProfile[0]->printing_rel->title)):
         ?>
-        <p>Printing: 
+        <p>
+            <?php
+            echo Yii::t('model_labels', 'Printing', array(), NULL, $this->currentLang) . ":";
+            ?>
             <?php
             echo $product->productProfile[0]->printing_rel->title;
             ?>
@@ -135,7 +167,10 @@
     <?php
     if (!empty($product->productProfile[0]->paper_rel->title)):
         ?>
-        <p>Paper Type: 
+        <p> 
+            <?php
+            echo Yii::t('model_labels', 'Paper Type', array(), NULL, $this->currentLang) . ":";
+            ?>
             <?php
             echo $product->productProfile[0]->paper_rel->title;
             ?>
@@ -146,7 +181,10 @@
     <?php
     if (!empty($product->productProfile[0]->no_of_pages)):
         ?>
-        <p>No Of Pages: 
+        <p> 
+            <?php
+            echo Yii::t('model_labels', 'No Of Pages', array(), NULL, $this->currentLang) . ":";
+            ?>
             <?php
             echo $product->productProfile[0]->no_of_pages;
             ?>
@@ -157,7 +195,10 @@
     <?php
     if (!empty($product->productProfile[0]->edition)):
         ?>
-        <p>Edition: 
+        <p> 
+            <?php
+            echo Yii::t('model_labels', 'Edition', array(), NULL, $this->currentLang) . ":";
+            ?>
             <?php
             echo $product->productProfile[0]->edition;
             ?>
@@ -165,17 +206,7 @@
         <?php
     endif;
     ?>
-    <?php
-    if (!empty($product->productProfile[0]->edition)):
-        ?>
-        <p>Edition: 
-            <?php
-            echo $product->productProfile[0]->edition;
-            ?>
-        </p>
-        <?php
-    endif;
-    ?>
+
     <?php
     $profile_id = $product->productProfile[0]->id;
     $attributes = ProductAttributes::model()->ConfAttributes($profile_id);
