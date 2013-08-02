@@ -15,7 +15,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/det
 $this->widget('ext.lyiightbox.LyiightBox2', array(
 ));
 ?>
-<div id="book_detail_part">
+<div id="main_features_part">
     <div id="book_detail">
         
         <div class="upper_detail">
