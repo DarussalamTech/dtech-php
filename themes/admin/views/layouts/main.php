@@ -65,7 +65,12 @@
                     <!-- header -->
                     <div id="profile_menu">
                         <div class="left_float">
-                            <h1><?php echo CHtml::encode(Yii::app()->name); ?></h1>
+                            <h1>
+                                <?php
+                                    echo CHtml::link(CHtml::encode(Yii::app()->name),Yii::app()->homeUrl);
+                                   
+                                 ?>
+                            </h1>
                         </div>
                         <div>
 
