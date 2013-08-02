@@ -233,6 +233,7 @@ class ProductController extends Controller {
 
             $product = Product::model()->localized(Yii::app()->controller->currentLang)->findByPk($id);
 
+         
             /**
              * if no record found in english
              */
@@ -240,6 +241,7 @@ class ProductController extends Controller {
                 $product = Product::model()->findByPk($id);
             }
 
+           
 
             /**
              * defining array for rendarparital for two main categories
@@ -248,7 +250,7 @@ class ProductController extends Controller {
                 "Books" => 'product',
                 "Quran" => 'quran'
             );
-            $view = "other";
+            $view = "others";
 
             if (isset($view_array[$product->parent_category->category_name])) {
                 $view = $view_array[$product->parent_category->category_name];
@@ -267,7 +269,7 @@ class ProductController extends Controller {
                 "view" => $view
             ));
         } catch (Exception $e) {
-
+            
             Yii::app()->theme = 'landing_page_theme';
             throw new CHttpException(500, "   Sorry ! Record Not found in this language");
         }

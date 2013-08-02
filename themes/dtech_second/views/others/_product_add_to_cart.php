@@ -1,13 +1,17 @@
 <h2><?php echo $product->product_name; ?></h2>
 
 <section>
-    Price: <b>
+    <?php
+    echo Yii::t('model_labels', 'Price', array(), NULL, $this->currentLang) . ":";
+    ?> <b>
         <?php
         echo isset($product->productProfile[0]->price) ? round($product->productProfile[0]->price, 2) . ' ' . Yii::app()->session['currency'] : "";
         ?>
     </b>
 </section>
-<article>Quantity: 
+<article><?php
+    echo Yii::t('model_labels', 'Quantity', array(), NULL, $this->currentLang) . ":";
+    ?> 
     <?php
     $total_in_cart = Cart::model()->getTotalCountProduct($product->productProfile[0]->id);
     $total_av = $product->productProfile[0]->quantity - $total_in_cart;
@@ -31,13 +35,19 @@ $this->widget('CStarRating', array(
         echo CHtml::textField('quantity', '1', array('onKeyUp' => 'javascript:totalPrice(this.value,"' . $product->productProfile[0]->price . '")', 'style' => 'width:40px', 'maxlength' => '3'));
     }
     ?>
-    <span id="status_available" style="display:none">
+     <span id="status_available" style="display:none">
         <?php echo CHtml::image(Yii::app()->theme->baseUrl . '/images/tick_03.jpg'); ?>
-        Available in this quantity
+
+        <?php
+        echo Yii::t('model_labels', ' Available in this quantity', array(), NULL, $this->currentLang) . ":";
+        ?>
     </span>
     <span id="status_un_available" style="display:none">
         <?php echo CHtml::image(Yii::app()->theme->baseUrl . '/images/no.png'); ?>
-        Not available in this quantity
+
+        <?php
+        echo Yii::t('model_labels', ' Not available in this quantity', array(), NULL, $this->currentLang) . ":";
+        ?>
     </span>
 </article>
 <div class="detail_shop_now">
