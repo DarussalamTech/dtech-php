@@ -43,15 +43,15 @@
     </p>
     <p>Availability : 
         <?php
-        $total_in_cart = Cart::model()->getTotalCountProduct($product->productProfile[0]->id);
-        $total_av = $product->productProfile[0]->quantity - $total_in_cart;
-        if ($total_av > 1) {
-            echo "Yes ";
-            echo CHtml::image(Yii::app()->theme->baseUrl . '/images/tick_03.jpg');
-        } else {
-            echo "No ";
-            echo CHtml::image(Yii::app()->theme->baseUrl . '/images/no.png');
-        }
+//        $total_in_cart = Cart::model()->getTotalCountProduct($product->productProfile[0]->id);
+//        $total_av = $product->productProfile[0]->quantity - $total_in_cart;
+//        if ($total_av > 1) {
+//            echo "Yes ";
+//            echo CHtml::image(Yii::app()->theme->baseUrl . '/images/tick_03.jpg');
+//        } else {
+//            echo "No ";
+//            echo CHtml::image(Yii::app()->theme->baseUrl . '/images/no.png');
+//        }
         ?>
     </p>
     <p>Item Code: 

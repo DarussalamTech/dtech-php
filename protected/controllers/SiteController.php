@@ -531,5 +531,18 @@ class SiteController extends Controller {
 
         return $striped_content;
     }
+    
+    /**
+     * change language
+     */
+    
+    public function actionChangeLang(){
+        $url = Yii::app()->request->getUrlReferrer();
+                
+        if(isset($_POST['lang_h'])){
+            Yii::app()->session['current_lang'] =  $_POST['lang_h'];
+        }
+        $this->redirect($url);
+    }
 
 }

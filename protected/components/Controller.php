@@ -18,7 +18,7 @@ class Controller extends RController {
      */
     public $cs;
     public $scriptMap = array();
-    
+
     /**
      * Menu categories
      * for web pages
@@ -26,19 +26,19 @@ class Controller extends RController {
      * ans used multiple times
      * @var type 
      */
-    public $menu_categories ;
-    
+    public $menu_categories;
     //PCM Will handle languages by session
-    
+
     public $currentLang = "en";
+
     /**
      *
      * @var type 
      */
     public $definedLangActions = array(
-                        "productDetail",
-                        "productDetailLang",
-                    );
+        "productDetail",
+        "productDetailLang",
+    );
 
     /**
      * @var array context menu items. This property will be assigned to {@link CMenu::items}.
@@ -226,9 +226,9 @@ class Controller extends RController {
 
         if (!empty($this->controllers)) {
             $controllers = array_keys($this->controllers);
-          
+
             if (in_array(ucfirst($this->id), $controllers) && Yii::app()->user->User->city_id != Yii::app()->request->getQuery('city_id')) {
-               
+
                 Yii::app()->user->logout();
                 $this->redirect(Yii::app()->homeUrl);
             }
@@ -247,9 +247,10 @@ class Controller extends RController {
             /**
              * only in case of when city id is started
              */
-            if(isset(Yii::app()->session['city_id'])){
+            if (isset(Yii::app()->session['city_id'])) {
                 $this->menu_categories = Categories::model()->getMenuCategories();
             }
+            $this->currentLang = isset(Yii::app()->session['current_lang']) ? Yii::app()->session['current_lang'] : "en";
             //$this->configureTheme();
         } else {
             /**

@@ -221,5 +221,9 @@ var dtech_new = {
             jQuery(".featured_box").html(response);
             jQuery("#load_subpanel_div").remove();
         });
-    }
+    },
+    changeLang: function(obj) {
+        jQuery("#lang_h").val(jQuery(obj).attr("lang"));
+        jQuery("#lang_change_form").submit();
+    },
 }

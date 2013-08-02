@@ -22,8 +22,10 @@ class DTMultiLangBehaviour extends CActiveRecordBehavior {
         $this->current_lang = $lang;
 
         $owner = $this->getOwner();
+      
         if ($this->current_lang != $this->defaultLanguage) {
-            $owner->getDbCriteria()->with = array($this->relation => array("condition" => "lang_id='$lang'"));
+            $owner->getDbCriteria()->with = array($this->relation => array('joinType' => 'INNER JOIN',
+                    "condition" => "lang_id='$lang'"));
         }
 
         return $owner;
@@ -31,12 +33,13 @@ class DTMultiLangBehaviour extends CActiveRecordBehavior {
 
     public function afterFind($event) {
         $owner = $this->getOwner();
+
         if ($this->current_lang != $this->defaultLanguage) {
             $relation = $owner->getRelated($this->relation);
 
             foreach ($this->localizedAttributes as $attr) {
-                
-                $owner->$attr = $relation[0]->$attr;
+                $owner->$attr = isset($relation[0]->$attr) ? $relation[0]->$attr : "";
+               
             }
         }
 
