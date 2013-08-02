@@ -290,3 +290,19 @@ customized code
     width: 960px;
     height: 430px;
 }
+
+.grid-view .link-column a {
+    background: none repeat scroll 0 0 #10459C;
+    border: medium none;
+    border-radius: 5px 5px 5px 5px;
+    color: #FFFFFF;
+    cursor: pointer;
+    float: left;
+    font-family: Gotham,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 13px;
+    height: 21px;
+    margin: 1px -5px 2px 19px;
+    text-align: center;
+    width: 55px;
+    text-decoration: none;
+}
