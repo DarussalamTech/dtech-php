@@ -298,6 +298,10 @@ var dtech = {
                 $("#quranProfile").show();
                 $("#quranProfile .plus_bind").trigger('click');
             }
+            else {
+                $("#other").show();
+                $("#other .plus_bind").trigger('click');
+            }
         }
         else {
             $(obj).val(dtech.old_drop_val);

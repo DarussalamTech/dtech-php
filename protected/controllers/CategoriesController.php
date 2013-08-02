@@ -29,6 +29,8 @@ class CategoriesController extends Controller {
         $this->filters = array(
             'parent_id' => Categories::model()->getParentCategories(),
         );
+       
+     
     }
 
     /**
