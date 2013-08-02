@@ -234,7 +234,7 @@ class Cart extends DTActiveRecord {
                             'country' => Yii::app()->session['country_short_name'],
                             'city' => Yii::app()->session['city_short_name'],
                             'city_id' => Yii::app()->session['city_id'],
-                            "pcategory" => $this->productProfile->product->parent_category->category_name,
+                            "pcategory" => $this->productProfile->product->parent_category->category_slug,
                             "slug" => $this->productProfile->product->slag,
         )));
 
@@ -242,7 +242,7 @@ class Cart extends DTActiveRecord {
                             'country' => Yii::app()->session['country_short_name'],
                             'city' => Yii::app()->session['city_short_name'],
                             'city_id' => Yii::app()->session['city_id'],
-                            "pcategory" => $this->productProfile->product->parent_category->category_name,
+                            "pcategory" => $this->productProfile->product->parent_category->category_slug,
                             "slug" => $this->productProfile->product->slag,
         )));
 

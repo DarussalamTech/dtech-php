@@ -18,7 +18,7 @@ foreach ($products as $product) {
                     "slug" => $product['slug'],
         )));
     } else {
-
+     
         echo CHtml::link(CHtml::image($image, 'image', array("title" => "")), $this->createUrl('/web/product/productDetail', array(
                     'country' => Yii::app()->session['country_short_name'],
                     'city' => Yii::app()->session['city_short_name'],

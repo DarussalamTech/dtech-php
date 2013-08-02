@@ -20,7 +20,10 @@ class Categories extends DTActiveRecord {
 
     public $totalStock;
     public $cat_image_url = array();
-    public $slug;
+    /**
+     * category slug
+     */
+    public $slug,$category_slug;
     public $imageUrl = array();
 
     /**
@@ -116,6 +119,12 @@ class Categories extends DTActiveRecord {
         $this->slug = str_replace(" ", "-", $this->category_name . "-" . $this->primaryKey);
         $this->slug = str_replace("/", "-", $this->slug);
         $this->slug = str_replace(Yii::app()->params['notallowdCharactorsUrl'],'',$this->slug);
+        /**
+         * category slug for url
+         * that will be used in url
+         * for going to particular book detail
+         */
+        $this->category_slug = str_replace(" ","-",$this->category_name);
         parent::afterFind();
     }
 

@@ -97,3 +97,11 @@ input[type=button] {
 #cart span {
     font-size: 13px;
 }
+.cart-grid-btn {
+     font-size: 0.9em;
+    margin: auto;
+    width: 960px;
+}
+.cart-grid-btn btn .check_out_cart{
+    float: right;
+}
