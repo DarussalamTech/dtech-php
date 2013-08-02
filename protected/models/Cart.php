@@ -87,7 +87,7 @@ class Cart extends DTActiveRecord {
         return array(
             'cart_id' => Yii::t('model_labels', 'Cart', array(), NULL, Yii::app()->controller->currentLang),
             'product_profile_id' => Yii::t('model_labels', 'Product', array(), NULL, Yii::app()->controller->currentLang),
-            'added_date' =>  Yii::t('model_labels','Added Date',array(),NULL,  Yii::app()->controller->currentLang),
+            'added_date' => Yii::t('model_labels', 'Added Date', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 
@@ -219,7 +219,7 @@ class Cart extends DTActiveRecord {
          * and image to be set of product profile 
          * 
          */
-            $this->price = isset($this->productProfile->price) ? $this->productProfile->price*$this->quantity : 0;
+        $this->price = isset($this->productProfile->price) ? $this->productProfile->price * $this->quantity : 0;
         $images = $this->productProfile->getImage();
         if (!empty($images[0] ['image_small'])) {
             $this->image = $images[0] ['image_small'];
@@ -230,11 +230,21 @@ class Cart extends DTActiveRecord {
         if (!empty($pro->productProfile->product->parent_category->category_name)) {
             $parent_cat = $pro->productProfile->product->parent_category->category_name;
         }
-        $this->image_link = CHtml::link(CHtml::image($this->image, 'image', array('title' => $this->productProfile->product->product_name)), Yii::app()->controller->createUrl('/web/' . $this->view_array[$parent_cat]['controller'] . '/productDetail', array('country' => Yii::app()->session['country_short_name'],
-                            'product_id' => $this->productProfile->product->product_id)));
-        
-        $this->link = CHtml::link($this->productProfile->product->product_name, Yii::app()->controller->createUrl('/web/' . $this->view_array[$parent_cat]['controller'] . '/productDetail', array('country' => Yii::app()->session['country_short_name'],
-                            'product_id' => $this->productProfile->product->product_id)));
+        $this->image_link = CHtml::link(CHtml::image($this->image, $this->productProfile->product->product_name, array('title' => $this->productProfile->product->product_name)), Yii::app()->controller->createUrl('/web/product/productDetail', array(
+                            'country' => Yii::app()->session['country_short_name'],
+                            'city' => Yii::app()->session['city_short_name'],
+                            'city_id' => Yii::app()->session['city_id'],
+                            "pcategory" => $this->productProfile->product->parent_category->category_name,
+                            "slug" => $this->productProfile->product->slag,
+        )));
+
+        $this->link = CHtml::link($this->productProfile->product->product_name, Yii::app()->controller->createUrl('/web/product/productDetail', array(
+                            'country' => Yii::app()->session['country_short_name'],
+                            'city' => Yii::app()->session['city_short_name'],
+                            'city_id' => Yii::app()->session['city_id'],
+                            "pcategory" => $this->productProfile->product->parent_category->category_name,
+                            "slug" => $this->productProfile->product->slag,
+        )));
 
         parent::afterFind();
     }

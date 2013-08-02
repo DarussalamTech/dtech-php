@@ -8,16 +8,20 @@
         Not available in this quantity
     </span>
     <?php
-    if (empty($cart)) {
+    if ($cart->getItemCount() == 0) {
+        Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/wishlist.css');
         ?>
-        <div id="login_content" style="margin-top: -2px">
-            <div class="payment_method_big_img">
+        <div class="shipping_books_and_content"  style="height: 303px;">
+            <div class="under_view_heading">
+                <h2>Shoppin Cart</h2>
                 <?php
-                echo CHtml::image(Yii::app()->theme->baseUrl . "/images/shopping_cart_img_03.png", '', array('class' => "payment_method_big_img"));
+                echo CHtml::image(Yii::app()->theme->baseUrl . "/images/under_heading_07.png");
                 ?>
             </div>
-            <div class="secure_payment">
-                <h2 style="font-size:17px; color:#003366; margin: 20px 0 0 15px;">Your Shoping Bag  is empty.....</h2>
+            <div class="shipping_books_and_content">
+                <div class="shipping_book">
+                    <h2 style="font-size:17px; color:#003366;margin: 6px 0 0 -88px;">Your Shopping Cart is empty.....</h2>
+                </div>
             </div>
         </div>
         <?php
@@ -51,7 +55,7 @@
             //'filter'=>false,
             'summaryText' => '{count} records(s) found.',
             'cssFile' => Yii::app()->theme->baseUrl . '/css/cart_gridview.css',
-            'afterAjaxUpdate'=>"function(id,data){
+            'afterAjaxUpdate' => "function(id,data){
                 console.log(jQuery('#cart-grid table tbody tr td.empty').length);
                 if(jQuery('#cart-grid table tbody tr td.empty').length!=0){
                     jQuery('.check_out_cart').hide();
@@ -103,12 +107,12 @@
                     'template' => '{update}{delete}',
                     'buttons' => array(
                         'delete' => array(
-                            'label' => '[ Delete ]',
+                            'label' => ' Delete ',
                             'url' => 'Yii::app()->controller->createUrl("/web/cart/deleteCart",array("id"=>$data->cart_id))',
                             'imageUrl' => '',
                         ),
                         'update' => array(
-                            'label' => '[ Update ]',
+                            'label' => ' Update ',
                             'url' => 'Yii::app()->controller->createUrl("/web/cart/editcart",array("cart_id"=>$data->cart_id))',
                             'imageUrl' => '',
                             'click' => "function(event){

@@ -10,7 +10,6 @@ class CartController extends Controller {
      */
     public function actionViewcart() {
 
-
         Yii::app()->user->SiteSessions;
 
         $cart = Cart::model()->getCartLists();
