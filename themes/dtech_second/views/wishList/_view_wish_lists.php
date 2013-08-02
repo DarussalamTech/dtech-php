@@ -3,7 +3,7 @@
     if (empty($wishList)) {
         ?>
 
-        <div class="shipping_books_and_content"  style="height: 303px;">
+        <div class="shipping_books_and_content"  style="height: 393px;">
             <div class="under_view_heading">
                 <h2>Wishlist</h2>
                 <?php
@@ -12,7 +12,7 @@
             </div>
             <div class="shipping_books_and_content">
             <div class="shipping_book">
-                <h2 style="font-size:17px; color:#003366;margin: 6px 0 0 -88px;">Your Wish List is empty.....</h2>
+                <h2 style="font-size:17px; color:#003366;">Your Wish List is empty.....</h2>
             </div>
             </div>
         </div>
@@ -36,7 +36,8 @@
                 $image = $images[0]['image_small'];
             }
             ?>
-            <div class="shipping_books_and_content">
+    <div class="shipping_books_and_content">
+            <div class="wishlist_content_data">
 
                 <div class="shipping_books">
                     <div class="shipping_book">
@@ -156,6 +157,7 @@
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
             <?php
         }

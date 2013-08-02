@@ -24,24 +24,25 @@ $this->widget('ext.lyiightbox.LyiightBox2', array(
             </div>
             <div class="right_upper_part">
                 <?php
-                    echo $this->renderPartial("//".$view."/_product_add_to_cart", array("product" => $product, "rating_value" => $rating_value));
+                echo $this->renderPartial("//" . $view . "/_product_add_to_cart", array("product" => $product, "rating_value" => $rating_value));
                 ?>
             </div>
 
         </div>
 
         <div id="detail_data">
-
-            <?php
-            echo $this->renderPartial("//".$view."/_product_detail_data", array("product" => $product, "rating_value" => $rating_value));
-            ?>
+            <div class="center_detail">
+                <?php
+                echo $this->renderPartial("//" . $view . "/_product_detail_data", array("product" => $product, "rating_value" => $rating_value));
+                ?>
+            </div>
             <div class='clear'></div>
             <div id='gridd'>
                 <?php
                 if (count($product->productProfile) > 1) {
-                echo CHtml::openTag('div', array('id' => 'right_description'));
-                $this->renderPartial("//product/_profile_items", array("product" => $product));
-                echo CHtml::closeTag('div');
+                    echo CHtml::openTag('div', array('id' => 'right_description'));
+                    $this->renderPartial("//product/_profile_items", array("product" => $product));
+                    echo CHtml::closeTag('div');
                 }
                 ?>
             </div>
