@@ -165,7 +165,6 @@ var dtech_new = {
             jQuery(obj).attr("src", jQuery(obj).attr("hover"));
             jQuery(".search_img").css("z-index", "-1");
             jQuery(".cart_bx").show();
-
         }
         else {
             jQuery(obj).attr("src", jQuery(obj).attr("unhover"));

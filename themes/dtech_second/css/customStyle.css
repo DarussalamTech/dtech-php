@@ -94,3 +94,6 @@ input[type=button] {
 .qurani_books img {
     height: 132px;
 }
+#cart span {
+    font-size: 13px;
+}

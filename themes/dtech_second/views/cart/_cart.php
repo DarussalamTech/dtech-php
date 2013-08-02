@@ -18,6 +18,9 @@ foreach ($cart as $pro) {
     if ($count % 2 == 0) {
         $css_alternat = "alternate_row_cart";
     }
+    else {
+        $css_alternat = "";
+    }
     $cart_html .= "<div class='login_img  " . $css_alternat . "'>";
     $cart_html .= "<p>";
     $cart_html .= CHtml::textField('quantity' . $pro->cart_id, $pro->quantity, array(
@@ -47,7 +50,7 @@ $this->setTotalAmountSession($grand_total, $total_quantity, "");
     ));
     ?>
     <div style="clear:both"></div>
-    <div class="cart_bx">
+    <div class="cart_bx" id="scroll-pane" >
         <?php
         echo $cart_html;
         ?>
@@ -68,3 +71,9 @@ $this->setTotalAmountSession($grand_total, $total_quantity, "");
         </div>
     </div>
 </div>
+
+<style>
+    #scroll-pane,.scroll-pane { overflow:scroll;height:300px;border:1px solid #666;}
+
+
+</style>
