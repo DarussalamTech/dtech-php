@@ -10,6 +10,14 @@
         echo $att->attribute_value;
         echo CHtml::closeTag('p');
     }
+    /**
+     * if attributes are null then it wont be shown
+     */
+    if(empty($attributes)){
+        echo "<style>";
+            echo ".center_detail {display:none;}";
+        echo "</style>";
+    }
     ?>
-    <?php $this->renderPartial("//product/_editorial_reviews", array("product" => $product, "rating_value" => $rating_value)); ?>
+   
 </div>
