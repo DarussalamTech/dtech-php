@@ -38,7 +38,7 @@
     width: 84px;
 }
 .featured_cover_part h2{
-    font-size: 18px;
+    font-size: 15px;
 }
 .section_part section span a {
     color: #FFFFFF !important;;
@@ -104,4 +104,8 @@ input[type=button] {
 }
 .cart-grid-btn btn .check_out_cart{
     float: right;
+}
+.white_basket a {
+    height: 100%;
+    width: 100%;
 }

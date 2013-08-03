@@ -13,11 +13,11 @@ foreach ($products as $product):
             <?php
             //echo CHtml::link(CHtml::image($image, ""), $this->createUrl('/web/product/productDetail', array('product_id' => $product['product_id'])), array('title' => $name));
             echo CHtml::link(CHtml::image($image, 'image', array("title" => "")), $this->createUrl('/web/product/productDetail', array(
-            'country' => Yii::app()->session['country_short_name'],
-            'city' => Yii::app()->session['city_short_name'],
-            'city_id' => Yii::app()->session['city_id'],
-            "pcategory" => $product['category'],
-            "slug" => $product['slug'],
+                        'country' => Yii::app()->session['country_short_name'],
+                        'city' => Yii::app()->session['city_short_name'],
+                        'city_id' => Yii::app()->session['city_id'],
+                        "pcategory" => $product['category'],
+                        "slug" => $product['slug'],
             )));
             ?>
             <h2><?php echo $name ?></h2>
@@ -33,9 +33,57 @@ foreach ($products as $product):
         </div>
         <div class="featured_bottom">
             <span><?php echo Yii::app()->session['currency'] . " " . $product['product_price']; ?></span>
-            <div class="white_basket">
-                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/images/white_basket_03.jpg" />
-            </div>
+            <?php
+            /**
+             * quantity check for displaying 
+             * image that available or not
+             */
+            if ($product['quantity'] > 0):
+                echo CHtml::openTag("div", array(
+                    'class' => 'white_basket',
+                    'onclick' => '
+                           jQuery("#loading").show();
+                            jQuery("#status_available").hide();  
+                            jQuery("#status_un_available").hide();  
+                            jQuery.ajax({
+                                type: "POST",
+                                dataType: "json",
+                                url: "' . $this->createUrl("/cart/addtocart", array("product_profile_id" => $product['product_profile_id'])) . '",
+                                data: 
+                                    { 
+                                        quantity: 1,
+                                    }
+                                }).done(function( msg ) {
+                               
+                                jQuery("#loading").hide();
+                                if(msg["total_available"]>0){
+                                    jQuery("#status_available").show();  
+                                    dtech.custom_alert("Item has added to cart" ,"Add to Cart");
+                                }
+                                else {
+                                    jQuery("#status_un_available").show();    
+                                    dtech.custom_alert("Item is out of stock" ,"Add to Cart");
+                                }
+                                dtech_new.loadCartAgain("' . $this->createUrl("/web/cart/loadCart") . '");
+                               
+                            }); 
+                         '
+                        )
+                );
+
+                echo CHtml::image(Yii::app()->theme->baseUrl . '/images/white_basket_03.jpg');
+                echo CHtml::closeTag("div");
+            else :
+
+                echo CHtml::openTag("div", array(
+                    'class' => 'white_basket',
+                        )
+                );
+
+                echo CHtml::image(Yii::app()->theme->baseUrl . '/images/basket_not-avail.jpg');
+                echo CHtml::closeTag("div");
+            endif;
+            ?>
         </div>
     </div>
 

@@ -190,6 +190,8 @@ class OrderDetail extends DTActiveRecord {
                 'product_overview' => $products->product_overview,
                 'product_author' => !empty($products->author) ? $products->author->author_name : "",
                 'product_price' => $products->productProfile[0]->price,
+                'product_profile_id' => $products->productProfile[0]->id,
+                'quantity' => $products->productProfile[0]->quantity,
                 'no_image' => $products->no_image,
                 'slug' => $products->slag,
                 'category' => $products->parent_category->category_name,
@@ -310,7 +312,7 @@ class OrderDetail extends DTActiveRecord {
                     'image_small' => $imagebest->image_url['image_small'],
                 );
             }
-   
+
 
             $best_products[$best_join[$i]->product_profile->product_id] =
                     array(
@@ -321,7 +323,8 @@ class OrderDetail extends DTActiveRecord {
                         'product_price' => $product_price,
                         'slug' => $best_join[$i]->product_profile->product->slag,
                         'category' => $best_join[$i]->product_profile->product->parent_category->category_name,
-                       
+                        'product_profile_id' => $best_join[$i]->product_profile->id,
+                        'quantity' => $best_join[$i]->product_profile->quantity,
                         'totalOrder' => $product_totalOrder,
                         'no_image' => $best_join[$i]->product_profile->product->no_image,
                         'image' => $images);

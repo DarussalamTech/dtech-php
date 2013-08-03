@@ -106,7 +106,11 @@ class SiteController extends Controller {
 
     /**
      * filling featured box for home page
-     * 
+     * on home page
+     * tabs are available
+     * for Featured
+     * Latest
+     * Best Seller
      */
     public function actionFillFeaturedBox() {
         Yii::app()->user->SiteSessions;
