@@ -44,7 +44,7 @@
     color: #FFFFFF !important;;
     text-decoration: none;
 }
-input[type=button] {
+input[type=button],input[type=submit] {
     cursor: pointer;
 }
 .nav_dropdown {
