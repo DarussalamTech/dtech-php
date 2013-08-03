@@ -26,7 +26,11 @@ hr.style-two {
     height:45px; float:left; padding: 0; margin: 20px 0 0 80px; 
 }
 
-.payment_method_big_img { float:left; padding: 0; margin: 0; }
+.payment_method_big_img { 
+    float: left;
+    margin: 3px 0 0;
+    padding: 0;
+}
 
 .form_container {
     margin: 0 auto;
@@ -78,7 +82,7 @@ hr.style-two {
     color: #333333;
     float: left;
     font-size: 12px;
-    margin: 6px 0 0 80px;
+    margin: 4px 0 0 12px;
     padding: 0;
 }
 
@@ -133,4 +137,114 @@ span.flash {
 }
 .secure_button {
     cursor: pointer;
+}
+
+
+.secure_right_form {
+    background: none repeat scroll 0 0 #EDEDED;
+    border: 1px solid #BDBDBD;
+    border-radius: 10px 10px 10px 10px;
+    float: left;
+    margin: 0 0 0 10px;
+    min-height: 290px;
+    padding: 10px 0 10px 30px;
+    width: 44%;
+    min-height: 491px;
+}
+
+.secure_heading {
+    float: left;
+    margin: 0;
+    padding: 0;
+}
+
+.secure_heading h1 {
+    color: #003366;
+    font-size: 24px;
+    font-weight: normal;
+    margin: 20px 0 0;
+    padding: 0;
+}
+
+.secure_heading p {
+    color: #3B3B3B;
+    font-size: 11px;
+}
+
+.secure_button {
+    background: url("../images/save_bg_img_03.png") no-repeat scroll 0 0 transparent;
+    border: medium none;
+    color: #FFFFFF;
+    float: right;
+    font-size: 14px;
+    height: 31px;
+    margin: 0 40px 0 0;
+    padding: 0;
+    width: 61px;
+}
+
+.shipping_address_heading {
+    margin: 10px 0 20px 30px;
+    padding: 0;
+}
+
+.secure_input {
+    float: left;
+    margin: 7px 0;
+    padding: 0;
+    width: 100%;
+}
+
+.secure_text {
+    float: left;
+    margin: 0;
+    padding: 0;
+    width: 25%;
+}
+
+.secure_input_type {
+    float: left;
+    margin: 0;
+    padding: 0;
+    width: 50%;
+}
+
+#ShippingInfoForm_shipping_country{
+    float: left;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.secure_form {
+    margin: auto;
+    padding: 1px;
+    width: 960px;
+}
+
+.secure_payment {
+    float: left;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+div.errorMessage {
+    color: red;
+    font-size: 12px;
+}
+#ShippingInfoForm_shipping_state{
+    float: left;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}  
+
+.confirm_order {
+    background: none repeat scroll 0 0 #EDEDED;
+    border: 1px solid #BDBDBD;
+    border-radius: 10px 10px 10px 10px;
+    float: left;
+    color: green;
+    padding: 12px 59px 43px 38px;
+    width: 855px;
 }
