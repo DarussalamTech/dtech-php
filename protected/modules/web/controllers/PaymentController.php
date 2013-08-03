@@ -187,7 +187,7 @@ class PaymentController extends Controller {
         Yii::app()->user->SiteSessions;
         Yii::app()->theme = Yii::app()->session['layout'];
         Yii::app()->controller->layout = '//layouts/main';
-        $this->render('confirm_order');
+        $this->render('//payment/confirm_order');
     }
 
 }
