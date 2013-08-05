@@ -45,7 +45,7 @@ class DTDbMigration extends CDbMigration {
         $parents = $connection->createCommand($sql)->queryAll();
         $array = array();
 
-         foreach ($parents as $data) {
+        foreach ($parents as $data) {
             $array[strtolower($data['Tables_in_' . $dbname . ''])] = $data['Tables_in_' . $dbname . ''];
         }
         return $array;
@@ -83,8 +83,8 @@ class DTDbMigration extends CDbMigration {
      */
     public function getcolumns($table) {
         $connection = Yii::app()->db;
-       
-        $sql = "SHOW columns FROM " . $this->getDBName().".".$table;
+
+        $sql = "SHOW columns FROM " . $this->getDBName() . "." . $table;
         $command = $connection->createCommand($sql);
         $rows = $command->queryAll();
         $fields = array();
@@ -93,8 +93,6 @@ class DTDbMigration extends CDbMigration {
         }
         return $fields;
     }
-    
-
 
     /**
      * Builds and executes a SQL statement for creating a new DB table.
@@ -206,10 +204,10 @@ class DTDbMigration extends CDbMigration {
      * will be used to fetch all records 
      * against table with key pair value
      */
-    public function findAllRecords($table, $columns, $key, $val,$condition = "") {
+    public function findAllRecords($table, $columns, $key, $val, $condition = "") {
         $connection = $this->getConnection();
         $select_cols = implode(",", $columns);
-        $sql = "Select $select_cols from " . $table." ".$condition;
+        $sql = "Select $select_cols from " . $table . " " . $condition;
         $command = $connection->createCommand($sql);
         $rows = $command->queryAll();
         $data = array();
@@ -227,6 +225,9 @@ class DTDbMigration extends CDbMigration {
      */
     public function insertRow($table, $columns) {
         $user_row = $this->getSuperUserId();
+        if (empty($user_row['user_id'])) {
+            $user_row['user_id'] = 1;
+        }
         $common_column = array(
             "create_time" => date("Y-m-d H:i:s"),
             "create_user_id" => $user_row['user_id'],
