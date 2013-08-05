@@ -20,10 +20,11 @@ class Categories extends DTActiveRecord {
 
     public $totalStock;
     public $cat_image_url = array();
+
     /**
      * category slug
      */
-    public $slug,$category_slug;
+    public $slug, $category_slug;
     public $imageUrl = array();
 
     /**
@@ -118,13 +119,13 @@ class Categories extends DTActiveRecord {
         }
         $this->slug = str_replace(" ", "-", $this->category_name . "-" . $this->primaryKey);
         $this->slug = str_replace("/", "-", $this->slug);
-        $this->slug = str_replace(Yii::app()->params['notallowdCharactorsUrl'],'',$this->slug);
+        $this->slug = str_replace(Yii::app()->params['notallowdCharactorsUrl'], '', $this->slug);
         /**
          * category slug for url
          * that will be used in url
          * for going to particular book detail
          */
-        $this->category_slug = str_replace(" ","-",$this->category_name);
+        $this->category_slug = str_replace(" ", "-", $this->category_name);
         parent::afterFind();
     }
 
@@ -373,6 +374,38 @@ class Categories extends DTActiveRecord {
             endif;
         }
         return $showCategories;
+    }
+
+    /**
+     * saving category lang inot
+     * messages table for saving 
+     * translation
+     */
+    public function afterSave() {
+        if ($this->category_name != "") {
+            $this->saveTranlsation();
+        }
+        parent::afterSave();
+    }
+
+    /**
+     * saving translation
+     * into the tranlsation message table
+     * 
+     */
+    public function saveTranlsation() {
+        $data = Yii::app()->db->createCommand()
+                ->select('message ')
+                ->from('dt_messages')
+                ->where("category = 'product_category' AND message ='{$this->category_name}'")
+                ->queryRow();
+
+        if (empty($data)) {
+            $message = new DtMessages;
+            $message->category = 'product_category';
+            $message->message = $this->category_name;
+            $message->save();
+        }
     }
 
 }

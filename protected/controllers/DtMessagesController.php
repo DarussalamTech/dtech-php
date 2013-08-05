@@ -32,7 +32,8 @@ class DtMessagesController extends Controller {
                     'loadChildByAjax',
                     'editChild',
                     'loadChildByAjax',
-                    'deleteChildByAjax'
+                    'deleteChildByAjax',
+                    'generate'
                 ),
                 'users' => array('@'),
             ),
@@ -59,7 +60,7 @@ class DtMessagesController extends Controller {
     public function actionView($id) {
         $model = $this->loadModel($id);
         $this->manageChildrens($model);
-      
+
         $this->render('view', array(
             'model' => $model,
         ));
@@ -238,10 +239,6 @@ class DtMessagesController extends Controller {
      */
     public function actionDeleteChildByAjax($id, $mName) {
 
-
-
-
-
         if (Yii::app()->request->isAjaxRequest) {
             /* Get regarding model */
             $model = new $mName;
@@ -252,6 +249,30 @@ class DtMessagesController extends Controller {
         }
         else
             throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
+    }
+    public $files;
+    /**
+     * generate languages translation against
+     * this category
+     * 
+     */
+    public function actionGenerate() {
+        $data = DtMessages::model()->findAll("category ='{$_GET['category']}'");
+        $this->layout = "";
+        foreach ($data as $d) {
+          
+            echo mb_convert_encoding(
+                    $d->arabic_messages[0]->message, "HTML-ENTITIES", "UTF-8"
+            );
+          
+        }
+        
+        $path=Yii::getPathOfAlias('application.messages.ar.' . $_GET['category']) . '.php';
+        $code=$this->renderPartial('generate');
+        
+        $ad=new CCodeFile($path, $code);
+        $ad->save();
+        
     }
 
 }

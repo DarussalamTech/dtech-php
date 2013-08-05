@@ -59,6 +59,7 @@ class DtMessages extends DTActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
                     'messages' => array(self::HAS_MANY, 'DtMessagesTranslations', 'id'),
+                    'arabic_messages' => array(self::HAS_MANY, 'DtMessagesTranslations', 'id','condition'=>'language="ar"'),
 		);
 	}
 
