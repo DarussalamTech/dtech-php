@@ -40,11 +40,11 @@ class DtMessagesTranslations extends DTActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id, create_time, create_user_id, update_time, update_user_id', 'required'),
+			array('create_time, create_user_id, update_time, update_user_id', 'required'),
 			array('id', 'numerical', 'integerOnly'=>true),
 			array('language', 'length', 'max'=>255),
 			array('create_user_id, update_user_id', 'length', 'max'=>11),
-			array('message', 'safe'),
+			array('id,message', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, language, message, create_time, create_user_id, update_time, update_user_id', 'safe', 'on'=>'search'),
@@ -59,6 +59,7 @@ class DtMessagesTranslations extends DTActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+                    'sourceMessage' => array(self::BELONGS_TO, 'DtMessages', 'id'),
 		);
 	}
 
@@ -77,7 +78,8 @@ class DtMessagesTranslations extends DTActiveRecord
 			'update_user_id' => 'Update User',
 		);
 	}
-
+        
+   
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.

@@ -7,7 +7,7 @@
  * 
  */
 
-return array(
+$model_labels_t =  array(
     'Author' => 'الكاتب',
     'Author Name' => 'اسم الكاتب',
     'Cart' => '',
@@ -97,4 +97,6 @@ return array(
     "Symbol" => "",
    
 );
+
+return $model_labels_t;
 ?>

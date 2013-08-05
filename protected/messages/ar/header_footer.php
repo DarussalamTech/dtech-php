@@ -9,7 +9,7 @@
  * header, banner and footer  areas of the application
  */
 
-return array(
+$header_footer_t =  array(
     //header and banner part of the apps
 
     "Sign Up" => "قم بالتسجيل",
@@ -42,4 +42,5 @@ return array(
  
    
 );
+return $header_footer_t;
 ?>

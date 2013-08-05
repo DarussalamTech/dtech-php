@@ -331,16 +331,18 @@ class Controller extends RController {
         /* Get exact classs name */
         $activeRelation = $model->getActiveRelation($child_relation_name);
         $className = $activeRelation->className;
+    
 
         /* if that child is posted */
         if (isset($_POST[$className])) {
             /* create child object of above class */
 
             $cModel = new $className($scanario);
-
-
+            
+           
             /*  */
             $repRes = $cModel->saveMultiple($parent_relation_name, $model->primaryKey);
+            
 
             if ($repRes['result'] == false)
                 $model->$child_relation_name = $repRes['models'];

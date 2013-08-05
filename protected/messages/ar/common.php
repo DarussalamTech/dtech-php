@@ -8,7 +8,7 @@
  * common part of the application
  */
 
-return array(
+$common_t =  array(
 //     main four parent categories
 //     Landing page content
     "Books" => "كتاب",
@@ -61,4 +61,5 @@ return array(
     "Already a member?" => "عضو بالفعل؟",
     
 );
+return $common_t;
 ?>
