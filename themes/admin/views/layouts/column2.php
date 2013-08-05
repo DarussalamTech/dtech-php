@@ -68,8 +68,8 @@
                             "category" => "models_labels")) . '</li>' .
                         '<li>' . CHtml::link('Product Detail', array('/dtMessages/index',
                             "category" => "product_detail")) . '</li>' .
-                        '<li>' . CHtml::link('Product Category', array('/dtMessages/index',
-                            "category" => "product_category")) . '</li>' .
+//                        '<li>' . CHtml::link('Product Category', array('/dtMessages/index',
+//                            "category" => "product_category")) . '</li>' .
                         '</ul>',
                     ),
                     // additional javascript options for the accordion plugin
