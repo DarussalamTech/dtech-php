@@ -288,14 +288,14 @@ class SiteController extends Controller {
 
                     $this->redirect($this->createUrl('/user/index'));
                 }
-                if (Yii::app()->user->isAdmin) {
+                else if (Yii::app()->user->isAdmin) {
 
                     $_REQUEST['city_id'] = Yii::app()->user->user->city_id;
                     Yii::app()->user->SiteSessions;
 
                     $this->redirect($this->createUrl('/product/index'));
                 }
-                if (Yii::app()->user->isCustomer) {
+                else if (Yii::app()->user->isCustomer) {
                     $cart = new Cart();
                     $cart->addCartByUser();
                     $wishlist = new WishList();
@@ -347,7 +347,20 @@ class SiteController extends Controller {
                 if (!empty($model->route) && $model->route != Yii::app()->request->getUrl()) {
                     $this->redirect($model->route);
                 } else {
-                    $this->redirect($this->createUrl('/user/index'));
+                    if (Yii::app()->user->isSuperAdmin) {
+                        $_REQUEST['city_id'] = Yii::app()->user->user->city_id;
+                        Yii::app()->user->SiteSessions;
+                        Yii::app()->session['isSuper'] = 1;
+
+                        $this->redirect($this->createUrl('/user/index'));
+                    }
+                    else if (Yii::app()->user->isAdmin) {
+
+                        $_REQUEST['city_id'] = Yii::app()->user->user->city_id;
+                        Yii::app()->user->SiteSessions;
+
+                        $this->redirect($this->createUrl('/product/index'));
+                    }
                 }
             }
         }
@@ -535,16 +548,15 @@ class SiteController extends Controller {
 
         return $striped_content;
     }
-    
+
     /**
      * change language
      */
-    
-    public function actionChangeLang(){
+    public function actionChangeLang() {
         $url = Yii::app()->request->getUrlReferrer();
-                
-        if(isset($_POST['lang_h'])){
-            Yii::app()->session['current_lang'] =  $_POST['lang_h'];
+
+        if (isset($_POST['lang_h'])) {
+            Yii::app()->session['current_lang'] = $_POST['lang_h'];
         }
         $this->redirect($url);
     }
