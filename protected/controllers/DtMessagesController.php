@@ -250,29 +250,40 @@ class DtMessagesController extends Controller {
         else
             throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
     }
+
     public $files;
+
     /**
      * generate languages translation against
      * this category
      * 
      */
     public function actionGenerate() {
-        $data = DtMessages::model()->findAll("category ='{$_GET['category']}'");
-        $this->layout = "";
-        foreach ($data as $d) {
-          
-            echo mb_convert_encoding(
-                    $d->arabic_messages[0]->message, "HTML-ENTITIES", "UTF-8"
-            );
-          
+        if (isset($_GET['category'])) {
+            $data = DtMessages::model()->findAll("category ='{$_GET['category']}'");
+            $this->layout = "";
+            $str = "<?php " . PHP_EOL;
+            $str.='$common_t =  array(' . PHP_EOL;
+            foreach ($data as $d) {
+
+                $str.= '"' . $d->message . '" => "' . $d->arabic_messages[0]->message . '",' . PHP_EOL;
+            }
+            $str.=' ); ' . PHP_EOL;
+            $category = $_GET['category'];
+            $str.=' return $' . $category . '_t;' . PHP_EOL;
+            $str.= "?>";
+
+
+
+            $path = Yii::getPathOfAlias('application.messages.ar.' . $_GET['category']) . '.php';
+
+
+            $ad = new CCodeFile($path, $str);
+
+            $ad->save();
+            Yii::app()->user->setFlash("message","Languages has been updated successfully");
+            $this->redirect($this->createUrl("/dtMessages/index"));
         }
-        
-        $path=Yii::getPathOfAlias('application.messages.ar.' . $_GET['category']) . '.php';
-        $code=$this->renderPartial('generate');
-        
-        $ad=new CCodeFile($path, $code);
-        $ad->save();
-        
     }
 
 }

@@ -33,12 +33,35 @@ $('.search-form form').submit(function(){
     <div class = "right_float">
         <span class="creatdate">
             <?php
-            echo CHtml::link("Generate Cache", $this->createUrl("/dtMessages/generate", array("category" => $_GET['category'])), array(
+            echo CHtml::link("Generate Common Cache", $this->createUrl("/dtMessages/generate", array("category" => "common")), array(
                 'class' => "print_link_btn",
             ));
             ?>
+            <?php
+            echo CHtml::link("Generate Header Cache", $this->createUrl("/dtMessages/generate", array("category" => "header_footer")), array(
+                'class' => "print_link_btn",
+            ));
+            ?>
+            <?php
+            echo CHtml::link("Generate Labels Cache", $this->createUrl("/dtMessages/generate", array("category" => "model_labels")), array(
+                'class' => "print_link_btn",
+            ));
+            ?>
+            <?php
+            echo CHtml::link("Generate Product Detail Cache", $this->createUrl("/dtMessages/generate", array("category" => "product_detail")), array(
+                'class' => "print_link_btn",
+            ));
+            ?>
+       
         </span>
     </div>
+    <?php
+        if(Yii::app()->user->hasFlash('message')):
+            echo "<span class='flash-message'>";
+                echo Yii::app()->user->getFlash('message');
+            echo "</span>";
+        endif;
+    ?>
 </div>
 <div class="clear"></div>
 
