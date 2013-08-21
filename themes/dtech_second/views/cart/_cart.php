@@ -2,13 +2,24 @@
     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/images/shopping_cart_img_03.jpg" 
          class="cart_img" />
     <span>Shopping Cart</span>
-    <article><?php echo count($cart) . " item(s)" ?></article> 
+    <?php
+    $cart = $cart->getData();
+    ?>
+    <article>
+        <?php
+            if(count($cart)<=1){
+                echo count($cart) . " item";
+            }
+            else {
+                echo count($cart) . " item(s)";
+            }
+        ?>
+    </article> 
 </div>
 
 <?php
 $grand_total = 0;
 $total_quantity = 0;
-$cart = $cart->getData();
 $count = 1;
 $css_alternat = "";
 $cart_html = "";
@@ -17,8 +28,7 @@ foreach ($cart as $pro) {
     $total_quantity+=$pro->quantity;
     if ($count % 2 == 0) {
         $css_alternat = "alternate_row_cart";
-    }
-    else {
+    } else {
         $css_alternat = "";
     }
     $cart_html .= "<div class='login_img  " . $css_alternat . "'>";

@@ -153,6 +153,28 @@ class ProductController extends Controller {
             'model' => $model,
         ));
     }
+    /**
+     * Manages all models.
+     * for sliders
+     */
+    public function actionSlider() {
+        $this->init();
+        $model = new Product('search');
+        $cityList = CHtml::listData(City::model()->findAll(), 'city_id', 'city_name');
+        $slider = new Slider();
+        $model->unsetAttributes();  // clear any default values
+
+        $model->city_id = Yii::app()->request->getQuery('city_id');
+
+        if (isset($_GET['Product']))
+            $model->attributes = $_GET['Product'];
+
+        $this->render('slider', array(
+            'model' => $model,
+            'slider' => $slider,
+            'cityList' => $cityList,
+        ));
+    }
 
     /**
      * Returns the data model based on the primary key given in the GET variable.

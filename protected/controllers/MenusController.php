@@ -340,6 +340,12 @@ class MenusController extends Controller {
         $ary[] = array("id" => "42", "pid" => "29", "root_parent" => "29", "controller" => "categories", "action" => "createParent", "default_title" => "Create Parent", "user_title" => "Create Parent", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "2");
         $ary[] = array("id" => "43", "pid" => "29", "root_parent" => "29", "controller" => "categories", "action" => "indexParent", "default_title" => "List All Parent", "user_title" => "List All Parent", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "2");
 
+        /**
+         * product module 
+         */
+        
+        $ary[] = array("id" => "44", "pid" => "26", "root_parent" => "26", "controller" => "product", "action" => "slider", "default_title" => "Make Slider", "user_title" => "Make Slider", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "2");
+        
         $this->updateWpbaseUrl();
         foreach ($ary as $attr) {
             $model = new Menu();

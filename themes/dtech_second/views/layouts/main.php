@@ -166,84 +166,83 @@
                 <nav>
                     <ul>
                         <?php
-                        foreach ($this->menu_categories as $id => $data):
-                            echo '<li class="nav_hover">';
-                            echo CHtml::link(Yii::t('common', $data['name'], array(), NULL, $this->currentLang), $this->createUrl("/web/product/category", array("slug" => $data['slug'])), array("class" => "top_link_hover"));
+                        if(isset($this->menu_categories)) {
+                            foreach ($this->menu_categories as $id => $data):
+                                echo '<li class="nav_hover">';
+                                echo CHtml::link(Yii::t('common', $data['name'], array(), NULL, $this->currentLang), $this->createUrl("/web/product/category", array("slug" => $data['slug'])), array("class" => "top_link_hover"));
 
-                            if (isset($data['data'])):
-                                echo CHtml::openTag("div", array(
-                                    "class" => "nav_dropdown",
-                                    "style" => "display:none;"
-                                        )
-                                );
+                                if (isset($data['data'])):
+                                    echo CHtml::openTag("div", array(
+                                        "class" => "nav_dropdown",
+                                        "style" => "display:none;"
+                                            )
+                                    );
 
-                                echo '<div class="nav_pointer"></div>';
-                                /**
-                                 * if size is greater then 10
-                                 * then it will be 
-                                 * decomsed
-                                 */
-                                
-                                if (count($data['data']) > 10) {
-                                    $data_childs = array_chunk($data['data'], 10);
-                                    $counter = 1;
-                                    foreach($data_childs as $datachild) {
-                                        $class = "";
-                                        if($counter!=count($data_childs)){
-                                            $class = "even_menu";
+                                    echo '<div class="nav_pointer"></div>';
+                                    /**
+                                     * if size is greater then 10
+                                     * then it will be 
+                                     * decomsed
+                                     */
+                                    if (count($data['data']) > 10) {
+                                        $data_childs = array_chunk($data['data'], 10);
+                                        $counter = 1;
+                                        foreach ($data_childs as $datachild) {
+                                            $class = "";
+                                            if ($counter != count($data_childs)) {
+                                                $class = "even_menu";
+                                            }
+                                            echo "<ul style='float:left;' class='$class'>";
+                                            foreach ($datachild as $cat):
+
+                                                echo "<li class=''>";
+                                                echo CHtml::link($cat->category_name, $this->createUrl("/web/product/category", array("slug" => $cat->slug)));
+                                                echo "</li>";
+
+
+                                            endforeach;
+                                            echo "</ul>";
+
+
+                                            $counter++;
                                         }
-                                        echo "<ul style='float:left;' class='$class'>";
-                                        foreach ($datachild as $cat):
+                                    } else {
+
+                                        echo "<ul>";
+                                        foreach ($data['data'] as $cat):
 
                                             echo "<li class=''>";
                                             echo CHtml::link($cat->category_name, $this->createUrl("/web/product/category", array("slug" => $cat->slug)));
                                             echo "</li>";
 
-
                                         endforeach;
+
                                         echo "</ul>";
-                                        
-                                        
-                                        $counter++;
                                     }
 
-                                    
-                                } else {
 
-                                    echo "<ul>";
-                                    foreach ($data['data'] as $cat):
+                                    echo CHtml::closeTag("div");
 
-                                        echo "<li class=''>";
-                                        echo CHtml::link($cat->category_name, $this->createUrl("/web/product/category", array("slug" => $cat->slug)));
-                                        echo "</li>";
+                                endif;
 
-                                    endforeach;
-
-                                    echo "</ul>";
-                                }
-
-
-                                echo CHtml::closeTag("div");
-
-                            endif;
-
-                            echo "</li>";
-                        endforeach;
+                                echo "</li>";
+                            endforeach;
+                        }
                         ?>
 
                     </ul>
                 </nav>
                 <div class="wishlist">
 
-                    <?php
-                    $this->renderPartial("//layouts/_wishlist");
-                    ?>
+<?php
+$this->renderPartial("//layouts/_wishlist");
+?>
                 </div>
             </div>
         </div>
-        <?php
-        echo $content;
-        ?>
+<?php
+echo $content;
+?>
 
         <?php echo $this->renderPartial("//layouts/_footer") ?>
     </body>
