@@ -121,13 +121,15 @@
                     <p>
 
                         <?php
-                        echo Yii::t('header_footer', 'Welcome DTECH you can', array(), NULL, $this->currentLang);
-                        echo " ";
-                        echo CHtml::link(Yii::t('header_footer', 'Login', array(), NULL, $this->currentLang), $this->createUrl("/site/login"));
-                        echo " ";
-                        echo Yii::t('header_footer', 'or', array(), NULL, $this->currentLang);
-                        echo " ";
-                        echo CHtml::link(Yii::t('header_footer', 'create an account', array(), NULL, $this->currentLang), $this->createUrl("/web/user/register"));
+                        if (Yii::app()->user->isGuest) {
+                            echo Yii::t('header_footer', 'Welcome DTECH you can', array(), NULL, $this->currentLang);
+                            echo " ";
+                            echo CHtml::link(Yii::t('header_footer', 'Login', array(), NULL, $this->currentLang), $this->createUrl("/site/login"));
+                            echo " ";
+                            echo Yii::t('header_footer', 'or', array(), NULL, $this->currentLang);
+                            echo " ";
+                            echo CHtml::link(Yii::t('header_footer', 'create an account', array(), NULL, $this->currentLang), $this->createUrl("/web/user/register"));
+                        }
                         ?>
                     </p>
                     <div>
@@ -166,7 +168,7 @@
                 <nav>
                     <ul>
                         <?php
-                        if(isset($this->menu_categories)) {
+                        if (isset($this->menu_categories)) {
                             foreach ($this->menu_categories as $id => $data):
                                 echo '<li class="nav_hover">';
                                 echo CHtml::link(Yii::t('common', $data['name'], array(), NULL, $this->currentLang), $this->createUrl("/web/product/category", array("slug" => $data['slug'])), array("class" => "top_link_hover"));
@@ -234,15 +236,15 @@
                 </nav>
                 <div class="wishlist">
 
-<?php
-$this->renderPartial("//layouts/_wishlist");
-?>
+                    <?php
+                    $this->renderPartial("//layouts/_wishlist");
+                    ?>
                 </div>
             </div>
         </div>
-<?php
-echo $content;
-?>
+        <?php
+        echo $content;
+        ?>
 
         <?php echo $this->renderPartial("//layouts/_footer") ?>
     </body>
