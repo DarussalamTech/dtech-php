@@ -324,7 +324,11 @@ fieldset#body { padding:10px 13px; margin:0; }
                     border-bottom: 1px solid #e0e0e0;clear: both; }
 .nav_dropdown ul li.inline_float {float: left}
 
-.nav_dropdown ul li a { color:#7f7f7f; font-family:"Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, sans-serif; }
+.nav_dropdown ul li a { 
+                       color:#7f7f7f; 
+                       font-family:"Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, sans-serif; 
+                       font-size: 13px !important;
+}
 
 
 .nav_dropdown ul li:last-child { border:none; }
