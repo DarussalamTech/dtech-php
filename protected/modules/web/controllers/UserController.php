@@ -213,7 +213,9 @@ class UserController extends Controller {
     public function actionProductReview() {
 
         $modelComment = new ProductReviews;
-
+        
+ 
+       
         if (isset($_POST['ProductReviews'])) {
             $modelComment->attributes = $_POST['ProductReviews'];
             $modelComment->added_date = time();
@@ -226,13 +228,22 @@ class UserController extends Controller {
                 $modelComment->rating = $_POST['ratingUser'];
             }
 
+            $product = Product::model()->findByPk($modelComment->product_id);
+           
+             $url =$this->createUrl('/web/product/productDetail', array(
+                    'country' => Yii::app()->session['country_short_name'],
+                    'city' => Yii::app()->session['city_short_name'],
+                    'city_id' => Yii::app()->session['city_id'],
+                    "pcategory" => $product->parent_category->category_slug,
+                    "slug" => $product->slag,
+                ));
 
 
             if ($modelComment->save()) {
-                $this->redirect($this->createUrl('/web/product/productDetail', array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'], 'product_id' => $modelComment->product_id)));
+                $this->redirect($url);
             } else {
                 echo CHtml::errorSummary($modelComment);
-                $this->redirect($this->createUrl('/web/product/productDetail', array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'], 'product_id' => $modelComment->product_id)));
+                $this->redirect($url);
             }
 
 //        $this->render('update_profile', array(
