@@ -178,17 +178,55 @@
                                 );
 
                                 echo '<div class="nav_pointer"></div>';
+                                /**
+                                 * if size is greater then 10
+                                 * then it will be 
+                                 * decomsed
+                                 */
+                                
+                                if (count($data['data']) > 10) {
+                                    $data_childs = array_chunk($data['data'], 10);
+                                    $counter = 1;
+                                    foreach($data_childs as $datachild) {
+                                        $class = "";
+                                        if($counter!=count($data_childs)){
+                                            $class = "even_menu";
+                                        }
+                                        echo "<ul style='float:left;' class='$class'>";
+                                        foreach ($datachild as $cat):
 
-                                foreach ($data['data'] as $cat):
+                                            echo "<li class=''>";
+                                            echo CHtml::link($cat->category_name, $this->createUrl("/web/product/category", array("slug" => $cat->slug)));
+                                            echo "</li>";
 
-                                    echo "<p>";
-                                    echo CHtml::link($cat->category_name, $this->createUrl("/web/product/category", array("slug" => $cat->slug)));
-                                    echo "</p>";
-                                endforeach;
+
+                                        endforeach;
+                                        echo "</ul>";
+                                        
+                                        
+                                        $counter++;
+                                    }
+
+                                    
+                                } else {
+
+                                    echo "<ul>";
+                                    foreach ($data['data'] as $cat):
+
+                                        echo "<li class=''>";
+                                        echo CHtml::link($cat->category_name, $this->createUrl("/web/product/category", array("slug" => $cat->slug)));
+                                        echo "</li>";
+
+                                    endforeach;
+
+                                    echo "</ul>";
+                                }
+
 
                                 echo CHtml::closeTag("div");
 
                             endif;
+
                             echo "</li>";
                         endforeach;
                         ?>

@@ -303,7 +303,12 @@ fieldset#body { padding:10px 13px; margin:0; }
 
 .checkout p { float:left; padding: 0; margin: 15px 0 0 5px; color:#7f7f7f; font-family:"Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, sans-serif; font-size:14px; }
 
-.nav_dropdown { position:absolute; display:block; background:#f5f5f5; border-radius: 0 0 5px 5px; padding: 0; margin: 20px 0px 0 -50px; width:160px; height:287px; border:1px solid #e0e0e0; border-top:none; }
+.nav_dropdown { 
+    position:absolute; display:block; 
+    background:#f5f5f5; border-radius: 0 0 5px 5px; 
+    padding: 0; margin: 20px 0px 0 -50px; width:auto; 
+    height:287px; border:1px solid #e0e0e0; border-top:none; 
+}
 
 .nav_dropdown p:hover { background:#e5e5e5 !important; }
 
@@ -312,6 +317,20 @@ fieldset#body { padding:10px 13px; margin:0; }
 .nav_dropdown p a { color:#7f7f7f; font-family:"Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, sans-serif; }
 
 .nav_dropdown p:last-child { border:none; }
+
+.nav_dropdown ul {float: left;display: inline;}
+.nav_dropdown ul.even_menu {border-right:1px solid #E0E0E0}
+.nav_dropdown ul li { padding: 5px 6px !important; margin: 0; width:149px; 
+                    border-bottom: 1px solid #e0e0e0;clear: both; }
+.nav_dropdown ul li.inline_float {float: left}
+
+.nav_dropdown ul li a { color:#7f7f7f; font-family:"Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, sans-serif; }
+
+
+.nav_dropdown ul li:last-child { border:none; }
+
+
+
 
 .nav_pointer { border:solid 10px transparent; border-bottom-color:#e0e0e0; position: absolute; margin: -20px 0 0 70px; }
 
