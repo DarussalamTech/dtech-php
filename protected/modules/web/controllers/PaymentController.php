@@ -184,10 +184,15 @@ class PaymentController extends Controller {
     }
 
     public function actionconfirmOrder() {
-        Yii::app()->user->SiteSessions;
-        Yii::app()->theme = Yii::app()->session['layout'];
-        Yii::app()->controller->layout = '//layouts/main';
-        $this->render('//payment/confirm_order');
+        
+      if(Yii::app()->request->urlReferrer!=Yii::app()->request->requestUri){
+          $this->redirect($this->createUrl("/site/storeHome"));
+      }
+ 
+      Yii::app()->user->SiteSessions;
+      Yii::app()->theme = Yii::app()->session['layout'];
+      Yii::app()->controller->layout = '//layouts/main';
+      $this->render('//payment/confirm_order');
     }
 
 }
