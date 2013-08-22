@@ -1,7 +1,7 @@
 <?php
 /* @var $this ProductController */
 /* @var $model Product */
-
+ColorBox::registerScripts();
 $this->breadcrumbs = array(
     'Products' => array('index'),
     'Manage',
@@ -34,14 +34,7 @@ $this->PcmWidget['filter'] = array('name' => 'ItstLeftFilter',
 
 <h1>Make Slider</h1>
 
-<div class="" style="">
-    <?php
-    $this->renderPartial('_slider', array(
-        'model' => $slider,
-        'cityList' => $cityList,
-    ));
-    ?>
-</div><!-- search-form -->
+<!-- search-form -->
 
 
 <?php echo CHtml::link('Advanced Search', '#', array('class' => 'search-button')); ?>
@@ -93,7 +86,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         array(
             'header' => 'make_slider',
             'type' => 'Raw',
-            'value' => 'CHtml::link("Slider","javascript:void(0)")',
+            'value' => '$data->slider_link',
             'headerHtmlOptions' => array(
                 'style' => "text-align:left"
             )

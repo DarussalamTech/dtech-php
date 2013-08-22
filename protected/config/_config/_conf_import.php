@@ -19,6 +19,7 @@ $import = array(
     'application.extensions.email.debug.*',
     'application.extensions.KEmail.KEmail',
     'application.extensions.ProDropDown.*',
+    'application.extensions.colorbox.*',
     'system.gii.CCodeFile',
 
 ); 

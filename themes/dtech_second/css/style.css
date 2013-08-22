@@ -105,7 +105,11 @@ footer { width:960px; padding: 0; margin: 0 auto; }
 
 .left_banner { padding: 0; margin: 0; width:325px; float:left; }
 
-.left_banner img { padding: 0; margin: 40px 0 0 50px; }
+.left_banner img { 
+         padding: 0; margin: 40px 0 0 50px; 
+         width: 222px;
+         height: 332px;
+}
 
 .right_banner { padding: 0; margin: 80px 0 0 0; float:left; width:380px; }
 
@@ -119,7 +123,7 @@ footer { width:960px; padding: 0; margin: 0 auto; }
 
 .shop_now_button { border: none; background:#ebb91c; height:40px; width:130px; color:#ffffff; font-size:15px; font-family:Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif; border-radius:3px; padding: 0; margin: 10px 0 0 0; }
 
-.banner_dots { padding: 0; margin: 120px 0 0 130px; }
+.banner_dots { padding: 0; margin: 95px 0 0 130px; }
 
 #shipping_right_banner { padding: 0; margin: 330px 0 0 60px; float:left; width:190px; }
 

@@ -23,7 +23,7 @@
 class Product extends DTActiveRecord {
 
     public $no_image;
-    public $max_product_id;
+    public $max_product_id,$slider_link;
 
     public function __construct($scenario = 'insert') {
         $this->no_image = Yii::app()->baseUrl . "/images/product_images/noimages.jpeg";
@@ -77,6 +77,7 @@ class Product extends DTActiveRecord {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
+            'slider' => array(self::HAS_ONE, 'Slider', 'product_id'),
             'carts' => array(self::HAS_MANY, 'Cart', 'product_id'),
             'discount' => array(self::HAS_MANY, 'ProductDiscount', 'product_id'),
             'city' => array(self::BELONGS_TO, 'City', 'city_id'),
@@ -391,6 +392,7 @@ class Product extends DTActiveRecord {
      */
     public function afterFind() {
         $this->setSlug();
+        $this->setSlider();
         parent::afterFind();
     }
 
@@ -404,6 +406,18 @@ class Product extends DTActiveRecord {
             $this->slag = trim($this->slag) . "-" . $this->primaryKey;
             $this->slag = str_replace(" ", "-", $this->slag);
             $this->slag = str_replace(Yii::app()->params['notallowdCharactorsUrl'], '', $this->slag);
+        }
+    }
+
+    /**
+     * set slider link 
+     * for administration
+     */
+    public function setSlider() {
+        if (empty($this->slider)) {
+            $this->slider_link = CHtml::link("Slider", Yii::app()->controller->createUrl("/product/createSlider", array("id" => $this->product_id)), array("onclick" => "dtech.openColorBox(this)"));
+        } else {
+            $this->slider_link = CHtml::link("Update Slider", Yii::app()->controller->createUrl("/product/createSlider", array("id" => $this->product_id)), array("onclick" => "dtech.openColorBox(this)"));
         }
     }
 

@@ -445,5 +445,10 @@ var dtech = {
         jQuery("body").click(function(event) {
             event.preventDefault();
         })
-    }
+    },
+    openColorBox : function(obj){
+        jQuery(obj).colorbox({width:"60%", height:"80%", iframe:true});
+
+       
+    }        
 }

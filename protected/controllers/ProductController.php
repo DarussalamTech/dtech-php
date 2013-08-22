@@ -153,27 +153,79 @@ class ProductController extends Controller {
             'model' => $model,
         ));
     }
+
     /**
      * Manages all models.
      * for sliders
      */
     public function actionSlider() {
+
         $this->init();
         $model = new Product('search');
         $cityList = CHtml::listData(City::model()->findAll(), 'city_id', 'city_name');
-        $slider = new Slider();
+
         $model->unsetAttributes();  // clear any default values
 
         $model->city_id = Yii::app()->request->getQuery('city_id');
+
 
         if (isset($_GET['Product']))
             $model->attributes = $_GET['Product'];
 
         $this->render('slider', array(
             'model' => $model,
-            'slider' => $slider,
             'cityList' => $cityList,
         ));
+    }
+
+    /**
+     * create Slider for main website
+     */
+    public function actionCreateSlider($id = 0 ,$slider ="") {
+
+        $cityList = CHtml::listData(City::model()->findAll(), 'city_id', 'city_name');
+        $model = Slider::model()->find("product_id = ".$id);
+        if(empty($model)){
+            $model = new Slider();
+        }
+        else {
+             $old_img = $model->image;
+        }
+        $model->city_id = Yii::app()->request->getQuery('city_id');
+        
+        $product = Product::model()->findByPk($id);
+        $model->product_id = $product->product_id;
+        $model->product_name = $product->product_name;
+
+
+        if (isset($_POST['Slider'])) {
+
+            $model->attributes = $_POST['Slider'];
+
+            //making instance of the uploaded image 
+            $img_file = DTUploadedFile::getInstance($model, 'image');
+            $model->image = $img_file;
+            
+            if (empty($model->image) && empty($model->id)) {
+
+                // conditon for if no image submited then old img should not be deleted
+                $model->category_image = $old_img;
+            }
+
+            if ($model->save()) {
+                $upload_path = DTUploadedFile::creeatRecurSiveDirectories(array("slider", $model->id));
+                if (!empty($img_file)) {
+                    $img_file->saveAs($upload_path . $img_file->name);
+                }
+                
+                $this->redirect(array('createSlider', 'id' => $id,"slider"=>$model->id));
+            }
+        }
+
+        $this->renderPartial('_slider', array(
+            'model' => $model,
+            'cityList' => $cityList,
+                ), false, true);
     }
 
     /**
@@ -357,6 +409,7 @@ class ProductController extends Controller {
         $model->delete();
         $this->redirect($this->createUrl("/product/language", array("id" => $model->product_id)));
     }
+
     /**
      * languages 
      * of all translations

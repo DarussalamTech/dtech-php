@@ -109,3 +109,34 @@ input[type=button],input[type=submit] {
     height: 100%;
     width: 100%;
 }
+
+
+.banner_dots { overflow: hidden; zoom: 1; position: relative; }
+.banner_dots a{ text-decoration: none; outline: none; border: none; cursor: inherit; }
+#cs-buttons-coin,#cs-navigation-coin {cursor: pointer}
+.banner_dots { font-size: 0px; padding: 10px; clear:  left; }
+.banner_dots a { margin-left: 5px; height: 10px; width: 10px; float: left; border: 1px solid #f0b919; color: #B8C4CF; text-indent: -1000px; }
+.cs-active { background-color: #d7d5d6; color: #FFFFFF; }
+
+
+.banner_dots a {
+    border-radius: 50%;
+    background: #CCC;
+    background: -webkit-linear-gradient(top,  #CCCCCC, #F3F3F3); /* webkit browsers */
+    background:    -moz-linear-gradient(top,  #CCCCCC, #F3F3F3); /* firefox 3.6+ */
+    background:      -o-linear-gradient(top,  #CCCCCC, #F3F3F3); /* opera */
+    background:     -ms-linear-gradient(top,  #CCCCCC, #F3F3F3); /* IE10 */
+    background:         linear-gradient(top,  #CCCCCC, #F3F3F3); /* css3 */ 
+    cursor: pointer;
+}
+.banner_dots a.cs-active {
+    background: #f0b919;
+    background: -webkit-linear-gradient(top,  #f0b919, #a07804); /* webkit browsers */
+    background:    -moz-linear-gradient(top,  #f0b919, #a07804); /* firefox 3.6+ */
+    background:      -o-linear-gradient(top,  #f0b919, #a07804); /* opera */
+    background:     -ms-linear-gradient(top,  #f0b919, #a07804); /* IE10 */
+    background:         linear-gradient(top,  #f0b919, #a07804); /* css3 */  
+    border-radius: 50%;    
+    box-shadow: 0 0 3px #a07804;   
+    border: 1px solid #a07804 !important;     
+}

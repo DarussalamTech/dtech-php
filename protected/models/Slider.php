@@ -16,6 +16,7 @@
  */
 class Slider extends DTActiveRecord {
 
+    public $product_name,$slider_link;
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -39,9 +40,11 @@ class Slider extends DTActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('product_id, create_time, create_user_id, update_time, update_user_id', 'required'),
+            array('title,product_id, create_time, create_user_id, update_time, update_user_id', 'required'),
             array('product_id', 'numerical', 'integerOnly' => true),
+            array('image', 'file','types'=>'jpg, gif, png', 'allowEmpty'=>true),
             array('image, title', 'length', 'max' => 255),
+          
             array('create_user_id, update_user_id', 'length', 'max' => 11),
             array('city_id', 'safe'),
             // The following rule is used by search().
@@ -57,6 +60,7 @@ class Slider extends DTActiveRecord {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
+               'slider' => array(self::BELONGS_TO, 'Product', 'product_id'),
         );
     }
 
@@ -69,7 +73,7 @@ class Slider extends DTActiveRecord {
             'image' => 'Image',
             'title' => 'Title',
             'city_id' => 'City',
-            'product_id' => 'Product',
+            'product_id' => 'Product Name',
             'create_time' => 'Create Time',
             'create_user_id' => 'Create User',
             'update_time' => 'Update Time',
@@ -100,6 +104,20 @@ class Slider extends DTActiveRecord {
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
         ));
+    }
+    /**
+     * slider link 
+     */
+    public function afterFind() {
+        if(!empty($this->product)){
+            $this->slider_link = CHtml::link("Slider",Yii::app()->controller->createUrl("/product/createSlider",array("id"=>$this->product_id)),
+                            array("onclick"=>"dtech.openColorBox(this)"));
+        }
+        else {
+              $this->slider_link = CHtml::link("Update Slider",Yii::app()->controller->createUrl("/product/createSlider",array("id"=>$this->product_id)),
+                            array("onclick"=>"dtech.openColorBox(this)"));
+        }
+        parent::afterFind();
     }
 
 }
