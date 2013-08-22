@@ -49,7 +49,7 @@ class PaymentController extends Controller {
             $model->attributes = $_POST['ShippingInfoForm'];
 
             $is_valid = $this->validateCreditCard($model, $creditCardModel);
-            
+
 
             if ($model->validate() && $is_valid) {
 
@@ -128,7 +128,7 @@ class PaymentController extends Controller {
      * @param type $creditCardModel
      */
     public function processManual($creditCardModel) {
-        
+
         $order_id = $creditCardModel->saveOrder("");
 
         UserProfile::model()->saveShippingInfo($_POST['ShippingInfoForm'], $order_id);
@@ -184,15 +184,11 @@ class PaymentController extends Controller {
     }
 
     public function actionconfirmOrder() {
-        
-      if(Yii::app()->request->urlReferrer!=Yii::app()->request->hostInfo.Yii::app()->request->requestUri){
-          $this->redirect($this->createUrl("/site/storeHome"));
-      }
- 
-      Yii::app()->user->SiteSessions;
-      Yii::app()->theme = Yii::app()->session['layout'];
-      Yii::app()->controller->layout = '//layouts/main';
-      $this->render('//payment/confirm_order');
+
+        Yii::app()->user->SiteSessions;
+        Yii::app()->theme = Yii::app()->session['layout'];
+        Yii::app()->controller->layout = '//layouts/main';
+        $this->render('//payment/confirm_order');
     }
 
 }
