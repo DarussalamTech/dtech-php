@@ -26,12 +26,18 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
         </div>
 
         <div class="confirm_order">
-            Your Order has  successfully completed....
+            
             <?php if (Yii::app()->user->hasFlash('orderMail')) { ?>
+                Your Order has  successfully completed....
                 <div class="flash-success" style="color:green">
                     <?php echo '<br/><tt>' . Yii::app()->user->getFlash('orderMail') . '</tt>'; ?>
                 </div>
-            <?php } ?>
+            <?php }
+                else {
+                    echo  "Nothing has been Ordered ";
+                    echo CHtml::link("Home Page",$this->createUrl("/site/storeHome"));
+                }
+            ?>
         </div>
     </div>
 
