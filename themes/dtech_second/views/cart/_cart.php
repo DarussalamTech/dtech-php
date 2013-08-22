@@ -71,7 +71,7 @@ $this->setTotalAmountSession($grand_total, $total_quantity, "");
             if (!empty($cart)) {
                 echo CHtml::button("CHECKOUT", array(
                     "class" => "checkout_btn",
-                    "onclick" => "window.location = '" . $this->createUrl('/web/payment/paymentmethod') . "'"));
+                    "onclick" => "window.location = '" . $this->createUrl('/web/cart/viewcart') . "'"));
             } else {
                 echo CHtml::button("CHECKOUT", array(
                     "class" => "checkout_btn",
