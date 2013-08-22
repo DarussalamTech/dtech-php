@@ -185,7 +185,7 @@ class PaymentController extends Controller {
 
     public function actionconfirmOrder() {
         
-      if(Yii::app()->request->urlReferrer!=Yii::app()->request->requestUri){
+      if(Yii::app()->request->urlReferrer!=Yii::app()->request->hostInfo.Yii::app()->request->requestUri){
           $this->redirect($this->createUrl("/site/storeHome"));
       }
  
