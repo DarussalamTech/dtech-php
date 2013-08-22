@@ -14,7 +14,7 @@
                 CHtml::listData($paymentMehtods, "name", "name"), array("onchange" => "dtech_new.showPaymentMethods(this)")
         );
         ?>
-     
+       <?php echo $form->error($model, 'payment_method'); ?>
     </div>
     <?php
     
