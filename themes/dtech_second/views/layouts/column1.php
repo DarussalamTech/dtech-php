@@ -47,7 +47,7 @@
                          * slider logo
                          */
                         $count = 1;
-                        foreach ($slider as $data):
+                        foreach ($slider as $data2):
                             ?>
                             <a id="cs-button-coin-<?php echo $count; ?>" class="cs-button-coin <?php echo ($count==1)?"cs-active":""; ?>" href="javascript:void(0)"><?php echo $count; ?></a>
                             <?php
