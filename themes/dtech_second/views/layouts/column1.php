@@ -39,7 +39,39 @@
                         <?php echo $data->title ?>
                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/images/right_colons_03.jpg" class="right_colon" /></p>
 
-                    <input type="button" value="Shop Now" class="shop_now_button" />
+                    <?php
+                    echo CHtml::Button("Shop Now", array(
+                        'class' => 'shop_now_button',
+                        'onclick' => '
+                            jQuery("#loading").show();
+                            jQuery("#status_available").hide();  
+                            jQuery("#status_un_available").hide();  
+                            jQuery.ajax({
+                                type: "POST",
+                                dataType: "json",
+                                url: "' . $this->createUrl("/cart/addtocart", array("product_profile_id" => $data->slider->productProfile[0]->id)) . '",
+                                data: 
+                                    { 
+                                        quantity: 1,
+                                    }
+                                }).done(function( msg ) {
+                               
+                                jQuery("#loading").hide();
+                                if(msg["total_available"]>0){
+                                    jQuery("#status_available").show();  
+                                    dtech.custom_alert("Item has added to cart" ,"Add to Cart");
+                                }
+                                else {
+                                    jQuery("#status_un_available").show();    
+                                    dtech.custom_alert("Item is out of stock" ,"Add to Cart");
+                                }
+                                dtech_new.loadCartAgain("' . $this->createUrl("/web/cart/loadCart") . '");
+                               
+                            }); 
+                         '
+                            )
+                    );
+                    ?>
 
                     <div class="banner_dots">
                         <?php
@@ -49,11 +81,10 @@
                         $count = 1;
                         foreach ($slider as $data2):
                             ?>
-                            <a id="cs-button-coin-<?php echo $count; ?>" class="cs-button-coin <?php echo ($count==1)?"cs-active":""; ?>" href="javascript:void(0)"><?php echo $count; ?></a>
+                            <a id="cs-button-coin-<?php echo $count; ?>" class="cs-button-coin <?php echo ($count == 1) ? "cs-active" : ""; ?>" href="javascript:void(0)"><?php echo $count; ?></a>
                             <?php
                             $count++;
                         endforeach;
-                        
                         ?>
                     </div>
                 </div>
