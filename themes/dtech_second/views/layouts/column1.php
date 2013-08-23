@@ -56,19 +56,19 @@
                                     }
                                 }).done(function( msg ) {
                                
-                                jQuery("#loading").hide();
-                                if(msg["total_available"]>0){
-                                    jQuery("#status_available").show();  
-                                    dtech.custom_alert("Item has added to cart" ,"Add to Cart");
-                                }
-                                else {
-                                    jQuery("#status_un_available").show();    
-                                    dtech.custom_alert("Item is out of stock" ,"Add to Cart");
-                                }
-                                dtech_new.loadCartAgain("' . $this->createUrl("/web/cart/loadCart") . '");
+                                    jQuery("#loading").hide();
+                                    if(msg["total_available"]>0){
+                                        jQuery("#status_available").show();  
+                                        dtech.custom_alert("Item has added to cart" ,"Add to Cart");
+                                    }
+                                    else {
+                                        jQuery("#status_un_available").show();    
+                                        dtech.custom_alert("Item is out of stock" ,"Add to Cart");
+                                    }
+                                    dtech_new.loadCartAgain("' . $this->createUrl("/web/cart/loadCart") . '");
                                
-                            }); 
-                         '
+                                 }); 
+                            '
                             )
                     );
                     ?>
