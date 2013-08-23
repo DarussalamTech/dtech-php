@@ -229,6 +229,15 @@ var dtech_new = {
      * slider js code for home page of website
      */
     makeSlider: function() {
+         $(".banner_dots a").click(function(){
+            elem_id = $(this).attr("id").replace("cs-button-coin-", "");
+            $(".banner_slider").hide();
+            $(".banner_dots a").attr("class","cs-button-coin");
+            $("#banner_slider_"+elem_id).show('slow');
+            
+            $("#banner_slider_" + elem_id + " #cs-button-coin-" + elem_id).attr("class", "cs-button-coin cs-active");
+            
+        });
         setInterval(function() {
             var visible_id = "";
             var counter_id = 1;
@@ -240,6 +249,7 @@ var dtech_new = {
             })
 
             if ($("#" + visible_id).next().length != 0) {
+
                 $("#" + visible_id).hide();
                 $("#" + visible_id).next().show('slow');
 
@@ -257,12 +267,7 @@ var dtech_new = {
             else {
                 $("#" + visible_id).hide();
 
-
-
                 $("#banner").children().eq(0).show('slow');
-
-
-
 
                 counter_id = visible_id.replace("banner_slider_", "");
                 next_counter_id = $("#banner").children().eq(0).attr("id").replace("banner_slider_", "");
@@ -277,7 +282,7 @@ var dtech_new = {
 
             }
 
-        }, 3600);
+        }, 10000);
 
     }
 }
