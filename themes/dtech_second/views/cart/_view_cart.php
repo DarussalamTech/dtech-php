@@ -56,7 +56,7 @@
             'summaryText' => '{count} records(s) found.',
             'cssFile' => Yii::app()->theme->baseUrl . '/css/cart_gridview.css',
             'afterAjaxUpdate' => "function(id,data){
-                console.log(jQuery('#cart-grid table tbody tr td.empty').length);
+                  dtech_new.loadCartAgain('".$this->createUrl("/web/cart/loadCart")."');
                 if(jQuery('#cart-grid table tbody tr td.empty').length!=0){
                     jQuery('.check_out_cart').hide();
                 }
@@ -136,6 +136,7 @@
                                             
                                             setTimeout(function(){
                                                   $('#cart-grid').yiiGridView.update('cart-grid');
+                                                  
                                                   
                                             },1000);
 
