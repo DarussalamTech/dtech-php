@@ -446,9 +446,26 @@ var dtech = {
             event.preventDefault();
         })
     },
-    openColorBox : function(obj){
-        jQuery(obj).colorbox({width:"60%", height:"80%", iframe:true});
+    openColorBox: function(obj) {
+        jQuery(obj).colorbox({width: "60%", height: "80%", iframe: true});
 
-       
-    }        
+    },
+    /**
+     * if client wants to remove one thing from slider
+     * he can remove
+     * @param {type} obj
+     * @returns {Boolean}
+     */
+    removeSlider: function(obj) {
+        if (confirm("Are you sure you want to remove")) {
+            $.ajax({
+                url: $(obj).attr('href'),
+                success: function(msg) {
+                    $('#uproduct-grid').yiiGridView.update('product-grid');
+                }
+            });
+
+            return false;
+        }
+    }
 }

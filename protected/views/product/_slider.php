@@ -3,7 +3,6 @@
 /* @var $model Product */
 /* @var $form CActiveForm */
 Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/form.css');
-
 ?>
 <h1>Make Slider</h1>
 <div class="wide form">
@@ -17,14 +16,14 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
 
     <div class="row">
         <?php echo $form->labelEx($model, 'title'); ?>
-        <?php echo $form->textField($model, 'title',array("style"=>"width:350px")); ?>
+        <?php echo $form->textField($model, 'title', array("style" => "width:350px")); ?>
         <?php echo $form->error($model, 'title'); ?>
     </div>
 
     <div class="row">
         <?php echo $form->labelEx($model, 'image'); ?>
         <?php echo $form->fileField($model, 'image'); ?>
-            image Size 222X332
+        image Size 222X332
         <?php echo $form->error($model, 'image'); ?>
     </div>
     <div class="row">
@@ -35,14 +34,23 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
 
     <?php echo $form->hiddenField($model, 'product_id'); ?>
     <?php
-        $this->renderPartial("/common/_city_field", array("form" => $form, "model" => $model, "cityList" => $cityList));
+    $this->renderPartial("/common/_city_field", array("form" => $form, "model" => $model, "cityList" => $cityList));
     ?>
-    
+
     <div class="row">
+        <label>&nbsp;</label>
         <?php
-            if(!empty($model->image)){
-                echo CHtml::image(Yii::app()->baseUrl."/uploads/slider/".$model->id."/".$model->image);
-            }
+        if (!empty($model->title)) {
+            echo $model->title;
+        }
+        ?>
+    </div>
+    <div class="row">
+        <label>&nbsp;</label>
+        <?php
+        if (!empty($model->image)) {
+            echo CHtml::image(Yii::app()->baseUrl . "/uploads/slider/" . $model->id . "/" . $model->image);
+        }
         ?>
     </div>
 

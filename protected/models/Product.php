@@ -23,7 +23,7 @@
 class Product extends DTActiveRecord {
 
     public $no_image;
-    public $max_product_id,$slider_link;
+    public $max_product_id, $slider_link, $slider_remove_link;
 
     public function __construct($scenario = 'insert') {
         $this->no_image = Yii::app()->baseUrl . "/images/product_images/noimages.jpeg";
@@ -414,10 +414,13 @@ class Product extends DTActiveRecord {
      * for administration
      */
     public function setSlider() {
-        if (empty($this->slider)) {
-            $this->slider_link = CHtml::link("Slider", Yii::app()->controller->createUrl("/product/createSlider", array("id" => $this->product_id)), array("onclick" => "dtech.openColorBox(this)"));
-        } else {
-            $this->slider_link = CHtml::link("Update Slider", Yii::app()->controller->createUrl("/product/createSlider", array("id" => $this->product_id)), array("onclick" => "dtech.openColorBox(this)"));
+        if ($this->isAdmin) {
+            if (empty($this->slider)) {
+                $this->slider_link = CHtml::link("Slider", Yii::app()->controller->createUrl("/product/createSlider", array("id" => $this->product_id)), array("onclick" => "dtech.openColorBox(this)"));
+            } else {
+                $this->slider_link = CHtml::link("Update Slider", Yii::app()->controller->createUrl("/product/createSlider", array("id" => $this->product_id)), array("onclick" => "dtech.openColorBox(this)"));
+                $this->slider_remove_link = CHtml::link("Remove", Yii::app()->controller->createUrl("/product/removeSlider", array("id" => $this->slider->id)), array("onclick" => "dtech.removeSlider(this);return false;"));
+            }
         }
     }
 

@@ -84,9 +84,17 @@ $this->widget('zii.widgets.grid.CGridView', array(
             )
         ),
         array(
-            'header' => 'make_slider',
+            'header' => 'Make Slider',
             'type' => 'Raw',
             'value' => '$data->slider_link',
+            'headerHtmlOptions' => array(
+                'style' => "text-align:left"
+            )
+        ),
+        array(
+            'header' => 'Remove Slider',
+            'type' => 'Raw',
+            'value' => '!empty($data->slider_remove_link)?$data->slider_remove_link:""',
             'headerHtmlOptions' => array(
                 'style' => "text-align:left"
             )

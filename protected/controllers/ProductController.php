@@ -205,11 +205,11 @@ class ProductController extends Controller {
             //making instance of the uploaded image 
             $img_file = DTUploadedFile::getInstance($model, 'image');
             $model->image = $img_file;
-            
-            if (empty($model->image) && empty($model->id)) {
+          
+            if (empty($model->image) && !empty($model->id)) {
 
                 // conditon for if no image submited then old img should not be deleted
-                $model->category_image = $old_img;
+                $model->image = $old_img;
             }
 
             if ($model->save()) {
@@ -226,6 +226,15 @@ class ProductController extends Controller {
             'model' => $model,
             'cityList' => $cityList,
                 ), false, true);
+    }
+    /**
+     * Remove Slider
+     * from database
+     * 
+     */
+    public function actionRemoveSlider($id){
+        Slider::model()->deleteByPk($id);
+       
     }
 
     /**

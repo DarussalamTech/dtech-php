@@ -23,20 +23,27 @@ class DTActiveRecord extends CActiveRecord {
     public $_action;
     public $_controller;
     public $_no_condition = false;
-    public $_current_module;
+    public $_current_module, $isAdmin;
 
     public function __construct($scenario = 'insert') {
 
         $this->_action = Yii::app()->controller->action->id;
         $this->_controller = Yii::app()->controller->id;
         $this->_current_module = get_class(Yii::app()->controller->getModule());
-
+        /**
+         * setting of admin site is running from model
+         */
+        $this->isAdmin = Yii::app()->controller->isAdminSite;
         parent::__construct($scenario);
     }
 
     public function afterFind() {
         if (isset(Yii::app()->controller->action->id)) {
             $this->_action = Yii::app()->controller->action->id;
+            /**
+             * setting of admin site is running from model
+             */
+            $this->isAdmin = Yii::app()->controller->isAdminSite;
         }
 
         $this->attributes = $this->decodeArray($this->attributes);
@@ -217,7 +224,7 @@ class DTActiveRecord extends CActiveRecord {
          * is primary key of City model
          */
         if (get_class($this) == "City") {
-            return empty($condition)?" 1=1 ":" AND 1=1 ";
+            return empty($condition) ? " 1=1 " : " AND 1=1 ";
         }
         $controller = Yii::app()->controller->id;
         $controllers = array(
@@ -242,7 +249,7 @@ class DTActiveRecord extends CActiveRecord {
                 return "   t.city_id ='" . Yii::app()->session['city_id'] . "'  ";
             }
         }
-       return empty($condition)?" 1=1 ":" AND 1=1 ";
+        return empty($condition) ? " 1=1 " : " AND 1=1 ";
     }
 
     /**
