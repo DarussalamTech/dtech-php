@@ -10,7 +10,7 @@
         /**
          * slider images come from here
          */
-        $slider = slider::model()->findAll();
+        $slider = Slider::model()->findAll();
         $counter = 1;
         foreach ($slider as $data):
             $style = "display:none";
