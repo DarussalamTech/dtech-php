@@ -556,10 +556,15 @@ class Controller extends RController {
 
         $criteria = new CDbCriteria();
         $criteria->addCondition("misc_type='other'");
-        $selected = array("dateformat", "auto_item_code");
+        $selected = array("dateformat", "auto_item_code", "slider_time");
         $criteria->addInCondition("param", $selected);
+        if (!empty($_REQUEST['city_id'])) {
+            $criteria->addCondition("city_id = " . $_REQUEST['city_id']);
+        }
         $criteria->select = "param,value";
+
         $conf = ConfMisc::model()->findAll($criteria);
+
         if (!empty($conf)) {
             foreach ($conf as $data) {
                 Yii::app()->params[$data->param] = $data->value;

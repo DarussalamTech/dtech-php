@@ -236,6 +236,26 @@ class ProductController extends Controller {
         Slider::model()->deleteByPk($id);
        
     }
+    
+    /**
+     * Slider Settings
+     * Time
+     */
+    
+    public function actionSliderSetting(){
+        
+        $conf = ConfMisc::model()->find("param = 'slider_time'");
+      
+        $model = new SliderSetting();
+        $model->time = $conf->value;
+        if(isset($_POST['SliderSetting'])){
+            $model->attributes = $_POST['SliderSetting'];
+            if($model->validate()) {
+               $conf->updateByPk($conf->id,array("value"=>$model->time));
+            }
+        }
+        $this->render("_slider_settings",array("model" => $model));
+    }
 
     /**
      * Returns the data model based on the primary key given in the GET variable.

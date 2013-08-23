@@ -1,5 +1,10 @@
 <?php $this->beginContent('//layouts/main'); ?>
 <script type="text/javascript">
+    /**
+     * slider timings
+     * @type undefined
+     */
+    var slider_timings = <?php echo !empty(Yii::app()->params['slider_time'])?Yii::app()->params['slider_time']:10; ?>;
     $(document).ready(function() {
         dtech_new.makeSlider();
     });
@@ -10,6 +15,7 @@
         /**
          * slider images come from here
          */
+       
         $slider = Slider::model()->findAll();
         $counter = 1;
         foreach ($slider as $data):

@@ -229,7 +229,7 @@ var dtech_new = {
      * slider js code for home page of website
      */
     makeSlider: function() {
-         $(".banner_dots a").click(function(){
+        $(".banner_dots a").click(function(){
             elem_id = $(this).attr("id").replace("cs-button-coin-", "");
             $(".banner_slider").hide();
             $(".banner_dots a").attr("class","cs-button-coin");
@@ -258,6 +258,8 @@ var dtech_new = {
                 next_counter_id = $("#" + visible_id).next().attr("id").replace("banner_slider_", "");
 
                 current_vis = $("#" + visible_id).next().attr("id");
+                
+                $(".banner_dots a").attr("class","cs-button-coin");
 
                 $("#" + current_vis + " #cs-button-coin-" + counter_id).attr("class", "cs-button-coin");
                 $("#" + current_vis + " #cs-button-coin-" + next_counter_id).attr("class", "cs-button-coin cs-active");
@@ -273,13 +275,15 @@ var dtech_new = {
                 next_counter_id = $("#banner").children().eq(0).attr("id").replace("banner_slider_", "");
 
                 current_vis = $("#banner").children().eq(0).attr("id");
+                
+                $(".banner_dots a").attr("class","cs-button-coin");
 
                 $("#" + current_vis + " #cs-button-coin-" + counter_id).attr("class", "cs-button-coin");
                 $("#" + current_vis + " #cs-button-coin-" + next_counter_id).attr("class", "cs-button-coin cs-active");
 
             }
 
-        }, 10000);
+        }, slider_timings*1000);
 
     }
 }

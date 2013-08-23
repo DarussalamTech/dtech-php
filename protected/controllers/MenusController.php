@@ -345,6 +345,7 @@ class MenusController extends Controller {
          */
         
         $ary[] = array("id" => "44", "pid" => "26", "root_parent" => "26", "controller" => "product", "action" => "slider", "default_title" => "Make Slider", "user_title" => "Make Slider", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "2");
+        $ary[] = array("id" => "45", "pid" => "26", "root_parent" => "26", "controller" => "product", "action" => "sliderSetting", "default_title" => "Slider Settings", "user_title" => "Slider Settings", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "2");
         
         $this->updateWpbaseUrl();
         foreach ($ary as $attr) {
