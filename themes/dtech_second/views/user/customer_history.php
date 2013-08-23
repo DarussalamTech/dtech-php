@@ -19,13 +19,13 @@ if ($cart->getItemCount() <= 0) {
     <?php
 } else {
     ?>
-    
-        <div class="heading_cart">
-            <h2>Your Orders</h2>
-            <?php
-            echo CHtml::image(Yii::app()->theme->baseUrl . "/images/under_heading_07.png");
-            ?>
-        </div>
+
+    <div class="heading_cart">
+        <h2>Your Orders</h2>
+        <?php
+        echo CHtml::image(Yii::app()->theme->baseUrl . "/images/under_heading_07.png");
+        ?>
+    </div>
 
     <?php
     //CVarDumper::dump($cart,20,TRUE);die;
@@ -77,4 +77,9 @@ if ($cart->getItemCount() <= 0) {
     ));
 }
 ?>
+<style>
+    .grid-view .link-column a {
+        width: 90px;
+    }
+</style>
 <div id="order_detail"></div>
