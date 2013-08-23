@@ -5,9 +5,10 @@
     margin: 0 auto;
     padding: 1px;
     width: 960px;
+    
 } 
 
-.left_contact_part { width:70%; padding: 0; margin: 0; float:left; }
+.left_contact_part { width:70%; padding: 0; margin: 0; float:left;font-family: Segoe,"Segoe UI","DejaVu Sans","Trebuchet MS",Verdana,sans-serif; }
 
 .left_contact_part h1 { color:#2656a5; font-size:18px; padding: 30px 0; margin: 0; }
 
@@ -39,6 +40,8 @@
 
 .business_contact section { font-size:14px; color:#343434; line-height:23px; }
 
+.business_contact section a{ font-size:14px; color:#343434; line-height:23px; }
+
 .right_contact_part { 
     background: none repeat scroll 0 0 #EFEFEF;
     border-radius: 10px 10px 10px 10px;
@@ -46,7 +49,9 @@
     float: left;
     margin: 80px 0 0;
     padding: 0 27px 0 61px;
-    width: auto;
+    width: 20%;
+    font-family: Segoe,"Segoe UI","DejaVu Sans","Trebuchet MS",Verdana,sans-serif;
+    font-size: 12px;
 }
 
 .right_contact_part h3 { color:#092b71; font-size:14px; line-height:23px; font-weight:normal; }

@@ -35,6 +35,7 @@ hr.style-two {
 .form_container {
     margin: 0 auto;
     padding: 1px;
+    font-family: Segoe,"Segoe UI","DejaVu Sans","Trebuchet MS",Verdana,sans-serif;
     width: 960px; }
 
 .form_heading p { color:#3b3b3b; font-size:11px; }

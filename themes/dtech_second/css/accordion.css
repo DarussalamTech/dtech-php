@@ -17,7 +17,10 @@ ul.accordion, ol.accordion { margin: 0; padding: 0; }
 
 .accordion { width: 100%; }
 
-.accordion li h3 a { color:#4A4A4A; font-size:16px; display: block; font-style: normal; margin: 0; padding: 5px 10px; }
+.accordion li h3 a { color:#4A4A4A; font-size:16px; display: block; 
+                     font-style: normal; margin: 0; padding: 5px 10px; 
+                     font-family: Segoe,"Segoe UI","DejaVu Sans","Trebuchet MS",Verdana,sans-serif;
+}
 
 .accordion li h3 { margin: 0; padding: 5px 0; font-size: 18px; font-weight: normal; }
 
@@ -25,7 +28,9 @@ ul.accordion, ol.accordion { margin: 0; padding: 0; }
 
 #faq_end { padding: 0; margin: 0 auto; width:960px; }
 
-#faq_page li { list-style:none; border:1px solid #909090; padding: 0; margin: 0; }
+#faq_page li { list-style:none; border:1px solid #909090; padding: 0; margin: 0;
+               font-family: Segoe,"Segoe UI","DejaVu Sans","Trebuchet MS",Verdana,sans-serif;
+}
 
 #faq_page { background: #fff; width: 100%; padding: 0px; text-align: left; }
 
