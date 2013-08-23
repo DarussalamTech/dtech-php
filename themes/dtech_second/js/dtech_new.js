@@ -277,9 +277,6 @@ var dtech_new = {
                 $("#" + current_vis + " #cs-button-coin-" + counter_id).attr("class", "cs-button-coin");
                 $("#" + current_vis + " #cs-button-coin-" + next_counter_id).attr("class", "cs-button-coin cs-active");
 
-
-
-
             }
 
         }, 10000);
