@@ -16,6 +16,11 @@ $this->widget('zii.widgets.grid.CGridView', array(
     'cssFile' => Yii::app()->theme->baseUrl . '/css/gridview.css',
     'columns' => array(
         array(
+            'name' => 'title',
+            'value' => '!empty($data->title)?$data->title:""',
+            "type" => "raw",
+        ),
+        array(
             'name' => 'language_id',
             'value' => '!empty($data->productLanguage)?$data->productLanguage->language_name:""',
             "type" => "raw",
@@ -52,8 +57,8 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'buttons' => array
                 (
                 'view' => array(
-                    'url' => 'Yii::app()->controller->createUrl("/web/product/productDetailLang", array("id" => '.$product->product_id.',"profile_id"=>$data->id)) ',
-                    'options'=>array("id"=>  uniqid()),
+                    'url' => 'Yii::app()->controller->createUrl("/web/product/productDetailLang", array("id" => ' . $product->product_id . ',"profile_id"=>$data->id)) ',
+                    'options' => array("id" => uniqid()),
                     'click' => "js:function() {
                                             dtech_new.loadWaitmsg();
                                             jQuery('#load_subpanel_div').toggle();
