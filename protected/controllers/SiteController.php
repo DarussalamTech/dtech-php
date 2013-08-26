@@ -260,6 +260,10 @@ class SiteController extends Controller {
      * Displays the login page
      */
     public function actionLogin() {
+        if (!Yii::app()->user->isGuest) {
+            $this->redirect($this->createUrl('/web/userProfile/index'));
+        }
+
         Yii::app()->controller->layout = "//layouts/column2";
         Yii::app()->user->SiteSessions;
         Yii::app()->theme = 'dtech_second';
@@ -287,15 +291,13 @@ class SiteController extends Controller {
                     Yii::app()->session['isSuper'] = 1;
 
                     $this->redirect($this->createUrl('/user/index'));
-                }
-                else if (Yii::app()->user->isAdmin) {
+                } else if (Yii::app()->user->isAdmin) {
 
                     $_REQUEST['city_id'] = Yii::app()->user->user->city_id;
                     Yii::app()->user->SiteSessions;
 
                     $this->redirect($this->createUrl('/product/index'));
-                }
-                else if (Yii::app()->user->isCustomer) {
+                } else if (Yii::app()->user->isCustomer) {
                     $cart = new Cart();
                     $cart->addCartByUser();
                     $wishlist = new WishList();
@@ -353,8 +355,7 @@ class SiteController extends Controller {
                         Yii::app()->session['isSuper'] = 1;
 
                         $this->redirect($this->createUrl('/user/index'));
-                    }
-                    else if (Yii::app()->user->isAdmin) {
+                    } else if (Yii::app()->user->isAdmin) {
 
                         $_REQUEST['city_id'] = Yii::app()->user->user->city_id;
                         Yii::app()->user->SiteSessions;
