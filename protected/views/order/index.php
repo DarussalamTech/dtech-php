@@ -28,9 +28,22 @@ $('.search-form form').submit(function(){
 <h1>Manage Orders</h1>
 
 <p>
-    You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
-    or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
+    <b>Information:</b>
+    <br/>
+    If Order Status changes Completed to Declined = Then Quantity will be reverted to Products
+    <br/>
+    If Order Status changes process to Completed = Then Quantity will be decreased to Products
 </p>
+
+<?php
+echo CHtml::openTag("div", array(
+                    "class" => "flash-success",
+                    "id"=>'flash-message',
+                    "style"=>"display:none"
+    ));
+
+echo CHtml::closeTag("div");
+?>
 
 <?php echo CHtml::link('Advanced Search', '#', array('class' => 'search-button')); ?>
 <div class="search-form" style="display:none">
@@ -42,15 +55,14 @@ $('.search-form form').submit(function(){
 </div><!-- search-form -->
 
 <?php
-
 $template = "";
-if(isset($this->OpPermission[ucfirst($this->id).".View"]) && $this->OpPermission[ucfirst($this->id).".View"]){
+if (isset($this->OpPermission[ucfirst($this->id) . ".View"]) && $this->OpPermission[ucfirst($this->id) . ".View"]) {
     $template.= "{view}";
 }
-if(isset($this->OpPermission[ucfirst($this->id).".Update"]) && $this->OpPermission[ucfirst($this->id).".Update"]){
+if (isset($this->OpPermission[ucfirst($this->id) . ".Update"]) && $this->OpPermission[ucfirst($this->id) . ".Update"]) {
     $template.= "{update}";
 }
-if(isset($this->OpPermission[ucfirst($this->id).".Delete"]) && $this->OpPermission[ucfirst($this->id).".Delete"]){
+if (isset($this->OpPermission[ucfirst($this->id) . ".Delete"]) && $this->OpPermission[ucfirst($this->id) . ".Delete"]) {
     $template.= "{delete}";
 }
 $this->widget('zii.widgets.grid.CGridView', array(
@@ -64,11 +76,25 @@ $this->widget('zii.widgets.grid.CGridView', array(
         ),
         'total_price',
         'order_date',
-        'status',
         'transaction_id',
+        'update_time',
         array(
             'name' => 'payment_method_id',
             'value' => '!empty($data->paymentMethod->name)?$data->paymentMethod->name:""',
+        ),
+        array(
+            'name' => 'listing_status',
+            'value' => '$data->listing_status',
+            'type' => 'raw',
+        ),
+        array(
+            'header' => 'update Status',
+            'value' => 'CHtml::checkBox("Order[notifyUser]").
+                       CHtml::link("Notify User","javascript:void(0)",array("onclick"=>"dtech.updateNotifyCheckBox(this)"))." ".
+                       CHtml::link("Update",
+                                    Yii::app()->controller->createUrl("/order/update",array("id"=>$data->order_id)),array("onclick"=>"dtech.notifyUser(this);return false;"))',
+            'type' => 'raw',
+            'htmlOptions' => array("width" => "100")
         ),
         array(
             'class' => 'CLinkColumn',
@@ -94,7 +120,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         ),
         array(
             'class' => 'CButtonColumn',
-            'template'=>$template
+            'template' => $template
         ),
     ),
 ));

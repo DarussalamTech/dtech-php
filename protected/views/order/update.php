@@ -3,9 +3,14 @@
 if (!(Yii::app()->user->isGuest)) {
     $this->renderPartial("/common/_left_single_menu");
 }
-
-
 ?>
+<p>
+    <b>Information:</b>
+    <br/>
+    If Order Status changes Completed to Declined = Then Quantity will be reverted to Products
+    <br/>
+    If Order Status changes process to Completed = Then Quantity will be decreased to Products
+</p>
 <div class="form wide">
 
     <?php
@@ -24,6 +29,12 @@ if (!(Yii::app()->user->isGuest)) {
             'declined' => "declined",
                 )
         );
+        ?>
+    </div>
+    <div class="row">
+        <?php echo $form->label($model, 'notifyUser'); ?>
+        <?php
+        echo $form->checkBox($model, 'notifyUser');
         ?>
     </div>
 

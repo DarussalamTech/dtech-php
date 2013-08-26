@@ -157,6 +157,7 @@ $url_manager = array(
         '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/order/view/<id:[\w-\.]+>' => '/order/view',
         /** delete * */
         '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/categories/delete/<id:[\w-\.]+>' => '/categories/delete',
+        '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/order/delete/<id:[\w-\.]+>' => '/order/delete',
         /** New admin urls * */
         '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/product/loadChildByAjax' => '/product/loadChildByAjax',
         '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/product/editChild/<id:[\w-\.]+>' => '/product/editChild',
@@ -184,6 +185,7 @@ $url_manager = array(
         /**
          * rights module
          */
+        '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/rights' => '/rights',
         '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/rights/assignment/view' => '/rights/assignment/view',
         
         '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/menus/installMenu' => '/menus/installMenu',
