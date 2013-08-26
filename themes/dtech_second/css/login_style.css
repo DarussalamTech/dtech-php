@@ -67,6 +67,7 @@ hr.style-two {
     margin: 7px auto -20px;
     padding: 0 0 30px;
     width: 960px;
+    font-family: Segoe,"Segoe UI","DejaVu Sans","Trebuchet MS",Verdana,sans-serif;
 }
 .row_signup_form div.row_input div.row_input_type input.row_text_type{
     width: 60% !important;
