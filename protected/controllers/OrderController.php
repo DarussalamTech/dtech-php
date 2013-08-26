@@ -65,6 +65,8 @@ class OrderController extends Controller {
 
         $old_status = $model->status;
 
+
+
         if (isset($_POST['Order'])) {
             $model->attributes = $_POST['Order'];
 
@@ -90,11 +92,37 @@ class OrderController extends Controller {
 
 
             $model->updateByPk($id, array("status" => $model->status));
-            $this->redirect(array("view", "id" => $id));
+            echo $model->notifyUser;
+            
+            if($model->notifyUser == 1){
+                $this->sendStatusEmail($model,$old_status);
+            }
+            /**
+             * if not in case of ajax
+             */
+            if (!isset($_POST['ajax'])) {
+                $this->redirect(array("view", "id" => $id));
+            }
         }
-        $this->render('update', array(
-            'model' => $model,
-        ));
+        if (!isset($_POST['ajax'])) {
+            $this->render('update', array(
+                'model' => $model,
+            ));
+        }
+    }
+
+    /**
+     * send status email
+     * old status changes to new 
+     */
+    public function sendStatusEmail($model,$oldStatus) {
+        $email['To'] = $model->user->user_email;
+        $email['From'] = Yii::app()->params['adminEmail'];
+        $email['Subject'] = "Order has been changed ";
+        $email['Body'] = "Your order status has been changes from ".$oldStatus." to ".$model->status;
+        $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
+
+        $this->sendEmail2($email);
     }
 
     /**

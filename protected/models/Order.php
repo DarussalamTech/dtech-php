@@ -18,6 +18,12 @@
 class Order extends DTActiveRecord {
 
     /**
+     * listing status will contain dropdown list for 
+     * @var type 
+     */
+    public $listing_status,$notifyUser;
+
+    /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
      * @return Order the static model class
@@ -45,7 +51,7 @@ class Order extends DTActiveRecord {
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
             array('total_price', 'length', 'max' => 10),
             array('order_date', 'length', 'max' => 255),
-            array('transaction_id,status,city_id', 'safe'),
+            array('notifyUser,transaction_id,status,city_id', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('order_id, user_id, total_price, order_date', 'safe', 'on' => 'search'),
@@ -139,7 +145,23 @@ class Order extends DTActiveRecord {
      */
     public function afterFind() {
         $this->order_date = DTFunctions::dateFormatForView($this->order_date);
+        $this->manangeAdminElements();
         parent::afterFind();
+    }
+
+    /**
+     * manage admin elements for reporting
+     * and admin order module
+     */
+    public function manangeAdminElements() {
+        if ($this->isAdmin) {
+            $this->listing_status = CHtml::activeDropDownList($this, 'status', array(
+                        'pending' => "pending",
+                        'process' => "process",
+                        'completed' => "completed",
+                        'declined' => "declined",
+            ));
+        }
     }
 
     /*

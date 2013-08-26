@@ -467,5 +467,32 @@ var dtech = {
 
             return false;
         }
-    }
+    },
+    updateNotifyCheckBox: function(obj) {
+
+        if (!jQuery(obj).prev().is(':checked')) {
+            jQuery(obj).prev().trigger("click");
+        }
+    },
+    notifyUser: function(obj) {
+        if (confirm("Are you sure you want to update order status")) {
+            jQuery("#loading").show();
+            jQuery.ajax({
+                type: "POST",
+                url: jQuery(obj).attr("href"),
+                async: false,
+                data:
+                        {
+                            ajax: 1,
+                            'Order[status]': jQuery(obj).parent().prev().children().eq(0).val(),
+                            'Order[notifyUser]': (jQuery(obj).prev().prev().is(':checked'))?1:0,
+                        }
+            }).done(function(response) {
+                jQuery('#order-grid').yiiGridView.update('order-grid');
+                jQuery("#loading").hide();
+                jQuery("#flash-message").show();
+                jQuery("#flash-message").html("Order status has been updated");
+            });
+        }
+    },
 }
