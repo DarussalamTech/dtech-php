@@ -23,8 +23,11 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
     <div class="row">
         <?php echo $form->labelEx($model, 'image'); ?>
         <?php echo $form->fileField($model, 'image'); ?>
-        image Size 222X332
         <?php echo $form->error($model, 'image'); ?>
+    </div>
+    <div class="row" >
+        <?php echo $form->labelEx($model, 'image Size'); ?>
+        <?php echo $form->labelEx($model, '<b>( 222X332 )</b>'); ?>
     </div>
     <div class="row">
         <?php echo $form->labelEx($model, 'product_id'); ?>
