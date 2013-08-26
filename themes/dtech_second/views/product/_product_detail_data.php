@@ -65,7 +65,7 @@
     </p>
     <p>
         <?php
-        echo Yii::t('model_labels', 'Item Code', array(), NULL, $this->currentLang) . ":";
+        echo Yii::t('model_labels', 'Item code', array(), NULL, $this->currentLang) . ":";
         ?>
         <?php
         echo isset($product->productProfile[0]->item_code) ? $product->productProfile[0]->item_code : "";
@@ -171,7 +171,7 @@ if (!empty($product->productProfile[0]->paper_rel->title)):
     ?>
     <p>
         <?php
-        echo Yii::t('model_labels', 'Paper Type', array(), NULL, $this->currentLang) . ":";
+        echo Yii::t('model_labels', 'Paper type', array(), NULL, $this->currentLang) . ":";
         ?>
         <?php
         echo $product->productProfile[0]->paper_rel->title;
@@ -185,7 +185,7 @@ if (!empty($product->productProfile[0]->no_of_pages)):
     ?>
     <p>
         <?php
-        echo Yii::t('model_labels', 'No Of Pages', array(), NULL, $this->currentLang) . ":";
+        echo Yii::t('model_labels', 'No of pages', array(), NULL, $this->currentLang) . ":";
         ?>
         <?php
         echo $product->productProfile[0]->no_of_pages;
@@ -215,7 +215,7 @@ $attributes = ProductAttributes::model()->ConfAttributes($profile_id);
 
 foreach ($attributes as $att) {
     echo CHtml::openTag('p');
-    echo $att->books_rel->title, ' : ';
+    echo $att->books_rel->title, ': ';
     echo $att->attribute_value;
     echo CHtml::closeTag('p');
 }
