@@ -4,7 +4,7 @@
      * slider timings
      * @type undefined
      */
-    var slider_timings = <?php echo !empty(Yii::app()->params['slider_time'])?Yii::app()->params['slider_time']:10; ?>;
+    var slider_timings = <?php echo!empty(Yii::app()->params['slider_time']) ? Yii::app()->params['slider_time'] : 10; ?>;
     $(document).ready(function() {
         dtech_new.makeSlider();
     });
@@ -15,7 +15,6 @@
         /**
          * slider images come from here
          */
-       
         $slider = Slider::model()->findAll();
         $counter = 1;
         foreach ($slider as $data):
@@ -98,7 +97,9 @@
 
                     <span>
                         <?php
-                        echo Yii::app()->session['currency'] . " " . $data->slider->productProfile[0]->price;
+                        if (!empty($data->slider->productProfile[0]->price)) {
+                            echo Yii::app()->session['currency'] . " " . $data->slider->productProfile[0]->price;
+                        }
                         ?>
                     </span>
 
