@@ -1,24 +1,11 @@
 <?php
 Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/contact.css');
-
-$this->webPcmWidget['filter'] = array('name' => 'DtechSecondSidebar',
-    'attributes' => array(
-        'cObj' => $this,
-        'cssFile' => Yii::app()->theme->baseUrl . "/css/side_bar.css",
-        'is_cat_filter' => 1,
-        ));
-
-$this->webPcmWidget['best'] = array('name' => 'DtechBestSelling',
-    'attributes' => array(
-        'cObj' => $this,
-        'cssFile' => Yii::app()->theme->baseUrl . "/css/side_bar.css",
-        'is_cat_filter' => 0,
-        ));
 ?>
+
 <div class="contact_us">
     <div class="left_contact_part">
         <h1>
-        <?php echo Yii::t('header_footer', 'Contact Us', array(), NULL, $this->currentLang) ?>
+            <?php echo Yii::t('header_footer', 'Contact Us', array(), NULL, $this->currentLang) ?>
         </h1>
         <div class="contact_field">
 
@@ -55,8 +42,20 @@ $this->webPcmWidget['best'] = array('name' => 'DtechBestSelling',
             <div class="contact_form">
                 <p><?php echo $form->labelEx($model, 'body'); ?></p>
                 <?php echo $form->textArea($model, 'body', array('rows' => 5, 'cols' => 31, 'style' => 'resize:none')); ?>
-                <?php echo CHtml::submitButton(Yii::t('common', 'Submit', array(), NULL, $this->currentLang), array('class' => 'submit_btn')); ?>
+
             </div>
+            <?php if (CCaptcha::checkRequirements()): ?>
+                <div class="contact_form">
+                    <p><?php echo $form->labelEx($model, 'verifyCode'); ?></p>
+                    <?php $this->widget('CCaptcha', array('buttonLabel' => 'Refresh Code', 'buttonType' => 'link')); ?>
+                    <?php echo $form->textField($model, 'verifyCode', array('class' => 'form_name')); ?>
+
+                    <p>
+                        Please enter the letters  shown in the image above.
+                    </p>
+                    <?php echo CHtml::submitButton(Yii::t('common', 'Submit', array(), NULL, $this->currentLang), array('class' => 'submit_btn')); ?>
+                </div>
+            <?php endif; ?>
 
             <?php $this->endWidget(); ?>
         </div>
@@ -118,3 +117,11 @@ $this->webPcmWidget['best'] = array('name' => 'DtechBestSelling',
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    window.onload = function() {
+        /*
+         * code to change the captcha value on each page refresh after page load
+         */
+        jQuery('#yw0_button').trigger('click');
+    }
+</script>

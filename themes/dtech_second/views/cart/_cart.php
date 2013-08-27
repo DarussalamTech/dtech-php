@@ -7,12 +7,11 @@
     ?>
     <article>
         <?php
-            if(count($cart)<=1){
-                echo count($cart) . " item";
-            }
-            else {
-                echo count($cart) . " item(s)";
-            }
+        if (count($cart) <= 1) {
+            echo count($cart) . " item";
+        } else {
+            echo count($cart) . " item(s)";
+        }
         ?>
     </article> 
 </div>
@@ -87,3 +86,27 @@ $this->setTotalAmountSession($grand_total, $total_quantity, "");
 
 
 </style>
+<script>
+
+    /*
+     * the javascirpt code is for to hide
+     * the wishlist when user click 
+     * elsewereh in the documents...ubd
+     */
+    var mouse_is_inside_wishlist = false;
+    jQuery(document).ready(function()
+    {
+        jQuery('.cart_bx').hover(function() {
+            mouse_is_inside_wishlist = true;
+            jQuery('.cart_bx').show();
+        }, function() {
+            mouse_is_inside_wishlist = false;
+        });
+
+        jQuery(document).mouseup(function() {
+            if (!mouse_is_inside_wishlist)
+                jQuery('.cart_bx').hide();
+        });
+    });
+
+</script>
