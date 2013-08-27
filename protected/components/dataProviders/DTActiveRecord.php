@@ -310,6 +310,22 @@ class DTActiveRecord extends CActiveRecord {
 
         return $this;
     }
+    /**
+     * update elements
+     * will be inherit and save the attribute
+     * with respect to new time
+     * @param type $pk
+     * @param type $attributes
+     * @param type $condition
+     * @param type $params
+     */
+    public function updateByPk($pk, $attributes, $condition = '', $params = array()) {
+        $updateAttr = array("update_time" => new CDbExpression('NOW()'), "update_user_id" => Yii::app()->user->id);
+        $attributes = array_merge($attributes, $updateAttr);
+      
+        parent::updateByPk($pk, $attributes, $condition, $params);
+        return true;
+    }
 
 }
 

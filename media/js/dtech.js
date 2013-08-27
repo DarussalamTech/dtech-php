@@ -495,4 +495,29 @@ var dtech = {
             });
         }
     },
+    updateOrderProductQuantity: function(obj) {
+        if (confirm("Are you sure you want to update order status")) {
+            jQuery("#loading").show();
+            jQuery.ajax({
+                type: "POST",
+                url: jQuery(obj).attr("href"),
+                async: false,
+                data:
+                        {
+                            ajax: 1,
+                           'OrderDetail[quantity]': jQuery(obj).prev().val(),                          
+                        }
+            }).done(function(response) {
+                jQuery('#order-detail-grid').yiiGridView.update('order-detail-grid');
+                jQuery("#loading").hide();
+                jQuery("#flash-message-order").show();
+                jQuery("#flash-message-order").html("Order Product quantity has been updated");
+                
+                  setInterval(function() {
+                       jQuery("#flash-message-order").hide();
+                      
+                  },10*1000)
+            });
+        }
+    },
 }

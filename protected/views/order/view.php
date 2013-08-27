@@ -34,6 +34,15 @@ if (Yii::app()->user->hasFlash('status')) {
     </div>
 </div>
 <div class="clear"></div>
+<p>
+    <b>Information:</b>
+    <br/>
+    If Order Status changes Completed to Declined = Then Quantity will be reverted to Products
+    <br/>
+    If Order Status changes process to Completed = Then Quantity will be decreased to Products
+</p>
+
+<div class="clear"></div>
 <div style="width:50%;float:left">
     <?php
     $this->widget('zii.widgets.CDetailView', array(
@@ -58,15 +67,40 @@ if (Yii::app()->user->hasFlash('status')) {
     ?>
 </div>
 <div style="width:50%;float:left">
-    
+    <?php
+    $this->widget('zii.widgets.jui.CJuiTabs', array(
+        'tabs' => array(
+            'Order Status Change' => $this->renderPartial("_order_status_change", array("model" => $order_history,), true, true),
+            'Order History' => $this->renderPartial("_order_status_grid", array("model" => $model), true, true)
+        ),
+        'options' => array(
+        ),
+    ));
+    ?>
 </div>
 
 <div class="clear"></div>
+
 <div>
     <?php
+    /**
+     * user information
+     */
+    $this->renderPartial('_user_information', array(
+        'user_id' => $model->user->user_id,
+        'user_name' => $model->user->user_email,
+    ));
+    ?>
+</div>
+<div>
+    <?php
+    /**
+     * product stock
+     */
     $this->renderPartial('_order_detail', array(
         'model' => $model_d,
         'user_name' => $model->user->user_email,
     ));
     ?>
 </div>
+

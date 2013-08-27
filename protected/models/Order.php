@@ -150,6 +150,14 @@ class Order extends DTActiveRecord {
         $this->manangeAdminElements();
         parent::afterFind();
     }
+    /**
+     * 
+     */
+    public function afterSave() {
+        $this->generateAudit();
+        return parent::afterSave();
+        
+    }
 
     /**
      * manage admin elements for reporting
@@ -176,7 +184,6 @@ class Order extends DTActiveRecord {
         foreach ($this->orderDetails as $orderDet) {
             $stock = $orderDet->product_profile->quantity - $orderDet->quantity;
 
-
             ProductProfile::model()->updateByPk($orderDet->product_profile->id, array('quantity' => $stock));
         }
     }
@@ -192,9 +199,29 @@ class Order extends DTActiveRecord {
         foreach ($this->orderDetails as $orderDet) {
             $stock = $orderDet->product_profile->quantity + $orderDet->quantity;
 
-
             ProductProfile::model()->updateByPk($orderDet->product_profile->id, array('quantity' => $stock));
         }
+    }
+    /**
+     * purpose of this function to call 
+     * and save the order history
+     */
+    public function generateAudit(){
+        $order_h = new OrderHistory;
+        $order_h->order_id = $this->order_id;
+        $order_h->user_id = Yii::app()->user->id;
+        $order_h->status = $this->status;
+        /**
+         * for front end site
+         */
+        if($this->isAdmin){
+            
+            $order_h->is_notify_customer = $this->notifyUser;
+        }
+        else {
+            $order_h->is_notify_customer = 1;
+        }
+        $order_h->save();
     }
 
 }

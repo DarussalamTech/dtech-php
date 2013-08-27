@@ -49,11 +49,47 @@ class OrderController extends Controller {
         if (isset($_GET['Order'])) {
             $model_d->attributes = $_GET['Order'];
         }
-
+        $order_history = $this->manageOderHistory($model_d);
         $this->render('view', array(
             'model' => $model,
             'model_d' => $model_d,
+            'order_history' => $order_history
         ));
+    }
+
+    /**
+     * manage order history for 
+     * in admin panel
+     * that wll trakc the order
+     */
+    public function manageOderHistory($order) {
+        $orderHistory = new OrderHistory();
+
+        $orderHistory->user_id = Yii::app()->user->id;
+        $orderHistory->order_id = $order->order_id;
+
+        if (isset($_POST['OrderHistory'])) {
+            $orderHistory->attributes = $_POST['OrderHistory'];
+
+            if ($orderHistory->save()) {
+                $old_status = $order->order->status;
+                Order::model()->updateByPk($order->order_id, array("status" => $orderHistory->status));
+                $order = Order::model()->findByPk($order->order_id);
+
+                $this->manageStock($old_status, $order);
+                if ($orderHistory->is_notify_customer == 1) {
+                    /**
+                     * if admin wants to comments in email then this comment
+                     * var will be filled
+                     */
+                    $comments = $orderHistory->include_comment == 1 ? $orderHistory->comment : "";
+                    $this->sendStatusEmail($order, $old_status, $comments);
+                }
+                $this->redirect($this->createUrl("view", array("id" => $order->order_id)));
+            }
+        }
+
+        return $orderHistory;
     }
 
     /**
@@ -65,37 +101,14 @@ class OrderController extends Controller {
 
         $old_status = $model->status;
 
-
-
         if (isset($_POST['Order'])) {
             $model->attributes = $_POST['Order'];
 
-            /*
-             * check wether the order status is completed or not
-             * if completed the manage the stock 
-             * by calling the function 
-             */
-            if ($old_status == "process" && $model->status == 'completed') {
-                $model->decreaseStock();
-                Yii::app()->user->setFlash("status", "Your products stock has been updated (Decreased)");
-            }
-
-            /*
-             * Logic to proces when an order is declinded 
-             * and its last status is completed
-             */
-
-            if ($old_status == "completed" && $model->status == 'declined') {
-                $model->increaseStock();
-                Yii::app()->user->setFlash("status", "Your products stock has been updated  (Increased)");
-            }
-
-            
-            $model->updateByPk($id, array("status" => $model->status,"update_time"=>new CDbExpression('NOW()')));
-           
-            
-            if($model->notifyUser == 1){
-                $this->sendStatusEmail($model,$old_status);
+            $model->updateByPk($id, array("status" => $model->status, "update_time" => new CDbExpression('NOW()')));
+            $model->generateAudit();
+            $this->manageStock($old_status, $model);
+            if ($model->notifyUser == 1) {
+                $this->sendStatusEmail($model, $old_status);
             }
             /**
              * if not in case of ajax
@@ -112,17 +125,74 @@ class OrderController extends Controller {
     }
 
     /**
+     *  manage stock for product in 
+     *  admin in 
+     *  while performing the task 
+     * @param type $old_status
+     * @param type $model
+     */
+    public function manageStock($old_status, $model) {
+        /*
+         * check wether the order status is completed or not
+         * if completed the manage the stock 
+         * by calling the function 
+         */
+        if ($old_status == "process" && $model->status == 'completed') {
+            $model->decreaseStock();
+            Yii::app()->user->setFlash("status", "Your products stock has been updated (Decreased)");
+        }
+
+        /*
+         * Logic to proces when an order is declinded 
+         * and its last status is completed
+         */
+
+        if ($old_status == "completed" && $model->status == 'declined') {
+            $model->increaseStock();
+            Yii::app()->user->setFlash("status", "Your products stock has been updated  (Increased)");
+        }
+    }
+
+    /**
+     * 
+     * @param type $model
+     * @param type $oldStatus
+     * @param type $comments
+     * 
      * send status email
      * old status changes to new 
      */
-    public function sendStatusEmail($model,$oldStatus) {
+    public function sendStatusEmail($model, $oldStatus, $comments = "") {
         $email['To'] = $model->user->user_email;
         $email['From'] = Yii::app()->params['adminEmail'];
         $email['Subject'] = "Order has been changed ";
-        $email['Body'] = "Your order status has been changes from ".$oldStatus." to ".$model->status;
+        $email['Body'] = "Your order status has been changes from " . $oldStatus . " to " . $model->status;
+        $email['Body'].= "<br/>".$comments;
+        
         $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
 
         $this->sendEmail2($email);
+    }
+    
+    /**
+     * managing order detail quanity 
+     * will show the user thats product is updated 
+     * the quantity or not
+     * @param type $id
+     */
+    public function actionOrderProductQuantity($id){
+        $order_detail =  OrderDetail::model()->findByPk($id);
+        if(isset($_POST['OrderDetail'])){
+            $order_detail->attributes = $_POST['OrderDetail'];
+            
+            $productProfile = ProductProfile::model()->findByPk($order_detail->product_profile_id);
+           
+            if($order_detail->quantity<=$productProfile->quantity){
+             
+                  OrderDetail::model()->updateByPk($id,array("quantity"=>$order_detail->quantity));
+            }
+          
+        }
     }
 
     /**

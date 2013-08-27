@@ -15,7 +15,7 @@
  */
 class OrderDetail extends DTActiveRecord {
 
-    public $totalOrder, $total_price;
+    public $totalOrder, $total_price ,$stock,$user_quantity;
 
     /**
      * used for deleting
@@ -80,6 +80,7 @@ class OrderDetail extends DTActiveRecord {
             'order_id' => Yii::t('model_labels', 'Order', array(), NULL, Yii::app()->controller->currentLang),
             'product_profile_id' => Yii::t('model_labels', 'Product', array(), NULL, Yii::app()->controller->currentLang),
             'product_price' => Yii::t('model_labels', 'Product Price', array(), NULL, Yii::app()->controller->currentLang),
+            'stock' => Yii::t('model_labels', 'In Stock', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 
@@ -349,6 +350,18 @@ class OrderDetail extends DTActiveRecord {
      */
     public function afterFind() {
         $this->total_price = $this->product_price * $this->quantity;
+        $this->stock = $this->product_profile->quantity;
+        
+        /**
+         * used to set text field for admin area of 
+         * order detail page
+         */
+        $this->user_quantity = CHtml::textField(
+                                          'quantity',$this->quantity,
+                                          array("style"=>"width:40px")
+                )." ".CHtml::link("Update",
+                        Yii::app()->controller->createUrl("/order/orderProductQuantity",array("id"=>$this->user_order_id)),
+                        array("onclick"=>"dtech.updateOrderProductQuantity(this);return false"));
         parent::afterFind();
     }
 
