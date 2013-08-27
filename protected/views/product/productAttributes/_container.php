@@ -29,8 +29,8 @@ $plusImage = "<div class='left_float' style='padding-top:2px'>" .
             echo CHtml::link('Add New', '#', array(
                 'onclick' => "
 					
-                    u = '" . $this->createUrl("loadChildByAjax", array("mName" => "$mName", "dir" => $dir, 
-                        "load_for" => $this->action->id,"upload_index"=>$index)) . "&index=' +  " . $relationName . "_index_sc;
+                    u = '" . $this->createUrl("loadChildByAjax", array("mName" => "$mName", "dir" => $dir,
+                    "load_for" => $this->action->id, "upload_index" => $index)) . "&index=' +  " . $relationName . "_index_sc;
                    
                     
                     add_newSub_child_row(u, '" . $dir . "', '" . $fields_div_id . "', 'grid_fields', true);
@@ -89,7 +89,6 @@ $plusImage = "<div class='left_float' style='padding-top:2px'>" .
                                 "load_for" => $this->action->id,
                                 'display' => 'block',
                                 'dir' => $dir,
-                               
                                 'fields_div_id' => $fields_div_id));
                             $relationName_index_sc = $key;
                         }
@@ -125,8 +124,10 @@ $plusImage = "<div class='left_float' style='padding-top:2px'>" .
     </div>
     <?php
     /* Load grid if page is open in detail view mode */
-    if ($this->action->id == "view") {
-        $this->renderPartial($dir . "/_grid", array('model' => $model, "dir" => $dir,));
+    if ($this->action->id == "viewImage") {
+
+
+        // $this->renderPartial($dir . "/_grid", array('model' => $model, "dir" => $dir,));
     }
 
     /* Only need when new record is being created. so that's why it is in this if. */

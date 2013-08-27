@@ -9,7 +9,7 @@
             <?php
             if (isset($this->OpPermission[ucfirst($this->id) . ".Update"]) && $this->OpPermission[ucfirst($this->id) . ".Update"]) {
                 echo CHtml::link("Update Book", $this->createUrl("update", array("id" => $model->product->product_id)), array('class' => "print_link_btn"));
-                
+
                 echo CHtml::link("Update Translations", $this->createUrl("/product/profileLanguage", array("id" => $model->id)), array('class' => "print_link_btn"));
             }
             ?>
@@ -94,6 +94,6 @@ $this->widget('zii.widgets.CDetailView', array(
 ));
 
 $this->renderPartial('productAttributes/_container', array('model' => $model, "type" => "form"));
-$this->renderPartial("productAttributes/_grid", array("id" => $model->id));
+$this->renderPartial("productAttributes/_grid", array("id" => $model->id, "dir" => "productAttributes"));
 $this->renderPartial('productImages/_container', array('model' => $model, "type" => "form"));
 ?>

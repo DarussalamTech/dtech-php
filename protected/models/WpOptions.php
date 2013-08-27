@@ -9,7 +9,7 @@
  * @property string $option_value
  * @property string $autoload
  */
-class WpOptions extends CActiveRecord
+class WpOptions extends DTActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
