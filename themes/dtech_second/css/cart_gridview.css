@@ -290,6 +290,7 @@ customized code
     margin: auto;
     width: 960px;
     height: 430px;
+    font-family: "Gill Sans","Gill Sans MT","Myriad Pro","DejaVu Sans Condensed",Helvetica,Arial,sans-serif;
 }
 
 .grid-view .link-column a {
