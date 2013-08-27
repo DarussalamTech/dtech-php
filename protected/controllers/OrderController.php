@@ -90,9 +90,9 @@ class OrderController extends Controller {
                 Yii::app()->user->setFlash("status", "Your products stock has been updated  (Increased)");
             }
 
-
-            $model->updateByPk($id, array("status" => $model->status));
-            echo $model->notifyUser;
+            
+            $model->updateByPk($id, array("status" => $model->status,"update_time"=>new CDbExpression('NOW()')));
+           
             
             if($model->notifyUser == 1){
                 $this->sendStatusEmail($model,$old_status);

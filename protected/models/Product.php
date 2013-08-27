@@ -143,7 +143,7 @@ class Product extends DTActiveRecord {
             'city_id' => Yii::t('model_labels', 'City', array(), NULL, Yii::app()->controller->currentLang),
             'authors' => Yii::t('model_labels', 'Author', array(), NULL, Yii::app()->controller->currentLang),
             'is_featured' => Yii::t('model_labels', 'Is Featured', array(), NULL, Yii::app()->controller->currentLang),
-            'slag' => Yii::t('model_labels', 'Slag', array(), NULL, Yii::app()->controller->currentLang),
+            'slag' => Yii::t('model_labels', 'Slug', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 

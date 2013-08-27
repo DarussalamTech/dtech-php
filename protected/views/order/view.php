@@ -10,7 +10,7 @@ if (!(Yii::app()->user->isGuest)) {
     $this->renderPartial("/common/_left_single_menu");
 }
 if (Yii::app()->user->hasFlash('status')) {
-    echo CHtml::openTag("div",array("class"=>"flash-success"));
+    echo CHtml::openTag("div", array("class" => "flash-success"));
     echo Yii::app()->user->getFlash("status");
     echo CHtml::closeTag("div");
 }
@@ -33,27 +33,35 @@ if (Yii::app()->user->hasFlash('status')) {
         </span>
     </div>
 </div>
-
-<?php
-$this->widget('zii.widgets.CDetailView', array(
-    'data' => $model,
-    'attributes' => array(
-        array(
-            'name' => 'user_id',
-            'value' => !empty($model->user->user_email) ? $model->user->user_email : "",
+<div class="clear"></div>
+<div style="width:50%;float:left">
+    <?php
+    $this->widget('zii.widgets.CDetailView', array(
+        'data' => $model,
+        'attributes' => array(
+            array(
+                'name' => 'user_id',
+                'value' => !empty($model->user->user_email) ? $model->user->user_email : "",
+            ),
+            'transaction_id',
+            'status',
+            'order_date',
+            'update_time',
+            'total_price',
+            array('name' => 'currency', 'value' => Yii::app()->session["currency"]),
+            array(
+                'name' => 'payment_method_id',
+                'value' => !empty($model->paymentMethod->name) ? $model->paymentMethod->name : "",
+            ),
         ),
-        'total_price',
-        'order_date',
-        'status',
-        'transaction_id',
-        array(
-            'name' => 'payment_method_id',
-            'value' => !empty($model->paymentMethod->name) ? $model->paymentMethod->name : "",
-        ),
-    ),
-));
-?>
+    ));
+    ?>
+</div>
+<div style="width:50%;float:left">
+    
+</div>
 
+<div class="clear"></div>
 <div>
     <?php
     $this->renderPartial('_order_detail', array(

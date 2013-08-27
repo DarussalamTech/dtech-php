@@ -85,6 +85,7 @@ class Order extends DTActiveRecord {
         return array(
             'user' => array(self::BELONGS_TO, 'User', 'user_id'),
             'orderDetails' => array(self::HAS_MANY, 'OrderDetail', 'order_id'),
+            'order_history' => array(self::HAS_MANY, 'OrderHistory', 'order_id'),
             'paymentMethod' => array(self::BELONGS_TO, 'ConfPaymentMethods', 'payment_method_id'),
         );
     }
@@ -111,6 +112,7 @@ class Order extends DTActiveRecord {
             'user_id' => Yii::t('model_labels', 'User', array(), NULL, Yii::app()->controller->currentLang),
             'total_price' => Yii::t('model_labels', 'Total Price', array(), NULL, Yii::app()->controller->currentLang),
             'order_date' => Yii::t('model_labels', 'Order Date', array(), NULL, Yii::app()->controller->currentLang),
+            'update_time' => Yii::t('model_labels', 'Last modified', array(), NULL, Yii::app()->controller->currentLang),
             'status' => Yii::t('common', 'Status', array(), NULL, Yii::app()->controller->currentLang),
             'payment_method_id' => Yii::t('model_labels', 'Payment Method', array(), NULL, Yii::app()->controller->currentLang),
         );

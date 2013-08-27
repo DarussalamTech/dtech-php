@@ -37,10 +37,10 @@ $('.search-form form').submit(function(){
 
 <?php
 echo CHtml::openTag("div", array(
-                    "class" => "flash-success",
-                    "id"=>'flash-message',
-                    "style"=>"display:none"
-    ));
+    "class" => "flash-success",
+    "id" => 'flash-message',
+    "style" => "display:none"
+));
 
 echo CHtml::closeTag("div");
 ?>
@@ -74,9 +74,8 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'name' => 'user_id',
             'value' => '!empty($data->user->user_email)?$data->user->user_email:""',
         ),
-        'total_price',
-        'order_date',
         'transaction_id',
+        'order_date',
         'update_time',
         array(
             'name' => 'payment_method_id',
@@ -96,6 +95,11 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'type' => 'raw',
             'htmlOptions' => array("width" => "100")
         ),
+        array(
+                'name'=>'total_price',
+                'value'=>'Yii::app()->session["currency"]." ".$data->total_price',
+                'htmlOptions' => array("width" => "60")
+         ),
         array(
             'class' => 'CLinkColumn',
             'label' => 'View Detail',
