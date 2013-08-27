@@ -167,31 +167,35 @@ class OrderController extends Controller {
         $email['From'] = Yii::app()->params['adminEmail'];
         $email['Subject'] = "Order has been changed ";
         $email['Body'] = "Your order status has been changes from " . $oldStatus . " to " . $model->status;
-        $email['Body'].= "<br/>".$comments;
-        
+        $email['Body'].= "<br/>" . $comments;
+
         $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
 
         $this->sendEmail2($email);
     }
-    
+
     /**
      * managing order detail quanity 
      * will show the user thats product is updated 
      * the quantity or not
      * @param type $id
      */
-    public function actionOrderProductQuantity($id){
-        $order_detail =  OrderDetail::model()->findByPk($id);
-        if(isset($_POST['OrderDetail'])){
+    public function actionOrderProductQuantity($id) {
+        $order_detail = OrderDetail::model()->findByPk($id);
+        if (isset($_POST['OrderDetail'])) {
             $order_detail->attributes = $_POST['OrderDetail'];
-            
+
+            $order_detail->quantity = $_POST['OrderDetail']['quantity'];
+
             $productProfile = ProductProfile::model()->findByPk($order_detail->product_profile_id);
-           
-            if($order_detail->quantity<=$productProfile->quantity){
-             
-                  OrderDetail::model()->updateByPk($id,array("quantity"=>$order_detail->quantity));
+
+            if ($order_detail->quantity <= $productProfile->quantity) {
+
+                OrderDetail::model()->updateByPk($id, array("quantity" => $order_detail->quantity));
             }
-          
+            else {
+                echo "None";
+            }
         }
     }
 

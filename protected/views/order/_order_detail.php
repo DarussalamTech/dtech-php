@@ -28,6 +28,9 @@ $('.search-form form').submit(function(){
 echo CHtml::openTag("div", array("class" => "flash-success", "id" => "flash-message-order", "style" => "display:none"));
 
 echo CHtml::closeTag("div");
+echo CHtml::openTag("div", array("class" => "flash-error", "id" => "flash-error-order", "style" => "display:none"));
+
+echo CHtml::closeTag("div");
 ?>
 
 <?php

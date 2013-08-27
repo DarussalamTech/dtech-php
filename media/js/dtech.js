@@ -485,7 +485,7 @@ var dtech = {
                         {
                             ajax: 1,
                             'Order[status]': jQuery(obj).parent().prev().children().eq(0).val(),
-                            'Order[notifyUser]': (jQuery(obj).prev().prev().is(':checked'))?1:0,
+                            'Order[notifyUser]': (jQuery(obj).prev().prev().is(':checked')) ? 1 : 0,
                         }
             }).done(function(response) {
                 jQuery('#order-grid').yiiGridView.update('order-grid');
@@ -505,18 +505,32 @@ var dtech = {
                 data:
                         {
                             ajax: 1,
-                           'OrderDetail[quantity]': jQuery(obj).prev().val(),                          
+                            'OrderDetail[quantity]': jQuery(obj).prev().val(),
                         }
             }).done(function(response) {
-                jQuery('#order-detail-grid').yiiGridView.update('order-detail-grid');
-                jQuery("#loading").hide();
-                jQuery("#flash-message-order").show();
-                jQuery("#flash-message-order").html("Order Product quantity has been updated");
-                
-                  setInterval(function() {
-                       jQuery("#flash-message-order").hide();
-                      
-                  },10*1000)
+                if (response.search("None") == -1) {
+                    jQuery('#order-detail-grid').yiiGridView.update('order-detail-grid');
+                    jQuery("#loading").hide();
+                    jQuery("#flash-message-order").show();
+                    jQuery("#flash-message-order").html("Order Product quantity has been updated");
+
+                    setInterval(function() {
+                        jQuery("#flash-message-order").hide();
+
+                    }, 10 * 1000);
+                }
+                else {
+                    jQuery('#order-detail-grid').yiiGridView.update('order-detail-grid');
+                    jQuery("#loading").hide();
+                    jQuery("#flash-error-order").show();
+                    jQuery("#flash-error-order").html("Quantity is greater than actual stock");
+
+                    setInterval(function() {
+                        jQuery("#flash-error-order").hide();
+
+                    }, 10 * 1000);
+                }
+
             });
         }
     },

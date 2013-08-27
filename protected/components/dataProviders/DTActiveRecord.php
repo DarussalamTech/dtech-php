@@ -322,7 +322,8 @@ class DTActiveRecord extends CActiveRecord {
     public function updateByPk($pk, $attributes, $condition = '', $params = array()) {
         $updateAttr = array("update_time" => new CDbExpression('NOW()'), "update_user_id" => Yii::app()->user->id);
         $attributes = array_merge($attributes, $updateAttr);
-      
+        
+       
         parent::updateByPk($pk, $attributes, $condition, $params);
         return true;
     }
