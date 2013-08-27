@@ -13,7 +13,7 @@
  * @property string $update_time
  * @property string $update_user_id
  */
-class ProductAttributes extends CActiveRecord {
+class ProductAttributes extends DTActiveRecord {
 
     /**
      * Returns the static model of the specified AR class.

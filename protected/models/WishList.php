@@ -20,7 +20,7 @@
  * @property Product $product
  * @property City $city
  */
-class WishList extends CActiveRecord {
+class WishList extends DTActiveRecord {
 
     /**
      * Returns the static model of the specified AR class.
