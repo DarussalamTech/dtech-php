@@ -153,6 +153,8 @@ class OrderDetail extends DTActiveRecord {
 
         return $dataProvider;
     }
+    
+
 
     /**
      * get Featured Products

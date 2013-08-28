@@ -18,6 +18,12 @@ $this->widget('zii.widgets.grid.CGridView', array(
     'columns' => array(
 
         array(
+            'name' => 'create_time',
+            'value' => '$data->create_time',
+            "type" => "raw",
+            'htmlOptions'=>array("width"=>"200")
+        ),
+        array(
             'name' => 'status',
             'value' => '$data->status',
             "type" => "raw",
@@ -25,11 +31,12 @@ $this->widget('zii.widgets.grid.CGridView', array(
         array(
             'name' => 'comment',
             'value' => '$data->comment',
+            'htmlOptions'=>array("width"=>"200"),
             "type" => "raw",
         ),
         array(
             'name' => 'is_notify_customer',
-            'value' => '$data->is_notify_customer',
+            'value' => '$data->is_notify_customer ==1?"Yes":"No"',
             "type" => "raw",
         ),
     ),

@@ -138,12 +138,15 @@ class CreditCardForm extends CFormModel {
     public function saveOrder($transaction_id = "") {
         $error['status'] = false;
         $error['message'] = 'Payment successfully';
+        
+        
 
         //payment was completed successfully
         $order = new Order;
         $order->user_id = Yii::app()->user->id;
         $order->total_price = Yii::app()->session['total_price'];
         $order->order_date = date('Y-m-d');
+        $order->city_id = $_REQUEST['city_id'];
         $order->transaction_id = $transaction_id;
 
 
@@ -164,10 +167,12 @@ class CreditCardForm extends CFormModel {
         }
 
         $order->setRelationRecords('orderDetails', is_array($ordetail['OrderDetail']) ? $ordetail['OrderDetail'] : array());
-
+       
         if ($order->save()) {
+
             return $order->order_id;
         }
+   
         return "";
     }
 

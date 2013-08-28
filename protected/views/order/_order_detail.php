@@ -82,7 +82,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         array(
             'name' => 'unit_price',
             'type' => 'Raw',
-            'value' => '"&dollar;".$data->product_price',
+            'value' => '$data->product_price',
             'headerHtmlOptions' => array(
                 'style' => "text-align:left"
             )
@@ -90,10 +90,19 @@ $this->widget('zii.widgets.grid.CGridView', array(
         array(
             'name' => 'total_price',
             'type' => 'Raw',
-            'value' => '"&dollar;".$data->product_price*$data->quantity',
+            'value' => '$data->product_price*$data->quantity',
             'headerHtmlOptions' => array(
                 'style' => "text-align:left"
             )
+        ),
+        array(
+            'header' => CHtml::activeLabel(OrderDetail::model(), 'total_price'),
+            'columnName' => 'total_price',
+            'class' => 'DtGridCountColumn',
+            'decimal' => true,
+            "htmlOptions" => array("class" => 'cart-ourprice'),
+            'currencySymbol' => Yii::app()->session['currency'],
+            'footer' => ''
         ),
     ),
 ));

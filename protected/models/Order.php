@@ -138,7 +138,7 @@ class Order extends DTActiveRecord {
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
-            'sort' => array('defaultOrder' => "order_id,status='process'")
+            'sort' => array('defaultOrder' => "status='process',order_id DESC")
         ));
     }
 
