@@ -44,6 +44,6 @@ $params = array(
     'defaultLanguage' => 'en',
     'translatedLanguages' => array('en', 'ar'),
     'otherLanguages' => array('ar'),
-    'notallowdCharactorsUrl' => array('[',']','@','!','$','&','(',')','*','+',';',"'"),
+    'notallowdCharactorsUrl' => array('[',']','@','!','$','&','(',')','*','+',';',"'",","),
 );
 ?>
