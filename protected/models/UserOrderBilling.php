@@ -28,7 +28,9 @@
  * @property User $user
  */
 class UserOrderBilling extends DTActiveRecord {
+
     public $_states = array();
+    public $isSameShipping;
 
     /**
      * Returns the static model of the specified AR class.
@@ -56,9 +58,10 @@ class UserOrderBilling extends DTActiveRecord {
             array('user_id, create_time, create_user_id, update_time, update_user_id', 'required'),
             array('user_id, order_id, billing_zip', 'numerical', 'integerOnly' => true),
             array('billing_prefix', 'length', 'max' => 3),
+            array('billing_first_name, billing_last_name, billing_address1, billing_address2, billing_country, billing_state, billing_city', 'required'),
             array('billing_first_name, billing_last_name, billing_address1, billing_address2, billing_country, billing_state, billing_city, billing_phone, billing_mobile', 'length', 'max' => 255),
             array('create_user_id, update_user_id', 'length', 'max' => 11),
-            array('order_id', 'safe'),
+            array('isSameShipping,order_id', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, user_id, order_id, billing_prefix, billing_first_name, billing_last_name, billing_address1, billing_address2, billing_country, billing_state, billing_city, billing_zip, billing_phone, billing_mobile, create_time, create_user_id, update_time, update_user_id', 'safe', 'on' => 'search'),
@@ -85,21 +88,18 @@ class UserOrderBilling extends DTActiveRecord {
             'id' => 'ID',
             'user_id' => 'User',
             'order_id' => Yii::t('model_labels', 'Order', array(), NULL, Yii::app()->controller->currentLang),
-            'billing_prefix' => 'Billing Prefix',
-            'billing_first_name' => 'Billing First Name',
-            'billing_last_name' => 'Billing Last Name',
-            'billing_address1' => 'Billing Address1',
-            'billing_address2' => 'Billing Address2',
-            'billing_country' => 'Billing Country',
-            'billing_state' => 'Billing State',
-            'billing_city' => 'Billing City',
-            'billing_zip' => 'Billing Zip',
-            'billing_phone' => 'Billing Phone',
-            'billing_mobile' => 'Billing Mobile',
-            'create_time' => 'Create Time',
-            'create_user_id' => 'Create User',
-            'update_time' => 'Update Time',
-            'update_user_id' => 'Update User',
+            'billing_prefix' => Yii::t('model_labels', 'Billing Prefix', array(), NULL, Yii::app()->controller->currentLang),
+            'billing_first_name' => Yii::t('model_labels', 'Billing First Name', array(), NULL, Yii::app()->controller->currentLang),
+            'billing_last_name' => Yii::t('model_labels', 'Billing Last Name', array(), NULL, Yii::app()->controller->currentLang),
+            'billing_address1' => Yii::t('model_labels', 'Billing Address1', array(), NULL, Yii::app()->controller->currentLang),
+            'billing_address2' => Yii::t('model_labels', 'Billing Address2', array(), NULL, Yii::app()->controller->currentLang),
+            'billing_country' => Yii::t('model_labels', 'Billing Country', array(), NULL, Yii::app()->controller->currentLang),
+            'billing_state' => Yii::t('model_labels', 'Billing State', array(), NULL, Yii::app()->controller->currentLang),
+            'billing_city' => Yii::t('model_labels', 'Billing City', array(), NULL, Yii::app()->controller->currentLang),
+            'billing_zip' => Yii::t('model_labels', 'Billing Zip', array(), NULL, Yii::app()->controller->currentLang),
+            'billing_phone' => Yii::t('model_labels', 'Billing Phone', array(), NULL, Yii::app()->controller->currentLang),
+            'billing_mobile' => Yii::t('model_labels', 'Billing Mobile', array(), NULL, Yii::app()->controller->currentLang),
+            'isSameShipping' => Yii::t('model_labels', 'Same as shipping', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 
@@ -135,6 +135,35 @@ class UserOrderBilling extends DTActiveRecord {
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
         ));
+    }
+
+    /**
+     * get States for particular country
+     */
+    public function getStates() {
+        $stateList = array();
+        if (!empty($this->billing_country)) {
+            /*
+             * PCM
+             */
+            $stateList = Subregion::model()->findAll('region_id="' . $this->billing_country . '"');
+
+            $stateList = CHtml::listData($stateList, 'name', 'name');
+        }
+        return $stateList;
+    }
+
+    public function beforeValidate() {
+
+        $this->_states = $this->getStates();
+        parent::beforeValidate();
+        return true;
+    }
+    public function afterFind() {
+
+        $this->_states = $this->getStates();
+        parent::afterFind();
+        return true;
     }
 
 }

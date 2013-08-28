@@ -96,7 +96,24 @@ class ShippingInfoForm extends CFormModel {
         $userinfo = UserProfile::model()->findByPk(Yii::app()->user->id);
         // in this case when user has set bit that
         // user want to use orignial address to 1
-        if ($userinfo->is_shipping_address == 1) {
+        
+        /**
+         * in this case when user has its own 
+         * billing address then it will be same address as shipping
+         */
+        if(!empty($_REQUEST['billing'])){
+            $billing = UserOrderBilling::model()->findByPk($_REQUEST['billing']);
+            
+            $this->shipping_first_name = $billing->billing_first_name;
+            $this->shipping_last_name = $billing->billing_last_name;
+            $this->shipping_address1 = $billing->billing_address1;
+            $this->shipping_country = $billing->billing_country;
+            $this->shipping_state = $billing->billing_state;
+            $this->shipping_city = $billing->billing_city;
+            $this->shipping_zip = $billing->billing_zip;
+            $this->shipping_phone = $billing->billing_phone;
+        }
+        else if ($userinfo->is_shipping_address == 1) {
             $this->shipping_first_name = $userinfo->first_name;
             $this->shipping_last_name = $userinfo->last_name;
             $this->shipping_address1 = $userinfo->address;
