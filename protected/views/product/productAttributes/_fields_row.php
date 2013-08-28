@@ -1,4 +1,5 @@
 <?php
+echo 'ehee';
 /* mean it is called by ajax. */
 if (!isset($display)) {
     $display = 'none';
@@ -16,18 +17,7 @@ $relationName = "productAttributes";
         }
         ?>
         <?php
-        $criteria = new CDbCriteria();
-        if ($model->productProfile->product->parent_category->category_name == "Books") {
-
-            $criteria->addCondition("type='Books'");
-        } else if ($model->productProfile->product->parent_category->category_name == "Educational Toys") {
-            $criteria->addCondition("type='Educational Toys'");
-        } else if ($model->productProfile->product->parent_category->category_name == "Others") {
-            $criteria->addCondition("type='Others'");
-        } else if ($model->productProfile->product->parent_category->category_name == "Quran") {
-            $criteria->addCondition("type='Quran'");
-        }
-        $data = CHtml::listData(ConfProductAttributes::model()->findAll($criteria), "id", "title");
+        $data = CHtml::listData(ConfProductAttributes::model()->findAll(), "id", "title");
         echo CHtml::activeDropDownList($model, '[' . $index . ']product_attribute_conf_id', $data);
         ?>
     </div>

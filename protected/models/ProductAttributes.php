@@ -75,6 +75,7 @@ class ProductAttributes extends DTActiveRecord {
         return array(
             'productProfile' => array(self::BELONGS_TO, 'ProductProfile', 'product_profile_id'),
             'conf_rel' => array(self::BELONGS_TO, 'ConfProductAttributes', 'product_attribute_conf_id',),
+            'product_rel' => array(self::BELONGS_TO, 'ConfProductAttributes', 'product_attribute_conf_id'),
             'books_rel' => array(self::BELONGS_TO, 'ConfProductAttributes', 'product_attribute_conf_id', 'condition' => 'type="Books"'),
             'others_rel' => array(self::BELONGS_TO, 'ConfProductAttributes', 'product_attribute_conf_id', 'condition' => 'type="Others"'),
             'quran_rel' => array(self::BELONGS_TO, 'ConfProductAttributes', 'product_attribute_conf_id', 'condition' => 'type="Quran"'),
