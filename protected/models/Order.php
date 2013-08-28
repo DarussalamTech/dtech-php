@@ -127,12 +127,18 @@ class Order extends DTActiveRecord {
         // should not be searched.
 
         $criteria = new CDbCriteria;
-
+        /**
+         * form is sending different format
+         * dats y we are converting
+         */
+        $this->order_date = DTFunctions::dateFormatForSave($this->order_date);
+        
         $criteria->compare('order_id', $this->order_id);
         $criteria->compare('user_id', $this->user_id);
         $criteria->compare('total_price', $this->total_price, true);
         $criteria->compare('order_date', $this->order_date, true);
         $criteria->compare('status', $this->status, true);
+        $criteria->compare('payment_method_id', $this->payment_method_id, true);
 
         $criteria->compare('city_id', Yii::app()->request->getQuery("city_id"), true);
 
