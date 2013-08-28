@@ -35,7 +35,7 @@ class m130828_064429_resized_thumbnailimages extends DTDbMigration {
                 }
 
                 echo $largeImg . "\n";
-               // DTUploadedFile::createThumbs($largeImg, $image_dir, 130, $img_name_small);
+                DTUploadedFile::createThumbs($largeImg, $image_dir, 130, $img_name_small);
             }
 
             // DTUploadedFile::createThumbs($dest_image, $image_dir, 150, $small_img);
