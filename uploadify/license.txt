@@ -1,8 +1,8 @@
 Array
 (
-    [name] => yes_product_img_03.jpg
+    [name] => books_bw.png
     [type] => application/octet-stream
-    [tmp_name] => /tmp/php1svT8d
+    [tmp_name] => /tmp/phpdDaeGn
     [error] => 0
-    [size] => 2099
+    [size] => 10213
 )
