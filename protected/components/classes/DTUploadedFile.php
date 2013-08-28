@@ -117,6 +117,7 @@ class DTUploadedFile extends CUploadedFile {
         // open the directory
         // parse path for the extension
         $info = pathinfo($pathToImage);
+ 
 
 
 
