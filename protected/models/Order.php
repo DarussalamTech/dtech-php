@@ -131,7 +131,7 @@ class Order extends DTActiveRecord {
          * form is sending different format
          * dats y we are converting
          */
-        $this->order_date = DTFunctions::dateFormatForSave($this->order_date);
+        $this->order_date = !empty($this->order_date)?DTFunctions::dateFormatForSave($this->order_date):"";
         
         $criteria->compare('order_id', $this->order_id);
         $criteria->compare('user_id', $this->user_id);

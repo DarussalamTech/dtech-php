@@ -126,6 +126,7 @@ class Categories extends DTActiveRecord {
          * for going to particular book detail
          */
         $this->category_slug = str_replace(" ", "-", $this->category_name);
+        $this->category_slug = str_replace(Yii::app()->params['notallowdCharactorsUrl'], '', $this->category_slug);
         parent::afterFind();
     }
 
