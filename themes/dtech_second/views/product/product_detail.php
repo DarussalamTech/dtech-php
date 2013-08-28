@@ -33,7 +33,8 @@ $this->widget('ext.lyiightbox.LyiightBox2', array(
         <div id="detail_data">
             <div class="center_detail">
                 <?php
-                echo $this->renderPartial("//" . $view . "/_product_detail_data", array("product" => $product, "rating_value" => $rating_value));
+                
+                echo $this->renderPartial("//product/_product_detail_data", array("product" => $product, "rating_value" => $rating_value));
                 ?>
             </div>
             <div class='clear'></div>
