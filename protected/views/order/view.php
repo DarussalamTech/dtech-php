@@ -68,38 +68,39 @@ if (Yii::app()->user->hasFlash('status')) {
 </div>
 <div style="width:50%;float:left">
     <?php
-    $this->widget('zii.widgets.jui.CJuiTabs', array(
-        'tabs' => array(
-            'Order Status Change' => $this->renderPartial("_order_status_change", array("model" => $order_history,), true, true),
-            'Order History' => $this->renderPartial("_order_status_grid", array("model" => $model), true, true)
+    /**
+     * if allow update 
+     */
+    if($this->OpPermission['Order.Update'] == true){
+            $this->widget('zii.widgets.jui.CJuiTabs', array(
+    'tabs' => array(
+             'Order Status Change' => $this->renderPartial("_order_status_change", array  ( "model" => $order_history,), true, true),  'Order History' => $this->renderPartial("_order_status_grid", array   ("model" => $model), true, true)
         ),
-        'options' => array(
-        ),
+        'options' => array(    ),
     ));
+    }
     ?>
 </div>
 
 <div class="clear"></div>
 
 <div>
-    <?php
-    /**
-     * user information
-     */
-    $this->renderPartial('_user_information', array(
-        'user_id' => $model->user->user_id,
-        'user_name' => $model->user->user_email,
-    ));
-    ?>
+<?php
+        /**
+         * user information
+         */ $this->renderPartial('_user_information', array (
+    'user_id' => $model->user->user_id,
+ 'user_name' => $model->user->user_email,
+));
+?>
 </div>
 <div>
     <?php
-    /**
-     * product stock
-     */
-    $this->renderPartial('_order_detail', array(
-        'model' => $model_d,
-        'user_name' => $model->user->user_email,
+            /**
+             * product stock
+             */ $this->renderPartial('_order_detail', array (
+        'model' =>  $model_d,
+    'user_name' => $model->user->user_email,
     ));
     ?>
 </div>

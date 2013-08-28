@@ -36,6 +36,7 @@ $('.search-form form').submit(function(){
 </p>
 
 <?php
+
 echo CHtml::openTag("div", array(
     "class" => "flash-success",
     "id" => 'flash-message',
@@ -63,7 +64,7 @@ if (isset($this->OpPermission[ucfirst($this->id) . ".Update"]) && $this->OpPermi
     $template.= "{update}";
 }
 if (isset($this->OpPermission[ucfirst($this->id) . ".Delete"]) && $this->OpPermission[ucfirst($this->id) . ".Delete"]) {
-    $template.= "{delete}";
+    //$template.= "{delete}";
 }
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'order-grid',
@@ -85,6 +86,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'name' => 'listing_status',
             'value' => '$data->listing_status',
             'type' => 'raw',
+            'visible' => $this->OpPermission['Order.Update'] == true ? true : false,
         ),
         array(
             'header' => 'update Status',
@@ -93,13 +95,14 @@ $this->widget('zii.widgets.grid.CGridView', array(
                        CHtml::link("Update",
                                     Yii::app()->controller->createUrl("/order/update",array("id"=>$data->order_id)),array("onclick"=>"dtech.notifyUser(this);return false;"))',
             'type' => 'raw',
+            'visible' => $this->OpPermission['Order.Update'] == true ? true : false,
             'htmlOptions' => array("width" => "100")
         ),
         array(
-                'name'=>'total_price',
-                'value'=>'Yii::app()->session["currency"]." ".$data->total_price',
-                'htmlOptions' => array("width" => "60")
-         ),
+            'name' => 'total_price',
+            'value' => 'Yii::app()->session["currency"]." ".$data->total_price',
+            'htmlOptions' => array("width" => "60")
+        ),
         array(
             'class' => 'CLinkColumn',
             'label' => 'View Detail',

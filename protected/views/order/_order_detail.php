@@ -34,6 +34,7 @@ echo CHtml::closeTag("div");
 ?>
 
 <?php
+
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'order-detail-grid',
     'dataProvider' => $model->search(),
@@ -64,9 +65,9 @@ $this->widget('zii.widgets.grid.CGridView', array(
             )
         ),
         array(
-            'name' => 'product_quantity',
+            'name' => 'quantity',
             'type' => 'Raw',
-            'value' => '$data->user_quantity',
+            'value' => $this->OpPermission['Order.Update'] == true?'$data->user_quantity':'$data->quantity',
             'headerHtmlOptions' => array(
                 'style' => "text-align:left"
             )

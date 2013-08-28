@@ -9,9 +9,9 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
     </div>
 
     <?php
-    echo CHtml::button("Next", array(
+    echo CHtml::submitButton("Next", array(
         "class" => "secure_button",
-        "onclick" => "window.location = '" . $this->createUrl('/web/payment/paymentmethod', array('step' => 'shipping')) . "'"));
+        ))
     ?>
     <div class="secure_input">
         <div class="secure_text">
@@ -40,8 +40,8 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
             </article>
         </div>
         <div class="secure_input_type">
-<?php echo $form->textField($model, 'billing_first_name', array('class' => 'payment_text')); ?>
-<?php echo $form->error($model, 'billing_first_name'); ?>
+            <?php echo $form->textField($model, 'billing_first_name', array('class' => 'payment_text')); ?>
+            <?php echo $form->error($model, 'billing_first_name'); ?>
         </div>
     </div>
     <div class="secure_input">
@@ -53,8 +53,8 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
             </article>
         </div>
         <div class="secure_input_type">
-<?php echo $form->textField($model, 'billing_last_name', array('class' => 'payment_text')); ?>
-<?php echo $form->error($model, 'billing_last_name'); ?>
+            <?php echo $form->textField($model, 'billing_last_name', array('class' => 'payment_text')); ?>
+            <?php echo $form->error($model, 'billing_last_name'); ?>
         </div>
     </div>
     <div class="secure_input">
@@ -66,8 +66,8 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
             </article>
         </div>
         <div class="secure_input_type">
-<?php echo $form->textField($model, 'billing_address1', array('class' => 'payment_text')); ?>
-<?php echo $form->error($model, 'billing_address1'); ?>
+            <?php echo $form->textField($model, 'billing_address1', array('class' => 'payment_text')); ?>
+            <?php echo $form->error($model, 'billing_address1'); ?>
         </div>
     </div>
     <div class="secure_input">
@@ -79,8 +79,8 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
             </article>
         </div>
         <div class="secure_input_type">
-<?php echo $form->textField($model, 'billing_address2', array('class' => 'payment_text')); ?>
-<?php echo $form->error($model, 'billing_address2'); ?>
+            <?php echo $form->textField($model, 'billing_address2', array('class' => 'payment_text')); ?>
+            <?php echo $form->error($model, 'billing_address2'); ?>
         </div>
     </div>
     <div class="secure_input">
@@ -97,12 +97,12 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
                 'empty' => 'Please Select Country',
                 'ajax' => array(
                     'type' => 'POST',
-                    'url' => $this->createUrl('/web/payment/statelist'),
+                    'url' => $this->createUrl('/web/payment/bstatelist'),
                     'update' => '#UserOrderBilling_billing_state'
                 )
             ));
             ?>
-<?php echo $form->error($model, 'billing_country'); ?>
+            <?php echo $form->error($model, 'billing_country'); ?>
         </div>
     </div>
     <div class="secure_input">
@@ -114,8 +114,8 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
             </article>
         </div>
         <div class="secure_input_type">
-<?php echo $form->dropDownList($model, 'billing_state', $model->_states); ?>
-<?php echo $form->error($model, 'billing_state'); ?>
+            <?php echo $form->dropDownList($model, 'billing_state', $model->_states); ?>
+            <?php echo $form->error($model, 'billing_state'); ?>
         </div>
     </div>
 
@@ -128,8 +128,8 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
             </article>
         </div>
         <div class="secure_input_type">
-<?php echo $form->textField($model, 'billing_city', array('class' => "payment_text")); ?>
-<?php echo $form->error($model, 'billing_city'); ?>
+            <?php echo $form->textField($model, 'billing_city', array('class' => "payment_text")); ?>
+            <?php echo $form->error($model, 'billing_city'); ?>
         </div>
     </div>
     <div class="secure_input">
@@ -141,8 +141,8 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
             </article>
         </div>
         <div class="secure_input_type">
-<?php echo $form->textField($model, 'billing_zip', array('class' => "payment_text")); ?>
-<?php echo $form->error($model, 'billing_zip'); ?>
+            <?php echo $form->textField($model, 'billing_zip', array('class' => "payment_text")); ?>
+            <?php echo $form->error($model, 'billing_zip'); ?>
         </div>
     </div>
     <div class="secure_input">
@@ -154,8 +154,21 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
             </article>
         </div>
         <div class="secure_input_type">
-<?php echo $form->textField($model, 'billing_phone', array('class' => 'payment_text')); ?>
-<?php echo $form->error($model, 'billing_phone'); ?>
+            <?php echo $form->textField($model, 'billing_phone', array('class' => 'payment_text')); ?>
+            <?php echo $form->error($model, 'billing_phone'); ?>
+        </div>
+    </div>
+    <div class="secure_input">
+        <div class="secure_text">
+            <article>
+                <?php
+                echo $form->labelEx($model, "isSameShipping");
+                ?>
+            </article>
+        </div>
+        <div class="secure_input_type">
+            <?php echo $form->checkbox($model, 'isSameShipping'); ?>
+            <?php echo $form->error($model, 'isSameShipping'); ?>
         </div>
     </div>
 
