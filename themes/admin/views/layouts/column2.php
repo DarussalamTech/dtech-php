@@ -16,8 +16,8 @@
              * 
              */
 
-            if ($this->id == "configurations" || 
-                    $this->id == "cmm" || 
+            if ($this->id == "configurations" ||
+                    $this->id == "cmm" ||
                     $this->id == "confProducts" || $this->id == "dtMessages") {
 
                 $this->widget('zii.widgets.jui.CJuiAccordion', array(
@@ -34,7 +34,7 @@
                         '<li>' . CHtml::link('Currency Rates', array('/configurations/load',
                             "m" => "Currency")) . '</li>' .
                         '</ul>',
-                        'Book' => '<ul class="accordion-ul">' .
+                        'Product' => '<ul class="accordion-ul">' .
                         '<li>' . CHtml::link('Dimensions', array('/configurations/load',
                             "m" => "Products", 'type' => 'Dimensions')) .
                         '</li>' .
@@ -49,17 +49,10 @@
                         )) . '</li>' .
                         '<li>' . CHtml::link('Translator Compiler', array('/translatorCompiler/index',
                         )) . '</li>' .
-                        '<li>' . CHtml::link('Book Attributes', array('/configurations/load',
-                            "m" => "ProductAttributes", "type" => "Books")) . '</li>' .
-                        '<li>' . CHtml::link('Quran Attributes', array('/configurations/load',
-                            "m" => "ProductAttributes", "type" => "Quran")) . '</li>' .
-                        '<li>' . CHtml::link('Educational Toys Attributes', array('/configurations/load',
-                            "m" => "ProductAttributes", "type" => "Educational Toys")) . '</li>' .
-                        '<li>' . CHtml::link('Others Attributes', array('/configurations/load',
-                            "m" => "ProductAttributes", "type" => "Others")) . '</li>' .
+                        '<li>' . CHtml::link('Product Custom Attributes', array('/configurations/load',
+                            "m" => "ProductAttributes", "type" => "")) . '</li>' .
                         '</ul>',
                         'Translation' => '<ul class="accordion-ul">' .
-              
                         '<li>' . CHtml::link('Common', array('/dtMessages/index',
                             "category" => "common")) . '</li>' .
                         '<li>' . CHtml::link('Header Footer', array('/dtMessages/index',
