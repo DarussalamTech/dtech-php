@@ -5,7 +5,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
 <div class="row_left_form  row_signup_form" style="min-height: 500px; width: 89%" >
 
     <div class="billing_address_heading">
-        <h2>Shipping Address</h2><article><span>*</span>Mandatory Fields</article>
+        <h2>Billing Address</h2><article><span>*</span>Mandatory Fields</article>
     </div>
 
     <?php
