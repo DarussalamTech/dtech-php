@@ -18,9 +18,9 @@ foreach ($products as $product):
                         'city_id' => Yii::app()->session['city_id'],
                         "pcategory" => $product['category'],
                         "slug" => $product['slug'],
-            )));
+                    )), array('title' => $name));
             ?>
-            <h2><?php echo $name ?></h2>
+            <h2><?php echo substr($name, 0, 34) . '...'; ?></h2>
             <p>
                 <?php
                 if (!empty($product['product_overview'])) {
