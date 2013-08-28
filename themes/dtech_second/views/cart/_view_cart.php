@@ -164,7 +164,7 @@
     if (!empty($cart_data)) {
         echo CHtml::button("CHECKOUT", array(
             "class" => "check_out_cart",
-            "onclick" => "window.location = '" . $this->createUrl('/web/payment/paymentmethod') . "'"));
+            "onclick" => "window.location = '" . $this->createUrl('/web/payment/paymentmethod',array('step'=>'billing')) . "'"));
     } else {
         
     }
