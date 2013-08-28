@@ -17,7 +17,7 @@ class m130828_064429_resized_thumbnailimages extends DTDbMigration {
          * table operation
          */
         $sql = "SELECT *
-             FROM product_image ";
+             FROM product_image";
 
         $all_data = $this->getQueryAll($sql);
         foreach ($all_data as $data) {
@@ -35,11 +35,12 @@ class m130828_064429_resized_thumbnailimages extends DTDbMigration {
                 }
 
                 echo $largeImg . "\n";
-                DTUploadedFile::createThumbs($largeImg, $image_dir, 130, $img_name_small);
+               // DTUploadedFile::createThumbs($largeImg, $image_dir, 130, $img_name_small);
             }
 
             // DTUploadedFile::createThumbs($dest_image, $image_dir, 150, $small_img);
         }
+     
     }
 
     public function down() {
