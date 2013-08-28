@@ -36,9 +36,21 @@ class PaymentController extends Controller {
     }
 
     public function actionpaymentMethod() {
-
         Yii::app()->user->SiteSessions;
+        if ($_GET['step'] == 'billing') {
+            $this->handleBilling();
+        } else {
+            $this->handleShipping();
+        }
+    }
 
+    /*
+     * handling shipping information
+     * when user have some order
+     * 
+     */
+
+    public function handleShipping() {
         $error = array('status' => false);
         $model = new ShippingInfoForm();
         $model->setAttributeByDefault();
@@ -73,6 +85,38 @@ class PaymentController extends Controller {
 
         $regionList = CHtml::listData(Region::model()->findAll(), 'id', 'name');
         $this->render('//payment/payment_method', array(
+            'model' => $model,
+            'regionList' => $regionList,
+            'creditCardModel' => $creditCardModel,
+            'error' => $error
+        ));
+    }
+
+    /*
+     * handling Billing information
+     * when user have some order
+     * 
+     */
+
+    public function handleBilling() {
+        $critera = new CDbCriteria();
+        $critera->addCondition("user_id = " . Yii::app()->user->id);
+        $critera->order = "id DESC";
+        $model = UserOrderBilling::model()->find($critera);
+
+        if (empty($model)) {
+            $model = new UserOrderBilling;
+        }
+        if (isset($_POST['UserOrderBilling'])) {
+            $model->attributes = $_POST['UserOrderBilling'];
+            if ($model->save()) {
+                
+            }
+        }
+
+
+        $regionList = CHtml::listData(Region::model()->findAll(), 'id', 'name');
+        $this->render('//payment/payment_method_billing', array(
             'model' => $model,
             'regionList' => $regionList,
             'creditCardModel' => $creditCardModel,
