@@ -158,8 +158,13 @@ class Product extends DTActiveRecord {
         /**
          * all parent categories 
          * will be here
+         * checking if the sessions exits or not...
          */
-        $parent_categories = array_keys(Yii::app()->controller->menu_categories);
+        if (empty(Yii::app()->controller->menu_categories)) {
+            $parent_categories = array();
+        } else {
+            $parent_categories = array_keys(Yii::app()->controller->menu_categories);
+        }
         $city_id = Yii::app()->session['city_id'];
 
         /**
