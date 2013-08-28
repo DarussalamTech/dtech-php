@@ -26,7 +26,9 @@ class PaymentController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('paymentmethod', 'confirmorder', 'statelist', 'customer0rderDetailMailer', 'admin0rderDetailMailer'),
+                'actions' => array('paymentmethod', 'confirmorder', 
+                    'statelist', 'bstatelist',
+                    'customer0rderDetailMailer', 'admin0rderDetailMailer'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -37,7 +39,7 @@ class PaymentController extends Controller {
 
     public function actionpaymentMethod() {
         Yii::app()->user->SiteSessions;
-        if ($_GET['step'] == 'billing') {
+        if (isset($_GET['step']) && $_GET['step'] == 'billing') {
             $this->handleBilling();
         } else {
             $this->handleShipping();
@@ -109,18 +111,24 @@ class PaymentController extends Controller {
         }
         if (isset($_POST['UserOrderBilling'])) {
             $model->attributes = $_POST['UserOrderBilling'];
+            $model->user_id = Yii::app()->user->id;
             if ($model->save()) {
-                
+                if($model->isSameShipping){
+                  
+                    $this->redirect($this->createUrl("/web/payment/paymentmethod",array("billing"=>$model->id)));
+                }
+                else {
+                    $this->redirect($this->createUrl("/web/payment/paymentmethod"));
+                }
             }
         }
 
-
+       
         $regionList = CHtml::listData(Region::model()->findAll(), 'id', 'name');
         $this->render('//payment/payment_method_billing', array(
             'model' => $model,
             'regionList' => $regionList,
-            'creditCardModel' => $creditCardModel,
-            'error' => $error
+          
         ));
     }
 
@@ -194,7 +202,7 @@ class PaymentController extends Controller {
         $email['From'] = Yii::app()->params['adminEmail'];
         $email['To'] = Yii::app()->user->name;
         $email['Subject'] = "Your Order Detail";
-        $email['Body'] = $this->renderPartial('_order_email_template', array('customerInfo' => $customerInfo), true, false);
+        $email['Body'] = $this->renderPartial('//payment/_order_email_template', array('customerInfo' => $customerInfo), true, false);
         $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
         $this->sendEmail2($email);
     }
@@ -209,18 +217,40 @@ class PaymentController extends Controller {
 
         $email['To'] = User::model()->getCityAdmin();
         $email['Subject'] = "New Order Placement";
-        $email['Body'] = $this->renderPartial('_order_email_template_admin', array('customerInfo' => $customerInfo, "order_id" => $order_id), true, false);
+        $email['Body'] = $this->renderPartial('//payment/_order_email_template_admin', array('customerInfo' => $customerInfo, "order_id" => $order_id), true, false);
         $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
 
         $this->sendEmail2($email);
     }
-
+    /**
+     * state list for shipping
+     */
     public function actionStatelist() {
+        
         $shipping_card = new ShippingInfoForm();
         if (isset($_POST['ShippingInfoForm'])) {
             $shipping_card->attributes = $_POST['ShippingInfoForm'];
         }
         $stateList = $shipping_card->getStates();
+        
+        
+        echo CHtml::tag('option', array('value' => ''), 'Select State', true);
+        foreach ($stateList as $value => $name) {
+            echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
+        }
+    }
+    /**
+     * state list for billing
+     */
+    public function actionBstatelist() {
+        
+        $billing_card = new UserOrderBilling();
+        if (isset($_POST['UserOrderBilling'])) {
+            $billing_card->attributes = $_POST['UserOrderBilling'];
+        }
+        $stateList = $billing_card->getStates();
+        
+        
         echo CHtml::tag('option', array('value' => ''), 'Select State', true);
         foreach ($stateList as $value => $name) {
             echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
