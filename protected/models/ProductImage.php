@@ -200,7 +200,7 @@ class ProductImage extends DTActiveRecord {
 
             $large_img->saveAs($upload_path . str_replace(" ", "_", $this->image_large));
 
-            DTUploadedFile::createThumbs($upload_path . $this->image_large, $upload_path, 150, str_replace(" ", "_", "small_" . $this->image_large));
+            DTUploadedFile::createThumbs($upload_path . $this->image_large, $upload_path, 130, str_replace(" ", "_", "small_" . $this->image_large));
             $this->deleteldImage();
         }
     }
