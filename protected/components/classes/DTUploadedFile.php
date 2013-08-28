@@ -117,7 +117,9 @@ class DTUploadedFile extends CUploadedFile {
         // open the directory
         // parse path for the extension
         $info = pathinfo($pathToImage);
-      
+
+
+
         // continue only if this is a JPEG image
         //echo "Creating thumbnail for {$pathToImage} <br />";
         // load image and get image size
@@ -134,13 +136,14 @@ class DTUploadedFile extends CUploadedFile {
         // copy and resize old image into new image
         imagecopyresized($tmp_img, $img, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
         // save thumbnail into a file
-        self::createImage($tmp_img, $pathToThumbs, $name, $info['extension']);
+        self::createImage($tmp_img, $pathToThumbs, $name, trim($info['extension']));
     }
 
     /**
      * on the bases of value extension
      */
     public static function imageCreateFrom($pathToImage, $ext) {
+
         switch ($ext) {
             case 'png':
                 return imagecreatefrompng($pathToImage);
@@ -149,6 +152,9 @@ class DTUploadedFile extends CUploadedFile {
                 return imagecreatefromjpeg($pathToImage);
                 break;
             case 'jpg':
+                return imagecreatefromjpeg($pathToImage);
+                break;
+            case 'JPG':
                 return imagecreatefromjpeg($pathToImage);
                 break;
             case 'gif':
@@ -167,15 +173,16 @@ class DTUploadedFile extends CUploadedFile {
      * acutal the bases of value extension
      */
     public static function createImage($tmp_img, $pathToThumbs, $name, $ext) {
+
         switch ($ext) {
             case 'png':
                 imagegif($tmp_img, "$pathToThumbs" . DIRECTORY_SEPARATOR . $name);
                 break;
             case 'jpeg':
-                imagegif($tmp_img, "$pathToThumbs" . DIRECTORY_SEPARATOR . $name);
+                imagejpeg($tmp_img, "$pathToThumbs" . DIRECTORY_SEPARATOR . $name);
                 break;
             case 'jpg':
-                imagegif($tmp_img, "$pathToThumbs" . DIRECTORY_SEPARATOR . $name);
+                imagejpeg($tmp_img, "$pathToThumbs" . DIRECTORY_SEPARATOR . $name);
                 break;
             case 'gif':
                 imagegif($tmp_img, "$pathToThumbs" . DIRECTORY_SEPARATOR . $name);
@@ -190,4 +197,5 @@ class DTUploadedFile extends CUploadedFile {
     }
 
 }
+
 ?>
