@@ -205,7 +205,9 @@ class Product extends DTActiveRecord {
                      */
                     $criteria->join.= ' LEFT JOIN product_categories  ON ' .
                             't.product_id=product_categories.product_id';
-                    $criteria->addCondition('product_categories.category_id= ' . $category[count($category) - 1]);
+                    if (!isset($_POST['ajax'])) {
+                        $criteria->addCondition('product_categories.category_id= ' . $category[count($category) - 1]);
+                    }
                 }
             } else if (!isset($_POST['ajax'])) {
                 $parent_cat = Categories::model()->getParentCategoryId($parent_category);
@@ -236,19 +238,21 @@ class Product extends DTActiveRecord {
             }
             if (!empty($_POST['categories'])) {
                 $categories = explode(",", $_POST['categories']);
-
+               
                 $criteria->addInCondition("product_categories.category_id", $categories);
             }
             $criteria->distinct = "t.product_id";
         }
         /**
-         * 
+         * this process is only running
+         * when ajax is off
          */
-        if (!empty($_GET['category'])) {
+        if (!empty($_GET['category']) && !isset($_POST['ajax'])) {
             $criteria->join.= ' LEFT JOIN product_categories  ON ' .
                     't.product_id=product_categories.product_id';
             $criteria->addCondition("product_categories.category_id='" . $_GET['category'] . "'");
         }
+
 
         /**
          * get category from slug
