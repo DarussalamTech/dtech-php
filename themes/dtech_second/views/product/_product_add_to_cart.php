@@ -20,6 +20,7 @@
     ?>
     <?php
     $total_in_cart = Cart::model()->getTotalCountProduct($product->productProfile[0]->id);
+
     $total_av = $product->productProfile[0]->quantity - $total_in_cart;
     echo $total_av;
     ?>
@@ -36,13 +37,13 @@ $this->widget('CStarRating', array(
 ));
 ?>
 <article>
-    <?php
-    if ($total_av >= 1) {
-        echo CHtml::textField('quantity', '1', array('onKeyUp' => 'javascript:totalPrice(this.value,"' . $product->productProfile[0]->price . '")', 'style' => 'width:40px', 'maxlength' => '3'));
-    }
-    ?>
+<?php
+if ($total_av >= 1) {
+    echo CHtml::textField('quantity', '1', array('onKeyUp' => 'javascript:totalPrice(this.value,"' . $product->productProfile[0]->price . '")', 'style' => 'width:40px', 'maxlength' => '3'));
+}
+?>
     <span id="status_available" style="display:none">
-        <?php echo CHtml::image(Yii::app()->theme->baseUrl . '/images/tick_03.jpg'); ?>
+    <?php echo CHtml::image(Yii::app()->theme->baseUrl . '/images/tick_03.jpg'); ?>
 
         <?php
         echo Yii::t('model_labels', ' Available in this quantity', array(), NULL, $this->currentLang) . ":";
@@ -57,9 +58,9 @@ $this->widget('CStarRating', array(
     </span>
 </article>
 <div class="detail_shop_now">
-    <?php
-    if ($total_av > 1) {
-        echo CHtml::button(Yii::t('common', 'SHOP NOW', array(), NULL, $this->currentLang), array('onclick' => '
+<?php
+if ($total_av > 1) {
+    echo CHtml::button(Yii::t('common', 'SHOP NOW', array(), NULL, $this->currentLang), array('onclick' => '
                             jQuery("#loading").show();
                             jQuery("#status_available").hide();  
                             jQuery("#status_un_available").hide();  
@@ -86,11 +87,11 @@ $this->widget('CStarRating', array(
                                
                             });    
                       ',
-            'class' => 'add_to_cart_arrow',
-        ));
-    } else {
-        if (!empty(Yii::app()->user->id)) {
-            echo CHtml::button(Yii::t('common', 'Email me when available', array(), NULL, $this->currentLang), array('onclick' => '
+        'class' => 'add_to_cart_arrow',
+    ));
+} else {
+    if (!empty(Yii::app()->user->id)) {
+        echo CHtml::button(Yii::t('common', 'Email me when available', array(), NULL, $this->currentLang), array('onclick' => '
                                 dtech_new.loadWaitmsg();
                                jQuery("#load_subpanel_div").toggle(); 
                                jQuery.ajax({
@@ -106,16 +107,16 @@ $this->widget('CStarRating', array(
                                         dtech.custom_alert("You will be notified by email" ,"Notification");
                                 }); 
                           ', 'class' => 'add_to_cart_arrow email_cart_arrow'));
-        } else {
+    } else {
 
-            echo CHtml::button(Yii::t('common', 'Email me when available', array(), NULL, $this->currentLang), array(
-                'onclick' => '
+        echo CHtml::button(Yii::t('common', 'Email me when available', array(), NULL, $this->currentLang), array(
+            'onclick' => '
                        window.open(
                         "' . $this->createUrl("/web/cart/emailtoAdmin", array("id" => $product->productProfile[0]->id)) . '", "" )     
                 ', 'class' => 'add_to_cart_arrow email_cart_arrow'));
-        }
     }
-    ?>
+}
+?>
 
     <?php
     echo CHtml::ajaxButton(Yii::t('common', 'ADD TO WISHLIST', array(), NULL, $this->currentLang), $this->createUrl('/cart/addtowishlist'), array('data' => array(
