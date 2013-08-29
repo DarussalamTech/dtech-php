@@ -88,18 +88,18 @@ class UserOrderBilling extends DTActiveRecord {
             'id' => 'ID',
             'user_id' => 'User',
             'order_id' => Yii::t('model_labels', 'Order', array(), NULL, Yii::app()->controller->currentLang),
-            'billing_prefix' => Yii::t('model_labels', 'Billing Prefix', array(), NULL, Yii::app()->controller->currentLang),
-            'billing_first_name' => Yii::t('model_labels', 'Billing First Name', array(), NULL, Yii::app()->controller->currentLang),
-            'billing_last_name' => Yii::t('model_labels', 'Billing Last Name', array(), NULL, Yii::app()->controller->currentLang),
-            'billing_address1' => Yii::t('model_labels', 'Billing Address1', array(), NULL, Yii::app()->controller->currentLang),
-            'billing_address2' => Yii::t('model_labels', 'Billing Address2', array(), NULL, Yii::app()->controller->currentLang),
-            'billing_country' => Yii::t('model_labels', 'Billing Country', array(), NULL, Yii::app()->controller->currentLang),
-            'billing_state' => Yii::t('model_labels', 'Billing State', array(), NULL, Yii::app()->controller->currentLang),
-            'billing_city' => Yii::t('model_labels', 'Billing City', array(), NULL, Yii::app()->controller->currentLang),
-            'billing_zip' => Yii::t('model_labels', 'Billing Zip', array(), NULL, Yii::app()->controller->currentLang),
-            'billing_phone' => Yii::t('model_labels', 'Billing Phone', array(), NULL, Yii::app()->controller->currentLang),
-            'billing_mobile' => Yii::t('model_labels', 'Billing Mobile', array(), NULL, Yii::app()->controller->currentLang),
-            'isSameShipping' => Yii::t('model_labels', 'Same as shipping', array(), NULL, Yii::app()->controller->currentLang),
+            'billing_prefix' => Yii::t('model_labels', 'Prefix', array(), NULL, Yii::app()->controller->currentLang),
+            'billing_first_name' => Yii::t('model_labels', 'First Name', array(), NULL, Yii::app()->controller->currentLang),
+            'billing_last_name' => Yii::t('model_labels', 'Last Name', array(), NULL, Yii::app()->controller->currentLang),
+            'billing_address1' => Yii::t('model_labels', 'Address1', array(), NULL, Yii::app()->controller->currentLang),
+            'billing_address2' => Yii::t('model_labels', 'Address2', array(), NULL, Yii::app()->controller->currentLang),
+            'billing_country' => Yii::t('model_labels', 'Country', array(), NULL, Yii::app()->controller->currentLang),
+            'billing_state' => Yii::t('model_labels', 'State', array(), NULL, Yii::app()->controller->currentLang),
+            'billing_city' => Yii::t('model_labels', 'City', array(), NULL, Yii::app()->controller->currentLang),
+            'billing_zip' => Yii::t('model_labels', 'Zip', array(), NULL, Yii::app()->controller->currentLang),
+            'billing_phone' => Yii::t('model_labels', 'Phone', array(), NULL, Yii::app()->controller->currentLang),
+            'billing_mobile' => Yii::t('model_labels', 'Mobile', array(), NULL, Yii::app()->controller->currentLang),
+            'isSameShipping' => Yii::t('model_labels', 'Please check if Shipping & Billing addresses are same', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 
@@ -159,6 +159,7 @@ class UserOrderBilling extends DTActiveRecord {
         parent::beforeValidate();
         return true;
     }
+
     public function afterFind() {
 
         $this->_states = $this->getStates();
