@@ -430,7 +430,13 @@ var dtech = {
         return window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, copyhistory=no, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
     },
     disabledPrview: function() {
-        jQuery(".add_to_cart_button input").attr("disabled", "disabled");
+        /*
+         * disabling all the buttons and link in preview formate
+         */
+        jQuery(".add_to_cart_button a").attr("disabled", "disabled");
+        jQuery(".add_to_wish_list").attr("disabled", "disabled");
+        jQuery(".email_cart_arrow").attr("disabled", "disabled");
+        jQuery(".checkout_btn").attr("disabled", "disabled");
         jQuery("#search-text").attr("disabled", "disabled");
         jQuery("#search-button").attr("disabled", "disabled");
         jQuery("body").unbind("click");
