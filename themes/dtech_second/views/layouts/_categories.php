@@ -149,7 +149,7 @@ if (isset($this->menu_categories)):
         ?>
     </div>
     </div>
-    ?>
+    
     <?php
 endif;
 ?>
