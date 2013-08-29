@@ -83,7 +83,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'value' => '!empty($data->paymentMethod->name)?$data->paymentMethod->name:""',
         ),
         array(
-            'name' => 'listing_status',
+            'name' => 'status',
             'value' => '$data->listing_status',
             'type' => 'raw',
             'visible' => $this->OpPermission['Order.Update'] == true ? true : false,

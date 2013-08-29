@@ -496,7 +496,7 @@ var dtech = {
         }
     },
     updateOrderProductQuantity: function(obj) {
-        if (confirm("Are you sure you want to update order status")) {
+        if (confirm("Are you sure you want to update quantity")) {
             jQuery("#loading").show();
             jQuery.ajax({
                 type: "POST",
