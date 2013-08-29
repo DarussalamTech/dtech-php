@@ -533,5 +533,7 @@ var dtech = {
 
             });
         }
+        
+        return false;
     },
 }
