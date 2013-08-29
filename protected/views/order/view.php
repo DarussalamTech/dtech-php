@@ -1,7 +1,7 @@
 <?php
 /* @var $this OrderController */
 /* @var $model Order */
-
+ColorBox::registerScripts();
 $this->breadcrumbs = array(
     'Orders' => array('index'),
     $model->order_id,

@@ -198,6 +198,25 @@ class OrderController extends Controller {
             }
         }
     }
+    /**
+     * update address for shipping 
+     * and billing
+     */
+    public function actionUpdateuseraddress($id,$model){
+        $addressModel = $model::model()->findByPk($id);
+        /**
+         * 
+         */
+        if(isset($_POST[$model])){
+            $addressModel->attributes = $_POST[$model];
+            if($addressModel->save()){
+                $this->redirect($this->createUrl("/order/updateuseraddress",array("id"=>$id,"model"=>$model)));
+            }
+        }
+        
+        $this->renderPartial("_change_billing",array("model"=>$addressModel));
+        
+    }
 
     /**
      * Deletes a particular model.
