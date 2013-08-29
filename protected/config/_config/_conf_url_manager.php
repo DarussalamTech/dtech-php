@@ -104,6 +104,7 @@ $url_manager = array(
         '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/translatorCompiler/index' => '/translatorCompiler/index',
         '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/pages/index' => '/pages/index',
         '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/order/index' => '/order/index',
+        '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/order/print' => '/order/print',
         '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/order/updateuseraddress' => '/order/updateuseraddress',
         '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/order/orderProductQuantity' => '/order/orderProductQuantity',
         /** admin url ** */

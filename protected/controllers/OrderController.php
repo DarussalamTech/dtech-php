@@ -56,6 +56,32 @@ class OrderController extends Controller {
             'order_history' => $order_history
         ));
     }
+    /**
+     * print the statment
+     * @param type $id
+     */
+    public function actionPrint($id){
+        $this->layout = "";
+       
+        $model = $this->loadModel($id);
+
+        /**
+         * order detail part
+         * 
+         */
+        $model_d = new OrderDetail('Search');
+        $model_d->unsetAttributes();  // clear any default values
+        $model_d->order_id = $id;
+        if (isset($_GET['Order'])) {
+            $model_d->attributes = $_GET['Order'];
+        }
+        $order_history = $this->manageOderHistory($model_d);
+        $this->render('view', array(
+            'model' => $model,
+            'model_d' => $model_d,
+            'order_history' => $order_history
+        ));
+    }
 
     /**
      * manage order history for 
