@@ -21,7 +21,7 @@ class UserIdentity extends CUserIdentity {
         //else if(!$user->validatePassword($this->password))
         else if (!$user->validatePassword($this->password, $user->user_password))
             $this->errorCode = self::ERROR_PASSWORD_INVALID;
-        else if ($user->status_id == '1')
+         else if ($user->status_id == '0')
             $this->errorCode = self::ERROR_PASSWORD_INVALID;
         else {
             
