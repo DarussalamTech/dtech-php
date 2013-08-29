@@ -1,7 +1,7 @@
 <?php
 $dir = "other";
 $fields_div_id = $dir . '_fields';
-$heading = "Detail";
+$heading = $model->parent_category->category_name . " Profile";
 $mName = "Other";
 
 /* when page is rediretc it contains #relation name use same name to go at that child at page */
@@ -69,7 +69,7 @@ if (isset($_POST[$mName]) || ($this->action->id == 'create' && count($model->$re
                     <div class="title" style="width:200px"><?php echo CHtml::activeLabel($relateModelobj, 'price'); ?></div>
                     <div class="title" style="width:200px"><?php echo CHtml::activeLabel($relateModelobj, 'quantity'); ?></div>
                     <div class="title" style="width:100px"><?php echo CHtml::activeLabel($relateModelobj, 'slag'); ?></div>
-                    
+
 
 
                 </div>
