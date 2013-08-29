@@ -9,11 +9,12 @@
     Shipping information
     <?php
     if (isset($this->OpPermission[ucfirst($this->id) . ".Update"]) && $this->OpPermission[ucfirst($this->id) . ".Update"]) {
+        ColorBox::generate("shipping_billing");
         echo CHtml::link("Edit", $this->createUrl("updateuseraddress", array("id" => $model->primaryKey,
                     "model" => "UserOrderShipping"
                 )), array(
-            'class' => "print_link_btn",
-            "onclick" => "dtech.openColorBox(this)"
+            'class' => "print_link_btn shipping_billing",
+           
         ));
     }
     ?>

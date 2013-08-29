@@ -450,6 +450,10 @@ var dtech = {
         jQuery(obj).colorbox({width: "60%", height: "80%", iframe: true});
 
     },
+    openColorBoxNoIFrame: function(obj) {
+        jQuery(obj).colorbox({width: "60%", height: "80%"});
+
+    },
     /**
      * if client wants to remove one thing from slider
      * he can remove

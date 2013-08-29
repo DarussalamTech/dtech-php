@@ -9,10 +9,11 @@
     Billing Address 
     <?php
     if (isset($this->OpPermission[ucfirst($this->id) . ".Update"]) && $this->OpPermission[ucfirst($this->id) . ".Update"]) {
+        
         echo CHtml::link("Edit", $this->createUrl("updateuseraddress", array(
-                    "id" => $model->primaryKey,
+                    "id" => $model->primaryKey."-billing",
                     "model" => "UserOrderBilling",
-                )), array('class' => "print_link_btn", "onclick" => "dtech.openColorBox(this)"));
+                )), array('class' => "print_link_btn shipping_billing"));
     }
     ?>
 </h1>

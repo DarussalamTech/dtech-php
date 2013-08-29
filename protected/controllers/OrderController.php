@@ -204,6 +204,7 @@ class OrderController extends Controller {
      */
     public function actionUpdateuseraddress($id,$model){
         $addressModel = $model::model()->findByPk($id);
+        $regionList = CHtml::listData(Region::model()->findAll(), 'id', 'name');
         /**
          * 
          */
@@ -214,7 +215,12 @@ class OrderController extends Controller {
             }
         }
         
-        $this->renderPartial("_change_billing",array("model"=>$addressModel));
+        $this->renderPartial("_change_billing_shipping",
+                array(
+                    "model"=>$addressModel,
+                    'regionList' => $regionList,
+                    "address"=>$model
+                ),false,true);
         
     }
 
