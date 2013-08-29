@@ -17,7 +17,15 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
             </div>
             <div class="payment_bg">
                 <article><?php echo CHtml::image(Yii::app()->theme->baseUrl . '/images/tick_payment_img_03.png'); ?></article>
-                <section><?php echo CHtml::image(Yii::app()->theme->baseUrl . '/images/tick_payment_img_03.png'); ?></section>
+                <section style="cursor: pointer">
+                        <?php 
+                                echo CHtml::image(
+                                    Yii::app()->theme->baseUrl . '/images/tick_payment_img_03.png',
+                                    '',
+                                    array('onclick'=>'window.location = "'.$this->createUrl("/web/payment/paymentmethod",array("step"=>"billing")).'"')    
+                                ); 
+                        ?>
+                </section>
                 <h3>3</h3>
                 <span>Personal Information</span>
                 <h5>Billing Address</h5>

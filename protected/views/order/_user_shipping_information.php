@@ -1,4 +1,4 @@
-<h1>User Address information [<?php echo $user_name ?>]</h1>
+<h1>Shipping information</h1>
 <div>
     <?php
     
