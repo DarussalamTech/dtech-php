@@ -5,13 +5,16 @@
 Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/form.css');
 Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/packages/jui/js/jquery.js');
 ?>
-<h1>Address <?php echo $address ?></h1>
+<h1>Address <?php echo $address ?>
+     <span id="result" style="margin-left:10px"></span>
+</h1>
 <div class="wide form">
 
     <?php
     $form = $this->beginWidget('CActiveForm', array(
-        'htmlOptions' => array('enctype' => 'multipart/form-data'),
+        'htmlOptions' => array('enctype' => 'multipart/form-data',"id"=>"billing_shipping_form"),
         'method' => 'post',
+        
     ));
     $model_prefix = get_class($model) =="UserOrderBilling"?"billing":"shipping";
     ?>
@@ -58,7 +61,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/packages/ju
     </div>
     <div class="row">
         <?php echo $form->labelEx($model, $model_prefix.'_state'); ?>
-        <?php echo $form->dropDownList($model, 'billing_state', $model->_states); ?>
+        <?php echo $form->dropDownList($model, $model_prefix.'_state', $model->_states); ?>
         <?php echo $form->error($model, $model_prefix.'_state'); ?>
     </div>
 
@@ -85,7 +88,22 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/packages/ju
 
 
     <div class="row buttons">
-        <?php echo CHtml::submitButton('Save', array("class" => "btn")); ?>
+        <?php echo CHtml::Button('Save', array("class" => "btn",
+                "onclick"=>'
+                      jQuery("#result").html("Saving...");
+                      $.ajax({
+                            type: "POST",
+                            url: jQuery("#billing_shipping_form").attr("action"),
+                            data: jQuery("#billing_shipping_form").serialize(), 
+                            success: function(data)
+                            {
+                                jQuery("#cboxLoadedContent").html(data);
+                                jQuery("#result").html("");
+                            }
+                          })
+            
+                ')); ?>
+       
     </div>
 
     <?php $this->endWidget(); ?>

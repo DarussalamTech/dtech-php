@@ -29,6 +29,8 @@
  */
 class UserOrderShipping extends DTActiveRecord {
 
+    public $_states = array();
+
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -134,6 +136,39 @@ class UserOrderShipping extends DTActiveRecord {
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
         ));
+    }
+
+    /**
+     * get States for particular country
+     */
+    public function getStates() {
+        $stateList = array();
+        if (!empty($this->billing_country)) {
+            /*
+             * PCM
+             */
+            $stateList = Subregion::model()->findAll('region_id="' . $this->billing_country . '"');
+
+            $stateList = CHtml::listData($stateList, 'name', 'name');
+        }
+        return $stateList;
+    }
+
+    public function beforeValidate() {
+
+        if ($this->isAdmin) {
+            $this->_states = $this->getStates();
+        }
+        parent::beforeValidate();
+        return true;
+    }
+
+    public function afterFind() {
+        if ($this->isAdmin) {
+            $this->_states = $this->getStates();
+        }
+        parent::afterFind();
+        return true;
     }
 
 }

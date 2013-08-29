@@ -142,6 +142,7 @@ class UserOrderBilling extends DTActiveRecord {
      */
     public function getStates() {
         $stateList = array();
+       
         if (!empty($this->billing_country)) {
             /*
              * PCM
@@ -149,6 +150,7 @@ class UserOrderBilling extends DTActiveRecord {
             $stateList = Subregion::model()->findAll('region_id="' . $this->billing_country . '"');
 
             $stateList = CHtml::listData($stateList, 'name', 'name');
+            
         }
         return $stateList;
     }
@@ -162,6 +164,7 @@ class UserOrderBilling extends DTActiveRecord {
     public function afterFind() {
 
         $this->_states = $this->getStates();
+  
         parent::afterFind();
         return true;
     }

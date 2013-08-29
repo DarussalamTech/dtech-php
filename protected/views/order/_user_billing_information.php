@@ -11,9 +11,9 @@
     if (isset($this->OpPermission[ucfirst($this->id) . ".Update"]) && $this->OpPermission[ucfirst($this->id) . ".Update"]) {
         
         echo CHtml::link("Edit", $this->createUrl("updateuseraddress", array(
-                    "id" => $model->primaryKey."-billing",
+                    "id" => $model->primaryKey,
                     "model" => "UserOrderBilling",
-                )), array('class' => "print_link_btn shipping_billing"));
+                )), array('class' => "print_link_btn shipping_billing","id" => $model->primaryKey."-billing"));
     }
     ?>
 </h1>
