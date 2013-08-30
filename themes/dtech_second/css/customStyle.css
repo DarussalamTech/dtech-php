@@ -143,3 +143,6 @@ input[type=button],input[type=submit] {
 #ui-datepicker-div{
     z-index: 0;
 }
+.clear {
+    clear: both;
+}
