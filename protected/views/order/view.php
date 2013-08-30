@@ -32,7 +32,8 @@ if (Yii::app()->user->hasFlash('status')) {
             ?>
             <?php
             if (isset($this->OpPermission[ucfirst($this->id) . ".Update"]) && $this->OpPermission[ucfirst($this->id) . ".Update"]) {
-                echo CHtml::link("print", $this->createUrl("print", array("id" => $model->primaryKey)), array('class' => "print_link_btn"));
+                echo CHtml::link("print", $this->createUrl("print", array("id" => $model->primaryKey)), 
+                        array('class' => "print_link_btn","onclick"=>"dtech.printPreview(this);return false;"));
             }
             ?>
         </span>

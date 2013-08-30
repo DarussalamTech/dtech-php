@@ -76,11 +76,11 @@ class OrderController extends Controller {
             $model_d->attributes = $_GET['Order'];
         }
         $order_history = $this->manageOderHistory($model_d);
-        $this->renderPartial('view', array(
+        $this->renderPartial('print', array(
             'model' => $model,
             'model_d' => $model_d,
             'order_history' => $order_history
-        ),false,true);
+        ),false,false);
     }
 
     /**

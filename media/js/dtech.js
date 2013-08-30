@@ -537,7 +537,16 @@ var dtech = {
 
             });
         }
-        
+
         return false;
     },
+    printPreview: function(obj) {
+        var left = (screen.width / 2) - (700 / 2);
+        var top = (screen.height / 2) - (490 / 2);
+        var width = (screen.width / 2) * 1.2;
+        var height = (screen.height / 2);
+        var str = "height=" + height + ",scrollbars=yes,width=" + width + ",status=yes,";
+        str += "toolbar=no,menubar=no,location=no,resizable=false,left=" + left + ",top=" + top + "";
+        window.open($(obj).attr("href"), "popup", str);
+    }
 }
