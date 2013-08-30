@@ -243,6 +243,20 @@ class SiteController extends Controller {
         if (isset($_POST['ContactForm'])) {
             $model->attributes = $_POST['ContactForm'];
             if ($model->validate()) {
+                if ($model->customer_copy_check == 1) {
+                    /*
+                     * module to send 
+                     * email copy to customer itself
+                     * if the button is checked
+                     */
+                    $email['To'] = $model->email;
+                    $email['From'] = Yii::app()->params['adminEmail'];
+                    $email['Subject'] = 'Contact Notification From ' . Yii::app()->name;
+                    $email['Body'] = $model->body;
+                    $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
+                    $this->sendEmail2($email);
+                }
+
                 $email['To'] = Yii::app()->params['adminEmail'];
                 $email['From'] = $model->email;
                 $email['Subject'] = $model->subject . 'From Mr/Mrs: ' . $model->name;
