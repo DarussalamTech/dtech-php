@@ -60,6 +60,7 @@ class UserOrderShipping extends DTActiveRecord {
             array('shipping_first_name, shipping_last_name, shipping_address1, shipping_address2, shipping_country, shipping_state, shipping_city, shipping_phone, shipping_mobile', 'length', 'max' => 255),
             array('create_user_id, update_user_id', 'length', 'max' => 11),
             array('order_id', 'safe'),
+            array('shipping_phone, shipping_mobile', 'match', 'pattern'=>'/^[0-9-+]+$/'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, user_id, order_id, shipping_prefix, shipping_first_name, shipping_last_name, shipping_address1, shipping_address2, shipping_country, shipping_state, shipping_city, shipping_zip, shipping_phone, shipping_mobile, create_time, create_user_id, update_time, update_user_id', 'safe', 'on' => 'search'),

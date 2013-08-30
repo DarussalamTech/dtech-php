@@ -162,6 +162,19 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
         <div class="secure_text">
             <article>
                 <?php
+                echo $form->labelEx($model, "billing_mobile");
+                ?>
+            </article>
+        </div>
+        <div class="secure_input_type">
+            <?php echo $form->textField($model, 'billing_mobile', array('class' => 'payment_text')); ?>
+            <?php echo $form->error($model, 'billing_mobile'); ?>
+        </div>
+    </div>
+    <div class="secure_input">
+        <div class="secure_text">
+            <article>
+                <?php
                 echo $form->labelEx($model, "isSameShipping");
                 ?>
             </article>

@@ -17,6 +17,7 @@ class ShippingInfoForm extends CFormModel {
     public $shipping_state;
     public $shipping_zip;
     public $shipping_phone;
+    public $shipping_mobile;
     public $payment_method;
     private $_identity;
     public $_states = array();
@@ -34,6 +35,7 @@ class ShippingInfoForm extends CFormModel {
                    shipping_city, shipping_state, shipping_zip, shipping_phone', 'required'),
             array('shipping_phone', 'length', 'max' => 10),
             array('shipping_phone', 'numerical', 'integerOnly' => true),
+            array('shipping_phone, shipping_mobile', 'match', 'pattern'=>'/^[0-9-+]+$/'),
             array('_states,payment_method', 'safe'),
                 // rememberMe needs to be a boolean
                 //array('rememberMe', 'boolean'),

@@ -110,7 +110,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/packages/ju
                                 jQuery("#cboxLoadedContent").html(data);
                                 jQuery("#result").html("");
                                 
-                                if(jQuery.trim(jQuery(".error_status"))!=""){
+                                if(jQuery.trim(jQuery(".error_status").html())==""){
                                     location.reload();
                                 }
                             }
