@@ -12,6 +12,7 @@ class ContactForm extends CFormModel {
     public $subject;
     public $body;
     public $verifyCode;
+    public $customer_copy_check;
 
     /**
      * Declares the validation rules.
@@ -22,6 +23,7 @@ class ContactForm extends CFormModel {
             array('name, email, subject, body,verifyCode', 'required'),
             // email has to be a valid email address
             array('email', 'email'),
+            array('customer_copy_check', 'safe'),
             // verifyCode needs to be entered correctly
             array('verifyCode', 'captcha', 'allowEmpty' => !CCaptcha::checkRequirements()),
         );
@@ -38,6 +40,7 @@ class ContactForm extends CFormModel {
             'email' => Yii::t('common', 'Email', array(), NULL, Yii::app()->controller->currentLang),
             'subject' => Yii::t('model_labels', 'Subject', array(), NULL, Yii::app()->controller->currentLang),
             'body' => Yii::t('model_labels', 'Message', array(), NULL, Yii::app()->controller->currentLang),
+            'customer_copy_check' => Yii::t('model_labels', 'Send a copy to me', array(), NULL, Yii::app()->controller->currentLang),
             'verifyCode' => Yii::t('model_labels', 'Verification Code', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
