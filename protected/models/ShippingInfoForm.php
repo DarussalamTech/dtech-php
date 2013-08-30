@@ -107,6 +107,7 @@ class ShippingInfoForm extends CFormModel {
             $this->shipping_first_name = $billing->billing_first_name;
             $this->shipping_last_name = $billing->billing_last_name;
             $this->shipping_address1 = $billing->billing_address1;
+            $this->shipping_address2 = $billing->billing_address2;
             $this->shipping_country = $billing->billing_country;
             $this->shipping_state = $billing->billing_state;
             $this->shipping_city = $billing->billing_city;
