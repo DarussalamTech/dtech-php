@@ -140,3 +140,6 @@ input[type=button],input[type=submit] {
     box-shadow: 0 0 3px #a07804;   
     border: 1px solid #a07804 !important;     
 }
+.clear {
+    clear: both;
+}
