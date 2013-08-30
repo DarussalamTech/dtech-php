@@ -29,7 +29,10 @@ $this->widget('zii.widgets.CDetailView', array(
         'shipping_last_name',
         'shipping_address1',
         'shipping_address2',
-        'shipping_country',
+         array(
+             'name'=>'shipping_country',
+             'value'=>isset($model->country->name)?$model->country->name:"",
+         ),
         'shipping_state',
         'shipping_city',
         'shipping_zip',

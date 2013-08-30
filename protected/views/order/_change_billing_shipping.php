@@ -9,7 +9,13 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/packages/ju
      <span id="result" style="margin-left:10px"></span>
 </h1>
 <div class="wide form">
-
+    <div class="error_status">
+        <?php
+            if($model->hasErrors()){
+                echo "1";
+            }
+        ?>
+    </div>
     <?php
     $form = $this->beginWidget('CActiveForm', array(
         'htmlOptions' => array('enctype' => 'multipart/form-data',"id"=>"billing_shipping_form"),
@@ -85,9 +91,9 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/packages/ju
         <?php echo $form->error($model, $model_prefix.'_phone'); ?>
     </div>
     <div class="row">
-        <?php echo $form->labelEx($model, $model_prefix.'_phone'); ?>
-        <?php echo $form->textField($model, $model_prefix.'_phone', array("style" => "width:350px")); ?>
-        <?php echo $form->error($model, $model_prefix.'_phone'); ?>
+        <?php echo $form->labelEx($model, $model_prefix.'_mobile'); ?>
+        <?php echo $form->textField($model, $model_prefix.'_mobile', array("style" => "width:350px")); ?>
+        <?php echo $form->error($model, $model_prefix.'_mobile'); ?>
     </div>
 
 
@@ -103,6 +109,10 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/packages/ju
                             {
                                 jQuery("#cboxLoadedContent").html(data);
                                 jQuery("#result").html("");
+                                
+                                if(jQuery.trim(jQuery(".error_status").html())==""){
+                                    location.reload();
+                                }
                             }
                           })
             

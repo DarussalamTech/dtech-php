@@ -60,6 +60,7 @@ class UserOrderBilling extends DTActiveRecord {
             array('billing_prefix', 'length', 'max' => 4),
             array('billing_first_name, billing_last_name, billing_address1, billing_address2, billing_country, billing_state, billing_city', 'required'),
             array('billing_first_name, billing_last_name, billing_address1, billing_address2, billing_country, billing_state, billing_city, billing_phone, billing_mobile', 'length', 'max' => 255),
+            array('billing_phone, billing_mobile', 'match', 'pattern'=>'/^[0-9-+]+$/'),
             array('create_user_id, update_user_id', 'length', 'max' => 11),
             array('isSameShipping,order_id', 'safe'),
             // The following rule is used by search().
@@ -77,6 +78,7 @@ class UserOrderBilling extends DTActiveRecord {
         return array(
             'order' => array(self::BELONGS_TO, 'Order', 'order_id'),
             'user' => array(self::BELONGS_TO, 'User', 'user_id'),
+            'country' => array(self::BELONGS_TO, 'Region', 'billing_country'),
         );
     }
 

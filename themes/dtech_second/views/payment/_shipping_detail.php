@@ -154,5 +154,18 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
                 <?php echo $form->error($model, 'shipping_phone'); ?>
             </div>
         </div>
+        <div class="secure_input">
+            <div class="secure_text">
+                <article>
+                    <?php
+                    echo $form->labelEx($model, "shipping_mobile");
+                    ?>
+                </article>
+            </div>
+            <div class="secure_input_type">
+                <?php echo $form->textField($model, 'shipping_mobile', array('class' => 'payment_text')); ?>
+                <?php echo $form->error($model, 'shipping_mobile'); ?>
+            </div>
+        </div>
 
     </div>
