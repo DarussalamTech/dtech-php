@@ -29,6 +29,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/uploadify/j
 
                 $('#UserProfile_temp_avatar-button').css('background-image', 'none');
                 $('#UserProfile_temp_avatar-button').css('text-indent', '0');
+                $('#UserProfile_temp_avatar-button').css('z-index', '0');
 
                 $('#UserProfile_temp_avatar-button').html('<img src ="' + path + file.name + '" />');
                 $('#UserProfile_avatar').val(file.name);
@@ -132,7 +133,7 @@ $form = $this->beginWidget(
                         'showAnim' => 'slideDown',
                         'changeYear' => true,
                         'changeMonth' => true,
-                        'yearRange' => '1930',
+                        'yearRange' => '1900',
                     ),
                     'htmlOptions' => array(
                         'size' => '15', // textField size

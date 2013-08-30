@@ -24,7 +24,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/con
             <div class="flash-success" style="color:green">
                 <?php echo '<br/><tt>' . Yii::app()->user->getFlash('contact') . '</tt>'; ?>
             </div>
-            <span style="text-align: center; font-size: 12px">
+            <span style="text-align: center; font-size: 11px">
                 <?php echo $form->errorSummary($model); ?>
             </span>
             <div class="contact_form">
@@ -44,19 +44,23 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/con
                 <?php echo $form->textArea($model, 'body', array('rows' => 5, 'cols' => 31, 'style' => 'resize:none')); ?>
 
             </div>
-            <?php if (CCaptcha::checkRequirements()): ?>
-                <div class="contact_form">
+            <div class="contact_form">
+                <?php if (CCaptcha::checkRequirements()): ?>
+
                     <p><?php echo $form->labelEx($model, 'verifyCode'); ?></p>
                     <?php $this->widget('CCaptcha', array('buttonLabel' => 'Refresh Code', 'buttonType' => 'link')); ?>
-                    <?php echo $form->textField($model, 'verifyCode', array('class' => 'form_name')); ?>
 
-                    <p>
-                        Please enter the letters  shown in the image above.
-                    </p>
-                    <?php echo CHtml::submitButton(Yii::t('common', 'Submit', array(), NULL, $this->currentLang), array('class' => 'submit_btn')); ?>
-                </div>
-            <?php endif; ?>
-
+                <?php endif; ?>
+            </div>
+            <div class="contact_form">
+                <p style="font-size: 9px">Please enter the letters  shown in the above image</p>
+                <?php echo $form->textField($model, 'verifyCode', array('class' => 'form_name')); ?>
+            </div>
+            <div class="contact_form">
+                <p><?php echo $form->labelEx($model, 'customer_copy_check'); ?></p>
+                <?php echo $form->checkBox($model, 'customer_copy_check'); ?>
+                <?php echo CHtml::submitButton(Yii::t('common', 'Submit', array(), NULL, $this->currentLang), array('class' => 'submit_btn')); ?>
+            </div>
             <?php $this->endWidget(); ?>
         </div>
         <div class="contact_info">
@@ -98,9 +102,9 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/con
         <div class="countries_contact">
             <h3>Pakistan</h3>
             <h3>Head Office</h3>
-            <p>P.O. Box: 22743, Riyadh 11416 K.S.A.</p>
-            <p>Tel: 00966-1-4033962/4043432</p>
-            <p>Fax: 4021659</p>
+            <p>Darussalam, 36 Lower Mall, Secretariat Stop, Lahore, Pakistan</p>
+            <p>Tel: +92-042-37240024, 37232400, 37111023, 37110081</p>
+            <p>Fax: +92-042- 37354072</p>
         </div>
         <div class="countries_contact">
             <h3>Kingdom Of Saudi Arabia</h3>
