@@ -6,7 +6,7 @@
         Purpose of the stylesheet follows.
         to over ride other css
 */
-
+header {z-index: 1;}
 #navigation_part nav ul li {
     padding: 0 2px;
 }
@@ -98,7 +98,7 @@ input[type=button],input[type=submit] {
     font-size: 13px;
 }
 .cart-grid-btn {
-     font-size: 0.9em;
+    font-size: 0.9em;
     margin: auto;
     width: 960px;
 }

@@ -78,11 +78,10 @@ foreach ($products as $product) {
 
         echo CHtml::image(Yii::app()->theme->baseUrl . '/images/white_basket_03.jpg');
         echo CHtml::closeTag("div");
-    else :    
-      
+    else :
+
         echo CHtml::openTag("div", array(
             'class' => 'white_basket',
-
                 )
         );
 
@@ -104,7 +103,7 @@ foreach ($products as $product) {
 }
 if (empty($products)) {
     echo '<center><tt>';
-    echo "Sorry Your searched  did not Matched.Try again";
+    echo "No products available in this category for now. Please come back later.";
     echo '</tt></center>';
 }
 ?>

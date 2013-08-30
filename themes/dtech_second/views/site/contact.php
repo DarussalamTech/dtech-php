@@ -118,6 +118,14 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/con
     </div>
 </div>
 <script type="text/javascript">
+    jQuery(document).ready(function() {
+        /*
+         * snippet to clear the 
+         * captcha value when 
+         * validation failed..ubd
+         */
+        jQuery("#ContactForm_verifyCode").val("");
+    })
     window.onload = function() {
         /*
          * code to change the captcha value on each page refresh after page load

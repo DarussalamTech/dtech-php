@@ -17,14 +17,14 @@ $this->widget('ext.lyiightbox.LyiightBox2', array(
 ?>
 <div id="main_features_part">
     <div id="book_detail">
-        
+
         <div class="upper_detail">
             <div class="left_upper_part">
                 <?php echo $this->renderPartial("//product/_product_detail_image", array("product" => $product)) ?>
             </div>
             <div class="right_upper_part">
                 <?php
-                echo $this->renderPartial("//" . $view . "/_product_add_to_cart", array("product" => $product, "rating_value" => $rating_value));
+                echo $this->renderPartial("//product/_product_add_to_cart", array("product" => $product, "rating_value" => $rating_value));
                 ?>
             </div>
 
@@ -33,7 +33,6 @@ $this->widget('ext.lyiightbox.LyiightBox2', array(
         <div id="detail_data">
             <div class="center_detail">
                 <?php
-                
                 echo $this->renderPartial("//product/_product_detail_data", array("product" => $product, "rating_value" => $rating_value));
                 ?>
             </div>

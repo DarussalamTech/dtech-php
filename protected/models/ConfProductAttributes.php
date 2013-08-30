@@ -39,7 +39,7 @@ class ConfProductAttributes extends DTActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('title, type', 'required'),
+            array('title', 'required'),
             array("title","unique"),
             array('title, type, create_time, create_user_id, update_time, update_user_id', 'safe'),
             // The following rule is used by search().

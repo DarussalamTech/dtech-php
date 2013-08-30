@@ -29,19 +29,16 @@ if (!(Yii::app()->user->isGuest)) {
                 echo CHtml::link("Language Translation", $this->createUrl("/product/language", array("id" => $model->primaryKey)), array('class' => "print_link_btn"));
             }
             $controller = array(
-                "Others"=>"others",
-                "Books"=>"product",
-                "Quran"=>"quran",
-                "Educational Toys"=>"educationToys",
+                "Others" => "others",
+                "Books" => "product",
+                "Quran" => "quran",
+                "Educational Toys" => "educationToys",
             );
-         
-            echo CHtml::link("Preview", $this->createUrl("/web/".$controller[$model->parent_category->category_name]."/productPreview", array("product_id" => $model->primaryKey)), 
-                    array(
-                            'class' => "print_link_btn",
-                            "onclick"=>"dtech.popupwindow(jQuery(this).attr('href'),'Preview','900','600');return false;"
-                        ));
-            
-            
+
+            echo CHtml::link("Preview", $this->createUrl("/web/product/productPreview", array("product_id" => $model->primaryKey)), array(
+                'class' => "print_link_btn",
+                "onclick" => "dtech.popupwindow(jQuery(this).attr('href'),'Preview','900','600');return false;"
+            ));
             ?>
         </span>
     </div>
@@ -57,12 +54,12 @@ $this->widget('zii.widgets.CDetailView', array(
         array(
             'name' => 'product_overview',
             'value' => $model->product_overview,
-            'type'=>'raw',
+            'type' => 'raw',
         ),
         array(
             'name' => 'product_description',
             'value' => $model->product_description,
-            'type'=>'raw',
+            'type' => 'raw',
         ),
         array(
             'name' => 'parent_cateogry_id',
@@ -71,7 +68,7 @@ $this->widget('zii.widgets.CDetailView', array(
         array(
             'name' => 'authors',
             'value' => implode("/", $model->getAuthors()),
-            'visible' =>$model->parent_category->category_name == "Books"?true:false,
+            'visible' => $model->parent_category->category_name == "Books" ? true : false,
         ),
         array(
             'name' => 'create_time',
@@ -101,6 +98,8 @@ if ($model->parent_category->category_name == "Others") {
     $this->renderPartial('quranProfile/_container', array('model' => $model, "type" => "form"));
 } else if ($model->parent_category->category_name == "Educational Toys") {
     $this->renderPartial('educationToys/_container', array('model' => $model, "type" => "form"));
+} else {
+    $this->renderPartial('other/_container', array('model' => $model, "type" => "form"));
 }
 $this->renderPartial('productCategories/_container', array('model' => $model, "type" => "form"));
 $this->renderPartial('discount/_container', array('model' => $model, "type" => "form"));

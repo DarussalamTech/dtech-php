@@ -61,3 +61,9 @@
 .contact_info { width:529px; }
 
 .right_contact_part p { font-size:11px; color:#343434; line-height:23px; }
+.contact_form a{
+    text-decoration: none;
+    color: #092B71;
+    font-size: 14px;
+
+}
