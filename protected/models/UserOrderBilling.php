@@ -77,6 +77,7 @@ class UserOrderBilling extends DTActiveRecord {
         return array(
             'order' => array(self::BELONGS_TO, 'Order', 'order_id'),
             'user' => array(self::BELONGS_TO, 'User', 'user_id'),
+            'country' => array(self::BELONGS_TO, 'Region', 'billing_country'),
         );
     }
 
