@@ -25,7 +25,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         ),
         array(
             'name' => 'status',
-            'value' => '$data->status',
+            'value' => '$data->order_status->title',
             "type" => "raw",
         ),
         array(

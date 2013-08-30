@@ -65,6 +65,7 @@ class OrderHistory extends DTActiveRecord {
         return array(
             'order' => array(self::BELONGS_TO, 'Order', 'order_id'),
             'user' => array(self::BELONGS_TO, 'User', 'user_id'),
+            'order_status' => array(self::BELONGS_TO, 'Status', 'status', 'condition' => 'module="Order"'),
         );
     }
 
