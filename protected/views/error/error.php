@@ -113,7 +113,7 @@
                     </div>
                 </div>
             </div>
-            <?php echo $this->renderPartial('//site/_landing_content', array('model' => $model));
+            <?php //echo $this->renderPartial('//site/_landing_content', array('model' => $model));
             ?>
         </div>
     </body>
