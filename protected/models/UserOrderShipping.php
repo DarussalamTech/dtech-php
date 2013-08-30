@@ -56,7 +56,7 @@ class UserOrderShipping extends DTActiveRecord {
         return array(
             array('user_id, create_time, create_user_id, update_time, update_user_id', 'required'),
             array('user_id, order_id, shipping_zip', 'numerical', 'integerOnly' => true),
-            array('shipping_prefix', 'length', 'max' => 3),
+            array('shipping_prefix', 'length', 'max' => 4),
             array('shipping_first_name, shipping_last_name, shipping_address1, shipping_address2, shipping_country, shipping_state, shipping_city, shipping_phone, shipping_mobile', 'length', 'max' => 255),
             array('create_user_id, update_user_id', 'length', 'max' => 11),
             array('order_id', 'safe'),

@@ -57,7 +57,7 @@ class UserOrderBilling extends DTActiveRecord {
         return array(
             array('user_id, create_time, create_user_id, update_time, update_user_id', 'required'),
             array('user_id, order_id, billing_zip', 'numerical', 'integerOnly' => true),
-            array('billing_prefix', 'length', 'max' => 3),
+            array('billing_prefix', 'length', 'max' => 4),
             array('billing_first_name, billing_last_name, billing_address1, billing_address2, billing_country, billing_state, billing_city', 'required'),
             array('billing_first_name, billing_last_name, billing_address1, billing_address2, billing_country, billing_state, billing_city, billing_phone, billing_mobile', 'length', 'max' => 255),
             array('create_user_id, update_user_id', 'length', 'max' => 11),
