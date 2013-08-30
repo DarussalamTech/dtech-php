@@ -101,6 +101,7 @@
                                 Not available in this quantity
                             </span>
                         </section>
+                        <div class="clear"></div>
                         <div class="shipping_button">
                             <?php
                             /*
@@ -116,7 +117,7 @@
                                 "success" => "function(data) {
                                                     $('#loading').hide();
                                                     jQuery('#wishList_container').html(data._view_list); 
-                                                    jQuery('#wishlist_counter').html(data.wish_list_count);
+                                                    jQuery('.wishlist_counter span').html(data.wish_list_count);
                                                }",
                                     ), array(
                                 "onclick" => "
