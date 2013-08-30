@@ -101,6 +101,7 @@
                                 
                                 ',
                     "type" => "raw",
+                    'htmlOptions'=>array('class'=>'update-cart-td','width'=>'100'),
                 ),
                 array(
                     'class' => 'CButtonColumn',
@@ -115,6 +116,7 @@
                             'label' => ' Update ',
                             'url' => 'Yii::app()->controller->createUrl("/web/cart/editcart",array("cart_id"=>$data->cart_id))',
                             'imageUrl' => '',
+                            
                             'click' => "function(event){
                                 event.preventDefault();
                                 q_obj = $(this).parent().prev().children().eq(0);
@@ -128,10 +130,10 @@
                                         success:function(msg){
                                           
                                             if(msg['available'] == false){
-                                                $(q_obj).next().html($('#status_un_available').html());
+                                                $(q_obj).next().html('<br/>'+$('#status_un_available').html());
                                             }
                                             else {
-                                                $(q_obj).next().html($('#status_available').html());
+                                                $(q_obj).next().html('<br/>'+$('#status_available').html());
                                             }
                                             
                                             setTimeout(function(){

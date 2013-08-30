@@ -311,3 +311,6 @@ customized code
 order_detail div h4{
     font-family: "Gill Sans","Gill Sans MT","Myriad Pro","DejaVu Sans Condensed",Helvetica,Arial,sans-serif;
 }
+.grid-view table.items td .icon {
+    clear: both;
+}
