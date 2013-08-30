@@ -143,11 +143,11 @@ class UserOrderShipping extends DTActiveRecord {
      */
     public function getStates() {
         $stateList = array();
-        if (!empty($this->billing_country)) {
+        if (!empty($this->shipping_country)) {
             /*
              * PCM
              */
-            $stateList = Subregion::model()->findAll('region_id="' . $this->billing_country . '"');
+            $stateList = Subregion::model()->findAll('region_id="' . $this->shipping_country . '"');
 
             $stateList = CHtml::listData($stateList, 'name', 'name');
         }
