@@ -11,6 +11,13 @@ class ChangePassword extends CFormModel {
     public $user_password;
     public $user_conf_password;
 
+    /*
+     * to check weak or strong password
+     */
+
+    const WEAK = 0;
+    const STRONG = 1;
+
     /**
      * Declares the validation rules.
      */
@@ -24,6 +31,7 @@ class ChangePassword extends CFormModel {
             array('user_conf_password', 'compare', 'compareAttribute' => 'user_password'),
             array('user_password, user_conf_password,old_password', 'safe'),
             array('old_password', 'validateOldPassword'),
+            array('user_password', 'passwordStrength', 'strength' => self::STRONG),
         );
     }
 
@@ -50,6 +58,16 @@ class ChangePassword extends CFormModel {
         if (User::model()->count("user_id=" . Yii::app()->user->id . " AND user_password='" . md5($this->old_password) . "'") == 0) {
             $this->addError($attribute, "Old password Miss match");
         }
+    }
+
+    public function passwordStrength($attribute, $params) {
+        if ($params['strength'] === self::WEAK)
+            $pattern = '/^(?=.*[a-zA-Z0-9]).{5,}$/';
+        elseif ($params['strength'] === self::STRONG)
+            $pattern = '/^(?=.*[a-zA-Z](?=.*[a-zA-Z])).{5,}$/';
+
+        if (!preg_match($pattern, $this->$attribute))
+            $this->addError($attribute, 'Weak Password ! At least 5 characters.Passowrd can contain both letters and numbers!');
     }
 
     /**
