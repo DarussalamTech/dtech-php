@@ -35,7 +35,20 @@
             echo CHtml::closeTag("p");
             echo CHtml::openTag("p");
             echo 'Published ' . $rev->calculateRemTime() . "ago by ";
-            echo!empty($rev->user->userProfiles->last_name) ? $rev->user->userProfiles->last_name : $rev->user->user_email;
+//            echo!empty($rev->user->userProfiles->first_name) ? $rev->user->userProfiles->first_name : $rev->user->user_email;
+//            echo!empty($rev->user->userProfiles->last_name) ? $rev->user->userProfiles->last_name : "";
+            echo CHtml::openTag("span", array("style" => "color:#089AD4;"));
+            if (!empty($rev->user->userProfiles->first_name)) {
+
+                echo $rev->user->userProfiles->first_name.' ';
+            }
+            if (!empty($rev->user->userProfiles->last_name)) {
+
+                echo $rev->user->userProfiles->last_name.' ';
+            } else if (empty($rev->user->userProfiles->first_name) && empty($rev->user->userProfiles->last_name)) {
+                echo $rev->user->user_email;
+            }
+            echo CHtml::closeTag("span");
             echo CHtml::closeTag("p");
 
             echo CHtml::closeTag("div");
