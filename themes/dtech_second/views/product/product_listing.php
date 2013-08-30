@@ -23,19 +23,25 @@ $cs->registerCssFile(Yii::app()->theme->baseUrl . '/css/list.css');
                             $title = explode("-", $_REQUEST['slug']);
                             $category = $title = $title[0];
                         }
+
                         /*
                          * to handle the category name
                          * to be displayed in the product listing
                          * of all category ..making from the slug
+
+                          if (!empty($products[0]['category'])) {
+                          echo Yii::t('common', $products[0]['category'] . "-->", array(), NULL, $this->currentLang);
+                          }
+                          $slug_array = split('-', $_REQUEST['slug']);
+                          $last_element = array_pop($slug_array);
+                          foreach ($slug_array as $catego) {
+                          echo $catego . ' ';
+                          }
                          */
-                        if (!empty($products[0]['category'])) {
-                            echo Yii::t('common', $products[0]['category'] . "-->", array(), NULL, $this->currentLang);
-                        }
                         $slug_array = split('-', $_REQUEST['slug']);
                         $last_element = array_pop($slug_array);
-                        foreach ($slug_array as $catego) {
-                            echo $catego . ' ';
-                        }
+                        $category_name = Categories::model()->findByPk($last_element)->category_name;
+                        echo $category_name;
                         ?>
                     </h6>
                     <div id="right_main_conent">
