@@ -5,12 +5,12 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
 */
 div#UserProfile_temp_avatar {
     height: 80px !important;
-    z-index: 10;
+    z-index: 0;
 }
 div#UserProfile_temp_avatar img{
     height: 80px !important;
-      width: 80px !important;
-      z-index: 10;
+    width: 80px !important;
+    z-index: 10;
 }
 .swfupload {
     height: 80px !important;
