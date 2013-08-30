@@ -16,7 +16,11 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/packages/ju
         'method' => 'post',
         
     ));
+    /**
+     * setting for detucting prefix
+     */
     $model_prefix = get_class($model) =="UserOrderBilling"?"billing":"shipping";
+    $model_intitial = get_class($model) =="UserOrderBilling"?"b":"s";
     ?>
 
     <div class="row">
@@ -51,7 +55,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/packages/ju
             'empty' => 'Please Select Country',
             'ajax' => array(
                 'type' => 'POST',
-                'url' => $this->createUrl('/web/payment/bstatelist'),
+                'url' => $this->createUrl('/web/payment/'.$model_intitial.'statelist'),
                 'update' => '#'.get_class($model).'_'.$model_prefix.'_state'
             )
         ));

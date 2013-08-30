@@ -27,7 +27,7 @@ class PaymentController extends Controller {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('paymentmethod', 'confirmorder', 
-                    'statelist', 'bstatelist',
+                    'statelist', 'bstatelist','sstatelist',
                     'customer0rderDetailMailer', 'admin0rderDetailMailer'),
                 'users' => array('@'),
             ),
@@ -249,6 +249,23 @@ class PaymentController extends Controller {
             $billing_card->attributes = $_POST['UserOrderBilling'];
         }
         $stateList = $billing_card->getStates();
+        
+        
+        echo CHtml::tag('option', array('value' => ''), 'Select State', true);
+        foreach ($stateList as $value => $name) {
+            echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
+        }
+    }
+    /**
+     * state list for shipping
+     */
+    public function actionSstatelist() {
+        
+        $shipp_card = new UserOrderShipping();
+        if (isset($_POST['UserOrderShipping'])) {
+            $shipp_card->attributes = $_POST['UserOrderShipping'];
+        }
+        $stateList = $shipp_card->getStates();
         
         
         echo CHtml::tag('option', array('value' => ''), 'Select State', true);
