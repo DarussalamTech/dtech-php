@@ -146,3 +146,11 @@ input[type=button],input[type=submit] {
 .clear {
     clear: both;
 }
+
+.row_input_type a img {
+    width: 53px;
+    height: 32px;
+}
+.forgot_pass a {
+    font-size: 14px;
+}
