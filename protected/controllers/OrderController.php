@@ -102,6 +102,7 @@ class OrderController extends Controller {
 
         if (isset($_POST['OrderHistory'])) {
             $orderHistory->attributes = $_POST['OrderHistory'];
+ 
 
             if ($orderHistory->save()) {
                 $old_status = $order->order->status;
@@ -110,7 +111,7 @@ class OrderController extends Controller {
 
 
 
-                $this->manageStock($old_status, $order);
+                $this->manageStock($old_status, $order,$orderStatuses);
                 if ($orderHistory->is_notify_customer == 1) {
                     /**
                      * if admin wants to comments in email then this comment

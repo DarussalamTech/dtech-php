@@ -17,7 +17,11 @@
     <div class="row">
         <?php echo $form->label($model, 'status'); ?>
         <?php
-         echo $order->listing_status;
+        /**
+         * pcm : only 
+         * to convert order model instance to order
+         */
+         echo str_replace("Order", "OrderHistory", $order->listing_status);
         ?>
     </div>
     <div class="row">
