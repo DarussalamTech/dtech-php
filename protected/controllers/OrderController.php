@@ -158,22 +158,28 @@ class OrderController extends Controller {
      * @param type $model
      */
     public function manageStock($old_status, $model) {
+        
+        $orderStatuses = Status::model()->gettingOrderStatus();
+       
+        
         /*
-         * check wether the order status is completed or not
-         * if completed the manage the stock 
+         * check wether the order status is shipped or not
+         * its old status is process or pending
          * by calling the function 
          */
-        if ($old_status == "process" && $model->status == 'completed') {
+        if (($orderStatuses[$old_status] == "Process" || $orderStatuses[$old_status] == "Pending")
+                && $orderStatuses[$model->status] == 'Shipped') {
             $model->decreaseStock();
             Yii::app()->user->setFlash("status", "Your products stock has been updated (Decreased)");
         }
 
         /*
-         * Logic to proces when an order is declinded 
+         * Logic to proces when an order is canceld  
          * and its last status is completed
          */
 
-        if ($old_status == "completed" && $model->status == 'declined') {
+        if ($orderStatuses[$old_status] == "Shipped" && 
+            ($orderStatuses[$model->status] == 'Canceled') || $orderStatuses[$model->status] == 'Refunded') {
             $model->increaseStock();
             Yii::app()->user->setFlash("status", "Your products stock has been updated  (Increased)");
         }
@@ -189,10 +195,13 @@ class OrderController extends Controller {
      * old status changes to new 
      */
     public function sendStatusEmail($model, $oldStatus, $comments = "") {
+        
+        $orderStatuses = Status::model()->gettingOrderStatus();
+        
         $email['To'] = $model->user->user_email;
         $email['From'] = Yii::app()->params['adminEmail'];
         $email['Subject'] = "Order has been changed ";
-        $email['Body'] = "Your order status has been changes from " . $oldStatus . " to " . $model->status;
+        $email['Body'] = "Your order status has been changes from " . $orderStatuses[$oldStatus] . " to " . $orderStatuses[$model->status];
         $email['Body'].= "<br/>" . $comments;
 
         $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);

@@ -99,8 +99,10 @@ class Order extends DTActiveRecord {
 
     public function beforeSave() {
         $this->city_id = Yii::app()->session['city_id'];
-        $this->status = "pending";
-
+        
+        if(!$this->isAdmin){
+            $this->status = Status::model()->gettingPending();
+        }
         return parent::beforeSave();
     }
 
