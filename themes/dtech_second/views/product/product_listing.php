@@ -40,7 +40,9 @@ $cs->registerCssFile(Yii::app()->theme->baseUrl . '/css/list.css');
                          */
                         $slug_array = split('-', $_REQUEST['slug']);
                         $last_element = array_pop($slug_array);
-                        $category_name = Categories::model()->findByPk($last_element)->category_name;
+                        $criteria = new CDbCriteria();
+                        $criteria->select = "category_name";
+                        $category_name = Categories::model()->findByPk($last_element,$criteria)->category_name;
                         echo $category_name;
                         
                         ?>
