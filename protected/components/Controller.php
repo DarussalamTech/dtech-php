@@ -257,6 +257,13 @@ class Controller extends RController {
             if (isset(Yii::app()->session['city_id'])) {
                 $this->menu_categories = Categories::model()->getMenuCategories();
             }
+           
+            /**
+             * if menu category not present then page will be redirected again
+             */
+            if(!isset($this->menu_categories)){
+                $this->redirect(Yii::app()->request->url);
+            }
             $this->currentLang = isset(Yii::app()->session['current_lang']) ? Yii::app()->session['current_lang'] : "en";
             //$this->configureTheme();
         } else {
