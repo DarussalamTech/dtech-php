@@ -24,7 +24,7 @@ class CartController extends Controller {
         $total_in_cart = Cart::model()->getTotalCountProduct($_REQUEST['product_profile_id']);
 
         $total_available = $product_pf->quantity - $total_in_cart;
-        
+
 
         if (isset(Yii::app()->user->id)) {
             $cart = $cart_model->find('product_profile_id=' . $_REQUEST['product_profile_id'] . ' AND (user_id=' . Yii::app()->user->id . ' OR session_id="' . $ip . '")');
@@ -44,12 +44,11 @@ class CartController extends Controller {
             $cart_model->added_date = date(Yii::app()->params['dateformat']);
             $cart_model->session_id = $ip;
         }
-      
-        
-        if ($total_available > 0 && $total_available>=$_REQUEST['quantity']) {
+
+
+        if ($total_available > 0 && $total_available >= $_REQUEST['quantity']) {
             $cart_model->save();
-        }
-        else {
+        } else {
             /**
              * in this case no quanity will be shown
              */
@@ -103,16 +102,15 @@ class CartController extends Controller {
         $model = ProductProfile::model()->findByPk($product_profile_id);
 
         $email['To'] = User::model()->getCityAdmin();
+        //$email['To'] = 'ubaidullah@darussalampk.com';
         $email['Subject'] = "This product is out of stock";
-        $email['Body'] = "This product is out of stock kindly make available to us and send me email";
+        $email['Body'] = "Sorry ! This product is out of stock.<br> Please inform me when available sending me an email to<br>" . Yii::app()->user->User->user_email . "<br>";
         $url = Yii::app()->request->hostInfo . $this->createUrl("/product/viewImage/", array("id" => $product_profile_id));
         $email['Body'].=" <br/>" . CHtml::link($model->item_code, $url);
         $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
 
         $this->sendEmail2($email);
     }
-
-  
 
 }
 

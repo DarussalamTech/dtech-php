@@ -40,7 +40,7 @@ if (isset($_POST[$mName]) || ($this->action->id == 'create' && count($model->$re
                 'onclick' => "
 					
                     u = '" . $this->createUrl("loadChildByAjax", array("mName" => "$mName", "dir" => $dir, "load_for" => $this->action->id,)) . "&index=' +  " . $relationName . "_index_sc;
-                    u+='&parent_cat='+$('#Product_parent_cateogry_id').val(); 
+                   
                     
                     add_new_child_row(u, '" . $dir . "', '" . $fields_div_id . "', 'grid_fields', true);
                     jQuery('#" . $relationName . "-plus').attr('class', 'plus_rotate');
@@ -49,9 +49,7 @@ if (isset($_POST[$mName]) || ($this->action->id == 'create' && count($model->$re
                     " . $relationName . "_index_sc++;
                         
                     return false;
-                    ",
-                "class" => "plus_bind",
-                "style" => "display:none",
+                    ", "class" => "plus_bind"
             ))
             ?>
         </div>
