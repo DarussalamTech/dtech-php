@@ -6,8 +6,8 @@
  *  setting import class
  *  
  */
-include '_admin_url_manager.php'; //including url config ro admin
-include '_web_url_manager.php';  //including url config for web module user's site
+include '_urls/_admin_url_manager.php'; //including url config ro admin
+include '_urls/_web_url_manager.php';  //including url config for web module user's site
 
 
 /*

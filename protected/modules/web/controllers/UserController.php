@@ -30,7 +30,7 @@ class UserController extends Controller {
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array(
                     'updateprofile', 'ChangePass', 'CustomerHistory',
-                    'customerDetail',
+                    'customerDetail', 'print',
                     'OrderDetail'),
                 'users' => array('@'),
             ),
@@ -262,6 +262,24 @@ class UserController extends Controller {
         $this->render('//user/customer_history', array('cart' => $history));
     }
 
+    public function actionPrint($id) {
+        Yii::app()->user->SiteSessions;
+        $model = Order::model()->findByPk($id);
+
+        /**
+         * order detail part
+         * 
+         */
+        $model_d = new OrderDetail('Search');
+        $model_d->unsetAttributes();  // clear any default values
+        $model_d->order_id = $id;
+        if (isset($_GET['OrderDetail'])) {
+            $model_d->attributes = $_GET['Order'];
+        }
+
+        $this->renderPartial('//user/print', array('model' => $model, "model_d" => $model_d),false,false);
+    }
+
     /**
      * customer order detail
      * to fetch
@@ -281,7 +299,7 @@ class UserController extends Controller {
             $model_d->attributes = $_GET['Order'];
         }
 
-        $this->render('//user/order_detail', array('model' => $model,"model_d"=>$model_d));
+        $this->render('//user/order_detail', array('model' => $model, "model_d" => $model_d));
     }
 
     /**

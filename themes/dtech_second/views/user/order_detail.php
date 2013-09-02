@@ -1,8 +1,16 @@
 <div class="heading_cart">
-    <h2>Your Order [#<?php echo $model->order_id; ?>]</h2>
-    <?php
-    echo CHtml::image(Yii::app()->theme->baseUrl . "/images/under_heading_07.png");
-    ?>
+    <div style="float: left;width:50%;">
+        <h2>Your Order [#<?php echo $model->order_id; ?>]</h2>
+        <?php
+        echo CHtml::image(Yii::app()->theme->baseUrl . "/images/under_heading_07.png");
+        ?>
+    </div>
+    <div>
+        <?php
+        echo CHtml::link("print", $this->createUrl("/web/user/print", array("id" => $model->primaryKey)), array('class' => "print_link_btn", "onclick" => "dtech.printPreview(this);return false;"));
+        ?>
+    </div>
+
 </div>
 <div class="clear"></div>
 <div style="">
