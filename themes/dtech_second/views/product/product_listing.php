@@ -42,6 +42,7 @@ $cs->registerCssFile(Yii::app()->theme->baseUrl . '/css/list.css');
                         $last_element = array_pop($slug_array);
                         $category_name = Categories::model()->findByPk($last_element)->category_name;
                         echo $category_name;
+                        
                         ?>
                     </h6>
                     <div id="right_main_conent">
