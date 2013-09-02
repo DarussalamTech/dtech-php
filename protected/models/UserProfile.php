@@ -102,7 +102,7 @@ class UserProfile extends DTActiveRecord {
             'zip_code' => Yii::t('model_labels', 'Zip Code', array(), NULL, Yii::app()->controller->currentLang),
             'contact_number' => Yii::t('model_labels', 'Phone Number', array(), NULL, Yii::app()->controller->currentLang),
             'mobile_number' => Yii::t('model_labels', 'Mobile Number', array(), NULL, Yii::app()->controller->currentLang),
-            'is_shipping_address' => Yii::t('model_labels', 'Is Shipping Address Also ?', array(), NULL, Yii::app()->controller->currentLang),
+            'is_shipping_address' => Yii::t('model_labels', 'Select if shipping address is same as above', array(), NULL, Yii::app()->controller->currentLang),
             'avatar' => Yii::t('model_labels', 'Profile Picture', array(), NULL, Yii::app()->controller->currentLang),
             'date_of_birth' => Yii::t('model_labels', 'Date Of Birth', array(), NULL, Yii::app()->controller->currentLang),
         );

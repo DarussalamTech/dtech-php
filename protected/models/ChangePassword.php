@@ -64,7 +64,8 @@ class ChangePassword extends CFormModel {
         if ($params['strength'] === self::WEAK)
             $pattern = '/^(?=.*[a-zA-Z0-9]).{5,}$/';
         elseif ($params['strength'] === self::STRONG)
-            $pattern = '/^(?=.*[a-zA-Z](?=.*[a-zA-Z])).{5,}$/';
+        //$pattern = '/^(?=.*[a-zA-Z](?=.*[a-zA-Z])).{5,}$/';
+            $pattern = '/^[a-z0-9_-]{5,18}$/';
 
         if (!preg_match($pattern, $this->$attribute))
             $this->addError($attribute, 'Weak Password ! At least 5 characters.Passowrd can contain both letters and numbers!');
