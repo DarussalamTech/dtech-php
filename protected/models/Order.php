@@ -215,7 +215,9 @@ class Order extends DTActiveRecord {
         $order_h = new OrderHistory;
         $order_h->order_id = $this->order_id;
         $order_h->user_id = Yii::app()->user->id;
+      
         $order_h->status = $this->status;
+     
         /**
          * for front end site
          */

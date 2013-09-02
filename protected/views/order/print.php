@@ -18,7 +18,7 @@
                 'value' => !empty($model->user->user_email) ? $model->user->user_email : "",
             ),
             'transaction_id',
-            'status',
+             array('status', 'value' => $model->order_status->title),
             'order_date',
             'update_time',
             'total_price',
