@@ -51,7 +51,8 @@ $this->widget('zii.widgets.grid.CGridView', array(
         array(
             'name' => 'product_name',
             'type' => 'Raw',
-            'value' => '$data->product_profile->product->product_name',
+            'value' => 'CHtml::link($data->product_profile->product->product_name,
+                    Yii::app()->controller->createUrl("/product/view",array("id"=>$data->product_profile->product->product_id)),array("target"=>"_blank"))',
             'headerHtmlOptions' => array(
                 'style' => "text-align:left"
             )
