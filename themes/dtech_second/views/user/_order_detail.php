@@ -1,33 +1,13 @@
-    <?php
+<?php
 /* @var $this UserController */
 /* @var $model User */
 
 $user_id = Yii::app()->user->id;
-//$this->layout='column2';
-if (Yii::app()->user->isAdmin || Yii::app()->user->isSuperAdmin) {
-    $this->renderPartial("/common/_left_menu");
-}
-
-Yii::app()->clientScript->registerScript('search', "
-$('.search-button').click(function(){
-	$('.search-form').toggle();
-	return false;
-});
-$('.search-form form').submit(function(){
-	$('#user-grid').yiiGridView('update', {
-		data: $(this).serialize()
-	});
-	return false;
-});
-");
 ?>
 <br/>
 <div>
     <h4>Your Order Details</h4>
 </div>
-
-
-
 
 <?php
 $this->widget('DtGridView', array(
@@ -90,7 +70,6 @@ $this->widget('DtGridView', array(
             'currencySymbol' => Yii::app()->session['currency'],
             'footer' => ''
         ),
-
     ),
 ));
 ?>

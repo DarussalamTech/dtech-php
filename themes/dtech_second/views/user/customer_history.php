@@ -49,13 +49,14 @@ if ($cart->getItemCount() <= 0) {
             ),
             array(
                 'name' => 'status',
-                'value' => '!empty($data->status)?$data->status:""',
+                'value' => '!empty($data->status)?$data->order_status->title:""',
                 "type" => "raw",
             ),
             array(
                 'class' => 'CLinkColumn',
-                'label' => 'View Detail',
-                'header' => 'View Order Detail',
+                'label' => 'View Products',
+                'header' => 'View Product Detail',
+          
                 'urlExpression' => 'Yii::app()->controller->createUrl("user/orderDetail",array("id"=>$data->order_id))',
                 'linkHtmlOptions' => array(
                     "onclick" => '
@@ -73,13 +74,19 @@ if ($cart->getItemCount() <= 0) {
                     '
                 ),
             ),
+            array(
+                'class' => 'CLinkColumn',
+                'label' => 'Full Detail',
+                'header' => 'Full Detail',
+                'urlExpression' => 'Yii::app()->controller->createUrl("/web/user/customerDetail",array("id"=>$data->order_id))',
+            ),
         ),
     ));
 }
 ?>
 <style>
     .grid-view .link-column a {
-        width: 90px;
+        width: 110px;
     }
 </style>
 <div id="order_detail"></div>

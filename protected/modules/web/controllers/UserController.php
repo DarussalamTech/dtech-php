@@ -28,7 +28,10 @@ class UserController extends Controller {
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('updateprofile', 'ChangePass', 'CustomerHistory', 'OrderDetail'),
+                'actions' => array(
+                    'updateprofile', 'ChangePass', 'CustomerHistory',
+                    'customerDetail',
+                    'OrderDetail'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -213,9 +216,9 @@ class UserController extends Controller {
     public function actionProductReview() {
 
         $modelComment = new ProductReviews;
-        
- 
-       
+
+
+
         if (isset($_POST['ProductReviews'])) {
             $modelComment->attributes = $_POST['ProductReviews'];
             $modelComment->added_date = time();
@@ -229,14 +232,14 @@ class UserController extends Controller {
             }
 
             $product = Product::model()->findByPk($modelComment->product_id);
-           
-             $url =$this->createUrl('/web/product/productDetail', array(
-                    'country' => Yii::app()->session['country_short_name'],
-                    'city' => Yii::app()->session['city_short_name'],
-                    'city_id' => Yii::app()->session['city_id'],
-                    "pcategory" => $product->parent_category->category_slug,
-                    "slug" => $product->slag,
-                ));
+
+            $url = $this->createUrl('/web/product/productDetail', array(
+                'country' => Yii::app()->session['country_short_name'],
+                'city' => Yii::app()->session['city_short_name'],
+                'city_id' => Yii::app()->session['city_id'],
+                "pcategory" => $product->parent_category->category_slug,
+                "slug" => $product->slag,
+            ));
 
 
             if ($modelComment->save()) {
@@ -245,13 +248,13 @@ class UserController extends Controller {
                 echo CHtml::errorSummary($modelComment);
                 $this->redirect($url);
             }
-
-//        $this->render('update_profile', array(
-//            'model' => $modelComment,
-//        ));
         }
     }
 
+    /**
+     * show customer order history
+     * 
+     */
     public function actionCustomerHistory() {
         Yii::app()->user->SiteSessions;
         $ip = Yii::app()->request->getUserHostAddress();
@@ -259,6 +262,32 @@ class UserController extends Controller {
         $this->render('//user/customer_history', array('cart' => $history));
     }
 
+    /**
+     * customer order detail
+     * to fetch
+     */
+    public function actionCustomerDetail($id) {
+        Yii::app()->user->SiteSessions;
+        $model = Order::model()->findByPk($id);
+
+        /**
+         * order detail part
+         * 
+         */
+        $model_d = new OrderDetail('Search');
+        $model_d->unsetAttributes();  // clear any default values
+        $model_d->order_id = $id;
+        if (isset($_GET['OrderDetail'])) {
+            $model_d->attributes = $_GET['Order'];
+        }
+
+        $this->render('//user/order_detail', array('model' => $model,"model_d"=>$model_d));
+    }
+
+    /**
+     * load products under history
+     * @param type $id
+     */
     public function actionOrderDetail($id) {
 
         Yii::app()->user->SiteSessions;

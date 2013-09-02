@@ -46,7 +46,7 @@ class OrderController extends Controller {
         $model_d = new OrderDetail('Search');
         $model_d->unsetAttributes();  // clear any default values
         $model_d->order_id = $id;
-        if (isset($_GET['Order'])) {
+        if (isset($_GET['OrderDetail'])) {
             $model_d->attributes = $_GET['Order'];
         }
         $order_history = $this->manageOderHistory($model_d);
