@@ -9,6 +9,7 @@
     margin: auto;
     width: 960px;
     font-family: Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif;
+     color:#595959;
 }
 table.detail-view .null
 {
@@ -62,6 +63,10 @@ table.detail-view tr.even th
 .children_detail {
     margin: auto;
     width: 960px;
+}
+.children_detail h4 {
+      color:#595959;
+       font-family: Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif;
 }
 .left_billing_detail,.left_shipping_detail {
     float: left;width:49%;
