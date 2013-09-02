@@ -247,9 +247,9 @@ class Controller extends RController {
      */
     public function setPages() {
         $module = $this->getModule();
+       
 
         if ($this->id == "site" || get_class($module) == "WebModule") {
-
             $this->webPages = Pages::model()->getPages();
             /**
              * only in case of when city id is started
@@ -497,8 +497,13 @@ class Controller extends RController {
     public function createUrl($route, $params = array(), $ampersand = '&') {
 
         $conCate = array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id']);
+        /**
+         * for user side only 
+         */
+        if(!$this->isAdminSite){
+            $conCate['lang'] =$this->currentLang;
+        }
         $params = array_merge($params, $conCate);
-
         return parent::createUrl($route, $params, $ampersand);
     }
 
