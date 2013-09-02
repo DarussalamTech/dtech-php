@@ -85,7 +85,7 @@ class HybridController extends Controller {
                     $wishlist->addWishlistByUser();
                     $this->redirect(Yii::app()->user->returnUrl);
                 } else {
-                    Yii::app()->user->setFlash('hybrid', "Please signup , your social network didn't provide the email");
+                    Yii::app()->user->setFlash('hybrid', "Please sign up , your social network didn't provide any email");
                     $this->redirect($this->createUrl("/web/user/register", array("provider" => $provider)));
                 }
             }
