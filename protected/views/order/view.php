@@ -32,8 +32,7 @@ if (Yii::app()->user->hasFlash('status')) {
             ?>
             <?php
             if (isset($this->OpPermission[ucfirst($this->id) . ".Update"]) && $this->OpPermission[ucfirst($this->id) . ".Update"]) {
-                echo CHtml::link("print", $this->createUrl("print", array("id" => $model->primaryKey)), 
-                        array('class' => "print_link_btn","onclick"=>"dtech.printPreview(this);return false;"));
+                echo CHtml::link("print", $this->createUrl("print", array("id" => $model->primaryKey)), array('class' => "print_link_btn", "onclick" => "dtech.printPreview(this);return false;"));
             }
             ?>
         </span>
@@ -54,12 +53,13 @@ if (Yii::app()->user->hasFlash('status')) {
     $this->widget('zii.widgets.CDetailView', array(
         'data' => $model,
         'attributes' => array(
+            "order_id",
             array(
                 'name' => 'user_id',
                 'value' => !empty($model->user->user_email) ? $model->user->user_email : "",
             ),
             'transaction_id',
-            'status',
+             array('status', 'value' => $model->order_status->title),
             'order_date',
             'update_time',
             'total_price',

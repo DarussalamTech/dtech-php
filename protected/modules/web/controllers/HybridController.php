@@ -53,9 +53,6 @@ class HybridController extends Controller {
 
             $user_profile = $adapter->getUserProfile();
 
-
-
-
             /**
              * 
              */

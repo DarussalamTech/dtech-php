@@ -21,7 +21,7 @@ class UserIdentity extends CUserIdentity {
         //else if(!$user->validatePassword($this->password))
         else if (!$user->validatePassword($this->password, $user->user_password))
             $this->errorCode = self::ERROR_PASSWORD_INVALID;
-         else if ($user->status_id == '0')
+        else if ($user->status_id != '1')
             $this->errorCode = self::ERROR_PASSWORD_INVALID;
         else {
             
@@ -54,7 +54,7 @@ class UserIdentity extends CUserIdentity {
         $user = User::model()->find("user_email = '" . $this->username . "'");
         if ($user === null)
             $this->errorCode = self::ERROR_USERNAME_INVALID;
-        else if ($user->status_id == '0')
+        else if ($user->status_id != '1')
             $this->errorCode = self::ERROR_PASSWORD_INVALID;
         else {
             $this->id = $user->user_id;

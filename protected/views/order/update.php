@@ -22,12 +22,7 @@ if (!(Yii::app()->user->isGuest)) {
     <div class="row">
         <?php echo $form->label($model, 'status'); ?>
         <?php
-        echo $form->dropDownList($model, 'status', array(
-            'pending' => "pending",
-            'process' => "process",
-            'completed' => "completed",
-            'declined' => "declined",
-                )
+        echo $form->dropDownList($model, 'status',Status::model()->gettingOrderStatus()
         );
         ?>
     </div>

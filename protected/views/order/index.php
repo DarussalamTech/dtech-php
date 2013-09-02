@@ -71,6 +71,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
     'dataProvider' => $model->search(),
     'filter' => $model,
     'columns' => array(
+        'order_id',
         array(
             'name' => 'user_id',
             'value' => '!empty($data->user->user_email)?$data->user->user_email:""',

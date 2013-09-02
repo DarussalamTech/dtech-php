@@ -21,7 +21,7 @@ class Order extends DTActiveRecord {
      * listing status will contain dropdown list for 
      * @var type 
      */
-    public $listing_status,$notifyUser;
+    public $listing_status, $notifyUser;
 
     /**
      * Returns the static model of the specified AR class.
@@ -86,6 +86,7 @@ class Order extends DTActiveRecord {
             'user' => array(self::BELONGS_TO, 'User', 'user_id'),
             'orderDetails' => array(self::HAS_MANY, 'OrderDetail', 'order_id'),
             'order_history' => array(self::HAS_MANY, 'OrderHistory', 'order_id'),
+            'order_status' => array(self::BELONGS_TO, 'Status', 'status', 'condition' => 'module="Order"'),
             'paymentMethod' => array(self::BELONGS_TO, 'ConfPaymentMethods', 'payment_method_id'),
         );
     }
@@ -131,8 +132,8 @@ class Order extends DTActiveRecord {
          * form is sending different format
          * dats y we are converting
          */
-        $this->order_date = !empty($this->order_date)?DTFunctions::dateFormatForSave($this->order_date):"";
-        
+        $this->order_date = !empty($this->order_date) ? DTFunctions::dateFormatForSave($this->order_date) : "";
+
         $criteria->compare('order_id', $this->order_id);
         $criteria->compare('user_id', $this->user_id);
         $criteria->compare('total_price', $this->total_price, true);
@@ -156,13 +157,13 @@ class Order extends DTActiveRecord {
         $this->manangeAdminElements();
         parent::afterFind();
     }
+
     /**
      * 
      */
     public function afterSave() {
         $this->generateAudit();
         return parent::afterSave();
-        
     }
 
     /**
@@ -171,12 +172,7 @@ class Order extends DTActiveRecord {
      */
     public function manangeAdminElements() {
         if ($this->isAdmin) {
-            $this->listing_status = CHtml::activeDropDownList($this, 'status', array(
-                        'pending' => "pending",
-                        'process' => "process",
-                        'completed' => "completed",
-                        'declined' => "declined",
-            ));
+            $this->listing_status = CHtml::activeDropDownList($this, 'status', Status::model()->gettingOrderStatus());
         }
     }
 
@@ -208,11 +204,12 @@ class Order extends DTActiveRecord {
             ProductProfile::model()->updateByPk($orderDet->product_profile->id, array('quantity' => $stock));
         }
     }
+
     /**
      * purpose of this function to call 
      * and save the order history
      */
-    public function generateAudit(){
+    public function generateAudit() {
         $order_h = new OrderHistory;
         $order_h->order_id = $this->order_id;
         $order_h->user_id = Yii::app()->user->id;
@@ -220,11 +217,10 @@ class Order extends DTActiveRecord {
         /**
          * for front end site
          */
-        if($this->isAdmin){
-            
+        if ($this->isAdmin) {
+
             $order_h->is_notify_customer = $this->notifyUser;
-        }
-        else {
+        } else {
             $order_h->is_notify_customer = 1;
         }
         $order_h->save();

@@ -49,7 +49,7 @@ class UserController extends Controller {
             if ($model->site_id == NULL && $model->role_id == NULL && $model->status_id == NULL) {
                 $model->site_id = Yii::app()->session['site_id'];
                 $model->role_id = '3';
-                $model->status_id = '0';
+                $model->status_id = Status::model()->gettingInactive();
                 $model->city_id = Yii::app()->session['city_id'];
             }
 
