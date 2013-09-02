@@ -30,7 +30,7 @@
         <?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save', array("class" => "btn"));
         ?>
         <?php
-        echo CHtml::link("Cancel", array("index"));
+        echo CHtml::link("Cancel", array("load","m"=>"Products"));
         ?>
     </div>
 
