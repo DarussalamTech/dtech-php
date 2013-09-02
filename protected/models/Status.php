@@ -114,5 +114,15 @@ class Status extends DTActiveRecord {
         $status = Status::model()->find($criteria);
         return $status->id;
     }
+    /**
+     * getting pending order status
+     * 
+     */
+    public function gettingPending() {
+        $criteria = new CDbCriteria;
+        $criteria->addCondition("module = 'Order' AND title ='Pending'");
+        $status = Status::model()->find($criteria);
+        return $status->id;
+    }
 
 }

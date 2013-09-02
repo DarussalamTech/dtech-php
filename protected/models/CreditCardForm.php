@@ -148,7 +148,7 @@ class CreditCardForm extends CFormModel {
         $order->order_date = date('Y-m-d');
         $order->city_id = $_REQUEST['city_id'];
         $order->transaction_id = $transaction_id;
-
+       
 
         $confM = ConfPaymentMethods::model()->find("name = '" . $this->payment_method . "'");
         $order->payment_method_id = $confM->id;
