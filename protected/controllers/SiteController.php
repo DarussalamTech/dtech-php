@@ -304,13 +304,14 @@ class SiteController extends Controller {
                     $_REQUEST['city_id'] = Yii::app()->user->user->city_id;
                     Yii::app()->user->SiteSessions;
                     Yii::app()->session['isSuper'] = 1;
-
+                    $this->isAdminSite = true;
                     $this->redirect($this->createUrl('/user/index'));
                 } else if (Yii::app()->user->isAdmin) {
 
                     $_REQUEST['city_id'] = Yii::app()->user->user->city_id;
+                    
                     Yii::app()->user->SiteSessions;
-
+                    $this->isAdminSite = true;
                     $this->redirect($this->createUrl('/product/index'));
                 } else if (Yii::app()->user->isCustomer) {
                     $cart = new Cart();
@@ -571,9 +572,20 @@ class SiteController extends Controller {
     public function actionChangeLang() {
         $url = Yii::app()->request->getUrlReferrer();
 
+
         if (isset($_POST['lang_h'])) {
+            /**
+             * get old language
+             */
+            $prev_lang = !empty(Yii::app()->session['current_lang'])?Yii::app()->session['current_lang']:$this->currentLang;
+
+            /**
+             * setting new language
+             */
             Yii::app()->session['current_lang'] = $_POST['lang_h'];
+            $url = str_replace("/" . $prev_lang . "/", "/" . Yii::app()->session['current_lang'] . "/", $url);
         }
+
         $this->redirect($url);
     }
 
