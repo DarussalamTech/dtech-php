@@ -177,3 +177,8 @@ input[type=button],input[type=submit] {
     height: 16px;
 
 }
+.flash-done{
+    color: red;
+    margin-left: 245px;
+    margin-top: 15px;
+}
