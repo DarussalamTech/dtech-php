@@ -35,6 +35,13 @@ $('.search-form form').submit(function(){
     If Order Status changes Pending or Process to Shipped = Then Quantity will be decreased to Products
     <br/>
     Completed , Declined or neutral
+
+    <br/><br/>
+
+    Pending > Shipped = Decrease in stock<br/>
+    Pending >Process> Shipped = Decrease in stock<br/>
+    Shipped > Refund = Increase in stock<br/>
+    Shipped > Cancel = Increase in stock<br/>
 </p>
 
 <?php
@@ -86,6 +93,12 @@ $this->widget('zii.widgets.grid.CGridView', array(
         ),
         array(
             'name' => 'status',
+            'value' => '$data->order_status->title',
+            'type' => 'raw',
+            
+        ),
+        array(
+            'header' => 'Change',
             'value' => '$data->listing_status',
             'type' => 'raw',
             'visible' => $this->OpPermission['Order.Update'] == true ? true : false,

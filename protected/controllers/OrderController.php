@@ -49,20 +49,25 @@ class OrderController extends Controller {
         if (isset($_GET['OrderDetail'])) {
             $model_d->attributes = $_GET['Order'];
         }
-        $order_history = $this->manageOderHistory($model_d);
+
+        $orderStatuses = Status::model()->gettingOrderStatus();
+
+        $order_history = $this->manageOderHistory($model_d, $orderStatuses);
         $this->render('view', array(
             'model' => $model,
             'model_d' => $model_d,
-            'order_history' => $order_history
+            'order_history' => $order_history,
+            'orderStatuses' => $orderStatuses
         ));
     }
+
     /**
      * print the statment
      * @param type $id
      */
-    public function actionPrint($id){
+    public function actionPrint($id) {
         $this->layout = "";
-       
+
         $model = $this->loadModel($id);
 
         /**
@@ -80,15 +85,16 @@ class OrderController extends Controller {
             'model' => $model,
             'model_d' => $model_d,
             'order_history' => $order_history
-        ),false,false);
+                ), false, false);
     }
 
     /**
      * manage order history for 
      * in admin panel
      * that wll trakc the order
+     * all $orderStatuses;
      */
-    public function manageOderHistory($order) {
+    public function manageOderHistory($order, $orderStatuses) {
         $orderHistory = new OrderHistory();
 
         $orderHistory->user_id = Yii::app()->user->id;
@@ -101,6 +107,8 @@ class OrderController extends Controller {
                 $old_status = $order->order->status;
                 Order::model()->updateByPk($order->order_id, array("status" => $orderHistory->status));
                 $order = Order::model()->findByPk($order->order_id);
+
+
 
                 $this->manageStock($old_status, $order);
                 if ($orderHistory->is_notify_customer == 1) {
@@ -126,13 +134,17 @@ class OrderController extends Controller {
         $model = $this->loadModel($id);
 
         $old_status = $model->status;
+        
 
         if (isset($_POST['Order'])) {
             $model->attributes = $_POST['Order'];
 
             $model->updateByPk($id, array("status" => $model->status, "update_time" => new CDbExpression('NOW()')));
             $model->generateAudit();
-            $this->manageStock($old_status, $model);
+
+            
+
+            $this->manageStock($old_status, $model, $model->all_status);
             if ($model->notifyUser == 1) {
                 $this->sendStatusEmail($model, $old_status);
             }
@@ -146,6 +158,7 @@ class OrderController extends Controller {
         if (!isset($_POST['ajax'])) {
             $this->render('update', array(
                 'model' => $model,
+                
             ));
         }
     }
@@ -156,19 +169,16 @@ class OrderController extends Controller {
      *  while performing the task 
      * @param type $old_status
      * @param type $model
+     * @param $orderStatuses = Status::model()->gettingOrderStatus();
      */
-    public function manageStock($old_status, $model) {
-        
-        $orderStatuses = Status::model()->gettingOrderStatus();
-       
-        
+    public function manageStock($old_status, $model, $orderStatuses) {
+
         /*
          * check wether the order status is shipped or not
          * its old status is process or pending
          * by calling the function 
          */
-        if (($orderStatuses[$old_status] == "Process" || $orderStatuses[$old_status] == "Pending")
-                && $orderStatuses[$model->status] == 'Shipped') {
+        if (($orderStatuses[$old_status] == "Process" || $orderStatuses[$old_status] == "Pending") && $orderStatuses[$model->status] == 'Shipped') {
             $model->decreaseStock();
             Yii::app()->user->setFlash("status", "Your products stock has been updated (Decreased)");
         }
@@ -177,9 +187,9 @@ class OrderController extends Controller {
          * Logic to proces when an order is canceld  
          * and its last status is completed
          */
-       
-        if ($orderStatuses[$old_status] == "Shipped" && 
-            ($orderStatuses[$model->status] == 'Canceled' || $orderStatuses[$model->status] == 'Refunded')) {
+
+        if ($orderStatuses[$old_status] == "Shipped" &&
+                ($orderStatuses[$model->status] == 'Canceled' || $orderStatuses[$model->status] == 'Refunded')) {
             $model->increaseStock();
             Yii::app()->user->setFlash("status", "Your products stock has been updated  (Increased)");
         }
@@ -195,9 +205,9 @@ class OrderController extends Controller {
      * old status changes to new 
      */
     public function sendStatusEmail($model, $oldStatus, $comments = "") {
-        
+
         $orderStatuses = Status::model()->gettingOrderStatus();
-        
+
         $email['To'] = $model->user->user_email;
         $email['From'] = Yii::app()->params['adminEmail'];
         $email['Subject'] = "Order has been changed ";
@@ -227,36 +237,34 @@ class OrderController extends Controller {
             if ($order_detail->quantity <= $productProfile->quantity) {
 
                 OrderDetail::model()->updateByPk($id, array("quantity" => $order_detail->quantity));
-            }
-            else {
+            } else {
                 echo "None";
             }
         }
     }
+
     /**
      * update address for shipping 
      * and billing
      */
-    public function actionUpdateuseraddress($id,$model){
+    public function actionUpdateuseraddress($id, $model) {
         $addressModel = $model::model()->findByPk($id);
         $regionList = CHtml::listData(Region::model()->findAll(), 'id', 'name');
         /**
          * 
          */
-        if(isset($_POST[$model])){
+        if (isset($_POST[$model])) {
             $addressModel->attributes = $_POST[$model];
-            if($addressModel->save()){
-                $this->redirect($this->createUrl("/order/updateuseraddress",array("id"=>$id,"model"=>$model)));
+            if ($addressModel->save()) {
+                $this->redirect($this->createUrl("/order/updateuseraddress", array("id" => $id, "model" => $model)));
             }
         }
-        
-        $this->renderPartial("_change_billing_shipping",
-                array(
-                    "model"=>$addressModel,
-                    'regionList' => $regionList,
-                    "address"=>$model
-                ),false,true);
-        
+
+        $this->renderPartial("_change_billing_shipping", array(
+            "model" => $addressModel,
+            'regionList' => $regionList,
+            "address" => $model
+                ), false, true);
     }
 
     /**
@@ -281,8 +289,10 @@ class OrderController extends Controller {
         if (isset($_GET['Order']))
             $model->attributes = $_GET['Order'];
 
+
         $this->render('index', array(
             'model' => $model,
+           
         ));
     }
 
@@ -297,8 +307,7 @@ class OrderController extends Controller {
         $this->renderPartial('_order_detail', array(
             'model' => $model,
             'user_name' => $_POST['username'],
-           
-        ) ,false,true);
+                ), false, true);
         Yii::app()->end();
     }
 

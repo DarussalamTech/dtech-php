@@ -13,9 +13,6 @@
     ));
     ?>
 
-
-
-
     <div class="row">
         <?php echo $form->label($model, 'total_price'); ?>
         <?php echo $form->textField($model, 'total_price', array('size' => 10, 'maxlength' => 10)); ?>
@@ -42,14 +39,7 @@
     <div class="row">
         <?php echo $form->label($model, 'status'); ?>
         <?php
-        echo $form->dropDownList($model, 'status', array(
-            '' => "all",
-            'process' => "process",
-            'approved' => "approved",
-            'completed' => "completed",
-            'declined' => "declined",
-                )
-        );
+            echo $form->dropDownList($model, 'status', array(""=>"All")+Status::model()->gettingOrderStatus());
         ?>
     </div>
 

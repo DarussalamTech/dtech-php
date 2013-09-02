@@ -17,8 +17,7 @@
     <div class="row">
         <?php echo $form->label($model, 'status'); ?>
         <?php
-        echo $form->dropDownList($model, 'status', Status::model()->gettingOrderStatus()
-        );
+         echo $order->listing_status;
         ?>
     </div>
     <div class="row">

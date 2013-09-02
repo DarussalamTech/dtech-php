@@ -21,7 +21,7 @@ class Order extends DTActiveRecord {
      * listing status will contain dropdown list for 
      * @var type 
      */
-    public $listing_status, $notifyUser;
+    public $listing_status, $notifyUser, $all_status;
 
     /**
      * Returns the static model of the specified AR class.
@@ -99,8 +99,8 @@ class Order extends DTActiveRecord {
 
     public function beforeSave() {
         $this->city_id = Yii::app()->session['city_id'];
-        
-        if(!$this->isAdmin){
+
+        if (!$this->isAdmin) {
             $this->status = Status::model()->gettingPending();
         }
         return parent::beforeSave();
@@ -174,7 +174,15 @@ class Order extends DTActiveRecord {
      */
     public function manangeAdminElements() {
         if ($this->isAdmin) {
-            $this->listing_status = CHtml::activeDropDownList($this, 'status', Status::model()->gettingOrderStatus());
+            $this->all_status = Status::model()->gettingOrderStatus();
+            $dropDownStatus = $this->all_status;
+            /*             * *
+             * current status shudnt be the part
+             * of dropdown
+             */
+            unset($dropDownStatus[$this->status]);
+            $dropDownStatus = $this->makeStatusBizRule($dropDownStatus);
+            $this->listing_status = CHtml::activeDropDownList($this, 'status', $dropDownStatus);
         }
     }
 
@@ -215,9 +223,9 @@ class Order extends DTActiveRecord {
         $order_h = new OrderHistory;
         $order_h->order_id = $this->order_id;
         $order_h->user_id = Yii::app()->user->id;
-      
+
         $order_h->status = $this->status;
-     
+
         /**
          * for front end site
          */
@@ -228,6 +236,49 @@ class Order extends DTActiveRecord {
             $order_h->is_notify_customer = 1;
         }
         $order_h->save();
+    }
+
+    /**
+     * some biz rules to avoid duplication
+     * of orders stock entry
+     * to avoid
+     * @param $dropDownStatus
+     * 
+     */
+    public function makeStatusBizRule($dropDownStatus) {
+
+        switch ($this->all_status[$this->status]) {
+            case "Canceled":
+                /**
+                 * no shipping and completed here
+                 */
+                if (isset($dropDownStatus[array_search("Shipped", $this->all_status)]))
+                    unset($dropDownStatus[array_search("Shipped", $this->all_status)]);
+                if (isset($dropDownStatus[array_search("Completed", $this->all_status)]))
+                    unset($dropDownStatus[array_search("Completed", $this->all_status)]);
+                break;
+            case "Refunded":
+                /**
+                 * no shipping and completed here
+                 */
+                if (isset($dropDownStatus[array_search("Shipped", $this->all_status)]))
+                    unset($dropDownStatus[array_search("Shipped", $this->all_status)]);
+                if (isset($dropDownStatus[array_search("Completed", $this->all_status)]))
+                    unset($dropDownStatus[array_search("Completed", $this->all_status)]);
+
+                break;
+            case "Shipped":
+                /**
+                 * no shipping and completed here
+                 */
+                if (isset($dropDownStatus[array_search("Pending", $this->all_status)]))
+                    unset($dropDownStatus[array_search("Pending", $this->all_status)]);
+                if (isset($dropDownStatus[array_search("Process", $this->all_status)]))
+                    unset($dropDownStatus[array_search("Process", $this->all_status)]);
+                break;
+        }
+
+        return $dropDownStatus;
     }
 
 }

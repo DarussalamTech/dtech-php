@@ -47,6 +47,13 @@ if (Yii::app()->user->hasFlash('status')) {
     If Order Status changes Pending or Process to Shipped = Then Quantity will be decreased to Products
     <br/>
     Completed , Declined or neutral
+
+    <br/><br/>
+
+    Pending > Shipped = Decrease in stock<br/>
+    Pending >Process> Shipped = Decrease in stock<br/>
+    Shipped > Refund = Increase in stock<br/>
+    Shipped > Cancel = Increase in stock<br/>
 </p>
 
 <div class="clear"></div>
@@ -60,8 +67,12 @@ if (Yii::app()->user->hasFlash('status')) {
                 'name' => 'user_id',
                 'value' => !empty($model->user->user_email) ? $model->user->user_email : "",
             ),
-            'transaction_id',
-             array('status', 'value' => $model->order_status->title),
+            array(
+                'name' => 'transaction_id',
+                'value' => $model->transaction_id,
+                'visible' => !empty($model->transaction_id) ? true : false,
+            ),
+            array('name' => 'status', 'value' => $model->order_status->title),
             'order_date',
             'update_time',
             'total_price',
@@ -82,7 +93,10 @@ if (Yii::app()->user->hasFlash('status')) {
     if ($this->OpPermission['Order.Update'] == true) {
         $this->widget('zii.widgets.jui.CJuiTabs', array(
             'tabs' => array(
-                'Order Status Change' => $this->renderPartial("_order_status_change", array("model" => $order_history,), true, true), 'Order History' => $this->renderPartial("_order_status_grid", array("model" => $model), true, true)
+                'Order Status Change' => $this->renderPartial("_order_status_change", array(
+                    "model" => $order_history,
+                    "order" => $model,
+                        ), true, true), 'Order History' => $this->renderPartial("_order_status_grid", array("model" => $model), true, true)
             ),
             'options' => array(),
         ));
