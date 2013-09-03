@@ -102,7 +102,7 @@ class OrderController extends Controller {
 
         if (isset($_POST['OrderHistory'])) {
             $orderHistory->attributes = $_POST['OrderHistory'];
- 
+
 
             if ($orderHistory->save()) {
                 $old_status = $order->order->status;
@@ -111,7 +111,7 @@ class OrderController extends Controller {
 
 
 
-                $this->manageStock($old_status, $order,$orderStatuses);
+                $this->manageStock($old_status, $order, $orderStatuses);
                 if ($orderHistory->is_notify_customer == 1) {
                     /**
                      * if admin wants to comments in email then this comment
@@ -135,7 +135,7 @@ class OrderController extends Controller {
         $model = $this->loadModel($id);
 
         $old_status = $model->status;
-        
+
 
         if (isset($_POST['Order'])) {
             $model->attributes = $_POST['Order'];
@@ -143,7 +143,7 @@ class OrderController extends Controller {
             $model->updateByPk($id, array("status" => $model->status, "update_time" => new CDbExpression('NOW()')));
             $model->generateAudit();
 
-            
+
 
             $this->manageStock($old_status, $model, $model->all_status);
             if ($model->notifyUser == 1) {
@@ -159,7 +159,6 @@ class OrderController extends Controller {
         if (!isset($_POST['ajax'])) {
             $this->render('update', array(
                 'model' => $model,
-                
             ));
         }
     }
@@ -247,6 +246,50 @@ class OrderController extends Controller {
     }
 
     /**
+     * revert the line item to product
+     * @param type $id
+     */
+    public function actionRevertlineItem($id) {
+
+        $model = OrderDetail::model()->findByPk($id);
+        /**
+         * send back form will treate to send this product
+         * to revert
+         */
+        $sendBackForm = new SendBackStock();
+        $sendBackForm->order_quantity = $model->quantity;
+        $sendBackForm->back_quanity = $model->quantity;
+        
+        if(isset($_POST['SendBackStock'])){           
+            $sendBackForm->attributes = $_POST['SendBackStock'];
+            if($sendBackForm->validate()){
+                $available_quantity = $sendBackForm->order_quantity - $sendBackForm->back_quanity;
+                OrderDetail::model()->updateByPk($id, array("quantity" => $available_quantity));
+                $orderDetail = OrderDetail::model()->findByPk($id);
+                /**
+                 * senback to stock dats y 
+                 */
+                /**
+                 * if both quanity are equal then product is fully reverted
+                 */
+                if($sendBackForm->order_quantity == $sendBackForm->back_quanity){
+                    $orderDetail->saveOrderDetailHistory(1);
+                }
+                else {
+                     $orderDetail->saveOrderDetailHistory();
+                }
+                
+                ProductProfile::model()->updateStock($sendBackForm->back_quanity, $orderDetail->product_profile_id);
+            }
+        }
+        
+        $this->renderPartial("_stock", array(
+            "model" => $model,
+            'sendBackForm' => $sendBackForm,
+                ), false, true);
+    }
+
+    /**
      * update address for shipping 
      * and billing
      */
@@ -295,7 +338,6 @@ class OrderController extends Controller {
 
         $this->render('index', array(
             'model' => $model,
-           
         ));
     }
 

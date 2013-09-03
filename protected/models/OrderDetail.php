@@ -15,7 +15,9 @@
  */
 class OrderDetail extends DTActiveRecord {
 
-    public $totalOrder, $total_price ,$stock,$user_quantity;
+    public $totalOrder, $total_price,
+            $stock, $reverted_to_stock,
+            $user_quantity, $revert_cancel, $product_image;
 
     /**
      * used for deleting
@@ -54,7 +56,7 @@ class OrderDetail extends DTActiveRecord {
             array('product_price', 'length', 'max' => 10),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('cart_id', 'safe'),
+            array('reverted_to_stock,cart_id', 'safe'),
             array('user_order_id, order_id, product_profile_id, product_price', 'safe', 'on' => 'search'),
         );
     }
@@ -154,8 +156,6 @@ class OrderDetail extends DTActiveRecord {
 
         return $dataProvider;
     }
-    
-
 
     /**
      * get Featured Products
@@ -354,28 +354,60 @@ class OrderDetail extends DTActiveRecord {
     public function afterFind() {
         $this->total_price = $this->product_price * $this->quantity;
         $this->stock = $this->product_profile->quantity;
-        
+
+
         /**
          * used to set text field for admin area of 
          * order detail page
          */
+         $this->reverted_to_stock = $this->isRevertedToStock();
+         if(!$this->reverted_to_stock){
+              $this->revert_cancel = CHtml::link("Revert/Cancel", Yii::app()->controller->createUrl("/order/revertlineItem", array("id" => $this->user_order_id,)), array("class" => "cancel_revert"));
+              
+         /**
+         * used to set text field for admin area of 
+         * order detail page
+         */
         $this->user_quantity = CHtml::textField(
-                                          'quantity',$this->quantity,
-                                          array("style"=>"width:40px")
-                )." ".CHtml::link("Update",
-                        Yii::app()->controller->createUrl("/order/orderProductQuantity",array("id"=>$this->user_order_id)),
-                        array("onclick"=>"dtech.updateOrderProductQuantity(this);return false"));
+                        'quantity', $this->quantity, array("style" => "width:40px")
+                ) . " " . CHtml::link("Update", Yii::app()->controller->createUrl("/order/orderProductQuantity", array("id" => $this->user_order_id)), array("onclick" => "dtech.updateOrderProductQuantity(this);return false"));
+         }
+         else{
+             $this->revert_cancel = "Reverted";
+             $this->user_quantity = $this->quantity;
+         }
+        
+        
+        
+       
         parent::afterFind();
     }
+
     /**
      * save order detail history
      * for loging information
      */
-    public function saveOrderDetailHistory(){
+    public function saveOrderDetailHistory($is_reverted = 0) {
         $modelOrder = new OrderHistoryDetail;
         $modelOrder->order_detail_id = $this->user_order_id;
         $modelOrder->quantity = $this->quantity;
+        if ($is_reverted == 1) {
+            $modelOrder->reverted_to_stock = $is_reverted;
+        }
         $modelOrder->save();
+    }
+
+    /**
+     * is reverted to find 
+     */
+    public function isRevertedToStock() {
+        $criteria = new CDbCriteria;
+        $criteria->select = "reverted_to_stock";
+        $criteria->addCondition("order_detail_id=" . $this->user_order_id);
+        $criteria->order = "id DESC";
+        $history = OrderHistoryDetail::model()->find($criteria);
+
+        return $history->reverted_to_stock;
     }
 
 }

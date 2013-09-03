@@ -7,6 +7,10 @@ $user_id = Yii::app()->user->id;
 if (Yii::app()->user->isAdmin || Yii::app()->user->isSuperAdmin) {
     $this->renderPartial("/common/_left_menu");
 }
+/**
+ * 
+ */
+ColorBox::generate("cancel_revert");
 
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
@@ -35,9 +39,10 @@ echo CHtml::closeTag("div");
 
 <?php
 
-$this->widget('zii.widgets.grid.CGridView', array(
+$this->widget('DtGridView', array(
     'id' => 'order-detail-grid',
     'dataProvider' => $model->search(),
+    'rowCssClassExpression'=>'($data->reverted_to_stock)?"reveted":""',
     //'filter' => $model,
     'columns' => array(
         array(
@@ -105,6 +110,17 @@ $this->widget('zii.widgets.grid.CGridView', array(
             "htmlOptions" => array("class" => 'cart-ourprice'),
             'currencySymbol' => Yii::app()->session['currency'],
             'footer' => ''
+        ),
+        array(
+            'header' => 'Back to stock',
+            'type' => 'Raw',
+            'value' => '$data->revert_cancel',
+          
+            'visible' => $this->OpPermission['Order.Update'] == true?true:false,
+            'headerHtmlOptions' => array(
+                'style' => "text-align:left"
+            ),
+           
         ),
     ),
 ));
