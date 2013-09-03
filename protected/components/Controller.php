@@ -262,7 +262,7 @@ class Controller extends RController {
              * if menu category not present then page will be redirected again
              */
             if(!isset($this->menu_categories)){
-                $this->redirect(Yii::app()->request->url);
+                Yii::app()->user->SiteSessions;;
             }
             $this->currentLang = isset(Yii::app()->session['current_lang']) ? Yii::app()->session['current_lang'] : "en";
             //$this->configureTheme();
