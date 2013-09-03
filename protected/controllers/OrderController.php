@@ -238,6 +238,8 @@ class OrderController extends Controller {
             if ($order_detail->quantity <= $productProfile->quantity) {
 
                 OrderDetail::model()->updateByPk($id, array("quantity" => $order_detail->quantity));
+                $orderDetail = OrderDetail::model()->findByPk($id);
+                $orderDetail->saveOrderDetailHistory();
             } else {
                 echo "None";
             }

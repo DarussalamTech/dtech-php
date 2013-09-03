@@ -68,6 +68,7 @@ class OrderDetail extends DTActiveRecord {
         return array(
             'product_profile' => array(self::BELONGS_TO, 'ProductProfile', 'product_profile_id'),
             'order' => array(self::BELONGS_TO, 'Order', 'order_id'),
+            'order_detail_history' => array(self::HAS_MANY, 'OrderHistoryDetail', 'order_detail_id'),
         );
     }
 
@@ -343,7 +344,7 @@ class OrderDetail extends DTActiveRecord {
         if (!empty($this->cart_id)) {
             Cart::model()->findByPk($this->cart_id)->delete();
         }
-
+        $this->saveOrderDetailHistory();
         parent::afterSave();
     }
 
@@ -365,6 +366,16 @@ class OrderDetail extends DTActiveRecord {
                         Yii::app()->controller->createUrl("/order/orderProductQuantity",array("id"=>$this->user_order_id)),
                         array("onclick"=>"dtech.updateOrderProductQuantity(this);return false"));
         parent::afterFind();
+    }
+    /**
+     * save order detail history
+     * for loging information
+     */
+    public function saveOrderDetailHistory(){
+        $modelOrder = new OrderHistoryDetail;
+        $modelOrder->order_detail_id = $this->user_order_id;
+        $modelOrder->quantity = $this->quantity;
+        $modelOrder->save();
     }
 
 }
