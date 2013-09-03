@@ -22,4 +22,5 @@ $url_manager = array(
     'showScriptName' => true,
     'rules' => $rules
 );
+//$url_manager = array();
 ?>

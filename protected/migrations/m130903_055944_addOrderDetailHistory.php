@@ -16,7 +16,7 @@ class m130903_055944_addOrderDetailHistory extends DTDbMigration {
             'PRIMARY KEY  (`id`)');
         $this->createTable($table, $columns);
 
-        $this->addForeignKey("fk_" . $table, $table, 'order_detail_id', 'order_history', 'id');
+        $this->addForeignKey("fk_" . $table, $table, 'order_detail_id', 'order_detail', 'user_order_id');
     }
 
     public function down() {
