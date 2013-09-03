@@ -34,7 +34,7 @@ class EducationToys extends DTActiveRecord {
         // will receive user inputs.
         return array(
             array('price', 'required'),
-            array('product_id,attribute,attribute_value', 'safe'),
+            array('product_id,attribute,attribute_value,quantity,slag', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('attribute,attribute_value', 'safe', 'on' => 'search'),
