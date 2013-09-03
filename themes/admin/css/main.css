@@ -959,3 +959,7 @@ div.img_hover:hover
 .assign-link {
     color: green !important;
 }
+
+.grid-view table tr.reveted {
+    background: red !important;
+}
