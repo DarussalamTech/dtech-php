@@ -31,10 +31,10 @@
     <div class="login_img">
 
 
-        <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/login_t_img_03.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "twitter"))); ?>
-        <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/login_in_img_03.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "linkedin"))); ?>
-        <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/login_f_img_03.png", ''), $this->createUrl('/web/hybrid/login/', array("provider" => "facebook"))); ?>
-        <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/login_g_img_03.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "google"))); ?>
+        <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/login_t_img_03.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "twitter")),array("onclick" => "dtech.doSocial('login_frm',this);return false;")); ?>
+        <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/login_in_img_03.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "linkedin")),array("onclick" => "dtech.doSocial('login_frm',this);return false;")); ?>
+        <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/login_f_img_03.png", ''), $this->createUrl('/web/hybrid/login/', array("provider" => "facebook")),array("onclick" => "dtech.doSocial('login_frm',this);return false;")); ?>
+        <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/login_g_img_03.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "google")),array("onclick" => "dtech.doSocial('login_frm',this);return false;")); ?>
     </div>
 
     <?php echo CHtml::submitButton(Yii::t('header_footer', 'User Login', array(), NULL, $this->currentLang), array("class" => "user_login_btn")); ?>
