@@ -111,7 +111,7 @@ input[type=button],input[type=submit] {
 }
 
 
-.banner_dots { overflow: hidden; zoom: 1; position: relative; }
+.banner_dots { overflow: hidden; zoom: 1; position: relative;  margin: 45px 0 0 130px; }
 .banner_dots a{ text-decoration: none; outline: none; border: none; cursor: inherit; }
 #cs-buttons-coin,#cs-navigation-coin {cursor: pointer}
 .banner_dots { font-size: 0px; padding: 10px; clear:  left; }
@@ -188,4 +188,16 @@ input[type=button],input[type=submit] {
     font-size: 22px;
     margin: 0;
     padding: 8px 0 5px;
+}
+
+.right_banner p {
+    color: #FFFFFF;
+    font-family: Segoe,"Segoe UI","DejaVu Sans","Trebuchet MS",Verdana,sans-serif;
+    font-size: 27px;
+    height: 172px;
+    line-height: 30px;
+    margin: 0;
+    padding: 0;
+    text-align: justify;
+    width: 450px;
 }
