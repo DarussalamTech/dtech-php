@@ -106,6 +106,7 @@ $this->setTotalAmountSession($grand_total, $total_quantity, "");
         jQuery(document).mouseup(function() {
             if (!mouse_is_inside_wishlist)
                 jQuery('.cart_bx').hide();
+            jQuery('.cart_arrow img').attr('src', jQuery('#cart_click').attr("unhover"));
         });
     });
 
