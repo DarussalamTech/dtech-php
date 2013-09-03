@@ -27,7 +27,7 @@
 
 .detail_shop_now input[type="button"]:first-child { margin: 0; }
 
-.center_detail { width:900px; padding: 5px 10px; margin: 10px 20px 0 20px; border-bottom: 1px solid #b7b7b7; float:left; }
+.center_detail { width:900px; padding: 5px 10px; margin: 10px 0px 0 0px; border-bottom: 0px solid #b7b7b7; float:left; }
 
 .center_detail p { padding: 0; margin: 0; color:#575757; font-size:15px; font-family:"Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, sans-serif; }
 
@@ -62,4 +62,8 @@
 }
 .right_bottom_detail textarea[readonly='readonly'] {
     background: #EBEBEB;
+}
+.border_detail{
+    border-bottom: 1px solid #B7B7B7;
+    padding-bottom: 17px;
 }
