@@ -1,10 +1,8 @@
 <div class="center_detail">
     <p>
         <?php
-        echo Yii::t('model_labels', 'Title', array(), NULL, $this->currentLang) . ":";
-        ?>
-        <?php
         if (!empty($product->productProfile[0]->title)) {
+            echo Yii::t('model_labels', 'Title', array(), NULL, $this->currentLang) . ":";
             echo $product->productProfile[0]->title;
         }
         ?>
@@ -71,6 +69,14 @@
         echo isset($product->productProfile[0]->item_code) ? $product->productProfile[0]->item_code : "";
         ?>
     </p>
+</p>
+<p> 
+    <?php
+    echo Yii::t('model_labels', 'Author', array(), NULL, $this->currentLang) . ":";
+    ?>
+    <?php
+    echo isset($product->author->author_name) ? $product->author->author_name : "";
+    ?>
 </p>
 <p> 
     <?php
