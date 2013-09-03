@@ -10,6 +10,7 @@
  * @property integer $order_id
  * @property string $status
  * @property string $is_notify_customer
+ * @property string $service_charges 	
  * @property string $create_time
  * @property string $create_user_id
  * @property string $update_time
@@ -47,9 +48,10 @@ class OrderHistory extends DTActiveRecord {
         return array(
             array('user_id, order_id, status, create_time, create_user_id, update_time, update_user_id', 'required'),
             array('user_id, order_id', 'numerical', 'integerOnly' => true),
+            array('service_charges', 'numerical', 'integerOnly' => true),
             array('status', 'length', 'max' => 9),
             array('create_user_id, update_user_id', 'length', 'max' => 11),
-            array('include_comment,is_notify_customer,comment', 'safe'),
+            array('service_charges,include_comment,is_notify_customer,comment', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, comment, user_id, order_id, status, create_time, create_user_id, update_time, update_user_id', 'safe', 'on' => 'search'),

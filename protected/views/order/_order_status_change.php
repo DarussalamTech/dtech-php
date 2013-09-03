@@ -42,6 +42,12 @@
         echo $form->checkBox($model, 'include_comment');
         ?>
     </div>
+    <div class="row">
+        <?php echo $form->label($model, 'service_charges'); ?>
+        <?php
+        echo $form->textField($model, 'service_charges');
+        ?>
+    </div>
 
     <div class="row buttons">
         <?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save', array("class" => "btn")); ?>

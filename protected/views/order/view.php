@@ -77,6 +77,7 @@ if (Yii::app()->user->hasFlash('status')) {
             'update_time',
             'total_price',
             array('name' => 'currency', 'value' => Yii::app()->session["currency"]),
+            'service_charges',
             array(
                 'name' => 'payment_method_id',
                 'value' => !empty($model->paymentMethod->name) ? $model->paymentMethod->name : "",
