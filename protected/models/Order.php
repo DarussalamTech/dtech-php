@@ -21,7 +21,7 @@ class Order extends DTActiveRecord {
      * listing status will contain dropdown list for 
      * @var type 
      */
-    public $listing_status, $notifyUser, $all_status;
+    public $listing_status, $notifyUser, $all_status,$service_charges;
 
     /**
      * Returns the static model of the specified AR class.
@@ -51,7 +51,7 @@ class Order extends DTActiveRecord {
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
             array('total_price', 'length', 'max' => 10),
             array('order_date', 'length', 'max' => 255),
-            array('notifyUser,transaction_id,status,city_id', 'safe'),
+            array('service_charges,notifyUser,transaction_id,status,city_id', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('order_id, user_id, total_price, order_date', 'safe', 'on' => 'search'),
@@ -117,6 +117,7 @@ class Order extends DTActiveRecord {
             'order_date' => Yii::t('model_labels', 'Order Date', array(), NULL, Yii::app()->controller->currentLang),
             'update_time' => Yii::t('model_labels', 'Last modified', array(), NULL, Yii::app()->controller->currentLang),
             'status' => Yii::t('common', 'Status', array(), NULL, Yii::app()->controller->currentLang),
+            'service_charges' => Yii::t('common', 'Current Service Charges', array(), NULL, Yii::app()->controller->currentLang),
             'payment_method_id' => Yii::t('model_labels', 'Payment Method', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
@@ -176,6 +177,7 @@ class Order extends DTActiveRecord {
         if ($this->isAdmin) {
             $this->all_status = Status::model()->gettingOrderStatus();
             $dropDownStatus = $this->all_status;
+            $this->service_charges = $this->lastServiceCharges();
             /*             * *
              * current status shudnt be the part
              * of dropdown
@@ -276,9 +278,32 @@ class Order extends DTActiveRecord {
                 if (isset($dropDownStatus[array_search("Process", $this->all_status)]))
                     unset($dropDownStatus[array_search("Process", $this->all_status)]);
                 break;
+            case "Completed":
+                /**
+                 * no Completed and completed here
+                 */
+                if (isset($dropDownStatus[array_search("Pending", $this->all_status)]))
+                    unset($dropDownStatus[array_search("Pending", $this->all_status)]);
+                if (isset($dropDownStatus[array_search("Process", $this->all_status)]))
+                    unset($dropDownStatus[array_search("Process", $this->all_status)]);
+                if (isset($dropDownStatus[array_search("Shipped", $this->all_status)]))
+                    unset($dropDownStatus[array_search("Shipped", $this->all_status)]);
+                break;
         }
 
         return $dropDownStatus;
+    }
+   /**
+    * find max service charges 
+   */
+    public  function lastServiceCharges(){
+        $criteria = new CDbCriteria;
+        $criteria->select = "service_charges";
+        $criteria->addCondition("order_id=".$this->order_id);
+        $criteria->order = "id DESC";
+        $order = OrderHistory::model()->find($criteria);
+        
+        return $order->service_charges;
     }
 
 }

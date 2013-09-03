@@ -39,6 +39,11 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'value' => '$data->is_notify_customer ==1?"Yes":"No"',
             "type" => "raw",
         ),
+        array(
+            'name' => 'service_charges',
+            'value' => '$data->service_charges',
+            "type" => "raw",
+        ),
     ),
 ));
 ?>

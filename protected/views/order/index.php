@@ -95,7 +95,11 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'name' => 'status',
             'value' => '$data->order_status->title',
             'type' => 'raw',
-            
+        ),
+        array(
+            'name' => 'service_charges',
+            'value' => '$data->service_charges',
+            'type' => 'raw',
         ),
         array(
             'header' => 'Change',
