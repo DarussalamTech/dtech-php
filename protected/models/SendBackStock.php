@@ -5,7 +5,7 @@
  */
 class SendBackStock extends CFormModel {
 
-    public $order_quantity, $stock_quanity, $notify;
+    public $order_quantity, $back_quanity, $notify;
 
     /**
      * Declares the validation rules.
@@ -13,9 +13,9 @@ class SendBackStock extends CFormModel {
     public function rules() {
         return array(
            
-            array('order_quantity, stock_quanity', 'required'),
-            array('stock_quanity', 'compareStock'),
-            array('stock_quanity', 'numerical', 'integerOnly' => true),
+            array('order_quantity, back_quanity', 'required'),
+            array('back_quanity', 'compareStock'),
+            array('back_quanity', 'numerical', 'integerOnly' => true),
             array('notify','safe'),
     
         );
@@ -27,8 +27,8 @@ class SendBackStock extends CFormModel {
      */
     public function compareStock(){
         
-        if($stock_quanity>$this->order_quantity){
-            $this->addError("stock_quanity", "Should be equal or less then order quantity");
+        if($this->back_quanity>$this->order_quantity){
+            $this->addError("back_quanity", "Should be equal or less then order quantity");
         }
     }
     

@@ -354,4 +354,19 @@ class ProductProfile extends DTActiveRecord {
         }
     }
 
+    /**
+     * 
+     *  Product Profile
+     *  stock has been udpated
+     * @param type $new_quantity
+     * @param type $profile_id
+     */
+    public function updateStock($new_quantity, $profile_id) {
+
+        $connection = Yii::app()->db;
+        $sql = "UPDATE " . $this->tableName() . " t SET t.quantity=t.quantity+" . $new_quantity . " WHERE t.id = " . $profile_id;
+        $command = $connection->createCommand($sql);
+        $command->execute();
+    }
+
 }

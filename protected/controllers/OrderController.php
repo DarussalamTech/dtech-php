@@ -258,10 +258,29 @@ class OrderController extends Controller {
          */
         $sendBackForm = new SendBackStock();
         $sendBackForm->order_quantity = $model->quantity;
-        $sendBackForm->stock_quanity = $model->stock;
+        $sendBackForm->back_quanity = $model->quantity;
         
         if(isset($_POST['SendBackStock'])){           
             $sendBackForm->attributes = $_POST['SendBackStock'];
+            if($sendBackForm->validate()){
+                $available_quantity = $sendBackForm->order_quantity - $sendBackForm->back_quanity;
+                OrderDetail::model()->updateByPk($id, array("quantity" => $available_quantity));
+                $orderDetail = OrderDetail::model()->findByPk($id);
+                /**
+                 * senback to stock dats y 
+                 */
+                /**
+                 * if both quanity are equal then product is fully reverted
+                 */
+                if($sendBackForm->order_quantity == $sendBackForm->back_quanity){
+                    $orderDetail->saveOrderDetailHistory(1);
+                }
+                else {
+                     $orderDetail->saveOrderDetailHistory();
+                }
+                
+                ProductProfile::model()->updateStock($sendBackForm->back_quanity, $orderDetail->product_profile_id);
+            }
         }
         
         $this->renderPartial("_stock", array(

@@ -17,7 +17,10 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/packages/ju
     ));
     ?>
     <div class="error_status">
-        <?php
+     <?php
+            if($sendBackForm->hasErrors()){
+                echo "1";
+            }
         ?>
     </div>
     <div class="row">
@@ -41,13 +44,17 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/packages/ju
     endif;
     ?>
     <div class="row">
+        <?php echo $form->labelEx($model, 'stock'); ?>
+        <b><?php echo $model->stock; ?></b>
+    </div>
+    <div class="row">
         <?php echo $form->labelEx($sendBackForm, 'order_quantity'); ?>
         <b><?php echo $model->quantity; ?></b>
     </div>
     <div class="row">
-        <?php echo $form->labelEx($sendBackForm, 'stock_quanity'); ?>
-        <?php echo $form->textField($sendBackForm,'stock_quanity', array("style" => "width:100px")); ?>
-        <?php echo $form->error($sendBackForm,'stock_quanity'); ?>
+        <?php echo $form->labelEx($sendBackForm, 'back_quanity'); ?>
+        <?php echo $form->textField($sendBackForm,'back_quanity', array("style" => "width:100px")); ?>
+        <?php echo $form->error($sendBackForm,'back_quanity'); ?>
     </div>
     <div class="row">
         <?php echo $form->labelEx($sendBackForm, 'notify'); ?>
@@ -65,7 +72,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/packages/ju
                              $.ajax({
                                    type: "POST",
                                    url: jQuery("#revert_stock_form").attr("action"),
-                                   jQuery("#revert_stock_form").serialize(), , 
+                                   data: jQuery("#revert_stock_form").serialize(), 
                                    success: function(data)
                                    {
                                        jQuery("#cboxLoadedContent").html(data);

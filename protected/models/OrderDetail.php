@@ -16,7 +16,7 @@
 class OrderDetail extends DTActiveRecord {
 
     public $totalOrder, $total_price ,
-            $stock,
+            $stock,$reverted_to_stock, 	
             $user_quantity,$revert_cancel,$product_image;
 
     /**
@@ -56,7 +56,7 @@ class OrderDetail extends DTActiveRecord {
             array('product_price', 'length', 'max' => 10),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('cart_id', 'safe'),
+            array('reverted_to_stock,cart_id', 'safe'),
             array('user_order_id, order_id, product_profile_id, product_price', 'safe', 'on' => 'search'),
         );
     }
@@ -380,10 +380,13 @@ class OrderDetail extends DTActiveRecord {
      * save order detail history
      * for loging information
      */
-    public function saveOrderDetailHistory(){
+    public function saveOrderDetailHistory($is_reverted = 0){
         $modelOrder = new OrderHistoryDetail;
         $modelOrder->order_detail_id = $this->user_order_id;
         $modelOrder->quantity = $this->quantity;
+        if($is_reverted ==1){
+            $modelOrder->reverted_to_stock = $is_reverted;
+        }
         $modelOrder->save();
     }
 
