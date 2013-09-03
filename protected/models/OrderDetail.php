@@ -15,7 +15,9 @@
  */
 class OrderDetail extends DTActiveRecord {
 
-    public $totalOrder, $total_price ,$stock,$user_quantity;
+    public $totalOrder, $total_price ,
+            $stock,
+            $user_quantity,$revert_cancel,$product_image;
 
     /**
      * used for deleting
@@ -365,6 +367,13 @@ class OrderDetail extends DTActiveRecord {
                 )." ".CHtml::link("Update",
                         Yii::app()->controller->createUrl("/order/orderProductQuantity",array("id"=>$this->user_order_id)),
                         array("onclick"=>"dtech.updateOrderProductQuantity(this);return false"));
+        /**
+         * used to set text field for admin area of 
+         * order detail page
+         */
+        $this->revert_cancel = CHtml::link("Revert/Cancel",
+                        Yii::app()->controller->createUrl("/order/revertlineItem",array("id"=>$this->user_order_id,)),
+                        array("class"=>"cancel_revert"));
         parent::afterFind();
     }
     /**

@@ -7,6 +7,10 @@ $user_id = Yii::app()->user->id;
 if (Yii::app()->user->isAdmin || Yii::app()->user->isSuperAdmin) {
     $this->renderPartial("/common/_left_menu");
 }
+/**
+ * 
+ */
+ColorBox::generate("cancel_revert");
 
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
@@ -105,6 +109,16 @@ $this->widget('zii.widgets.grid.CGridView', array(
             "htmlOptions" => array("class" => 'cart-ourprice'),
             'currencySymbol' => Yii::app()->session['currency'],
             'footer' => ''
+        ),
+        array(
+            'header' => 'Back to stock',
+            'type' => 'Raw',
+            'value' => '$data->revert_cancel',
+            'visible' => $this->OpPermission['Order.Update'] == true?true:false,
+            'headerHtmlOptions' => array(
+                'style' => "text-align:left"
+            ),
+           
         ),
     ),
 ));
