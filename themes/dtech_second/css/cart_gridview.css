@@ -258,6 +258,10 @@ customized code
 /*    width: 100px;
     height: 100px;*/
 }
+.grid-view table tbody img.no_image {
+   
+    height: 75px;
+}
 .grid-view table tbody span.icon img{
     width: 16px;
     height: 16px;

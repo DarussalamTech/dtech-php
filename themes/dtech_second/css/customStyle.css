@@ -37,6 +37,10 @@ header {z-index: 1;}
 /*    height: 130px;
     width: 84px;*/
 }
+.featured_cover_part img.no_image {
+    height: 130px;
+    width: 84px;
+}
 .featured_cover_part h2{
     font-size: 15px;
 }

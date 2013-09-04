@@ -221,16 +221,19 @@ class Cart extends DTActiveRecord {
          */
         $this->price = isset($this->productProfile->price) ? $this->productProfile->price * $this->quantity : 0;
         $images = $this->productProfile->getImage();
+        $cssclass = "no_image";
         if (!empty($images[0] ['image_cart'])) {
             $this->image = $images[0] ['image_cart'];
+            $cssclass = "";
         } else {
             $this->image = $this->productProfile->product["no_image"];
+            $cssclass = "no_image";
         }
         $parent_cat = "Books";
         if (!empty($pro->productProfile->product->parent_category->category_name)) {
             $parent_cat = $pro->productProfile->product->parent_category->category_name;
         }
-        $this->image_link = CHtml::link(CHtml::image($this->image, $this->productProfile->product->product_name, array('title' => $this->productProfile->product->product_name)), Yii::app()->controller->createUrl('/web/product/productDetail', array(
+        $this->image_link = CHtml::link(CHtml::image($this->image, $this->productProfile->product->product_name, array('title' => $this->productProfile->product->product_name,"class"=>$cssclass)), Yii::app()->controller->createUrl('/web/product/productDetail', array(
                             'country' => Yii::app()->session['country_short_name'],
                             'city' => Yii::app()->session['city_short_name'],
                             'city_id' => Yii::app()->session['city_id'],

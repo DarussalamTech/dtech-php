@@ -3,8 +3,10 @@ foreach ($products as $product):
     $name = str_replace("_", " ", $product['product_name']);
 
     $image = $product['no_image'];
+    $cssclass = "no_image";
     if (isset($product['image'][0]['image_small'])) {
         $image = $product['image'][0]['image_small'];
+        $cssclass = "";
     }
     ?>
     <div class="featured_cover">
@@ -12,7 +14,7 @@ foreach ($products as $product):
 
             <?php
             //echo CHtml::link(CHtml::image($image, ""), $this->createUrl('/web/product/productDetail', array('product_id' => $product['product_id'])), array('title' => $name));
-            echo CHtml::link(CHtml::image($image, 'image', array("title" => "")), $this->createUrl('/web/product/productDetail', array(
+            echo CHtml::link(CHtml::image($image, 'image', array("title" => "","class"=>$cssclass)), $this->createUrl('/web/product/productDetail', array(
                         'country' => Yii::app()->session['country_short_name'],
                         'city' => Yii::app()->session['city_short_name'],
                         'city_id' => Yii::app()->session['city_id'],
