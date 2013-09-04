@@ -221,8 +221,8 @@ class Cart extends DTActiveRecord {
          */
         $this->price = isset($this->productProfile->price) ? $this->productProfile->price * $this->quantity : 0;
         $images = $this->productProfile->getImage();
-        if (!empty($images[0] ['image_small'])) {
-            $this->image = $images[0] ['image_small'];
+        if (!empty($images[0] ['image_cart'])) {
+            $this->image = $images[0] ['image_cart'];
         } else {
             $this->image = $this->productProfile->product["no_image"];
         }
