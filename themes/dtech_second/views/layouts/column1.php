@@ -98,7 +98,7 @@
                     <span>
                         <?php
                         if (!empty($data->slider->productProfile[0]->price)) {
-                            echo Yii::app()->session['currency'] . " " . $data->slider->productProfile[0]->price;
+                            echo Yii::app()->session['currency'] . " " . number_format($data->slider->productProfile[0]->price, 2, '.', '');
                         }
                         ?>
                     </span>
@@ -114,7 +114,25 @@
 </div>
 <div id="best_seller_tikker">
     <div id="best_seller_tikker_bar">
-        <p>Best Sellers Tikker bar</p>
+
+        <div class="best_book">
+            <p>Best Book:<?php
+                $order_detail = new OrderDetail;
+                $dataProvider = $order_detail->bestSellings('1');
+                $products = $order_detail->getBestSelling($dataProvider);
+                foreach ($products as $best) {
+                    echo CHtml::link($best['product_name'], $this->createUrl('/web/product/productDetail', array(
+                                'country' => Yii::app()->session['country_short_name'],
+                                'city' => Yii::app()->session['city_short_name'],
+                                'city_id' => Yii::app()->session['city_id'],
+                                "pcategory" => $best['category'],
+                                "slug" => $best['slug'],
+                    )));
+                    break;
+                }
+                ?></p>
+        </div>
+
     </div>
 </div>
 
