@@ -82,4 +82,12 @@
             <?php echo 'USD ' . Yii::app()->session['total_price']; ?>   
         </td>
     </tr>
+    <tr class="main_header">
+        <td class="right_td" style="width:255px; padding: 0; margin: 0; color:#888888; font-size:14px; line-height:17px;">
+            Click the link to view your orders:   
+        </td>
+        <td class="right_td" style="width:255px; padding: 0; margin: 0; color:black; font-size:14px; line-height:17px;font-weight: bold">
+            <?php echo CHtml::link('Order History', Yii::app()->request->hostInfo . $this->createUrl("/web/user/customerDetail",array("id"=>$order_id))); ?>   
+        </td>
+    </tr>
 </table>
