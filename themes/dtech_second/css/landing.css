@@ -7,11 +7,11 @@ a img { border:none; }
 
 body { padding: 0; margin: 0; width:100%; background:url(../images/landing_bg_03.jpg) repeat; }
 
-#landing_page { padding: 0; margin: 0 auto; width:960px; text-align:center; border-right: 1px solid #d4d4d4; border-left: 1px solid #d4d4d4; }
+#landing_page { padding: 0; margin: 0 auto; width:960px; text-align:center; border-right: 0px solid #d4d4d4; border-left: 0px solid #d4d4d4; }
 
 .landing_full_page { padding: 0; margin: 0; width:100%; float:left; }
 
-.bottom_landing { padding: 0; margin: 0 auto; width:960px; height:255px; border-right: 1px solid #d4d4d4; border-left: 1px solid #d4d4d4; }
+.bottom_landing { padding: 0; margin: 0 auto; width:960px; height:255px; border-right: 0px solid #d4d4d4; border-left: 0px solid #d4d4d4; }
 
 #landing_page a img { padding: 0; margin: 50px 0 30px 0; }
 

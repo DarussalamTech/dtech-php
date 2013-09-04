@@ -254,7 +254,7 @@ class Controller extends RController {
             /**
              * only in case of when city id is started
              */
-            if (isset(Yii::app()->session['city_id'])) {
+            if (isset(Yii::app()->session['city_id']) || isset($_REQUEST['city_id'])) {
                 $this->menu_categories = Categories::model()->getMenuCategories();
             }
            
