@@ -249,3 +249,11 @@
         <?php echo $this->renderPartial("//layouts/_footer") ?>
     </body>
 </html>
+<script type="text/javascript">
+            jQuery('.nav_hover').hover(function() {
+                jQuery('.cart_bx').hide();
+                jQuery('.login_bx').hide();
+                jQuery('.logout').hide();
+                jQuery('.cart_arrow img').attr('src', jQuery('#cart_click').attr("unhover"));
+            });
+</script>
