@@ -80,7 +80,9 @@ class OrderController extends Controller {
         if (isset($_GET['Order'])) {
             $model_d->attributes = $_GET['Order'];
         }
-        $order_history = $this->manageOderHistory($model_d);
+        $orderStatuses = Status::model()->gettingOrderStatus();
+        
+        $order_history = $this->manageOderHistory($model_d,$orderStatuses);
         $this->renderPartial('print', array(
             'model' => $model,
             'model_d' => $model_d,
