@@ -3,7 +3,7 @@
 $detail_img = $product->no_image;
 if (!empty($product->productProfile[0])) {
     if (!empty($product->productProfile[0]->productImages[0])) {
-        $detail_img = CHtml::image($product->productProfile[0]->productImages[0]->image_url['image_small'], '', array("id" => "image_small"));
+        $detail_img = CHtml::image($product->productProfile[0]->productImages[0]->image_url['image_detail'], '', array("id" => "image_small"));
         echo CHtml::link($detail_img, $product->productProfile[0]->productImages[0]->image_url['image_large'], array("rel" => 'lightbox[_default]',));
     } else {
         $detail_img = CHtml::image($product->no_image);
