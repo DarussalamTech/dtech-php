@@ -35,7 +35,7 @@ header {z-index: 1;}
 }
 .featured_cover_part img {
     height: 132px;
-    width: 84px;
+/*    width: 84px;*/
 }
 .featured_cover_part h2{
     font-size: 15px;
