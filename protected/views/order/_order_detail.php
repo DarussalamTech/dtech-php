@@ -116,7 +116,11 @@ $this->widget('DtGridView', array(
             'type' => 'Raw',
             'value' => '$data->revert_cancel',
           
-            'visible' => $this->OpPermission['Order.Update'] == true?true:false,
+            'visible' => $this->OpPermission['Order.Update'] == true 
+                && (
+                    $parent_model->order_status->title =="Completed" || 
+                    $parent_model->order_status->title =="Shipped"
+                    ) ?true:false,
             'headerHtmlOptions' => array(
                 'style' => "text-align:left"
             ),

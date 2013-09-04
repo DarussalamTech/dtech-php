@@ -354,6 +354,7 @@ class OrderController extends Controller {
         $this->renderPartial('_order_detail', array(
             'model' => $model,
             'user_name' => $_POST['username'],
+            "parent_model" => Order::model()->findByPk($id), 
                 ), false, true);
         Yii::app()->end();
     }
