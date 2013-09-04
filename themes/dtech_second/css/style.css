@@ -7,19 +7,31 @@ a img { border:none; }
 
 body { padding: 0; margin: 0; background:#FFF; width:100%; }
 
-header { width:100%; padding: 0; margin: 0; background:url(../images/header_bg_img_02.jpg) repeat-x; height:33px; position:fixed; }
+header { width:100%; padding: 0; margin: 0; 
+         /*background:url(../images/header_bg_img_02.jpg) repeat-x; */
+         background:#089ad4 repeat-x;
+         height:33px; position:fixed; 
+}
 
 #header_bottom  { width:100%; padding: 10px 0; margin: 35px 0 0 0; background:#f7f7f7; float:left; }
 
 #navigation { width:100%; padding: 10px 0; margin: 0; background:#ebebeb; float:left; border-bottom:1px solid #c7c7c7; border-top:1px solid #c7c7c7; height:40px; }
 
-#banner_part { width:100%; padding: 0px; margin: 0; background:url(../images/banner_bg_03.jpg) repeat-x; height:411px; float:left; }
+#banner_part { width:100%; padding: 0px; margin: 0; 
+               /*background:url(../images/banner_bg_03.jpg) repeat-x; */
+               
+               background:#089ad4 repeat-x; 
+               height:411px; float:left; }
 
 #best_seller_tikker { width:100%; float:left; padding: 0; margin: 0; height:77px; background:#e9e9e9; border-bottom:#c7c7c7 1px solid; border-top:#c7c7c7 1px solid; }
 
 #main_features_part { width:100%; padding: 0px; margin: 0; float:left; }
 
-#footer_part { width:100%; padding: 0px; margin: 30px 0 0 0; float:left; height:318px; background:url(../images/footer-bg.png) repeat-x; }
+#footer_part { width:100%; padding: 0px; margin: 30px 0 0 0; float:left;
+               height:318px; 
+               /*background:url(../images/footer-bg.png) repeat-x; */
+               background:#089ad4 repeat-x;
+}
 
 #footer_nav_part { width:100%; padding: 0px; margin: 0; float:left; background:#0f739e; height:34px; }
 

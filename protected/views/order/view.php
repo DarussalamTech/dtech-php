@@ -137,6 +137,7 @@ if (Yii::app()->user->hasFlash('status')) {
      */ $this->renderPartial('_order_detail', array(
         'model' => $model_d,
         'user_name' => $model->user->user_email,
+        'parent_model' => $model,
     ));
     ?>
 </div>

@@ -302,12 +302,16 @@ class ProductProfile extends DTActiveRecord {
                 $images[] = array('id' => $img->id,
                     'image_large' => $img->image_url['image_large'],
                     'image_small' => $img->image_url['image_small'],
+                    'image_cart' => $img->image_url['image_cart'],
+                    'image_detail' => $img->image_url['image_detail'],
                 );
                 break;
             } else {
                 $images[] = array('id' => $img->id,
                     'image_large' => $img->image_url['image_large'],
                     'image_small' => $img->image_url['image_small'],
+                    'image_cart' => $img->image_url['image_cart'],
+                    'image_detail' => $img->image_url['image_detail'],
                 );
                 break;
             }
