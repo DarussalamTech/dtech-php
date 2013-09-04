@@ -201,3 +201,10 @@ input[type=button],input[type=submit] {
     text-align: justify;
     width: 450px;
 }
+
+.best_book a {
+    color: #A7A7A7;
+    font-family: Segoe,"Segoe UI","DejaVu Sans","Trebuchet MS",Verdana,sans-serif;
+    font-size: 20px;
+    text-decoration: none;
+}
