@@ -81,8 +81,8 @@ class OrderController extends Controller {
             $model_d->attributes = $_GET['Order'];
         }
         $orderStatuses = Status::model()->gettingOrderStatus();
-        
-        $order_history = $this->manageOderHistory($model_d,$orderStatuses);
+
+        $order_history = $this->manageOderHistory($model_d, $orderStatuses);
         $this->renderPartial('print', array(
             'model' => $model,
             'model_d' => $model_d,
@@ -261,10 +261,10 @@ class OrderController extends Controller {
         $sendBackForm = new SendBackStock();
         $sendBackForm->order_quantity = $model->quantity;
         $sendBackForm->back_quanity = $model->quantity;
-        
-        if(isset($_POST['SendBackStock'])){           
+
+        if (isset($_POST['SendBackStock'])) {
             $sendBackForm->attributes = $_POST['SendBackStock'];
-            if($sendBackForm->validate()){
+            if ($sendBackForm->validate()) {
                 $available_quantity = $sendBackForm->order_quantity - $sendBackForm->back_quanity;
                 OrderDetail::model()->updateByPk($id, array("quantity" => $available_quantity));
                 $orderDetail = OrderDetail::model()->findByPk($id);
@@ -274,17 +274,16 @@ class OrderController extends Controller {
                 /**
                  * if both quanity are equal then product is fully reverted
                  */
-                if($sendBackForm->order_quantity == $sendBackForm->back_quanity){
+                if ($sendBackForm->order_quantity == $sendBackForm->back_quanity) {
                     $orderDetail->saveOrderDetailHistory(1);
+                } else {
+                    $orderDetail->saveOrderDetailHistory();
                 }
-                else {
-                     $orderDetail->saveOrderDetailHistory();
-                }
-                
+
                 ProductProfile::model()->updateStock($sendBackForm->back_quanity, $orderDetail->product_profile_id);
             }
         }
-        
+
         $this->renderPartial("_stock", array(
             "model" => $model,
             'sendBackForm' => $sendBackForm,
@@ -354,9 +353,23 @@ class OrderController extends Controller {
         $this->renderPartial('_order_detail', array(
             'model' => $model,
             'user_name' => $_POST['username'],
-            "parent_model" => Order::model()->findByPk($id), 
+            "parent_model" => Order::model()->findByPk($id),
                 ), false, true);
         Yii::app()->end();
+    }
+
+    /**
+     * hisotry of line items
+     */
+    public function actionHisotryLineItem($id) {
+        $model = new OrderHistoryDetail('Search');
+        $model->unsetAttributes();  // clear any default values
+        $model->order_detail_id = $id;
+        if (isset($_GET['OrderHistoryDetail'])) {
+            $model->attributes = $_GET['OrderHistoryDetail'];
+        }
+        
+        $this->renderPartial("_order_detail_history",array("model"=>$model));
     }
 
     /**

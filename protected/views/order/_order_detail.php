@@ -124,7 +124,11 @@ $this->widget('DtGridView', array(
             'headerHtmlOptions' => array(
                 'style' => "text-align:left"
             ),
-           
+        ),
+        array(
+            'header' => 'History',
+            'type' => 'Raw',
+            'value' => 'CHtml::link("history",Yii::app()->controller->createUrl("/order/hisotryLineItem",array("id"=>$data->user_order_id)),array("class"=>"cancel_revert"))',
         ),
     ),
 ));
