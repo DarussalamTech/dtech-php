@@ -25,11 +25,11 @@ foreach ($products as $product):
             <h2><?php echo substr($name, 0, 34) . '...'; ?></h2>
             <p>
                 <?php
-                if (!empty($product['product_overview'])) {
-                    echo substr($product['product_overview'], 0, 20);
-                } else {
-                    echo "&nbsp;";
-                }
+//                if (!empty($product['product_overview'])) {
+//                    echo substr($product['product_overview'], 0, 20);
+//                } else {
+//                    echo "&nbsp;";
+//                }
                 ?>
             </p>
         </div>
