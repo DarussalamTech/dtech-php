@@ -93,17 +93,23 @@ $this->setTotalAmountSession($grand_total, $total_quantity, "");
      * the wishlist when user click 
      * elsewereh in the documents...ubd
      */
-    jQuery("#cart_click").click(function() {
-        jQuery('.login_bx').toggle();
-        jQuery('.logoutPopup').hide();
-    });
 
-    jQuery('.logout-btn').hover(function() {
-        jQuery('.cart_bx').hide();
-    });
     var mouse_is_inside_wishlist = false;
     jQuery(document).ready(function()
     {
+
+
+
+        jQuery("#cart_click").click(function() {
+            jQuery('.cart_bx').hide();
+            jQuery('.login_bx').hide();
+            jQuery('.logoutPopup').hide();
+        });
+
+        jQuery('.logout-btn').hover(function() {
+            jQuery('.cart_bx').hide();
+        });
+
 
 
         jQuery('.cart_bx').hover(function() {
