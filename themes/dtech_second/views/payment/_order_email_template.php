@@ -79,7 +79,7 @@
             Total Amounts:   
         </td>
         <td class="right_td" style="width:255px; padding: 0; margin: 0; color:black; font-size:14px; line-height:17px;font-weight: bold">
-            <?php echo 'USD ' . Yii::app()->session['total_price']; ?>   
+            <?php echo Yii::app()->session['currency'].' ' . Yii::app()->session['total_price']; ?>   
         </td>
     </tr>
 </table>
