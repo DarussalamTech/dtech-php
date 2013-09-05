@@ -55,7 +55,6 @@ if (isset($this->menu_categories)):
     <div class="listing">
         <p>
             <a href="javascript:void(0)" onclick="dtech_new.aquardinaMenu(this)">
-
                 <?php
                 echo CHtml::image(
                         Yii::app()->theme->baseUrl . "/images/list_arrow_03.jpg", '', array(
@@ -67,35 +66,45 @@ if (isset($this->menu_categories)):
                 echo " ";
                 echo Yii::t('common', "Authors", array(), NULL, $this->currentLang);
                 ?>
-
             </a>
         </p>
         <?php
-        $authors = Author::model()->findAll();
+        $authors = Author::model()->findAll(array('order' => 'author_name'), 'author_id', 'author_name');
         echo CHtml::openTag("div", array(
             "class" => "inner_list",
             "style" => "display:none",
                 )
         );
-        foreach ($authors as $author):
 
-            echo "<li>";
+        echo CHtml::dropDownList($authors, 'author_id', CHtml::listData($authors, 'author_id', 'author_name'), array('encode' => FALSE,
+            "class" => "author_checkbox",
+            "parent_cat" => "",
+            "onChange" => "filter_val = $(this).parent().parent().siblings().children().eq(0).text();
+                                  jQuery('#list_featured h6').html(filter_val);
+                                  dtech.updateProductListing('','','authorDropDown');"
+        ));
+        /*
+          foreach ($authors as $author):
+
+          echo "<li>";
 
 
-            echo CHtml::checkBox('checkbox', '', array(
-                "class" => "author_checkbox",
-                "value" => $author->author_id,
-                "parent_cat" => "",
-                "onclick" => '
-                                
-                                  filter_val = $(this).parent().parent().siblings().children().eq(0).text();
-                                  $("#list_featured h6").html(filter_val);
-                                  dtech.updateProductListing("' . Yii::app()->request->url . '","");
-                               '
-            ));
-            echo CHtml::link($author->author_name, Yii::app()->request->url);
-            echo "</li>";
-        endforeach;
+          echo CHtml::checkBox('checkbox', '', array(
+          "class" => "author_checkbox",
+          "value" => $author->author_id,
+          "parent_cat" => "",
+          "onclick" => '
+
+          filter_val = $(this).parent().parent().siblings().children().eq(0).text();
+          $("#list_featured h6").html(filter_val);
+          dtech.updateProductListing("' . Yii::app()->request->url . '","");
+          '
+          ));
+          echo CHtml::link($author->author_name, Yii::app()->request->url);
+          echo "</li>";
+          endforeach;
+         * 
+         */
 
         echo CHtml::closeTag("div");
         ?>
@@ -149,7 +158,7 @@ if (isset($this->menu_categories)):
         ?>
     </div>
     </div>
-    
+
     <?php
 endif;
 ?>

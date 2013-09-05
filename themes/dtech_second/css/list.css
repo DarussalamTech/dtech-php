@@ -24,3 +24,14 @@
 #list_featured { width:690px; padding: 0; margin: 20px 0 0 10px; float:left; border: 1px solid #c3c3c3; }
 
 #list_featured h6 { padding: 7px 0 0 12px; margin: 0; color:#000000; font-size:16px; font-family:Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight:normal; width:678px; background:#f0f0f0; height:28px; border-bottom:1px solid #c3c3c3; }
+
+.author_checkbox{
+    background: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 3px 0 #CCCCCC, 0 -1px #FFFFFF inset;
+    padding: 4px;
+    width: 204px;
+    cursor: pointer;
+
+}
