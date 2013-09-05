@@ -1,7 +1,7 @@
 <?php
 
 /**
- * DtGridView
+ * EmailGridView
  * 
  * purpose of this class to customize the grid 
  * properties and summaries 
@@ -16,51 +16,11 @@
  * @author Ali Abbas <ali.abbas@darussalampk.com>
  * @since 0.1
  */
-/** How to apply this class on gridview columns
- * 
- * $repForceModel=new DbModel (any)
- * 
- * $this->widget('ParGridView', array(
-  'id' => 'labor-gridsc',
-  'user_acccess'=>0,[if zero then wont eb able to see this other wise he will be able see in case greater then 0]
-  'dataProvider' => $labor_provider,
-  'columns' => array(
-  array(
-  'name' => 'sub_contractor_name',
-  'type' => 'Raw',
-  'value' => '$data->sub_contractor_name',
-  'htmlOptions' => array('width' => '150'),
-  ),
 
- * ***  This way to apply this *****  
-
-  /*
-  array(
-  'header' => CHtml::activeLabel($repForceModel, 'st'),
-  'class' => 'PGridCountColumn',
-  'columnName' => 'st',
-  'footer' => '',
-  ),
-  array(
-  'header' => CHtml::activeLabel($repForceModel, 'ot'),
-  'class' => 'PGridCountColumn',
-  'columnName' => 'ot',
-  'footer' => '',
-  ),
-
-  array
-  (
-  'class' => 'CButtonColumn',
-  'visible' => $this->getPermission($this->id . ".Create"),
-  'template' => '{update} {delete}',
-  ),
-  ),
-  ));
-  ?>
- */
+  
 Yii::import('zii.widgets.grid.CGridView');
 
-class DtGridView extends CGridView
+class EmailGridView extends CGridView
 {
     /* ---it will be used for access control   --- */
 
@@ -82,73 +42,7 @@ class DtGridView extends CGridView
     public $sortUrl;
     public $rowCssClass = array('even', 'odd');
 
-    /**
-     * Init Par grid view. 
-     */
-    public function init()
-    {
 
-        /**
-         * set the colorBox
-         * variable true
-         * in document liking
-         */
-        if (!empty($_GET['colorbox']))
-        {
-            $this->colorBox = true;
-            /**
-             * setting checBox at header
-             * 
-             */
-            $this->generateHeaderCheckBox();
-        }
-
-        parent::init();
-
-
-        /* If sort url is given then register dragable row script */
-        if (isset($this->sortUrl))
-        {
-            $this->registerDragableScript();
-        }
-    }
-
-    /**
-     * Register Drabable Row JS Script
-     * @author Mohsin Shoaib 
-     */
-    public function registerDragableScript()
-    {
-        $str_js = "
-        var fixHelper = function(e, ui) {
-            ui.children().each(function() {
-                $(this).width($(this).width());
-            });
-            return ui;
-        };
- 
-        $('#" . $this->id . " table.items tbody').sortable({
-            forcePlaceholderSize: true,
-            forceHelperSize: true,
-            items: 'tr',
-            update : function () {
-                serial = $('#" . $this->id . " table.items tbody').sortable('serialize', {key: 'items[]', attribute: 'class'});
-                $.ajax({
-                    'url': '" . $this->sortUrl . "',
-                    'type': 'post',
-                    'data': serial,
-                    'success': function(data){
-                    },
-                    'error': function(request, status, error){
-                        alert('We are unable to set the sort order at this time.  Please try again in a few minutes.');
-                    }
-                });
-            },
-            helper: fixHelper
-        }).disableSelection();
-    ";
-        Yii::app()->clientScript->registerScript('sortable-project', $str_js);
-    }
 
     public function renderTableHeader()
     {
@@ -157,14 +51,7 @@ class DtGridView extends CGridView
         echo "<div class=clear></div>";
         parent::renderTableHeader();
 
-        /**
-         * in case of when document liking
-         */
-        //if($this->colorBox==true)
-        {
-
-            // $this->generateHeaderCheckBox();
-        }
+       
     }
 
     public function renderSummary()
@@ -206,7 +93,7 @@ class DtGridView extends CGridView
         $count = 0;
         if ($hasFilter || $hasFooter)
         {
-            echo "<tfoot>\n";
+            echo "<tfoot style='font-weight:bold'>\n";
             if ($hasFooter)
             {
                 echo "<tr>\n";
@@ -278,60 +165,34 @@ class DtGridView extends CGridView
          * of check box
          * 
          */
-        
-        
-        
-        if ($this->colorBox == true)
-        {
-            $this->generateChecBoxCol($this->dataProvider->data[$row]->id);
-        }
+       
+         $background = "#E4E3E3";
         if ($this->rowCssClassExpression !== null && ($n = count($this->rowCssClass)) > 0)
         {
             $data = $this->dataProvider->data[$row];
             echo '<tr class="' . $this->evaluateExpression($this->rowCssClassExpression, array('row' => $row, 'data' => $data)) . ' ' . $this->rowCssClass[$row % $n] . '">';
         }
-        else if (is_array($this->rowCssClass) && ($n = count($this->rowCssClass)) > 0)
+        else if (is_array($this->rowCssClass) && ($n = count($this->rowCssClass)) > 0){
             echo '<tr class="' . $this->rowCssClass[$row % $n] . '">';
+             $background = "#E4E3E3";
+            if($this->rowCssClass[$row % $n] == "even"){
+                $background = "#fff";
+            }
+        }
         else
             echo '<tr>';
-        foreach ($this->columns as $column)
+        foreach ($this->columns as $column){
+           
+            $new_options = array("style"=>"text-align: left;background:$background;");
+            $column->htmlOptions = array_merge($column->htmlOptions,$new_options);
             $column->renderDataCell($row);
+        }
         echo "</tr>\n";
     }
 
-    /**
-     * this will be going 
-     * to add the column at first of every 
-     * grid in case of grid opening in colorBox
-     * then the problem will be resolved
-     * 
-     * (this function is not used now )
-     * @param type $id 
-     */
-    private function generateChecBoxCol($id)
-    {
-        //echo '<td>' . Chtml::checkBox("document[" . $id . "]", false, array("value" => $id, "class" => "document_checkbox")) . '</td>';
-    }
 
-    /**
-     * this will be going 
-     * to add the header for every checkbox column
-     * grid in case of grid opening in colorBox
-     * then the problem will be resolved
-     *  
-     */
-    private function generateHeaderCheckBox()
-    {
-        
-        $column = array(
-            'header' => '<input type="checkbox" value="0" id="checkallassociation" onclick="getGridId(this)" />',
-            'type' => 'Raw',
-            'value' => 'Chtml::checkBox("document[" . $data->id . "]", false, array("value" => $data->id, "class" => "document_checkbox"))',
-        );
-        ;
 
-        $this->columns = array_merge(array($column), $this->columns);
-    }
+
 
 }
 

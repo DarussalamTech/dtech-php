@@ -229,6 +229,16 @@ class Cart extends DTActiveRecord {
             $this->image = $this->productProfile->product["no_image"];
             $cssclass = "no_image";
         }
+        
+        /**
+         * special case for bug product profile sending no image in image 
+         * dats y this condition made
+         */
+        
+        if(strstr($this->image,"noimages.jpeg")){
+             $cssclass = "no_image";
+        }
+        
         $parent_cat = "Books";
         if (!empty($pro->productProfile->product->parent_category->category_name)) {
             $parent_cat = $pro->productProfile->product->parent_category->category_name;

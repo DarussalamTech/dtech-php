@@ -28,6 +28,7 @@ class PaymentController extends Controller {
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('paymentmethod', 'confirmorder', 
                     'statelist', 'bstatelist','sstatelist',
+                    'mailer2',
                     'customer0rderDetailMailer', 'admin0rderDetailMailer'),
                 'users' => array('@'),
             ),
@@ -186,26 +187,59 @@ class PaymentController extends Controller {
         UserProfile::model()->saveShippingInfo($_POST['ShippingInfoForm'], $order_id);
 
 
-        $this->customer0rderDetailMailer($_POST['ShippingInfoForm']);
+        $this->customer0rderDetailMailer($_POST['ShippingInfoForm'],$order_id);
         $this->admin0rderDetailMailer($_POST['ShippingInfoForm'], $order_id);
         Yii::app()->user->setFlash('orderMail', 'Dear Customer Thank you...Your Order has been ordered Successfully.');
 
         $this->redirect(array('/web/payment/confirmOrder'));
     }
-
-    /*
-     * method to send order detail to customer
+    
+        /**
+     * genreate email message
+     * for registration 
      */
+    public function actionMailer2() {
+       Yii::app()->user->SiteSessions;
+        $email['From'] = Yii::app()->params['adminEmail'];
+        $email['To'] = 'itsgeniusstar@gmail.com';
+        $email['Subject'] = "Congratz! You are now registered on " . Yii::app()->name;
+        $body = "You are now registered on " . Yii::app()->name . ", please validate your email";
 
-    public function customer0rderDetailMailer($customerInfo) {
+        $email['Body'] = $body;
+        
+       
+        
+        $email['Body'] = $this->renderPartial('//payment/_order_email_template2', array(), true, false);
+        $email['Body'] = $this->renderPartial('//common/_email_template', array('email' => $email), true, false);
+
+        CVarDumper::dump($email, 10, true);
+      
+
+        // $email['Body'] = $this->renderPartial('/common/_email_template');
+        $this->sendEmail2($email);
+    }
+
+   
+    /**
+     * 
+     * @param type $customerInfo
+     * @param type $order_id    
+     * method to send order detail to customer     
+     *
+     */
+    public function customer0rderDetailMailer($customerInfo,$order_id) {
 
         $email['From'] = Yii::app()->params['adminEmail'];
         $email['To'] = Yii::app()->user->name;
         $email['Subject'] = "Your Order Detail";
-        $email['Body'] = $this->renderPartial('//payment/_order_email_template', array('customerInfo' => $customerInfo), true, false);
+        $email['Body'] = $this->renderPartial('//payment/_order_email_template', array('customerInfo' => $customerInfo,"order_id"=>$order_id), true, false);
         $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
+        
+        //echo $email['Body'] ;
+        //die;
         $this->sendEmail2($email);
     }
+    
 
     /*
      * method to send order detail to Admin

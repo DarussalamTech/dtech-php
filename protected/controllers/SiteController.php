@@ -235,6 +235,7 @@ class SiteController extends Controller {
         $this->sendEmail2($email);
     }
 
+
     /**
      * Displays the contact page
      */
