@@ -221,11 +221,13 @@ class SiteController extends Controller {
      */
     public function actionMailer() {
         $email['From'] = Yii::app()->params['adminEmail'];
-        $email['To'] = 'ubaidullah@darussalampk.com';
+        $email['To'] = 'itsgeniusstar@gmail.com';
         $email['Subject'] = "Congratz! You are now registered on " . Yii::app()->name;
         $body = "You are now registered on " . Yii::app()->name . ", please validate your email";
         // $body.=" going to this url: <br /> \n" . $model->getActivationUrl();
         $email['Body'] = $body;
+        
+        $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
 
         CVarDumper::dump($email, 10, true);
 
