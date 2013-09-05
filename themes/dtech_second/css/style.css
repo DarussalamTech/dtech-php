@@ -275,6 +275,10 @@ footer { width:960px; padding: 0; margin: 0 auto; }
 
 .login_bx { display:none; position:absolute; padding: 0; margin: 30px 0 0 -130px; z-index:2; border: 1px solid #e0e0e0; border-radius:5px; background:#FFF; }
 
+.login_bx fieldset input[type='text'],.login_bx fieldset input[type='password']{
+    width: 90%;
+}
+
 #login_btn.active em {}
 
 #login_frm { width:270px; height:264px; margin-top: -10px; background:#FFF; }
