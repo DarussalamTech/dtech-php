@@ -93,9 +93,10 @@ class UserController extends Controller {
          * 
          */
         if ($model->role_id == "2") {
-            $message.= "<br/>You are System User of ".$model->city->city_name;
+            $message.= "<br/><span>You are System User of ".$model->city->city_name."</span>";
         }
-        $message.= "Your Password is : " . $password . "<br /><br /> Thanks you ";
+        $message.= "<span>Your Username is : " . $model->user_name . "</span><br /><br /> Thanks you ";
+        $message.= "<span>Your Password is : " . $password . "</span><br /><br /> Thanks you ";
 
         $email['From'] = Yii::app()->params['adminEmail'];
         $email['To'] = $model->user_email;
