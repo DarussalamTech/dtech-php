@@ -2,56 +2,79 @@
 var dtech = {
     old_drop_val: "",
     getmultiplechecboxValue: function(elem_id) {
+
         var sel_ar = new Array();
         $("." + elem_id).each(function() {
             if ($(this).is(':checked')) {
+
                 sel_ar.push($(this).val());
             }
-        })
+        });
+        if (elem_id == "author_checkbox")
+        {
+            if (jQuery(".author_checkbox option:selected"))
+            {
+                sel_ar.push(jQuery(".author_checkbox option:selected").val());
+            }
+        }
         return sel_ar.join(",");
-
     },
-    updateProductListing: function(ajax_url, id) {
+    updateProductListing: function(ajax_url, id, dropDown) {
 
         var load_div = '<div id="load_subpanel_div" class="overlay" style="display:none">' +
                 '<div class="loadingBar">' +
                 '<span class="lodingString">Please Wait....</span><span class="loading">. . . .</span>' +
                 '</div>' +
                 '</div>';
-
         //$("#loading").show();
         rite_html = $("#right_main_conent").html();
         $("#right_main_conent").html(load_div + rite_html);
         $("#load_subpanel_div").show();
+        console.log('alqulv' + dropDown);
+        if (dropDown == "authorDropDown") //only for author dropdown
+        {
+            jQuery.ajax({
+                type: "POST",
+                url: ajax_url,
+                data:
+                        {
+                            cat_id: id,
+                            ajax: 1,
+                            categories: dtech.getmultiplechecboxValue("filter_checkbox"),
+                            author: dtech.getmultiplechecboxValue("author_checkbox"),
+                            langs: dtech.getmultiplechecboxValue("lang_checkbox"),
+                        }
+            }).done(function(msg) {
+                $("#right_main_conent").html(msg);
+                jQuery("#load_subpanel_div").remove();
+            });
+        }
+        else {
+            jQuery.ajax({
+                type: "POST",
+                url: ajax_url,
+                data:
+                        {
+                            cat_id: id,
+                            ajax: 1,
+                            categories: dtech.getmultiplechecboxValue("filter_checkbox"),
+                            langs: dtech.getmultiplechecboxValue("lang_checkbox"),
+                        }
+            }).done(function(msg) {
+                $("#right_main_conent").html(msg);
+                if (id != "") {
+// s_url = "cat=" + id;
+// dtech.updatehashBrowerUrl(s_url);
+// dtech.updateCategoryStatus(id);
+                }
+                else {
+// dtech.updatehashBrowerUrl("");
+// dtech.updateCategoryStatus(id);
+                }
 
-
-
-        jQuery.ajax({
-            type: "POST",
-            url: ajax_url,
-            data:
-                    {
-                        cat_id: id,
-                        ajax: 1,
-                        categories: dtech.getmultiplechecboxValue("filter_checkbox"),
-                        author: dtech.getmultiplechecboxValue("author_checkbox"),
-                        langs: dtech.getmultiplechecboxValue("lang_checkbox"),
-                    }
-        }).done(function(msg) {
-            $("#right_main_conent").html(msg);
-
-            if (id != "") {
-                // s_url = "cat=" + id;
-                // dtech.updatehashBrowerUrl(s_url);
-                // dtech.updateCategoryStatus(id);
-            }
-            else {
-                // dtech.updatehashBrowerUrl("");
-                // dtech.updateCategoryStatus(id);
-            }
-
-            jQuery("#load_subpanel_div").remove();
-        });
+                jQuery("#load_subpanel_div").remove();
+            });
+        }
         return false;
     },
     updatePaginationFilter: function(obj) {
@@ -66,17 +89,14 @@ var dtech = {
     updateListingOnScrolling: function(obj) {
         var id = "";
         var ajax_url = $(obj).attr("href");
-
         var load_div = '<div id="load_subpanel_div" class="overlay" style="display:none">' +
                 '<div class="loadingBar">' +
                 '<span class="lodingString">Please Wait....</span><span class="loading">. . . .</span>' +
                 '</div>' +
                 '</div>';
-
         rite_html = $("#list_featured").html();
         $("#list_featured").html(load_div + rite_html);
         $("#load_subpanel_div").show();
-
         jQuery.ajax({
             type: "POST",
             url: ajax_url,
@@ -98,7 +118,7 @@ var dtech = {
                 dtech.updateCategoryStatus(id);
             }
             else {
-                //dtech.updatehashBrowerUrl("");
+//dtech.updatehashBrowerUrl("");
                 dtech.updateCategoryStatus(id);
             }
 
@@ -132,11 +152,8 @@ var dtech = {
     load_languageDetail: function() {
 
         hash_str = window.location.hash;
-
-
         if (hash_str != "") {
             hash_str = hash_str.split("=");
-
             if (typeof(hash_str[1]) != "undefined") {
 
                 lang_val = dtech.findLangVal(hash_str[1]);
@@ -144,7 +161,6 @@ var dtech = {
                 jQuery("#language").val(lang_val);
                 window.location.hash = "";
                 jQuery("#language").trigger("change");
-
             }
         }
 
@@ -155,7 +171,6 @@ var dtech = {
             text = jQuery.trim(text);
             if (jQuery(this).html() == text) {
                 return_lang = jQuery(this).val();
-
                 //return jQuery(this).val();
             }
         })
@@ -178,12 +193,9 @@ var dtech = {
         }
         if (hash_str != "") {
             hash_str = hash_str.split("=");
-
             if (typeof(hash_str[1]) != "undefined") {
 
                 dtech.updateProductListing(url, hash_str[1]);
-
-
             }
         }
     },
@@ -207,10 +219,8 @@ var dtech = {
         jQuery(".ui-widget ui-widget-content").remove();
         if (!title_msg)
             title_msg = 'Alert';
-
         if (!output_msg)
             output_msg = 'No Message to Display.';
-
         jQuery("<div id='custom_dialoge'></div>").html(output_msg).dialog({
             title: title_msg,
             resizable: false,
@@ -219,7 +229,6 @@ var dtech = {
                 setTimeout(function() {
                     jQuery(".ui-button").trigger("click");
                 }, 3000);
-
             },
             buttons: {
                 "Ok": function()
@@ -228,7 +237,6 @@ var dtech = {
                 }
             }
         });
-
     },
     /**
      * for redirecting to quran cate
@@ -249,13 +257,11 @@ var dtech = {
             $(".credit_card_fields").show();
             $(".pay_list").hide();
             $(".manual_list").hide();
-
         }
         else if ($(obj).val() == "3") {
             $(".manual_list").show();
             $(".pay_list").hide();
             $(".credit_card_fields").hide();
-
         }
 
         else {
@@ -279,7 +285,6 @@ var dtech = {
             $("#educationToys").hide();
             $("#quranProfile").hide();
             $(".grid_fields").remove();
-
             //dtech.old_drop_val = $(obj).val();
 
             if ($("#Product_parent_cateogry_id option:selected").text() == "Others") {
@@ -310,7 +315,6 @@ var dtech = {
     },
     preserveOldVal: function(obj) {
         dtech.old_drop_val = $(obj).val();
-
     },
     /**
      * to update element on ajax all
@@ -355,11 +359,10 @@ var dtech = {
             }).done(function(response) {
                 jQuery("#" + update_element_id).html(response);
                 if (jQuery("#LandingModel_city").attr("type") != "hidden") {
-                    //jQuery("#LandingModel_city").msDropdown();
+//jQuery("#LandingModel_city").msDropdown();
                 }
 
                 jQuery("#country_selection_form").submit();
-
             });
         }
     },
@@ -375,9 +378,7 @@ var dtech = {
     //
     doSocial: function(form_id, obj) {
         jQuery('#' + form_id).attr("action", jQuery(obj).attr('href'));
-       
         jQuery('#' + form_id).submit();
-
     },
     increaseQuantity: function(obj) {
         /**
@@ -391,7 +392,6 @@ var dtech = {
         field_val = field_val + 1;
         jQuery(obj).parent().prev().children().eq(0).val(field_val);
         dtech.updateShoppingBag(jQuery(obj).parent().prev().children().eq(0));
-
     },
     decreaseQuantity: function(obj) {
         /**
@@ -442,24 +442,19 @@ var dtech = {
         jQuery("#search-button").attr("disabled", "disabled");
         jQuery("body").unbind("click");
         jQuery(".button-column a").remove();
-
         jQuery("#quantity").remove();
         jQuery("#ProductReviews_reviews").attr("disabled", "disabled");
         jQuery("#add_comment").attr("disabled", "disabled");
-
         jQuery("#ratingUser").remove();
-
         jQuery("body").click(function(event) {
             event.preventDefault();
         })
     },
     openColorBox: function(obj) {
         jQuery(obj).colorbox({width: "60%", height: "80%", iframe: true});
-
     },
     openColorBoxNoIFrame: function(obj) {
         jQuery(obj).colorbox({width: "60%", height: "80%"});
-
     },
     /**
      * if client wants to remove one thing from slider
@@ -475,7 +470,6 @@ var dtech = {
                     $('#uproduct-grid').yiiGridView.update('product-grid');
                 }
             });
-
             return false;
         }
     },
@@ -524,10 +518,8 @@ var dtech = {
                     jQuery("#loading").hide();
                     jQuery("#flash-message-order").show();
                     jQuery("#flash-message-order").html("Order Product quantity has been updated");
-
                     setInterval(function() {
                         jQuery("#flash-message-order").hide();
-
                     }, 10 * 1000);
                 }
                 else {
@@ -535,10 +527,8 @@ var dtech = {
                     jQuery("#loading").hide();
                     jQuery("#flash-error-order").show();
                     jQuery("#flash-error-order").html("Quantity is greater than actual stock");
-
                     setInterval(function() {
                         jQuery("#flash-error-order").hide();
-
                     }, 10 * 1000);
                 }
 
@@ -547,7 +537,6 @@ var dtech = {
 
         return false;
     },
-
     printPreview: function(obj) {
         var left = (screen.width / 2) - (700 / 2);
         var top = (screen.height / 2) - (490 / 2);
