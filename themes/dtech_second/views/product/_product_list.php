@@ -31,11 +31,11 @@ foreach ($products as $product) {
         );
     }
     echo CHtml::openTag("h2");
-    echo substr($name, 0, 15) . '...';
+    echo substr($name, 0, 45) . '...';
     echo CHtml::closeTag("h2");
-    echo CHtml::openTag("p");
-    echo substr($product['product_overview'], 0, 35) . '...';
-    echo CHtml::closeTag("p");
+//    echo CHtml::openTag("p");
+//    echo substr($product['product_overview'], 0, 35) . '...';
+//    echo CHtml::closeTag("p");
     echo CHtml::closeTag("div");
     echo CHtml::openTag("div", array("class" => "featured_bottom"));
     echo CHtml::openTag("span");
