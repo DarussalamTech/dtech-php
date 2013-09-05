@@ -93,7 +93,7 @@ class UserController extends Controller {
          * 
          */
         if ($model->role_id == "2") {
-            $message.= "<br/><span>You are System User of ".$model->city->city_name."</span>";
+            $message.= "<br/><span>You are System User of ".$model->city->city_name."</span><br/>";
         }
         $message.= "<span>Your Username is : " . $model->user_name . "</span><br /><br /> Thanks you ";
         $message.= "<span>Your Password is : " . $password . "</span><br /><br /> Thanks you ";
@@ -101,7 +101,7 @@ class UserController extends Controller {
         $email['From'] = Yii::app()->params['adminEmail'];
         $email['To'] = $model->user_email;
         $email['Subject'] = $subject;
-        $body = "You are now registered on " . Yii::app()->name . ", please validate your email <br/>" . $message;
+        $body = "Thank you for registering your account on " . Yii::app()->name . " with following credentials , please validate your email <br/>" . $message;
 
         $email['Body'] = $body;
         $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
