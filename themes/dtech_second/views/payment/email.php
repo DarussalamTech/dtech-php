@@ -34,6 +34,11 @@
                 'name' => 'payment_method_id',
                 'value' => !empty($model->paymentMethod->name) ? $model->paymentMethod->name : "",
             ),
+            array(
+                'name' => 'Order link',
+                'type'=>'raw',
+                'value' => CHtml::link('Click here', Yii::app()->request->hostInfo . $this->createUrl("/web/user/customerDetail",array("id"=>$model->order_id))),
+            ),
         ),
     ));
 

@@ -200,7 +200,7 @@ class PaymentController extends Controller {
         $email['From'] = Yii::app()->params['adminEmail'];
         $email['To'] = Yii::app()->user->name;
         $email['Subject'] = "Your Order Detail";
-        $email['Body'] = $this->renderPartial('//payment/_order_email_template', array('customerInfo' => $customerInfo, 'order_id' => $order_id), true, false);
+        $email['Body'] = $this->renderPartial('//payment/_order_email_template2', array('customerInfo' => $customerInfo, 'order_id' => $order_id), true, false);
         $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
         $this->sendEmail2($email);
     }

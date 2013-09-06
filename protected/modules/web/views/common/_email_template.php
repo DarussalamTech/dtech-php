@@ -5,7 +5,11 @@
        echo CHtml::image(Yii::app()->request->hostInfo.Yii::app()->baseUrl . "/images/logo/emailLogo.png", '', array('width' => '75', 'height' => '106'))
         ?>
     </a>
-    <h1 style=" text-align:center; font-size:20px; color:#089AD4; font-family:"Gotham,"Helvetica Neue",Helvetica,Arial,sans-serif"; color:#089AD4;">Your Authentic Source of Knowledge</h1>
+    <center>
+        <h1 style="text-align:center; font-size:14px; color:#089AD4; 
+            color:#089AD4;">Your Authentic Source of Knowledge
+        </h1>
+    </center>
 
     <h2><?php echo $email['Subject'] ?></h2>
     <p style="color:#575757; font-size:13px;">
