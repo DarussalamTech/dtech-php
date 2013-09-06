@@ -186,7 +186,7 @@ class PaymentController extends Controller {
 
         $this->customer0rderDetailMailer($_POST['ShippingInfoForm'], $order_id);
         $this->admin0rderDetailMailer($_POST['ShippingInfoForm'], $order_id);
-        Yii::app()->user->setFlash('orderMail', 'Dear Customer Thank you...Your Order has been ordered Successfully.');
+        Yii::app()->user->setFlash('orderMail', 'Thank you...');
 
         $this->redirect(array('/web/payment/confirmOrder'));
     }
