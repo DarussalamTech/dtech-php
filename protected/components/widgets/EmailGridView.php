@@ -60,16 +60,16 @@ class EmailGridView extends CGridView
         if ((int) $this->dataProvider->pagination->itemCount >= $this->dataProvider->pagination->pageSize)
         {
 
-            $this->summaryText = 'Displaying {start}-{end} of ' . $this->dataProvider->pagination->itemCount . ' result(s).';
+            //$this->summaryText = 'Displaying {start}-{end} of ' . $this->dataProvider->pagination->itemCount . ' result(s).';
         }
         else if(count($this->dataProvider->getData ())==0)
         {
-            $this->summaryText = 'No Record Found';
+           // $this->summaryText = 'No Record Found';
         }
         else {
-            $this->summaryText = '';
+            //$this->summaryText = '';
         }
-        parent::renderSummary();
+        //parent::renderSummary();
     }
 
     public function renderEmptyText()
