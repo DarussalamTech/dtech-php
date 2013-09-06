@@ -87,6 +87,7 @@ class Author extends DTActiveRecord {
             'pagination' => array(
                 'pageSize' => 40,
             ),
+            'sort' => array('defaultOrder' => "user_order ASC")
         ));
     }
 
