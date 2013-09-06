@@ -6,6 +6,7 @@
  * The followings are the available columns in table 'author':
  * @property integer $author_id
  * @property string $author_name
+ * @property string $user_order
  *
  * The followings are the available model relations:
  * @property ProductProfile $author
@@ -42,6 +43,7 @@ class Author extends DTActiveRecord
                         array('create_time,create_user_id,update_time,update_user_id','required'),
                        
 			array('author_name', 'length', 'max'=>255),
+			array('user_order', 'safe'),
                     
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
@@ -69,6 +71,7 @@ class Author extends DTActiveRecord
 		return array(
 			'author_id' => Yii::t('model_labels', 'Author', array(), NULL, Yii::app()->controller->currentLang),
 			'author_name' => Yii::t('model_labels', 'Author Name', array(), NULL, Yii::app()->controller->currentLang),
+			'user_order' => Yii::t('model_labels', 'Order', array(), NULL, Yii::app()->controller->currentLang),
 		);
 	}
 
@@ -85,6 +88,7 @@ class Author extends DTActiveRecord
 
 		$criteria->compare('author_id',$this->author_id);
 		$criteria->compare('author_name',$this->author_name,true);
+		$criteria->compare('user_order',$this->user_order,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

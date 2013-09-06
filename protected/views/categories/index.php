@@ -64,7 +64,8 @@ $grid_array = array(
     'id' => 'categories-grid',
     'dataProvider' => $model->search(),
     'filter' => $model,
-
+    'sortUrl'=> $this->createUrl("/category"),
+    'rowCssClassExpression' => '"items[]_{$data->category_id}"',
     'columns' => array(
         array(
             'name' => 'category_name',
@@ -99,6 +100,14 @@ $grid_array = array(
             )
         ),
         array(
+            'name' => 'user_order',
+            'type' => 'Raw',
+            'value' => '$data->user_order',
+            'headerHtmlOptions' => array(
+                'style' => "text-align:left"
+            )
+        ),
+        array(
             'class' => 'CButtonColumn',
             'template' => $template
         ),
@@ -108,5 +117,5 @@ $grid_array = array(
 if ($model->parent_id == '0') {
     unset($grid_array['filter']);
 }
-$this->widget('zii.widgets.grid.CGridView', $grid_array);
+$this->widget('DtGridView', $grid_array);
 ?>
