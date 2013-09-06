@@ -3,7 +3,7 @@ Document   : form.css
 Created on : Jun 19, 2013, 2:35:44 PM
 Author     : Ubaid
 Description:
-    Purpose of the stylesheet follows.
+Purpose of the stylesheet follows.
 */
 
 
@@ -249,4 +249,7 @@ div.errorMessage {
     color: green;
     padding: 12px 59px 43px 38px;
     width: 855px;
+}
+.row_input input {
+    padding: 1px 0px 1px 3px;
 }
