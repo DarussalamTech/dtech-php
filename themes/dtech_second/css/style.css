@@ -15,7 +15,7 @@ header { width:100%; padding: 0; margin: 0;
 
 #header_bottom  { width:100%; padding: 10px 0; margin: 35px 0 0 0; background:#f7f7f7; float:left; }
 
-#navigation { width:100%; padding: 10px 0; margin: 0; background:#ebebeb; float:left; border-bottom:1px solid #c7c7c7; border-top:1px solid #c7c7c7; height:40px; }
+#navigation { width:100%; padding: 8px 0; margin: 0; background:#ebebeb; float:left; border-bottom:1px solid #c7c7c7; border-top:1px solid #c7c7c7; height:30px; }
 
 #banner_part { width:100%; padding: 0px; margin: 0; 
                background:url(../images/bg_slider.jpg) repeat-x; 
@@ -326,7 +326,7 @@ fieldset#body { padding:10px 13px; margin:0; }
 .nav_dropdown { 
     position:absolute; display:block; 
     background:#f5f5f5; border-radius: 0 0 5px 5px; 
-    padding: 0; margin: 20px 0px 0 -50px; width:auto; 
+    padding: 0; margin: 10px 0px 0 -50px; width:auto; 
     height:287px; border:1px solid #e0e0e0; border-top:none; 
     z-index: 1;
 }
