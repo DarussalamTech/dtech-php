@@ -97,7 +97,7 @@ footer { width:960px; padding: 0; margin: 0 auto; }
 
 #navigation_part nav { width:800px; float:left; padding: 0; margin: 0; }
 
-#navigation_part nav ul { padding: 0; margin: 10px 0 0 0; }
+#navigation_part nav ul { padding: 0; margin: 6px 0 0 0; }
 
 #navigation_part nav ul li { list-style:none; float:left; padding: 0 3px; margin: 0; display:inline; }
 
@@ -125,7 +125,7 @@ footer { width:960px; padding: 0; margin: 0 auto; }
 
 .right_banner { padding: 0; margin: 80px 0 0 0; float:left; width:380px; }
 
-.right_banner p { font-size:27px; color:#ffffff; font-family:Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif; line-height:30px; padding: 0; margin: 0; text-align:justify; }
+.right_banner p { font-size:27px; color:#ffffff; font-family:Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif; line-height:30px; padding: 0; margin: 0; text-align:left; }
 
 .left_colon { padding: 0; margin: -5px 0px 0 -24px; float:left; }
 
