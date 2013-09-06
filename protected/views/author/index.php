@@ -54,6 +54,8 @@ if(isset($this->OpPermission[ucfirst($this->id).".Delete"]) && $this->OpPermissi
 }
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'author-grid',
+    'sortUrl'=> $this->createUrl("/author/updateOrder"),
+    'rowCssClassExpression' => '"items[]_{$data->author_id}"',
     'dataProvider' => $model->search(),
     'filter' => $model,
     'columns' => array(

@@ -302,8 +302,7 @@ class CategoriesController extends Controller {
             foreach($_POST['items'] as $key=>$item){
                 $id_array = explode(" ",$item);
                 $id = trim($id_array[0]);
-                echo $key."--".$id;
-                echo "\n";
+
                 
                 Categories::model()->updateByPk($id,array("user_order"=>$key));
             }
