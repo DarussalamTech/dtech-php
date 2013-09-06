@@ -71,22 +71,22 @@ $form = $this->beginWidget('CActiveForm', array(
 
             </div>
             <div class="forgot_pass">
-                <?php echo CHtml::link(Yii::t('common', 'Forgot password?', array(), NULL, Yii::app()->controller->currentLang), $this->createUrl('/web/user/forgot')); ?>
+                <?php //echo CHtml::link(Yii::t('common', 'Forgot password?', array(), NULL, Yii::app()->controller->currentLang), $this->createUrl('/web/user/forgot')); ?>
             </div>
         </div>
         <div class="row_input">
 
             <div class="row_text">
                 <article>
-                    <h2><?php echo Yii::t('common', 'Login with', array(), NULL, $this->currentLang) ?></h2>
+                    <h2><?php //echo Yii::t('common', 'Login with', array(), NULL, $this->currentLang) ?></h2>
                 </article>
             </div>
             <div class="row_input_type">
                 <?php
-                echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/facebook_login_03.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "facebook")), array("onclick" => "dtech.doSocial('login-form',this);return false;"));
-                echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/bird_login_03.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "twitter")), array("onclick" => "dtech.doSocial('login-form',this);return false;"));
-                echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/google_login_03.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "google")), array("onclick" => "dtech.doSocial('login-form',this);return false;"));
-                echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/in_img_06.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "linkedin")), array("onclick" => "dtech.doSocial('login-form',this);return false;"));
+//                echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/icons/fb_log.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "facebook")), array("onclick" => "dtech.doSocial('login-form',this);return false;"));
+//                echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/icons/twitter.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "twitter")), array("onclick" => "dtech.doSocial('login-form',this);return false;"));
+//                echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/icons/gplus.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "google")), array("onclick" => "dtech.doSocial('login-form',this);return false;"));
+//                echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/icons/linkedin.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "linkedin")), array("onclick" => "dtech.doSocial('login-form',this);return false;"));
                 ?>
             </div>
         </div>

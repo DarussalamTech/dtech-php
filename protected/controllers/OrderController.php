@@ -212,8 +212,8 @@ class OrderController extends Controller {
 
         $email['To'] = $model->user->user_email;
         $email['From'] = Yii::app()->params['adminEmail'];
-        $email['Subject'] = "Order has been changed ";
-        $email['Body'] = "Your order status has been changes from " . $orderStatuses[$oldStatus] . " to " . $orderStatuses[$model->status];
+        $email['Subject'] = "Order #".$model->order_id." has been changed ";
+        $email['Body'] = "Your order #".$model->order_id." status has been changes from " . $orderStatuses[$oldStatus] . " to " . $orderStatuses[$model->status];
         $email['Body'].= "<br/>" . $comments;
 
         $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);

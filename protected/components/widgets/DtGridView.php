@@ -136,12 +136,21 @@ class DtGridView extends CGridView
             items: 'tr',
             update : function () {
                 serial = $('#" . $this->id . " table.items tbody').sortable('serialize', {key: 'items[]', attribute: 'class'});
-                console.log(serial);
+                jQuery('#loading').show();
                 $.ajax({
                     'url': '" . $this->sortUrl . "',
                     'type': 'post',
                     'data': serial,
                     'success': function(data){
+                        jQuery('#flash-message').show();
+                        jQuery('#flash-message').html('Order has been updated');
+                        jQuery('#loading').hide();
+                        setTimeout(function() {
+                            $('#" . $this->id . "').yiiGridView.update('" . $this->id . "');
+                            jQuery('#flash-message').hide();
+                            window.location.reload();
+                      }, 2000);
+                        
                     },
                     'error': function(request, status, error){
                         alert('We are unable to set the sort order at this time.  Please try again in a few minutes.');
@@ -156,7 +165,7 @@ class DtGridView extends CGridView
 
     public function renderTableHeader()
     {
-        $this->renderSummary();
+        //$this->renderSummary();
         $this->renderPager();
         echo "<div class=clear></div>";
         parent::renderTableHeader();

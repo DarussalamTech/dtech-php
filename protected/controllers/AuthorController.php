@@ -113,6 +113,22 @@ class AuthorController extends Controller {
             'model' => $model,
         ));
     }
+    
+        /**
+     * update order of categories
+     */
+    public function actionUpdateOrder(){
+       
+        if(isset($_POST['items'])){
+            foreach($_POST['items'] as $key=>$item){
+                $id_array = explode(" ",$item);
+                $id = trim($id_array[0]);
+      
+                
+                Author::model()->updateByPk($id,array("user_order"=>$key));
+            }
+        }
+    }
 
     /**
      * Returns the data model based on the primary key given in the GET variable.
