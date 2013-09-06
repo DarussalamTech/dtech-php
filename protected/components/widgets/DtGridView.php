@@ -165,7 +165,7 @@ class DtGridView extends CGridView
 
     public function renderTableHeader()
     {
-        $this->renderSummary();
+        //$this->renderSummary();
         $this->renderPager();
         echo "<div class=clear></div>";
         parent::renderTableHeader();
