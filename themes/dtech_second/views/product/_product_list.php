@@ -28,10 +28,10 @@ foreach ($products as $product) {
                     "pcategory" => $category,
                     "slug" => $product['slug'],
                 ))
-        );
+        ,array('title'=>$name));
     }
     echo CHtml::openTag("h2");
-    echo substr($name, 0, 45) . '...';
+    echo substr($name, 0, 52) . '...';
     echo CHtml::closeTag("h2");
 //    echo CHtml::openTag("p");
 //    echo substr($product['product_overview'], 0, 35) . '...';
