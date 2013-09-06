@@ -7,7 +7,7 @@ $cs->registerCssFile(Yii::app()->theme->baseUrl . '/css/list.css');
         <div id="featured_books">
             <div id="right_featured">
                 <div class="list_all">
-                    <h1>List All</h1>
+                    <h1>Search items by</h1>
 
                     <?php $this->renderPartial("//layouts/_categories") ?>
 
@@ -42,9 +42,8 @@ $cs->registerCssFile(Yii::app()->theme->baseUrl . '/css/list.css');
                         $last_element = array_pop($slug_array);
                         $criteria = new CDbCriteria();
                         $criteria->select = "category_name";
-                        $category_name = Categories::model()->findByPk($last_element,$criteria)->category_name;
+                        $category_name = Categories::model()->findByPk($last_element, $criteria)->category_name;
                         echo $category_name;
-                        
                         ?>
                     </h6>
                     <div id="right_main_conent">
