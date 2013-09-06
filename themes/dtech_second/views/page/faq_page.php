@@ -1,21 +1,12 @@
 <?php
 Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/accordion.css');
 Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/jquery.accordion.2.0.js');
-
-$this->webPcmWidget['filter'] = array('name' => 'DtechSecondSidebar',
-    'attributes' => array(
-        'cObj' => $this,
-        'cssFile' => Yii::app()->theme->baseUrl . "/css/side_bar.css",
-        'is_cat_filter' => 1,
-        ));
-
-$this->webPcmWidget['best'] = array('name' => 'DtechBestSelling',
-    'attributes' => array(
-        'cObj' => $this,
-        'cssFile' => Yii::app()->theme->baseUrl . "/css/side_bar.css",
-        'is_cat_filter' => 0,
-        ));
 ?>
+<style type="text/css">
+    #faq {
+        font-family: Segoe,"Segoe UI","DejaVu Sans","Trebuchet MS",Verdana,sans-serif;
+    }
+</style>
 <div id="faq">
     <div id="faq_end">
         <div id="right_faq">
