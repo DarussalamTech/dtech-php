@@ -1,22 +1,28 @@
 <h2><?php echo $product->product_name; ?></h2>
 <h3><?php
-    echo isset($product->product_overview) ? $product->product_overview : "";
+    if (!empty($product->product_overview)) {
+        echo isset($product->product_overview) ? $product->product_overview : "";
+    }
     ?>
 </h3>
 <p><?php
-    echo Yii::t('model_labels', 'ISBN', array(), NULL, $this->currentLang) . ":";
-    echo isset($product->productProfile[0]->isbn) ? $product->productProfile[0]->isbn : "";
+    if (!empty($product->productProfile[0]->isbn)) {
+        echo Yii::t('model_labels', 'ISBN', array(), NULL, $this->currentLang) . ":";
+        echo isset($product->productProfile[0]->isbn) ? $product->productProfile[0]->isbn : "";
+    }
     ?>
 </p>
 <section>
     <?php
-    echo Yii::t('model_labels', 'Price', array(), NULL, $this->currentLang) . ":";
-    ?>
-    <b>
-        <?php
-        echo isset($product->productProfile[0]->price) ? round($product->productProfile[0]->price, 2) . ' ' . Yii::app()->session['currency'] : "";
+    if (!empty($product->productProfile[0]->price)) {
+        echo Yii::t('model_labels', 'Price', array(), NULL, $this->currentLang) . ":";
         ?>
-    </b>
+        <b>
+            <?php
+            echo isset($product->productProfile[0]->price) ? round($product->productProfile[0]->price, 2) . ' ' . Yii::app()->session['currency'] : "";
+            ?>
+        </b>
+    <?php } ?>
 </section>
 <article> 
     <?php
