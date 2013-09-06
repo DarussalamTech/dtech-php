@@ -26,9 +26,8 @@ class PaymentController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('paymentmethod', 'confirmorder', 
-                    'statelist', 'bstatelist','sstatelist',
-                    'mailer2',
+                'actions' => array('paymentmethod', 'confirmorder',
+                    'statelist', 'bstatelist', 'sstatelist',
                     'customer0rderDetailMailer', 'admin0rderDetailMailer'),
                 'users' => array('@'),
             ),
@@ -114,22 +113,20 @@ class PaymentController extends Controller {
             $model->attributes = $_POST['UserOrderBilling'];
             $model->user_id = Yii::app()->user->id;
             if ($model->save()) {
-                if($model->isSameShipping){
-                  
-                    $this->redirect($this->createUrl("/web/payment/paymentmethod",array("billing"=>$model->id)));
-                }
-                else {
+                if ($model->isSameShipping) {
+
+                    $this->redirect($this->createUrl("/web/payment/paymentmethod", array("billing" => $model->id)));
+                } else {
                     $this->redirect($this->createUrl("/web/payment/paymentmethod"));
                 }
             }
         }
 
-       
+
         $regionList = CHtml::listData(Region::model()->findAll(), 'id', 'name');
         $this->render('//payment/payment_method_billing', array(
             'model' => $model,
             'regionList' => $regionList,
-          
         ));
     }
 
@@ -187,59 +184,26 @@ class PaymentController extends Controller {
         UserProfile::model()->saveShippingInfo($_POST['ShippingInfoForm'], $order_id);
 
 
-        $this->customer0rderDetailMailer($_POST['ShippingInfoForm'],$order_id);
+        $this->customer0rderDetailMailer($_POST['ShippingInfoForm'], $order_id);
         $this->admin0rderDetailMailer($_POST['ShippingInfoForm'], $order_id);
-        Yii::app()->user->setFlash('orderMail', 'Dear Customer Thank you...Your Order has been ordered Successfully.');
+        Yii::app()->user->setFlash('orderMail', 'Thank you...');
 
         $this->redirect(array('/web/payment/confirmOrder'));
     }
-    
-        /**
-     * genreate email message
-     * for registration 
+
+    /*
+     * method to send order detail to customer
      */
-    public function actionMailer2() {
-       Yii::app()->user->SiteSessions;
-        $email['From'] = Yii::app()->params['adminEmail'];
-        $email['To'] = 'itsgeniusstar@gmail.com';
-        $email['Subject'] = "Congratz! You are now registered on " . Yii::app()->name;
-        $body = "You are now registered on " . Yii::app()->name . ", please validate your email";
 
-        $email['Body'] = $body;
-        
-       
-        
-        $email['Body'] = $this->renderPartial('//payment/_order_email_template2', array(), true, false);
-        $email['Body'] = $this->renderPartial('//common/_email_template', array('email' => $email), true, false);
-
-        CVarDumper::dump($email, 10, true);
-      
-
-        // $email['Body'] = $this->renderPartial('/common/_email_template');
-        $this->sendEmail2($email);
-    }
-
-   
-    /**
-     * 
-     * @param type $customerInfo
-     * @param type $order_id    
-     * method to send order detail to customer     
-     *
-     */
-    public function customer0rderDetailMailer($customerInfo,$order_id) {
+    public function customer0rderDetailMailer($customerInfo, $order_id) {
 
         $email['From'] = Yii::app()->params['adminEmail'];
         $email['To'] = Yii::app()->user->name;
         $email['Subject'] = "Your Order Detail";
-        $email['Body'] = $this->renderPartial('//payment/_order_email_template', array('customerInfo' => $customerInfo,"order_id"=>$order_id), true, false);
+        $email['Body'] = $this->renderPartial('//payment/_order_email_template', array('customerInfo' => $customerInfo, 'order_id' => $order_id), true, false);
         $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
-        
-        //echo $email['Body'] ;
-        //die;
         $this->sendEmail2($email);
     }
-    
 
     /*
      * method to send order detail to Admin
@@ -256,52 +220,55 @@ class PaymentController extends Controller {
 
         $this->sendEmail2($email);
     }
+
     /**
      * state list for shipping
      */
     public function actionStatelist() {
-        
+
         $shipping_card = new ShippingInfoForm();
         if (isset($_POST['ShippingInfoForm'])) {
             $shipping_card->attributes = $_POST['ShippingInfoForm'];
         }
         $stateList = $shipping_card->getStates();
-        
-        
+
+
         echo CHtml::tag('option', array('value' => ''), 'Select State', true);
         foreach ($stateList as $value => $name) {
             echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
         }
     }
+
     /**
      * state list for billing
      */
     public function actionBstatelist() {
-        
+
         $billing_card = new UserOrderBilling();
         if (isset($_POST['UserOrderBilling'])) {
             $billing_card->attributes = $_POST['UserOrderBilling'];
         }
         $stateList = $billing_card->getStates();
-        
-        
+
+
         echo CHtml::tag('option', array('value' => ''), 'Select State', true);
         foreach ($stateList as $value => $name) {
             echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
         }
     }
+
     /**
      * state list for shipping
      */
     public function actionSstatelist() {
-        
+
         $shipp_card = new UserOrderShipping();
         if (isset($_POST['UserOrderShipping'])) {
             $shipp_card->attributes = $_POST['UserOrderShipping'];
         }
         $stateList = $shipp_card->getStates();
-        
-        
+
+
         echo CHtml::tag('option', array('value' => ''), 'Select State', true);
         foreach ($stateList as $value => $name) {
             echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);

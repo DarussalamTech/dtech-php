@@ -18,7 +18,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
             <div class="payment_bg">
                 <article><?php echo CHtml::image(Yii::app()->theme->baseUrl . '/images/tick_payment_img_03.png'); ?></article>
                 <section><?php echo CHtml::image(Yii::app()->theme->baseUrl . '/images/tick_payment_img_03.png'); ?></section>
-               <section><?php echo CHtml::image(Yii::app()->theme->baseUrl . '/images/tick_payment_img_03.png'); ?></section>
+                <section><?php echo CHtml::image(Yii::app()->theme->baseUrl . '/images/tick_payment_img_03.png'); ?></section>
                 <span>Personal Information</span>
                 <h5>Billing Address</h5>
                 <h2>Shipping Address.</h2>
@@ -26,17 +26,17 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
         </div>
 
         <div class="confirm_order">
-            
+
             <?php if (Yii::app()->user->hasFlash('orderMail')) { ?>
-                Your Order has  successfully completed....
+                Your order has been placed successfully....
                 <div class="flash-success" style="color:green">
                     <?php echo '<br/><tt>' . Yii::app()->user->getFlash('orderMail') . '</tt>'; ?>
                 </div>
-            <?php }
-                else {
-                    echo  "Nothing has been Ordered ";
-                    echo CHtml::link("Home Page",$this->createUrl("/site/storeHome"));
-                }
+            <?php
+            } else {
+                echo "Nothing has been Ordered ";
+                echo CHtml::link("Home Page", $this->createUrl("/site/storeHome"));
+            }
             ?>
         </div>
     </div>

@@ -161,18 +161,44 @@ var dtech_new = {
 
     },
     showCartBox: function(obj) {
+        jQuery(".login_bx").hide();
+
         if (jQuery(".cart_bx").is(":visible") == false) {
-            jQuery(obj).attr("src", jQuery(obj).attr("hover"));
+
+            dtech_new.mouse_is_inside = true;
+            jQuery(".cart_bx").show();
+
+            jQuery(".cart_arrow img").attr("src", jQuery(".cart_arrow img").attr("hover"));
             jQuery(".search_img").css("z-index", "-1");
             jQuery(".cart_bx").show();
+
         }
         else {
-            jQuery(obj).attr("src", jQuery(obj).attr("unhover"));
+            jQuery(".cart_arrow img").attr("src", jQuery(".cart_arrow img").attr("unhover"));
             jQuery(".search_img").css("z-index", "10");
             jQuery(".cart_bx").hide();
         }
+
+        jQuery('.cart_bx').hover(function() {
+            dtech_new.mouse_is_inside = true;
+        }, function() {
+            dtech_new.mouse_is_inside = false;
+        });
+
+        jQuery("body").click(function() {
+            if (!dtech_new.mouse_is_inside)
+                jQuery(".cart_bx").hide();
+            if (jQuery(".cart_bx").is(":visible") == false) {
+                jQuery(".cart_arrow img").attr("src", jQuery(".cart_arrow img").attr("unhover"));
+            }
+
+        });
+
+
     },
     showLoginBox: function(obj) {
+        jQuery(".cart_bx").hide();
+        jQuery(".cart_arrow img").attr("src", jQuery(".cart_arrow img").attr("unhover"));
         if (jQuery(".login_bx").is(":visible") == false) {
             dtech_new.mouse_is_inside = true;
             jQuery(".login_bx").show();
@@ -229,14 +255,14 @@ var dtech_new = {
      * slider js code for home page of website
      */
     makeSlider: function() {
-        $(".banner_dots a").click(function(){
+        $(".banner_dots a").click(function() {
             elem_id = $(this).attr("id").replace("cs-button-coin-", "");
             $(".banner_slider").hide();
-            $(".banner_dots a").attr("class","cs-button-coin");
-            $("#banner_slider_"+elem_id).show('slow');
-            
+            $(".banner_dots a").attr("class", "cs-button-coin");
+            $("#banner_slider_" + elem_id).show('slow');
+
             $("#banner_slider_" + elem_id + " #cs-button-coin-" + elem_id).attr("class", "cs-button-coin cs-active");
-            
+
         });
         setInterval(function() {
             var visible_id = "";
@@ -258,8 +284,8 @@ var dtech_new = {
                 next_counter_id = $("#" + visible_id).next().attr("id").replace("banner_slider_", "");
 
                 current_vis = $("#" + visible_id).next().attr("id");
-                
-                $(".banner_dots a").attr("class","cs-button-coin");
+
+                $(".banner_dots a").attr("class", "cs-button-coin");
 
                 $("#" + current_vis + " #cs-button-coin-" + counter_id).attr("class", "cs-button-coin");
                 $("#" + current_vis + " #cs-button-coin-" + next_counter_id).attr("class", "cs-button-coin cs-active");
@@ -275,15 +301,15 @@ var dtech_new = {
                 next_counter_id = $("#banner").children().eq(0).attr("id").replace("banner_slider_", "");
 
                 current_vis = $("#banner").children().eq(0).attr("id");
-                
-                $(".banner_dots a").attr("class","cs-button-coin");
+
+                $(".banner_dots a").attr("class", "cs-button-coin");
 
                 $("#" + current_vis + " #cs-button-coin-" + counter_id).attr("class", "cs-button-coin");
                 $("#" + current_vis + " #cs-button-coin-" + next_counter_id).attr("class", "cs-button-coin cs-active");
 
             }
 
-        }, slider_timings*1000);
+        }, slider_timings * 1000);
 
     }
 }
