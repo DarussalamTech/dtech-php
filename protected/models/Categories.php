@@ -354,7 +354,7 @@ class Categories extends DTActiveRecord {
         $criteria->select = "category_name,category_id";
         $criteria->limit = $limit;
 
-        $criteria->order = "t.category_id " . $order;
+        $criteria->order = "t.user_order " . $order;
         $categories = $this->findAll($criteria);
         return $categories;
     }
