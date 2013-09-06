@@ -72,6 +72,7 @@ class Categories extends DTActiveRecord {
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
             array('parent_id, city_id', 'numerical', 'integerOnly' => true),
             array('category_name, added_date', 'length', 'max' => 255),
+            array('user_order', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('is_main_featured,slug,category_image', 'safe'),
@@ -168,6 +169,7 @@ class Categories extends DTActiveRecord {
             'parent_id' => Yii::t('model_labels', 'Parent', array(), NULL, Yii::app()->controller->currentLang),
             'city_id' => Yii::t('model_labels', 'City', array(), NULL, Yii::app()->controller->currentLang),
             'category_image' => Yii::t('model_labels', 'Category Image', array(), NULL, Yii::app()->controller->currentLang),
+            'user_order' => Yii::t('model_labels', 'Order', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 
@@ -235,6 +237,7 @@ class Categories extends DTActiveRecord {
         $criteria->compare('added_date', $this->added_date, true);
         $criteria->compare('parent_id', $this->parent_id);
         $criteria->compare('city_id', $this->city_id);
+        $criteria->compare('user_order', $this->user_order);
         /**
          * if flag for parent then only will be parent
          */
@@ -251,6 +254,7 @@ class Categories extends DTActiveRecord {
             'pagination' => array(
                 'pageSize' => 40,
             ),
+            'sort' => array('defaultOrder' => "user_order ASC")
         ));
     }
 

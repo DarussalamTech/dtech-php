@@ -119,6 +119,9 @@ class DtGridView extends CGridView
      */
     public function registerDragableScript()
     {
+        
+        $cs = Yii::app()->clientScript;
+        $cs->registerScriptFile(Yii::app()->request->baseUrl . '/packages/jui/js/jquery-ui.min.js');
         $str_js = "
         var fixHelper = function(e, ui) {
             ui.children().each(function() {
@@ -133,6 +136,7 @@ class DtGridView extends CGridView
             items: 'tr',
             update : function () {
                 serial = $('#" . $this->id . " table.items tbody').sortable('serialize', {key: 'items[]', attribute: 'class'});
+                console.log(serial);
                 $.ajax({
                     'url': '" . $this->sortUrl . "',
                     'type': 'post',
@@ -279,7 +283,8 @@ class DtGridView extends CGridView
          * 
          */
         
-        
+           $data = $this->dataProvider->data[$row];
+          
         
         if ($this->colorBox == true)
         {
@@ -288,6 +293,7 @@ class DtGridView extends CGridView
         if ($this->rowCssClassExpression !== null && ($n = count($this->rowCssClass)) > 0)
         {
             $data = $this->dataProvider->data[$row];
+           
             echo '<tr class="' . $this->evaluateExpression($this->rowCssClassExpression, array('row' => $row, 'data' => $data)) . ' ' . $this->rowCssClass[$row % $n] . '">';
         }
         else if (is_array($this->rowCssClass) && ($n = count($this->rowCssClass)) > 0)

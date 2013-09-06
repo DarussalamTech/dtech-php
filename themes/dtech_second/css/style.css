@@ -18,9 +18,9 @@ header { width:100%; padding: 0; margin: 0;
 #navigation { width:100%; padding: 10px 0; margin: 0; background:#ebebeb; float:left; border-bottom:1px solid #c7c7c7; border-top:1px solid #c7c7c7; height:40px; }
 
 #banner_part { width:100%; padding: 0px; margin: 0; 
-               /*background:url(../images/banner_bg_03.jpg) repeat-x; */
+               background:url(../images/bg_slider.jpg) repeat-x; 
                
-               background:#089ad4 repeat-x; 
+/*               background:#089ad4 repeat-x; */
                height:411px; float:left; }
 
 #best_seller_tikker { width:100%; float:left; padding: 0; margin: 0; height:77px; background:#e9e9e9; border-bottom:#c7c7c7 1px solid; border-top:#c7c7c7 1px solid; }
