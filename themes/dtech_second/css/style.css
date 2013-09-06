@@ -326,7 +326,7 @@ fieldset#body { padding:10px 13px; margin:0; }
 .nav_dropdown { 
     position:absolute; display:block; 
     background:#f5f5f5; border-radius: 0 0 5px 5px; 
-    padding: 0; margin: 10px 0px 0 -50px; width:auto; 
+    padding: 0; margin: 13px 0px 0 -50px; width:auto; 
     height:287px; border:1px solid #e0e0e0; border-top:none; 
     z-index: 1;
 }
