@@ -39,7 +39,9 @@ class AssignmentController extends Controller {
      * @return array action filters
      */
     public function filters() {
-        return array('accessControl');
+        return array(
+            'accessControl', 'https+ rules + view + user'
+        );
     }
 
     /**
@@ -70,6 +72,7 @@ class AssignmentController extends Controller {
             ),
         );
     }
+
     /**
      * 
      * @return type
@@ -85,7 +88,7 @@ class AssignmentController extends Controller {
     public function actionView() {
 
         $criteria = new CDbCriteria();
- 
+
         $criteria->addCondition("role_id =2");
         // Create a data provider for listing the users
         $dataProvider = new RAssignmentDataProvider("", array(

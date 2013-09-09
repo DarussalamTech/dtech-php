@@ -53,7 +53,9 @@ class AuthItemController extends Controller {
      * @return array action filters
      */
     public function filters() {
-        return array('accessControl');
+        return array(
+            'accessControl','https+ roles + permissions'
+            );
     }
 
     /**
