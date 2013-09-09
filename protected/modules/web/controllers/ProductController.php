@@ -232,7 +232,8 @@ class ProductController extends Controller {
             $id = $id[count($id) - 1];
 
             $product = Product::model()->localized(Yii::app()->controller->currentLang)->findByPk($id);
-
+           
+         
 
             /**
              * if no record found in english

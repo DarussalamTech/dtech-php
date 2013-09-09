@@ -37,7 +37,13 @@ class DTMultiLangBehaviour extends CActiveRecordBehavior {
 
     public function afterFind($event) {
         $owner = $this->getOwner();
-        
+        /*
+         * empty variable then replace 
+         */
+        if(empty($this->current_lang)){
+            $this->current_lang = Yii::app()->controller->currentLang;
+        }
+    
         if (isset($this->current_lang) && $this->current_lang != $this->defaultLanguage) {
             $relation = $owner->getRelated($this->relation);
            
