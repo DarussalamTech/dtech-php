@@ -5,7 +5,7 @@ if (!isset($display)) {
 }
 $mName = "DtMessagesTranslations";
 $relationName = "messages";
-CVarDumper::dump($model->getErrors(),10,true);
+
 ?>
 <div class="grid_fields" style="display:<?php echo $display; ?>">
 
@@ -16,7 +16,7 @@ CVarDumper::dump($model->getErrors(),10,true);
             echo CHtml::activeHiddenField($model, '[' . $index . ']id');
         }
 
-        echo CHtml::activeDropDownList($model, '[' . $index . ']language', array("ar" => "Arabic"));
+        echo CHtml::activeDropDownList($model, '[' . $index . ']language', Yii::app()->params['otherLanguages_arr']);
         ?>
     </div>
 
