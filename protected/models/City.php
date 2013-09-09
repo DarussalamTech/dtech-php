@@ -43,11 +43,12 @@ class City extends DTActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('country_id, city_name, short_name, address, layout_id', 'required'),
+            array('country_id, city_name, short_name, address, layout_id,currency_id', 'required'),
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
             array('city_name', 'unique'),
             array('country_id, layout_id', 'numerical', 'integerOnly' => true),
             array('city_name, short_name, address', 'length', 'max' => 255),
+            array('currency_id', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('city_id, country_id, city_name, short_name, address, layout_id', 'safe', 'on' => 'search'),
@@ -81,6 +82,7 @@ class City extends DTActiveRecord {
             'short_name' => Yii::t('model_labels', 'Short Name', array(), NULL, Yii::app()->controller->currentLang),
             'address' => Yii::t('model_labels', 'Address', array(), NULL, Yii::app()->controller->currentLang),
             'layout_id' => Yii::t('model_labels', 'Layout', array(), NULL, Yii::app()->controller->currentLang),
+            'currency_id' => Yii::t('model_labels', 'Currency', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 
