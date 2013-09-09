@@ -131,13 +131,13 @@
 
                         <?php
                         if (Yii::app()->user->isGuest) {
-                            echo Yii::t('header_footer', 'Welcome DTECH you can', array(), NULL, $this->currentLang);
-                            echo " ";
-                            echo CHtml::link(Yii::t('header_footer', 'Login', array(), NULL, $this->currentLang), $this->createUrl("/site/login"));
-                            echo " ";
-                            echo Yii::t('header_footer', 'or', array(), NULL, $this->currentLang);
-                            echo " ";
-                            echo CHtml::link(Yii::t('header_footer', 'create an account', array(), NULL, $this->currentLang), $this->createUrl("/web/user/register"));
+//                            echo Yii::t('header_footer', 'Welcome DTECH you can', array(), NULL, $this->currentLang);
+//                            echo " ";
+//                            echo CHtml::link(Yii::t('header_footer', 'Login', array(), NULL, $this->currentLang), $this->createUrl("/site/login"));
+//                            echo " ";
+//                            echo Yii::t('header_footer', 'or', array(), NULL, $this->currentLang);
+//                            echo " ";
+//                            echo CHtml::link(Yii::t('header_footer', 'create an account', array(), NULL, $this->currentLang), $this->createUrl("/web/user/register"));
                         }
                         ?>
                     </p>
@@ -156,7 +156,7 @@
                                           'id' => 'serach_field',
                                           'class' => 'search_here',
                                           'value' => (isset($_POST['serach_field']) ? $_POST['serach_field'] : ""),
-                                          'placeholder' => Yii::t('header_footer', 'type here', array(), NULL, $this->currentLang)
+                                          'placeholder' => Yii::t('header_footer', 'Search here', array(), NULL, $this->currentLang)
                                       ),
                                   ));
 
