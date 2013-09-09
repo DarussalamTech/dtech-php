@@ -1,5 +1,5 @@
 <h2><?php echo $product->product_name; ?></h2>
-<h3><?php
+<h3 dir="<?php echo Yii::app()->params['text_position'][$this->currentLang]; ?>"><?php
     if (!empty($product->product_overview)) {
         echo isset($product->product_overview) ? $product->product_overview : "";
     }
