@@ -263,7 +263,7 @@ class DtMessagesController extends Controller {
             $data = DtMessages::model()->findAll("category ='{$_GET['category']}'");
             $this->layout = "";
             $str = "<?php " . PHP_EOL;
-            $str.='$common_t =  array(' . PHP_EOL;
+            $str.='$'.$_GET['category'].'_t =  array(' . PHP_EOL;
             foreach ($data as $d) {
 
                 $str.= '"' . $d->message . '" => "' . $d->arabic_messages[0]->message . '",' . PHP_EOL;

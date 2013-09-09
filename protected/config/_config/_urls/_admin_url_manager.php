@@ -8,6 +8,7 @@
 $rules_admin = array(
     /** admin url ** */
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/dtMessages/index' => '/dtMessages/index',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/dtMessages/generate' => '/dtMessages/generate',
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/user/index' => '/user/index',
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/userRole/index' => '/userRole/index',
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/country/index' => '/country/index',
