@@ -250,7 +250,7 @@ class Order extends DTActiveRecord {
     public function makeStatusBizRule($dropDownStatus) {
 
         switch ($this->all_status[$this->status]) {
-            case "Canceled":
+            case "Cancelled":
                 /**
                  * no shipping and completed here
                  */

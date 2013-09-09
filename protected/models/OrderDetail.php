@@ -361,7 +361,8 @@ class OrderDetail extends DTActiveRecord {
          * order detail page
          */
          $this->reverted_to_stock = $this->isRevertedToStock();
-         if(!$this->reverted_to_stock){
+         $visible_state = array("Pending","Process");
+         if(!$this->reverted_to_stock && in_array($this->order->all_status[$this->order->status],$visible_state)){
               $this->revert_cancel = CHtml::link("Revert/Cancel", Yii::app()->controller->createUrl("/order/revertlineItem", array("id" => $this->user_order_id,)), array("class" => "cancel_revert"));
               
          /**

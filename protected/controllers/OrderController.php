@@ -192,7 +192,7 @@ class OrderController extends Controller {
          */
 
         if ($orderStatuses[$old_status] == "Shipped" &&
-                ($orderStatuses[$model->status] == 'Canceled' || $orderStatuses[$model->status] == 'Refunded')) {
+                ($orderStatuses[$model->status] == 'Cancelled' || $orderStatuses[$model->status] == 'Refunded')) {
             $model->increaseStock();
             Yii::app()->user->setFlash("status", "Your products stock has been updated  (Increased)");
         }
