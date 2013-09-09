@@ -62,6 +62,15 @@
                         echo CHtml::image(Yii::app()->theme->baseUrl . "/images/USA_flag_03.png");
                         ?>
                     </a>
+                    <a href="javascript:void(0)" class="flag"
+                       onclick ="dtech_new.changeLang(this)"
+                       lang = "ur"
+                       >
+
+                        <?php
+                        echo CHtml::image(Yii::app()->theme->baseUrl . "/images/pak_icon.png");
+                        ?>
+                    </a>
                     <input type="hidden" id="lang_h" name="lang_h" value="" />
                     <?php $this->endWidget(); ?>
 
