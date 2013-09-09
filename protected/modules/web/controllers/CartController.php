@@ -6,6 +6,18 @@
 class CartController extends Controller {
 
     /**
+     * @return array action filters
+     */
+    public function filters() {
+        return array(
+            //'https +login+LoginAdmin', // Force https, but only on login pages
+            "http +array('editcart',
+                    'setTotalAmountSession',
+                    'deleteCart', 'viewcart', 'loadCart')"
+        );
+    }
+
+    /**
      * view cart page
      */
     public function actionViewcart() {
@@ -25,12 +37,11 @@ class CartController extends Controller {
         Yii::app()->session['quantity'] = $total_quantity;
         Yii::app()->session['description'] = $description;
     }
-    
+
     /**
      * delete Cart 
      */
-    
-    public function actionDeleteCart($id){
+    public function actionDeleteCart($id) {
         Cart::model()->findByPk($id)->delete();
     }
 
@@ -135,7 +146,7 @@ class CartController extends Controller {
 
                 $this->sendEmail2($email);
                 Yii::app()->user->setFlash('send', "Your Query has been send to admin successfully");
-                $this->redirect($this->createUrl("/web/cart/emailtoAdmin",array("id"=>$id)));
+                $this->redirect($this->createUrl("/web/cart/emailtoAdmin", array("id" => $id)));
             }
         }
 

@@ -7,6 +7,16 @@
 
 class PageController extends Controller {
 
+    /**
+     * @return array action filters
+     */
+    public function filters() {
+        return array(
+            //'https +login+LoginAdmin', // Force https, but only on login pages
+            "http +array('ViewPage','pagesPreview')"
+        );
+    }
+
     //$models=new Pages();
 
     public function actionViewPage($id) {

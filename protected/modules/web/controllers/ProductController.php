@@ -21,6 +21,16 @@ class ProductController extends Controller {
         return array(
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
+            //'https +login+LoginAdmin', // Force https, but only on login pages
+            "http +array('viewcart',
+                    'editcart',
+                    'viewwishlist', 'editwishlist', 'allproducts',
+                    'featuredproducts',
+                    'bestsellings',
+                    'productdetail',
+                    'productlisting',
+                    'productfilter',
+                    'productDetailLang', 'category')"
         );
     }
 
@@ -52,13 +62,15 @@ class ProductController extends Controller {
             ),
         );
     }
+    
+
 
     //front site actions
     public function actionallProducts() {
 
         $this->is_cat_filter = true;
         Yii::app()->user->SiteSessions;
-
+    
 
         /**
          * ajax based

@@ -13,6 +13,7 @@ class UserProfileController extends Controller {
         return array(
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
+            "http + array('index','view')"
         );
     }
 
@@ -67,20 +68,19 @@ class UserProfileController extends Controller {
         if (isset($_POST['UserProfile'])) {
             $model->id = Yii::app()->user->id;
             $model->attributes = $_POST['UserProfile'];
-            
+
             if (empty($model->avatar)) {
                 $model->avatar = $old_pic;
             }
-            
+
             if ($model->save()) {
                 $upload_path = DTUploadedFile::creeatRecurSiveDirectories(array("user_profile", Yii::app()->user->id));
                 if (!empty($model->avatar)) {
-                    $source = Yii::app()->basePath."/../uploadify/temp/".Yii::app()->user->id."/".$model->avatar;
-                    if(file_exists($source)){
-                        copy(Yii::app()->basePath."/../uploadify/temp/".Yii::app()->user->id."/".$model->avatar, $upload_path.$model->avatar);
+                    $source = Yii::app()->basePath . "/../uploadify/temp/" . Yii::app()->user->id . "/" . $model->avatar;
+                    if (file_exists($source)) {
+                        copy(Yii::app()->basePath . "/../uploadify/temp/" . Yii::app()->user->id . "/" . $model->avatar, $upload_path . $model->avatar);
                         unlink($source);
                     }
-                    
                 }
                 Yii::app()->user->setFlash("profie_success", "Your Profile has been updated successfully");
                 $this->redirect($this->createUrl("index"));
@@ -91,7 +91,6 @@ class UserProfileController extends Controller {
             'model' => $model,
         ));
     }
-
 
     /**
      * Returns the data model based on the primary key given in the GET variable.

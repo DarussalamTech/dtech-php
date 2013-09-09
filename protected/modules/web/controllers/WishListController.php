@@ -6,6 +6,15 @@
 class WishListController extends Controller {
 
     /**
+     * @return array action filters
+     */
+    public function filters() {
+        return array(
+            "http + array('viewwishlist','eEditwishlist')"
+        );
+    }
+
+    /**
      * For viewing the list of product which add into wishlist
      */
     public function actionViewwishlist() {

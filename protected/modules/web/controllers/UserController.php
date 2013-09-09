@@ -13,6 +13,8 @@ class UserController extends Controller {
         return array(
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
+            "https +array('changePass')",
+            "http + array(activate','register','updateProfile','updateProfile','forgot','productReview','customerHistory','orderDetail','print','customerDetail')"
         );
     }
 
@@ -277,7 +279,7 @@ class UserController extends Controller {
             $model_d->attributes = $_GET['Order'];
         }
 
-        $this->renderPartial('//user/print', array('model' => $model, "model_d" => $model_d),false,false);
+        $this->renderPartial('//user/print', array('model' => $model, "model_d" => $model_d), false, false);
     }
 
     /**
