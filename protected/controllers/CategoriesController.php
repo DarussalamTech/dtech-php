@@ -29,8 +29,6 @@ class CategoriesController extends Controller {
         $this->filters = array(
             'parent_id' => Categories::model()->getParentCategories(),
         );
-       
-     
     }
 
     /**
@@ -40,6 +38,7 @@ class CategoriesController extends Controller {
         return array(
             // 'accessControl', // perform access control for CRUD operations
             'rights',
+            'https + index + view + update + create + createParent + updateParent +indexParent',
         );
     }
 
@@ -293,18 +292,19 @@ class CategoriesController extends Controller {
             'model' => $model,
         ));
     }
+
     /**
      * update order of categories
      */
-    public function actionUpdateOrder(){
-       
-        if(isset($_POST['items'])){
-            foreach($_POST['items'] as $key=>$item){
-                $id_array = explode(" ",$item);
+    public function actionUpdateOrder() {
+
+        if (isset($_POST['items'])) {
+            foreach ($_POST['items'] as $key => $item) {
+                $id_array = explode(" ", $item);
                 $id = trim($id_array[0]);
 
-                
-                Categories::model()->updateByPk($id,array("user_order"=>$key));
+
+                Categories::model()->updateByPk($id, array("user_order" => $key));
             }
         }
     }
@@ -317,7 +317,7 @@ class CategoriesController extends Controller {
      * @throws CHttpException
      */
     public function loadModel($id, $ml = false) {
-          $model = Categories::model()->findByPk((int) $id);
+        $model = Categories::model()->findByPk((int) $id);
         if ($model === null)
             throw new CHttpException(404, 'The requested post does not exist.');
         return $model;

@@ -226,7 +226,7 @@ class SiteController extends Controller {
         $body = "You are now registered on " . Yii::app()->name . ", please validate your email";
         // $body.=" going to this url: <br /> \n" . $model->getActivationUrl();
         $email['Body'] = $body;
-        
+
         $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
 
         CVarDumper::dump($email, 10, true);
@@ -234,7 +234,6 @@ class SiteController extends Controller {
         // $email['Body'] = $this->renderPartial('/common/_email_template');
         $this->sendEmail2($email);
     }
-
 
     /**
      * Displays the contact page
@@ -274,6 +273,19 @@ class SiteController extends Controller {
         $this->render($this->slash . '/site/contact', array('model' => $model));
     }
 
+    /*
+     * implementing the filter class
+     * to handle secure login
+     * https login
+     */
+
+    public function filters() {
+        return array(
+            'https +login+LoginAdmin', // Force https, but only on login pages
+            'http + index'
+        );
+    }
+
     /**
      * Displays the login page
      */
@@ -293,8 +305,6 @@ class SiteController extends Controller {
             Yii::app()->end();
         }
 
-
-
         // collect user input data
         if (isset($_POST['LoginForm'])) {
             $model->attributes = $_POST['LoginForm'];
@@ -312,7 +322,7 @@ class SiteController extends Controller {
                 } else if (Yii::app()->user->isAdmin) {
 
                     $_REQUEST['city_id'] = Yii::app()->user->user->city_id;
-                    
+
                     Yii::app()->user->SiteSessions;
                     $this->isAdminSite = true;
                     $this->redirect($this->createUrl('/product/index'));
@@ -580,7 +590,7 @@ class SiteController extends Controller {
             /**
              * get old language
              */
-            $prev_lang = !empty(Yii::app()->session['current_lang'])?Yii::app()->session['current_lang']:$this->currentLang;
+            $prev_lang = !empty(Yii::app()->session['current_lang']) ? Yii::app()->session['current_lang'] : $this->currentLang;
 
             /**
              * setting new language

@@ -26,6 +26,7 @@ class AuthorController extends Controller {
         return array(
             // 'accessControl', // perform access control for CRUD operations
             'rights',
+            'https + index + view + update + create',
         );
     }
 

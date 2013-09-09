@@ -16,6 +16,7 @@ class ProductController extends Controller {
         return array(
             // 'accessControl', // perform access control for CRUD operations
             'rights',
+            'https + index + view + update + create + slider + createSlider +sliderSetting+removeSlider+language',
         );
     }
 
@@ -181,18 +182,17 @@ class ProductController extends Controller {
     /**
      * create Slider for main website
      */
-    public function actionCreateSlider($id = 0 ,$slider ="") {
+    public function actionCreateSlider($id = 0, $slider = "") {
 
         $cityList = CHtml::listData(City::model()->findAll(), 'city_id', 'city_name');
-        $model = Slider::model()->find("product_id = ".$id);
-        if(empty($model)){
+        $model = Slider::model()->find("product_id = " . $id);
+        if (empty($model)) {
             $model = new Slider();
-        }
-        else {
-             $old_img = $model->image;
+        } else {
+            $old_img = $model->image;
         }
         $model->city_id = Yii::app()->request->getQuery('city_id');
-        
+
         $product = Product::model()->findByPk($id);
         $model->product_id = $product->product_id;
         $model->product_name = $product->product_name;
@@ -205,7 +205,7 @@ class ProductController extends Controller {
             //making instance of the uploaded image 
             $img_file = DTUploadedFile::getInstance($model, 'image');
             $model->image = $img_file;
-          
+
             if (empty($model->image) && !empty($model->id)) {
 
                 // conditon for if no image submited then old img should not be deleted
@@ -217,8 +217,8 @@ class ProductController extends Controller {
                 if (!empty($img_file)) {
                     $img_file->saveAs($upload_path . $img_file->name);
                 }
-                
-                $this->redirect(array('createSlider', 'id' => $id,"slider"=>$model->id));
+
+                $this->redirect(array('createSlider', 'id' => $id, "slider" => $model->id));
             }
         }
 
@@ -227,34 +227,33 @@ class ProductController extends Controller {
             'cityList' => $cityList,
                 ), false, true);
     }
+
     /**
      * Remove Slider
      * from database
      * 
      */
-    public function actionRemoveSlider($id){
+    public function actionRemoveSlider($id) {
         Slider::model()->deleteByPk($id);
-       
     }
-    
+
     /**
      * Slider Settings
      * Time
      */
-    
-    public function actionSliderSetting(){
-        
+    public function actionSliderSetting() {
+
         $conf = ConfMisc::model()->find("param = 'slider_time'");
-      
+
         $model = new SliderSetting();
         $model->time = $conf->value;
-        if(isset($_POST['SliderSetting'])){
+        if (isset($_POST['SliderSetting'])) {
             $model->attributes = $_POST['SliderSetting'];
-            if($model->validate()) {
-               $conf->updateByPk($conf->id,array("value"=>$model->time));
+            if ($model->validate()) {
+                $conf->updateByPk($conf->id, array("value" => $model->time));
             }
         }
-        $this->render("_slider_settings",array("model" => $model));
+        $this->render("_slider_settings", array("model" => $model));
     }
 
     /**

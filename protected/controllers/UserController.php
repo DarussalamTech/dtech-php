@@ -16,6 +16,7 @@ class UserController extends Controller {
         return array(
             // 'accessControl', // perform access control for CRUD operations
             'rights',
+            'https + index + view + update + create + changePassword'
         );
     }
 
@@ -93,7 +94,7 @@ class UserController extends Controller {
          * 
          */
         if ($model->role_id == "2") {
-            $message.= "<br/><span>You are System User of ".$model->city->city_name."</span><br/>";
+            $message.= "<br/><span>You are System User of " . $model->city->city_name . "</span><br/>";
         }
         $message.= "<span>Your Username is : " . $model->user_name . "</span><br /><br /> Thanks you ";
         $message.= "<span>Your Password is : " . $password . "</span><br /><br /> Thanks you ";
