@@ -14,7 +14,7 @@ foreach ($products as $product):
 
             <?php
             //echo CHtml::link(CHtml::image($image, ""), $this->createUrl('/web/product/productDetail', array('product_id' => $product['product_id'])), array('title' => $name));
-            echo CHtml::link(CHtml::image($image, 'image', array("title" => "","class"=>$cssclass)), $this->createUrl('/web/product/productDetail', array(
+            echo CHtml::link(CHtml::image($image, 'image', array("title" => "", "class" => $cssclass)), $this->createUrl('/web/product/productDetail', array(
                         'country' => Yii::app()->session['country_short_name'],
                         'city' => Yii::app()->session['city_short_name'],
                         'city_id' => Yii::app()->session['city_id'],
@@ -34,7 +34,7 @@ foreach ($products as $product):
             </p>
         </div>
         <div class="featured_bottom">
-            <span><?php echo Yii::app()->session['currency'] . " " . $product['product_price']; ?></span>
+            <span><?php echo Yii::app()->session['currency'] . " " . round($product['product_price'], 2); ?></span>
             <?php
             /**
              * quantity check for displaying 
