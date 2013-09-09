@@ -22,6 +22,7 @@ $header_footer_t =  array(
     "Change Password" => "تغيير كلمة المرور",
     "Order History" => "تاريخ النظام",
     "type here" => "اكتب هنا",
+    "Search here" => "البحث هنا",
     "Search" => "بحث",
     "wishlist" => "قائمة الامنيات",
     "My Shopping Bag" => "بلدي حقيبة تسوق",
