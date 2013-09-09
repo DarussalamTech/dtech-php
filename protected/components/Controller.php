@@ -89,8 +89,6 @@ class Controller extends RController {
     public function beforeAction($action) {
 
         parent::beforeAction($action);
-
-
         $this->setPages();
         $this->installConfig();
         $this->registerWidget();
@@ -247,7 +245,7 @@ class Controller extends RController {
      */
     public function setPages() {
         $module = $this->getModule();
-       
+
 
         if ($this->id == "site" || get_class($module) == "WebModule") {
             $this->webPages = Pages::model()->getPages();
@@ -257,12 +255,13 @@ class Controller extends RController {
             if (isset(Yii::app()->session['city_id']) || isset($_REQUEST['city_id'])) {
                 $this->menu_categories = Categories::model()->getMenuCategories();
             }
-           
+
             /**
              * if menu category not present then page will be redirected again
              */
-            if(!isset($this->menu_categories)){
-                Yii::app()->user->SiteSessions;;
+            if (!isset($this->menu_categories)) {
+                Yii::app()->user->SiteSessions;
+                ;
             }
             $this->currentLang = isset(Yii::app()->session['current_lang']) ? Yii::app()->session['current_lang'] : "en";
             //$this->configureTheme();
@@ -274,6 +273,24 @@ class Controller extends RController {
             $this->isAdminSite = true;
             $this->setPermissions();
         }
+    }
+
+    /*
+     * filtering the http and 
+     * https for security purpose of 
+     * the application:
+     * extending from the Filter class residing
+     * in proteted/DTHTtpsFilter :ubd
+     */
+
+    public function filterHttps($filterChain) {
+        $filter = new DTHttpsFilter;
+        $filter->filter($filterChain);
+    }
+
+    public function filterHttp($filterChain) {
+        $filter = new DTHttpFilter;
+        $filter->filter($filterChain);
     }
 
     /**
@@ -507,8 +524,8 @@ class Controller extends RController {
         /**
          * for user side only 
          */
-        if(!$this->isAdminSite){
-            $conCate['lang'] =$this->currentLang;
+        if (!$this->isAdminSite) {
+            $conCate['lang'] = $this->currentLang;
         }
         $params = array_merge($params, $conCate);
         return parent::createUrl($route, $params, $ampersand);
