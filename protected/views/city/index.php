@@ -57,17 +57,17 @@ $this->widget('zii.widgets.grid.CGridView', array(
     'filter' => $model,
     'columns' => array(
         array(
-            'name' => 'country_id',
+            'name' => 'city_name',
             'type' => 'Raw',
-            'value' => '!empty($data->country)?$data->country->country_name:""',
+            'value' => '$data->city_name',
             'headerHtmlOptions' => array(
                 'style' => "text-align:left"
             )
         ),
         array(
-            'name' => 'city_name',
+            'name' => 'country_id',
             'type' => 'Raw',
-            'value' => '$data->city_name',
+            'value' => '!empty($data->country)?$data->country->country_name:""',
             'headerHtmlOptions' => array(
                 'style' => "text-align:left"
             )
@@ -84,6 +84,15 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'name' => 'address',
             'type' => 'Raw',
             'value' => '$data->address',
+            'headerHtmlOptions' => array(
+                'style' => "text-align:left"
+            )
+        ),
+        array(
+            'name' => 'currency_id',
+            'type' => 'Raw',
+            'value' => '!empty($data->currency)?$data->currency->symbol:""',
+            //'value' => '$data->site_id',
             'headerHtmlOptions' => array(
                 'style' => "text-align:left"
             )
