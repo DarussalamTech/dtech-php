@@ -42,7 +42,7 @@ if (Yii::app()->user->hasFlash('status')) {
 <p>
     <b>Information:</b>
     <br/>
-    If Order Status changes Shipped to Canceled Or Refunded = Then Quantity will be reverted to Products
+    If Order Status changes Shipped to Cancelled Or Refunded = Then Quantity will be reverted to Products
     <br/>
     If Order Status changes Pending or Process to Shipped = Then Quantity will be decreased to Products
     <br/>
