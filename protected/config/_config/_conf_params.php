@@ -44,8 +44,9 @@ $params = array(
     'defaultLanguage' => 'en',
     'translatedLanguages' => array('en', 'ar','ur'),
     'text_position'=>array('en'=>'ltr','ar'=>'rtl','ur'=>'rtl'),
-    'https'=>false,
     'otherLanguages' => array('ar','ur'),
+    'otherLanguages_arr' => array('ar'=>"Arabic",'ur'=>"Urdu"),
+    'https'=>false,
     'notallowdCharactorsUrl' => array('[',']','@','!','$','&','(',')','*','+',';',"'",","),
 );
 ?>

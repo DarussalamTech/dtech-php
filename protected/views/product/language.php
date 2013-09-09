@@ -37,7 +37,7 @@ $form = $this->beginWidget('CActiveForm', array(
     <div class="row">
         <?php echo CHtml::activeLabelEx($model, 'lang_id'); ?>
         <?php
-        echo CHtml::activeDropDownList($model, 'lang_id', array("ar" => "Arabic"));
+        echo CHtml::activeDropDownList($model, 'lang_id', Yii::app()->params['otherLanguages_arr']);
         ?>
         <?php echo CHtml::error($model, 'lang_id'); ?>
     </div>
