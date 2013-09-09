@@ -10,7 +10,7 @@
 class DTHttpsFilter extends CFilter {
 
     protected function preFilter($filterChain) {
-        if (!Yii::app()->getRequest()->isSecureConnection) {
+        if ((Yii::app()->params['https']) && !Yii::app()->getRequest()->isSecureConnection) {
 
             # Redirect to the secure version of the page.
             $url = 'https://' .
