@@ -42,8 +42,10 @@ $params = array(
     'mailPassword' => 'abc123AB1',
     'mailSecuity' => 'ssl',
     'defaultLanguage' => 'en',
-    'translatedLanguages' => array('en', 'ar'),
-    'otherLanguages' => array('ar'),
+    'translatedLanguages' => array('en', 'ar','ur'),
+    'text_position'=>array('en'=>'ltr','ar'=>'rtl','ur'=>'rtl'),
+    'https'=>false,
+    'otherLanguages' => array('ar','ur'),
     'notallowdCharactorsUrl' => array('[',']','@','!','$','&','(',')','*','+',';',"'",","),
 );
 ?>
