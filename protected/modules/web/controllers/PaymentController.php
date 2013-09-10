@@ -44,6 +44,16 @@ class PaymentController extends Controller {
 
     public function actionpaymentMethod() {
         Yii::app()->user->SiteSessions;
+        
+        /**
+         * if cart is empty then it redirect to home page
+         */
+        $cart = Cart::model()->getCartListCount();
+
+        if ($cart['cart_total'] == null) {
+            $this->redirect($this->createUrl("/site/storeHome"));
+        }
+
         if (isset($_GET['step']) && $_GET['step'] == 'billing') {
             $this->handleBilling();
         } else {
