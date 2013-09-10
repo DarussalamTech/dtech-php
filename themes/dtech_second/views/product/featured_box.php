@@ -22,7 +22,7 @@ foreach ($products as $product):
                         "slug" => $product['slug'],
                     )), array('title' => $name));
             ?>
-            <h2><?php echo substr($name, 0, 37) . '...'; ?></h2>
+            <h2><?php echo (strlen($name) > 36) ? substr($name, 0, 36) . ' ...' : $name; ?></h2>
             <p>
                 <?php
 //                if (!empty($product['product_overview'])) {
