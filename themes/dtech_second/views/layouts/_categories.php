@@ -51,8 +51,23 @@ if (isset($this->menu_categories)):
 
         <?php
     endforeach;
+
+//
+//    $slug_array = split('-', $_REQUEST['slug']);
+//    $last_element = array_pop($slug_array);
+//    $criteria = new CDbCriteria();
+//    $criteria->select = "category_name";
+
+    $category_name = Categories::model()->findByPk($last_element, $criteria)->category_name;
+    echo $category_name;
+
+    if (array_shift(split('-', $_REQUEST['slug'])) == 'Books') {
+        $display = '';
+    } else {
+        $display = 'none';
+    }
     ?>
-    <div class="listing">
+    <div class="listing" style="display: <?php echo $display; ?>">
         <p>
             <a href="javascript:void(0)" onclick="dtech_new.aquardinaMenu(this)">
                 <?php
