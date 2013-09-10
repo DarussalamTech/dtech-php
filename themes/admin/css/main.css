@@ -963,3 +963,6 @@ div.img_hover:hover
 .grid-view table tr.reveted {
     background: pink !important;
 }
+.grid-view table tr.partialy_reveted {
+    background: yellow !important;
+}

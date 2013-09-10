@@ -27,7 +27,14 @@ $('.search-form form').submit(function(){
 ?>
 
 <h1>Orders Detail  </h1>
-
+<p>
+    <b>Information:</b>
+    <br/>
+    If row background color is pink then all products has been reverted
+    <br/>
+    it row background color is yellow then partialy reverted
+    <br/>
+</p>
 <?php
 echo CHtml::openTag("div", array("class" => "flash-success", "id" => "flash-message-order", "style" => "display:none"));
 
@@ -42,7 +49,7 @@ echo CHtml::closeTag("div");
 $this->widget('DtGridView', array(
     'id' => 'order-detail-grid',
     'dataProvider' => $model->search(),
-    'rowCssClassExpression'=>'($data->reverted_to_stock)?"reveted":""',
+    'rowCssClassExpression'=>'$data->row_css_class',
     //'filter' => $model,
     'columns' => array(
         array(
