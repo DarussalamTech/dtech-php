@@ -56,8 +56,9 @@
             'summaryText' => '{count} records(s) found.',
             'cssFile' => Yii::app()->theme->baseUrl . '/css/cart_gridview.css',
             'afterAjaxUpdate' => "function(id,data){
-                  dtech_new.loadCartAgain('".$this->createUrl("/web/cart/loadCart")."');
-                if(jQuery('#cart-grid table tbody tr td.empty').length!=0){
+                  dtech_new.loadCartAgain('" . $this->createUrl("/web/cart/loadCart") . "');
+                if(jQuery('#cart-grid').length==0){
+                window.location.reload();
                     jQuery('.check_out_cart').hide();
                 }
                 else {
@@ -101,7 +102,7 @@
                                 
                                 ',
                     "type" => "raw",
-                    'htmlOptions'=>array('class'=>'update-cart-td','width'=>'100'),
+                    'htmlOptions' => array('class' => 'update-cart-td', 'width' => '100'),
                 ),
                 array(
                     'class' => 'CButtonColumn',
@@ -116,7 +117,6 @@
                             'label' => ' Update ',
                             'url' => 'Yii::app()->controller->createUrl("/web/cart/editcart",array("cart_id"=>$data->cart_id))',
                             'imageUrl' => '',
-                            
                             'click' => "function(event){
                                 event.preventDefault();
                                 q_obj = $(this).parent().prev().children().eq(0);
@@ -166,7 +166,7 @@
     if (!empty($cart_data)) {
         echo CHtml::button("CHECKOUT", array(
             "class" => "check_out_cart",
-            "onclick" => "window.location = '" . $this->createUrl('/web/payment/paymentmethod',array('step'=>'billing')) . "'"));
+            "onclick" => "window.location = '" . $this->createUrl('/web/payment/paymentmethod', array('step' => 'billing')) . "'"));
     } else {
         
     }
