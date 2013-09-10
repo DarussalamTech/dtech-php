@@ -96,6 +96,14 @@ class Controller extends RController {
         if (strstr($this->basePath, "protected")) {
             $this->basePath = realPath($this->basePath . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR);
         }
+        
+        /**
+         * storing php session in yii session
+         * when no user is login
+         */
+        if(empty(Yii::app()->user->id)){
+            Yii::app()->session['cart_session'] = session_id();
+        }
 
         $this->isChangeAdminCity();
 
