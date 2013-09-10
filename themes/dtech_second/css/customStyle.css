@@ -34,8 +34,8 @@ header {z-index: 1;}
     cursor: pointer;
 }
 .featured_cover_part img {
-/*    height: 130px;
-    width: 84px;*/
+    /*    height: 130px;
+        width: 84px;*/
 }
 .featured_cover_part img.no_image {
     height: 130px;
@@ -210,5 +210,18 @@ input[type=button],input[type=submit] {
     color: #A7A7A7;
     font-family: Segoe,"Segoe UI","DejaVu Sans","Trebuchet MS",Verdana,sans-serif;
     font-size: 20px;
+    text-decoration: none;
+}
+.sliderDetail{
+    background: none repeat scroll 0 0 #EBB91C;
+    border: medium none;
+    border-radius: 3px 3px 3px 3px;
+    color: #FFFFFF;
+    font-family: Gotham,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 15px;
+    height: 139px;
+    margin: 0px 17px 0px;
+    padding: 11px 12px 9px;
+    width: 138px;
     text-decoration: none;
 }
