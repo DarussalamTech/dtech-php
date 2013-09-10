@@ -42,7 +42,7 @@ class CartController extends Controller {
             $cart_model->user_id = Yii::app()->user->id;
             $cart_model->city_id = Yii::app()->session['city_id'];
             $cart_model->added_date = date(Yii::app()->params['dateformat']);
-            $cart_model->session_id = $ip;
+            $cart_model->session_id = Yii::app()->session['cart_session'];
         }
 
 

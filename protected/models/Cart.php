@@ -116,7 +116,7 @@ class Cart extends DTActiveRecord {
     function addCartByUser() {
         $ip = getenv("REMOTE_ADDR");
         $cart_model = new Cart();
-        $cart = $cart_model->findAll('session_id="' . $ip . '"');
+        $cart = $cart_model->findAll('session_id="' . Yii::app()->session['cart_session'] . '"');
         if ($cart) {
             foreach ($cart as $pro) {
                 $cart_model2 = new Cart();
@@ -149,9 +149,9 @@ class Cart extends DTActiveRecord {
         $criteria = new CDbCriteria();
 
         if (isset(Yii::app()->user->id)) {
-            $criteria->condition = 'city_id=' . Yii::app()->session['city_id'] . ' AND (user_id=' . Yii::app()->user->user_id . ' OR session_id="' . $ip . '")';
+            $criteria->condition = 'city_id=' . Yii::app()->session['city_id'] . ' AND (user_id=' . Yii::app()->user->user_id . ' OR session_id="' . Yii::app()->session['cart_session'] . '")';
         } else {
-            $criteria->condition = 'city_id=' . Yii::app()->session['city_id'] . ' AND session_id="' . $ip . '"';
+            $criteria->condition = 'city_id=' . Yii::app()->session['city_id'] . ' AND session_id="' . Yii::app()->session['cart_session'] . '"';
         }
 
 
@@ -184,7 +184,7 @@ class Cart extends DTActiveRecord {
             $tot = Yii::app()->db->createCommand()
                     ->select('sum(quantity) as cart_total')
                     ->from('cart')
-                    ->where('city_id=' . Yii::app()->session['city_id'] . ' AND session_id="' . $ip . '"')
+                    ->where('city_id=' . Yii::app()->session['city_id'] . ' AND session_id="' . Yii::app()->session['cart_session'] . '"')
                     ->queryRow();
         }
 
