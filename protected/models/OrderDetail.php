@@ -17,7 +17,7 @@ class OrderDetail extends DTActiveRecord {
 
     public $totalOrder, $total_price,
             $stock, $reverted_to_stock,
-            $user_quantity, $revert_cancel, $product_image;
+            $user_quantity, $revert_cancel, $product_image,$row_css_class;
 
     /**
      * used for deleting
@@ -360,27 +360,46 @@ class OrderDetail extends DTActiveRecord {
          * used to set text field for admin area of 
          * order detail page
          */
-         $this->reverted_to_stock = $this->isRevertedToStock();
-         $visible_state = array("Pending","Process");
-         if(!$this->reverted_to_stock && in_array($this->order->all_status[$this->order->status],$visible_state)){
-              $this->revert_cancel = CHtml::link("Revert/Cancel", Yii::app()->controller->createUrl("/order/revertlineItem", array("id" => $this->user_order_id,)), array("class" => "cancel_revert"));
-              
-         /**
-         * used to set text field for admin area of 
-         * order detail page
+        $this->reverted_to_stock = $this->isRevertedToStock();
+        
+        /**
+         * row css class for grid
+         * to higlght border or background
          */
-        $this->user_quantity = CHtml::textField(
-                        'quantity', $this->quantity, array("style" => "width:40px")
-                ) . " " . CHtml::link("Update", Yii::app()->controller->createUrl("/order/orderProductQuantity", array("id" => $this->user_order_id)), array("onclick" => "dtech.updateOrderProductQuantity(this);return false"));
-         }
-         else{
-             $this->revert_cancel = "Reverted";
-             $this->user_quantity = $this->quantity;
-         }
-        
-        
-        
-       
+        if($this->reverted_to_stock == 1){
+            $this->row_css_class = "reveted";
+        }
+        else if($this->reverted_to_stock == 2){
+            $this->row_css_class = "partialy_reveted";
+        }
+        /*         * *
+         * visible state for updating quantity of 
+         * 
+         */
+        $visible_state = array("Pending", "Process");
+        if ($this->reverted_to_stock!=1) {
+            $this->revert_cancel = CHtml::link("Revert/Cancel", Yii::app()->controller->createUrl("/order/revertlineItem", array("id" => $this->user_order_id,)), array("class" => "cancel_revert"));
+
+            /**
+             * used to set text field for admin area of 
+             * order detail page
+             */
+            if (in_array($this->order->all_status[$this->order->status], $visible_state)) {
+                $this->user_quantity = CHtml::textField(
+                                'quantity', $this->quantity, array("style" => "width:40px")
+                        ) . " " . CHtml::link("Update", Yii::app()->controller->createUrl("/order/orderProductQuantity", array("id" => $this->user_order_id)), array("onclick" => "dtech.updateOrderProductQuantity(this);return false"));
+            }
+            else {
+                 $this->user_quantity = $this->quantity;
+            }
+        } else {
+            $this->revert_cancel = "Reverted";
+            $this->user_quantity = $this->quantity;
+        }
+
+
+
+
         parent::afterFind();
     }
 
@@ -393,6 +412,9 @@ class OrderDetail extends DTActiveRecord {
         $modelOrder->order_detail_id = $this->user_order_id;
         $modelOrder->quantity = $this->quantity;
         if ($is_reverted == 1) {
+            $modelOrder->reverted_to_stock = $is_reverted;
+        }
+        else {
             $modelOrder->reverted_to_stock = $is_reverted;
         }
         $modelOrder->save();

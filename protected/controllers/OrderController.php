@@ -278,7 +278,10 @@ class OrderController extends Controller {
                 if ($sendBackForm->order_quantity == $sendBackForm->back_quanity) {
                     $orderDetail->saveOrderDetailHistory(1);
                 } else {
-                    $orderDetail->saveOrderDetailHistory();
+                    /**
+                     * 2 is for partially reverted item
+                     */
+                    $orderDetail->saveOrderDetailHistory(2);
                 }
 
                 ProductProfile::model()->updateStock($sendBackForm->back_quanity, $orderDetail->product_profile_id);
