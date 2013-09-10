@@ -370,11 +370,13 @@ class ProductController extends Controller {
             $lower_detail_data = $this->renderPartial("//product/_product_detail_data", array('product' => $product, "rating_value" => $rating_value), true, true);
             $upper_detail_data = $this->renderPartial("//product/_product_add_to_cart", array('product' => $product, "rating_value" => $rating_value), true, true);
             $image_data = $this->renderPartial("//product/_product_detail_image", array('product' => $product), true, false);
-            echo CJSON::encode(array(
-                "lower_detail_data" => $lower_detail_data,
-                "upper_detail_data" => $upper_detail_data,
-                "image_data" => $image_data,
-            ));
+            $all_data = array(
+                "lower_detail_data" => trim($lower_detail_data),
+                "upper_detail_data" => trim($upper_detail_data),
+                "image_data" => trim($image_data),
+            );
+            //CVarDumper::dump($all_data,10,true);
+            echo CJSON::encode($all_data);
         }
     }
 

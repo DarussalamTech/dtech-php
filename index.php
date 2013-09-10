@@ -15,4 +15,4 @@ require_once('wp/wp-load.php');
 
 require_once($yii);
 Yii::createWebApplication($config)->run();
-echo Yii::app()->request->getUserHostAddress();
+//echo Yii::app()->request->getUserHostAddress();
