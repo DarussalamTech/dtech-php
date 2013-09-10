@@ -12,7 +12,7 @@ foreach ($products as $product) {
     echo CHtml::openTag("div", array("class" => "featured_cover_part", 'style' => 'height: 232px;'));
     if (Yii::app()->controller->action->id == "getSearch") {
         $product['category'] = str_replace(" ", "-", $product['category']);
-        echo CHtml::link(CHtml::image($image, 'image', array("title" => "","class"=>$cssclass)), $this->createUrl('/web/product/productDetail', array(
+        echo CHtml::link(CHtml::image($image, 'image', array("title" => "", "class" => $cssclass)), $this->createUrl('/web/product/productDetail', array(
                     'country' => Yii::app()->session['country_short_name'],
                     'city' => Yii::app()->session['city_short_name'],
                     'city_id' => Yii::app()->session['city_id'],
@@ -21,17 +21,19 @@ foreach ($products as $product) {
         )));
     } else {
 
-        echo CHtml::link(CHtml::image($image, 'image', array("title" => "","class"=>$cssclass)), $this->createUrl('/web/product/productDetail', array(
+        echo CHtml::link(CHtml::image($image, 'image', array("title" => "", "class" => $cssclass)), $this->createUrl('/web/product/productDetail', array(
                     'country' => Yii::app()->session['country_short_name'],
                     'city' => Yii::app()->session['city_short_name'],
                     'city_id' => Yii::app()->session['city_id'],
                     "pcategory" => $category,
                     "slug" => $product['slug'],
                 ))
-        ,array('title'=>$name));
+                , array('title' => $name));
     }
     echo CHtml::openTag("h2");
-    echo substr($name, 0, 52) . '...';
+    echo (strlen($name) > 50) ? substr($name, 0, 50) . ' ...' : $name;
+    // echo strlen($name);
+    //echo substr($name, 0, 52) . '...';
     echo CHtml::closeTag("h2");
 //    echo CHtml::openTag("p");
 //    echo substr($product['product_overview'], 0, 35) . '...';
