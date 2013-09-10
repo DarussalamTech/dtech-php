@@ -16,6 +16,7 @@
          * slider images come from here
          */
         $slider = Slider::model()->findAll();
+
         $counter = 1;
         foreach ($slider as $data):
             $style = "display:none";
@@ -32,7 +33,13 @@
                 <div class="left_banner">
                     <?php
                     if (empty($slider->image)) {
-                        echo CHtml::image(Yii::app()->baseUrl . "/uploads/slider/" . $data->id . "/" . $data->image);
+                        echo Chtml::link(CHtml::image(Yii::app()->baseUrl . "/uploads/slider/" . $data->id . "/" . $data->image), $this->createUrl('/web/product/productDetail', array(
+                                    'country' => Yii::app()->session['country_short_name'],
+                                    'city' => Yii::app()->session['city_short_name'],
+                                    'city_id' => Yii::app()->session['city_id'],
+                                    "pcategory" => $data->slider->parent_category->category_name,
+                                    "slug" => $data->slider->slag,
+                        )));
                     } else {
                         echo CHtml::image(Yii::app()->theme->baseUrl . "/images/banner_book_img_03.jpg");
                     }
@@ -76,6 +83,14 @@
                             '
                             )
                     );
+
+                    echo Chtml::link('Product Detail', $this->createUrl('/web/product/productDetail', array(
+                                'country' => Yii::app()->session['country_short_name'],
+                                'city' => Yii::app()->session['city_short_name'],
+                                'city_id' => Yii::app()->session['city_id'],
+                                "pcategory" => $data->slider->parent_category->category_name,
+                                "slug" => $data->slider->slag,
+                            )), array('class' => 'sliderDetail'));
                     ?>
 
                     <div class="banner_dots">
