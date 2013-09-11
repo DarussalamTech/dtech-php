@@ -2,7 +2,7 @@
     Hi 
 
     <?php
-    echo $customerInfo['shipping_prefix'] . " " . $customerInfo['shipping_first_name'];
+    echo Yii::app()->session['billing_prefix'] . " " . Yii::app()->session['billing_first_name'] . " " . Yii::app()->session['billing_last_name'];
     ?>
 
 </h2>
