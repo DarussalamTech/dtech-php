@@ -15,7 +15,7 @@ var dtech_new = {
         if (dtech_new.popupStatus == 1) { // if value is 1, close popup
             jQuery("#toPopup").fadeOut("normal");
             jQuery("#backgroundPopup").fadeOut("normal");
-            dtech_new.popupStatus = 0;  // and set value to 0
+            dtech_new.popupStatus = 0; // and set value to 0
         }
     },
     loading: function() {
@@ -37,7 +37,6 @@ var dtech_new = {
         else {
             hash_split = jQuery(obj).attr("href").split("#");
             hash_split = hash_split[1].split("=");
-
             dtech.updateProductListing(jQuery(obj).attr("href"), hash_split[1]);
         }
     },
@@ -49,18 +48,16 @@ var dtech_new = {
         });
     },
     aquardinaMenu: function(obj) {
-        //
+//
         if (jQuery(obj).parent().siblings().is(":visible") == false) {
             jQuery(".inner_list").hide();
             jQuery(".aquardian_img").attr("src", jQuery(".aquardian_img").attr("invisible"));
             jQuery(obj).children().eq(0).attr("src", jQuery(obj).children().eq(0).attr("visible"));
             jQuery(obj).parent().siblings().show();
-
             jQuery('.listing input[type=checkbox]').each(function()
             {
                 this.checked = false;
             });
-
         }
         else {
             jQuery(obj).children().eq(0).attr("src", jQuery(obj).children().eq(0).attr("invisible"));
@@ -81,29 +78,36 @@ var dtech_new = {
         });
     },
     updateCart: function(ajax_url, obj, cart_id) {
+        if (jQuery(obj).val() <= 0)
+        {
+            dtech.custom_alert('Qauntity Can not be zero');
+            window.location.reload();
+        }
+        else
+        {
+            jQuery.ajax({
+                type: "POST",
+                url: ajax_url,
+                dataType: 'json',
+                async: false,
+                data:
+                        {
+                            'quantity': jQuery(obj).val(),
+                            'type': 'update_quantity',
+                            'from': 'main',
+                            'cart_id': cart_id
+                        }
+            }).done(function(response) {
 
-        jQuery.ajax({
-            type: "POST",
-            url: ajax_url,
-            dataType: 'json',
-            async: false,
-            data:
-                    {
-                        'quantity': jQuery(obj).val(),
-                        'type': 'update_quantity',
-                        'from': 'main',
-                        'cart_id': cart_id
-                    }
-        }).done(function(response) {
-
-            jQuery("#cart_control").html(response._view_cart);
-            if (typeof(response._view_main_cart)) {
-                jQuery("#cart_container").html(response._view_main_cart);
-            }
-            if (jQuery(".grand_total_bag").length > 0) {
-                jQuery(".grand_total_bag").html(jQuery(".grand_total").html());
-            }
-        });
+                jQuery("#cart_control").html(response._view_cart);
+                if (typeof(response._view_main_cart)) {
+                    jQuery("#cart_container").html(response._view_main_cart);
+                }
+                if (jQuery(".grand_total_bag").length > 0) {
+                    jQuery(".grand_total_bag").html(jQuery(".grand_total").html());
+                }
+            });
+        }
     },
     /**
      * update main cart content 
@@ -128,8 +132,6 @@ var dtech_new = {
         }).done(function(response) {
 
             jQuery("#cart_container").html(response._view_cart);
-
-
         });
     },
     /**
@@ -143,17 +145,14 @@ var dtech_new = {
                 '<span class="lodingString">Please Wait....</span><span class="loading">. . . .</span>' +
                 '</div>' +
                 '</div>';
-
         //jQuery("#loading").show();
         rite_html = jQuery("#main_features_part").html();
         jQuery("#main_features_part").html(load_div + rite_html);
-
     },
     showPaymentMethods: function(obj) {
         if (jQuery(obj).val() == "Credit Card") {
 
             jQuery(".credit_card_fields").show();
-
         }
         else {
             jQuery(".credit_card_fields").hide();
@@ -162,16 +161,13 @@ var dtech_new = {
     },
     showCartBox: function(obj) {
         jQuery(".login_bx").hide();
-
         if (jQuery(".cart_bx").is(":visible") == false) {
 
             dtech_new.mouse_is_inside = true;
             jQuery(".cart_bx").show();
-
             jQuery(".cart_arrow img").attr("src", jQuery(".cart_arrow img").attr("hover"));
             jQuery(".search_img").css("z-index", "-1");
             jQuery(".cart_bx").show();
-
         }
         else {
             jQuery(".cart_arrow img").attr("src", jQuery(".cart_arrow img").attr("unhover"));
@@ -184,7 +180,6 @@ var dtech_new = {
         }, function() {
             dtech_new.mouse_is_inside = false;
         });
-
         jQuery("body").click(function() {
             if (!dtech_new.mouse_is_inside)
                 jQuery(".cart_bx").hide();
@@ -193,8 +188,6 @@ var dtech_new = {
             }
 
         });
-
-
     },
     showLoginBox: function(obj) {
         jQuery(".cart_bx").hide();
@@ -202,7 +195,6 @@ var dtech_new = {
         if (jQuery(".login_bx").is(":visible") == false) {
             dtech_new.mouse_is_inside = true;
             jQuery(".login_bx").show();
-
         }
         else {
 
@@ -221,7 +213,6 @@ var dtech_new = {
         }, function() {
             dtech_new.mouse_is_inside = false;
         });
-
         jQuery("body").click(function() {
             if (!dtech_new.mouse_is_inside)
                 jQuery(".login_bx").hide();
@@ -260,9 +251,7 @@ var dtech_new = {
             $(".banner_slider").hide();
             $(".banner_dots a").attr("class", "cs-button-coin");
             $("#banner_slider_" + elem_id).show('slow');
-
             $("#banner_slider_" + elem_id + " #cs-button-coin-" + elem_id).attr("class", "cs-button-coin cs-active");
-
         });
         setInterval(function() {
             var visible_id = "";
@@ -270,7 +259,6 @@ var dtech_new = {
             $(".banner_slider").each(function() {
                 if ($(this).is(":visible")) {
                     visible_id = $(this).attr("id");
-
                 }
             })
 
@@ -278,38 +266,24 @@ var dtech_new = {
 
                 $("#" + visible_id).hide();
                 $("#" + visible_id).next().show('slow');
-
-
                 counter_id = visible_id.replace("banner_slider_", "");
                 next_counter_id = $("#" + visible_id).next().attr("id").replace("banner_slider_", "");
-
                 current_vis = $("#" + visible_id).next().attr("id");
-
                 $(".banner_dots a").attr("class", "cs-button-coin");
-
                 $("#" + current_vis + " #cs-button-coin-" + counter_id).attr("class", "cs-button-coin");
                 $("#" + current_vis + " #cs-button-coin-" + next_counter_id).attr("class", "cs-button-coin cs-active");
-
-
             }
             else {
                 $("#" + visible_id).hide();
-
                 $("#banner").children().eq(0).show('slow');
-
                 counter_id = visible_id.replace("banner_slider_", "");
                 next_counter_id = $("#banner").children().eq(0).attr("id").replace("banner_slider_", "");
-
                 current_vis = $("#banner").children().eq(0).attr("id");
-
                 $(".banner_dots a").attr("class", "cs-button-coin");
-
                 $("#" + current_vis + " #cs-button-coin-" + counter_id).attr("class", "cs-button-coin");
                 $("#" + current_vis + " #cs-button-coin-" + next_counter_id).attr("class", "cs-button-coin cs-active");
-
             }
 
         }, slider_timings * 1000);
-
     }
 }
