@@ -44,7 +44,7 @@ class PaymentController extends Controller {
 
     public function actionpaymentMethod() {
         Yii::app()->user->SiteSessions;
-        
+
         /**
          * if cart is empty then it redirect to home page
          */
@@ -128,6 +128,9 @@ class PaymentController extends Controller {
             $model->attributes = $_POST['UserOrderBilling'];
             $model->user_id = Yii::app()->user->id;
             if ($model->save()) {
+                Yii::app()->session['billing_prefix'] = $model->billing_prefix;
+                Yii::app()->session['billing_first_name'] = $model->billing_first_name;
+                Yii::app()->session['billing_last_name'] = $model->billing_last_name;
                 if ($model->isSameShipping) {
 
                     $this->redirect($this->createUrl("/web/payment/paymentmethod", array("billing" => $model->id)));
