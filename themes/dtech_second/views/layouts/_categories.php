@@ -87,6 +87,7 @@ if (isset($this->menu_categories)):
         $authors = Author::model()->findAll(array('order' => 'author_name'), 'author_id', 'author_name');
         echo CHtml::openTag("div", array(
             "class" => "inner_list",
+            "id" => "author_list",
             "style" => "display:none",
                 )
         );
@@ -94,6 +95,7 @@ if (isset($this->menu_categories)):
         echo CHtml::dropDownList($authors, 'author_id', CHtml::listData($authors, 'author_id', 'author_name'), array('encode' => FALSE,
             "class" => "author_checkbox",
             "parent_cat" => "",
+            "prompt" => "Select an author",
             "onChange" => "filter_val = $(this).parent().parent().siblings().children().eq(0).text();
                                   jQuery('#list_featured h6').html(filter_val);
                                   dtech.updateProductListing('','','authorDropDown');"
@@ -177,3 +179,20 @@ if (isset($this->menu_categories)):
     <?php
 endif;
 ?>
+<script type="text/javascript">
+            jQuery(document).ready(function() {
+                /*
+                 * check if the accordian is collapse the 
+                 * the authors value set to first 
+                 * null value for scrolling purpose:ubd
+                 */
+                jQuery('.listing').click(function() {
+                    if ($('#author_list').css('display') == 'none')
+                    {
+
+                        $('.author_checkbox').find('option:first').attr('selected', 'selected');
+                    }
+                })
+
+            })
+</script>
