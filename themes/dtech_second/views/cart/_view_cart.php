@@ -82,7 +82,7 @@
                 ),
                 array(
                     'name' => 'unit_price',
-                    'value' => '$data->productProfile->price',
+                    'value' => 'number_format($data->productProfile->price,"2")',
                     "type" => "raw",
                     "htmlOptions" => array("class" => "cart-product-name")
                 ),
@@ -91,7 +91,7 @@
                     'columnName' => 'price',
                     'class' => 'DtGridCountColumn',
                     'decimal' => true,
-                    "htmlOptions" => array("class" => 'cart-ourprice'),
+                    "htmlOptions" => array("class" => 'cart-ourprice', 'style' => 'width:200px;'),
                     'currencySymbol' => Yii::app()->session['currency'],
                     'footer' => ''
                 ),
@@ -102,7 +102,7 @@
                                 
                                 ',
                     "type" => "raw",
-                    'htmlOptions' => array('class' => 'update-cart-td', 'width' => '100'),
+                    'htmlOptions' => array('class' => 'update-cart-td', 'width' => '70'),
                 ),
                 array(
                     'class' => 'CButtonColumn',
@@ -121,32 +121,40 @@
                                 event.preventDefault();
                                 q_obj = $(this).parent().prev().children().eq(0);
                                 quantity = q_obj.val();
-                                if (dtech.isNumber(quantity)){
-                                       
-                                       $.ajax({
-                                        url: $(this).attr('href'),
-                                        data : {quantity:quantity},
-                                        dataType: 'json',
-                                        success:function(msg){
-                                          
-                                            if(msg['available'] == false){
-                                                $(q_obj).next().html('<br/>'+$('#status_un_available').html());
-                                            }
-                                            else {
-                                                $(q_obj).next().html('<br/>'+$('#status_available').html());
-                                            }
-                                            
-                                            setTimeout(function(){
-                                                  $('#cart-grid').yiiGridView.update('cart-grid');
-                                                  
-                                                  
-                                            },1000);
-
-                                        }
-                                    });   
+                                if(quantity <= 0)
+                                {
+                                    dtech.custom_alert('Quantity Can not be zero')
+                                    window.location.reload();
                                 }
-                                else{
-                                    return false;
+                                else
+                                {
+                                    if (dtech.isNumber(quantity)){
+
+                                           $.ajax({
+                                            url: $(this).attr('href'),
+                                            data : {quantity:quantity},
+                                            dataType: 'json',
+                                            success:function(msg){
+
+                                                if(msg['available'] == false){
+                                                    $(q_obj).next().html('<br/>'+$('#status_un_available').html());
+                                                }
+                                                else {
+                                                    $(q_obj).next().html('<br/>'+$('#status_available').html());
+                                                }
+
+                                                setTimeout(function(){
+                                                      $('#cart-grid').yiiGridView.update('cart-grid');
+
+
+                                                },1000);
+
+                                            }
+                                        });   
+                                    }
+                                    else{
+                                        return false;
+                                    }
                                 }
                               
                                 
