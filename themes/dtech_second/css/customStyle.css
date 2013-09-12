@@ -225,3 +225,6 @@ input[type=button],input[type=submit] {
     width: 138px;
     text-decoration: none;
 }
+.featured_cover_part{
+    height: 182px;
+}
