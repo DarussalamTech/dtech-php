@@ -193,6 +193,19 @@ class DTActiveRecord extends CActiveRecord {
         }
         return parent::findByPk($pk, $condition, $params);
     }
+    
+    /**
+     *  the only reason
+     *  dats y i made this function
+     *  some time i dun need city id
+     * @param type $pk
+     * @param type $condition
+     * @param type $params
+     * @return type
+     */
+    public function findFromPrimerkey($pk, $condition = '', $params = array()){
+         return parent::findByPk($pk, $condition, $params);
+    }
 
     public function findAll($condition = '', $params = array()) {
         if (is_object($condition)) {

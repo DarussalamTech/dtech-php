@@ -14,6 +14,7 @@
  * @property string $is_active
  * @property integer $site_id
  * @property integer $old_password
+ * @property integer $source
  *
  * The followings are the available model relations:
  * @property Order[] $orders
@@ -66,7 +67,7 @@ class User extends DTActiveRecord {
             array('user_email', 'email'),
             array('user_email', 'unique'),
             array('user_password', 'passwordStrength', 'strength' => self::STRONG),
-            array('join_date,social_id', 'safe'),
+            array('source,join_date,social_id', 'safe'),
             array('agreement_status', 'compare', 'compareValue' => '1', 'message' => "You must accept the Darusslam Terms and conditions"),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.

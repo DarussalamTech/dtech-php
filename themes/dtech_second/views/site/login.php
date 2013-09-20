@@ -29,6 +29,14 @@ $form = $this->beginWidget('CActiveForm', array(
 
         <?php }
         ?>
+        <?php if (Yii::app()->user->hasFlash('changPass')) { ?>
+
+            <div id="flash" style="text-align: center; color: green" >
+                <?php echo Yii::app()->user->getFlash('changPass'); ?>
+            </div>
+
+        <?php }
+        ?>
 
         <div class="row_input">
             <div class="row_text">

@@ -221,4 +221,61 @@ class UserController extends Controller {
         }
     }
 
+    /**
+     * send new invitation email to users
+     * to send email for activation of their
+     * account
+     */
+    public function actionSendInvitation() {
+
+        $dbusers = Yii::app()->db->createCommand()
+                ->select('user_name,user_email,user_id')
+                ->from("user")
+                ->where("source='outside'")
+                ->queryAll();
+
+        $users = array_chunk($dbusers, 15, true);
+
+        $this->render("send_invitation", array("users" => $users));
+    }
+
+    public function actionSendEmailinvitation() {
+        if (!empty($_POST['ids'])) {
+
+
+            $emails = explode("|", $_POST['ids']);
+           
+            foreach ($emails as $_id) {
+                $model = User::model()->findFromPrimerkey($_id);
+               
+                if (!empty($model)) {
+                   
+                    $dt = new DTFunctions();
+                    $activation_code = $dt->getRanddomeNo(15);
+                    $model->updateByPk($model->user_id, array("activation_key" => $activation_code));
+
+                    
+
+                    $url = $this->createAbsoluteUrl('/web/user/activate', array(
+                        'key' => $activation_code,
+                        'user_id' => $model->user_id,
+                        'city_id' => $model->city_id,
+                        'lang' => $this->currentLang
+                    ));
+
+                   
+                    $email['From'] = Yii::app()->params['adminEmail'];
+                    $email['To'] = $model->user_email;
+                    $email['Subject'] = "Your New Activation Link on " . Yii::app()->name;
+                    $body = $this->renderPartial("_sendInvitation", array('model' => $model, "url" => $url), true, false);
+
+                    $email['Body'] = $body;
+                    $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
+
+                    $this->sendEmail2($email);
+                }
+            }
+        }
+    }
+
 }

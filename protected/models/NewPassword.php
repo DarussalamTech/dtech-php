@@ -4,9 +4,8 @@
  * chagne password class using for change user password 
  * it is called from user controller in change password action
  */
-class ChangePassword extends CFormModel {
+class NewPassword extends CFormModel {
 
-    public $old_password;
     public $_user_name;
     public $user_password;
     public $user_conf_password;
@@ -24,13 +23,7 @@ class ChangePassword extends CFormModel {
     public function rules() {
         return array(
             array('user_password, user_conf_password', 'required'),
-            array('old_password', 'compare', 'operator' => '!=',
-                'compareAttribute' => 'user_password',
-                'message' => "Old and New password should not be same"
-            ),
             array('user_conf_password', 'compare', 'compareAttribute' => 'user_password'),
-            array('user_password, user_conf_password,old_password', 'safe'),
-            array('old_password', 'validateOldPassword'),
             array('user_password', 'passwordStrength', 'strength' => self::STRONG),
         );
     }
@@ -42,22 +35,9 @@ class ChangePassword extends CFormModel {
      */
     public function attributeLabels() {
         return array(
-            'old_password' => Yii::t('common', 'Old Password', array(), NULL, Yii::app()->controller->currentLang),
             'user_password' => Yii::t('common', 'New Password', array(), NULL, Yii::app()->controller->currentLang),
             'user_conf_password' => Yii::t('common', 'Confirm Password', array(), NULL, Yii::app()->controller->currentLang),
         );
-    }
-
-    /**
-     *  validate old password from db
-     * @param type $password
-     * @return boolean
-     */
-    public function validateOldPassword($attribute, $params) {
-        
-        if (User::model()->count("user_id=" . Yii::app()->user->id . " AND user_password='" . md5($this->old_password) . "'") == 0) {
-            $this->addError($attribute, "Old password Miss match");
-        }
     }
 
     public function passwordStrength($attribute, $params) {
@@ -66,9 +46,10 @@ class ChangePassword extends CFormModel {
         elseif ($params['strength'] === self::STRONG)
         //$pattern = '/^(?=.*[a-zA-Z](?=.*[a-zA-Z])).{5,}$/';
             $pattern = '/^[a-z0-9_-]{5,18}$/';
-
-        if (!preg_match($pattern, $this->$attribute))
+        echo $this->$attribute;
+        if (!preg_match($pattern, $this->$attribute)) {
             $this->addError($attribute, 'Weak Password ! At least 5 characters.Passowrd can contain both letters and numbers!');
+        }
     }
 
     /**
@@ -76,8 +57,9 @@ class ChangePassword extends CFormModel {
      * @param type $user_password
      * @return boolean
      */
-    public function updatePassword() {
-        if (User::model()->updateByPk(Yii::app()->user->id, array('user_password' => md5($this->user_password)))) {
+    public function updatePassword($user_id) {
+        if (User::model()->updateByPk($user_id, array('user_password' => md5($this->user_password),
+                    "key" => "", "source" => "own", 'status_id' => '1'))) {
             Yii::app()->user->setFlash('changPass', 'YOur Password has been  Changed  ');
             return true;
         }

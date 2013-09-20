@@ -545,5 +545,26 @@ var dtech = {
         var str = "height=" + height + ",scrollbars=yes,width=" + width + ",status=yes,";
         str += "toolbar=no,menubar=no,location=no,resizable=false,left=" + left + ",top=" + top + "";
         window.open($(obj).attr("href"), "popup", str);
+    },
+    sendInvitation: function(obj, url) {
+
+        div_id = $(obj).parent().attr("id");
+        jsonObj = [];
+        $("#" + div_id + " span.hidden").each(function() {
+            jsonObj.push($(this).html());
+        })
+
+        $(obj).hide();
+        $(obj).next().html("Sending Email.......");
+        jQuery("#loading").show();
+        jQuery.ajax({
+            type: "POST",
+            url: url,
+            async: false,
+            data: {"ids": jsonObj.join("|")},
+        }).done(function(response) {
+            $(obj).next().html("<br><b>Email Sent to All users</b>");
+            jQuery("#loading").hide();
+        });
     }
 }

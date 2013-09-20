@@ -13,7 +13,7 @@ class UserController extends Controller {
         return array(
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
-            "https +array('changePass')",
+            "https +array('changePass','setNewPass')",
             "http + array(activate','register','updateProfile','updateProfile','forgot','productReview','customerHistory','orderDetail','print','customerDetail')"
         );
     }
@@ -26,7 +26,7 @@ class UserController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow all users to perform 'index' and 'view' actions
-                'actions' => array('register', 'activate', 'ProductReview', 'forgot'),
+                'actions' => array('register', 'activate', 'setNewPass', 'ProductReview', 'forgot'),
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -92,27 +92,38 @@ class UserController extends Controller {
     }
 
     public function actionActivate() {
+        Yii::app()->user->SiteSessions;
         $user_id = $_GET['user_id'];
         $activation_key = $_GET['key'];
         $city_id = $_GET['city_id'];
         $criteria = new CDbCriteria;
         $criteria->select = '*';
         $criteria->condition = "user_id='" . $user_id . "' AND city_id='" . $city_id . "'";
-        $obj = User::model()->findAll($criteria);
-        if ($obj != NULL) {
-            if ($obj[0]->status_id == '1') {
+        $obj = User::model()->find($criteria);
+
+        if (!empty($obj)) {
+            if ($obj->status_id == '1') {
                 //already activated
                 Yii::app()->user->setFlash('login', 'Your account is already activated. Please try login or if you have missed your login information then go to forgot password section. Thank You');
                 $this->redirect(array('site/login'));
-            } else if ($obj[0]->activation_key != $activation_key) {
+            } else if ($obj->activation_key != $activation_key) {
                 Yii::app()->user->setFlash('login', 'Your activation key not registered. Please resend activation key and activate your account. Thank You');
                 $this->redirect(array('site/login'));
             }
-            $modelUser = new User;
-            $modelUser->updateByPk($user_id, array('status_id' => '1'));
 
             Yii::app()->user->setFlash('login', 'Thank You ! Your account has been activated....Now Please Login');
-            $this->redirect(array('site/login'));
+
+            /**
+             * for joomla users
+             */
+
+            if ($obj->source == "outside") {
+                $this->redirect(array('/web/user/setNewPass', "key" => $activation_key, "id" => $user_id));
+            } else {
+                $modelUser = new User;
+                $modelUser->updateByPk($user_id, array('status_id' => '1'));
+                $this->redirect(array('site/login'));
+            }
         } else {
             Yii::app()->user->setFlash('login', 'User does not exist. Please signup and get activation link.');
             $this->redirect(array('site/login'));
@@ -212,6 +223,34 @@ class UserController extends Controller {
                 }
             }
             $this->render('//user/change_password', array('model' => $model));
+        }
+    }
+
+    /**
+     * Set New Password here
+     * from when special user request 
+     * is made here
+     */
+    public function actionSetNewPass() {
+        Yii::app()->user->SiteSessions;
+        //Yii::app()->controller->layout = '//layouts/main';
+
+        if (isset($_GET['key']) && $_GET['id']) {
+            $model = new NewPassword();
+
+            if (isset($_POST['NewPassword'])) {
+                $model->attributes = $_POST['NewPassword'];
+                if ($model->validate()) {
+                    if ($model->updatePassword($_GET['id'])) {
+                        /*
+                         * here we will add sending email module to inform user for password change..
+                         */
+                        $this->redirect($this->createUrl('/site/login'));
+                    }
+                }
+            }
+
+            $this->render('//user/new_password', array('model' => $model));
         }
     }
 
