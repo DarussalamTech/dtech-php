@@ -28,14 +28,22 @@ class SiteController extends Controller {
      */
     public function actionIndex() {
 
+        /**
+         * in case when sit has its own default city
+         */
+        if (!empty(Yii::app()->session['site_headoffice']) && Yii::app()->session['site_headoffice']!=0) {
+            $_REQUEST['city_id'] = Yii::app()->session['site_headoffice'];
+           
+            $this->redirect($this->createUrl("/site/storeHome"));
+        } else {
+            $model = new LandingModel();
+            $this->countryLanding($model);
 
-        $model = new LandingModel();
-        $this->countryLanding($model);
-
-        Yii::app()->controller->layout = "";
-        Yii::app()->theme = 'dtech_second';
-        Yii::app()->user->SiteSessions;
-        $this->renderPartial("//site/landing_page", array("model" => $model));
+            Yii::app()->controller->layout = "";
+            Yii::app()->theme = 'dtech_second';
+            Yii::app()->user->SiteSessions;
+            $this->renderPartial("//site/landing_page", array("model" => $model));
+        }
     }
 
     /**

@@ -52,6 +52,9 @@ class SelfSiteController extends Controller {
                 echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
             }
         }
+        else {
+             echo CHtml::tag('option', array('value' => ""), CHtml::encode(""), true);
+        }
     }
 
     /**
@@ -98,6 +101,7 @@ class SelfSiteController extends Controller {
 
         if (isset($_POST['SelfSite'])) {
             $model->attributes = $_POST['SelfSite'];
+            
             if ($model->save())
                 $this->redirect(array('view', 'id' => $model->site_id));
         }

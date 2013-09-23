@@ -29,7 +29,7 @@
         <?php echo $form->error($model, 'site_descriptoin'); ?>
     </div>
     <div class="row">
-        <?php echo $form->labelEx($model, 'site_descriptoin'); ?>
+        <?php echo $form->labelEx($model, 'country_id'); ?>
 
 
         <?php

@@ -105,6 +105,11 @@ class SelfSite extends DTActiveRecord {
 
         if (!empty($city->country_id)) {
             $this->_cites = CHtml::listData(City::model()->findAll($criteria), "city_id", "city_name");
+            
+        }
+        if($this->site_headoffice !=""){
+           
+           $this->country_id = City::model()->findByPk($this->site_headoffice)->country_id;
         }
     }
 
@@ -120,6 +125,7 @@ class SelfSite extends DTActiveRecord {
                 ->where("LOCATE(site_name,'$url')")
                 ->queryAll();
 
+        //echo "LOCATE(site_name,'$url')";
         if (isset($site[0])) {
             return $site[0];
         }
@@ -156,10 +162,11 @@ class SelfSite extends DTActiveRecord {
      */
     public function findLayout($layout_id) {
         if (!empty($layout_id)) {
+           
             $layout = Layout::model()->find("layout_id=" . $layout_id);
             return $layout;
         } else {
-            return "default";
+            return "dtech-second";
         }
     }
 
