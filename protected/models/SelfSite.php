@@ -164,9 +164,9 @@ class SelfSite extends DTActiveRecord {
         if (!empty($layout_id)) {
            
             $layout = Layout::model()->find("layout_id=" . $layout_id);
-            return $layout;
+            return !empty($layout)?$layout:"dtech_second";
         } else {
-            return "dtech-second";
+            return "dtech_second";
         }
     }
 

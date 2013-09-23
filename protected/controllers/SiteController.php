@@ -31,9 +31,9 @@ class SiteController extends Controller {
         /**
          * in case when sit has its own default city
          */
-        if (!empty(Yii::app()->session['site_headoffice']) && Yii::app()->session['site_headoffice']!=0) {
+        if (!empty(Yii::app()->session['site_headoffice']) && Yii::app()->session['site_headoffice'] != 0) {
             $_REQUEST['city_id'] = Yii::app()->session['site_headoffice'];
-           
+
             $this->redirect($this->createUrl("/site/storeHome"));
         } else {
             $model = new LandingModel();
@@ -42,6 +42,7 @@ class SiteController extends Controller {
             Yii::app()->controller->layout = "";
             Yii::app()->theme = 'dtech_second';
             Yii::app()->user->SiteSessions;
+
             $this->renderPartial("//site/landing_page", array("model" => $model));
         }
     }
@@ -69,23 +70,35 @@ class SiteController extends Controller {
 
 
 
-        if (!empty($_POST['onoffswitch'])) {
+        if (!empty($_POST['onoffswitch']) && $_POST['onoffswitch'] == "1") {
+
             $_REQUEST['city_id'] = $_POST['LandingModel']['city'];
-            Yii::app()->user->SiteSessions;
-            $session_model = new Session;
 
-            if ($session_model->validate()) {
+            if ($_REQUEST['city_id'] == "0" || $_REQUEST['city_id'] == "") {
+                $_REQUEST['city_id'] = Session::model()->getCity();
 
-                if ($session_model->save()) {
-                    
+                if ($_REQUEST['city_id'] == "0" || $_REQUEST['city_id'] == "") {
+                    Yii::app()->user->setFlash("error", "Please Select country and city");
+                    $this->redirect($this->createDtUrl("/site/index"));
                 }
             }
+        } 
+
+        Yii::app()->user->SiteSessions;
+        $session_model = new Session;
+
+        if ($session_model->validate()) {
+
+            if ($session_model->save()) {
+                
+            }
         }
+
 
         $model = new LandingModel();
         $this->countryLanding($model);
 
-        Yii::app()->user->SiteSessions;
+
 
         Yii::app()->controller->layout = '//layouts/column1';
 
@@ -193,6 +206,12 @@ class SiteController extends Controller {
         if (isset($_POST['LandingModel'])) {
             $model->attributes = $_POST['LandingModel'];
             if (empty($model->country)) {
+
+                if ($_REQUEST['onoffswitch'] == 1) {
+                    
+                }
+
+
                 Yii::app()->user->SiteSessions;
                 $this->redirect($this->createUrl('/site/storeHome'));
             }

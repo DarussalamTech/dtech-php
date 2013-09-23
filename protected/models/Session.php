@@ -64,10 +64,10 @@ class Session extends CActiveRecord {
         );
     }
 
-    public function beforeValidate() {
+    public function afterValidate() {
 
         $this->saveSession();
-        return parent::beforeValidate();
+        return parent::afterValidate();
     }
 
     /*
@@ -92,6 +92,11 @@ class Session extends CActiveRecord {
         if ($old_ip = $this->ip) {
             $this->model()->deleteByPk($this->ip);
         }
+    }
+    
+    public function getCity(){
+        $session = $this->find("ip = '".CHttpRequest::getUserHostAddress()."'");
+        return $session->city_id;
     }
 
     /**

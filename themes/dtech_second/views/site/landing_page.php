@@ -56,6 +56,13 @@
 
                                 </div>
                             </div>
+                            <div class="status" style="color:red">
+                              <?php 
+                                    if(Yii::app()->user->hasFlash("error")):
+                                        echo Yii::app()->user->getFlash("error");
+                                    endif;
+                               ?>
+                            </div>
                             <h3>
                                 <?php echo Yii::t('common', 'Remember me', array(), NULL, $this->currentLang); ?>
                             </h3>

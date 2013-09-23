@@ -137,9 +137,10 @@ class DTWebUser extends CWebUser {
         Yii::app()->session['city_id'] = $cityModel->city_id;
         Yii::app()->session['country_id'] = $cityModel->country_id;
         Yii::app()->session['currency'] = $cityModel->currency->symbol;
-        Yii::app()->theme = (!empty($layout) ? $layout->layout_name : "dtech_second");
-		;
-
+     
+        Yii::app()->theme = !empty($layout) && is_object($layout)  ? $layout->layout_name : "dtech_second";
+      
+		
         /**
          * Pcm temporary
          */
