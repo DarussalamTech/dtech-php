@@ -27,8 +27,8 @@ class ProDropDown extends CWidget
         
         $cs = Yii::app()->clientScript;
         
-        $cs->registerScriptFile(Yii::app()->request->baseUrl . '/protected/extensions/ProDropDown/resources/stuHover.js');
-        $cs->registerCssFile(Yii::app()->request->baseUrl . '/protected/extensions/ProDropDown/resources/pro_drop_1.css');
+        $cs->registerScriptFile(Yii::app()->request->baseUrl . '/media/pdropdown/stuHover.js');
+        $cs->registerCssFile(Yii::app()->request->baseUrl . '/media/pdropdown/pro_drop_1.css');
     }
     
 }//end of class
