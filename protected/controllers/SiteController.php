@@ -1,5 +1,5 @@
-a<?php
-
+<?php
+                
 class SiteController extends Controller {
 
     /**
