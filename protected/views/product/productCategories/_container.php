@@ -28,16 +28,28 @@ $plusImage = "<div class='left_float' style='padding-top:2px'>" .
             <?php
             echo CHtml::link('Add New', '#', array(
                 'onclick' => "
-					
-                    u = '" . $this->createUrl("loadChildByAjax", array("mName" => "$mName", "dir" => $dir, "load_for" => $this->action->id,)) . "&index=' +  " . $relationName . "_index_sc;
                    
+                    parent_cat = '';
+                    if(typeof(jQuery('#Product_parent_cateogry_id').val()) =='undefined'){
+                        parent_cat = jQuery('#parent_cat_id').val();
+                    }
+                    else {
+                        parent_cat = jQuery('#Product_parent_cateogry_id').val();
+                    }
+                    
+                    if(parent_cat!=''){
+                    u = '" . $this->createUrl("loadChildByAjax", array("mName" => "$mName", "dir" => $dir, "load_for" => $this->action->id,)) . "&index=' +  " . $relationName . "_index_sc;
+                    u+='&parent_cat='+parent_cat; 
                     
                     add_new_child_row(u, '" . $dir . "', '" . $fields_div_id . "', 'grid_fields', true);
                     jQuery('#" . $relationName . "-plus').attr('class', 'plus_rotate');
               
                      
                     " . $relationName . "_index_sc++;
-                        
+                    }
+                    else {
+                        alert('Parent Category should be selected or remaind');
+                    }
                     return false;
                     ", "class" => "plus_bind"
             ))
@@ -79,6 +91,7 @@ $plusImage = "<div class='left_float' style='padding-top:2px'>" .
                 ?>
                 <div id="<?php echo $fields_div_id; ?>" class="form">
                     <?php
+                    
                     /* for loading with js */
                     $relationName_index_sc = -1;
                     if (isset($_POST[$mName]) || ($this->action->id == 'create' && count($model->$relationName) > 0)) {
@@ -88,6 +101,7 @@ $plusImage = "<div class='left_float' style='padding-top:2px'>" .
                                 "load_for" => $this->action->id,
                                 'display' => 'block',
                                 'dir' => $dir,
+                                "parent_category"=> $model->parent_cateogry_id,
                                 'fields_div_id' => $fields_div_id));
                             $relationName_index_sc = $key;
                         }

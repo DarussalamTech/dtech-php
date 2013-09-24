@@ -4,13 +4,47 @@
  * Controller is the customized base controller class.
  * All controller classes for this application should extend from this base class.
  */
-class Controller extends CController {
+class Controller extends RController {
 
     /**
      * @var string the default layout for the controller view. Defaults to '//layouts/column1',
      * meaning using a single column layout. See 'protected/views/layouts/column1.php'.
      */
-    public $layout = '//layouts/slider';
+    public $layout = '//layouts/column2';
+
+    /**
+     * Register script/css files
+     * @var array
+     */
+    public $cs;
+    public $scriptMap = array();
+
+    /**
+     * to verify current page is admin or not
+     * @var type 
+     */
+    public $isAdminSite = false;
+
+    /**
+     * Menu categories
+     * for web pages
+     * purspose to make one time
+     * ans used multiple times
+     * @var type 
+     */
+    public $menu_categories;
+    //PCM Will handle languages by session
+
+    public $currentLang = "en";
+
+    /**
+     *
+     * @var type 
+     */
+    public $definedLangActions = array(
+        "productDetail",
+        "productDetailLang",
+    );
 
     /**
      * @var array context menu items. This property will be assigned to {@link CMenu::items}.
@@ -37,19 +71,181 @@ class Controller extends CController {
      * @var type 
      */
     public $PcmWidget;
+
+    /**
+     * to get the themes 
+     * inside
+     * @var type 
+     */
+    public $slash = "/";
+
+    /**
+     *
+     * @var type 
+     */
+    public $webPcmWidget;
     public $webPages = array();
 
     public function beforeAction($action) {
 
         parent::beforeAction($action);
-
         $this->setPages();
+        $this->installConfig();
         $this->registerWidget();
         $this->basePath = Yii::app()->basePath;
         if (strstr($this->basePath, "protected")) {
             $this->basePath = realPath($this->basePath . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR);
         }
+        
+        /**
+         * storing php session in yii session
+         * when no user is login
+         */
+        if(empty(Yii::app()->user->id)){
+            Yii::app()->session['cart_session'] = session_id();
+        }
+
+        $this->isChangeAdminCity();
+
+        /**
+         * Check if script is already loaded then not reload it.
+         * This is used in case of ajax calls.
+         */
+        Yii::app()->clientScript->scriptMap = array(
+            (YII_DEBUG ? 'jquery.js' : 'jquery.min.js') => false,
+                //'jquery-ui.min.js' => false,
+                //'jquery-ui.css' => false
+        );
+
         return true;
+    }
+
+    /* PCM: For Mohsin: Remove this code from here and manage it in a seprate compononet. */
+
+    /**
+     * @property array, Holds all contorllers array
+     */
+    public $controllers;
+
+    /**
+     * @property array holds Operation's Permission
+     */
+    public $OpPermission = array();
+
+    /**
+     * Set controller array
+     * 
+     */
+    public function setControllers() {
+        $this->controllers = array(
+            "Author" => "View",
+            "Categories" => "View",
+            "City" => "View",
+            "Configurations" => "View",
+            "Country" => "View",
+            "Layout" => "View",
+            "Customer" => "View",
+            "Language" => "View",
+            "Menus" => "View",
+            "Order" => "View",
+            "Pages" => "View",
+            "Product" => "View",
+            "SelfSite" => "View",
+            "TranslatorCompiler" => "View",
+            "User" => "View",
+                //"Assignment" => "View",
+        );
+    }
+
+    /**
+     * Set Permissions 
+     * For menu and for individual child controller i.e. Project, Contact etc..
+     * 
+     * @param string $controller
+     * @param array $operations
+     * @return type 
+     */
+    public function setPermissions($controller = "", $operations = array()) {
+        /**
+         * In case of ajax call we don't need to send all queries to db and update
+         * OpPermission array.
+         */
+//        if (Yii::app()->request->isAjaxRequest)
+//            return false;
+
+        /* If call comes from this controller's before action */
+        if (empty($controller)) {
+            $this->setMinPermissions();
+        }
+        /* If call comes from child controller's before action */ else {
+            $this->setAllPermissions($controller, $operations);
+        }
+        return true;
+    }
+
+    /**
+     * Set minimum permissions
+     * And update OpPermissions Array
+     */
+    private function setMinPermissions() {
+        $this->setControllers();
+        $perm = array();
+        foreach ($this->controllers as $controller => $minPer) {
+            $operation = $controller . '.' . $minPer;
+
+            $perm[$operation] = Yii::app()->user->checkAccess($operation);
+        }
+
+        $this->OpPermission = $perm;
+
+        return true;
+    }
+
+    private function setAllPermissions($controller, $operations) {
+        $perm = array();
+        foreach ($operations as $operation) {
+            $op = ucfirst($controller) . "." . ucfirst($operation);
+            $perm[$op] = Yii::app()->user->checkAccess($op);
+        }
+
+        $this->OpPermission = $this->OpPermission + $perm;
+    }
+
+    /**
+     * Get Permission
+     * @param string $operation
+     * @return boolean 
+     */
+    public function getPermission($operation) {
+        return $this->OpPermission[ucfirst($operation)];
+    }
+
+    /**
+     * Check view access
+     * @param type $operation
+     * @return type 
+     */
+    public function checkViewAccess($operation) {
+        return Yii::app()->user->checkAccess($operation);
+    }
+
+    /*
+     * to check if admin change his city 
+     * which is not allowed with sessions
+     */
+
+    public function isChangeAdminCity() {
+
+        if (!empty($this->controllers)) {
+            $controllers = array_keys($this->controllers);
+
+
+            if (in_array(ucfirst($this->id), $controllers) && Yii::app()->user->User->city_id != Yii::app()->request->getQuery('city_id')) {
+
+                Yii::app()->user->logout();
+                $this->redirect(Yii::app()->homeUrl);
+            }
+        }
     }
 
     /**
@@ -58,9 +254,73 @@ class Controller extends CController {
     public function setPages() {
         $module = $this->getModule();
 
-        if ($this->id == "site" || get_class($module) == "WebModule") {
 
+        if ($this->id == "site" || get_class($module) == "WebModule") {
             $this->webPages = Pages::model()->getPages();
+            /**
+             * only in case of when city id is started
+             */
+            if (isset(Yii::app()->session['city_id']) || isset($_REQUEST['city_id'])) {
+                $this->menu_categories = Categories::model()->getMenuCategories();
+            }
+
+            /**
+             * if menu category not present then page will be redirected again
+             */
+            if (!isset($this->menu_categories)) {
+                Yii::app()->user->SiteSessions;
+                ;
+            }
+            $this->currentLang = isset(Yii::app()->session['current_lang']) ? Yii::app()->session['current_lang'] : "en";
+            //$this->configureTheme();
+        } else {
+            /**
+             * for admin site
+             */
+            $this->currentLang = "en";
+            $this->isAdminSite = true;
+            $this->setPermissions();
+        }
+    }
+
+    /*
+     * filtering the http and 
+     * https for security purpose of 
+     * the application:
+     * extending from the Filter class residing
+     * in proteted/DTHTtpsFilter :ubd
+     */
+
+    public function filterHttps($filterChain) {
+        $filter = new DTHttpsFilter;
+        $filter->filter($filterChain);
+    }
+
+    public function filterHttp($filterChain) {
+        $filter = new DTHttpFilter;
+        $filter->filter($filterChain);
+    }
+
+    /**
+     * configure Web site theme
+     */
+    public function configureTheme() {
+        /**
+         * PCM temprory
+         */
+        $theme = Yii::app()->db->createCommand()
+                ->select('*')
+                ->from("conf_misc")
+                ->where("misc_type='general' AND param ='theme'")
+                ->queryRow();
+
+        Yii::app()->params['theme'] = $theme['value'];
+
+        if (Yii::app()->params['theme'] == 'dtech_second') {
+            Yii::app()->theme = Yii::app()->params['theme'];
+            Yii::app()->controller->layout = "//layouts/column2";
+            Yii::app()->session['layout'] = Yii::app()->params['theme'];
+            $this->slash = "/";
         }
     }
 
@@ -112,6 +372,7 @@ class Controller extends CController {
         $activeRelation = $model->getActiveRelation($child_relation_name);
         $className = $activeRelation->className;
 
+
         /* if that child is posted */
         if (isset($_POST[$className])) {
             /* create child object of above class */
@@ -119,10 +380,9 @@ class Controller extends CController {
             $cModel = new $className($scanario);
 
 
-
-
             /*  */
             $repRes = $cModel->saveMultiple($parent_relation_name, $model->primaryKey);
+
 
             if ($repRes['result'] == false)
                 $model->$child_relation_name = $repRes['models'];
@@ -159,8 +419,10 @@ class Controller extends CController {
      * @param type $level
      * @param type $root_parent
      * @param type $pidArray 
+     * @param type $action
+     *      based on action to view  
      */
-    public function getNavigation($pid = 0, $level = 0, $root_parent = 0, $pidArray = array()) {
+    public function getNavigation($pid = 0, $level = 0, $root_parent = 0, $pidArray = array(), $action = false) {
 
         $model = Menu::model()->findAllByAttributes(array("pid" => $pid, "is_assigned" => "Yes"));
         $l = $level;
@@ -174,28 +436,34 @@ class Controller extends CController {
                 $l = 2;
             }
             $foundAny = false;
-
             foreach ($model as $menu) {
+
+                $operation = ($level == 0) ? $menu->min_permission : $menu->min_permission;
+
+
                 $childCount = Menu::model()->count("pid = $menu->id");
-                //if ($menu->min_permission == "" || ($menu->min_permission != "" && $this->getPermission(ucfirst($menu->controller) . "." . ucfirst($menu->min_permission)))) {
-                $foundAny = true;
+                if (
+                        $menu->min_permission == "" || ($menu->min_permission != "" && $this->getPermission(ucfirst($menu->controller) . "." . ucfirst($operation)))
+                ) {
+                    $foundAny = true;
 
-                $this->menuHtml .='<li ' . ($pid == 0 ? "class='top'" : "") . '>';
-                $url = "#";
-                if ($menu->controller != "") {
-                    $url = $this->createUrl($menu->controller . "/" . $menu->action);
+                    $this->menuHtml .='<li ' . ($pid == 0 ? "class='top'" : "") . '>';
+                    $url = "#";
+                    if ($menu->controller != "") {
+                        $url = $this->createUrl("/" . $menu->controller . "/" . $menu->action);
+                    }
+                    $this->menuHtml .='<a href="' . $url . '" class="' . ($pid == 0 ? "top_link " . ($menu->id == $root_parent ? "active " : "") . $menu->root_class : ($childCount > 0 ? "fly" : "")) . '">';
+                    if ($pid == 0)
+                        $this->menuHtml .='<span class="down">';
+                    $this->menuHtml .=$menu->user_title;
+                    if ($pid == 0)
+                        $this->menuHtml .='</span>';
+                    $this->menuHtml .='</a>';
+
+                    if (in_array($menu->id, $pidArray))
+                        $this->getNavigation($menu->id, $l, 0, $pidArray, true);
+                    $this->menuHtml .='</li>';
                 }
-                $this->menuHtml .='<a href="' . $url . '" class="' . ($pid == 0 ? "top_link " . ($menu->id == $root_parent ? "active " : "") . $menu->root_class : ($childCount > 0 ? "fly" : "")) . '">';
-                if ($pid == 0)
-                    $this->menuHtml .='<span class="down">';
-                $this->menuHtml .=$menu->user_title;
-                if ($pid == 0)
-                    $this->menuHtml .='</span>';
-                $this->menuHtml .='</a>';
-
-                if (in_array($menu->id, $pidArray))
-                    $this->getNavigation($menu->id, $l, 0, $pidArray);
-                $this->menuHtml .='</li>';
             }
         }
         if ($foundAny == false)
@@ -261,9 +529,84 @@ class Controller extends CController {
     public function createUrl($route, $params = array(), $ampersand = '&') {
 
         $conCate = array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id']);
+        /**
+         * for user side only 
+         */
+        if (!$this->isAdminSite) {
+            $conCate['lang'] = $this->currentLang;
+        }
         $params = array_merge($params, $conCate);
-       
         return parent::createUrl($route, $params, $ampersand);
+    }
+
+    /**
+     * set Total amount in session
+     */
+    public function setTotalAmountSession($grand_total, $total_quantity, $description = "") {
+        Yii::app()->session['total_price'] = round($grand_total, 2);
+        Yii::app()->session['quantity'] = $total_quantity;
+        Yii::app()->session['description'] = $description;
+    }
+
+    /**
+     * to change admin city for
+     */
+    public function changeAdminCity() {
+        if (isset($_REQUEST['change_city_id'])) {
+            $_REQUEST['city_id'] = $_REQUEST['change_city_id'];
+            Yii::app()->user->SiteSessions;
+            $this->redirect($this->createUrl($this->route));
+        }
+    }
+
+    /**
+     * 
+     * @param type $route
+     * @param type $params
+     * @param type $ampersand
+     * @return My own simple Url redirctor
+     */
+    public function createDTUrl($route, $params = array(), $ampersand = '&') {
+        if ($route === '')
+            $route = $this->getId() . '/' . $this->getAction()->getId();
+        elseif (strpos($route, '/') === false)
+            $route = $this->getId() . '/' . $route;
+        if ($route[0] !== '/' && ($module = $this->getModule()) !== null)
+            $route = $module->getId() . '/' . $route;
+        return Yii::app()->createUrl(trim($route, '/'), $params, $ampersand);
+    }
+
+    /*
+     * DT dumper for development only just pass the variable...
+     */
+
+    public function dtdump($var) {
+        return CVarDumper::dump($var, 10, TRUE);
+    }
+
+    /*
+     * Install configurations
+     * for soical application
+     */
+
+    public function installConfig() {
+
+        $criteria = new CDbCriteria();
+        $criteria->addCondition("misc_type='other'");
+        $selected = array("dateformat", "auto_item_code", "slider_time");
+        $criteria->addInCondition("param", $selected);
+        if (!empty($_REQUEST['city_id'])) {
+            $criteria->addCondition("city_id = " . $_REQUEST['city_id']);
+        }
+        $criteria->select = "param,value";
+
+        $conf = ConfMisc::model()->findAll($criteria);
+
+        if (!empty($conf)) {
+            foreach ($conf as $data) {
+                Yii::app()->params[$data->param] = $data->value;
+            }
+        }
     }
 
 }

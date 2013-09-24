@@ -11,9 +11,19 @@ echo '<a name="' . $relationName . '"></a>';
 $plusImage = "<div class='left_float' style='padding-top:2px'>" .
         CHtml::image(Yii::app()->theme->baseUrl . '/images/icons/plus.gif', 'bingo', array('class' => 'rotate_iamge', 'id' => $relationName . '-plus', 'class' => 'plus')) .
         "</div>";
+
+$basic_feature_div = "none";
+$basic_cont_div = "none";
+if (isset($_POST[$mName]) || ($this->action->id == 'create' && count($model->$relationName) > 0)) {
+    $basic_feature_div = "block";
+    $basic_cont_div = "block";
+}
+else if($this->action->id == 'view'){
+   $basic_cont_div = "block";
+}
 ?>
 
-<div class="child-container" id ="<?php echo $dir; ?>">
+<div class="child-container" id ="<?php echo $dir; ?>" style="display:<?php echo $basic_cont_div; ?>">
     <div class="subsection-header">
         <div class="left_float">
             <?php
@@ -47,21 +57,8 @@ $plusImage = "<div class='left_float' style='padding-top:2px'>" .
     </div>
 
     <?php
-    /* Hide or show this div */
-    $basic_feature_div = "none";
-    if (isset($_POST[$mName]) || ($this->action->id == 'create' && count($model->$relationName) > 0)) {
-        $basic_feature_div = "block";
-    }
 
-    /**
-     * in case of no post request
-     */
-    if (!isset($_POST[$mName]) && $this->action->id == 'create') {
-        $m[] = new ProductProfile;
 
-        $model->$relationName = $m;
-        $basic_feature_div = "block";
-    }
 
     $relateModelobj = new $mName;
     ?>
@@ -69,23 +66,7 @@ $plusImage = "<div class='left_float' style='padding-top:2px'>" .
         <div class="main">
             <!--        <div class="head">Field Force Labors</div>-->
             <div class="form_body">
-                <div class="grid_title">
-                    <div class="title" style="width:50px"><?php echo CHtml::activeLabel($relateModelobj, 'item_code'); ?></div>
-                    <div class="title" style="width:80px"><?php echo CHtml::activeLabel($relateModelobj, 'language_id'); ?></div>
-                    <div class="title" style="width:60px"><?php echo CHtml::activeLabel($relateModelobj, 'discount_type'); ?></div>
-                    <div class="title" style="width:50px"><?php echo CHtml::activeLabel($relateModelobj, 'discount_value'); ?></div>
-                    <div class="title" style="width:50px"><?php echo CHtml::activeLabel($relateModelobj, 'size'); ?></div>
-                    <div class="title" style="width:50px"><?php echo CHtml::activeLabel($relateModelobj, 'binding'); ?></div>
-                    <div class="title" style="width:50px"><?php echo CHtml::activeLabel($relateModelobj, 'printing'); ?></div>
-                    <div class="title" style="width:50px"><?php echo CHtml::activeLabel($relateModelobj, 'paper'); ?></div>
-                    <div class="title" style="width:50px"><?php echo CHtml::activeLabel($relateModelobj, 'edition'); ?></div>
-                    <div class="title" style="width:50px"><?php echo CHtml::activeLabel($relateModelobj, 'no_of_pages'); ?></div>
-                    <div class="title" style="width:50px"><?php echo CHtml::activeLabel($relateModelobj, 'isbn'); ?></div>
-                    <div class="title" style="width:50px"><?php echo CHtml::activeLabel($relateModelobj, 'price'); ?></div>
-
-
-                </div>
-                <div class="clear"></div>
+     
                 <?php
                 /* If type is form then set form html tag */
                 if ($type == "form") {
@@ -98,7 +79,7 @@ $plusImage = "<div class='left_float' style='padding-top:2px'>" .
                     ));
                 }
                 ?>
-                <div id="<?php echo $fields_div_id; ?>" class="form">
+                <div id="<?php echo $fields_div_id; ?>" class="form wide">
                     <?php
                     /* for loading with js */
                     $relationName_index_sc = -1;

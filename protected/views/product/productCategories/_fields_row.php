@@ -17,7 +17,10 @@ $relationName = "productCategories";
 
         $criteria = new CDbCriteria();
         $criteria->select = "category_id,category_name";
-        $data = CHtml::listData(Categories::model()->findAll($criteria), "category_id", "category_name");
+        $criteria->order = "parent_id";
+        $parent_cat = !empty($_GET['parent_cat']) ? $_GET['parent_cat'] : $parent_category;
+        $criteria->addCondition("city_id=" . Yii::app()->session['city_id'] . " AND parent_id =" . $parent_cat);
+        $data = array("" => "Select") + CHtml::listData(Categories::model()->findAll($criteria), "category_id", "category_name");
         echo CHtml::activeDropDownList($model, '[' . $index . ']category_id', $data);
         ?>
     </div>
@@ -34,8 +37,16 @@ $relationName = "productCategories";
             'class' => 'plus',
             'onclick' =>
             "
-                
-					u = '" . Yii::app()->controller->createUrl("loadChildByAjax", array("mName" => "$mName", "dir" => $dir, "load_for" => $load_for,)) . "&index=' + " . $relationName . "_index_sc;
+                    parent_cat = '';
+                    if(typeof(jQuery('#Product_parent_cateogry_id').val()) =='undefined'){
+                        parent_cat = jQuery('#parent_cat_id').val();
+                    }
+                    else {
+                        parent_cat = jQuery('#Product_parent_cateogry_id').val();
+                    }
+		    u = '" . Yii::app()->controller->createUrl("loadChildByAjax", array("mName" => "$mName", "dir" => $dir, "load_for" => $load_for,)) . "&index=' + " . $relationName . "_index_sc;
+                    u+='&parent_cat='+parent_cat; 
+                    
                     add_new_child_row(u, '" . $dir . "', '" . $fields_div_id . "', 'grid_fields', true);
                     
                     " . $relationName . "_index_sc++;

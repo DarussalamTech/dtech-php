@@ -15,6 +15,11 @@ class PaymentController extends Controller {
         return array(
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
+            /*
+             * applying filters for
+             * secure actions
+             */
+            'https + paymentMethod + validateCreditCard + processCreditCard + processManual +confirmOrder',
         );
     }
 
@@ -26,7 +31,9 @@ class PaymentController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('paymentmethod', 'confirmorder', 'statelist', 'customer0rderDetailMailer', 'admin0rderDetailMailer'),
+                'actions' => array('paymentmethod', 'confirmorder',
+                    'statelist', 'bstatelist', 'sstatelist',
+                    'customer0rderDetailMailer', 'admin0rderDetailMailer'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -36,10 +43,31 @@ class PaymentController extends Controller {
     }
 
     public function actionpaymentMethod() {
+        Yii::app()->user->SiteSessions;
 
-        Yii::app()->theme = Yii::app()->session['layout'];
-        Yii::app()->controller->layout = '//layouts/main';
+        /**
+         * if cart is empty then it redirect to home page
+         */
+        $cart = Cart::model()->getCartListCount();
 
+        if ($cart['cart_total'] == null) {
+            $this->redirect($this->createUrl("/site/storeHome"));
+        }
+
+        if (isset($_GET['step']) && $_GET['step'] == 'billing') {
+            $this->handleBilling();
+        } else {
+            $this->handleShipping();
+        }
+    }
+
+    /*
+     * handling shipping information
+     * when user have some order
+     * 
+     */
+
+    public function handleShipping() {
         $error = array('status' => false);
         $model = new ShippingInfoForm();
         $model->setAttributeByDefault();
@@ -57,14 +85,14 @@ class PaymentController extends Controller {
                 $creditCardModel->payment_method = $model->payment_method;
 
                 switch ($model->payment_method) {
-                    case 2: // credit card
+                    case "Credit Card": // credit card
 
                         $this->processCreditCard($model, $creditCardModel);
                         break;
-                    case 3: // manual
+                    case "Cash On Delievery": // manual
                         $this->processManual($creditCardModel);
                         break;
-                    case 1: //paypal
+                    case "Pay Pal": //paypal
                         UserProfile::model()->saveShippingInfo($_POST['ShippingInfoForm']);
                         $this->redirect($this->createUrl("/web/paypal/buy"));
                         break;
@@ -73,11 +101,50 @@ class PaymentController extends Controller {
         }
 
         $regionList = CHtml::listData(Region::model()->findAll(), 'id', 'name');
-        $this->render('payment_method', array(
+        $this->render('//payment/payment_method', array(
             'model' => $model,
             'regionList' => $regionList,
             'creditCardModel' => $creditCardModel,
             'error' => $error
+        ));
+    }
+
+    /*
+     * handling Billing information
+     * when user have some order
+     * 
+     */
+
+    public function handleBilling() {
+        $critera = new CDbCriteria();
+        $critera->addCondition("user_id = " . Yii::app()->user->id);
+        $critera->order = "id DESC";
+        $model = UserOrderBilling::model()->find($critera);
+
+        if (empty($model)) {
+            $model = new UserOrderBilling;
+        }
+        if (isset($_POST['UserOrderBilling'])) {
+            $model->attributes = $_POST['UserOrderBilling'];
+            $model->user_id = Yii::app()->user->id;
+            if ($model->save()) {
+                Yii::app()->session['billing_prefix'] = $model->billing_prefix;
+                Yii::app()->session['billing_first_name'] = $model->billing_first_name;
+                Yii::app()->session['billing_last_name'] = $model->billing_last_name;
+                if ($model->isSameShipping) {
+
+                    $this->redirect($this->createUrl("/web/payment/paymentmethod", array("billing" => $model->id)));
+                } else {
+                    $this->redirect($this->createUrl("/web/payment/paymentmethod"));
+                }
+            }
+        }
+
+
+        $regionList = CHtml::listData(Region::model()->findAll(), 'id', 'name');
+        $this->render('//payment/payment_method_billing', array(
+            'model' => $model,
+            'regionList' => $regionList,
         ));
     }
 
@@ -88,7 +155,7 @@ class PaymentController extends Controller {
      */
     public function validateCreditCard($model, $creditCardModel) {
 
-        if ($model->payment_method == "2") {
+        if ($model->payment_method == "Credit Card") {
             if (isset($_POST['CreditCardForm'])) {
                 $creditCardModel->attributes = $_POST['CreditCardForm'];
 
@@ -109,10 +176,14 @@ class PaymentController extends Controller {
     public function processCreditCard($model, $creditCardModel) {
 
         $error = $creditCardModel->CreditCardPayment($model, $creditCardModel);
-        if (empty($error)) {
+        /**
+         * if order id is exist then it means 
+         * it has order information
+         */
+        if (!empty($error['order_id'])) {
             //save the shipping information of user
             $userProfile_model = UserProfile::model();
-            $userProfile_model->saveShippingInfo($_POST['ShippingInfoForm']);
+            $userProfile_model->saveShippingInfo($_POST['ShippingInfoForm'], $error['order_id']);
             $this->redirect(array('/web/payment/confirmOrder'));
         } else {
             $creditCardModel->showCreditCardErrors($error);
@@ -125,14 +196,15 @@ class PaymentController extends Controller {
      * @param type $creditCardModel
      */
     public function processManual($creditCardModel) {
+
         $order_id = $creditCardModel->saveOrder("");
 
-        UserProfile::model()->saveShippingInfo($_POST['ShippingInfoForm']);
+        UserProfile::model()->saveShippingInfo($_POST['ShippingInfoForm'], $order_id);
 
 
-        $this->customer0rderDetailMailer($_POST['ShippingInfoForm']);
+        $this->customer0rderDetailMailer($_POST['ShippingInfoForm'], $order_id);
         $this->admin0rderDetailMailer($_POST['ShippingInfoForm'], $order_id);
-        Yii::app()->user->setFlash('orderMail', 'Dear Customer Thank you...Your Order has been ordered Successfully.');
+        Yii::app()->user->setFlash('orderMail', 'Thank you...');
 
         $this->redirect(array('/web/payment/confirmOrder'));
     }
@@ -141,12 +213,12 @@ class PaymentController extends Controller {
      * method to send order detail to customer
      */
 
-    public function customer0rderDetailMailer($customerInfo) {
+    public function customer0rderDetailMailer($customerInfo, $order_id) {
 
         $email['From'] = Yii::app()->params['adminEmail'];
         $email['To'] = Yii::app()->user->name;
         $email['Subject'] = "Your Order Detail";
-        $email['Body'] = $this->renderPartial('_order_email_template', array('customerInfo' => $customerInfo), true, false);
+        $email['Body'] = $this->renderPartial('//payment/_order_email_template2', array('customerInfo' => $customerInfo, 'order_id' => $order_id), true, false);
         $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
         $this->sendEmail2($email);
     }
@@ -161,18 +233,60 @@ class PaymentController extends Controller {
 
         $email['To'] = User::model()->getCityAdmin();
         $email['Subject'] = "New Order Placement";
-        $email['Body'] = $this->renderPartial('_order_email_template_admin', array('customerInfo' => $customerInfo, "order_id" => $order_id), true, false);
+        $email['Body'] = $this->renderPartial('//payment/_order_email_template_admin', array('customerInfo' => $customerInfo, "order_id" => $order_id), true, false);
         $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
 
         $this->sendEmail2($email);
     }
 
+    /**
+     * state list for shipping
+     */
     public function actionStatelist() {
+
         $shipping_card = new ShippingInfoForm();
         if (isset($_POST['ShippingInfoForm'])) {
             $shipping_card->attributes = $_POST['ShippingInfoForm'];
         }
         $stateList = $shipping_card->getStates();
+
+
+        echo CHtml::tag('option', array('value' => ''), 'Select State', true);
+        foreach ($stateList as $value => $name) {
+            echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
+        }
+    }
+
+    /**
+     * state list for billing
+     */
+    public function actionBstatelist() {
+
+        $billing_card = new UserOrderBilling();
+        if (isset($_POST['UserOrderBilling'])) {
+            $billing_card->attributes = $_POST['UserOrderBilling'];
+        }
+        $stateList = $billing_card->getStates();
+
+
+        echo CHtml::tag('option', array('value' => ''), 'Select State', true);
+        foreach ($stateList as $value => $name) {
+            echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
+        }
+    }
+
+    /**
+     * state list for shipping
+     */
+    public function actionSstatelist() {
+
+        $shipp_card = new UserOrderShipping();
+        if (isset($_POST['UserOrderShipping'])) {
+            $shipp_card->attributes = $_POST['UserOrderShipping'];
+        }
+        $stateList = $shipp_card->getStates();
+
+
         echo CHtml::tag('option', array('value' => ''), 'Select State', true);
         foreach ($stateList as $value => $name) {
             echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
@@ -180,10 +294,11 @@ class PaymentController extends Controller {
     }
 
     public function actionconfirmOrder() {
+
         Yii::app()->user->SiteSessions;
         Yii::app()->theme = Yii::app()->session['layout'];
         Yii::app()->controller->layout = '//layouts/main';
-        $this->render('confirm_order');
+        $this->render('//payment/confirm_order');
     }
 
 }

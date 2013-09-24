@@ -37,7 +37,6 @@ class Language extends DTActiveRecord {
         return array(
             array('language_name', 'required'),
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
-            array('activity_log', 'safe'),
             array('language_name', 'length', 'max' => 255),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
@@ -61,8 +60,8 @@ class Language extends DTActiveRecord {
      */
     public function attributeLabels() {
         return array(
-            'language_id' => 'Language',
-            'language_name' => 'Language Name',
+            'language_id' => Yii::t('model_labels', 'Language', array(), NULL, Yii::app()->controller->currentLang),
+            'language_name' => Yii::t('model_labels', 'Language Name', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 

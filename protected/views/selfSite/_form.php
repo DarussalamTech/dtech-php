@@ -29,7 +29,7 @@
         <?php echo $form->error($model, 'site_descriptoin'); ?>
     </div>
     <div class="row">
-        <?php echo $form->labelEx($model, 'site_descriptoin'); ?>
+        <?php echo $form->labelEx($model, 'country_id'); ?>
 
 
         <?php
@@ -50,6 +50,10 @@
 
     <div class="row buttons">
         <?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save', array("class" => "btn")); ?>
+        <?php
+        echo " or ";
+        echo CHtml::link('Cancel', '#', array('onclick' => 'dtech.go_history()'));
+        ?>
     </div>
 
     <?php $this->endWidget(); ?>

@@ -7,10 +7,12 @@
  * @property integer $id
  * @property integer $product_id
  * @property integer $item_code
+ * @property integer $title
  * @property integer $language_id
  * @property integer $discount_type
  * @property integer $discount_value
  * @property integer $language_id
+ * @property integer $quantity
  * @property string $isbn
  * @property string $price
  *
@@ -51,17 +53,51 @@ class ProductProfile extends DTActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('size,language_id,item_code', 'required'),
-            array('item_code', 'unique'),
+            array('price,language_id', 'required'),
+            array('item_code,isbn', 'unique'),
+            /**
+             * if item code set to automatic then it wont be requred
+             * other wise requried
+             */
+            array('item_code', Yii::app()->params['auto_item_code'] == 0 ? "required" : "safe"),
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
-            array('product_id,activity_log', 'safe'),
+            array('title,product_id', 'safe'),
             array('id,size,no_of_pages,binding,printing,paper,edition,upload_index', 'safe'),
-            array('price,discount_type,discount_type', 'safe'),
+            array('dimension,translator_id,compiler_id,quantity,slag', 'safe'),
             array('isbn', 'length', 'max' => 255),
-            array('language_id', 'UniqueLanguage'),
+            array('price,quantity', 'numerical', 'integerOnly' => FALSE),
+            //array('language_id', 'UniqueLanguage'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('profile_id, author_id, isbn', 'safe', 'on' => 'search'),
+        );
+    }
+
+    /**
+     * @return array relational rules.
+     */
+    public function relations() {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return array(
+            'product' => array(self::BELONGS_TO, 'Product', 'product_id'),
+            'orderDetails' => array(self::HAS_MANY, 'OrderDetail', 'product_profile_id'),
+            'productLanguage' => array(self::BELONGS_TO, 'Language', 'language_id'),
+            'productImages' => array(self::HAS_MANY, 'ProductImage', 'product_profile_id', 'order' => 'is_default DESC'),
+            'productAttributes' => array(self::HAS_MANY, 'ProductAttributes', 'product_profile_id'),
+            /**
+             * configuration relationship
+             */
+            'dimension_rel' => array(self::BELONGS_TO, 'ConfProducts', 'dimension', 'condition' => 'type="Dimensions"'),
+            'binding_rel' => array(self::BELONGS_TO, 'ConfProducts', 'binding', 'condition' => 'type="Binding"'),
+            'printing_rel' => array(self::BELONGS_TO, 'ConfProducts', 'printing', 'condition' => 'type="Printing"'),
+            'paper_rel' => array(self::BELONGS_TO, 'ConfProducts', 'paper', 'condition' => 'type="Paper"'),
+            /*
+             * relation for compiler and translator table
+             */
+            'translator_rel' => array(self::BELONGS_TO, 'TranslatorCompiler', 'translator_id', 'condition' => 'type="translator"'),
+            'compiler_rel' => array(self::BELONGS_TO, 'TranslatorCompiler', 'compiler_id', 'condition' => 'type="compiler"'),
+            'productProfilelangs' => array(self::HAS_MANY, 'ProductProfileLang', 'product_profile_id'),
         );
     }
 
@@ -79,6 +115,17 @@ class ProductProfile extends DTActiveRecord {
             ),
             'CMultipleRecords' => array(
                 'class' => 'CMultipleRecords'
+            ),
+            'DTMultiLangBehaviour' => array(
+                'class' => 'DTMultiLangBehaviour',
+                'langClassName' => 'ProductProfileLang',
+                'relation' => 'productProfilelangs',
+                'langTableName' => 'product_profile_lang',
+                'langForeignKey' => 'product_profile_id',
+                'localizedAttributes' => array('title'), //attributes of the model to be translated
+                'localizedPrefix' => '',
+                'languages' => Yii::app()->params['translatedLanguages'], // array of your translated languages. Example : array('fr' => 'Français', 'en' => 'English')
+                'defaultLanguage' => Yii::app()->params['defaultLanguage'], //your main language. Example : 'fr'
             ),
         );
     }
@@ -148,36 +195,26 @@ class ProductProfile extends DTActiveRecord {
     }
 
     /**
-     * @return array relational rules.
-     */
-    public function relations() {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
-        return array(
-            'product' => array(self::BELONGS_TO, 'Product', 'product_id'),
-            'orderDetails' => array(self::HAS_MANY, 'OrderDetail', 'product_profile_id'),
-            'productLanguage' => array(self::BELONGS_TO, 'Language', 'language_id'),
-            'productImages' => array(self::HAS_MANY, 'ProductImage', 'product_profile_id', 'order' => 'is_default DESC'),
-        );
-    }
-
-    /**
      * @return array customized attribute labels (name=>label)
      */
     public function attributeLabels() {
         return array(
-            'profile_id' => 'Profile',
-            'product_id' => 'Product',
-            'isbn' => 'Isbn',
-            'price' => 'Price',
-            'no_of_pages' => '# Pages',
-            'binding' => 'Binding',
-            'printing' => 'Printing',
-            'paper' => 'Paper',
-            'discount_type' => 'Disc Type',
-            'discount_value' => 'Discount',
-            'language_id' => 'Language',
-            'edition' => 'Edition',
+            'profile_id' => Yii::t('model_labels', 'Profile', array(), NULL, Yii::app()->controller->currentLang),
+            'product_id' => Yii::t('model_labels', 'Product', array(), NULL, Yii::app()->controller->currentLang),
+            'item_code' => Yii::t('model_labels', 'Item Code', array(), NULL, Yii::app()->controller->currentLang),
+            'isbn' => Yii::t('model_labels', 'ISBN', array(), NULL, Yii::app()->controller->currentLang),
+            'price' => Yii::t('model_labels', 'Product Price', array(), NULL, Yii::app()->controller->currentLang),
+            'no_of_pages' => Yii::t('model_labels', 'No Of Pages', array(), NULL, Yii::app()->controller->currentLang),
+            'binding' => Yii::t('model_labels', 'Binding', array(), NULL, Yii::app()->controller->currentLang),
+            'printing' => Yii::t('model_labels', 'Printing', array(), NULL, Yii::app()->controller->currentLang),
+            'paper' => Yii::t('model_labels', 'Paper', array(), NULL, Yii::app()->controller->currentLang),
+            'dimension' => Yii::t('model_labels', 'Dimension', array(), NULL, Yii::app()->controller->currentLang),
+            'size' => Yii::t('model_labels', 'Size', array(), NULL, Yii::app()->controller->currentLang),
+            'language_id' => Yii::t('model_labels', 'Language', array(), NULL, Yii::app()->controller->currentLang),
+            'edition' => Yii::t('model_labels', 'Edition', array(), NULL, Yii::app()->controller->currentLang),
+            'compiler_id' => Yii::t('model_labels', 'Compiler', array(), NULL, Yii::app()->controller->currentLang),
+            'translator_id' => Yii::t('model_labels', 'Translator', array(), NULL, Yii::app()->controller->currentLang),
+            'slag' => Yii::t('model_labels', 'Slag', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 
@@ -198,10 +235,51 @@ class ProductProfile extends DTActiveRecord {
         $criteria->compare('printing', $this->printing, true);
         $criteria->compare('paper', $this->paper, true);
         $criteria->compare('edition', $this->edition, true);
+        $criteria->compare('slag', $this->slag, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
         ));
+    }
+
+    /*
+     * before save action
+     */
+
+    public function beforeSave() {
+
+        $this->generateItemCode();
+        return parent::beforeSave();
+    }
+
+    /*
+     * method generate item codes base on city
+     * in specific formate
+     *
+     */
+
+    public function generateItemCode() {
+        if ($this->isNewRecord && Yii::app()->params['auto_item_code'] == 1) {
+
+            $criteria = new CDbCriteria();
+            $criteria->select = 'MAX(id) AS id';
+            $obj = $this->find($criteria);
+
+            $last_product_id = $obj['id'] + 1;
+            $city_name = substr(Yii::app()->session['city_short_name'], 0, 2);
+
+            $parent_category_name = substr(Categories::model()->findByPk($this->product->parent_cateogry_id)->category_name, 0, 1);
+            $gen_code = strtoupper($city_name) . $parent_category_name . '-' . $last_product_id;
+            $this->item_code = $gen_code;
+        }
+        /**
+         * if isbn no is empty then 
+         * it will be auto matic
+         */
+        if (empty($this->isbn)) {
+            $dt = new DTFunctions();
+            $this->isbn = "dt-" . time();
+        }
     }
 
     /**
@@ -224,18 +302,75 @@ class ProductProfile extends DTActiveRecord {
                 $images[] = array('id' => $img->id,
                     'image_large' => $img->image_url['image_large'],
                     'image_small' => $img->image_url['image_small'],
+                    'image_cart' => $img->image_url['image_cart'],
+                    'image_detail' => $img->image_url['image_detail'],
                 );
                 break;
             } else {
                 $images[] = array('id' => $img->id,
                     'image_large' => $img->image_url['image_large'],
                     'image_small' => $img->image_url['image_small'],
+                    'image_cart' => $img->image_url['image_cart'],
+                    'image_detail' => $img->image_url['image_detail'],
                 );
                 break;
             }
         }
 
         return $images;
+    }
+
+    /**
+     * 
+     * @return type
+     */
+    public function afterFind() {
+        /**
+         * dt- means
+         * isbn is 
+         */
+        if (strstr($this->isbn, "dt-")) {
+            $this->isbn = "";
+        }
+        return parent::afterFind();
+    }
+
+    /**
+     * setting slug
+     * for url
+     */
+    public function setSlug() {
+        $module = Yii::app()->controller->getModule();
+        if ($this->_controller == "site" || get_class($module) == "WebModule") {
+            $this->slag = $this->slag . "-" . $this->primaryKey;
+        }
+    }
+
+    /**
+     * setting slug
+     * for url
+     */
+    public function saveSlug() {
+        if (!empty($this->slag)) {
+            $this->slag = str_replace(" ", "-", $this->slag);
+        } else {
+            $this->slag = str_replace(" ", "-", $this->title);
+        }
+    }
+
+    /**
+     * 
+     *  Product Profile
+     *  stock has been udpated
+     * @param type $new_quantity
+     * @param type $profile_id
+     */
+    public function updateStock($new_quantity, $profile_id) {
+
+        $connection = Yii::app()->db;
+        $sql = "UPDATE " . $this->tableName() . " t SET t.quantity=t.quantity+" . $new_quantity . " WHERE t.id = " . $profile_id;
+        $command = $connection->createCommand($sql);
+        $command->execute();
     }
 
 }

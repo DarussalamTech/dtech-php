@@ -12,7 +12,7 @@
  * @property string $last_activity
  * @property string $avatar
  */
-class UserRegister extends CActiveRecord
+class UserRegister extends DTActiveRecord
 {
 
 	public $password2;

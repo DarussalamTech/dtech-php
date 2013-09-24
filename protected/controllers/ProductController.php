@@ -7,56 +7,42 @@ class ProductController extends Controller {
      * using two-column layout. See 'protected/views/layouts/column2.php'.
      */
     public $layout = '//layouts/column2';
+    public $filters;
 
     /**
      * @return array action filters
      */
     public function filters() {
         return array(
-            'accessControl', // perform access control for CRUD operations
-            'postOnly + delete', // we only allow deletion via POST request
+            // 'accessControl', // perform access control for CRUD operations
+            'rights',
+            'https + index + view + update + create + slider + createSlider +sliderSetting+removeSlider+language',
         );
+    }
+
+    public function allowedActions() {
+        return '@';
     }
 
     public function beforeAction($action) {
         Yii::app()->theme = "admin";
         parent::beforeAction($action);
+
+        $operations = array('create', 'update', 'index', 'delete');
+        parent::setPermissions($this->id, $operations);
+
         return true;
     }
 
     /**
-     * Specifies the access control rules.
-     * This method is used by the 'accessControl' filter.
-     * @return array access control rules
+     * Initialize Project Report
      */
-    public function accessRules() {
-        return array(
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('create', 'index', 'view',
-                    'loadChildByAjax',
-                    'editChild',
-                    'deleteChildByAjax',
-                    'viewImage'
-                ),
-                'users' => array('@'),
-            ),
-            array('allow',
-                'actions' => array('create', 'update',),
-                'expression' => 'Yii::app()->user->isAdmin',
-            //the 'user' var in an accessRule expression is a reference to Yii::app()->user
-            ),
-            array('allow',
-                'actions' => array('admin', 'delete', 'update'),
-                'expression' => 'Yii::app()->user->isSuperAdmin',
-            //the 'user' var in an accessRule expression is a reference to Yii::app()->user
-            ),
-            array('allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions' => array('admin', 'delete'),
-                'users' => array('admin'),
-            ),
-            array('deny', // deny all users
-                'users' => array('*'),
-            ),
+    public function init() {
+        parent::init();
+
+        /* Set filters and default active */
+        $this->filters = array(
+            'parent_cateogry_id' => Categories::model()->getParentCategories(),
         );
     }
 
@@ -81,7 +67,7 @@ class ProductController extends Controller {
 
         $cityList = CHtml::listData(City::model()->findAll(), 'city_id', 'city_name');
         $languageList = CHtml::listData(Language::model()->findAll(), 'language_id', 'language_name');
-        $authorList = CHtml::listData(Author::model()->findAll(), 'author_id', 'author_name');
+        $authorList = CHtml::listData(Author::model()->findAll(array('order' => 'author_name')), 'author_id', 'author_name');
 
 
         // Uncomment the following line if AJAX validation is needed
@@ -104,11 +90,12 @@ class ProductController extends Controller {
         ));
     }
 
-    /**
+    /*     * product_id
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id the ID of the model to be updated
      */
+
     public function actionUpdate($id) {
 
         $model = $this->loadModel($id);
@@ -117,7 +104,7 @@ class ProductController extends Controller {
 
         $cityList = CHtml::listData(City::model()->findAll(), 'city_id', 'city_name');
         $languageList = CHtml::listData(Language::model()->findAll(), 'language_id', 'language_name');
-        $authorList = CHtml::listData(Author::model()->findAll(), 'author_id', 'author_name');
+        $authorList = CHtml::listData(Author::model()->findAll(array('order' => 'author_name')), 'author_id', 'author_name');
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
@@ -154,14 +141,119 @@ class ProductController extends Controller {
      * Manages all models.
      */
     public function actionIndex() {
+        $this->init();
         $model = new Product('search');
         $model->unsetAttributes();  // clear any default values
+
+        $model->city_id = Yii::app()->request->getQuery('city_id');
+
         if (isset($_GET['Product']))
             $model->attributes = $_GET['Product'];
 
         $this->render('index', array(
             'model' => $model,
         ));
+    }
+
+    /**
+     * Manages all models.
+     * for sliders
+     */
+    public function actionSlider() {
+
+        $this->init();
+        $model = new Product('search');
+        $cityList = CHtml::listData(City::model()->findAll(), 'city_id', 'city_name');
+
+        $model->unsetAttributes();  // clear any default values
+
+        $model->city_id = Yii::app()->request->getQuery('city_id');
+
+
+        if (isset($_GET['Product']))
+            $model->attributes = $_GET['Product'];
+
+        $this->render('slider', array(
+            'model' => $model,
+            'cityList' => $cityList,
+        ));
+    }
+
+    /**
+     * create Slider for main website
+     */
+    public function actionCreateSlider($id = 0, $slider = "") {
+
+        $cityList = CHtml::listData(City::model()->findAll(), 'city_id', 'city_name');
+        $model = Slider::model()->find("product_id = " . $id);
+        if (empty($model)) {
+            $model = new Slider();
+        } else {
+            $old_img = $model->image;
+        }
+        $model->city_id = Yii::app()->request->getQuery('city_id');
+
+        $product = Product::model()->findByPk($id);
+        $model->product_id = $product->product_id;
+        $model->product_name = $product->product_name;
+
+
+        if (isset($_POST['Slider'])) {
+
+            $model->attributes = $_POST['Slider'];
+
+            //making instance of the uploaded image 
+            $img_file = DTUploadedFile::getInstance($model, 'image');
+            $model->image = $img_file;
+
+            if (empty($model->image) && !empty($model->id)) {
+
+                // conditon for if no image submited then old img should not be deleted
+                $model->image = $old_img;
+            }
+
+            if ($model->save()) {
+                $upload_path = DTUploadedFile::creeatRecurSiveDirectories(array("slider", $model->id));
+                if (!empty($img_file)) {
+                    $img_file->saveAs($upload_path . $img_file->name);
+                }
+
+                $this->redirect(array('createSlider', 'id' => $id, "slider" => $model->id));
+            }
+        }
+
+        $this->renderPartial('_slider', array(
+            'model' => $model,
+            'cityList' => $cityList,
+                ), false, true);
+    }
+
+    /**
+     * Remove Slider
+     * from database
+     * 
+     */
+    public function actionRemoveSlider($id) {
+        Slider::model()->deleteByPk($id);
+    }
+
+    /**
+     * Slider Settings
+     * Time
+     */
+    public function actionSliderSetting() {
+
+        $conf = ConfMisc::model()->find("param = 'slider_time'");
+
+        $model = new SliderSetting();
+        $model->time = $conf->value;
+        if (isset($_POST['SliderSetting'])) {
+            $model->attributes = $_POST['SliderSetting'];
+            if ($model->validate()) {
+                $conf->updateByPk($conf->id, array("value" => $model->time));
+            }
+        }
+        $this->render("_slider_settings", array("model" => $model));
     }
 
     /**
@@ -233,11 +325,18 @@ class ProductController extends Controller {
      * @throws CHttpException 
      */
     public function actionDeleteChildByAjax($id, $mName) {
-        if (Yii::app()->request->isPostRequest) {
+
+
+
+
+
+        if (Yii::app()->request->isAjaxRequest) {
             /* Get regarding model */
             $model = new $mName;
 
-            $model->findByPk($id)->delete();
+            $model = $model->findByPk($id);
+
+            $model->deleteByPk($id);
         }
         else
             throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
@@ -252,6 +351,8 @@ class ProductController extends Controller {
         $model = ProductProfile::model()->findByPk($id);
         $path = $this->createUrl("viewImage", array("id" => $id));
         $this->manageChild($model, "productImages", "productProfile", "", 0, $path);
+        $this->manageChild($model, "productAttributes", "productProfile", "", 0, $path);
+
 
         $this->render("productImages/_grid", array(
             "id" => $id,
@@ -276,6 +377,19 @@ class ProductController extends Controller {
         if (isset($_POST['ProductProfile'])) {
             $model->setRelationRecords('productProfile', is_array($_POST['ProductProfile']) ? $_POST['ProductProfile'] : array());
         }
+        if (isset($_POST['Other'])) {
+            $model->setRelationRecords('other', is_array($_POST['Other']) ? $_POST['Other'] : array());
+        }
+        if (isset($_POST['Quran'])) {
+            $model->setRelationRecords('quranProfile', is_array($_POST['Quran']) ? $_POST['Quran'] : array());
+        }
+        if (isset($_POST['EducationToys'])) {
+            $model->setRelationRecords('educationToys', is_array($_POST['EducationToys']) ? $_POST['EducationToys'] : array());
+        }
+        if (isset($_POST['ProductDiscount'])) {
+            $model->setRelationRecords('discount', is_array($_POST['ProductDiscount']) ? $_POST['ProductDiscount'] : array());
+        }
+
         return true;
     }
 
@@ -287,7 +401,71 @@ class ProductController extends Controller {
     private function manageChildrens($model) {
 
         $this->manageChild($model, "productProfile", "product");
+        $this->manageChild($model, "educationToys", "product");
+        $this->manageChild($model, "quranProfile", "product");
+        $this->manageChild($model, "other", "product");
         $this->manageChild($model, "productCategories", "product");
+        $this->manageChild($model, "discount", "product");
+    }
+
+    /**
+     * languages 
+     * of all translations
+     */
+    public function actionLanguage($id, $lang_id = "") {
+        $model = new ProductLang;
+        if (!empty($lang_id)) {
+            $model = ProductLang::model()->findByPk($lang_id);
+        }
+
+        if (isset($_POST['ProductLang'])) {
+            $model->attributes = $_POST['ProductLang'];
+            $model->product_id = $id;
+            if ($model->save()) {
+                $this->redirect($this->createUrl("/product/language", array("id" => $id)));
+            }
+        }
+        $this->render("language", array("id" => $id, "model" => $model));
+    }
+
+    /**
+     * Delete language translation
+     * @param type $id
+     */
+    public function actionLanguageDelete($id) {
+        $model = ProductLang::model()->findByPk($id);
+        $model->delete();
+        $this->redirect($this->createUrl("/product/language", array("id" => $model->product_id)));
+    }
+
+    /**
+     * languages 
+     * of all translations
+     */
+    public function actionProfileLanguage($id, $lang_id = "") {
+        $model = new ProductProfileLang;
+        if (!empty($lang_id)) {
+            $model = ProductProfileLang::model()->findByPk($lang_id);
+        }
+
+        if (isset($_POST['ProductProfileLang'])) {
+            $model->attributes = $_POST['ProductProfileLang'];
+            $model->product_profile_id = $id;
+            if ($model->save()) {
+                $this->redirect($this->createUrl("/product/profileLanguage", array("id" => $id)));
+            }
+        }
+        $this->render("languageProfile", array("id" => $id, "model" => $model));
+    }
+
+    /**
+     * Delete language translation
+     * @param type $id
+     */
+    public function actionProfileLanguageDelete($id) {
+        $model = ProductProfileLang::model()->findByPk($id);
+        $model->delete();
+        $this->redirect($this->createUrl("/product/profileLanguage", array("id" => $model->product_id)));
     }
 
 }

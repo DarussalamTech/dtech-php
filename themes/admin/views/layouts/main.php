@@ -3,7 +3,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="language" content="en" />
-
+        <script type="text/javascript" src="<?php echo Yii::app()->baseUrl ?>/packages/jui/js/jquery.js"></script>
         <!-- blueprint CSS framework -->
         <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/screen-override.css" media="screen, projection" />
         <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/print.css" media="print" />
@@ -20,6 +20,8 @@
             var yii_base_url = "<?php echo Yii::app()->baseUrl; ?>";
 
         </script>
+
+        <script type="text/javascript" src="<?php echo Yii::app()->baseUrl ?>/media/js/dtech.js"></script>
 
         <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 
@@ -63,7 +65,12 @@
                     <!-- header -->
                     <div id="profile_menu">
                         <div class="left_float">
-                            <h1><?php echo CHtml::encode(Yii::app()->name); ?></h1>
+                            <h1>
+                                <?php
+                                    echo CHtml::link(CHtml::encode(Yii::app()->name),Yii::app()->homeUrl);
+                                   
+                                 ?>
+                            </h1>
                         </div>
                         <div>
 
@@ -74,7 +81,10 @@
                                 'items' => array(
                                     // array('label' => "Change Password", 'url' => array('/users/changepass'),'visible'=>(Yii::app()->user->isGuest)?0:1),
                                     //array('label' => (Yii::app()->user->theme == "Night" ? "Day" : "Night"), 'url' => array('/user/changeTheme')),
-                                    array('label' => 'Configuration', 'url' => array('/configurations/load', 'm' => 'Misc'), 'visible' => (Yii::app()->user->isGuest) ? 0 : 1, 'itemOptions' => array('class' => '')),
+                                    array('label' => 'Access Control', 'url' => $this->createUrl('/rights'), 'visible' => (Yii::app()->user->isAdmin || Yii::app()->user->isSuperAdmin) ? 1 : 0, 'itemOptions' => array('class' => '')),
+                                    array('label' => 'Change Password', 'url' => $this->createUrl('/user/changePassword'), 'visible' => (Yii::app()->user->isGuest) ? 0 : 1, 'itemOptions' => array('class' => '')),
+                                    array('label' => 'Configuration', 'url' => $this->createUrl('/configurations/general', array('m' => 'Misc', 'type' => 'general')), 'visible' => (Yii::app()->user->isSuperuser) ? 1 : 0, 'itemOptions' => array('class' => '')),
+                                    array('label' => 'Configuration', 'url' => $this->createUrl('/configurations/load', array('m' => 'Misc', 'type' => 'other')), 'visible' => (Yii::app()->user->isSuperuser) ? 0 : 1, 'itemOptions' => array('class' => '')),
                                     array('label' => 'Logout', 'url' => array('/site/logout'), 'visible' => (Yii::app()->user->isGuest) ? 0 : 1, 'itemOptions' => array('class' => 'logout border-none')),
                                     array('label' => 'Login', 'url' => array('/site/login'), 'visible' => (Yii::app()->user->isGuest) ? 1 : 0, 'itemOptions' => array('class' => 'logout border-none')),
                                 ),

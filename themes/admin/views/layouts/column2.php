@@ -15,18 +15,54 @@
              * If configuration controller is called
              * 
              */
-            if ($this->id == "configurations" || $this->id == "cmm") {
+
+            if ($this->id == "configurations" ||
+                    $this->id == "cmm" ||
+                    $this->id == "confProducts" || $this->id == "dtMessages") {
+
                 $this->widget('zii.widgets.jui.CJuiAccordion', array(
                     'panels' => array(
                         'Settings' => '<ul class="accordion-ul">' .
-                        '<li>' . CHtml::link('General Misc', array('/configurations/load', 
-                            "m" => "Misc",'type'=>'general')) . 
+                        '<li>' . CHtml::link('General Misc', array('/configurations/general',
+                            "m" => "Misc", 'type' => 'general')) .
                         '</li>' .
-                        '<li>' . CHtml::link('Branch Misc', array('/configurations/load', 
-                            "m" => "Misc","type"=>'other')) . 
+                        '<li>' . CHtml::link('Branch Misc', array('/configurations/load',
+                            "m" => "Misc", "type" => 'other')) .
                         '</li>' .
-                        '<li>' . CHtml::link('Payment Methods', array('/configurations/load', 
+                        '<li>' . CHtml::link('Payment Methods', array('/configurations/load',
                             "m" => "PaymentMethods")) . '</li>' .
+                        '<li>' . CHtml::link('Currency Rates', array('/configurations/load',
+                            "m" => "Currency")) . '</li>' .
+                        '</ul>',
+                        'Product' => '<ul class="accordion-ul">' .
+                        '<li>' . CHtml::link('Dimensions', array('/configurations/load',
+                            "m" => "Products", 'type' => 'Dimensions')) .
+                        '</li>' .
+                        '<li>' . CHtml::link('Binding', array('/configurations/load',
+                            "m" => "Products", "type" => 'Binding')) .
+                        '</li>' .
+                        '<li>' . CHtml::link('Printing', array('/configurations/load',
+                            "m" => "Products", "type" => "Printing")) . '</li>' .
+                        '<li>' . CHtml::link('Paper', array('/configurations/load',
+                            "m" => "Products", "type" => "Paper")) . '</li>' .
+                        '<li>' . CHtml::link('Author', array('/author/index',
+                        )) . '</li>' .
+                        '<li>' . CHtml::link('Translator Compiler', array('/translatorCompiler/index',
+                        )) . '</li>' .
+                        '<li>' . CHtml::link('Product Custom Attributes', array('/configurations/load',
+                            "m" => "ProductAttributes", "type" => "")) . '</li>' .
+                        '</ul>',
+                        'Translation' => '<ul class="accordion-ul">' .
+                        '<li>' . CHtml::link('Common', array('/dtMessages/index',
+                            "category" => "common")) . '</li>' .
+                        '<li>' . CHtml::link('Header Footer', array('/dtMessages/index',
+                            "category" => "header_footer")) . '</li>' .
+                        '<li>' . CHtml::link('Labels', array('/dtMessages/index',
+                            "category" => "models_labels")) . '</li>' .
+                        '<li>' . CHtml::link('Product Detail', array('/dtMessages/index',
+                            "category" => "product_detail")) . '</li>' .
+//                        '<li>' . CHtml::link('Product Category', array('/dtMessages/index',
+//                            "category" => "product_category")) . '</li>' .
                         '</ul>',
                     ),
                     // additional javascript options for the accordion plugin

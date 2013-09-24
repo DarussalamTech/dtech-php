@@ -13,39 +13,36 @@
  * @property City[] $cities
  * @property Site $site
  */
-class Country extends DTActiveRecord
-{
+class Country extends DTActiveRecord {
+
+    public $_cities = array();
 
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
      * @return Country the static model class
      */
-    public static function model($className = __CLASS__)
-    {
+    public static function model($className = __CLASS__) {
         return parent::model($className);
     }
 
     /**
      * @return string the associated database table name
      */
-    public function tableName()
-    {
+    public function tableName() {
         return 'country';
     }
 
     /**
      * @return array validation rules for model attributes.
      */
-    public function rules()
-    {
+    public function rules() {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
             array('country_name, short_name, site_id', 'required'),
             array('country_name', 'unique'),
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
-            array('activity_log', 'safe'),
             array('site_id', 'numerical', 'integerOnly' => true),
             array('country_name, short_name', 'length', 'max' => 255),
             // The following rule is used by search().
@@ -57,8 +54,7 @@ class Country extends DTActiveRecord
     /**
      * @return array relational rules.
      */
-    public function relations()
-    {
+    public function relations() {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
@@ -68,15 +64,29 @@ class Country extends DTActiveRecord
     }
 
     /**
+     * get Cities for particular country
+     */
+    public function getCities() {
+
+        $criteria = new CDbCriteria();
+        $criteria->select = "city_id,city_name";
+        $criteria->condition = "country_id = " . $this->country_id;
+        $this->_cities = CHtml::listData(City::model()->findAll($criteria), "city_id", "city_name");
+    }
+
+    public function afterFind() {
+        parent::afterFind();
+    }
+
+    /**
      * @return array customized attribute labels (name=>label)
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return array(
-            'country_id' => 'Country',
-            'country_name' => 'Country Name',
-            'short_name' => 'Short Name',
-            'site_id' => 'Site',
+            'country_id' => Yii::t('common', 'Country', array(), NULL, Yii::app()->controller->currentLang),
+            'country_name' => Yii::t('common', 'Country Name', array(), NULL, Yii::app()->controller->currentLang),
+            'short_name' => Yii::t('common', 'Short Name', array(), NULL, Yii::app()->controller->currentLang),
+            'site_id' => Yii::t('common', 'Site', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 
@@ -84,8 +94,7 @@ class Country extends DTActiveRecord
      * Retrieves a list of models based on the current search/filter conditions.
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
      */
-    public function search()
-    {
+    public function search() {
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 

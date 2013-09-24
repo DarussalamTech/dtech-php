@@ -1,0 +1,320 @@
+
+.grid-view-loading
+{
+    background:url(loading.gif) no-repeat;
+}
+
+
+.grid-view {
+    font-size: 0.9em;
+    margin: auto;
+    width: 960px;
+    font-family: Segoe,"Segoe UI","DejaVu Sans","Trebuchet MS",Verdana,sans-serif;
+}
+.attachment_files_grid{
+    margin: 0px 40px;
+}
+.grid-view table.items {
+    background: none repeat scroll 0 0 white;
+    border: 1px solid #E9E9E9;
+    border-collapse: collapse;
+    font-size: 12px;
+
+    width: 100%;
+}
+
+
+
+.grid-view table.items th, .grid-view table.items td
+{
+    padding: 0.3em;
+}
+
+.grid-view table.items th {
+    color: #595959;
+    text-align: left;
+    border-bottom: 1px solid #F6F6F6;
+}
+
+.grid-view table.items th a {
+    color: #595959;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.grid-view table.items th a:hover {
+    color: #595959;
+}
+
+.grid-view table.items th a.asc
+{
+    background:url(../images/up.gif) right center no-repeat;
+    padding-right: 10px;
+}
+
+.grid-view table.items th a.desc
+{
+    background:url(../images/down.gif) right center no-repeat;
+    padding-right: 10px;
+}
+
+.grid-view table.items tr.even {
+    background: #E4E3E3;
+}
+
+
+.grid-view table.items tr.odd {
+    background: #fff;
+}
+
+.grid-view table.items tr.selected
+{
+    background: #fcfcfc;
+}
+
+.grid-view table.items tr:hover
+{
+    background: #f3d7e2;
+}
+
+.grid-view table.items thead tr:hover {
+    background:none;
+}
+
+
+.grid-view .link-column img
+{
+    border: 0;
+}
+
+.grid-view .button-column
+{
+    text-align: right;
+    width: 20%;
+}
+
+.grid-view .button-column-baseline
+{
+    text-align: right;
+    width: 19%;
+}
+.grid-view .button-column2
+{
+    text-align: right;
+    width: 10% !important;
+}
+
+.grid-view .button-column img
+{
+    background: none repeat scroll 0 0 #10459C;
+    border: medium none;
+    border-radius: 5px 5px 5px 5px;
+    color: #FFFFFF;
+    cursor: pointer;
+    float: left;
+    font-family: Gotham,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 13px;
+    height: 21px;
+    margin: 1px -5px 2px 19px;
+    text-align: center;
+    width: 55px;
+}
+
+.grid-view .checkbox-column
+{
+    width: 15px;
+}
+.grid-view .summary
+{
+
+    margin: 0px; padding: 5px;
+    text-align: left; font-size: 12px;
+    width:48%;
+}
+
+.grid-view .pager
+{
+    float:right;
+    margin: 5px 0 0 0;
+    text-align: right;
+    font-size: 13px;
+}
+
+.grid-view .empty
+{
+    font-style: italic;
+}
+
+.grid-view .filters input,
+.grid-view .filters select
+{
+    width: 100%;
+    border: 1px solid #ccc;
+}
+.overDue{
+    background: #F0A;
+}
+
+.gridview2
+{
+    margin-left: 15px;
+}
+/**
+
+-------- print button per project 
+*/
+.per-project 
+{
+    width: 80%;
+}
+.per-project h6 
+{
+    border-bottom: 0;
+}
+.per-project-right
+{
+
+}
+.per-project a
+{
+    float: right;
+}
+.heading-grid
+{
+    border-bottom: 1px solid #C4C4C4;
+    display: block;
+    height: auto;
+    width: 100%;
+    float: left;
+}
+
+footer row of grid
+
+.grid-view table.items tfoot tr
+{
+}
+.grid-view table.items tfoot tr td
+{
+    font-weight: bold;
+}
+
+use for Pgrid countcolumn 
+.pointerlabel label
+{
+    cursor: pointer;
+}
+
+
+
+
+/*----------- extra css used for media wike ******/
+#content div div table.items td a
+{
+    float:left;
+    clear:both;
+    color:#333;
+    font-size:11px;
+    text-decoration:underline;
+}
+input.error
+{
+    background: #F95E5E;
+}
+a.enable{
+    color: green;
+}
+.button-column a {
+    float: none !important;
+}
+
+/**
+customized code
+*/
+.cart-product-name a{
+    color: #004B91 !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+}
+.cart-ourprice {
+    font-size: 16px;
+    color: #990000;
+    font-weight: bold;
+}
+.grid-view table tfoot {
+    border: 1px dotted #CCCCCC;
+}
+.grid-view table tfoot td  {
+    font-size: 16px;
+    color: #990000;
+    font-weight: bold;
+}
+
+.grid-view table tfoot td span {
+    color:black;
+    font-size: 14px;
+}
+
+.grid-view table tbody img {
+/*    width: 100px;
+    height: 100px;*/
+}
+.grid-view table tbody img.no_image {
+   
+    height: 75px;
+}
+.grid-view table tbody span.icon img{
+    width: 16px;
+    height: 16px;
+}
+
+.check_out_cart {
+    background: none repeat scroll 0 0 #10459C;
+    border: medium none;
+    border-radius: 3px 3px 3px 3px;
+    color: #FFFFFF;
+    cursor: pointer;
+    float: right;
+    height: 30px;
+    margin: 12px;
+    padding: 0;
+    width: 9%;
+}
+.heading_cart{
+    margin: auto;
+    width: 960px;
+}
+.heading_cart h2{
+    margin: 0 0 6px;
+}
+#order_detail{
+    margin: auto;
+    width: 960px;
+}
+.no_orders{
+    margin: auto;
+    width: 960px;
+    height: 430px;
+    font-family: "Gill Sans","Gill Sans MT","Myriad Pro","DejaVu Sans Condensed",Helvetica,Arial,sans-serif;
+}
+
+.grid-view .link-column a {
+    background: none repeat scroll 0 0 #10459C;
+    border: medium none;
+    border-radius: 5px 5px 5px 5px;
+    color: #FFFFFF;
+    cursor: pointer;
+    float: left;
+    font-family: Gotham,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 13px;
+    height: 21px;
+    margin: 1px -5px 2px 19px;
+    text-align: center;
+    width: 55px;
+    text-decoration: none;
+}
+order_detail div h4{
+    font-family: "Gill Sans","Gill Sans MT","Myriad Pro","DejaVu Sans Condensed",Helvetica,Arial,sans-serif;
+}
+.grid-view table.items td .icon {
+    clear: both;
+}

@@ -16,8 +16,7 @@
  * @property Product $product
  * @property User $user
  */
-class ProductReviews extends DTActiveRecord
-{
+class ProductReviews extends DTActiveRecord {
 
     public $avgRate;
 
@@ -26,30 +25,26 @@ class ProductReviews extends DTActiveRecord
      * @param string $className active record class name.
      * @return ProductReviews the static model class
      */
-    public static function model($className = __CLASS__)
-    {
+    public static function model($className = __CLASS__) {
         return parent::model($className);
     }
 
     /**
      * @return string the associated database table name
      */
-    public function tableName()
-    {
+    public function tableName() {
         return 'product_reviews';
     }
 
     /**
      * @return array validation rules for model attributes.
      */
-    public function rules()
-    {
+    public function rules() {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
             array('product_id, reviews', 'required'),
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
-            array('activity_log', 'safe'),
             array('product_id, user_id, is_email', 'numerical', 'integerOnly' => true),
             //array('added_date', 'length', 'max'=>255),
             //array('is_approved', 'length', 'max'=>3),
@@ -62,8 +57,7 @@ class ProductReviews extends DTActiveRecord
     /**
      * @return array relational rules.
      */
-    public function relations()
-    {
+    public function relations() {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
@@ -75,16 +69,15 @@ class ProductReviews extends DTActiveRecord
     /**
      * @return array customized attribute labels (name=>label)
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return array(
-            'reviews_id' => 'Reviews',
-            'product_id' => 'Product',
-            'user_id' => 'User',
-            'reviews' => 'Reviews',
-            'added_date' => 'Added Date',
-            'is_approved' => 'Is Approved',
-            'is_email' => 'Is Email',
+            'reviews_id' => Yii::t('model_labels', 'Reviews', array(), NULL, Yii::app()->controller->currentLang),
+            'product_id' => Yii::t('model_labels', 'Product', array(), NULL, Yii::app()->controller->currentLang),
+            'user_id' => Yii::t('model_labels', 'User', array(), NULL, Yii::app()->controller->currentLang),
+            'reviews' => Yii::t('model_labels', 'Reviews', array(), NULL, Yii::app()->controller->currentLang),
+            'added_date' => Yii::t('model_labels', 'Added Date', array(), NULL, Yii::app()->controller->currentLang),
+            'is_approved' => Yii::t('model_labels', 'Is Approved', array(), NULL, Yii::app()->controller->currentLang),
+            'is_email' => Yii::t('model_labels', 'Is Email', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 
@@ -92,8 +85,7 @@ class ProductReviews extends DTActiveRecord
      * Retrieves a list of models based on the current search/filter conditions.
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
      */
-    public function search()
-    {
+    public function search() {
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 
@@ -116,20 +108,16 @@ class ProductReviews extends DTActiveRecord
      *  rating value will be calclated on product detail page
      * 
      */
-    public function calculateRatingValue($product_id)
-    {
+    public function calculateRatingValue($product_id) {
         $criteriaCRating = new CDbCriteria;
         $criteriaCRating->select = 'avg(rating) as avgRate,rating';
         $criteriaCRating->condition = 'product_id=' . $product_id;
         $ratings = ProductReviews::model()->findAll($criteriaCRating);
 
-        if (empty($ratings[0]->avgRate))
-        {
+        if (empty($ratings[0]->avgRate)) {
             $ratings[0]->avgRate = 5;
             $value = $ratings[0]->avgRate;
-        }
-        else
-        {
+        } else {
             $value = $ratings[0]->avgRate;
         }
 
@@ -140,35 +128,54 @@ class ProductReviews extends DTActiveRecord
      *  calcluate remaining time for every 
      *  comment her
      */
-    public function calculateRemTime()
-    {
+    public function calculateRemTime() {
         $numDays = round(abs(time() - $this->added_date) / 86400 % 7);
         $numHours = round(abs(time() - $this->added_date) / 3600 % 24);
         $numMinutes = round(abs(time() - $this->added_date) / 60 % 60);
         $numSeconds = round(abs(time() - $this->added_date) % 60);
         $remainingtime = '';
-        if ($numDays != 0 AND $numDays == 1)
-        {
+        if ($numDays != 0 AND $numDays == 1) {
             $remainingtime.=$numDays . ' Day ';
         }
-        if ($numDays != 0 AND $numDays > 1)
-        {
+        if ($numDays != 0 AND $numDays > 1) {
             $remainingtime.=$numDays . ' Days ';
         }
-        if ($numHours != 0)
-        {
+        if ($numHours != 0) {
             $remainingtime.=$numHours . ' Hours ';
         }
-        if ($numMinutes != 0)
-        {
+        if ($numMinutes != 0) {
             $remainingtime.=$numMinutes . ' Minutes ';
         }
-        if ($numSeconds != 0)
-        {
+        if ($numSeconds != 0) {
             $remainingtime.=$numSeconds . ' Seconds ';
         }
 
         return $remainingtime;
+    }
+
+    /*
+     * to check which type of review is this
+     * good/ awsome or what ever...
+     */
+
+    public function reviewType($rating) {
+
+        switch ($rating) {
+            case 5:
+                echo "Awesome!";
+                break;
+            case 4:
+                echo "Good";
+                break;
+            case 3:
+                echo "Average";
+                break;
+            case 2:
+                echo " I didn't understand the hype";
+                break;
+            default :
+                echo "  Not sci-fi / fanstasy";
+        }
     }
 
 }

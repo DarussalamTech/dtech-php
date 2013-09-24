@@ -18,10 +18,25 @@ if (!$model->isNewRecord) {
             <?php echo $form->error($model, 'name'); ?>
         </div>
         <div class="row">
+            <?php echo $form->labelEx($model, 'secret'); ?>
+            <?php echo $form->textField($model, 'secret', array('maxlength' => 255)); ?>
+            <?php echo $form->error($model, 'secret'); ?>
+        </div>
+        <div class="row">
+            <?php echo $form->labelEx($model, 'key'); ?>
+            <?php echo $form->textField($model, 'key', array('maxlength' => 255)); ?>
+            <?php echo $form->error($model, 'key'); ?>
+        </div>
+        <div class="row">
+            <?php echo $form->labelEx($model, 'signature'); ?>
+            <?php echo $form->textField($model, 'signature', array('maxlength' => 255)); ?>
+            <?php echo $form->error($model, 'signature'); ?>
+        </div>
+        <div class="row">
             <?php echo $form->labelEx($model, 'status'); ?>
 
             <?php
-            echo $form->dropDownList($model, 'name', array('Disable' => 'Disable', 'Enable' => 'Enable'));
+            echo $form->dropDownList($model, 'status', array('Disable' => 'Disable', 'Enable' => 'Enable'));
             ?>
             <?php echo $form->error($model, 'status'); ?>
         </div>
@@ -88,6 +103,14 @@ $this->widget('zii.widgets.grid.CGridView', array(
             ),
         ),
         array(
+            'name' => 'City',
+            'type' => 'Raw',
+            'value' => '$data->city_rel->city_name',
+            'headerHtmlOptions' => array(
+                'style' => "text-align:left"
+            ),
+        ),
+        array(
             'class' => 'CButtonColumn',
             'template' => '{update}',
             'buttons' => array
@@ -95,7 +118,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
                 'update' => array
                     (
                     'label' => 'update',
-                    'url' => 'Yii::app()->controller->createUrl("load", array("m" => "' . $m . '", "id"=> $data->id))',
+                    'url' => 'Yii::app()->controller->createUrl("load", array("m" => "' . $m . '", "id"=> $data->id,"type"=>""))',
                 ),
             ),
         ),

@@ -39,7 +39,6 @@ class ProductCategories extends DTActiveRecord {
         return array(
             array('category_id', 'required'),
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
-            array('activity_log', 'safe'),
             array('category_id', 'UniqueCat'),
             array('product_id, category_id', 'numerical', 'integerOnly' => true),
             // The following rule is used by search().
@@ -125,9 +124,9 @@ class ProductCategories extends DTActiveRecord {
      */
     public function attributeLabels() {
         return array(
-            'product_category_id' => 'Product Category',
-            'product_id' => 'Product',
-            'category_id' => 'Category',
+            'product_category_id' => Yii::t('model_labels', 'Product Category', array(), NULL, Yii::app()->controller->currentLang),
+            'product_id' => Yii::t('model_labels', 'Product', array(), NULL, Yii::app()->controller->currentLang),
+            'category_id' => Yii::t('model_labels', 'Category', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 

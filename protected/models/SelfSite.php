@@ -40,7 +40,7 @@ class SelfSite extends DTActiveRecord {
             array('site_name, site_descriptoin', 'required'),
             array('site_name', 'unique'),
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
-            array('activity_log,site_headoffice,_cites,country_id', 'safe'),
+            array('site_headoffice,_cites,country_id', 'safe'),
             array('site_name, site_descriptoin', 'length', 'max' => 255),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
@@ -65,11 +65,11 @@ class SelfSite extends DTActiveRecord {
      */
     public function attributeLabels() {
         return array(
-            'site_id' => 'Site',
-            'site_name' => 'Site Name',
-            'country_id' => 'Country',
-            'site_headoffice' => 'Head Office',
-            'site_descriptoin' => 'Site Descriptoin',
+            'site_id' => Yii::t('model_labels', 'Site', array(), NULL, Yii::app()->controller->currentLang),
+            'site_name' => Yii::t('model_labels', 'Site Name', array(), NULL, Yii::app()->controller->currentLang),
+            'country_id' => Yii::t('model_labels', 'Country', array(), NULL, Yii::app()->controller->currentLang),
+            'site_headoffice' => Yii::t('model_labels', 'Head Office', array(), NULL, Yii::app()->controller->currentLang),
+            'site_descriptoin' => Yii::t('model_labels', 'Site Description', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 
@@ -98,25 +98,34 @@ class SelfSite extends DTActiveRecord {
     public function getCities() {
 
         $city = City::model()->findByPk($this->site_headoffice);
-        $this->country_id = $city->country->country_id;
+
         $criteria = new CDbCriteria();
         $criteria->select = "city_id,city_name";
-        $criteria->condition = "country_id = ".$this->country_id;
-        $this->_cites = CHtml::listData(City::model()->findAll($criteria), "city_id", "city_name");
+        $criteria->condition = "country_id = " . $city->country_id;
+
+        if (!empty($city->country_id)) {
+            $this->_cites = CHtml::listData(City::model()->findAll($criteria), "city_id", "city_name");
+            
+        }
+        if($this->site_headoffice !=""){
+           
+           $this->country_id = City::model()->findByPk($this->site_headoffice)->country_id;
+        }
     }
 
     public function afterFind() {
         $this->getCities();
         parent::afterFind();
     }
-    
+
     public function getSiteInfo($url) {
         $site = Yii::app()->db->createCommand()
-                ->select('*')
+                ->select('site_id,site_name,site_descriptoin,site_headoffice')
                 ->from($this->tableName())
                 ->where("LOCATE(site_name,'$url')")
                 ->queryAll();
 
+        //echo "LOCATE(site_name,'$url')";
         if (isset($site[0])) {
             return $site[0];
         }
@@ -129,25 +138,36 @@ class SelfSite extends DTActiveRecord {
      */
     public function findCityLocation($city_id) {
         $criteria = new CDbCriteria(array(
-            'select' => "city_id,t.city_name,t.country_id,".
-                        "t.short_name,layout_id",
+            'select' => "city_id,t.city_name,t.country_id,layout_id,currency_id" .
+            "t.short_name,layout_id",
             'condition' => "t.city_id='" . $city_id . "'"
         ));
 
         $cityfind = City::model()->with(array(
                     'country' => array(
-                         'select' => 'c.country_name,c.short_name',
-                        'joinType' => 'INNER JOIN','alias'=>'c'),
-                    //'layout' => array('select' => 'layout_name', 'joinType' => 'INNER JOIN'),
+                        'select' => 'c.country_name,c.short_name',
+                        'joinType' => 'INNER JOIN', 'alias' => 'c'),
+                    'currency' => array('select' => 'name,symbol', 'joinType' => 'INNER JOIN'),
                 ))->find($criteria);
+
 
         return $cityfind;
     }
-    
-    public function findLayout($site_id){
-        $layout = Layout::model()->find("site_id=".$site_id);
-        
-        return $layout;
+
+    /**
+     *  find layout name against
+     * layout id
+     * @param type $layout_id
+     * @return string
+     */
+    public function findLayout($layout_id) {
+        if (!empty($layout_id)) {
+           
+            $layout = Layout::model()->find("layout_id=" . $layout_id);
+            return !empty($layout)?$layout:"dtech_second";
+        } else {
+            return "dtech_second";
+        }
     }
 
 }

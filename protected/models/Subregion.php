@@ -10,7 +10,7 @@
  * @property string $code
  * @property integer $status
  */
-class Subregion extends CActiveRecord
+class Subregion extends DTActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.

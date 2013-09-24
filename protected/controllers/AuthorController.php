@@ -8,48 +8,30 @@ class AuthorController extends Controller {
      */
     public $layout = '//layouts/column2';
 
+    public function beforeAction($action) {
+        parent::beforeAction($action);
+        Yii::app()->theme = "admin";
+        $operations = array('create', 'update', 'index', 'delete');
+        parent::setPermissions($this->id, $operations);
+        
+
+
+        return true;
+    }
+
     /**
      * @return array action filters
      */
     public function filters() {
         return array(
-            'accessControl', // perform access control for CRUD operations
-            'postOnly + delete', // we only allow deletion via POST request
+            // 'accessControl', // perform access control for CRUD operations
+            'rights',
+            'https + index + view + update + create',
         );
     }
 
-    public function beforeAction($action) {
-        Yii::app()->theme = "admin";
-        parent::beforeAction($action);
-        return true;
-    }
-
-    /**
-     * Specifies the access control rules.
-     * This method is used by the 'accessControl' filter.
-     * @return array access control rules
-     */
-    public function accessRules() {
-        return array(
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('create', 'index', 'view',
-                ),
-                'users' => array('@'),
-            ),
-            array('allow',
-                'actions' => array('create', 'update',),
-                'expression' => 'Yii::app()->user->isAdmin',
-            //the 'user' var in an accessRule expression is a reference to Yii::app()->user
-            ),
-            array('allow',
-                'actions' => array('delete', 'update',),
-                'expression' => 'Yii::app()->user->isSuperAdmin',
-            //the 'user' var in an accessRule expression is a reference to Yii::app()->user
-            ),
-            array('deny', // deny all users
-                'users' => array('*'),
-            ),
-        );
+    public function allowedActions() {
+        return '@';
     }
 
     /**
@@ -68,6 +50,7 @@ class AuthorController extends Controller {
      */
     public function actionCreate() {
         $model = new Author;
+         
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
@@ -130,6 +113,22 @@ class AuthorController extends Controller {
         $this->render('index', array(
             'model' => $model,
         ));
+    }
+    
+        /**
+     * update order of categories
+     */
+    public function actionUpdateOrder(){
+       
+        if(isset($_POST['items'])){
+            foreach($_POST['items'] as $key=>$item){
+                $id_array = explode(" ",$item);
+                $id = trim($id_array[0]);
+      
+                
+                Author::model()->updateByPk($id,array("user_order"=>$key));
+            }
+        }
     }
 
     /**

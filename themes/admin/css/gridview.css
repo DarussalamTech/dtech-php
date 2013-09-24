@@ -1,10 +1,10 @@
-/* 
+ 
     Document   : gridview
     Created on : May 17, 2011, 5:23:37 PM
     Author     : ayaz.ahmed
     Description:
         Purpose of the stylesheet follows.
-*/
+
 .grid-view-loading
 {
     background:url(loading.gif) no-repeat;
@@ -21,7 +21,7 @@
     background: white;
     border-collapse: collapse;
     width: 100%;
-    /*border: 1px #E9E9E9 solid;*/
+    border: 1px #E9E9E9 solid;
     font-size:13px;
 }
 
@@ -152,7 +152,7 @@
     margin-left: 15px;
 }
 
-/*-------- print button per project */
+-------- print button per project 
 .per-project 
 {
     width: 80%;
@@ -178,7 +178,7 @@
     float: left;
 }
 
-/*footer row of grid*/
+footer row of grid
 
 .grid-view table.items tfoot tr
 {
@@ -188,20 +188,20 @@
     font-weight: bold;
 }
 
-/* use for Pgrid countcolumn */
+ use for Pgrid countcolumn 
 .pointerlabel label
 {
     cursor: pointer;
 }
 
-/*used in the css of status Report grid if location is not empty*/
+used in the css of status Report grid if location is not empty
 .nested_projects
 {
     margin-left: 10px;
 }
 
 
-/** ----------- extra css used for media wike *******/
+* ----------- extra css used for media wike ******
 #content div div table.items td a
 {
 	float:left;

@@ -13,38 +13,22 @@ class ConfigurationsController extends Controller {
      */
     public function filters() {
         return array(
-            'accessControl', // perform access control for CRUD operations
+            // 'accessControl', // perform access control for CRUD operations
+            'rights',
+            'https + index +load+general',
         );
     }
 
-    /**
-     * Specifies the access control rules.
-     * This method is used by the 'accessControl' filter.
-     * @return array access control rules
-     */
-    public function accessRules() {
-        return array(
-//            array('allow', // allow all users to perform 'index' and 'view' actions
-//                'actions' => array(),
-//                'users' => array('*'),
-//            ),
-//            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-//                'actions' => array(),
-//                'users' => array('@'),
-//            ),
-            array('allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions' => array('index', 'load', 'delete', 'appSettings'),
-                'users' => array('@'),
-            ),
-            array('deny', // deny all users
-                'users' => array('*'),
-            ),
-        );
+    public function allowedActions() {
+        return '@';
     }
 
     public function beforeAction($action) {
         Yii::app()->theme = "admin";
         parent::beforeAction($action);
+
+        $operations = array('create', 'update', 'index', 'delete');
+        parent::setPermissions($this->id, $operations);
         return true;
     }
 
@@ -56,25 +40,57 @@ class ConfigurationsController extends Controller {
     }
 
     /**
+     * General configurations
+     */
+    public function actionGeneral($m, $id = 0, $module = '', $type = '') {
+        if ($type == "general") {
+            $this->loadConfig($m, $id, $module, $type);
+        }
+    }
+
+    /**
      * Load Configuration
+     * for branch
      * 
      * @param <string> $m (Model name without Conf)
      * @param <int> $id
      */
-    public function actionLoad($m, $id = 0, $module = '',$type='') {
+    public function actionLoad($m, $id = 0, $module = '', $type = '') {
 
+        if ($type != "general") {
+            $this->loadConfig($m, $id, $module, $type);
+        } else {
+
+            $this->loadConfig($m, $id, $module, $type);
+        }
+    }
+
+    /**
+     * function will be same for all actions
+     * @param type $m
+     * @param type $id
+     * @param type $module
+     * @param type $type
+     */
+    public function loadConfig($m, $id = 0, $module = '', $type = '') {
         /* Complete Model name */
         $model_name = 'Conf' . $m;
 
+
         $model = new $model_name;
-        
-        
+
+
         if ($id != 0) {
-            if($type!=""){
+            if ($type != "") {
                 $criteria = new CDbCriteria();
-                $criteria->addCondition("misc_type = '".$type."'");
+                if (array_key_exists('misc_type', $model->attributes)) {
+                    $criteria->addCondition("misc_type = '" . $type . "'");
+                } else if (array_key_exists('type', $model->attributes)) {
+                    $criteria->addCondition("type = '" . $type . "'");
+                }
             }
-            $model = $model->findByPk($id,$criteria);
+
+            $model = $model->findByPk($id, $criteria);
         }
 
 
@@ -83,8 +99,15 @@ class ConfigurationsController extends Controller {
             /* Assign attributes */
             $model->attributes = $_POST[$model_name];
             /* Save record */
-            if ($model->save())
-                $this->redirect(array('load', 'm' => $m, 'module' => $module,"type"=>$model->misc_type));
+            if ($model->save()) {
+                if (isset($model->misc_type)) {
+                    $this->redirect(array('load', 'm' => $m, 'module' => $module, "type" => $model->misc_type));
+                } else if (isset($model->type)) {
+                    $this->redirect(array('load', 'm' => $m, 'module' => $module, "type" => $model->type));
+                } else {
+                    $this->redirect(array('load', 'm' => $m, 'module' => $module));
+                }
+            };
         }
 
         $this->render($model->confViewName, array('model' => $model, 'm' => $m, 'module' => $module));
@@ -111,6 +134,48 @@ class ConfigurationsController extends Controller {
         $model = new ConfMisc();
 
         $this->render("appSettings/index", array('model' => $model));
+    }
+
+    /**
+     * action
+     * @param type $m
+     * @param type $id
+     * @param type $module
+     * @param type $type
+     */
+    public function actionDeleteGeneral($m, $id = 0, $module = '', $type = '') {
+        $this->delete($m, $id, $module, $type);
+    }
+
+    /**
+     * action
+     * @param type $m
+     * @param type $id
+     * @param type $module
+     * @param type $type
+     */
+    public function actionDeleteOther($m, $id = 0, $module = '', $type = '') {
+
+        $this->delete($m, $id, $module, $type);
+    }
+
+    /**
+     * 
+     * @param type $m
+     * @param type $id
+     * @param type $module
+     * @param type $type
+     */
+    public function delete($m, $id = 0, $module = '', $type = '') {
+        $model_name = 'Conf' . $m;
+
+
+        $model = $model_name::model()->findByPk($id);
+        $model->delete();
+
+        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+        if (!isset($_GET['ajax']))
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('load'));
     }
 
 }

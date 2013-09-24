@@ -32,29 +32,15 @@
                             echo CHtml::openTag('li');
                             echo CHtml::link('BOOKS', $this->createUrl('/web/product/allproducts', array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'])));
                             echo CHtml::closeTag('li');
+
                             echo CHtml::openTag('li');
+                            echo CHtml::link('Quran', $this->createUrl('/web/quran/index', array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'])));
+                            echo CHtml::closeTag('li');
 
-
-                            $criteria = new CDbCriteria();
-                            $criteria->select = "category_id";
-                            $criteria->addCondition("LOWER(category_name)='quran'");
-                            $catgory_quran_Model = Categories::model()->find($criteria);
-
-                            if (isset($catgory_quran_Model->category_id)) {
-                                echo CHtml::link('QURAN',
-                                $this->createUrl('/web/product/allproducts',
-                                array('country' => Yii::app()->session['country_short_name'],
-                                'city' => Yii::app()->session['city_short_name'],
-                                'city_id' => Yii::app()->session['city_id'])),
-                                    array("cat"=>"#cat=".$catgory_quran_Model->category_id,
-                                        "onclick" => 'dtech.redirectToQuranCategory(this);return false'));
-                                
-                                echo CHtml::closeTag('li');
-                                echo CHtml::openTag('li');
-                            }
-
+                            echo CHtml::openTag('li');
                             echo CHtml::link('EDUCATIONAL TOYS', $this->createUrl('/web/educationToys/index', array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'])));
                             echo CHtml::closeTag('li');
+
                             echo CHtml::openTag('li');
                             echo CHtml::link('OTHERS', $this->createUrl('/web/others/index', array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'])));
                             echo CHtml::openTag('li');
@@ -114,7 +100,7 @@
                             $tot = Yii::app()->db->createCommand()
                                     ->select('count(*) as total_pro')
                                     ->from('wish_list')
-                                    ->where('city_id=' . Yii::app()->session['city_id'] . ' AND user_id=' . Yii::app()->user->id)
+                                    ->where('city_id=' . Yii::app()->session['city_id'] . ' AND user_id=' . Yii::app()->user->user_id)
                                     ->queryRow();
                         } else {
                             $tot = Yii::app()->db->createCommand()
@@ -125,14 +111,14 @@
                         }
                         $wishlistCount = ($tot['total_pro'] > 0) ? $tot['total_pro'] : "";
 
-                        echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . '/images/heart_img_03.jpg', "heart img", array("class" => "heart_img")) . '<p id="wishlist_counter" style="margin-left: 0px;">' . $wishlistCount . '</p>', $this->createUrl('/web/product/viewwishlist'));
+                        echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . '/images/heart_img_03.jpg', "heart img", array("class" => "heart_img")) . '<p id="wishlist_counter" style="margin-left: 0px;">' . $wishlistCount . '</p>', $this->createUrl('/web/wishList/viewwishlist'));
 
                         //count total added products in cart
                         if (isset(Yii::app()->user->id)) {
                             $tot = Yii::app()->db->createCommand()
                                     ->select('sum(quantity) as cart_total')
                                     ->from('cart')
-                                    ->where('city_id=' . Yii::app()->session['city_id'] . ' AND user_id=' . Yii::app()->user->id)
+                                    ->where('city_id=' . Yii::app()->session['city_id'] . ' AND user_id=' . Yii::app()->user->user_id)
                                     ->queryRow();
                         } else {
                             $tot = Yii::app()->db->createCommand()
@@ -144,31 +130,29 @@
                         $cartCount = $tot['cart_total'];
 
 
-                        echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . '/images/simple_cart_img_03.jpg', "cart img", array("class" => "cart_img")) . '<p id="cart_counter">' . $cartCount . '</p>', $this->createUrl('/web/product/viewcart', array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'])));
+                        echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . '/images/simple_cart_img_03.jpg', "cart img", array("class" => "cart_img")) . '<p id="cart_counter">' . $cartCount . '</p>', $this->createUrl('/web/cart/viewcart', array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'])));
                         ?>
                     </div>
                     <div id="text">
-                        <?php if (!Yii::app()->user->isGuest) {
-                            ?>
-                            <h1><a href="<?php echo $this->createUrl('/site/logout') ?>" class="button" style="margin-top: -7px;">Logout</a>
-                                <?php
-                            } else {
-                                $this->renderPartial("application.views.layouts._login_box", array("login_model" => $login_model));
-                                ?>
-
-                            <?php } ?>
+                        <?php
+                        if (!Yii::app()->user->isGuest) {
+                            $this->renderPartial("application.views.layouts._logout_box");
+                        } else {
+                            $this->renderPartial("application.views.layouts._login_box", array("login_model" => $login_model));
+                        }
+                        ?>
                     </div>
                 </div>
             </div>
         </div>
     </header>
-        
+
     <?php echo $content; ?> 
     <footer>
         <div id="under_footer">
             <div id="left_footer">
                 <h1>Connect to DARUSSALAM</h1>
-                <?php //$this->widget('LoginWidget'); ?>
+                <?php //$this->widget('LoginWidget');   ?>
                 <div id="left_under_footer" >
                     <li>
                         <?php echo CHtml::image(Yii::app()->theme->baseUrl . '/images/phone_img_03.jpg', 'phone'); ?>
@@ -194,7 +178,7 @@
                 echo CHtml::link('Darussalam Blog', Yii::app()->createUrl('/?r=blog'), array("target" => "_blank"));
                 echo '<br>';
                 if (!Yii::app()->user->isGuest) {
-                    echo CHtml::link('User Profile', $this->createUrl('/web/userProfile', array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'])));
+                    echo CHtml::link('User Profile', $this->createUrl('/web/userProfile/index', array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'])));
                     echo '<br>';
                     echo CHtml::link('Customer History', $this->createUrl('/web/user/customerHistory', array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'])));
                 }

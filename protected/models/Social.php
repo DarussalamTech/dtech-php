@@ -9,7 +9,7 @@
  * @property string $provider
  * @property string $provideruser
  */
-class Social extends CActiveRecord
+class Social extends DTActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.

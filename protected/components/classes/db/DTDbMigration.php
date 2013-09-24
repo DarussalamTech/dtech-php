@@ -45,7 +45,7 @@ class DTDbMigration extends CDbMigration {
         $parents = $connection->createCommand($sql)->queryAll();
         $array = array();
 
-         foreach ($parents as $data) {
+        foreach ($parents as $data) {
             $array[strtolower($data['Tables_in_' . $dbname . ''])] = $data['Tables_in_' . $dbname . ''];
         }
         return $array;
@@ -83,7 +83,8 @@ class DTDbMigration extends CDbMigration {
      */
     public function getcolumns($table) {
         $connection = Yii::app()->db;
-        $sql = "show columns from " . $table;
+
+        $sql = "SHOW columns FROM " . $this->getDBName() . "." . $table;
         $command = $connection->createCommand($sql);
         $rows = $command->queryAll();
         $fields = array();
@@ -161,7 +162,7 @@ class DTDbMigration extends CDbMigration {
      */
     public function getSuperUserId() {
         $con = $this->getConnection();
-        $sql = "Select user_id,user_name from user where user_name='super'";
+        $sql = "Select user_id,user_name from user where user_email='super@yahoo.com'";
         $command = $con->createCommand($sql);
         $row = $command->queryRow();
         return $row;
@@ -203,10 +204,10 @@ class DTDbMigration extends CDbMigration {
      * will be used to fetch all records 
      * against table with key pair value
      */
-    public function findAllRecords($table, $columns, $key, $val,$condition = "") {
+    public function findAllRecords($table, $columns, $key, $val, $condition = "") {
         $connection = $this->getConnection();
         $select_cols = implode(",", $columns);
-        $sql = "Select $select_cols from " . $table." ".$condition;
+        $sql = "Select $select_cols from " . $table . " " . $condition;
         $command = $connection->createCommand($sql);
         $rows = $command->queryAll();
         $data = array();
@@ -224,12 +225,14 @@ class DTDbMigration extends CDbMigration {
      */
     public function insertRow($table, $columns) {
         $user_row = $this->getSuperUserId();
+        if (empty($user_row['user_id'])) {
+            $user_row['user_id'] = 1;
+        }
         $common_column = array(
             "create_time" => date("Y-m-d H:i:s"),
             "create_user_id" => $user_row['user_id'],
             "update_time" => date("Y-m-d H:i:s"),
             "update_user_id" => $user_row['user_id'],
-            "activity_log" => "inserted by " . $user_row['user_name'],
         );
         $columns = array_merge($columns, $common_column);
         $this->insert($table, $columns);

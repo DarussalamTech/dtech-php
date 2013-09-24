@@ -13,6 +13,8 @@ class UserController extends Controller {
         return array(
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
+            "https +array('changePass','setNewPass')",
+            "http + array(activate','register','updateProfile','updateProfile','forgot','productReview','customerHistory','orderDetail','print','customerDetail')"
         );
     }
 
@@ -24,11 +26,14 @@ class UserController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow all users to perform 'index' and 'view' actions
-                'actions' => array('register', 'activate', 'ProductReview', 'forgot'),
+                'actions' => array('register', 'activate', 'setNewPass', 'ProductReview', 'forgot'),
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('updateprofile', 'ChangePass', 'CustomerHistory'),
+                'actions' => array(
+                    'updateprofile', 'ChangePass', 'CustomerHistory',
+                    'customerDetail', 'print',
+                    'OrderDetail'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -39,9 +44,8 @@ class UserController extends Controller {
 
     public function actionRegister() {
 
-        Yii::app()->controller->layout = '//layouts/main';
         $model = new User;
-
+        Yii::app()->user->SiteSessions;
 
         if (isset($_POST['User'])) {
 
@@ -50,7 +54,7 @@ class UserController extends Controller {
             if ($model->site_id == NULL && $model->role_id == NULL && $model->status_id == NULL) {
                 $model->site_id = Yii::app()->session['site_id'];
                 $model->role_id = '3';
-                $model->status_id = '0';
+                $model->status_id = Status::model()->gettingInactive();
                 $model->city_id = Yii::app()->session['city_id'];
             }
 
@@ -82,35 +86,46 @@ class UserController extends Controller {
             }
         }
 
-        $this->render('register', array(
+        $this->render('//user/register', array(
             'model' => $model,
         ));
     }
 
     public function actionActivate() {
+        Yii::app()->user->SiteSessions;
         $user_id = $_GET['user_id'];
         $activation_key = $_GET['key'];
         $city_id = $_GET['city_id'];
         $criteria = new CDbCriteria;
         $criteria->select = '*';
         $criteria->condition = "user_id='" . $user_id . "' AND city_id='" . $city_id . "'";
-        $obj = User::model()->findAll($criteria);
-        if ($obj != NULL) {
-            if ($obj[0]->status_id == '1') {
+        $obj = User::model()->find($criteria);
+
+        if (!empty($obj)) {
+            if ($obj->status_id == '1') {
                 //already activated
-                Yii::app()->user->setFlash('login', 'Your account already activated. Please try login or if you miss your login information then go to forgot password section. Thank You');
+                Yii::app()->user->setFlash('login', 'Your account is already activated. Please try login or if you have missed your login information then go to forgot password section. Thank You');
                 $this->redirect(array('site/login'));
-            } else if ($obj[0]->activation_key != $activation_key) {
+            } else if ($obj->activation_key != $activation_key) {
                 Yii::app()->user->setFlash('login', 'Your activation key not registered. Please resend activation key and activate your account. Thank You');
                 $this->redirect(array('site/login'));
             }
-            $modelUser = new User;
-            $modelUser->updateByPk($user_id, array('status_id' => '1'));
 
-            Yii::app()->user->setFlash('login', 'Thank You ! Login Please...Your account has been activated....Now Login');
-            $this->redirect(array('site/login'));
+            Yii::app()->user->setFlash('login', 'Thank You ! Your account has been activated....Now Please Login');
+
+            /**
+             * for joomla users
+             */
+
+            if ($obj->source == "outside") {
+                $this->redirect(array('/web/user/setNewPass', "key" => $activation_key, "id" => $user_id));
+            } else {
+                $modelUser = new User;
+                $modelUser->updateByPk($user_id, array('status_id' => '1'));
+                $this->redirect(array('site/login'));
+            }
         } else {
-            Yii::app()->user->setFlash('login', 'User not exist. Please signup and get activation link again.');
+            Yii::app()->user->setFlash('login', 'User does not exist. Please signup and get activation link.');
             $this->redirect(array('site/login'));
         }
     }
@@ -147,7 +162,7 @@ class UserController extends Controller {
     }
 
     public function actionForgot() {
-        Yii::app()->controller->layout = '//layouts/main';
+        Yii::app()->user->SiteSessions;
         if (isset($_POST['User'])) {
             $record = User::model()->find(array(
                 'select' => '*',
@@ -183,7 +198,7 @@ class UserController extends Controller {
             }
         }
 
-        $this->render('forgot_password', array('model' => User::model()));
+        $this->render('//user/forgot_password', array('model' => User::model()));
     }
 
     /*
@@ -192,7 +207,8 @@ class UserController extends Controller {
      */
 
     public function actionChangePass() {
-        Yii::app()->controller->layout = '//layouts/main';
+        Yii::app()->user->SiteSessions;
+        //Yii::app()->controller->layout = '//layouts/main';
         $model = new ChangePassword;
         if (Yii::app()->user->id) {
             if (isset($_POST['ChangePassword'])) {
@@ -202,17 +218,47 @@ class UserController extends Controller {
                         /*
                          * here we will add sending email module to inform user for password change..
                          */
-                        $this->redirect($this->createUrl('user/changePass'));
+                        $this->redirect($this->createUrl('/web/user/changePass'));
                     }
                 }
             }
-            $this->render('change_password', array('model' => $model));
+            $this->render('//user/change_password', array('model' => $model));
+        }
+    }
+
+    /**
+     * Set New Password here
+     * from when special user request 
+     * is made here
+     */
+    public function actionSetNewPass() {
+        Yii::app()->user->SiteSessions;
+        //Yii::app()->controller->layout = '//layouts/main';
+
+        if (isset($_GET['key']) && $_GET['id']) {
+            $model = new NewPassword();
+
+            if (isset($_POST['NewPassword'])) {
+                $model->attributes = $_POST['NewPassword'];
+                if ($model->validate()) {
+                    if ($model->updatePassword($_GET['id'])) {
+                        /*
+                         * here we will add sending email module to inform user for password change..
+                         */
+                        $this->redirect($this->createUrl('/site/login'));
+                    }
+                }
+            }
+
+            $this->render('//user/new_password', array('model' => $model));
         }
     }
 
     public function actionProductReview() {
 
         $modelComment = new ProductReviews;
+
+
 
         if (isset($_POST['ProductReviews'])) {
             $modelComment->attributes = $_POST['ProductReviews'];
@@ -226,41 +272,94 @@ class UserController extends Controller {
                 $modelComment->rating = $_POST['ratingUser'];
             }
 
+            $product = Product::model()->findByPk($modelComment->product_id);
+
+            $url = $this->createUrl('/web/product/productDetail', array(
+                'country' => Yii::app()->session['country_short_name'],
+                'city' => Yii::app()->session['city_short_name'],
+                'city_id' => Yii::app()->session['city_id'],
+                "pcategory" => $product->parent_category->category_slug,
+                "slug" => $product->slag,
+            ));
 
 
             if ($modelComment->save()) {
-                $this->redirect($this->createUrl('/web/product/productDetail', array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'], 'product_id' => $modelComment->product_id)));
+                $this->redirect($url);
             } else {
                 echo CHtml::errorSummary($modelComment);
-                $this->redirect($this->createUrl('/web/product/productDetail', array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'], 'product_id' => $modelComment->product_id)));
+                $this->redirect($url);
             }
-
-//        $this->render('update_profile', array(
-//            'model' => $modelComment,
-//        ));
         }
     }
 
+    /**
+     * show customer order history
+     * 
+     */
     public function actionCustomerHistory() {
         Yii::app()->user->SiteSessions;
         $ip = Yii::app()->request->getUserHostAddress();
-        Yii::app()->theme = Yii::app()->session['layout'];
-        Yii::app()->controller->layout = '//layouts/main';
+        $history = User::model()->customerHistory();
+        $this->render('//user/customer_history', array('cart' => $history));
+    }
 
+    public function actionPrint($id) {
+        Yii::app()->user->SiteSessions;
+        $model = Order::model()->findByPk($id);
 
-//        $cart_model = new Cart();
-//        if (isset(Yii::app()->user->id)) {
-//            $cart = $cart_model->findAll('city_id=' . Yii::app()->session['city_id'] . ' AND (user_id=' . Yii::app()->user->id . ' OR session_id="' . $ip . '")');
-//        } else {
-//            $cart = $cart_model->findAll('city_id=' . Yii::app()->session['city_id'] . ' AND session_id="' . $ip . '"');
-//        }
-        $model = new User;
-        $history = $model->customerHistory();
+        /**
+         * order detail part
+         * 
+         */
+        $model_d = new OrderDetail('Search');
+        $model_d->unsetAttributes();  // clear any default values
+        $model_d->order_id = $id;
+        if (isset($_GET['OrderDetail'])) {
+            $model_d->attributes = $_GET['Order'];
+        }
 
-        //CVarDumper::dump($history,10,true);die;
+        $this->renderPartial('//user/print', array('model' => $model, "model_d" => $model_d), false, false);
+    }
 
+    /**
+     * customer order detail
+     * to fetch
+     */
+    public function actionCustomerDetail($id) {
+        Yii::app()->user->SiteSessions;
+        $model = Order::model()->findByPk($id);
 
-        $this->render('customer_history', array('cart' => $history));
+        /**
+         * order detail part
+         * 
+         */
+        $model_d = new OrderDetail('Search');
+        $model_d->unsetAttributes();  // clear any default values
+        $model_d->order_id = $id;
+        if (isset($_GET['OrderDetail'])) {
+            $model_d->attributes = $_GET['Order'];
+        }
+
+        $this->render('//user/order_detail', array('model' => $model, "model_d" => $model_d));
+    }
+
+    /**
+     * load products under history
+     * @param type $id
+     */
+    public function actionOrderDetail($id) {
+
+        Yii::app()->user->SiteSessions;
+        $model = new OrderDetail('Search');
+        $model->unsetAttributes();  // clear any default values
+        $model->order_id = $id;
+        if (isset($_GET['Order'])) {
+            $model->attributes = $_GET['Order'];
+        }
+        $this->renderPartial('//user/_order_detail', array(
+            'model' => $model,
+        ));
+        Yii::app()->end();
     }
 
     /**

@@ -9,6 +9,8 @@
  * @property string $image_small
  * @property string $is_default
  * @property string $image_large
+ * @property string $image_detail
+ * @property string $image_cart
  *
  * The followings are the available model relations:
  * @property Product $product
@@ -33,6 +35,8 @@ class ProductImage extends DTActiveRecord {
      */
     public $oldLargeImg = "";
     public $oldSmallImg = "";
+    public $oldCartImg = "";
+    public $oldDetailImg = "";
     public $image_url = array();
 
     public function __construct($scenario = 'insert') {
@@ -66,8 +70,8 @@ class ProductImage extends DTActiveRecord {
             //array('product_profile_id, image_small, image_large', 'required'),
             array('product_profile_id', 'numerical', 'integerOnly' => true),
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
-            array('upload_index,no_image,image_url,oldLargeImg,oldSmallImg,upload_key,is_default,activity_log', 'safe'),
-            array('image_small, image_large', 'length', 'max' => 255),
+            array('upload_index,no_image,image_url,oldLargeImg,oldSmallImg,upload_key,is_default', 'safe'),
+            array('image_cart,image_detail,image_small, image_large', 'length', 'max' => 255),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, product_profile_id, image_small, image_large', 'safe', 'on' => 'search'),
@@ -90,11 +94,11 @@ class ProductImage extends DTActiveRecord {
      */
     public function attributeLabels() {
         return array(
-            'id' => 'Product Image',
-            'product_profile_id' => 'Product',
-            'is_default' => 'Default',
-            'image_small' => 'Image Small',
-            'image_large' => 'Image Large',
+            'id' => Yii::t('model_labels', 'Product Image', array(), NULL, Yii::app()->controller->currentLang),
+            'product_profile_id' => Yii::t('model_labels', 'Product', array(), NULL, Yii::app()->controller->currentLang),
+            'is_default' => Yii::t('model_labels', 'Default', array(), NULL, Yii::app()->controller->currentLang),
+            'image_small' => Yii::t('model_labels', 'Image Small', array(), NULL, Yii::app()->controller->currentLang),
+            'image_large' => Yii::t('model_labels', 'Image Large', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 
@@ -113,6 +117,8 @@ class ProductImage extends DTActiveRecord {
         $criteria->compare('image_small', $this->image_small, true);
         $criteria->compare('is_default', $this->is_default, true);
         $criteria->compare('image_large', $this->image_large, true);
+        $criteria->compare('image_detail', $this->image_large, true);
+        $criteria->compare('image_cart', $this->image_large, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -122,6 +128,8 @@ class ProductImage extends DTActiveRecord {
     public function afterFind() {
         $this->oldLargeImg = $this->image_large;
         $this->oldSmallImg = $this->image_small;
+        $this->oldCartImg = $this->image_cart;
+        $this->oldDetailImg = $this->image_detail;
 
 
         /**
@@ -140,6 +148,20 @@ class ProductImage extends DTActiveRecord {
             $this->image_url['image_small'].= "/product_images/" . $this->id . "/" . $this->image_small;
         } else {
             $this->image_url['image_small'] = Yii::app()->baseUrl . "/images/product_images/noimages.jpeg";
+        }
+        if (!empty($this->image_detail)) {
+
+            $this->image_url['image_detail'] = Yii::app()->baseUrl . "/uploads/product/" . $this->product_profile_id;
+            $this->image_url['image_detail'].= "/product_images/" . $this->id . "/" . $this->image_detail;
+        } else {
+            $this->image_url['image_detail'] = Yii::app()->baseUrl . "/images/product_images/noimages.jpeg";
+        }
+        if (!empty($this->image_cart)) {
+
+            $this->image_url['image_cart'] = Yii::app()->baseUrl . "/uploads/product/" . $this->product_profile_id;
+            $this->image_url['image_cart'].= "/product_images/" . $this->id . "/" . $this->image_cart;
+        } else {
+            $this->image_url['image_cart'] = Yii::app()->baseUrl . "/images/product_images/noimages.jpeg";
         }
 
         parent::afterFind();
@@ -172,18 +194,20 @@ class ProductImage extends DTActiveRecord {
      */
     public function setUploadVars() {
         $large_img = DTUploadedFile::getInstance($this, '[' . $this->upload_key . ']image_large');
-       
+        $its_t = new DTFunctions();
 
         if (!empty($large_img)) {
-           
-            $this->image_large = $large_img;
-            $this->image_small = "small_" . $large_img;
+
+            $this->image_large = $its_t->getRanddomeNo(10) . "." . $large_img->extensionName;
+            $this->image_small = str_replace(" ", "_", "small_" . $this->image_large);
+            $this->image_cart = str_replace(" ", "_", "cart_" . $this->image_large);
+            $this->image_detail = str_replace(" ", "_", "detail_" . $this->image_large);
         } else {
             $this->image_large = $this->oldLargeImg;
             $this->image_small = $this->oldSmallImg;
+            $this->image_detail = $this->oldDetailImg;
+            $this->image_cart = $this->oldCartImg;
         }
-
-        $this->image_large;
 
         
     }
@@ -196,14 +220,15 @@ class ProductImage extends DTActiveRecord {
         if (!empty($large_img)) {
 
 
-            $this->image_large = $large_img;
             $folder_array = array("product", $this->productProfile->primaryKey, "product_images", $this->id);
 
             $upload_path = DTUploadedFile::creeatRecurSiveDirectories($folder_array);
 
-            $large_img->saveAs($upload_path . $large_img->name);
+            $large_img->saveAs($upload_path . str_replace(" ", "_", $this->image_large));
 
-            DTUploadedFile::createThumbs($upload_path . $this->image_large, $upload_path, 150, "small_" . $this->image_large);
+            DTUploadedFile::createThumbs($upload_path . $this->image_large, $upload_path, 130, str_replace(" ", "_", "small_" . $this->image_large));
+            DTUploadedFile::createThumbs($upload_path . $this->image_large, $upload_path, 75, str_replace(" ", "_", "cart_" . $this->image_large));
+            DTUploadedFile::createThumbs($upload_path . $this->image_large, $upload_path, 180, str_replace(" ", "_", "detail_" . $this->image_large));
             $this->deleteldImage();
         }
     }
@@ -229,6 +254,22 @@ class ProductImage extends DTActiveRecord {
             $small_path = $path . DIRECTORY_SEPARATOR . $this->id . DIRECTORY_SEPARATOR . $this->oldSmallImg;
 
             DTUploadedFile::deleteExistingFile($small_path);
+        }
+        if (!empty($this->oldCartImg) && $this->oldCartImg != $this->image_cart) {
+            $path = Yii::app()->basePath . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR;
+            $path.= "uploads" . DIRECTORY_SEPARATOR . "product" . DIRECTORY_SEPARATOR . $this->productProfile->primaryKey . DIRECTORY_SEPARATOR . "product_images";
+
+            $cart_path = $path . DIRECTORY_SEPARATOR . $this->id . DIRECTORY_SEPARATOR . $this->oldCartImg;
+
+            DTUploadedFile::deleteExistingFile($cart_path);
+        }
+        if (!empty($this->oldDetailImg) && $this->oldDetailImg != $this->image_detail) {
+            $path = Yii::app()->basePath . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR;
+            $path.= "uploads" . DIRECTORY_SEPARATOR . "product" . DIRECTORY_SEPARATOR . $this->productProfile->primaryKey . DIRECTORY_SEPARATOR . "product_images";
+
+            $detail_path = $path . DIRECTORY_SEPARATOR . $this->id . DIRECTORY_SEPARATOR . $this->oldDetailImg;
+
+            DTUploadedFile::deleteExistingFile($detail_path);
         }
     }
 

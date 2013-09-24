@@ -22,7 +22,14 @@ if (!(Yii::app()->user->isGuest)) {
     <div class = "right_float">
         <span class="creatdate">
             <?php
-            echo CHtml::link("Edit", $this->createUrl("update", array("id" => $model->primaryKey)), array('class' => "print_link_btn"))
+            if (isset($this->OpPermission[ucfirst($this->id) . ".Update"]) && $this->OpPermission[ucfirst($this->id) . ".Update"]) {
+                echo CHtml::link("Edit", $this->createUrl("update", array("id" => $model->primaryKey)), array('class' => "print_link_btn"));
+            }
+            echo CHtml::link("Preview", $this->createUrl("/web/page/pagesPreview",array("id" => $model->id)),
+                    array(
+                            'class' => "print_link_btn",
+                            "onclick"=>"dtech.popupwindow(jQuery(this).attr('href'),'Preview','900','600');return false;"
+                        ));
             ?>
         </span>
     </div>

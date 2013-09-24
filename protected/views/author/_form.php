@@ -7,6 +7,7 @@
 <div class="form wide">
 
     <?php
+   
     $form = $this->beginWidget('CActiveForm', array(
         'id' => 'author-form',
         'enableAjaxValidation' => false,
@@ -25,6 +26,10 @@
 
     <div class="row buttons">
         <?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save', array("class" => "btn")); ?>
+        <?php
+        echo " or ";
+        echo CHtml::link('Cancel', '#', array('onclick' => 'dtech.go_history()'));
+        ?>
     </div>
 
     <?php $this->endWidget(); ?>

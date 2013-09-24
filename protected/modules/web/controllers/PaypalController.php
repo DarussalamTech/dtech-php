@@ -1,10 +1,8 @@
 <?php
 
-class PaypalController extends Controller
-{
+class PaypalController extends Controller {
 
-    public function actionBuy()
-    {
+    public function actionBuy() {
 
         $paymentInfo = array();
         // set 
@@ -12,34 +10,41 @@ class PaypalController extends Controller
         $paymentInfo['Order']['description'] = Yii::app()->session['description'];
         $paymentInfo['Order']['quantity'] = Yii::app()->session['quantity'];
 
-       // CVarDumper::dump($paymentInfo,10,true);
-        Yii::app()->Paypal->returnUrl= Yii::app()->request->hostInfo.$this->createUrl("/web/paypal/confirm");
-        Yii::app()->Paypal->cancelUrl= Yii::app()->request->hostInfo.$this->createUrl("/web/paypal/cancel");
-     
+        /**
+         * fetching information from db
+         */
+        $criteria = new CDbCriteria();
+        $criteria->addCondition("name = 'Credit Card'");
+        $model = ConfPaymentMethods::model()->find($criteria);
+        
+        
+        Yii::app()->Paypal->apiUsername = $model->key;
+        Yii::app()->Paypal->apiPassword = $model->secret;
+        Yii::app()->Paypal->apiSignature = $model->signature;
+        Yii::app()->Paypal->apiLive = ($model->sandbox)=="Enable"?false:true;
+
+        // CVarDumper::dump($paymentInfo,10,true);
+        Yii::app()->Paypal->returnUrl = Yii::app()->request->hostInfo . $this->createUrl("/web/paypal/confirm");
+        Yii::app()->Paypal->cancelUrl = Yii::app()->request->hostInfo . $this->createUrl("/web/paypal/cancel");
+
 
         // call paypal 
         $result = Yii::app()->Paypal->SetExpressCheckout($paymentInfo);
         //Detect Errors 
         //CVarDumper::dump($result, 10, true);
 
-        if (!Yii::app()->Paypal->isCallSucceeded($result))
-        {
+        if (!Yii::app()->Paypal->isCallSucceeded($result)) {
 
-            if (Yii::app()->Paypal->apiLive === true)
-            {
+            if (Yii::app()->Paypal->apiLive === true) {
                 //Live mode basic error message
                 $error = 'We were unable to process your request. Please try again later';
-            }
-            else
-            {
+            } else {
                 //Sandbox output the actual error message to dive in.
                 $error = $result['L_LONGMESSAGE0'];
             }
             echo $error;
             Yii::app()->end();
-        }
-        else
-        {
+        } else {
             // send user to paypal 
 
             $token = urldecode($result["TOKEN"]);
@@ -49,8 +54,7 @@ class PaypalController extends Controller
         }
     }
 
-    public function actionConfirm()
-    {
+    public function actionConfirm() {
 
         $token = trim($_GET['token']);
         $payerId = trim($_GET['PayerID']);
@@ -64,66 +68,62 @@ class PaypalController extends Controller
         $result['ORDERTOTAL'] = Yii::app()->session['total_price'];
 
         //Detect errors 
-        if (!Yii::app()->Paypal->isCallSucceeded($result))
-        {
-            if (Yii::app()->Paypal->apiLive === true)
-            {
+        if (!Yii::app()->Paypal->isCallSucceeded($result)) {
+            if (Yii::app()->Paypal->apiLive === true) {
                 //Live mode basic error message
                 $error = 'We were unable to process your request. Please try again later';
-            }
-            else
-            {
+            } else {
                 //Sandbox output the actual error message to dive in.
                 $error = $result['L_LONGMESSAGE0'];
             }
             echo $error;
             Yii::app()->end();
-        }
-        else
-        {
+        } else {
 
             $paymentResult = Yii::app()->Paypal->DoExpressCheckoutPayment($result);
             //Detect errors  
-            if (!Yii::app()->Paypal->isCallSucceeded($paymentResult))
-            {
-                if (Yii::app()->Paypal->apiLive === true)
-                {
+            if (!Yii::app()->Paypal->isCallSucceeded($paymentResult)) {
+                if (Yii::app()->Paypal->apiLive === true) {
                     //Live mode basic error message
                     $error = 'We were unable to process your request. Please try again later';
-                }
-                else
-                {
+                } else {
                     //Sandbox output the actual error message to dive in.
                     $error = $paymentResult['L_LONGMESSAGE0'];
                 }
                 echo $error;
                 Yii::app()->end();
-            }
-            else
-            {
+            } else {
                 //payment was completed successfully
                 $creditCardModel = new CreditCardForm;
                 /**
                  * 1 ID is belong to pay pall
                  */
                 $creditCardModel->payment_method = 1;
-                $creditCardModel->saveOrder($result['TOKEN']);
+                $order_id = $creditCardModel->saveOrder($result['TOKEN']);
 
+                /**
+                 * Saving information in userShipping model
+                 * Now by retrieving information of most new record
+                 */
+                $criteria = new CDbCriteria();
+                $criteria->select = "id";
+                $criteria->addCondition("user_id = " . Yii::app()->user->id);
+                $criteria->order = "id DESC";
+                $model = UserOrderShipping::model()->find($criteria);
+                $model->updateByPk($model->id, array("order_id" => $order_id));
                 $this->render('confirm');
             }
         }
     }
 
-    public function actionCancel()
-    {
+    public function actionCancel() {
         //The token of tuhe cancelled payment typically used to cancel the payment within your application
         $token = $_GET['token'];
 
         $this->render('cancel');
     }
 
-    public function actionDirectPayment()
-    {
+    public function actionDirectPayment() {
         $paymentInfo = array('Member' =>
             array(
                 'first_name' => 'zahid',
@@ -159,22 +159,16 @@ class PaypalController extends Controller
         $result = Yii::app()->Paypal->DoDirectPayment($paymentInfo);
 
         //Detect Errors 
-        if (!Yii::app()->Paypal->isCallSucceeded($result))
-        {
-            if (Yii::app()->Paypal->apiLive === true)
-            {
+        if (!Yii::app()->Paypal->isCallSucceeded($result)) {
+            if (Yii::app()->Paypal->apiLive === true) {
                 //Live mode basic error message
                 $error = 'We were unable to process your request. Please try again later';
-            }
-            else
-            {
+            } else {
                 //Sandbox output the actual error message to dive in.
                 $error = $result['L_LONGMESSAGE0'];
             }
             echo $error;
-        }
-        else
-        {
+        } else {
             //Payment was completed successfully, do the rest of your stuff
         }
 

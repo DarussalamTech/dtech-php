@@ -1,0 +1,8 @@
+/testclone/nbproject/private/
+/uploads/
+/assets/
+/protected/runtime/
+.gitignore
+server.csr
+server.key
+

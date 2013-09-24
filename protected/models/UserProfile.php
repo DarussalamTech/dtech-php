@@ -27,7 +27,7 @@ class UserProfile extends DTActiveRecord {
      * @var type 
      * uploaded path for image
      */
-    public $uploaded_img = "";
+    public $uploaded_img = "", $temp_avatar;
     public $oldImg = "";
 
     /**
@@ -41,7 +41,7 @@ class UserProfile extends DTActiveRecord {
     }
 
     public function __construct($scenario = 'insert') {
-        $this->uploaded_img = Yii::app()->theme->baseUrl . "/images/talha_mujahid_img_03.png";
+        $this->uploaded_img = Yii::app()->baseUrl . "/images/noImage.png";
         parent::__construct($scenario);
     }
 
@@ -61,14 +61,13 @@ class UserProfile extends DTActiveRecord {
         return array(
             array('first_name, last_name', 'required'),
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
-            array('activity_log', 'safe'),
-            array('avatar', 'file', 'types' => 'jpg, gif, png', 'allowEmpty' => true),
+            //array('avatar', 'file', 'types' => 'jpg, gif, png', 'allowEmpty' => true),
             //array('user_id', 'numerical', 'integerOnly'=>true),
             array('first_name, last_name, address,  contact_number', 'length', 'max' => 255),
             array('id, first_name, last_name, address, gender, contact_number,city', 'safe'),
-            array('avatar,date_of_birth,state_province,address_2,country,zip_code', 'safe'),
+            array('temp_avatar,avatar,date_of_birth,state_province,address_2,country,zip_code', 'safe'),
             array('shipping_prefix,shipping_first_name,shipping_last_name,shipping_address1,shipping_address2,shipping_country', 'safe'),
-            array('shipping_state,shipping_city,shipping_zip,shipping_phone', 'safe'),
+            array('shipping_state,shipping_city,shipping_zip,shipping_phone,mobile_number,is_shipping_address', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, first_name, last_name, address, gender, contact_number,city', 'safe', 'on' => 'search'),
@@ -91,18 +90,21 @@ class UserProfile extends DTActiveRecord {
      */
     public function attributeLabels() {
         return array(
-            'id' => 'User Profile',
-            'first_name' => 'First Name',
-            'last_name' => 'Last Name',
-            'address' => 'Address Line 1',
-            'address_2' => 'Address Line 2',
-            'city' => 'City',
-            'country' => 'Country',
-            'state_province' => 'State/Province',
-            'gender' => 'Prefix	',
-            'zip_code' => 'Zip Code	',
-            'contact_number' => 'Telephone Number',
-            'avatar' => 'Profile Picture',
+            'id' => Yii::t('model_labels', 'Profile', array(), NULL, Yii::app()->controller->currentLang),
+            'first_name' => Yii::t('model_labels', 'First Name', array(), NULL, Yii::app()->controller->currentLang),
+            'last_name' => Yii::t('model_labels', 'Last Name', array(), NULL, Yii::app()->controller->currentLang),
+            'address' => Yii::t('model_labels', 'Address 1', array(), NULL, Yii::app()->controller->currentLang),
+            'address_2' => Yii::t('model_labels', 'Address 2', array(), NULL, Yii::app()->controller->currentLang),
+            'city' => Yii::t('model_labels', 'City', array(), NULL, Yii::app()->controller->currentLang),
+            'country' => Yii::t('model_labels', 'Country', array(), NULL, Yii::app()->controller->currentLang),
+            'state_province' => Yii::t('model_labels', 'State/Province', array(), NULL, Yii::app()->controller->currentLang),
+            'gender' => Yii::t('model_labels', 'Gender', array(), NULL, Yii::app()->controller->currentLang),
+            'zip_code' => Yii::t('model_labels', 'Zip Code', array(), NULL, Yii::app()->controller->currentLang),
+            'contact_number' => Yii::t('model_labels', 'Phone Number', array(), NULL, Yii::app()->controller->currentLang),
+            'mobile_number' => Yii::t('model_labels', 'Mobile Number', array(), NULL, Yii::app()->controller->currentLang),
+            'is_shipping_address' => Yii::t('model_labels', 'Select if shipping address is same as above', array(), NULL, Yii::app()->controller->currentLang),
+            'avatar' => Yii::t('model_labels', 'Profile Picture', array(), NULL, Yii::app()->controller->currentLang),
+            'date_of_birth' => Yii::t('model_labels', 'Date Of Birth', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 
@@ -123,6 +125,7 @@ class UserProfile extends DTActiveRecord {
         $criteria->compare('contact_number', $this->contact_number, true);
         $criteria->compare('city', $this->city, true);
         $criteria->compare('gender', $this->gender, true);
+        $criteria->compare('mobile_number', $this->mobile_number, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -141,16 +144,29 @@ class UserProfile extends DTActiveRecord {
         if (!empty($this->avatar)) {
             $this->uploaded_img = Yii::app()->baseUrl . "/uploads/user_profile/" . $this->user->primaryKey . "/" . $this->avatar;
         } else {
-            $this->uploaded_img = Yii::app()->theme->baseUrl . "/images/talha_mujahid_img_03.png";
+            $this->uploaded_img = Yii::app()->baseUrl . "/images/noImage.png";
         }
 
         if (!empty($this->date_of_birth)) {
             $this->date_of_birth = DTFunctions::dateFormatForView($this->date_of_birth);
         }
 
+
         $this->oldImg = $this->avatar;
 
         parent::afterFind();
+    }
+
+    /**
+     * before save to convert 
+     * few things like date
+     */
+    public function beforeSave() {
+        if (!empty($this->date_of_birth)) {
+            $this->date_of_birth = DTFunctions::dateFormatForSave($this->date_of_birth);
+        }
+        parent::beforeSave();
+        return true;
     }
 
     public function afterSave() {
@@ -174,22 +190,21 @@ class UserProfile extends DTActiveRecord {
     }
 
     /**
+     * 
+     * @param type $attributes
+     * @param type $order_id
+     * /**
      * Save shipping information in case of payment
      */
-    public function saveShippingInfo($attributes) {
+    public function saveShippingInfo($attributes, $order_id = 0) {
 
-        $userProfile_model = $this->findByPk(Yii::app()->user->id);
-        /**
-         * in case when profile id is exsit thats why to take new
-         * instance
-         */
-        if (empty($userProfile_model)) {
-            $userProfile_model = new UserProfile;
-            $userProfile_model->id = Yii::app()->user->id;
-        }
-        $userProfile_model->attributes = $attributes;
-       
-        $userProfile_model->save(false);
+        $shippingInfo = new UserOrderShipping;
+
+        $shippingInfo->attributes = $attributes;
+        $shippingInfo->user_id = Yii::app()->user->id;
+        $shippingInfo->order_id = $order_id;
+
+        $shippingInfo->save(false);
     }
 
 }

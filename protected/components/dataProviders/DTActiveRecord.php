@@ -21,23 +21,32 @@ class DTActiveRecord extends CActiveRecord {
      * update_user_id
      */
     public $_action;
-    
     public $_controller;
-    
-    
     public $_no_condition = false;
+    public $_current_module, $isAdmin;
 
     public function __construct($scenario = 'insert') {
-        parent::__construct($scenario);
+
         $this->_action = Yii::app()->controller->action->id;
         $this->_controller = Yii::app()->controller->id;
-        
+        $this->_current_module = get_class(Yii::app()->controller->getModule());
+        /**
+         * setting of admin site is running from model
+         */
+        $this->isAdmin = Yii::app()->controller->isAdminSite;
+        parent::__construct($scenario);
     }
 
     public function afterFind() {
         if (isset(Yii::app()->controller->action->id)) {
             $this->_action = Yii::app()->controller->action->id;
+            /**
+             * setting of admin site is running from model
+             */
+            $this->isAdmin = Yii::app()->controller->isAdminSite;
         }
+
+        $this->attributes = $this->decodeArray($this->attributes);
         parent::afterFind();
     }
 
@@ -65,6 +74,7 @@ class DTActiveRecord extends CActiveRecord {
             $this->update_user_id = 1;
         }
         parent::beforeValidate();
+        $this->attributes = $this->decodeArray($this->attributes);
         return true;
     }
 
@@ -77,25 +87,13 @@ class DTActiveRecord extends CActiveRecord {
     protected function beforeSave() {
 
         $update_time = date("Y-m-d") . " " . date("H:i:s");
-        $this->activity_log = $this->activity_log . 'Modified by ' . Yii::app()->user->name . ' on ' . $update_time . '\n';
 
+        if ($this->_controller != "product" && $this->_action == "viewImage") {
+            $this->attributes = CHtml::encodeArray($this->attributes);
+        }
         parent::beforeSave();
 
         return true;
-    }
-
-    /**
-     * Each time when user view record in detail view page save that user and
-     * some data to activity log. 
-     */
-    public function saveViewerForLog() {
-        $view_time = date("Y-m-d") . " " . date("H:i:s");
-        $ip_address = Yii::app()->request->getUserHostAddress();
-        $this->activity_log = $this->activity_log . 'Viewed by ' . Yii::app()->user->name . ' on ' . $view_time . ' from ' . $ip_address . ' \n';
-
-        $modelName = get_class($this);
-        $model = new $modelName;
-        $model->updateByPk($this->primaryKey, array('activity_log' => $this->activity_log));
     }
 
     /**
@@ -137,6 +135,42 @@ class DTActiveRecord extends CActiveRecord {
         return $row['uuid'];
     }
 
+    /*
+     * method to decode an array 
+     * removing special characters and slashes....
+     */
+
+    private function decodeArray($data) {
+        $d = array();
+        /**
+         * not keys
+         */
+        $not_keys = array("product_description", "product_overview");
+
+        foreach ($data as $key => $value) {
+            if (is_string($key))
+                $key = stripslashes(htmlspecialchars_decode($key, ENT_QUOTES));
+            if (is_string($value))
+                $value = stripslashes(htmlspecialchars_decode($value, ENT_QUOTES));
+            else if (is_array($value))
+                $value = self::decodeArray($value);
+            /*
+             * IF condition is for arabic and internatational data handling 
+             * 
+             * and the else part is for local data entry for system
+             */
+
+            if (mb_detect_encoding($value) == "UTF-8" && !in_array($key, $not_keys)) {
+
+                $d[$key] = $this->_current_module == "WebModule" ? utf8_decode($value) : $value;
+            } else {
+                $d[$key] = $value;
+            }
+        }
+
+        return $d;
+    }
+
     /**
      * 
      * @param type $condition
@@ -159,6 +193,19 @@ class DTActiveRecord extends CActiveRecord {
         }
         return parent::findByPk($pk, $condition, $params);
     }
+    
+    /**
+     *  the only reason
+     *  dats y i made this function
+     *  some time i dun need city id
+     * @param type $pk
+     * @param type $condition
+     * @param type $params
+     * @return type
+     */
+    public function findFromPrimerkey($pk, $condition = '', $params = array()){
+         return parent::findByPk($pk, $condition, $params);
+    }
 
     public function findAll($condition = '', $params = array()) {
         if (is_object($condition)) {
@@ -166,7 +213,7 @@ class DTActiveRecord extends CActiveRecord {
         } else if (is_string($condition)) {
             $condition.= $this->makeCityAdminCondition($condition);
         }
-        
+
         return parent::findAll($condition, $params);
     }
 
@@ -183,24 +230,39 @@ class DTActiveRecord extends CActiveRecord {
      *  for city admin we have to access only city base record
      */
     public function makeCityAdminCondition($condition) {
-       
-        $controller =  Yii::app()->controller->id;
-        $controllers = array("search","site","wS","error");
-        
-        $actions = array("login", "logout","storehome","activate");
+        /**
+         * PCM special condition
+         * for city model it is temporary
+         * bcoz it will take problem city id 
+         * is primary key of City model
+         */
+        if (get_class($this) == "City") {
+            return empty($condition) ? " 1=1 " : " AND 1=1 ";
+        }
+        $controller = Yii::app()->controller->id;
+        $controllers = array(
+            "search", "site",
+            "wS", "error",
+            "commonSystem",
+            "assignment",
+            "authItem",
+            "install"
+        );
 
-        if (!in_array($controller,$controllers) && !in_array($this->_action, $actions) 
-                && !empty(Yii::app()->session['city_id'])) {
-            $isSuper = Yii::app()->session['isSuper'];
+        $actions = array("login", "logout", "storehome", "activate");
 
-            if ($isSuper != 1 &&  array_key_exists('city_id', $this->attributes)){
-                if(!empty($condition)){
-                    return " AND  t.city_id ='" . Yii::app()->session['city_id'] . "'  ";
-                }    
+        if (!in_array($controller, $controllers) && !in_array($this->_action, $actions) && !empty(Yii::app()->session['city_id'])) {
+
+            $city_id = isset(Yii::app()->session['city_id']) ? Yii::app()->session['city_id'] : $_REQUEST['city_id'];
+
+            if (!Yii::app()->user->isSuperuser && array_key_exists('city_id', $this->attributes)) {
+                if (!empty($condition)) {
+                    return " AND  t.city_id ='" . $city_id . "'  ";
+                }
                 return "   t.city_id ='" . Yii::app()->session['city_id'] . "'  ";
             }
         }
-        return "";
+        return empty($condition) ? " 1=1 " : " AND 1=1 ";
     }
 
     /**
@@ -208,20 +270,75 @@ class DTActiveRecord extends CActiveRecord {
      * @return string
      */
     public function makeCriteriaCityAdmin($criteria) {
+        /**
+         * PCM special condition
+         * for city model it is temporary
+         * bcoz it will take problem city id 
+         * is primary key of City model
+         */
+        if (get_class($this) == "City") {
+            return $criteria;
+        }
+        $controller = Yii::app()->controller->id;
 
-        $controller =  Yii::app()->controller->id;
-        $controllers = array("search","site","wS","error");
-        $actions = array("login", "logout","storehome","activate"); // apply the criteria to all dtActiveRec execpt these methods..Ub
+        $controllers = array("search", "site", "wS",
+            "error",
+            "commonSystem", "assignment",
+            "authItem",
+            "install");
+        $actions = array("login", "logout", "storehome", "activate"); // apply the criteria to all dtActiveRec execpt these methods..Ub
 
-        if (!in_array($controller,$controllers)  && !in_array($this->_action, $actions) && !empty(Yii::app()->session['city_id'])) {
-            $isSuper = Yii::app()->session['isSuper'];
-          
-            if ($isSuper != 1 && array_key_exists('city_id', $this->attributes)) {
-                $criteria->addCondition("t.city_id ='" . Yii::app()->session['city_id'] . "'");
-                
+        $city_id = isset(Yii::app()->session['city_id']) ? Yii::app()->session['city_id'] : $_REQUEST['city_id'];
+
+        if (!in_array($controller, $controllers) && !in_array($this->_action, $actions) && !empty(Yii::app()->session['city_id'])) {
+
+            if (!Yii::app()->user->isSuperuser && array_key_exists('city_id', $this->attributes)) {
+                $criteria->addCondition("t.city_id ='" . $city_id . "'");
             }
         }
         return $criteria;
+    }
+
+    /**
+     * attach behaviour for our own logic
+     */
+    public function attachCbehavour() {
+        $this->attachBehavior('ml', array(
+            'class' => 'MultilingualBehavior',
+            'langClassName' => 'CategoriesLang',
+            'langTableName' => 'categories_lang',
+            'langForeignKey' => 'category_id',
+            //'langField' => 'lang_id',
+            'localizedAttributes' => array('category_name'), //attributes of the model to be translated
+            'localizedPrefix' => '',
+            'languages' => Yii::app()->params['translatedLanguages'], // array of your translated languages. Example : array('fr' => 'Français', 'en' => 'English')
+            'defaultLanguage' => Yii::app()->params['defaultLanguage'], //your main language. Example : 'fr'
+                //'createScenario' => 'insert',
+                //'localizedRelation' => 'postLangs',
+                //'multilangRelation' => 'multilangPost',
+                //'forceOverwrite' => false,
+                //'forceDelete' => true, 
+                //'dynamicLangClass' => true, //Set to true if you don't want to create a 'PostLang.php' in your models folder
+        ));
+
+        return $this;
+    }
+    /**
+     * update elements
+     * will be inherit and save the attribute
+     * with respect to new time
+     * @param type $pk
+     * @param type $attributes
+     * @param type $condition
+     * @param type $params
+     */
+    public function updateByPk($pk, $attributes, $condition = '', $params = array()) {
+        $updateAttr = array("update_time" => new CDbExpression('NOW()'), "update_user_id" => Yii::app()->user->id);
+        $attributes = array_merge($attributes, $updateAttr);
+        
+       
+        parent::updateByPk($pk, $attributes, $condition, $params);
+        return true;
     }
 
 }

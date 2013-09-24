@@ -14,6 +14,28 @@
 class Cart extends DTActiveRecord {
 
     /**
+     * caluclated or drieved attribue
+     * @var type 
+     */
+    public $price, $image, $image_link, $link;
+    public $view_array = array(
+        "Books" => array(
+            "controller" => "product",
+            "view" => "_books/_book_info"
+        ),
+        "Educational Toys" => array(
+            "controller" => "educationToys",
+        ),
+        "Quran" => array(
+            "controller" => "quran",
+            "view" => "_quran/_quran_info"
+        ),
+        "Others" => array(
+            "controller" => "others",
+        ),
+    );
+
+    /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
      * @return Cart the static model class
@@ -38,9 +60,9 @@ class Cart extends DTActiveRecord {
         return array(
             array('product_profile_id, added_date', 'required'),
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
-            array('activity_log', 'safe'),
             array('product_profile_id', 'numerical', 'integerOnly' => true),
             array('added_date', 'length', 'max' => 255),
+            array('price,image', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('cart_id, product_profile_id, added_date', 'safe', 'on' => 'search'),
@@ -63,9 +85,9 @@ class Cart extends DTActiveRecord {
      */
     public function attributeLabels() {
         return array(
-            'cart_id' => 'Cart',
-            'product_profile_id' => 'Product',
-            'added_date' => 'Added Date',
+            'cart_id' => Yii::t('model_labels', 'Cart', array(), NULL, Yii::app()->controller->currentLang),
+            'product_profile_id' => Yii::t('model_labels', 'Product', array(), NULL, Yii::app()->controller->currentLang),
+            'added_date' => Yii::t('model_labels', 'Added Date', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 
@@ -94,7 +116,7 @@ class Cart extends DTActiveRecord {
     function addCartByUser() {
         $ip = getenv("REMOTE_ADDR");
         $cart_model = new Cart();
-        $cart = $cart_model->findAll('session_id="' . $ip . '"');
+        $cart = $cart_model->findAll('session_id="' . Yii::app()->session['cart_session'] . '"');
         if ($cart) {
             foreach ($cart as $pro) {
                 $cart_model2 = new Cart();
@@ -122,11 +144,23 @@ class Cart extends DTActiveRecord {
     function getCartLists() {
         $cart = "";
         $ip = Yii::app()->request->getUserHostAddress();
+
+
+        $criteria = new CDbCriteria();
+
         if (isset(Yii::app()->user->id)) {
-            $cart = $this->findAll('city_id=' . Yii::app()->session['city_id'] . ' AND (user_id=' . Yii::app()->user->id . ' OR session_id="' . $ip . '")');
+            $criteria->condition = 'city_id=' . Yii::app()->session['city_id'] . ' AND (user_id=' . Yii::app()->user->user_id . ' OR session_id="' . Yii::app()->session['cart_session'] . '")';
         } else {
-            $cart = $this->findAll('city_id=' . Yii::app()->session['city_id'] . ' AND session_id="' . $ip . '"');
+            $criteria->condition = 'city_id=' . Yii::app()->session['city_id'] . ' AND session_id="' . Yii::app()->session['cart_session'] . '"';
         }
+
+
+        $cart = new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+            'pagination' => array(
+                'pageSize' => 100,
+            ),
+        ));
 
         return $cart;
     }
@@ -139,20 +173,93 @@ class Cart extends DTActiveRecord {
         $ip = Yii::app()->request->getUserHostAddress();
 
         if (isset(Yii::app()->user->id)) {
+
             $tot = Yii::app()->db->createCommand()
                     ->select('sum(quantity) as cart_total')
                     ->from('cart')
-                    ->where('city_id=' . Yii::app()->session['city_id'] . ' AND user_id=' . Yii::app()->user->id)
+                    ->where('city_id=' . Yii::app()->session['city_id'] . ' AND user_id=' . Yii::app()->user->user_id)
                     ->queryRow();
         } else {
+
             $tot = Yii::app()->db->createCommand()
                     ->select('sum(quantity) as cart_total')
                     ->from('cart')
-                    ->where('city_id=' . Yii::app()->session['city_id'] . ' AND session_id="' . $ip . '"')
+                    ->where('city_id=' . Yii::app()->session['city_id'] . ' AND session_id="' . Yii::app()->session['cart_session'] . '"')
                     ->queryRow();
         }
 
         return $tot;
+    }
+
+    /**
+     * 
+     * @param type $product_profile_id
+     * get total particular product 
+     * in cart
+     */
+    public function getTotalCountProduct($product_profile_id) {
+        $tot = Yii::app()->db->createCommand()
+                ->select('sum(quantity) as quantity')
+                ->from('cart')
+                ->where('product_profile_id=' . $product_profile_id)
+                ->queryRow();
+        if (empty($tot['quantity'])) {
+            $tot['quantity'] = 0;
+        }
+        return $tot['quantity'];
+    }
+
+    /**
+     * price set to 
+     * 
+     */
+    public function afterFind() {
+        /**
+         * price to be set
+         * and image to be set of product profile 
+         * 
+         */
+        $this->price = isset($this->productProfile->price) ? $this->productProfile->price * $this->quantity : 0;
+        $images = $this->productProfile->getImage();
+        $cssclass = "no_image";
+        if (!empty($images[0] ['image_cart'])) {
+            $this->image = $images[0] ['image_cart'];
+            $cssclass = "";
+        } else {
+            $this->image = $this->productProfile->product["no_image"];
+            $cssclass = "no_image";
+        }
+        
+        /**
+         * special case for bug product profile sending no image in image 
+         * dats y this condition made
+         */
+        
+        if(strstr($this->image,"noimages.jpeg")){
+             $cssclass = "no_image";
+        }
+        
+        $parent_cat = "Books";
+        if (!empty($pro->productProfile->product->parent_category->category_name)) {
+            $parent_cat = $pro->productProfile->product->parent_category->category_name;
+        }
+        $this->image_link = CHtml::link(CHtml::image($this->image, $this->productProfile->product->product_name, array('title' => $this->productProfile->product->product_name,"class"=>$cssclass)), Yii::app()->controller->createUrl('/web/product/productDetail', array(
+                            'country' => Yii::app()->session['country_short_name'],
+                            'city' => Yii::app()->session['city_short_name'],
+                            'city_id' => Yii::app()->session['city_id'],
+                            "pcategory" => $this->productProfile->product->parent_category->category_slug,
+                            "slug" => $this->productProfile->product->slag,
+        )));
+
+        $this->link = CHtml::link($this->productProfile->product->product_name, Yii::app()->controller->createUrl('/web/product/productDetail', array(
+                            'country' => Yii::app()->session['country_short_name'],
+                            'city' => Yii::app()->session['city_short_name'],
+                            'city_id' => Yii::app()->session['city_id'],
+                            "pcategory" => $this->productProfile->product->parent_category->category_slug,
+                            "slug" => $this->productProfile->product->slag,
+        )));
+
+        parent::afterFind();
     }
 
 }

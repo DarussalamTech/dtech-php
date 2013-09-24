@@ -7,8 +7,8 @@ $this->breadcrumbs = array(
     'Manage',
 );
 
-if(!(Yii::app()->user->isGuest)) {
-        $this->renderPartial("/common/_left_menu");
+if (!(Yii::app()->user->isGuest)) {
+    $this->renderPartial("/common/_left_menu");
 }
 
 Yii::app()->clientScript->registerScript('search', "
@@ -23,6 +23,14 @@ $('.search-form form').submit(function(){
 	return false;
 });
 ");
+$this->PcmWidget['filter'] = array('name' => 'ItstLeftFilter',
+    'attributes' => array(
+        'model' => $model,
+        'filters' => $this->filters,
+        'keyUrl' => true,
+        'action' => Yii::app()->createUrl($this->route),
+        'grid_id' => 'product-grid',
+        ));
 ?>
 
 <h1>Add Product Categories</h1>
@@ -31,7 +39,15 @@ $('.search-form form').submit(function(){
     You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
     or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
 </p>
+<?php
+echo CHtml::openTag("div", array(
+    "class" => "flash-success",
+    "id" => 'flash-message',
+    "style" => "display:none"
+));
 
+echo CHtml::closeTag("div");
+?>
 <?php echo CHtml::link('Advanced Search', '#', array('class' => 'search-button')); ?>
 <div class="search-form" style="display:none">
     <?php
@@ -42,10 +58,22 @@ $('.search-form form').submit(function(){
 </div><!-- search-form -->
 
 <?php
-$this->widget('zii.widgets.grid.CGridView', array(
+$template = "";
+if (isset($this->OpPermission[ucfirst($this->id) . ".View"]) && $this->OpPermission[ucfirst($this->id) . ".View"]) {
+    $template.= "{view}";
+}
+if (isset($this->OpPermission[ucfirst($this->id) . ".Update"]) && $this->OpPermission[ucfirst($this->id) . ".Update"]) {
+    $template.= "{update}";
+}
+if (isset($this->OpPermission[ucfirst($this->id) . ".Delete"]) && $this->OpPermission[ucfirst($this->id) . ".Delete"]) {
+    $template.= "{delete}";
+}
+$grid_array = array(
     'id' => 'categories-grid',
     'dataProvider' => $model->search(),
     'filter' => $model,
+    'sortUrl'=> $this->createUrl("/categories/updateOrder"),
+    'rowCssClassExpression' => '"items[]_{$data->category_id}"',
     'columns' => array(
         array(
             'name' => 'category_name',
@@ -66,7 +94,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         array(
             'name' => 'parent_id',
             'type' => 'Raw',
-            'value' => '$data->parent_id',
+            'value' => '$data->getparent->category_name',
             'headerHtmlOptions' => array(
                 'style' => "text-align:left"
             )
@@ -80,8 +108,22 @@ $this->widget('zii.widgets.grid.CGridView', array(
             )
         ),
         array(
+            'name' => 'user_order',
+            'type' => 'Raw',
+            'value' => '$data->user_order',
+            'headerHtmlOptions' => array(
+                'style' => "text-align:left"
+            )
+        ),
+        array(
             'class' => 'CButtonColumn',
+            'template' => $template
         ),
     ),
-));
+);
+
+if ($model->parent_id == '0') {
+    unset($grid_array['filter']);
+}
+$this->widget('DtGridView', $grid_array);
 ?>

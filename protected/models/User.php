@@ -14,6 +14,7 @@
  * @property string $is_active
  * @property integer $site_id
  * @property integer $old_password
+ * @property integer $source
  *
  * The followings are the available model relations:
  * @property Order[] $orders
@@ -39,7 +40,6 @@ class User extends DTActiveRecord {
     public $user_password2;
     public $old_password;
 
-
     public static function model($className = __CLASS__) {
         return parent::model($className);
     }
@@ -60,16 +60,14 @@ class User extends DTActiveRecord {
         return array(
             array('user_password,user_email', 'required'),
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
-            array('activity_log', 'safe'),
             array('role_id, status_id, city_id, site_id', 'numerical', 'integerOnly' => true),
             array('user_password, activation_key', 'length', 'max' => 255),
             array('is_active', 'length', 'max' => 8),
             array('user_password2', 'compare', 'compareAttribute' => 'user_password'),
             array('user_email', 'email'),
             array('user_email', 'unique'),
-            array('user_name', 'unique'),
             array('user_password', 'passwordStrength', 'strength' => self::STRONG),
-            array('join_date,social_id', 'safe'),
+            array('source,join_date,social_id', 'safe'),
             array('agreement_status', 'compare', 'compareValue' => '1', 'message' => "You must accept the Darusslam Terms and conditions"),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
@@ -107,12 +105,13 @@ class User extends DTActiveRecord {
         // class name for the relations automatically generated below.
         return array(
             'orders' => array(self::HAS_MANY, 'Order', 'user_id'),
-            'status' => array(self::BELONGS_TO, 'Statous', 'status_id', 'condition' => 'module="User"'),
+            'status' => array(self::BELONGS_TO, 'Status', 'status_id', 'condition' => 'module="User"'),
             'site' => array(self::BELONGS_TO, 'Site', 'site_id'),
-            'role' => array(self::BELONGS_TO, 'UserRole', 'role_id'),
+            'role' => array(self::BELONGS_TO, 'Authassignment', 'user_id'),
             'userProfiles' => array(self::HAS_ONE, 'UserProfile', 'id'),
             'city' => array(self::BELONGS_TO, 'City', 'city_id'),
             'social' => array(self::HAS_MANY, 'Social', 'yiiuser'),
+            'authassignment' => array(self::BELONGS_TO, 'Authassignment', 'userid'),
         );
     }
 
@@ -121,28 +120,28 @@ class User extends DTActiveRecord {
      */
     public function attributeLabels() {
         return array(
-            'user_id' => 'User',
-            'user_name' => 'Name',
-            'user_password' => 'Password',
-            'role_id' => 'Role',
-            'status_id' => 'Status',
-            'city_id' => 'City',
-            'activation_key' => 'Activation Key:',
-            'is_active' => 'Is Active:',
-            'site_id' => 'Site',
-            'user_email' => 'Email',
-            'join_date' => 'Registration date',
-            'user_password2' => 'Confirm Password',
-            'old_password' => 'Old Password',
+            'user_id' => Yii::t('common', 'User', array(), NULL, Yii::app()->controller->currentLang),
+            'user_name' => Yii::t('common', 'Name', array(), NULL, Yii::app()->controller->currentLang),
+            'user_password' => Yii::t('common', 'Password', array(), NULL, Yii::app()->controller->currentLang),
+            'role_id' => Yii::t('common', 'Type', array(), NULL, Yii::app()->controller->currentLang),
+            'status_id' => Yii::t('common', 'Status', array(), NULL, Yii::app()->controller->currentLang),
+            'city_id' => Yii::t('common', 'City', array(), NULL, Yii::app()->controller->currentLang),
+            'activation_key' => Yii::t('common', 'Activation Key', array(), NULL, Yii::app()->controller->currentLang),
+            'is_active' => Yii::t('common', 'Is Active', array(), NULL, Yii::app()->controller->currentLang),
+            'site_id' => Yii::t('common', 'Site', array(), NULL, Yii::app()->controller->currentLang),
+            'user_email' => Yii::t('common', 'Email', array(), NULL, Yii::app()->controller->currentLang),
+            'join_date' => Yii::t('common', 'Registration date', array(), NULL, Yii::app()->controller->currentLang),
+            'user_password2' => Yii::t('common', 'Confirm Password', array(), NULL, Yii::app()->controller->currentLang),
+            'old_password' => Yii::t('common', 'Old Password', array(), NULL, Yii::app()->controller->currentLang),
+            'special_offer' => Yii::t('common', 'Special Offers', array(), NULL, Yii::app()->controller->currentLang),
+            'agreement_status' => Yii::t('common', 'Agreement Status', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 
     static function getAccessLevelList($level = null) {
         $levelList = array(
+            self::LEVEL_ADMIN => 'SystemUsers',
             self::LEVEL_CUSTOMER => 'Customer',
-            self::LEVEL_ADMIN => 'Administrator',
-                //self::LEVEL_SUPERADMIN=> 'Superadmin',
-                // self::LEVEL_UNKNOWN=> 'Unknown..'
         );
         if ($level === null)
             return $levelList;
@@ -171,8 +170,11 @@ class User extends DTActiveRecord {
         $criteria->compare('site_id', $this->site_id);
 
         $criteria->addCondition("user_id<>" . Yii::app()->user->id);
+        $criteria->compare('role_id', '2');
 
-
+        /**
+         * 
+         */
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
         ));
@@ -211,13 +213,28 @@ class User extends DTActiveRecord {
     }
 
     public function beforeSave() {
+
+        /*
+         * to handle the exception when 
+         * user name is empty then system will 
+         * assign user email as user name 
+         * by:ubd
+         */
+        if (empty($this->user_name)) {
+            $this->user_name = $this->user_email;
+        }
+
+
+
         if (empty($this->join_date)) {
             $this->join_date = date("Y-m-d");
         } else {
             /** in case of form is filling this value * */
             $this->join_date = DTFunctions::dateFormatForSave($this->join_date);
         }
-        $this->user_password = md5($this->user_password);
+        if (!empty($this->user_password)) {
+            $this->user_password = md5($this->user_password);
+        }
         parent::beforeSave();
         return true;
     }
@@ -250,32 +267,39 @@ class User extends DTActiveRecord {
         if ($params['strength'] === self::WEAK)
             $pattern = '/^(?=.*[a-zA-Z0-9]).{5,}$/';
         elseif ($params['strength'] === self::STRONG)
-            $pattern = '/^(?=.*[a-zA-Z](?=.*[a-zA-Z])).{5,}$/';
+            $pattern = '/^[a-z0-9_-]{5,18}$/';
 
         if (!preg_match($pattern, $this->$attribute))
             $this->addError($attribute, 'Weak Password ! At least 5 characters.Passowrd can contain both letters and numbers!');
     }
 
     public function customerHistory() {
+        $data = "";
         $id = Yii::app()->user->id;
-        $model = new Order;
-        $data = $model->with('orderDetails')->findAll('user_id=' . $id);
+        $criteria = new CDbCriteria();
+        $criteria->condition = 'user_id=' . $id;
+        $criteria->order = "status ='process' DESC";
+        $data = new CActiveDataProvider('Order', array(
+            'criteria' => $criteria,
+            'pagination' => array(
+                'pageSize' => 100,
+            ),
+        ));
         return $data;
     }
-    
+
     /**
      * Get city admin
      * Temporray
      */
-    public function getCityAdmin(){
+    public function getCityAdmin() {
         $critera = new CDbCriteria();
         $critera->select = "user_email";
         $critera->condition = "role_id =2";
         $user = User::model()->find($critera);
-        if(!empty($user)){
+        if (!empty($user)) {
             return $user->user_email;
-        }
-        else {
+        } else {
             return Yii::app()->params['default_admin'];
         }
     }

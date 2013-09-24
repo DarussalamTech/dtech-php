@@ -14,14 +14,13 @@
  * @property string $create_user_id
  * @property string $update_time
  * @property string $update_user_id
- * @property string $activity_log
  *
  * The followings are the available model relations:
  * @property User $user
  * @property Product $product
  * @property City $city
  */
-class WishList extends CActiveRecord {
+class WishList extends DTActiveRecord {
 
     /**
      * Returns the static model of the specified AR class.
@@ -50,10 +49,10 @@ class WishList extends CActiveRecord {
             array('product_profile_id, user_id, city_id', 'numerical', 'integerOnly' => true),
             array('session_id', 'length', 'max' => 255),
             array('create_user_id, update_user_id', 'length', 'max' => 11),
-            array('activity_log,create_time, create_user_id, update_time, update_user_id', 'safe'),
+            array('create_time, create_user_id, update_time, update_user_id', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, product_profile_id, user_id, city_id, added_date, session_id, create_time, create_user_id, update_time, update_user_id, activity_log', 'safe', 'on' => 'search'),
+            array('id, product_profile_id, user_id, city_id, added_date, session_id, create_time, create_user_id, update_time, update_user_id', 'safe', 'on' => 'search'),
         );
     }
 
@@ -75,17 +74,16 @@ class WishList extends CActiveRecord {
      */
     public function attributeLabels() {
         return array(
-            'id' => 'ID',
-            'product_profile_id' => 'Product',
-            'user_id' => 'User',
-            'city_id' => 'City',
-            'added_date' => 'Added Date',
-            'session_id' => 'Session',
-            'create_time' => 'Create Time',
-            'create_user_id' => 'Create User',
-            'update_time' => 'Update Time',
-            'update_user_id' => 'Update User',
-            'activity_log' => 'Activity Log',
+            'id' => Yii::t('model_labels', 'ID', array(), NULL, Yii::app()->controller->currentLang),
+            'product_profile_id' => Yii::t('model_labels', 'Product', array(), NULL, Yii::app()->controller->currentLang),
+            'user_id' => Yii::t('model_labels', 'User', array(), NULL, Yii::app()->controller->currentLang),
+            'city_id' => Yii::t('model_labels', 'City', array(), NULL, Yii::app()->controller->currentLang),
+            'added_date' => Yii::t('model_labels', 'Added Date', array(), NULL, Yii::app()->controller->currentLang),
+            'session_id' => Yii::t('model_labels', 'Session', array(), NULL, Yii::app()->controller->currentLang),
+            'create_time' => Yii::t('model_labels', 'Create Time', array(), NULL, Yii::app()->controller->currentLang),
+            'create_user_id' => Yii::t('model_labels', 'Create User', array(), NULL, Yii::app()->controller->currentLang),
+            'update_time' => Yii::t('model_labels', 'Update Time', array(), NULL, Yii::app()->controller->currentLang),
+            'update_user_id' => Yii::t('model_labels', 'Update User', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 
@@ -109,7 +107,6 @@ class WishList extends CActiveRecord {
         $criteria->compare('create_user_id', $this->create_user_id, true);
         $criteria->compare('update_time', $this->update_time, true);
         $criteria->compare('update_user_id', $this->update_user_id, true);
-        $criteria->compare('activity_log', $this->activity_log, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -149,7 +146,7 @@ class WishList extends CActiveRecord {
         $ip = Yii::app()->request->getUserHostAddress();
         if (isset(Yii::app()->user->id)) {
 
-            $wishList = $this->findAll('city_id=' . Yii::app()->session['city_id'] . ' AND (user_id=' . Yii::app()->user->id . ' OR session_id="' . $ip . '")');
+            $wishList = $this->findAll('city_id=' . Yii::app()->session['city_id'] . ' AND (user_id=' . Yii::app()->user->user_id . ' OR session_id="' . $ip . '")');
         } else {
             $wishList = $this->findAll('city_id=' . Yii::app()->session['city_id'] . ' AND session_id="' . $ip . '"');
         }
@@ -168,7 +165,7 @@ class WishList extends CActiveRecord {
             $tot = Yii::app()->db->createCommand()
                     ->select('count(*) as total_pro')
                     ->from('wish_list')
-                    ->where('city_id=' . Yii::app()->session['city_id'] . ' AND user_id=' . Yii::app()->user->id)
+                    ->where('city_id=' . Yii::app()->session['city_id'] . ' AND user_id=' . Yii::app()->user->user_id)
                     ->queryRow();
         } else {
             $tot = Yii::app()->db->createCommand()

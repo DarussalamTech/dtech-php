@@ -4,7 +4,9 @@
 <div id="banner">
     <div id="main_banner">
         <div id="left_banner">
-            <a href="<?php echo $this->createUrl('/site/index') ?>"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/images/darussalam-inner-logo.png" alt="logo" /></a>
+            <?php
+            echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . '/images/darussalam-inner-logo.png','logo'), $this->createDTUrl('/site/index'));
+            ?>
             <nav>
                 <ul>
                     <?php
@@ -117,7 +119,7 @@
 </div>
 <section>
     <div id="main_section">
-   
+
 
         <?php echo $content; ?>
     </div>

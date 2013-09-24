@@ -26,23 +26,28 @@ return array(
     'components' => array(
         'user' => $conf_component_user,
         'urlManager' => $url_manager,
+        'authManager' => $conf_component_authManager,
         'db' => $conf_component_db,
         'errorHandler' => array(
             // use 'site/error' action to display errors
-            'errorAction' => 'error/error',  //error controoler/error actions
+            'errorAction' => 'error/error', //error controoler/error actions
         ),
         'log' => $logs,
         'email' => $conf_email_user,
         'Paypal' => $conf_payPall_user,
-    ),
-    /*
-    'behaviors' => array(
-        'onbeginRequest' => array(
-            'class' => 'application.components.DTURLBehaviour',
+        'messages' => array(
+            'class' => 'CPhpMessageSource',
+        // additional parameters for CDbMessageSource here
         ),
     ),
+    /*
+      'behaviors' => array(
+      'onbeginRequest' => array(
+      'class' => 'application.components.DTURLBehaviour',
+      ),
+      ),
      * */
-     
+
     // application-level parameters that can be accessed
     // using Yii::app()->params['paramName']
     'params' => $params,

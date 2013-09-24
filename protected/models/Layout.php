@@ -15,38 +15,33 @@
  * @property City $layout
  * @property Site $site
  */
-class Layout extends DTActiveRecord
-{
+class Layout extends DTActiveRecord {
 
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
      * @return Layout the static model class
      */
-    public static function model($className = __CLASS__)
-    {
+    public static function model($className = __CLASS__) {
         return parent::model($className);
     }
 
     /**
      * @return string the associated database table name
      */
-    public function tableName()
-    {
+    public function tableName() {
         return 'layout';
     }
 
     /**
      * @return array validation rules for model attributes.
      */
-    public function rules()
-    {
+    public function rules() {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
             array('layout_name, layout_description, layout_color, site_id', 'required'),
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
-            array('activity_log', 'safe'),
             array('site_id', 'numerical', 'integerOnly' => true),
             array('layout_name, layout_description, layout_color', 'length', 'max' => 255),
             // The following rule is used by search().
@@ -58,8 +53,7 @@ class Layout extends DTActiveRecord
     /**
      * @return array relational rules.
      */
-    public function relations()
-    {
+    public function relations() {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
@@ -72,14 +66,13 @@ class Layout extends DTActiveRecord
     /**
      * @return array customized attribute labels (name=>label)
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return array(
-            'layout_id' => 'Layout',
-            'layout_name' => 'Layout Name',
-            'layout_description' => 'Layout Description',
-            'layout_color' => 'Layout Color',
-            'site_id' => 'Site',
+            'layout_id' => Yii::t('model_labels', 'Layout', array(), NULL, Yii::app()->controller->currentLang),
+            'layout_name' => Yii::t('model_labels', 'Layout Name', array(), NULL, Yii::app()->controller->currentLang),
+            'layout_description' => Yii::t('model_labels', 'Layout Description', array(), NULL, Yii::app()->controller->currentLang),
+            'layout_color' => Yii::t('model_labels', 'Layout Color', array(), NULL, Yii::app()->controller->currentLang),
+            'site_id' => Yii::t('model_labels', 'Site', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 
@@ -87,8 +80,7 @@ class Layout extends DTActiveRecord
      * Retrieves a list of models based on the current search/filter conditions.
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
      */
-    public function search()
-    {
+    public function search() {
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 

@@ -45,6 +45,14 @@
     </div>
 
     <div class="row">
+        <?php echo $form->labelEx($model, 'currency_id'); ?>
+        <?php $models = ConfCurrency::model()->findAll(); ?>
+        <?php $list = CHtml::listData($models, 'id', 'name'); ?>
+        <?php echo $form->dropDownList($model, 'currency_id', $list, array('prompt' => 'Select Currency')); ?>
+        <?php //echo $form->textField($model,'layout_id');  ?>
+        <?php echo $form->error($model, 'currency_id'); ?>
+    </div>
+    <div class="row">
         <?php echo $form->labelEx($model, 'layout_id'); ?>
         <?php $models = Layout::model()->findAll(); ?>
         <?php $list = CHtml::listData($models, 'layout_id', 'layout_name'); ?>
@@ -55,6 +63,10 @@
 
     <div class="row buttons">
         <?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save', array("class" => "btn")); ?>
+        <?php
+        echo " or ";
+        echo CHtml::link('Cancel', '#', array('onclick' => 'dtech.go_history()'));
+        ?>
     </div>
 
     <?php $this->endWidget(); ?>

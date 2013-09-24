@@ -7,9 +7,9 @@
             <div id="fb-root"></div>
 
             <h1>Follow us</h1>
-            <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . '/images/f_img_03.jpg'), Yii::app()->createUrl('/web/hybrid/login/', array("provider" => "Facebook"))); ?>
-            <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . '/images/t_img_03.jpg'), Yii::app()->createUrl('/web/hybrid/login/', array("provider" => "Twitter"))); ?>
-            <a href="<?php // bloginfo('rss2_url'); ?> "><?php echo CHtml::image(Yii::app()->theme->baseUrl . '/images/subscriber_img_03.jpg'); ?></a>
+            <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . '/images/f_img_03.jpg'), Yii::app()->controller->createUrl('/web/hybrid/login/', array("provider" => "Facebook"))); ?>
+            <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . '/images/t_img_03.jpg'), Yii::app()->controller->createUrl('/web/hybrid/login/', array("provider" => "Twitter"))); ?>
+            
         </div>
         <div class="like_us">
             <h1>Like us on Facebook</h1>

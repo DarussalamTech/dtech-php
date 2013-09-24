@@ -11,6 +11,8 @@ class ContactForm extends CFormModel {
     public $email;
     public $subject;
     public $body;
+    public $verifyCode;
+    public $customer_copy_check;
 
     /**
      * Declares the validation rules.
@@ -18,11 +20,12 @@ class ContactForm extends CFormModel {
     public function rules() {
         return array(
             // name, email, subject and body are required
-            array('name, email, subject, body', 'required'),
+            array('name, email, subject, body,verifyCode', 'required'),
             // email has to be a valid email address
             array('email', 'email'),
-                // verifyCode needs to be entered correctly
-                //array('verifyCode', 'captcha', 'allowEmpty'=>!CCaptcha::checkRequirements()),
+            array('customer_copy_check', 'safe'),
+            // verifyCode needs to be entered correctly
+            array('verifyCode', 'captcha', 'allowEmpty' => !CCaptcha::checkRequirements()),
         );
     }
 
@@ -33,10 +36,12 @@ class ContactForm extends CFormModel {
      */
     public function attributeLabels() {
         return array(
-            'name' => 'Name',
-            'email' => 'Email',
-            'subject' => 'Subject',
-            'body' => 'Message',
+            'name' => Yii::t('common', 'Name', array(), NULL, Yii::app()->controller->currentLang),
+            'email' => Yii::t('common', 'Email', array(), NULL, Yii::app()->controller->currentLang),
+            'subject' => Yii::t('model_labels', 'Subject', array(), NULL, Yii::app()->controller->currentLang),
+            'body' => Yii::t('model_labels', 'Message', array(), NULL, Yii::app()->controller->currentLang),
+            'customer_copy_check' => Yii::t('model_labels', 'Send a copy to me', array(), NULL, Yii::app()->controller->currentLang),
+            'verifyCode' => Yii::t('model_labels', 'Verification Code', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 

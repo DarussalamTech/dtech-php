@@ -34,6 +34,7 @@ $this->widget('zii.widgets.CDetailView', array(
         'city_name',
         'short_name',
         'address',
+        'currency_id',
     ),
 ));
 ?>

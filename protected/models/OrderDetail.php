@@ -15,7 +15,9 @@
  */
 class OrderDetail extends DTActiveRecord {
 
-    public $totalOrder;
+    public $totalOrder, $total_price,
+            $stock, $reverted_to_stock,
+            $user_quantity, $revert_cancel, $product_image,$row_css_class;
 
     /**
      * used for deleting
@@ -50,12 +52,11 @@ class OrderDetail extends DTActiveRecord {
         return array(
             array('product_profile_id, product_price', 'required'),
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
-            array('activity_log', 'safe'),
             array('order_id, product_profile_id', 'numerical', 'integerOnly' => true),
             array('product_price', 'length', 'max' => 10),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('cart_id', 'safe'),
+            array('reverted_to_stock,cart_id', 'safe'),
             array('user_order_id, order_id, product_profile_id, product_price', 'safe', 'on' => 'search'),
         );
     }
@@ -69,6 +70,7 @@ class OrderDetail extends DTActiveRecord {
         return array(
             'product_profile' => array(self::BELONGS_TO, 'ProductProfile', 'product_profile_id'),
             'order' => array(self::BELONGS_TO, 'Order', 'order_id'),
+            'order_detail_history' => array(self::HAS_MANY, 'OrderHistoryDetail', 'order_detail_id'),
         );
     }
 
@@ -77,10 +79,11 @@ class OrderDetail extends DTActiveRecord {
      */
     public function attributeLabels() {
         return array(
-            'user_order_id' => 'User Order',
-            'order_id' => 'Order',
-            'product_profile_id' => 'Product',
-            'product_price' => 'Product Price',
+            'user_order_id' => Yii::t('model_labels', 'Order', array(), NULL, Yii::app()->controller->currentLang),
+            'order_id' => Yii::t('model_labels', 'Order', array(), NULL, Yii::app()->controller->currentLang),
+            'product_profile_id' => Yii::t('model_labels', 'Product', array(), NULL, Yii::app()->controller->currentLang),
+            'product_price' => Yii::t('model_labels', 'Product Price', array(), NULL, Yii::app()->controller->currentLang),
+            'stock' => Yii::t('model_labels', 'In Stock', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 
@@ -140,12 +143,11 @@ class OrderDetail extends DTActiveRecord {
                 $criteria->addCondition("product_categories.category_id='" . $_POST['cat_id'] . "'");
             }
             $criteria->distinct = "t.product_id";
-              //$model = Product::model()->with('productProfile','productCategories');
         }
 
-        $model = Product::model()->with('productProfile');
- 
-        $dataProvider = new CActiveDataProvider($model, array(
+        $model = Product::model()->with(array('productProfile' => array('select' => '*')));
+
+        $dataProvider = new DTActiveDataProvider($model, array(
             'pagination' => array(
                 'pageSize' => $limit,
             ),
@@ -162,41 +164,45 @@ class OrderDetail extends DTActiveRecord {
 
         $data = $dataProvider->getData();
         $featured_products = array();
-        $product = array();
-        $images = array();
+
         foreach ($data as $products) {
-            $product_id = $products->product_id;
-            $criteria2 = new CDbCriteria;
-            $criteria2->select = '*';  // only select the 'title' column
-            $criteria2->condition = "product_profile_id='" . $product_id . "'";
-            $imagedata = ProductImage::model()->findAll($criteria2);
+
+            $criteria = new CDbCriteria;
+            $criteria->select = 'id,product_profile_id,image_small,image_large,is_default';
+            $criteria->condition = "product_profile_id='" . $products->productProfile[0]->id . "'";
+            $criteria->addCondition("(is_default =0 OR is_default=1)");
+            $criteria->order = "is_default DESC";
+            $imagedata = ProductImage::model()->find($criteria);
             $images = array();
-            foreach ($imagedata as $img) {
-                if ($img->is_default == 1) {
-                    $images[] = array('id' => $img->id,
-                        'image_large' => $img->image_url['image_large'],
-                        'image_small' => $img->image_url['image_small'],
-                    );
-                    break;
-                } else {
-                    $images[] = array('id' => $img->id,
-                        'image_large' => $img->image_url['image_large'],
-                        'image_small' => $img->image_url['image_small'],
-                    );
-                    break;
-                }
+
+            if ($imagedata->is_default == 1) {
+                $images[] = array('id' => $imagedata->id,
+                    'image_large' => $imagedata->image_url['image_large'],
+                    'image_small' => $imagedata->image_url['image_small'],
+                );
+            } else {
+                $images[] = array('id' => $imagedata->id,
+                    'image_large' => $imagedata->image_url['image_large'],
+                    'image_small' => $imagedata->image_url['image_small'],
+                );
             }
 
             $featured_products[] = array(
                 'product_id' => $products->product_id,
                 'product_name' => $products->product_name,
                 'product_description' => $products->product_description,
+                'product_overview' => $products->product_overview,
                 'product_author' => !empty($products->author) ? $products->author->author_name : "",
                 'product_price' => $products->productProfile[0]->price,
+                'product_profile_id' => $products->productProfile[0]->id,
+                'quantity' => $products->productProfile[0]->quantity,
                 'no_image' => $products->no_image,
+                'slug' => $products->slag,
+                'category' => $products->parent_category->category_name,
                 'image' => $images
             );
         }
+
         return $featured_products;
     }
 
@@ -213,9 +219,7 @@ class OrderDetail extends DTActiveRecord {
             'select' => "COUNT( product.product_id ) as totalOrder,product.*,product_profile.*",
             'group' => 'product.product_id',
             'distinct' => 'product.product_id',
-            //'condition'=>"is_featured='".$is_featured."' AND city_id='".Yii::app()->session['city_id']."'",
             'condition' => "product.city_id = '" . $city_id . "'",
-            //'limit' => $limit,
             'order' => 'totalOrder DESC',
         ));
 
@@ -239,8 +243,6 @@ class OrderDetail extends DTActiveRecord {
                 $langs = explode(",", $_POST['langs']);
 
                 $criteria->addInCondition("product_profile.language_id", $langs);
-
-                //$model = OrderDetail::model()->with(array('product_profile', 'product_profile.product' => array('alias' => 'product', 'joinType' => "INNER JOIN ")));
             }
             if (!empty($_POST['cat_id'])) {
 
@@ -284,41 +286,52 @@ class OrderDetail extends DTActiveRecord {
         $best_products = array();
         $best_join = $dataProvider->getData();
         $counter = count($best_join);
+
         for ($i = 0; $i < $counter; $i++) {
-            $product_id = $best_join[$i]->product_profile->product_id;
+
 
             $product_name = $best_join[$i]->product_profile->product->product_name;
             $product_description = $best_join[$i]->product_profile->product->product_description;
+            $product_overview = $best_join[$i]->product_profile->product->product_overview;
             $product_price = $best_join[$i]->product_profile->price;
             $product_totalOrder = $best_join[$i]->totalOrder;
 
-            $criteria6 = new CDbCriteria;
-            $criteria6->select = '*';  // only select the 'title' column
-            $criteria6->condition = 'product_profile_id="' . $best_join[$i]->product_profile->id . '"';
-            $imagebest = ProductImage::model()->findAll($criteria6);
+            $criteria = new CDbCriteria;
+            $criteria->select = 'id,product_profile_id,image_small,image_large,is_default';  // only select the 'title' column
+            $criteria->condition = 'product_profile_id="' . $best_join[$i]->product_profile->id . '"';
+            $criteria->addCondition("(is_default =0 OR is_default=1)");
+            $criteria->order = "is_default DESC";
+            $imagebest = ProductImage::model()->find($criteria);
+
             $images = array();
-            foreach ($imagebest as $img) {
-                if ($img->is_default == 1) {
-                    $images[] = array('id' => $img->id,
-                        'image_large' => $img->image_url['image_large'],
-                        'image_small' => $img->image_url['image_small'],
-                    );
-                    break;
-                } else {
-                    $images[] = array('id' => $img->id,
-                        'image_large' => $img->image_url['image_large'],
-                        'image_small' => $img->image_url['image_small'],
-                    );
-                    break;
-                }
+
+            if ($imagebest->is_default == 1) {
+                $images[] = array('id' => $imagebest->id,
+                    'image_large' => $imagebest->image_url['image_large'],
+                    'image_small' => $imagebest->image_url['image_small'],
+                );
+            } else {
+                $images[] = array('id' => $imagebest->id,
+                    'image_large' => $imagebest->image_url['image_large'],
+                    'image_small' => $imagebest->image_url['image_small'],
+                );
             }
-            $best_products[$product_id] = array('product_id' => $product_id,
-                'product_name' => $product_name,
-                'product_description' => $product_description,
-                'product_price' => $product_price,
-                'totalOrder' => $product_totalOrder,
-                'no_image' => $best_join[$i]->product_profile->product->no_image,
-                'image' => $images);
+
+
+            $best_products[$best_join[$i]->product_profile->product_id] =
+                    array(
+                        'product_id' => $best_join[$i]->product_profile->product_id,
+                        'product_name' => $product_name,
+                        'product_description' => $product_description,
+                        'product_overview' => $product_overview,
+                        'product_price' => $product_price,
+                        'slug' => $best_join[$i]->product_profile->product->slag,
+                        'category' => $best_join[$i]->product_profile->product->parent_category->category_name,
+                        'product_profile_id' => $best_join[$i]->product_profile->id,
+                        'quantity' => $best_join[$i]->product_profile->quantity,
+                        'totalOrder' => $product_totalOrder,
+                        'no_image' => $best_join[$i]->product_profile->product->no_image,
+                        'image' => $images);
         }
 
         return $best_products;
@@ -331,8 +344,93 @@ class OrderDetail extends DTActiveRecord {
         if (!empty($this->cart_id)) {
             Cart::model()->findByPk($this->cart_id)->delete();
         }
-
+        $this->saveOrderDetailHistory();
         parent::afterSave();
+    }
+
+    /**
+     * used for calculating of total price
+     */
+    public function afterFind() {
+        $this->total_price = $this->product_price * $this->quantity;
+        $this->stock = $this->product_profile->quantity;
+
+
+        /**
+         * used to set text field for admin area of 
+         * order detail page
+         */
+        $this->reverted_to_stock = $this->isRevertedToStock();
+        
+        /**
+         * row css class for grid
+         * to higlght border or background
+         */
+        if($this->reverted_to_stock == 1){
+            $this->row_css_class = "reveted";
+        }
+        else if($this->reverted_to_stock == 2){
+            $this->row_css_class = "partialy_reveted";
+        }
+        /*         * *
+         * visible state for updating quantity of 
+         * 
+         */
+        $visible_state = array("Pending", "Process");
+        if ($this->reverted_to_stock!=1) {
+            $this->revert_cancel = CHtml::link("Revert/Cancel", Yii::app()->controller->createUrl("/order/revertlineItem", array("id" => $this->user_order_id,)), array("class" => "cancel_revert"));
+
+            /**
+             * used to set text field for admin area of 
+             * order detail page
+             */
+            if (in_array($this->order->all_status[$this->order->status], $visible_state)) {
+                $this->user_quantity = CHtml::textField(
+                                'quantity', $this->quantity, array("style" => "width:40px")
+                        ) . " " . CHtml::link("Update", Yii::app()->controller->createUrl("/order/orderProductQuantity", array("id" => $this->user_order_id)), array("onclick" => "dtech.updateOrderProductQuantity(this);return false"));
+            }
+            else {
+                 $this->user_quantity = $this->quantity;
+            }
+        } else {
+            $this->revert_cancel = "Reverted";
+            $this->user_quantity = $this->quantity;
+        }
+
+
+
+
+        parent::afterFind();
+    }
+
+    /**
+     * save order detail history
+     * for loging information
+     */
+    public function saveOrderDetailHistory($is_reverted = 0) {
+        $modelOrder = new OrderHistoryDetail;
+        $modelOrder->order_detail_id = $this->user_order_id;
+        $modelOrder->quantity = $this->quantity;
+        if ($is_reverted == 1) {
+            $modelOrder->reverted_to_stock = $is_reverted;
+        }
+        else {
+            $modelOrder->reverted_to_stock = $is_reverted;
+        }
+        $modelOrder->save();
+    }
+
+    /**
+     * is reverted to find 
+     */
+    public function isRevertedToStock() {
+        $criteria = new CDbCriteria;
+        $criteria->select = "reverted_to_stock";
+        $criteria->addCondition("order_detail_id=" . $this->user_order_id);
+        $criteria->order = "id DESC";
+        $history = OrderHistoryDetail::model()->find($criteria);
+
+        return $history->reverted_to_stock;
     }
 
 }

@@ -32,18 +32,22 @@
     <div class="row">
         <?php
         echo $form->labelEx($model, 'content');
-
         ?>
-        <?php $this->widget('application.extensions.tinymce.ETinyMce', 
-                array(
-                    'editorTemplate'=>'full',
-                    'model' => $model, 
-                    'attribute' => 'content', 
-            'options' => array('theme' => 'advanced'))); ?>
+        <?php
+        $this->widget('application.extensions.tinymce.ETinyMce', array(
+            'editorTemplate' => 'full',
+            'model' => $model,
+            'attribute' => 'content',
+            'options' => array('theme' => 'advanced')));
+        ?>
     </div>
 
     <div class="row buttons">
         <?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save', array("class" => "btn")); ?>
+        <?php
+        echo " or ";
+        echo CHtml::link('Cancel', '#', array('onclick' => 'dtech.go_history()'));
+        ?>
     </div>
 
     <?php $this->endWidget(); ?>

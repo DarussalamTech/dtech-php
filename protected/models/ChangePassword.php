@@ -7,8 +7,16 @@
 class ChangePassword extends CFormModel {
 
     public $old_password;
+    public $_user_name;
     public $user_password;
     public $user_conf_password;
+
+    /*
+     * to check weak or strong password
+     */
+
+    const WEAK = 0;
+    const STRONG = 1;
 
     /**
      * Declares the validation rules.
@@ -16,9 +24,14 @@ class ChangePassword extends CFormModel {
     public function rules() {
         return array(
             array('user_password, user_conf_password', 'required'),
+            array('old_password', 'compare', 'operator' => '!=',
+                'compareAttribute' => 'user_password',
+                'message' => "Old and New password should not be same"
+            ),
             array('user_conf_password', 'compare', 'compareAttribute' => 'user_password'),
             array('user_password, user_conf_password,old_password', 'safe'),
             array('old_password', 'validateOldPassword'),
+            array('user_password', 'passwordStrength', 'strength' => self::STRONG),
         );
     }
 
@@ -29,9 +42,9 @@ class ChangePassword extends CFormModel {
      */
     public function attributeLabels() {
         return array(
-            'old_password' => 'Old Password',
-            'user_password' => 'New Password',
-            'user_conf_password' => 'Confirm Password',
+            'old_password' => Yii::t('common', 'Old Password', array(), NULL, Yii::app()->controller->currentLang),
+            'user_password' => Yii::t('common', 'New Password', array(), NULL, Yii::app()->controller->currentLang),
+            'user_conf_password' => Yii::t('common', 'Confirm Password', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 
@@ -41,10 +54,21 @@ class ChangePassword extends CFormModel {
      * @return boolean
      */
     public function validateOldPassword($attribute, $params) {
-
+        
         if (User::model()->count("user_id=" . Yii::app()->user->id . " AND user_password='" . md5($this->old_password) . "'") == 0) {
             $this->addError($attribute, "Old password Miss match");
         }
+    }
+
+    public function passwordStrength($attribute, $params) {
+        if ($params['strength'] === self::WEAK)
+            $pattern = '/^(?=.*[a-zA-Z0-9]).{5,}$/';
+        elseif ($params['strength'] === self::STRONG)
+        //$pattern = '/^(?=.*[a-zA-Z](?=.*[a-zA-Z])).{5,}$/';
+            $pattern = '/^[a-z0-9_-]{5,18}$/';
+
+        if (!preg_match($pattern, $this->$attribute))
+            $this->addError($attribute, 'Weak Password ! At least 5 characters.Passowrd can contain both letters and numbers!');
     }
 
     /**

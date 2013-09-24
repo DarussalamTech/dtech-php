@@ -28,9 +28,31 @@ $('.search-form form').submit(function(){
 <h1>Manage Orders</h1>
 
 <p>
-    You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
-    or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
+    <b>Information:</b>
+    <br/>
+    If Order Status changes Shipped to Cancelled Or Refunded = Then Quantity will be reverted to Products
+    <br/>
+    If Order Status changes Pending or Process to Shipped = Then Quantity will be decreased to Products
+    <br/>
+    Completed , Declined or neutral
+
+    <br/><br/>
+
+    Pending > Shipped = Decrease in stock<br/>
+    Pending >Process> Shipped = Decrease in stock<br/>
+    Shipped > Refund = Increase in stock<br/>
+    Shipped > Cancel = Increase in stock<br/>
 </p>
+
+<?php
+echo CHtml::openTag("div", array(
+    "class" => "flash-success",
+    "id" => 'flash-message',
+    "style" => "display:none"
+));
+
+echo CHtml::closeTag("div");
+?>
 
 <?php echo CHtml::link('Advanced Search', '#', array('class' => 'search-button')); ?>
 <div class="search-form" style="display:none">
@@ -42,22 +64,63 @@ $('.search-form form').submit(function(){
 </div><!-- search-form -->
 
 <?php
+$template = "";
+if (isset($this->OpPermission[ucfirst($this->id) . ".View"]) && $this->OpPermission[ucfirst($this->id) . ".View"]) {
+    $template.= "{view}";
+}
+if (isset($this->OpPermission[ucfirst($this->id) . ".Update"]) && $this->OpPermission[ucfirst($this->id) . ".Update"]) {
+    $template.= "{update}";
+}
+if (isset($this->OpPermission[ucfirst($this->id) . ".Delete"]) && $this->OpPermission[ucfirst($this->id) . ".Delete"]) {
+    //$template.= "{delete}";
+}
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'order-grid',
     'dataProvider' => $model->search(),
     'filter' => $model,
     'columns' => array(
+        'order_id',
         array(
             'name' => 'user_id',
             'value' => '!empty($data->user->user_email)?$data->user->user_email:""',
         ),
-        'total_price',
-        'order_date',
-        'status',
         'transaction_id',
+        'order_date',
+        'update_time',
         array(
             'name' => 'payment_method_id',
             'value' => '!empty($data->paymentMethod->name)?$data->paymentMethod->name:""',
+        ),
+        array(
+            'name' => 'status',
+            'value' => '$data->order_status->title',
+            'type' => 'raw',
+        ),
+        array(
+            'name' => 'service_charges',
+            'value' => '$data->service_charges',
+            'type' => 'raw',
+        ),
+        array(
+            'header' => 'Change',
+            'value' => '$data->listing_status',
+            'type' => 'raw',
+            'visible' => $this->OpPermission['Order.Update'] == true ? true : false,
+        ),
+        array(
+            'header' => 'update Status',
+            'value' => 'CHtml::checkBox("Order[notifyUser]").
+                       CHtml::link("Notify User","javascript:void(0)",array("onclick"=>"dtech.updateNotifyCheckBox(this)"))." ".
+                       CHtml::link("Update",
+                                    Yii::app()->controller->createUrl("/order/update",array("id"=>$data->order_id)),array("onclick"=>"dtech.notifyUser(this);return false;"))',
+            'type' => 'raw',
+            'visible' => $this->OpPermission['Order.Update'] == true ? true : false,
+            'htmlOptions' => array("width" => "100")
+        ),
+        array(
+            'name' => 'total_price',
+            'value' => 'Yii::app()->session["currency"]." ".$data->total_price',
+            'htmlOptions' => array("width" => "60")
         ),
         array(
             'class' => 'CLinkColumn',
@@ -83,7 +146,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         ),
         array(
             'class' => 'CButtonColumn',
-            'template' => '{view}{update}',
+            'template' => $template
         ),
     ),
 ));

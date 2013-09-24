@@ -19,8 +19,10 @@ class ConfMisc extends DTActiveRecord {
 
     public $confViewName = 'confMisc/Misc';
     public $paramsOptions = array(
-        "dateformat" => array("m/d/y" => "m/d/y", "Y-m-d", "Y-m-d"),
+        "dateformat" => array("m/d/y" => "m/d/y", "Y-m-d"=> "Y-m-d"),
+        "auto_item_code" => array("0" => "No", "1"=> "Yes"),
         "smtp" => array("1" => "Enabled", "0" => "Disabled"),
+        "theme" => array("null" => "Old", "dtech_second" => "Dtech New"),
     );
 
     /**
@@ -48,7 +50,7 @@ class ConfMisc extends DTActiveRecord {
             array('title, param, value, create_time, create_user_id, update_time, update_user_id', 'required'),
             array('title, param', 'length', 'max' => 255),
             array('create_user_id, update_user_id', 'length', 'max' => 11),
-            array('misc_type,field_type', 'safe'),
+            array('id,misc_type,field_type,site_id,city_id', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, title, value, create_time, create_user_id, update_time, update_user_id', 'safe', 'on' => 'search'),
@@ -105,6 +107,20 @@ class ConfMisc extends DTActiveRecord {
         return new CActiveDataProvider(get_class($this), array(
             'criteria' => $criteria,
         ));
+    }
+
+    /**
+     * 
+     */
+    public function afterFind() {
+        if ($this->_controller == "conf") {
+            if ($this->value == "null") {
+                $this->value = "Old";
+            } else if ($this->value == "dtech_second") {
+                $this->value = "Dtech New";
+            }
+        }
+        parent::afterFind();
     }
 
 }

@@ -57,9 +57,9 @@ a img { border: none; max-width:100%; }
 
 .sign_up_button { padding: 0; margin: 0; width:98px; float:right; }
 
-.btn { float:left; width:88px; height:30px; border:none; margin: 15px 0 10px 0; border-radius:2px; background:#008dde; font-weight:bold; color:#FFF; padding: 5px 2px 5px 2px; }
+.btn { cursor: pointer;float:left; width:88px; height:30px; border:none; margin: 15px 0 10px 0; border-radius:2px; background:#008dde; font-weight:bold; color:#FFF; padding: 5px 2px 5px 2px; }
 
-.f_img { padding: 0; margin: 0; float:left; width:78px; height:30px; border:none; background:#3b5999; color:#FFF; font-family:Arial, Helvetica, sans-serif; font-size:13px; }
+.f_img { cursor: pointer;padding: 0; margin: 0; float:left; width:78px; height:30px; border:none; background:#3b5999; color:#FFF; font-family:Arial, Helvetica, sans-serif; font-size:13px; }
 
 .l_img { padding: 0 10px 0 0; margin: 0; float:left; width:78px; height:30px; border:none; background:#1a81b5; color:#FFF; font-family:Arial, Helvetica, sans-serif; font-size:13px; }
 

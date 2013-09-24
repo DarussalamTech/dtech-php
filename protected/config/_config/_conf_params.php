@@ -41,5 +41,12 @@ $params = array(
     'mailUsername' => 'testservice733@gmail.com',
     'mailPassword' => 'abc123AB1',
     'mailSecuity' => 'ssl',
+    'defaultLanguage' => 'en',
+    'translatedLanguages' => array('en', 'ar','ur'),
+    'text_position'=>array('en'=>'ltr','ar'=>'rtl','ur'=>'rtl'),
+    'otherLanguages' => array('ar','ur'),
+    'otherLanguages_arr' => array('ar'=>"Arabic",'ur'=>"Urdu"),
+    'https'=>false,
+    'notallowdCharactorsUrl' => array('[',']','@','!','$','&','(',')','*','+',';',"'",","),
 );
 ?>

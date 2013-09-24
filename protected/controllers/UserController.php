@@ -14,42 +14,23 @@ class UserController extends Controller {
      */
     public function filters() {
         return array(
-            'accessControl', // perform access control for CRUD operations
-            'postOnly + delete', // we only allow deletion via POST request
+            // 'accessControl', // perform access control for CRUD operations
+            'rights',
+            'https + index + view + update + create + changePassword'
         );
     }
 
-    /**
-     * Specifies the access control rules.
-     * This method is used by the 'accessControl' filter.
-     * @return array access control rules
-     */
-    public function accessRules() {
-        return array(
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('create', 'index', 'view',
-                ),
-                'users' => array('@'),
-            ),
-            array('allow',
-                'actions' => array('create', 'update',),
-                'expression' => 'Yii::app()->user->isAdmin',
-            //the 'user' var in an accessRule expression is a reference to Yii::app()->user
-            ),
-            array('allow',
-                'actions' => array('delete', 'update','toggleEnabled'),
-                'expression' => 'Yii::app()->user->isSuperAdmin',
-            //the 'user' var in an accessRule expression is a reference to Yii::app()->user
-            ),
-            array('deny', // deny all users
-                'users' => array('*'),
-            ),
-        );
+    public function allowedActions() {
+        return '@';
     }
 
     public function beforeAction($action) {
         Yii::app()->theme = "admin";
         parent::beforeAction($action);
+
+        $operations = array('create', 'update', 'index', 'delete');
+        parent::setPermissions($this->id, $operations);
+
         return true;
     }
 
@@ -69,8 +50,9 @@ class UserController extends Controller {
      */
     public function actionCreate() {
         $model = new User;
-        $user_profile = new UserProfile('create');
-        $selfSite = new SelfSite();
+
+        $cityList = CHtml::listData(City::model()->findAll(), 'city_id', 'city_name');
+
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
@@ -78,16 +60,54 @@ class UserController extends Controller {
         if (isset($_POST['User'])) {
 
             $model->attributes = $_POST['User'];
-         
+            $pass = $model->user_password;
+
             if ($model->save()) {
-        
+                /**
+                 * will send the email to create user
+                 */
+                $this->sendUserCreateEmail($model, $pass);
                 $this->redirect(array('view', 'id' => $model->user_id));
             }
         }
 
         $this->render('create', array(
             'model' => $model,
+            'cityList' => $cityList,
         ));
+    }
+
+    /**
+     * user creation email
+     */
+    public function sendUserCreateEmail($model, $password) {
+        $subject = "Your user is created  at " . Yii::app()->name;
+        $message = "";
+        if ($model->status_id == 2) {
+            $message = "
+                                    Your account is created  <br /><br />" .
+                    $this->createAbsoluteUrl('/web/user/activate', array('key' => $model->activation_key, 'user_id' => $model->user_id, 'city_id' => $model->city_id));
+        } else {
+            
+        }
+        /**
+         * 
+         */
+        if ($model->role_id == "2") {
+            $message.= "<br/><span>You are System User of " . $model->city->city_name . "</span><br/>";
+        }
+        $message.= "<span>Your Username is : " . $model->user_name . "</span><br /><br /> Thanks you ";
+        $message.= "<span>Your Password is : " . $password . "</span><br /><br /> Thanks you ";
+
+        $email['From'] = Yii::app()->params['adminEmail'];
+        $email['To'] = $model->user_email;
+        $email['Subject'] = $subject;
+        $body = "Thank you for registering your account on " . Yii::app()->name . " with following credentials , please validate your email <br/>" . $message;
+
+        $email['Body'] = $body;
+        $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
+
+        $this->sendEmail2($email);
     }
 
     /**
@@ -96,19 +116,22 @@ class UserController extends Controller {
      * @param integer $id the ID of the model to be updated
      */
     public function actionUpdate($id) {
-        $model = $this->loadModel($id);
+        $model = UserUpdate::model()->findByPk($id);
+
+        $cityList = CHtml::listData(City::model()->findAll(), 'city_id', 'city_name');
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
-        $model->user_password = "";
-        if (isset($_POST['User'])) {
-            $model->attributes = $_POST['User'];
+
+        if (isset($_POST['UserUpdate'])) {
+            $model->attributes = $_POST['UserUpdate'];
             if ($model->save())
                 $this->redirect(array('view', 'id' => $model->user_id));
         }
 
         $this->render('update', array(
             'model' => $model,
+            'cityList' => $cityList,
         ));
     }
 
@@ -144,12 +167,33 @@ class UserController extends Controller {
         $model = $this->loadModel($id);
         $this->layout = "";
         if ($model->status_id == 1) {
-            $model->status_id = 0;
+            $model->status_id = 2;
         } else {
             $model->status_id = 1;
         }
         echo $id;
-        User::model()->updateByPk($id,array("status_id"=>$model->status_id));
+        User::model()->updateByPk($id, array("status_id" => $model->status_id));
+    }
+
+    /**
+     * Change Password
+     */
+    public function actionChangePassword() {
+        $model = new ChangePassword;
+        if (Yii::app()->user->id) {
+            if (isset($_POST['ChangePassword'])) {
+                $model->attributes = $_POST['ChangePassword'];
+                if ($model->validate()) {
+                    if ($model->updatePassword()) {
+                        /*
+                         * here we will add sending email module to inform user for password change..
+                         */
+                        $this->redirect($this->createUrl('/user/changePassword'));
+                    }
+                }
+            }
+            $this->render('change_password', array('model' => $model));
+        }
     }
 
     /**
@@ -174,6 +218,63 @@ class UserController extends Controller {
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'user-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
+        }
+    }
+
+    /**
+     * send new invitation email to users
+     * to send email for activation of their
+     * account
+     */
+    public function actionSendInvitation() {
+
+        $dbusers = Yii::app()->db->createCommand()
+                ->select('user_name,user_email,user_id')
+                ->from("user")
+                ->where("source='outside'")
+                ->queryAll();
+
+        $users = array_chunk($dbusers, 15, true);
+
+        $this->render("send_invitation", array("users" => $users));
+    }
+
+    public function actionSendEmailinvitation() {
+        if (!empty($_POST['ids'])) {
+
+
+            $emails = explode("|", $_POST['ids']);
+           
+            foreach ($emails as $_id) {
+                $model = User::model()->findFromPrimerkey($_id);
+               
+                if (!empty($model)) {
+                   
+                    $dt = new DTFunctions();
+                    $activation_code = $dt->getRanddomeNo(15);
+                    $model->updateByPk($model->user_id, array("activation_key" => $activation_code));
+
+                    
+
+                    $url = $this->createAbsoluteUrl('/web/user/activate', array(
+                        'key' => $activation_code,
+                        'user_id' => $model->user_id,
+                        'city_id' => $model->city_id,
+                        'lang' => $this->currentLang
+                    ));
+
+                   
+                    $email['From'] = Yii::app()->params['adminEmail'];
+                    $email['To'] = $model->user_email;
+                    $email['Subject'] = "Your New Activation Link on " . Yii::app()->name;
+                    $body = $this->renderPartial("_sendInvitation", array('model' => $model, "url" => $url), true, false);
+
+                    $email['Body'] = $body;
+                    $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
+
+                    $this->sendEmail2($email);
+                }
+            }
         }
     }
 

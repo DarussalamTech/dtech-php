@@ -249,7 +249,7 @@ class MenusController extends Controller {
         $ary[] = array("id" => "1", "pid" => "0", "root_parent" => "1", "controller" => "site", "action" => "index", "default_title" => "Darussalam", "user_title" => "Darussalam", "is_assigned" => "Yes", "min_permission" => "Index", "weight" => "0");
 
         /** for user module * */
-        $ary[] = array("id" => "2", "pid" => "0", "root_parent" => "2", "controller" => "user", "action" => "index", "default_title" => "User", "user_title" => "User", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "3");
+        $ary[] = array("id" => "2", "pid" => "0", "root_parent" => "2", "controller" => "user", "action" => "index", "default_title" => "Admin Users", "user_title" => "Admin Users", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "3");
         $ary[] = array("id" => "3", "pid" => "2", "root_parent" => "2", "controller" => "user", "action" => "index", "default_title" => "List All", "user_title" => "List All", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "0");
         $ary[] = array("id" => "4", "pid" => "2", "root_parent" => "2", "controller" => "user", "action" => "create", "default_title" => "Create", "user_title" => "Create", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "2");
 
@@ -320,7 +320,7 @@ class MenusController extends Controller {
 
         /* admin module for the Customer managment */
 
-        $ary[] = array("id" => "35", "pid" => "0", "root_parent" => "35", "controller" => "customer", "action" => "index", "default_title" => "Customer Role", "user_title" => "Customer Role", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "3");
+        $ary[] = array("id" => "35", "pid" => "0", "root_parent" => "35", "controller" => "customer", "action" => "index", "default_title" => "Customers", "user_title" => "Customers", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "3");
         $ary[] = array("id" => "36", "pid" => "35", "root_parent" => "35", "controller" => "customer", "action" => "index", "default_title" => "List All", "user_title" => "List All", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "0");
 
 
@@ -333,8 +333,20 @@ class MenusController extends Controller {
         /** FOr order module * */
         $ary[] = array("id" => "40", "pid" => "0", "root_parent" => "40", "controller" => "order", "action" => "index", "default_title" => "Order", "user_title" => "Order", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "3");
         $ary[] = array("id" => "41", "pid" => "40", "root_parent" => "40", "controller" => "order", "action" => "index", "default_title" => "List All", "user_title" => "List All", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "0");
+        
+        /**
+         * Category other links
+         */
+        $ary[] = array("id" => "42", "pid" => "29", "root_parent" => "29", "controller" => "categories", "action" => "createParent", "default_title" => "Create Parent", "user_title" => "Create Parent", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "2");
+        $ary[] = array("id" => "43", "pid" => "29", "root_parent" => "29", "controller" => "categories", "action" => "indexParent", "default_title" => "List All Parent", "user_title" => "List All Parent", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "2");
 
-
+        /**
+         * product module 
+         */
+        
+        $ary[] = array("id" => "44", "pid" => "26", "root_parent" => "26", "controller" => "product", "action" => "slider", "default_title" => "Make Slider", "user_title" => "Make Slider", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "2");
+        $ary[] = array("id" => "45", "pid" => "26", "root_parent" => "26", "controller" => "product", "action" => "sliderSetting", "default_title" => "Slider Settings", "user_title" => "Slider Settings", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "2");
+        
         $this->updateWpbaseUrl();
         foreach ($ary as $attr) {
             $model = new Menu();
@@ -361,12 +373,11 @@ class MenusController extends Controller {
      * 
      * 
      */
-    
-    
+
     public function actionRebuildAssets() {
         $this->deleteDir();
     }
-    
+
     /**
      * for linux
      */

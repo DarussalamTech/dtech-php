@@ -59,9 +59,16 @@ class CreditCardForm extends CFormModel {
 
         Yii::import('application.extensions.anet_php_sdk.AuthorizeNetException');
 
-        define("AUTHORIZENET_API_LOGIN_ID", "9f84PWNhV9");
-        define("AUTHORIZENET_TRANSACTION_KEY", "7A4Wfgq47Uv6zU93");
-        define("AUTHORIZENET_SANDBOX", true);
+        $criteria = new CDbCriteria();
+        $criteria->addCondition("name = 'Credit Card'");
+        $model = ConfPaymentMethods::model()->find($criteria);
+
+        /**
+         * fetching information from db
+         */
+        define("AUTHORIZENET_API_LOGIN_ID", $model->key);
+        define("AUTHORIZENET_TRANSACTION_KEY", $model->secret);
+        define("AUTHORIZENET_SANDBOX", ($model->sandbox) == "Enable" ? true : false);
 
         $author_rize = new AuthorizeNetException();
         $sale = new AuthorizeNetAIM;
@@ -88,9 +95,11 @@ class CreditCardForm extends CFormModel {
 
         if ($response->approved) {
             $transaction_id = $response->transaction_id;
-            $this->saveOrder($transaction_id);
-
-            return array();
+            $order_id = $this->saveOrder($transaction_id);
+            /**
+             * saving order information
+             */
+            return array("order_id" => $order_id);
 
             //approved- Your order completed successfully
         } elseif ($response->declined) {
@@ -102,6 +111,8 @@ class CreditCardForm extends CFormModel {
             $error['message'] = $response->response_reason_text;
             //error
         }
+
+
         return $error;
     }
 
@@ -127,15 +138,20 @@ class CreditCardForm extends CFormModel {
     public function saveOrder($transaction_id = "") {
         $error['status'] = false;
         $error['message'] = 'Payment successfully';
+        
+        
 
         //payment was completed successfully
         $order = new Order;
         $order->user_id = Yii::app()->user->id;
         $order->total_price = Yii::app()->session['total_price'];
         $order->order_date = date('Y-m-d');
+        $order->city_id = $_REQUEST['city_id'];
         $order->transaction_id = $transaction_id;
-        $order->payment_method_id = $this->payment_method;
+       
 
+        $confM = ConfPaymentMethods::model()->find("name = '" . $this->payment_method . "'");
+        $order->payment_method_id = $confM->id;
         $ordetail = array();
         $cart_model = new Cart();
         $cart = $cart_model->findAll('user_id=' . Yii::app()->user->id);
@@ -151,10 +167,12 @@ class CreditCardForm extends CFormModel {
         }
 
         $order->setRelationRecords('orderDetails', is_array($ordetail['OrderDetail']) ? $ordetail['OrderDetail'] : array());
-
+       
         if ($order->save()) {
+
             return $order->order_id;
         }
+   
         return "";
     }
 

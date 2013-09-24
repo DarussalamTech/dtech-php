@@ -10,7 +10,7 @@ class HybridController extends Controller {
      * @param type $provider
      * @return boolean
      */
-    public function actionLogin($provider = "facebook") {
+    public function actionLogin($provider = "facebook", $blog = "") {
 
         $this->initConfigurations();
 
@@ -33,7 +33,18 @@ class HybridController extends Controller {
 
         $config = realPath(Yii::app()->basePath . '/extensions/hybridauth/config.php');
 
+        /**
+         * To preserve
+         */
+        $logINmodel = new LoginForm;
 
+        if (isset($_POST['LoginForm'])) {
+            $logINmodel->attributes = $_POST['LoginForm'];
+
+            if (!empty($logINmodel->route)) {
+                Yii::app()->user->returnUrl = $logINmodel->route;
+            }
+        }
 
         try {
             $hybridauth = new Hybrid_Auth($config);
@@ -41,10 +52,6 @@ class HybridController extends Controller {
             $adapter = $hybridauth->authenticate($provider);
 
             $user_profile = $adapter->getUserProfile();
-
-
-
-
 
             /**
              * 
@@ -61,6 +68,7 @@ class HybridController extends Controller {
                 $cart->addCartByUser();
                 $wishlist = new WishList();
                 $wishlist->addWishlistByUser();
+
                 $this->redirect(Yii::app()->user->returnUrl);
             } else {
 
@@ -77,7 +85,8 @@ class HybridController extends Controller {
                     $wishlist->addWishlistByUser();
                     $this->redirect(Yii::app()->user->returnUrl);
                 } else {
-                    $this->redirect($this->createUrl("/web/hybrid/registerSocial", array("provider" => $provider)));
+                    Yii::app()->user->setFlash('hybrid', "Please sign up , your social network didn't provide any email");
+                    $this->redirect($this->createUrl("/web/user/register", array("provider" => $provider)));
                 }
             }
 

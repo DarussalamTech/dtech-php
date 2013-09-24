@@ -22,7 +22,9 @@ if (!(Yii::app()->user->isGuest)) {
     <div class = "right_float">
         <span class="creatdate">
             <?php
-            echo CHtml::link("Edit", $this->createUrl("update", array("id" => $model->primaryKey)), array('class' => "print_link_btn"))
+            if (isset($this->OpPermission[ucfirst($this->id) . ".Update"]) && $this->OpPermission[ucfirst($this->id) . ".Update"]) {
+                echo CHtml::link("Edit", $this->createUrl("update", array("id" => $model->primaryKey)), array('class' => "print_link_btn"));
+            }
             ?>
         </span>
     </div>
@@ -32,11 +34,14 @@ $this->widget('zii.widgets.CDetailView', array(
     'data' => $model,
     'attributes' => array(
         'user_email',
-        'user_password',
-        'role_id',
-        'status_id',
-        'city_id',
-        'is_active',
+        array(
+            'name' => 'status_id',
+            'value' => $model->status->title,
+        ),
+        array(
+            'name' => 'city_id',
+            'value' => !empty($model->city) ? $model->city->city_name : "",
+        ),
         'site_id',
     ),
 ));

@@ -1,0 +1,8 @@
+Array
+(
+    [name] => books_bw.png
+    [type] => application/octet-stream
+    [tmp_name] => /tmp/phpdDaeGn
+    [error] => 0
+    [size] => 10213
+)

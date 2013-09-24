@@ -12,7 +12,7 @@
  * @property integer $postcode_required
  * @property integer $status
  */
-class Region extends CActiveRecord
+class Region extends DTActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.

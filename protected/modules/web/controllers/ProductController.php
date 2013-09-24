@@ -9,12 +9,28 @@ class ProductController extends Controller {
     public $layout = '//layouts/column2';
 
     /**
+     * for category filter
+     * @var type 
+     */
+    public $is_cat_filter = false;
+
+    /**
      * @return array action filters
      */
     public function filters() {
         return array(
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
+            //'https +login+LoginAdmin', // Force https, but only on login pages
+            "http +array('viewcart',
+                    'editcart',
+                    'viewwishlist', 'editwishlist', 'allproducts',
+                    'featuredproducts',
+                    'bestsellings',
+                    'productdetail',
+                    'productlisting',
+                    'productfilter',
+                    'productDetailLang', 'category')"
         );
     }
 
@@ -26,10 +42,15 @@ class ProductController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow all users to perform 'index' and 'view' actions
-                'actions' => array('viewcart', 'editcart', 'viewwishlist', 'editwishlist', 'allproducts',
-                    'featuredproducts', 'bestsellings', 'productdetail', 'productlisting',
+                'actions' => array('viewcart',
+                    'editcart',
+                    'viewwishlist', 'editwishlist', 'allproducts',
+                    'featuredproducts',
+                    'bestsellings',
+                    'productdetail',
+                    'productlisting',
                     'productfilter',
-                    'productDetailLang'),
+                    'productDetailLang', 'category'),
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -41,94 +62,15 @@ class ProductController extends Controller {
             ),
         );
     }
+    
 
-    /**
-     * view cart page
-     */
-    public function actionViewcart() {
-
-
-        Yii::app()->user->SiteSessions;
-
-        Yii::app()->theme = Yii::app()->session['layout'];
-        Yii::app()->controller->layout = '//layouts/main';
-
-        $cart = Cart::model()->getCartLists();
-
-        $this->render('viewcart', array('cart' => $cart));
-    }
-
-    /**
-     * set Total amount in session
-     */
-    public function setTotalAmountSession($grand_total, $total_quantity, $description) {
-        Yii::app()->session['total_price'] = round($grand_total, 2);
-        Yii::app()->session['quantity'] = $total_quantity;
-        Yii::app()->session['description'] = $description;
-    }
-
-    /**
-     * edit or delete cart
-     */
-    public function actionEditcart() {
-
-        if ($_REQUEST['type'] == 'delete_cart') {
-            $cart_model = new Cart();
-
-            Cart::model()->deleteByPk($_REQUEST['cart_id']);
-        } else {
-            $cart_model = new Cart();
-            $cart = $cart_model->find('cart_id=' . $_REQUEST['cart_id']);
-            $cart_model = $cart;
-            $cart_model->quantity = $_REQUEST['quantity'];
-            $cart_model->save();
-        }
-        $cart = Cart::model()->getCartLists();
-        $cart_list_count = Cart::model()->getCartListCount();
-
-
-        $_view_cart = $this->renderPartial("_view_cart", array('cart' => $cart), true, true);
-        echo CJSON::encode(array("_view_cart" => $_view_cart, "cart_list_count" => $cart_list_count));
-    }
-
-    /**
-     * For viewing the list of product which add into wishlist
-     */
-    public function actionViewwishlist() {
-
-
-        Yii::app()->user->SiteSessions;
-
-        Yii::app()->theme = Yii::app()->session['layout'];
-        Yii::app()->controller->layout = '//layouts/main';
-
-
-        $wishlist = WishList::model()->getWishLists();
-
-        $this->render('viewwishlist', array('wishList' => $wishlist));
-    }
-
-    /**
-     * For Edit or delete the wishlist product
-     */
-    public function actionEditwishlist() {
-
-        if ($_REQUEST['type'] == 'delete_wishlist') {
-            $wishlist_model = new WishList();
-            $wishlist_model->findByPk($_REQUEST['id'])->delete();
-            /**
-             * get wish list again
-             */
-            $wishlist = WishList::model()->getWishLists();
-            $wish_list_count = WishList::model()->getWishListCount();
-            $_view_list = $this->renderPartial("_view_wish_lists", array('wishList' => $wishlist), true, true);
-
-            echo CJSON::encode(array("_view_list" => $_view_list, "wish_list_count" => $wish_list_count));
-        }
-    }
 
     //front site actions
     public function actionallProducts() {
+
+        $this->is_cat_filter = true;
+        Yii::app()->user->SiteSessions;
+    
 
         /**
          * ajax based
@@ -137,16 +79,58 @@ class ProductController extends Controller {
             $this->productfilter();
         } else {
             //queries 
-            Yii::app()->controller->layout = '//layouts/main';
-            Yii::app()->user->SiteSessions;
+
 
             $dataProvider = Product::model()->allProducts();
             $all_products = Product::model()->returnProducts($dataProvider);
 
-            $allCategories = Categories::model()->allCategories();
+            /**
+             * Temporary solution
+             */
+            $parent_cat = Categories::model()->getParentCategoryId("Books");
+
+            $allCategories = Categories::model()->allCategories("", $parent_cat);
 
 
-            $this->render('all_products', array(
+            $this->render('//product/all_products', array(
+                'products' => $all_products,
+                'dataProvider' => $dataProvider,
+                'allCate' => $allCategories));
+        }
+    }
+
+    //front site actions
+    public function actionCategory($slug) {
+
+
+
+        $this->is_cat_filter = true;
+        Yii::app()->user->SiteSessions;
+
+
+        /**
+         * ajax based
+         */
+        if (isset($_POST['ajax'])) {
+            $this->productfilter($slug);
+        } else {
+            //queries 
+
+
+            $dataProvider = Product::model()->allProducts("", "", "", $slug);
+            $all_products = Product::model()->returnProducts($dataProvider);
+
+            /**
+             * Temporary solution
+             */
+            $parent_cat = Categories::model()->getParentCategoryId("Books");
+
+            $allCategories = Categories::model()->allCategories("", $parent_cat);
+
+
+
+
+            $this->render('//product/all_products', array(
                 'products' => $all_products,
                 'dataProvider' => $dataProvider,
                 'allCate' => $allCategories));
@@ -157,10 +141,17 @@ class ProductController extends Controller {
      *  to get product on ajax bases
      *  for filter of category
      */
-    public function productfilter() {
-        $dataProvider = Product::model()->allProducts();
+    public function productfilter($slug = "") {
+        $dataProvider = Product::model()->allProducts("", "", "", $slug);
         $all_products = Product::model()->returnProducts($dataProvider);
-        $this->renderPartial("_product_list", array('products' => $all_products,
+        $category = "";
+        if (isset($_REQUEST['slug'])) {
+            $title = explode("-", $_REQUEST['slug']);
+            $category = $title = $title[0];
+        }
+        $this->renderPartial("//product/_product_list", array(
+            'products' => $all_products,
+            'category' => $category,
             'dataProvider' => $dataProvider,));
     }
 
@@ -173,7 +164,7 @@ class ProductController extends Controller {
         $order_detail = new OrderDetail;
         $dataProvider = $order_detail->bestSellings();
         $best_sellings = $order_detail->getBestSelling($dataProvider);
-        $this->renderPartial("_product_list", array('products' => $best_sellings,
+        $this->renderPartial("//product/_product_list", array('products' => $best_sellings,
             'dataProvider' => $dataProvider,));
     }
 
@@ -185,7 +176,7 @@ class ProductController extends Controller {
             $this->productFeaturedfilter();
         } else {
             Yii::app()->user->SiteSessions;
-            Yii::app()->theme = Yii::app()->session['layout'];
+
             //queries 
             $order_detail = new OrderDetail;
             $dataProvider = $order_detail->featuredBooks();
@@ -194,8 +185,8 @@ class ProductController extends Controller {
             $categories = new Categories();
             $allCategories = $categories->allCategories("featured");
 
-            Yii::app()->controller->layout = '//layouts/main';
-            $this->render('featured_products', array(
+
+            $this->render('//product/featured_products', array(
                 'products' => $featured_products,
                 'dataProvider' => $dataProvider,
                 'allCate' => $allCategories));
@@ -212,7 +203,7 @@ class ProductController extends Controller {
         $order_detail = new OrderDetail;
         $dataProvider = $order_detail->featuredBooks();
         $featured_products = $order_detail->getFeaturedProducts($dataProvider);
-        $this->renderPartial("_product_list", array('products' => $featured_products,
+        $this->renderPartial("//product/_product_list", array('products' => $featured_products,
             'dataProvider' => $dataProvider,));
     }
 
@@ -242,59 +233,150 @@ class ProductController extends Controller {
         }
     }
 
-    public function actionproductListing() {
-        Yii::app()->theme = Yii::app()->session['layout'];
-        Yii::app()->controller->layout = '//layouts/main';
-
-        $this->render('product_listing');
-    }
-
     /**
      * product detail
      */
     public function actionproductDetail() {
         Yii::app()->user->SiteSessions;
-        Yii::app()->theme = Yii::app()->session['layout'];
+
+        try {
+            $id = explode("-", $_REQUEST['slug']);
+            $id = $id[count($id) - 1];
+
+            $product = Product::model()->localized(Yii::app()->controller->currentLang)->findByPk($id);
+           
+         
+
+            /**
+             * if no record found in english
+             */
+            if (empty($product)) {
+                $product = Product::model()->findByPk($id);
+            }
 
 
-        $product = Product::model()->findByPk($_REQUEST['product_id']);
 
-        Yii::app()->controller->layout = '//layouts/main';
+            /**
+             * defining array for rendarparital for two main categories
+             */
+            $view_array = array(
+                "Books" => 'product',
+                "Quran" => 'quran'
+            );
+            $view = "others";
 
-        /**
-         *  getting value of poduct rating
-         */
-        $rating_value = ProductReviews::model()->calculateRatingValue($product->product_id);
+            if (isset($view_array[$product->parent_category->category_name])) {
+                $view = $view_array[$product->parent_category->category_name];
+            }
 
-        $this->render('product_detail', array('product' => $product, "rating_value" => $rating_value));
+
+
+            /**
+             *  getting value of poduct rating
+             */
+            $rating_value = ProductReviews::model()->calculateRatingValue($id);
+
+            $this->render('//product/product_detail', array(
+                'product' => $product,
+                "rating_value" => $rating_value,
+                "view" => $view
+            ));
+        } catch (Exception $e) {
+
+            Yii::app()->theme = 'landing_page_theme';
+            throw new CHttpException(500, "   Sorry ! Record Not found in this language");
+        }
     }
 
     /**
-     * product detail change
+     * Prview detail
      */
-    public function actionproductDetailLang($id) {
-
-        if (isset($_POST['lang_id'])) {
-
+    public function actionproductPreview($id = "") {
+        Yii::app()->user->SiteSessions;
 
 
-            $product = Product::model();
+        try {
 
-            $product = $product->findByPk($id);
-            $product->productProfile = $product->productSelectedProfile;
+
+            $product = Product::model()->findByPk($_REQUEST['product_id']);
+
+            /**
+             * if no record found in english
+             */
+            if (empty($product)) {
+                $product = Product::model()->findByPk($id);
+            }
+
+
+            /**
+             * defining array for rendarparital for two main categories
+             */
+            $view_array = array(
+                "Books" => 'product',
+                "Quran" => 'quran'
+            );
+            $view = "other";
+
+            if (isset($view_array[$product->parent_category->category_name])) {
+                $view = $view_array[$product->parent_category->category_name];
+            }
+
+
 
 
             /**
              *  getting value of poduct rating
              */
             $rating_value = ProductReviews::model()->calculateRatingValue($product->product_id);
-            $right_data = $this->renderPartial("_product_detail_data", array('product' => $product, "rating_value" => $rating_value), true, true);
-            $left_data = $this->renderPartial("_product_detail_image", array('product' => $product), true, false);
 
-            echo CJSON::encode(array(
-                "right_data" => $right_data,
-                "left_data" => $left_data,
+            $this->render('//product/product_detail', array(
+                'product' => $product,
+                "rating_value" => $rating_value,
+                "view" => $view
             ));
+        } catch (Exception $e) {
+
+            Yii::app()->theme = 'landing_page_theme';
+            throw new CHttpException(500, "   Sorry ! Record Not found");
+        }
+    }
+
+    /**
+     * product detail change
+     */
+    public function actionproductDetailLang($id = "") {
+
+        if (isset($_POST['lang_id']) || isset($_REQUEST['profile_id'])) {
+
+
+            Yii::app()->user->SiteSessions;
+            $product = Product::model();
+
+            $product = Product::model()->localized(Yii::app()->controller->currentLang)->findByPk($id);
+
+            if (!empty($_POST['lang_id'])) {
+
+
+                $product->productProfile = $product->productSelectedProfile;
+            } else if (!empty($_REQUEST['profile_id'])) {
+                $product->productProfile = $product->productloadProfile;
+            }
+
+            /**
+             *  getting value of poduct rating
+             */
+            $rating_value = ProductReviews::model()->calculateRatingValue($product->product_id);
+
+            $lower_detail_data = $this->renderPartial("//product/_product_detail_data", array('product' => $product, "rating_value" => $rating_value), true, true);
+            $upper_detail_data = $this->renderPartial("//product/_product_add_to_cart", array('product' => $product, "rating_value" => $rating_value), true, true);
+            $image_data = $this->renderPartial("//product/_product_detail_image", array('product' => $product), true, false);
+            $all_data = array(
+                "lower_detail_data" => trim($lower_detail_data),
+                "upper_detail_data" => trim($upper_detail_data),
+                "image_data" => trim($image_data),
+            );
+            //CVarDumper::dump($all_data,10,true);
+            echo CJSON::encode($all_data);
         }
     }
 

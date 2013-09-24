@@ -1,12 +1,10 @@
 <?php
 
 class UserProfileController extends Controller {
-
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
      * using two-column layout. See 'protected/views/layouts/column2.php'.
      */
-    public $layout = '//layouts/column2';
 
     /**
      * @return array action filters
@@ -15,6 +13,7 @@ class UserProfileController extends Controller {
         return array(
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
+            "http + array('index','view')"
         );
     }
 
@@ -26,7 +25,7 @@ class UserProfileController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view'),
+                'actions' => array('index', 'view',),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -52,9 +51,7 @@ class UserProfileController extends Controller {
      */
     public function actionIndex() {
 
-
         Yii::app()->user->SiteSessions;
-        Yii::app()->controller->layout = '//layouts/main';
         $model = UserProfile::model()->findByPk(Yii::app()->user->id);
         /**
          * to persist old pic for this
@@ -71,23 +68,26 @@ class UserProfileController extends Controller {
         if (isset($_POST['UserProfile'])) {
             $model->id = Yii::app()->user->id;
             $model->attributes = $_POST['UserProfile'];
-            $user_file = DTUploadedFile::getInstance($model, 'avatar');
-            $model->avatar = $user_file;
-            if (empty($user_file)) {
+
+            if (empty($model->avatar)) {
                 $model->avatar = $old_pic;
             }
 
             if ($model->save()) {
                 $upload_path = DTUploadedFile::creeatRecurSiveDirectories(array("user_profile", Yii::app()->user->id));
-                if (!empty($user_file)) {
-                    $user_file->saveAs($upload_path . $user_file->name);
+                if (!empty($model->avatar)) {
+                    $source = Yii::app()->basePath . "/../uploadify/temp/" . Yii::app()->user->id . "/" . $model->avatar;
+                    if (file_exists($source)) {
+                        copy(Yii::app()->basePath . "/../uploadify/temp/" . Yii::app()->user->id . "/" . $model->avatar, $upload_path . $model->avatar);
+                        unlink($source);
+                    }
                 }
                 Yii::app()->user->setFlash("profie_success", "Your Profile has been updated successfully");
                 $this->redirect($this->createUrl("index"));
             }
         }
 
-        $this->render('update', array(
+        $this->render('//userProfile/update', array(
             'model' => $model,
         ));
     }

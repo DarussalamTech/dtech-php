@@ -13,43 +13,24 @@ class OrderController extends Controller {
      */
     public function filters() {
         return array(
-            'accessControl', // perform access control for CRUD operations
-            'postOnly + delete', // we only allow deletion via POST request
+            // 'accessControl', // perform access control for CRUD operations
+            'rights',
+            'https + index + view + update + create + manageOderHistory',
         );
+    }
+
+    public function allowedActions() {
+        return '@';
     }
 
     public function beforeAction($action) {
         Yii::app()->theme = "admin";
         parent::beforeAction($action);
-        return true;
-    }
 
-    /**
-     * Specifies the access control rules.
-     * This method is used by the 'accessControl' filter.
-     * @return array access control rules
-     */
-    public function accessRules() {
-        return array(
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view',
-                ),
-                'users' => array('@'),
-            ),
-            array('allow',
-                'actions' => array('update', 'orderDetail'),
-                'expression' => 'Yii::app()->user->isAdmin',
-            //the 'user' var in an accessRule expression is a reference to Yii::app()->user
-            ),
-            array('allow',
-                'actions' => array('delete', 'update', 'orderDetail'),
-                'expression' => 'Yii::app()->user->isSuperAdmin',
-            //the 'user' var in an accessRule expression is a reference to Yii::app()->user
-            ),
-            array('deny', // deny all users
-                'users' => array('*'),
-            ),
-        );
+        $operations = array('create', 'update', 'index', 'delete');
+        parent::setPermissions($this->id, $operations);
+
+        return true;
     }
 
     /**
@@ -66,15 +47,87 @@ class OrderController extends Controller {
         $model_d = new OrderDetail('Search');
         $model_d->unsetAttributes();  // clear any default values
         $model_d->order_id = $id;
-        if (isset($_GET['Order'])) {
+        if (isset($_GET['OrderDetail'])) {
             $model_d->attributes = $_GET['Order'];
         }
-        
+
+        $orderStatuses = Status::model()->gettingOrderStatus();
+
+        $order_history = $this->manageOderHistory($model_d, $orderStatuses);
         $this->render('view', array(
             'model' => $model,
             'model_d' => $model_d,
-            
+            'order_history' => $order_history,
+            'orderStatuses' => $orderStatuses
         ));
+    }
+
+    /**
+     * print the statment
+     * @param type $id
+     */
+    public function actionPrint($id) {
+        $this->layout = "";
+
+        $model = $this->loadModel($id);
+
+        /**
+         * order detail part
+         * 
+         */
+        $model_d = new OrderDetail('Search');
+        $model_d->unsetAttributes();  // clear any default values
+        $model_d->order_id = $id;
+        if (isset($_GET['Order'])) {
+            $model_d->attributes = $_GET['Order'];
+        }
+        $orderStatuses = Status::model()->gettingOrderStatus();
+
+        $order_history = $this->manageOderHistory($model_d, $orderStatuses);
+        $this->renderPartial('print', array(
+            'model' => $model,
+            'model_d' => $model_d,
+            'order_history' => $order_history
+                ), false, false);
+    }
+
+    /**
+     * manage order history for 
+     * in admin panel
+     * that wll trakc the order
+     * all $orderStatuses;
+     */
+    public function manageOderHistory($order, $orderStatuses) {
+        $orderHistory = new OrderHistory();
+
+        $orderHistory->user_id = Yii::app()->user->id;
+        $orderHistory->order_id = $order->order_id;
+
+        if (isset($_POST['OrderHistory'])) {
+            $orderHistory->attributes = $_POST['OrderHistory'];
+
+
+            if ($orderHistory->save()) {
+                $old_status = $order->order->status;
+                Order::model()->updateByPk($order->order_id, array("status" => $orderHistory->status));
+                $order = Order::model()->findByPk($order->order_id);
+
+
+
+                $this->manageStock($old_status, $order, $orderStatuses);
+                if ($orderHistory->is_notify_customer == 1) {
+                    /**
+                     * if admin wants to comments in email then this comment
+                     * var will be filled
+                     */
+                    $comments = $orderHistory->include_comment == 1 ? $orderHistory->comment : "";
+                    $this->sendStatusEmail($order, $old_status, $comments);
+                }
+                $this->redirect($this->createUrl("view", array("id" => $order->order_id)));
+            }
+        }
+
+        return $orderHistory;
     }
 
     /**
@@ -83,14 +136,186 @@ class OrderController extends Controller {
      */
     public function actionUpdate($id) {
         $model = $this->loadModel($id);
+
+        $old_status = $model->status;
+
+
         if (isset($_POST['Order'])) {
             $model->attributes = $_POST['Order'];
-            $model->updateByPk($id, array("status" => $model->status));
-            $this->redirect(array("view", "id" => $id));
+
+            $model->updateByPk($id, array("status" => $model->status, "update_time" => new CDbExpression('NOW()')));
+            $model->generateAudit();
+
+
+
+            $this->manageStock($old_status, $model, $model->all_status);
+            if ($model->notifyUser == 1) {
+                $this->sendStatusEmail($model, $old_status);
+            }
+            /**
+             * if not in case of ajax
+             */
+            if (!isset($_POST['ajax'])) {
+                $this->redirect(array("view", "id" => $id));
+            }
         }
-        $this->render('update', array(
-            'model' => $model,
-        ));
+        if (!isset($_POST['ajax'])) {
+            $this->render('update', array(
+                'model' => $model,
+            ));
+        }
+    }
+
+    /**
+     *  manage stock for product in 
+     *  admin in 
+     *  while performing the task 
+     * @param type $old_status
+     * @param type $model
+     * @param $orderStatuses = Status::model()->gettingOrderStatus();
+     */
+    public function manageStock($old_status, $model, $orderStatuses) {
+
+        /*
+         * check wether the order status is shipped or not
+         * its old status is process or pending
+         * by calling the function 
+         */
+        if (($orderStatuses[$old_status] == "Process" || $orderStatuses[$old_status] == "Pending") && $orderStatuses[$model->status] == 'Shipped') {
+            $model->decreaseStock();
+            Yii::app()->user->setFlash("status", "Your products stock has been updated (Decreased)");
+        }
+
+        /*
+         * Logic to proces when an order is canceld  
+         * and its last status is completed
+         */
+
+        if ($orderStatuses[$old_status] == "Shipped" &&
+                ($orderStatuses[$model->status] == 'Cancelled' || $orderStatuses[$model->status] == 'Refunded')) {
+            $model->increaseStock();
+            Yii::app()->user->setFlash("status", "Your products stock has been updated  (Increased)");
+        }
+    }
+
+    /**
+     * 
+     * @param type $model
+     * @param type $oldStatus
+     * @param type $comments
+     * 
+     * send status email
+     * old status changes to new 
+     */
+    public function sendStatusEmail($model, $oldStatus, $comments = "") {
+
+        $orderStatuses = Status::model()->gettingOrderStatus();
+
+        $email['To'] = $model->user->user_email;
+        $email['From'] = Yii::app()->params['adminEmail'];
+        $email['Subject'] = "Order #" . $model->order_id . " has been changed ";
+        $email['Body'] = "Your order #" . $model->order_id . " status has been changes from " . $orderStatuses[$oldStatus] . " to " . $orderStatuses[$model->status];
+        $email['Body'].= "<br/>" . $comments;
+
+        $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
+
+        $this->sendEmail2($email);
+    }
+
+    /**
+     * managing order detail quanity 
+     * will show the user thats product is updated 
+     * the quantity or not
+     * @param type $id
+     */
+    public function actionOrderProductQuantity($id) {
+        $order_detail = OrderDetail::model()->findByPk($id);
+        if (isset($_POST['OrderDetail'])) {
+            $order_detail->attributes = $_POST['OrderDetail'];
+
+            $order_detail->quantity = $_POST['OrderDetail']['quantity'];
+
+            $productProfile = ProductProfile::model()->findByPk($order_detail->product_profile_id);
+
+            if ($order_detail->quantity <= $productProfile->quantity) {
+
+                OrderDetail::model()->updateByPk($id, array("quantity" => $order_detail->quantity));
+                $orderDetail = OrderDetail::model()->findByPk($id);
+                $orderDetail->saveOrderDetailHistory();
+            } else {
+                echo "None";
+            }
+        }
+    }
+
+    /**
+     * revert the line item to product
+     * @param type $id
+     */
+    public function actionRevertlineItem($id) {
+
+        $model = OrderDetail::model()->findByPk($id);
+        /**
+         * send back form will treate to send this product
+         * to revert
+         */
+        $sendBackForm = new SendBackStock();
+        $sendBackForm->order_quantity = $model->quantity;
+        $sendBackForm->back_quanity = $model->quantity;
+
+        if (isset($_POST['SendBackStock'])) {
+            $sendBackForm->attributes = $_POST['SendBackStock'];
+            if ($sendBackForm->validate()) {
+                $available_quantity = $sendBackForm->order_quantity - $sendBackForm->back_quanity;
+                OrderDetail::model()->updateByPk($id, array("quantity" => $available_quantity));
+                $orderDetail = OrderDetail::model()->findByPk($id);
+                /**
+                 * senback to stock dats y 
+                 */
+                /**
+                 * if both quanity are equal then product is fully reverted
+                 */
+                if ($sendBackForm->order_quantity == $sendBackForm->back_quanity) {
+                    $orderDetail->saveOrderDetailHistory(1);
+                } else {
+                    /**
+                     * 2 is for partially reverted item
+                     */
+                    $orderDetail->saveOrderDetailHistory(2);
+                }
+
+                ProductProfile::model()->updateStock($sendBackForm->back_quanity, $orderDetail->product_profile_id);
+            }
+        }
+
+        $this->renderPartial("_stock", array(
+            "model" => $model,
+            'sendBackForm' => $sendBackForm,
+                ), false, true);
+    }
+
+    /**
+     * update address for shipping 
+     * and billing
+     */
+    public function actionUpdateuseraddress($id, $model) {
+        $addressModel = $model::model()->findByPk($id);
+        $regionList = CHtml::listData(Region::model()->findAll(), 'id', 'name');
+        /**
+         * 
+         */
+        if (isset($_POST[$model])) {
+            $addressModel->attributes = $_POST[$model];
+            if ($addressModel->save()) {
+                $this->redirect($this->createUrl("/order/updateuseraddress", array("id" => $id, "model" => $model)));
+            }
+        }
+
+        $this->renderPartial("_change_billing_shipping", array(
+            "model" => $addressModel,
+            'regionList' => $regionList,
+            "address" => $model
+                ), false, true);
     }
 
     /**
@@ -115,6 +340,7 @@ class OrderController extends Controller {
         if (isset($_GET['Order']))
             $model->attributes = $_GET['Order'];
 
+
         $this->render('index', array(
             'model' => $model,
         ));
@@ -131,8 +357,23 @@ class OrderController extends Controller {
         $this->renderPartial('_order_detail', array(
             'model' => $model,
             'user_name' => $_POST['username'],
-        ));
+            "parent_model" => Order::model()->findByPk($id),
+                ), false, true);
         Yii::app()->end();
+    }
+
+    /**
+     * hisotry of line items
+     */
+    public function actionHisotryLineItem($id) {
+        $model = new OrderHistoryDetail('Search');
+        $model->unsetAttributes();  // clear any default values
+        $model->order_detail_id = $id;
+        if (isset($_GET['OrderHistoryDetail'])) {
+            $model->attributes = $_GET['OrderHistoryDetail'];
+        }
+
+        $this->renderPartial("_order_detail_history", array("model" => $model));
     }
 
     /**

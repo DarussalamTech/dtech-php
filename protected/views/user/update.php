@@ -13,4 +13,4 @@ $this->renderPartial("/common/_left_menu");
 
 <h1>Update User <?php echo $model->user_id; ?></h1>
 
-<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php echo $this->renderPartial('_form', array('model'=>$model, 'cityList' => $cityList,)); ?>

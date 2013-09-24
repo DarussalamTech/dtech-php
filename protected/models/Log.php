@@ -46,7 +46,7 @@ class Log extends DTActiveRecord
             array('action, user_id, product_id, ip, browser, url, user_name, added_date', 'required'),
             array('user_id, product_id', 'numerical', 'integerOnly' => true),
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
-            array('activity_log', 'safe'),
+            
             array('action', 'length', 'max' => 100),
             array('ip', 'length', 'max' => 20),
             array('browser, url, user_name, added_date', 'length', 'max' => 255),

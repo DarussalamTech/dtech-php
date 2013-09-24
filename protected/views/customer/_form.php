@@ -41,49 +41,31 @@
         <?php echo $form->error($model, 'user_email'); ?>
     </div>
 
-    <div class="row">
-        <?php echo $form->labelEx($model, 'user_password'); ?>
-        <?php echo $form->passwordField($model, 'user_password', array('size' => 60, 'maxlength' => 255)); ?>
-        <?php echo $form->error($model, 'user_password'); ?>
-    </div>
+    <?php
+    if ($model->isNewRecord):
+        ?>
+        <div class="row">
+            <?php echo $form->labelEx($model, 'user_password'); ?>
+            <?php echo $form->passwordField($model, 'user_password', array('size' => 60, 'maxlength' => 255)); ?>
+            <?php echo $form->error($model, 'user_password'); ?>
+        </div>
 
-    <div class="row">
-        <?php echo $form->labelEx($model, 'user_password2'); ?>
-        <?php echo $form->passwordField($model, 'user_password2', array('size' => 60, 'maxlength' => 255)); ?>
-        <?php echo $form->error($model, 'user_password2'); ?>
-    </div>
+        <div class="row">
+            <?php echo $form->labelEx($model, 'user_password2'); ?>
+            <?php echo $form->passwordField($model, 'user_password2', array('size' => 60, 'maxlength' => 255)); ?>
+            <?php echo $form->error($model, 'user_password2'); ?>
+        </div>
+        <?php
+    endif;
+    ?>
 
     <?php
     if (!Yii::app()->user->isGuest) {
         ?>
 
-        <div class="row">
-            <?php echo $form->labelEx($model, 'city_id'); ?>
-
-            <?php //$models = City::model()->findAll(); ?>
-            <?php $lsd = CHtml::listData(City::model()->findAll(), 'city_id', 'city_name'); ?>
-            <?php echo $form->dropDownList($model, 'city_id', $lsd, array('prompt' => 'Select city')); ?>
-            <?php //echo $form->textField($model,'city_id');    ?>
-            <?php echo $form->error($model, 'city_id'); ?>
-        </div>
-
-
-
-
-        <div class="row">
-            <?php echo $form->labelEx($model, 'activation_key'); ?>
-            <?php echo $form->textField($model, 'activation_key', array('size' => 60, 'maxlength' => 255)); ?>
-            <?php echo $form->error($model, 'activation_key'); ?>
-        </div>
-
-        <div class="row">
-            <?php //$listd=CHtml::listData(User::model()->findAll(),'user_id','is_active'); ?>
-            <?php echo $form->labelEx($model, 'is_active'); ?>
-            <?php // echo $form->activeDropDownList($model,'is_active',$listd, array('prompt'=>'Select status'));   ?>
-            <?php echo zHtml::enumDropDownList($model, 'is_active'); ?>
-
-            <?php echo $form->error($model, 'is_active'); ?>
-        </div>
+        <?php
+        $this->renderPartial("/common/_city_field", array("form" => $form, "model" => $model, "cityList" => $cityList));
+        ?>
 
 
         <div class="row">
@@ -93,21 +75,20 @@
             <?php echo $form->error($model, 'site_id'); ?>
         </div>
 
-        <div class="row">
-            <?php echo $form->labelEx($model, 'role_id'); ?>
-            <?php $rolels = CHtml::listData(UserRole::model()->findAll(), 'role_id', 'role_title'); ?>
-            <?php //echo  $form->dropDownList($model,'role_id',$rolels,array('prompt'=>'Select a Role'));?>
-            <?php // showing data from the webuser class AND the user getAccesslevellist method  ?>
-            <?php echo $form->dropDownList($model, 'role_id', $model->accessLevelList); ?>
-            <?php echo $form->error($model, 'role_id'); ?>
-        </div>
-
+        <?php echo $form->hiddenField($model, 'role_id', array("value" => 3)); ?>
         <div class="row">
             <?php echo $form->labelEx($model, 'status_id'); ?>
-            <?php echo $form->textField($model, 'status_id'); ?>
+            <?php
+            $criteria = new CDbCriteria();
+            $criteria->select = "id,title";
+            $criteria->addCondition("module = 'User'");
+            $status = CHtml::listData(Status::model()->findAll(), "id", "title");
+            echo $form->dropDownList(
+                    $model, 'status_id', $status
+            );
+            ?>
             <?php echo $form->error($model, 'status_id'); ?>
         </div>
-
 
 
         <div class="row">
@@ -128,7 +109,6 @@
                 ),
                 'htmlOptions' => array(
                     'size' => '15', // textField size
-                    
                     'maxlength' => '10', // textField maxlength
                 ),
             ));
@@ -140,6 +120,10 @@
 
     <div class="row buttons">
         <?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save', array("class" => "btn")); ?>
+        <?php
+        echo " or ";
+        echo CHtml::link('Cancel', '#', array('onclick' => 'dtech.go_history()'));
+        ?>
     </div>
 
     <?php $this->endWidget(); ?>

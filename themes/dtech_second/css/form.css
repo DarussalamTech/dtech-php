@@ -1,0 +1,255 @@
+/* 
+Document   : form.css
+Created on : Jun 19, 2013, 2:35:44 PM
+Author     : Ubaid
+Description:
+Purpose of the stylesheet follows.
+*/
+
+
+
+hr.style-two { 
+    border: 0; height: 1px; background-image: -webkit-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); 
+    background-image: -moz-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); 
+    background-image: -ms-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); 
+    background-image: -o-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); 
+}
+
+.clear { clear:both; }
+
+@font-face { font-family: myFirstFont; src:url(../fonts/Sentinel-Bold.ttf); }
+
+.payment_bg { 
+
+    font-family: myFirstFont; font-size:26.26px; color:#d89633; 
+    background:url(../images/p_b_s_background_img_03.png) no-repeat; width:216px; 
+    height:45px; float:left; padding: 0; margin: 20px 0 0 80px; 
+}
+
+.payment_method_big_img { 
+    float: left;
+    margin: 3px 0 0;
+    padding: 0;
+}
+
+.form_container {
+    margin: 0 auto;
+    padding: 1px;
+    font-family: Segoe,"Segoe UI","DejaVu Sans","Trebuchet MS",Verdana,sans-serif;
+    width: 960px; }
+
+.form_heading p { color:#3b3b3b; font-size:11px; }
+
+.form_heading { padding: 0; margin: 0; float:left; }
+
+.form_heading h1 { color:#003366; font-size:24px; padding: 0; margin: 20px 0 0px 0; font-weight:normal; }
+
+.payment_bg article { float:left; padding: 0; margin: 5px 0 0 17px; font-weight:bold; }
+
+.payment_bg section { float:left; padding: 0; margin: 5px 0 0 67px; font-weight:bold; }
+
+.payment_bg h3 { float:left; padding: 0; margin: 3px 0 0 67px; font-weight:normal; }
+
+.payment_bg span { float:left; font-size:10px; font-weight:normal; color:#ff9933; width:60px; text-align:center; padding: 0 0 0 0; margin: 10px 0 0 -7px; }
+
+.payment_bg h5 { float:left; font-size:10px; font-weight:normal; color:#ff9933; width:70px; text-align:center; padding: 0 0 0 18px; margin: 10px 0 0 0; }
+
+.payment_bg h2 { float:left; font-size:10px; font-weight:normal; color:#ff9933; width:45px; text-align:center; padding: 0 0 0 25px; margin: 10px 0 0 0px; }
+
+.row_form { width:100%; float:left; padding: 20px 0; margin: 30px 0 0 0; }
+
+.row_left_form { 
+    background: none repeat scroll 0 0 #EDEDED;
+    border: 1px solid #BDBDBD;
+    border-radius: 10px 10px 10px 10px;
+    float: left;
+    padding: 12px 57px 0 38px;
+    width: 41%;
+}
+
+.row_center_form { 
+
+    margin: 7px auto -20px;
+    padding: 1px;
+    width: 960px;
+}
+.row_signup_form div.row_input div.row_input_type input.row_text_type{
+    width: 60% !important;
+    float: left;
+}
+.row_left_form h2 { padding: 0; margin: 0; float:left; color:#003366; font-size:17px; font-weight:normal; }
+
+.row_left_form article {
+    color: #333333;
+    float: left;
+    font-size: 12px;
+    margin: 4px 0 0 12px;
+    padding: 0;
+}
+
+.row_left_form article span { color:#990000; font-size:14px; }
+
+.row_text { padding: 0; margin: 0; float:left; width:25%; }
+
+.row_input_type { padding: 0; margin: 0; float:left; width:50%; }
+
+.row_button { padding: 0; margin: 0 55px 4px 0; float:right; width:61px; height:31px; border: none; background:url(../images/save_bg_img_03.png) no-repeat; color:#FFF; font-size:14px;cursor: pointer; }
+
+.row_text_type { height:21px; border: none; border: 1px solid #c0c0c0; width:88%; }
+.row_drop_down { height:21px; border: none; border: 1px solid #c0c0c0; width:90%; }
+
+.row_right_form { min-height:290px; float:left; width:45%; padding: 10px 0px 10px 30px; margin: 0 0 0 10px; background:#ededed; border: 1px solid #bdbdbd; border-radius:10px; }
+
+.row_right_form article { color:#333333; font-size:12px; padding: 0; margin: 4px 0px 0 10px; float:left; }
+
+.row_right_form article span { color:#990000; font-size:14px; }
+
+.row_right_form img { float:right; width:64px; height:36px; padding: 0; margin: 0 40px 0 0; }
+
+.row_input { width:100%; float:left; padding: 0; margin: 7px 0; }
+
+.row_btn { padding: 0; margin: 80px 80px 0 0; float:right; width:92px; height:31px; border: none; background:url(../images/shipping_bg_img_03.png) no-repeat; color:#FFF; font-size:14px; }
+
+.row_input select { display:block; width:214px; height:22px; }
+
+.row_checkbox { padding: 0; margin: 10px 0 0 0; color:#7a7873; font-size:10px; }
+
+.shipping_address_heading { padding: 0; margin: 10px 0 20px 30px; }
+
+/**
+* portion for css datepicker
+*/
+.ui-datepicker-trigger {
+    margin: 0 !important;
+    width: 30px !important;
+    cursor: pointer;
+}
+.ui-datepicker-trigger img {
+    width: 16px !important;
+    margin: 0 !important;
+}
+span.flash {
+    margin-left: 258px;
+    color:green;
+    font-size: 12px;
+}
+.errorSummary-custom{
+    color: red;font-size:13px;
+}
+.secure_button {
+    cursor: pointer;
+}
+
+
+.secure_right_form {
+    background: none repeat scroll 0 0 #EDEDED;
+    border: 1px solid #BDBDBD;
+    border-radius: 10px 10px 10px 10px;
+    float: left;
+    margin: 0 0 0 10px;
+    min-height: 290px;
+    padding: 10px 0 10px 30px;
+    width: 44%;
+    min-height: 491px;
+    height: 542px;
+}
+
+.secure_heading {
+    float: left;
+    margin: 0;
+    padding: 0;
+}
+
+.secure_heading h1 {
+    color: #003366;
+    font-size: 24px;
+    font-weight: normal;
+    margin: 20px 0 0;
+    padding: 0;
+}
+
+.secure_heading p {
+    color: #3B3B3B;
+    font-size: 11px;
+}
+
+.secure_button {
+    background: url("../images/save_bg_img_03.png") no-repeat scroll 0 0 transparent;
+    border: medium none;
+    color: #FFFFFF;
+    float: right;
+    font-size: 14px;
+    height: 31px;
+    margin: 0 40px 0 0;
+    padding: 0;
+    width: 61px;
+}
+
+.shipping_address_heading {
+    margin: 10px 0 20px 30px;
+    padding: 0;
+}
+
+.secure_input {
+    float: left;
+    margin: 7px 0;
+    padding: 0;
+    width: 100%;
+}
+
+.secure_text {
+    float: left;
+    margin: 0;
+    padding: 0;
+    width: 25%;
+}
+
+.secure_input_type {
+    float: left;
+    margin: 0;
+    padding: 0;
+    width: 50%;
+}
+
+#ShippingInfoForm_shipping_country{
+    float: left;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.secure_form {
+    margin: auto;
+    padding: 1px;
+    width: 960px;
+}
+
+.secure_payment {
+    float: left;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+div.errorMessage {
+    color: red;
+    font-size: 12px;
+}
+#ShippingInfoForm_shipping_state{
+    float: left;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}  
+
+.confirm_order {
+    background: none repeat scroll 0 0 #EDEDED;
+    border: 1px solid #BDBDBD;
+    border-radius: 10px 10px 10px 10px;
+    float: left;
+    color: green;
+    padding: 12px 59px 43px 38px;
+    width: 855px;
+}
+.row_input input {
+    padding: 1px 0px 1px 3px;
+}
