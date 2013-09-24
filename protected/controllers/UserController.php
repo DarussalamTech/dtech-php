@@ -255,7 +255,6 @@ class UserController extends Controller {
                     $model->updateByPk($model->user_id, array("activation_key" => $activation_code));
 
                     
-
                     $url = $this->createAbsoluteUrl('/web/user/activate', array(
                         'key' => $activation_code,
                         'user_id' => $model->user_id,
@@ -270,8 +269,10 @@ class UserController extends Controller {
                     $body = $this->renderPartial("_sendInvitation", array('model' => $model, "url" => $url), true, false);
 
                     $email['Body'] = $body;
-                    $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
-
+                    
+                    $email['Body'] = $this->renderPartial('/common/_email_template_pk', array('email' => $email), true, false);
+                   
+                    
                     $this->sendEmail2($email);
                 }
             }
