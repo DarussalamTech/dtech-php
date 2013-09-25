@@ -39,46 +39,11 @@
                     if (isset($_REQUEST['city_id'])):
                         $this->renderPartial("//layouts/_change_city");
                     endif;
-                    $form = $this->beginWidget('CActiveForm', array(
-                        'id' => 'lang_change_form',
-                        'action' => $this->createDTUrl('/site/changeLang'),
-                        'enableClientValidation' => FALSE,
-                        'clientOptions' => array(
-                            'validateOnSubmit' => true,
-                        ),
-                    ));
+                    /**
+                     * change language buttons
+                     */
+                    //$this->renderPartial("//layouts/_change_language");
                     ?>
-                    <a href="javascript:void(0)" 
-                       class="countries_img flag"
-
-                       onclick ="dtech_new.changeLang(this)"
-                       lang = "ar"
-                       >
-                           <?php
-                           echo CHtml::image(Yii::app()->theme->baseUrl . "/images/saudi_arabia_flag_03.png");
-                           ?>
-                    </a>
-                    <a href="javascript:void(0)" class="flag"
-                       onclick ="dtech_new.changeLang(this)"
-                       lang = "en"
-                       >
-
-                        <?php
-                        echo CHtml::image(Yii::app()->theme->baseUrl . "/images/USA_flag_03.png");
-                        ?>
-                    </a>
-                    <a href="javascript:void(0)" class="flag"
-                       onclick ="dtech_new.changeLang(this)"
-                       lang = "ur"
-                       >
-
-                        <?php
-                        echo CHtml::image(Yii::app()->theme->baseUrl . "/images/pak_icon.png");
-                        ?>
-                    </a>
-                    <input type="hidden" id="lang_h" name="lang_h" value="" />
-                    <?php $this->endWidget(); ?>
-
                 </div>
                 <div id="right_header">
                     <ul>
@@ -274,10 +239,10 @@
     </body>
 </html>
 <script type="text/javascript">
-            jQuery('.nav_hover').hover(function() {
-                jQuery('.cart_bx').hide();
-                jQuery('.login_bx').hide();
-                jQuery('.logout').hide();
-                jQuery('.cart_arrow img').attr('src', jQuery('#cart_click').attr("unhover"));
-            });
+    jQuery('.nav_hover').hover(function() {
+        jQuery('.cart_bx').hide();
+        jQuery('.login_bx').hide();
+        jQuery('.logout').hide();
+        jQuery('.cart_arrow img').attr('src', jQuery('#cart_click').attr("unhover"));
+    });
 </script>
