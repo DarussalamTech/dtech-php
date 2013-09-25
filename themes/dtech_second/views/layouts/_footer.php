@@ -29,9 +29,9 @@
                 <?php echo Yii::t('header_footer', 'get in TOUCH.', array(), NULL, $this->currentLang); ?>
             </h4>
             <div class="under_center_footer">
-                <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/t_img_03.png"), "http://twitter.com/darussalamsns"); ?>
+                <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/t_img_03.png"), "http://twitter.com/darussalamsns",array("target"=>"_blank")); ?>
                 <?php //echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/in_img_03.png"), "javascript:void(0)"); ?>
-                <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/f_img_03.png", ''), "http://www.facebook.com/darussalam.sns"); ?>
+                <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/f_img_03.png", ''), "http://www.facebook.com/darussalam.sns",array("target"=>"_blank")); ?>
                 <?php //echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/g_img_03.png"), "javascript:void(0)"); ?>
             </div>
         </div>
