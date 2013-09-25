@@ -18,7 +18,7 @@
                     </section>
                     <section><img src="<?php echo Yii::app()->theme->baseUrl; ?>/images/home.png" /><span>Darussalam Publishers</span></section>
                     <p>
-                        <?php echo Yii::t('header_footer', '  is a multilingual international Islamic publishing house serving Islam in 35 countries for more than 25 years.', array(), NULL, $this->currentLang); ?>
+                        <?php echo Yii::t('header_footer', ' 36 Lower Mall, Secretariat Stop, Lahore, Pakistan', array(), NULL, $this->currentLang); ?>
 
                     </p>
                 </div>
