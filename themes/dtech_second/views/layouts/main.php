@@ -33,7 +33,12 @@
                      * 
                      * 
                      */
-                    $this->renderPartial("//layouts/_change_city");
+                    /**
+                     * if city session is enabled
+                     */
+                    if (isset($_REQUEST['city_id'])):
+                        $this->renderPartial("//layouts/_change_city");
+                    endif;
                     $form = $this->beginWidget('CActiveForm', array(
                         'id' => 'lang_change_form',
                         'action' => $this->createDTUrl('/site/changeLang'),
@@ -109,9 +114,14 @@
                     </ul>
                     <div id="cart">
                         <?php
-                        $cart = Cart::model()->getCartLists();
+                        /**
+                         * if city session is enabled
+                         */
+                        if (isset($_REQUEST['city_id'])):
+                            $cart = Cart::model()->getCartLists();
 
-                        $this->renderPartial("//cart/_cart", array("cart" => $cart));
+                            $this->renderPartial("//cart/_cart", array("cart" => $cart));
+                        endif;
                         ?>
                     </div>
                 </div>
@@ -246,7 +256,12 @@
                 <div class="wishlist">
 
                     <?php
-                    $this->renderPartial("//layouts/_wishlist");
+                    /**
+                     * if city session is enabled
+                     */
+                    if (isset($_REQUEST['city_id'])):
+                        $this->renderPartial("//layouts/_wishlist");
+                    endif;
                     ?>
                 </div>
             </div>
