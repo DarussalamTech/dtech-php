@@ -42,15 +42,21 @@ $('.search-form form').submit(function(){
 
 <?php
 $template = "";
+
+if (isset($this->OpPermission[ucfirst($this->id) . ".Update"]) && $this->OpPermission[ucfirst($this->id) . ".Update"]) {
+    $template.= "{enableimg} {disableimg} {enable} {disable} &nbsp;&nbsp;&nbsp;";
+}
 if (isset($this->OpPermission[ucfirst($this->id) . ".View"]) && $this->OpPermission[ucfirst($this->id) . ".View"]) {
     $template.= "{view}";
 }
-if (isset($this->OpPermission[ucfirst($this->id) . "Update"]) && $this->OpPermission[ucfirst($this->id) . "Update"]) {
+if (isset($this->OpPermission[ucfirst($this->id) . ".Update"]) && $this->OpPermission[ucfirst($this->id) . ".Update"]) {
     $template.= "{update}";
 }
-if (isset($this->OpPermission[ucfirst($this->id) . "Delete"]) && $this->OpPermission[ucfirst($this->id) . "Delete"]) {
+
+if (isset($this->OpPermission[ucfirst($this->id) . ".Delete"]) && $this->OpPermission[ucfirst($this->id) . ".Delete"]) {
     $template.= "{delete}";
 }
+
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'city-grid',
     'dataProvider' => $model->search(),
@@ -106,8 +112,58 @@ $this->widget('zii.widgets.grid.CGridView', array(
             )
         ),
         array(
+            'name' => 'c_status',
+            'type' => 'Raw',
+            'value' => '$data->c_status == 1?"Active":"Disabled"',
+            'headerHtmlOptions' => array(
+                'style' => "text-align:left"
+            )
+        ),
+        array(
             'class' => 'CButtonColumn',
             'template' => $template,
+            'buttons' => array(
+                'enable' => array(
+                    'label' => '[ Disable ]',
+                    'url' => 'Yii::app()->controller->createUrl("/city/toggleEnabled",array("id"=>$data->city_id))',
+                    'visible' => '$data->c_status==1',
+                    'click' => "function(event){
+                                event.preventDefault();
+                                $.ajax({
+                                    url: $(this).attr('href'),
+                                    success:function(msg){
+                                        $('#city-grid').yiiGridView.update('city-grid');
+                                    }
+                                });
+                                
+                              }",
+                ),
+                'disable' => array(
+                    'label' => '[ Enable ]',
+                    'url' => 'Yii::app()->controller->createUrl("/city/toggleEnabled",array("id"=>$data->city_id))',
+                    'visible' => '$data->c_status==0',
+                    'click' => "function(event){
+                                event.preventDefault();
+                                $.ajax({
+                                    url: $(this).attr('href'),
+                                    success:function(msg){
+                                        $('#city-grid').yiiGridView.update('city-grid');
+                                    }
+                                });
+                              }",
+                ),
+                'enableimg' => array(
+                    'label' => 'Enabled',
+                    'imageUrl' => Yii::app()->request->baseUrl . '/images/enable.png',
+                    'visible' => '$data->c_status==1',
+                ),
+                'disableimg' => array(
+                    'label' => 'Disabled',
+                    'imageUrl' => Yii::app()->request->baseUrl . '/images/disable.png',
+                    'visible' => '$data->c_status==0',
+                ),
+            ),
+             'htmlOptions' => array('style'=>'width:144px;')    
         ),
     ),
 ));

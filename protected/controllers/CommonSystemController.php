@@ -21,7 +21,7 @@ class CommonSystemController extends Controller {
 
         if (!empty($country_id)) {
             $model = new LandingModel();
-            $cityList = City::model()->findAll('country_id=' . $country_id);
+            $cityList = City::model()->findAll('t.c_status = 1 AND country_id=' . $country_id);
             if (count($cityList) == 1) {
                   echo CHtml::activeHiddenField($model, 'city', array("value"=>$cityList[0]['city_id']));
             } else {

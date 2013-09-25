@@ -114,6 +114,24 @@ class CountryController extends Controller {
     }
 
     /**
+     *  for enabling disabling 
+     *  rights for city to display 
+     *  on front end
+     * @param type $id
+     */
+    public function actionToggleEnabled($id) {
+        $model = $this->loadModel($id);
+        $this->layout = "";
+        if ($model->c_status == 1) {
+            $model->c_status = 0;
+        } else {
+            $model->c_status = 1;
+        }
+        echo $id;
+        Country::model()->updateByPk($id, array("c_status" => $model->c_status));
+    }
+
+    /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
      * @param integer $id the ID of the model to be loaded

@@ -2,12 +2,12 @@
 /* @var $this CountryController */
 /* @var $model Country */
 
-$this->breadcrumbs=array(
-	'Countries'=>array('index'),
-	$model->country_id,
+$this->breadcrumbs = array(
+    'Countries' => array('index'),
+    $model->country_id,
 );
-if(!(Yii::app()->user->isGuest)) {
-        $this->renderPartial("/common/_left_menu");
+if (!(Yii::app()->user->isGuest)) {
+    $this->renderPartial("/common/_left_menu");
 }
 ?>
 
@@ -26,11 +26,19 @@ if(!(Yii::app()->user->isGuest)) {
         </span>
     </div>
 </div>
-<?php $this->widget('zii.widgets.CDetailView', array(
-	'data'=>$model,
-	'attributes'=>array(
-		'country_name',
-		'short_name',
-		'site_id',
-	),
-)); ?>
+<?php
+$this->widget('zii.widgets.CDetailView', array(
+    'data' => $model,
+    'attributes' => array(
+        'country_name',
+        'short_name',
+        'site_id',
+        array(
+            'name' => 'c_status',
+            'type' => 'Raw',
+            'value' => $model->c_status == 1?"Active":"Disabled",
+           
+        ),
+    ),
+));
+?>
