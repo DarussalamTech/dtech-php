@@ -63,7 +63,7 @@ class CartController extends Controller {
             $cart_model = new Cart();
             $cart = $cart_model->find('cart_id=' . $_REQUEST['cart_id']);
             $cart_model = $cart;
-            $cart_model->quantity = $_REQUEST['quantity'];
+            $cart_model->quantity = (int)$_REQUEST['quantity'];
 
             $criteria = new CDbCriteria();
             $criteria->select = "quantity";
