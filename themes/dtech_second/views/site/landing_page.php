@@ -40,9 +40,16 @@
                             </h2>
                             <div class="custom-select">
                                 <?php
+                                /*
+                                *  selecting just status = 1
+                                 * dats is enabled by user
+                                */
+                                $criteria = new CDbCriteria;
+                                $criteria->addCondition("t.c_status = 1");
+                                
                                 echo $form->dropDownList($model, 'country', CHtml::listData(Country::model()->with(
                                                         array('cities' => array('join' => 'JOIN city ON city.country_id = t.country_id',))
-                                                )->findAll(), 'country_id', 'country_name'), array(
+                                                )->findAll($criteria), 'country_id', 'country_name'), array(
                                     'empty' => 'Please Select Country',
                                     'onchange' => ' 
                                 jQuery(".enter_button").hide();

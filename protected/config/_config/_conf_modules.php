@@ -45,7 +45,11 @@ $modules = array(
             
                                     'User.View','Country.View',
                                     'City.View','SelfSite.View',
+                                    'City.Update','Country.Update',
                                     'Language.View',
+            
+                                    'City.ToggleEnabled',
+                                    'Country.ToggleEnabled',
             
                                     'User.Index','Country.Index',
                                     'City.Index','SelfSite.Index',

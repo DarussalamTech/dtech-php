@@ -9,6 +9,7 @@
  * @property string $city_name
  * @property string $short_name
  * @property string $address
+ * @property string $c_status
  * @property integer $layout_id
  *
  * The followings are the available model relations:
@@ -83,6 +84,7 @@ class City extends DTActiveRecord {
             'address' => Yii::t('model_labels', 'Address', array(), NULL, Yii::app()->controller->currentLang),
             'layout_id' => Yii::t('model_labels', 'Layout', array(), NULL, Yii::app()->controller->currentLang),
             'currency_id' => Yii::t('model_labels', 'Currency', array(), NULL, Yii::app()->controller->currentLang),
+            'c_status' => Yii::t('model_labels', 'Status', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 

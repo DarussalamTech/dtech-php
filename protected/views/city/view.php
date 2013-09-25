@@ -35,6 +35,11 @@ $this->widget('zii.widgets.CDetailView', array(
         'short_name',
         'address',
         'currency_id',
+        array(
+            'name' => 'c_status',
+            'type' => 'Raw',
+            'value' => $model->c_status == 1 ? "Active" : "Disabled",
+        ),
     ),
 ));
 ?>
