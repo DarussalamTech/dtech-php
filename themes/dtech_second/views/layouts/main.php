@@ -98,7 +98,7 @@
                 <div id="logo">
 
                     <?php
-                    echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/logo_img_03.jpg", 'Logo'), $this->createUrl('/site/storeHome'));
+                    echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/logo_beta.png", 'Logo'), $this->createUrl('/site/storeHome'));
                     ?>
                 </div>
                 <div id="right_logo">
