@@ -1,8 +1,8 @@
 Array
 (
-    [name] => books_bw.png
+    [name] => 1489.jpg
     [type] => application/octet-stream
-    [tmp_name] => /tmp/phpdDaeGn
+    [tmp_name] => /tmp/php2IFVoB
     [error] => 0
-    [size] => 10213
+    [size] => 55871
 )
