@@ -228,3 +228,7 @@ input[type=button],input[type=submit] {
 .featured_cover_part{
     height: 182px;
 }
+#tweets p a {
+     color: #333333;
+     text-decoration: none;
+}

@@ -7,18 +7,18 @@
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/images/footerlamb.png" />
                 </div>
                 <div class="section_part">
-                    <section><img src="<?php echo Yii::app()->theme->baseUrl; ?>/images/phone.png" /><span>+(92) 42 35254654 - 54</span></section>
+                    <section><img src="<?php echo Yii::app()->theme->baseUrl; ?>/images/phone.png" /><span>+(92) 42 37240024 </span></section>
                     <section><img src="<?php echo Yii::app()->theme->baseUrl; ?>/images/mail.png" />
                         <span>
                             <?php
-                            echo CHtml::mailto("support@darussalam.com");
+                            echo CHtml::mailto("support@darussalampk.com");
                             ?>
 
                         </span>
                     </section>
                     <section><img src="<?php echo Yii::app()->theme->baseUrl; ?>/images/home.png" /><span>Darussalam Publishers</span></section>
                     <p>
-                        <?php echo Yii::t('header_footer', 'is a multilingual international Islamic publishing house, with headquarters in Riyadh, Kingdom of Saudi Arabia.', array(), NULL, $this->currentLang); ?>
+                        <?php echo Yii::t('header_footer', '  is a multilingual international Islamic publishing house serving Islam in 35 countries for more than 25 years.', array(), NULL, $this->currentLang); ?>
 
                     </p>
                 </div>
@@ -29,10 +29,10 @@
                 <?php echo Yii::t('header_footer', 'get in TOUCH.', array(), NULL, $this->currentLang); ?>
             </h4>
             <div class="under_center_footer">
-                <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/t_img_03.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "twitter"))); ?>
-                <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/in_img_03.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "linkedin"))); ?>
-                <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/f_img_03.png", ''), $this->createUrl('/web/hybrid/login/', array("provider" => "facebook"))); ?>
-                <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/g_img_03.png"), $this->createUrl('/web/hybrid/login/', array("provider" => "google"))); ?>
+                <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/t_img_03.png"), "http://twitter.com/darussalamsns"); ?>
+                <?php //echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/in_img_03.png"), "javascript:void(0)"); ?>
+                <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/f_img_03.png", ''), "http://www.facebook.com/darussalam.sns"); ?>
+                <?php //echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/g_img_03.png"), "javascript:void(0)"); ?>
             </div>
         </div>
         <div class="right_footer">
@@ -43,19 +43,19 @@
             </h4>
             <div class="under_right_footer">
                 <article>
-                    <?php echo Yii::t('header_footer', 'D-Tech - Working on technologies.', array(), NULL, $this->currentLang); ?>
+                    <?php echo Yii::t('header_footer', 'Beta Website releasd.', array(), NULL, $this->currentLang); ?>
                 </article>
                 <span>
                     <i>
-                        <?php echo Yii::t('header_footer', 'iPhone, Android &amp; iPad Islamic apps.', array(), NULL, $this->currentLang); ?>
+                        <?php echo Yii::t('header_footer', 'Authentic Isamic Books.', array(), NULL, $this->currentLang); ?>
                     </i>
                 </span>
                 <article>
-                    <?php echo Yii::t('header_footer', 'D-Tech - Working on technologies', array(), NULL, $this->currentLang); ?>
+                    <?php echo Yii::t('header_footer', 'Darussalam Publishers', array(), NULL, $this->currentLang); ?>
                 </article>
                 <span>
                     <i>
-                        <?php echo Yii::t('header_footer', 'iPhone, Android &amp; iPad Islamic apps', array(), NULL, $this->currentLang); ?>
+                        <?php echo Yii::t('header_footer', 'Islamic Ebooks and apps', array(), NULL, $this->currentLang); ?>
                     </i>
                 </span>
             </div>
