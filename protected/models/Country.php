@@ -8,6 +8,7 @@
  * @property string $country_name
  * @property string $short_name
  * @property integer $site_id
+ * @property integer $c_status
  *
  * The followings are the available model relations:
  * @property City[] $cities
@@ -87,6 +88,7 @@ class Country extends DTActiveRecord {
             'country_name' => Yii::t('common', 'Country Name', array(), NULL, Yii::app()->controller->currentLang),
             'short_name' => Yii::t('common', 'Short Name', array(), NULL, Yii::app()->controller->currentLang),
             'site_id' => Yii::t('common', 'Site', array(), NULL, Yii::app()->controller->currentLang),
+            'c_status' => Yii::t('model_labels', 'Status', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 
