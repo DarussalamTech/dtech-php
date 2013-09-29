@@ -550,21 +550,39 @@ var dtech = {
 
         div_id = $(obj).parent().attr("id");
         jsonObj = [];
-        $("#" + div_id + " span.hidden").each(function() {
-            jsonObj.push($(this).html());
-        })
-
-        $(obj).hide();
-        $(obj).next().html("Sending Email.......");
-        jQuery("#loading").show();
-        jQuery.ajax({
-            type: "POST",
-            url: url,
-            async: false,
-            data: {"ids": jsonObj.join("|")},
-        }).done(function(response) {
-            $(obj).next().html("<br><b>Email Sent to All users</b>");
-            jQuery("#loading").hide();
+        $("#" + div_id + " input").each(function() {
+			if($(this).is(':checked')){
+				jsonObj.push($(this).val());
+			}
         });
-    }
+		// only checked user will go
+		if(jsonObj.length >0){
+			$(obj).hide();
+			$(obj).next().html("Sending Email.......");
+			jQuery("#loading").show();
+			jQuery.ajax({
+				type: "POST",
+				url: url,
+				async: false,
+				data: {"ids": jsonObj.join("|")},
+			}).done(function(response) {
+				$(obj).next().html("<br><b>Email Sent to All users</b>");
+				jQuery("#loading").hide();
+			});
+		}
+		else {
+			alert("Please made check the checkbox");
+		}
+    },
+	checkAllGroupBox : function(obj) {
+		parnt = $(obj).parent().parent().attr("id");
+		$( "#"+parnt+" input:checkbox").each(function(){
+			if($(this).is(':checked')){
+				$(this).prop('checked', false);
+			}
+			else {
+				$(this).prop('checked', true);
+			}
+		})
+	},
 }
