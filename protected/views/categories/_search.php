@@ -31,10 +31,7 @@
 		<?php echo $form->textField($model,'parent_id'); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->label($model,'city_id'); ?>
-		<?php echo $form->textField($model,'city_id'); ?>
-	</div>
+
 
 	<div class="row buttons">
 		<?php echo CHtml::submitButton('Search', array("class" => "btn")); ?>

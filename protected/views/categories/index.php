@@ -100,7 +100,7 @@ $grid_array = array(
             )
         ),
         array(
-            'name' => 'city_id',
+             'header' => 'City',
             'type' => 'Raw',
             'value' => '!empty($data->city)?$data->city->city_name:""',
             'headerHtmlOptions' => array(

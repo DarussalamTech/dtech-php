@@ -79,7 +79,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'value' => '!empty($data->parent_category)?$data->parent_category->category_name:""',
         ),
         array(
-            'name' => 'city_id',
+            'header' => 'City',
             'type' => 'Raw',
             'value' => '!empty($data->city)?$data->city->city_name:""',
             'headerHtmlOptions' => array(

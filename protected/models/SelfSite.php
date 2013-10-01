@@ -97,19 +97,16 @@ class SelfSite extends DTActiveRecord {
      */
     public function getCities() {
 
-        $city = City::model()->findByPk($this->site_headoffice);
+        if (!empty($this->site_headoffice) && $this->site_headoffice != 0) {
+            $city = City::model()->findByPk($this->site_headoffice);
 
-        $criteria = new CDbCriteria();
-        $criteria->select = "city_id,city_name";
-        $criteria->condition = "country_id = " . $city->country_id;
-
-        if (!empty($city->country_id)) {
-            $this->_cites = CHtml::listData(City::model()->findAll($criteria), "city_id", "city_name");
-            
-        }
-        if($this->site_headoffice !=""){
-           
-           $this->country_id = City::model()->findByPk($this->site_headoffice)->country_id;
+            if (!empty($city->country_id)) {
+                $criteria = new CDbCriteria();
+                $criteria->select = "city_id,city_name,country_id";
+                $criteria->condition = "country_id = " . $city->country_id;
+                $this->_cites = CHtml::listData(City::model()->findAll($criteria), "city_id", "city_name");
+                $this->country_id = $city->country_id;
+            }
         }
     }
 
@@ -162,9 +159,9 @@ class SelfSite extends DTActiveRecord {
      */
     public function findLayout($layout_id) {
         if (!empty($layout_id)) {
-           
+
             $layout = Layout::model()->find("layout_id=" . $layout_id);
-            return !empty($layout)?$layout:"dtech_second";
+            return !empty($layout) ? $layout : "dtech_second";
         } else {
             return "dtech_second";
         }

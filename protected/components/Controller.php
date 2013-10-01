@@ -139,6 +139,8 @@ class Controller extends RController {
     public function setControllers() {
         $this->controllers = array(
             "Author" => "View",
+            'Site'=>'Index',
+            'UserRole'=>'View',
             "Categories" => "View",
             "City" => "View",
             "Configurations" => "View",
