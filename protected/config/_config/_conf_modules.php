@@ -11,7 +11,7 @@ $modules = array(
     // uncomment the following to enable the Gii tool
 
     'web',
-    'blog',
+    //'blog',
     'gii' => array(
         'class' => 'system.gii.GiiModule',
         'password' => '123',

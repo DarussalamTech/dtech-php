@@ -8,7 +8,7 @@
 class DTWebUser extends CWebUser {
 
     private $_user;
-    
+
     /**
      * when system will login it will help us to navigate to thats
      * city
@@ -23,7 +23,7 @@ class DTWebUser extends CWebUser {
 
     //is the user an administrator ?
     function getIsAdmin() {
-        
+
         return ( $this->user && $this->user->role_id == User::LEVEL_ADMIN );
     }
 
@@ -32,7 +32,6 @@ class DTWebUser extends CWebUser {
 
         return ($this->user && $this->user->role_id == User::LEVEL_CUSTOMER);
     }
-
 
     //get the logged user
     function getUser() {
@@ -59,6 +58,7 @@ class DTWebUser extends CWebUser {
     }
 
     function getSiteSessions() {
+
 
         $siteUrl = Yii::app()->request->hostInfo . Yii::app()->baseUrl;
         $site_info = SelfSite::model()->getSiteInfo($siteUrl);
@@ -94,6 +94,7 @@ class DTWebUser extends CWebUser {
          * when city id in request
          */
         if (!empty($_REQUEST['city_id'])) {
+
             $cityModel = SelfSite::model()->findCityLocation($_REQUEST['city_id']);
 
 
@@ -104,7 +105,7 @@ class DTWebUser extends CWebUser {
         /**
          * when city id in session
          */ else if (!empty(Yii::app()->session['city_id'])) {
-
+            
             /**
              * Nothing do session is already saved
              */
@@ -114,11 +115,12 @@ class DTWebUser extends CWebUser {
         /**
          * start from scratch
          * when application is loading first time
-         */ else {
+         */ else if(!empty($site_info['site_headoffice'])){
             $cityModel = SelfSite::model()->findCityLocation($site_info['site_headoffice']);
             $layout = SelfSite::model()->findLayout($cityModel->layout_id);
 
             $this->saveDTSessions($cityModel, $layout);
+
         }
 
         $this->installSocialConfigs();
@@ -137,10 +139,10 @@ class DTWebUser extends CWebUser {
         Yii::app()->session['city_id'] = $cityModel->city_id;
         Yii::app()->session['country_id'] = $cityModel->country_id;
         Yii::app()->session['currency'] = $cityModel->currency->symbol;
-     
-        Yii::app()->theme = !empty($layout) && is_object($layout)  ? $layout->layout_name : "dtech_second";
-      
-		
+
+        Yii::app()->theme = !empty($layout) && is_object($layout) ? $layout->layout_name : "dtech_second";
+
+
         /**
          * Pcm temporary
          */
