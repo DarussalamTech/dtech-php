@@ -27,7 +27,8 @@ class DTActiveRecord extends CActiveRecord {
 
     public function __construct($scenario = 'insert') {
 
-        $this->_action = Yii::app()->controller->action->id;
+        
+        $this->_action = isset(Yii::app()->controller->action->id)?Yii::app()->controller->action->id:"";
         $this->_controller = Yii::app()->controller->id;
         $this->_current_module = get_class(Yii::app()->controller->getModule());
         /**
@@ -249,7 +250,7 @@ class DTActiveRecord extends CActiveRecord {
             "install"
         );
 
-        $actions = array("login", "logout", "storehome", "activate");
+        $actions = array("login", "logout", "storehome", "activate","index");
 
         if (!in_array($controller, $controllers) && !in_array($this->_action, $actions) && !empty(Yii::app()->session['city_id'])) {
 
@@ -286,12 +287,13 @@ class DTActiveRecord extends CActiveRecord {
             "commonSystem", "assignment",
             "authItem",
             "install");
-        $actions = array("login", "logout", "storehome", "activate"); // apply the criteria to all dtActiveRec execpt these methods..Ub
+        $actions = array("login", "logout", "storehome", "activate","index"); // apply the criteria to all dtActiveRec execpt these methods..Ub
 
-        $city_id = isset(Yii::app()->session['city_id']) ? Yii::app()->session['city_id'] : $_REQUEST['city_id'];
+      
 
         if (!in_array($controller, $controllers) && !in_array($this->_action, $actions) && !empty(Yii::app()->session['city_id'])) {
 
+              $city_id = isset(Yii::app()->session['city_id']) ? Yii::app()->session['city_id'] : $_REQUEST['city_id'];
             if (!Yii::app()->user->isSuperuser && array_key_exists('city_id', $this->attributes)) {
                 $criteria->addCondition("t.city_id ='" . $city_id . "'");
             }

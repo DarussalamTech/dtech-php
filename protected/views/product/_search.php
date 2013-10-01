@@ -21,10 +21,7 @@
 		<?php echo $form->textField($model,'product_name',array('size'=>60,'maxlength'=>255)); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->label($model,'city_id'); ?>
-		<?php echo $form->textField($model,'city_id'); ?>
-	</div>
+
 
 	<div class="row">
 		<?php echo $form->label($model,'is_featured'); ?>
