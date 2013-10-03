@@ -57,17 +57,16 @@ if (isset($this->menu_categories)):
 //    $last_element = array_pop($slug_array);
 //    $criteria = new CDbCriteria();
 //    $criteria->select = "category_name";
-
-    $category_name = Categories::model()->findByPk($last_element, $criteria)->category_name;
-    echo $category_name;
-
-    if (array_shift(split('-', $_REQUEST['slug'])) == 'Books') {
-        $display = '';
-    } else {
-        $display = 'none';
-    }
+    //CVarDumper::dump(array_shift(split('-', $_REQUEST['slug'])),12,TRUE);die;
+//    $category_name = Categories::model()->findByPk($last_element, $criteria)->category_name;
+//    echo $category_name;
+//    if (array_shift(split('-', $_REQUEST['slug'])) == 'Books') {
+//        $display = '';
+//    } else {
+//        $display = 'none';
+//    }
     ?>
-    <div class="listing" style="display: <?php echo $display; ?>">
+    <div class="listing">
         <p>
             <a href="javascript:void(0)" onclick="dtech_new.aquardinaMenu(this)">
                 <?php
@@ -180,19 +179,19 @@ if (isset($this->menu_categories)):
 endif;
 ?>
 <script type="text/javascript">
-            jQuery(document).ready(function() {
-                /*
-                 * check if the accordian is collapse the 
-                 * the authors value set to first 
-                 * null value for scrolling purpose:ubd
-                 */
-                jQuery('.listing').click(function() {
-                    if ($('#author_list').css('display') == 'none')
-                    {
+                    jQuery(document).ready(function() {
+                        /*
+                         * check if the accordian is collapse the 
+                         * the authors value set to first 
+                         * null value for scrolling purpose:ubd
+                         */
+                        jQuery('.listing').click(function() {
+                            if ($('#author_list').css('display') == 'none')
+                            {
 
-                        $('.author_checkbox').find('option:first').attr('selected', 'selected');
-                    }
-                })
+                                $('.author_checkbox').find('option:first').attr('selected', 'selected');
+                            }
+                        })
 
-            })
+                    })
 </script>

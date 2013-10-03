@@ -286,7 +286,6 @@ class Product extends DTActiveRecord {
             $imagedata = ProductImage::model()->find($criteria);
 
             $images = array();
-
             if ($imagedata->is_default == 1) {
                 $images[] = array('id' => $imagedata->id,
                     'image_large' => $imagedata->image_url['image_large'],
