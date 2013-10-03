@@ -30,7 +30,7 @@ var dtech = {
         rite_html = $("#right_main_conent").html();
         $("#right_main_conent").html(load_div + rite_html);
         $("#load_subpanel_div").show();
-        console.log('alqulv' + dropDown);
+        
         if (dropDown == "authorDropDown") //only for author dropdown
         {
             jQuery.ajax({
