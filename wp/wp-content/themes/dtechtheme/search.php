@@ -38,7 +38,7 @@ get_header();
                             <b>New Search Term :</b>
                             <div class="search">
                                 <a href="javascript:void(0)" onclick="$('#searchform').submit();">
-                                    <?php echo CHtml::image(Yii::app()->theme->baseUrl . '/images/search_img_03.jpg'); ?>
+                                    <?php echo CHtml::image(get_template_directory_uri() . '/images/search_img_03.jpg'); ?>
                                 </a>
                                 <form method="get" id="searchform" action="">
                                     <input type="hidden" name="r" value="blog"/>

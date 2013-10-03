@@ -148,7 +148,7 @@
                                                         dtech.custom_alert("Item is out of stock" ,"Add to Cart");
                                                     }
                                                                     }',
-                                        ), array('class' => 'add_shipping')
+                                        ), array('class' => 'add_shipping','id'=>'add_to_cart_'.  uniqid())
                                 );
                                 ?>
                             </div>
