@@ -3,10 +3,11 @@
     <head>
         <title>Darussalam Blog</title>
         <link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>">
-        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/sign_in2.js"></script>
-        <link rel="stylesheet" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/msdropdown/dd.css" />
-        <link rel="stylesheet" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/msdropdown/flags.css" />
-        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/sign_in.js"></script>
+         <script type="text/javascript" src="<?php echo Yii::app()->baseUrl ?>/packages/jui/js/jquery.js"></script>
+         <script type="text/javascript" src="<?php echo get_template_directory_uri() ?>/js/sign_in.js"></script>
+        <link rel="stylesheet" href="<?php echo Yii::app()->baseUrl; ?>/themes/dtech_second/css/msdropdown/dd.css" />
+        <link rel="stylesheet" href="<?php echo Yii::app()->baseUrl; ?>/themes/dtech_second/css/msdropdown/flags.css" />
+       
         <script src="<?php echo Yii::app()->baseUrl; ?>/media/js/dtech.js"></script>
 
         <script>
@@ -27,7 +28,8 @@
             <header>
                 <div id="logo_img">
                     <?php
-                    echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . '/images/logo_img_03.jpg', "logo image"), Yii::app()->createUrl('../?r=blog'));
+                    
+                    echo    CHtml::link(CHtml::image(Yii::app()->baseUrl . '/images/logo/logo_beta.png', "logo image"), Yii::app()->createUrl('../?r=blog'));
                     ?>
                 </div>
                 <div class="right_middle">
@@ -72,7 +74,7 @@
                                 <div class="sign_in">
                                     <?php
                                     echo CHtml::link(
-                                            CHtml::image(Yii::app()->theme->baseUrl . '/images/facebook_img_03.jpg').CHtml::button('Facebook', array("class" => "f_img")), Yii::app()->controller->createUrl('/web/hybrid/login/', array("provider" => "Facebook")),
+                                            CHtml::image(get_template_directory_uri() . '/images/facebook_img_03.jpg').CHtml::button('Facebook', array("class" => "f_img")), Yii::app()->controller->createUrl('/web/hybrid/login/', array("provider" => "Facebook")),
                                             array("onclick"=>"dtech.doSocial('login-form',this);return false;")
                                             );
                                   
@@ -81,7 +83,7 @@
                                 <div class="sign_in">
                                     <?php
                                     echo CHtml::link(
-                                            CHtml::image(Yii::app()->theme->baseUrl . '/images/linkedin_img_03.jpg').CHtml::button('Linkedin', array("class" => "l_img")), Yii::app()->controller->createUrl('/web/hybrid/login/', array("provider" => "Linkedin")),
+                                            CHtml::image(get_template_directory_uri() . '/images/linkedin_img_03.jpg').CHtml::button('Linkedin', array("class" => "l_img")), Yii::app()->controller->createUrl('/web/hybrid/login/', array("provider" => "Linkedin")),
                                             array("onclick"=>"dtech.doSocial('login-form',this);return false;")
                                             );
                                     
@@ -90,7 +92,7 @@
                                 <div class="sign_in">
                                     <?php
                                     echo CHtml::link(
-                                            CHtml::image(Yii::app()->theme->baseUrl . '/images/twitter_img_03.jpg').CHtml::button('Twitter', array("class" => "t_img")), Yii::app()->controller->createUrl('/web/hybrid/login/', array("provider" => "twitter")),
+                                            CHtml::image(get_template_directory_uri() . '/images/twitter_img_03.jpg').CHtml::button('Twitter', array("class" => "t_img")), Yii::app()->controller->createUrl('/web/hybrid/login/', array("provider" => "twitter")),
                                             array("onclick"=>"dtech.doSocial('login-form',this);return false;")
                                             );
                                    
@@ -99,7 +101,7 @@
                                 <div class="sign_in">
                                     <?php
                                     echo CHtml::link(
-                                            CHtml::image(Yii::app()->theme->baseUrl . '/images/google_img_03.jpg').CHtml::button('Google', array("class" => "g_img")), Yii::app()->controller->createUrl('/web/hybrid/login/', array("provider" => "Google")),
+                                            CHtml::image(get_template_directory_uri() . '/images/google_img_03.jpg').CHtml::button('Google', array("class" => "g_img")), Yii::app()->controller->createUrl('/web/hybrid/login/', array("provider" => "Google")),
                                             array("onclick"=>"dtech.doSocial('login-form',this);return false;")
                                             );
                                     

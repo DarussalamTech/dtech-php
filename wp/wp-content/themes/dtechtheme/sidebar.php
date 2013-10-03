@@ -1,24 +1,24 @@
 <div id="sidebar">
     <div class="web_button">
         <?php
-        echo CHtml::link(CHtml::button('Visit darussalam.com', array('class' => 'visit_btn')), Yii::app()->createUrl('/site/storehome', array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'])), array('style' => 'cursor:pointer'));
+        echo CHtml::link(CHtml::button('Visit darussalam.com', array('class' => 'visit_btn')), Yii::app()->homeUrl, array('style' => 'cursor:pointer'));
         ?>
         <div class="small_images">
             <div id="fb-root"></div>
 
             <h1>Follow us</h1>
-            <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . '/images/f_img_03.jpg'), Yii::app()->controller->createUrl('/web/hybrid/login/', array("provider" => "Facebook"))); ?>
-            <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . '/images/t_img_03.jpg'), Yii::app()->controller->createUrl('/web/hybrid/login/', array("provider" => "Twitter"))); ?>
+            <?php echo CHtml::link(CHtml::image(get_template_directory_uri() . '/images/f_img_03.jpg'), "http://www.facebook.com/darussalam.sns",array("target"=>"_blank")); ?>
+            <?php echo CHtml::link(CHtml::image(get_template_directory_uri() . '/images/t_img_03.jpg'), "http://twitter.com/darussalamsns",array("target"=>"_blank")); ?>
             
         </div>
         <div class="like_us">
             <h1>Like us on Facebook</h1>
-            <?php echo CHtml::image(Yii::app()->theme->baseUrl . '/images/f_114k_img_03.jpg'); ?>
+            <?php echo CHtml::image(get_template_directory_uri() . '/images/f_114k_img_03.jpg'); ?>
         </div>
         <h1>Search blog posts</h1>
         <div class="search">
             <a href="javascript:void(0)" onclick="$('#searchform').submit();">
-                <?php echo CHtml::image(Yii::app()->theme->baseUrl . '/images/search_img_03.jpg'); ?>
+                <?php echo CHtml::image(get_template_directory_uri() . '/images/search_img_03.jpg'); ?>
             </a>
 
             <form method="get" id="searchform" action="">

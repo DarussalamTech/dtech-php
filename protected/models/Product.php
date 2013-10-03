@@ -238,7 +238,7 @@ class Product extends DTActiveRecord {
             }
             if (!empty($_POST['categories'])) {
                 $categories = explode(",", $_POST['categories']);
-               
+
                 $criteria->addInCondition("product_categories.category_id", $categories);
             }
             $criteria->distinct = "t.product_id";
@@ -276,47 +276,51 @@ class Product extends DTActiveRecord {
 
         foreach ($data as $products) {
 
-            $criteria = new CDbCriteria;
-            $criteria->select = 'id,product_profile_id,image_small,image_large,is_default';  // only select the 'title' column
-            $criteria->condition = "product_profile_id='" . $products->productProfile[0]->id . "'";
+            if (isset($products->productProfile[0]->id)) {
+                $criteria = new CDbCriteria;
+                $criteria->select = 'id,product_profile_id,image_small,image_large,is_default';  // only select the 'title' column
+                $criteria->condition = "product_profile_id='" . $products->productProfile[0]->id . "'";
 
-            $criteria->addCondition("(is_default =0 OR is_default=1)");
-            $criteria->order = "is_default DESC";
+                $criteria->addCondition("(is_default =0 OR is_default=1)");
+                $criteria->order = "is_default DESC";
 
-            $imagedata = ProductImage::model()->find($criteria);
+                $imagedata = ProductImage::model()->find($criteria);
 
-            $images = array();
+                $images = array();
+                //condition is applided for those who dnt have variables
+                if (isset($imagedata)) {
+                    if ($imagedata->is_default == 1) {
+                        $images[] = array('id' => $imagedata->id,
+                            'image_large' => $imagedata->image_url['image_large'],
+                            'image_small' => $imagedata->image_url['image_small'],
+                        );
+                    } else {
+                        $images[] = array('id' => $imagedata->id,
+                            'image_large' => $imagedata->image_url['image_large'],
+                            'image_small' => $imagedata->image_url['image_small'],
+                        );
+                    }
+                }
 
-            if ($imagedata->is_default == 1) {
-                $images[] = array('id' => $imagedata->id,
-                    'image_large' => $imagedata->image_url['image_large'],
-                    'image_small' => $imagedata->image_url['image_small'],
-                );
-            } else {
-                $images[] = array('id' => $imagedata->id,
-                    'image_large' => $imagedata->image_url['image_large'],
-                    'image_small' => $imagedata->image_url['image_small'],
+
+                $all_pro[] = array(
+                    'product_id' => $products->product_id,
+                    'no_image' => $products->no_image,
+                    'city_id' => $products->city_id,
+                    'slug' => $products->slag,
+                    'category' => $products->parent_category->category_name,
+                    'city_short' => $products->city->short_name,
+                    'country_short' => $products->city->country->short_name,
+                    'product_name' => $products->product_name,
+                    'product_overview' => $products->product_overview,
+                    'product_description' => $products->product_description,
+                    'product_price' => $products->productProfile[0]->price,
+                    'product_profile_id' => $products->productProfile[0]->id,
+                    'quantity' => $products->productProfile[0]->quantity,
+                    'author' => $products->getAuthors(),
+                    'image' => $images
                 );
             }
-
-
-            $all_pro[] = array(
-                'product_id' => $products->product_id,
-                'no_image' => $products->no_image,
-                'city_id' => $products->city_id,
-                'slug' => $products->slag,
-                'category' => $products->parent_category->category_name,
-                'city_short' => $products->city->short_name,
-                'country_short' => $products->city->country->short_name,
-                'product_name' => $products->product_name,
-                'product_overview' => $products->product_overview,
-                'product_description' => $products->product_description,
-                'product_price' => $products->productProfile[0]->price,
-                'product_profile_id' => $products->productProfile[0]->id,
-                'quantity' => $products->productProfile[0]->quantity,
-                'author' => $products->getAuthors(),
-                'image' => $images
-            );
         }
 
 

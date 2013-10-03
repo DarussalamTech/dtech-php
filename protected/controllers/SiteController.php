@@ -67,22 +67,21 @@ class SiteController extends Controller {
      *  
      */
     public function actionStoreHome() {
-
-
-
+        /**
+         * comming from home screen
+         */
         if (!empty($_POST['onoffswitch']) && $_POST['onoffswitch'] == "1") {
 
-            $_REQUEST['city_id'] = $_POST['LandingModel']['city'];
+          
+            if (empty($_POST['LandingModel']['city']) || $_POST['LandingModel']['city'] == "0") {
+                $city_id = Session::model()->getCity();
 
-            if ($_REQUEST['city_id'] == "0" || $_REQUEST['city_id'] == "") {
-                $_REQUEST['city_id'] = Session::model()->getCity();
-
-                if ($_REQUEST['city_id'] == "0" || $_REQUEST['city_id'] == "") {
+                if ($city_id == "0" || $city_id == "") {
                     Yii::app()->user->setFlash("error", "Please Select country and city");
                     $this->redirect($this->createDtUrl("/site/index"));
                 }
             }
-        } 
+        }
 
         Yii::app()->user->SiteSessions;
         $session_model = new Session;

@@ -42,13 +42,4 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
     </div>
 
 </div>
-<style>
-    .credit_card_fields,.pay_list,.manual_list{
-        display: none;
-    }
-    <?php
-    if ($model->payment_method == "Credit Card") {
-        echo ".credit_card_fields{display:block;}";
-    }
-    ?>
-</style>
+
