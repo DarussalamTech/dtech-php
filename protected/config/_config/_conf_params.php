@@ -47,6 +47,6 @@ $params = array(
     'otherLanguages' => array('ar','ur'),
     'otherLanguages_arr' => array('ar'=>"Arabic",'ur'=>"Urdu"),
     'https'=>false,
-    'notallowdCharactorsUrl' => array('[',']','@','!','$','&','(',')','*','+',';',"'",",","?"),
+    'notallowdCharactorsUrl' => array('[',']','@','!','$','&','(',')','*','+',';',"'",",","?",":"),
 );
 ?>
