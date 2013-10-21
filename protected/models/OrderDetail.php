@@ -17,7 +17,7 @@ class OrderDetail extends DTActiveRecord {
 
     public $totalOrder, $total_price,
             $stock, $reverted_to_stock,
-            $user_quantity, $revert_cancel, $product_image,$row_css_class;
+            $user_quantity, $revert_cancel, $product_image, $row_css_class;
 
     /**
      * used for deleting
@@ -172,19 +172,20 @@ class OrderDetail extends DTActiveRecord {
             $criteria->condition = "product_profile_id='" . $products->productProfile[0]->id . "'";
             $criteria->addCondition("(is_default =0 OR is_default=1)");
             $criteria->order = "is_default DESC";
-            $imagedata = ProductImage::model()->find($criteria);
-            $images = array();
 
-            if ($imagedata->is_default == 1) {
-                $images[] = array('id' => $imagedata->id,
-                    'image_large' => $imagedata->image_url['image_large'],
-                    'image_small' => $imagedata->image_url['image_small'],
-                );
-            } else {
-                $images[] = array('id' => $imagedata->id,
-                    'image_large' => $imagedata->image_url['image_large'],
-                    'image_small' => $imagedata->image_url['image_small'],
-                );
+            $images = array();
+            if ($imagedata = ProductImage::model()->find($criteria)) {
+                if ($imagedata->is_default == 1) {
+                    $images[] = array('id' => $imagedata->id,
+                        'image_large' => $imagedata->image_url['image_large'],
+                        'image_small' => $imagedata->image_url['image_small'],
+                    );
+                } else {
+                    $images[] = array('id' => $imagedata->id,
+                        'image_large' => $imagedata->image_url['image_large'],
+                        'image_small' => $imagedata->image_url['image_small'],
+                    );
+                }
             }
 
             $featured_products[] = array(
@@ -301,22 +302,22 @@ class OrderDetail extends DTActiveRecord {
             $criteria->condition = 'product_profile_id="' . $best_join[$i]->product_profile->id . '"';
             $criteria->addCondition("(is_default =0 OR is_default=1)");
             $criteria->order = "is_default DESC";
-            $imagebest = ProductImage::model()->find($criteria);
+
 
             $images = array();
-
-            if ($imagebest->is_default == 1) {
-                $images[] = array('id' => $imagebest->id,
-                    'image_large' => $imagebest->image_url['image_large'],
-                    'image_small' => $imagebest->image_url['image_small'],
-                );
-            } else {
-                $images[] = array('id' => $imagebest->id,
-                    'image_large' => $imagebest->image_url['image_large'],
-                    'image_small' => $imagebest->image_url['image_small'],
-                );
+            if ($imagebest = ProductImage::model()->find($criteria)) {
+                if ($imagebest->is_default == 1) {
+                    $images[] = array('id' => $imagebest->id,
+                        'image_large' => $imagebest->image_url['image_large'],
+                        'image_small' => $imagebest->image_url['image_small'],
+                    );
+                } else {
+                    $images[] = array('id' => $imagebest->id,
+                        'image_large' => $imagebest->image_url['image_large'],
+                        'image_small' => $imagebest->image_url['image_small'],
+                    );
+                }
             }
-
 
             $best_products[$best_join[$i]->product_profile->product_id] =
                     array(
@@ -361,15 +362,14 @@ class OrderDetail extends DTActiveRecord {
          * order detail page
          */
         $this->reverted_to_stock = $this->isRevertedToStock();
-        
+
         /**
          * row css class for grid
          * to higlght border or background
          */
-        if($this->reverted_to_stock == 1){
+        if ($this->reverted_to_stock == 1) {
             $this->row_css_class = "reveted";
-        }
-        else if($this->reverted_to_stock == 2){
+        } else if ($this->reverted_to_stock == 2) {
             $this->row_css_class = "partialy_reveted";
         }
         /*         * *
@@ -377,7 +377,7 @@ class OrderDetail extends DTActiveRecord {
          * 
          */
         $visible_state = array("Pending", "Process");
-        if ($this->reverted_to_stock!=1) {
+        if ($this->reverted_to_stock != 1) {
             $this->revert_cancel = CHtml::link("Revert/Cancel", Yii::app()->controller->createUrl("/order/revertlineItem", array("id" => $this->user_order_id,)), array("class" => "cancel_revert"));
 
             /**
@@ -388,9 +388,8 @@ class OrderDetail extends DTActiveRecord {
                 $this->user_quantity = CHtml::textField(
                                 'quantity', $this->quantity, array("style" => "width:40px")
                         ) . " " . CHtml::link("Update", Yii::app()->controller->createUrl("/order/orderProductQuantity", array("id" => $this->user_order_id)), array("onclick" => "dtech.updateOrderProductQuantity(this);return false"));
-            }
-            else {
-                 $this->user_quantity = $this->quantity;
+            } else {
+                $this->user_quantity = $this->quantity;
             }
         } else {
             $this->revert_cancel = "Reverted";
@@ -413,8 +412,7 @@ class OrderDetail extends DTActiveRecord {
         $modelOrder->quantity = $this->quantity;
         if ($is_reverted == 1) {
             $modelOrder->reverted_to_stock = $is_reverted;
-        }
-        else {
+        } else {
             $modelOrder->reverted_to_stock = $is_reverted;
         }
         $modelOrder->save();
@@ -428,9 +426,11 @@ class OrderDetail extends DTActiveRecord {
         $criteria->select = "reverted_to_stock";
         $criteria->addCondition("order_detail_id=" . $this->user_order_id);
         $criteria->order = "id DESC";
-        $history = OrderHistoryDetail::model()->find($criteria);
-
-        return $history->reverted_to_stock;
+        if($history = OrderHistoryDetail::model()->find($criteria)){
+             return $history->reverted_to_stock;
+        }
+        return "";
+       
     }
 
 }

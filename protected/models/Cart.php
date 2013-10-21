@@ -173,18 +173,18 @@ class Cart extends DTActiveRecord {
         $ip = Yii::app()->request->getUserHostAddress();
 
         if (isset(Yii::app()->user->id)) {
-
+            $city_id = !empty(Yii::app()->session['city_id']) ? Yii::app()->session['city_id'] : $_REQUEST['city_id'];
             $tot = Yii::app()->db->createCommand()
                     ->select('sum(quantity) as cart_total')
                     ->from('cart')
-                    ->where('city_id=' . Yii::app()->session['city_id'] . ' AND user_id=' . Yii::app()->user->user_id)
+                    ->where('city_id=' . $city_id . ' AND user_id=' . Yii::app()->user->user_id)
                     ->queryRow();
         } else {
-
+            $city_id = !empty(Yii::app()->session['city_id']) ? Yii::app()->session['city_id'] : $_REQUEST['city_id'];
             $tot = Yii::app()->db->createCommand()
                     ->select('sum(quantity) as cart_total')
                     ->from('cart')
-                    ->where('city_id=' . Yii::app()->session['city_id'] . ' AND session_id="' . Yii::app()->session['cart_session'] . '"')
+                    ->where('city_id=' . $city_id . ' AND session_id="' . Yii::app()->session['cart_session'] . '"')
                     ->queryRow();
         }
 
@@ -229,21 +229,20 @@ class Cart extends DTActiveRecord {
             $this->image = $this->productProfile->product["no_image"];
             $cssclass = "no_image";
         }
-        
+
         /**
          * special case for bug product profile sending no image in image 
          * dats y this condition made
          */
-        
-        if(strstr($this->image,"noimages.jpeg")){
-             $cssclass = "no_image";
+        if (strstr($this->image, "noimages.jpeg")) {
+            $cssclass = "no_image";
         }
-        
+
         $parent_cat = "Books";
         if (!empty($pro->productProfile->product->parent_category->category_name)) {
             $parent_cat = $pro->productProfile->product->parent_category->category_name;
         }
-        $this->image_link = CHtml::link(CHtml::image($this->image, $this->productProfile->product->product_name, array('title' => $this->productProfile->product->product_name,"class"=>$cssclass)), Yii::app()->controller->createUrl('/web/product/productDetail', array(
+        $this->image_link = CHtml::link(CHtml::image($this->image, $this->productProfile->product->product_name, array('title' => $this->productProfile->product->product_name, "class" => $cssclass)), Yii::app()->controller->createUrl('/web/product/productDetail', array(
                             'country' => Yii::app()->session['country_short_name'],
                             'city' => Yii::app()->session['city_short_name'],
                             'city_id' => Yii::app()->session['city_id'],
