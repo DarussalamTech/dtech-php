@@ -5,7 +5,7 @@
  */
 
 class ErrorController extends Controller {
-    
+
     public function beforeAction($action) {
         Yii::app()->theme = 'landing_page_theme';
         Yii::app()->controller->layout = '';
@@ -14,10 +14,36 @@ class ErrorController extends Controller {
 
     public function actionError() {
         $error = Yii::app()->errorHandler->error;
-        if ($error)
+        if ($error) {
+
+            $email['From'] = Yii::app()->params['adminEmail'];
+            $email['To'] = array(
+                'ali.abbas@darussalampk.com',
+                'itsgeniusstar@gmail.com', 'ubaidullah@darussalampk.com',
+                'ammar.rana@darussalampk.com'
+            );
+
+
+            $email['Subject'] = "Error in " . Yii::app()->name . " " . $error['code'];
+
+            $body = "<div style='color:red'>url= " . Yii::app()->request->hostInfo . Yii::app()->request->url . "<br/>";
+            $body = $body . "code= " . $error['code'] . "<br/>";
+            $body = $body . "type= " . $error['type'] . "<br/>";
+            $body = $body . "message= " . $error['message'] . "<br/>";
+            $body = $body . "file= " . $error['file'] . "<br/>";
+            $body = $body . "line= " . $error['line'] . "<br/>";
+            $body = $body . "Browser= " . Yii::app()->request->userAgent . "<br/>";
+            $body = $body . "trace= " . $error['trace'] . "<br/></div>";
+
+            $email['Body'] = $body;
+
+            $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
+
             $this->render('error', array('error' => $error));
-        else
+            $this->sendEmail2($email);
+        } else {
             throw new CHttpException(404, 'Page not found.');
+        }
     }
 
     public function actionUnconfigured() {
@@ -34,7 +60,7 @@ class ErrorController extends Controller {
      */
 
     public function actionNoFrenchise() {
-         Yii::app()->controller->layout = "";
+        Yii::app()->controller->layout = "";
         Yii::app()->user->SiteSessions;
         Yii::app()->theme = 'landing_page_theme';
         $error = Yii::app()->errorHandler->error;
