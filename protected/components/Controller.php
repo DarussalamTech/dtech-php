@@ -96,12 +96,12 @@ class Controller extends RController {
         if (strstr($this->basePath, "protected")) {
             $this->basePath = realPath($this->basePath . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR);
         }
-        
+
         /**
          * storing php session in yii session
          * when no user is login
          */
-        if(empty(Yii::app()->user->id)){
+        if (empty(Yii::app()->user->id)) {
             Yii::app()->session['cart_session'] = session_id();
         }
 
@@ -139,8 +139,8 @@ class Controller extends RController {
     public function setControllers() {
         $this->controllers = array(
             "Author" => "View",
-            'Site'=>'Index',
-            'UserRole'=>'View',
+            'Site' => 'Index',
+            'UserRole' => 'View',
             "Categories" => "View",
             "City" => "View",
             "Configurations" => "View",
@@ -502,8 +502,16 @@ class Controller extends RController {
             }
 
             $mailer->IsHTML(true);
-
-            $mailer->AddAddress($email['To']);
+            /**
+             * if email address is array then add multiple emails
+             */
+            if (is_array($email['To'])) {
+                foreach ($email['To'] as $emailAdd) {
+                    $mailer->AddAddress($emailAdd);
+                }
+            } else {
+                $mailer->AddAddress($email['To']);
+            }
             $mailer->From = $email['From'];
             $mailer->Subject = $email['Subject'];
             $mailer->Body = $email['Body'];
