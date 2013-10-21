@@ -302,22 +302,22 @@ class OrderDetail extends DTActiveRecord {
             $criteria->condition = 'product_profile_id="' . $best_join[$i]->product_profile->id . '"';
             $criteria->addCondition("(is_default =0 OR is_default=1)");
             $criteria->order = "is_default DESC";
-            $imagebest = ProductImage::model()->find($criteria);
+
 
             $images = array();
-
-            if ($imagebest->is_default == 1) {
-                $images[] = array('id' => $imagebest->id,
-                    'image_large' => $imagebest->image_url['image_large'],
-                    'image_small' => $imagebest->image_url['image_small'],
-                );
-            } else {
-                $images[] = array('id' => $imagebest->id,
-                    'image_large' => $imagebest->image_url['image_large'],
-                    'image_small' => $imagebest->image_url['image_small'],
-                );
+            if ($imagebest = ProductImage::model()->find($criteria)) {
+                if ($imagebest->is_default == 1) {
+                    $images[] = array('id' => $imagebest->id,
+                        'image_large' => $imagebest->image_url['image_large'],
+                        'image_small' => $imagebest->image_url['image_small'],
+                    );
+                } else {
+                    $images[] = array('id' => $imagebest->id,
+                        'image_large' => $imagebest->image_url['image_large'],
+                        'image_small' => $imagebest->image_url['image_small'],
+                    );
+                }
             }
-
 
             $best_products[$best_join[$i]->product_profile->product_id] =
                     array(
@@ -426,9 +426,11 @@ class OrderDetail extends DTActiveRecord {
         $criteria->select = "reverted_to_stock";
         $criteria->addCondition("order_detail_id=" . $this->user_order_id);
         $criteria->order = "id DESC";
-        $history = OrderHistoryDetail::model()->find($criteria);
-
-        return $history->reverted_to_stock;
+        if($history = OrderHistoryDetail::model()->find($criteria)){
+             return $history->reverted_to_stock;
+        }
+        return "";
+       
     }
 
 }
