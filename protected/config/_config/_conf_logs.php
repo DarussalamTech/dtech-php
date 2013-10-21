@@ -13,7 +13,13 @@ $logs = array(
             'class' => 'CFileLogRoute',
             'levels' => 'error, warning',
         ),
-       // uncomment the following to show log messages on web pages
+        array(
+            'class' => 'CFileLogRoute',
+            'logFile' => 'invalidurl.log',
+            'levels' => 'info',
+        )
+
+    // uncomment the following to show log messages on web pages
     /*
       array(
       'class'=>'CWebLogRoute',

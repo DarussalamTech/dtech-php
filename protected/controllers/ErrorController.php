@@ -16,6 +16,7 @@ class ErrorController extends Controller {
         $error = Yii::app()->errorHandler->error;
         if ($error) {
 
+
             $email['From'] = Yii::app()->params['adminEmail'];
             $email['To'] = array(
                 'ali.abbas@darussalampk.com',
@@ -39,8 +40,11 @@ class ErrorController extends Controller {
 
             $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
 
+            Yii::log(str_replace("<br/>","\n",$body), "info");
             $this->render('error', array('error' => $error));
-            $this->sendEmail2($email);
+            if ($error['code'] != "404") {
+                $this->sendEmail2($email);
+            }
         } else {
             throw new CHttpException(404, 'Page not found.');
         }
