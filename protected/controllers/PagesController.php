@@ -106,6 +106,8 @@ class PagesController extends Controller {
     public function actionIndex() {
         $model = new Pages('search');
         $model->unsetAttributes();  // clear any default values
+        //apply city conditon here for current city admin
+        $model->city_id = Yii::app()->request->getQuery('city_id');
         if (isset($_GET['Pages']))
             $model->attributes = $_GET['Pages'];
 
