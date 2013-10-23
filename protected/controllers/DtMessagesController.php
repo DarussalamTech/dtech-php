@@ -13,34 +13,14 @@ class DtMessagesController extends Controller {
      */
     public function filters() {
         return array(
-            'accessControl', // perform access control for CRUD operations
-            'postOnly + delete', // we only allow deletion via POST request
+            // 'accessControl', // perform access control for CRUD operations
+            'rights',
+            'https + index + view + update + create + generate',
         );
     }
 
-    /**
-     * Specifies the access control rules.
-     * This method is used by the 'accessControl' filter.
-     * @return array access control rules
-     */
-    public function accessRules() {
-        return array(
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array(
-                    'create', 'update', 'index', 'view',
-                    'admin', 'delete',
-                    'loadChildByAjax',
-                    'editChild',
-                    'loadChildByAjax',
-                    'deleteChildByAjax',
-                    'generate'
-                ),
-                'users' => array('@'),
-            ),
-            array('deny', // deny all users
-                'users' => array('*'),
-            ),
-        );
+    public function allowedActions() {
+        return '@';
     }
 
     public function beforeAction($action) {
@@ -263,7 +243,7 @@ class DtMessagesController extends Controller {
             $data = DtMessages::model()->findAll("category ='{$_GET['category']}'");
             $this->layout = "";
             $str = "<?php " . PHP_EOL;
-            $str.='$'.$_GET['category'].'_t =  array(' . PHP_EOL;
+            $str.='$' . $_GET['category'] . '_t =  array(' . PHP_EOL;
             foreach ($data as $d) {
 
                 $str.= '"' . $d->message . '" => "' . $d->arabic_messages[0]->message . '",' . PHP_EOL;
@@ -273,15 +253,22 @@ class DtMessagesController extends Controller {
             $str.=' return $' . $category . '_t;' . PHP_EOL;
             $str.= "?>";
 
+            $dir_path = Yii::getPathOfAlias('application.messages.ar');
 
+            if (!is_dir($dir_path)) {
+                mkdir($dir_path, 0755);
+            }
 
-            $path = Yii::getPathOfAlias('application.messages.ar.' . $_GET['category']) . '.php';
+            echo $path = Yii::getPathOfAlias('application.messages.ar.' . $_GET['category']) . '.php';
 
 
             $ad = new CCodeFile($path, $str);
 
+
+
             $ad->save();
-            Yii::app()->user->setFlash("message","Languages has been updated successfully");
+            chmod($path, 0755);
+            Yii::app()->user->setFlash("message", "Languages has been updated successfully");
             $this->redirect($this->createUrl("/dtMessages/index"));
         }
     }

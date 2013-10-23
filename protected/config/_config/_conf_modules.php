@@ -41,7 +41,7 @@ $modules = array(
                                     'City.*','SelfSite.*',
                                     'Configurations.Load',
                                     'Configurations.General',
-                                    'Language.*',
+                                    'Language.*','DtMessages.*',
             
                                     'User.View','Country.View',
                                     'City.View','SelfSite.View',
@@ -58,6 +58,8 @@ $modules = array(
                                     'User.Create','Country.Create',
                                     'City.Create','SelfSite.Create',
                                     'Language.Create',
+            
+                                    
                                     
                                 ),
 
