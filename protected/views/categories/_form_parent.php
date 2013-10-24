@@ -37,7 +37,7 @@
 
 
     <?php
-    $this->renderPartial("/common/_city_field", array("form" => $form, "model" => $model, "cityList" => $cityList));
+    $this->renderPartial("/common/_city_field", array("form" => $form, "model" => $model));
     ?>
 
     <div class="row buttons">
