@@ -1,7 +1,11 @@
 <?php
 $dir = "other";
 $fields_div_id = $dir . '_fields';
-$heading = $model->parent_category->category_name . " Profile";
+$heading = " Profile";
+if (isset($model->parent_category->category_name)) {
+    $heading = $model->parent_category->category_name . " Profile";
+}
+
 $mName = "Other";
 
 /* when page is rediretc it contains #relation name use same name to go at that child at page */
