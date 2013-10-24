@@ -80,7 +80,7 @@
             echo CHtml::closeTag("span");
             if (!Yii::app()->user->isGuest) {
                 echo CHtml::openTag("span");
-                echo CHtml::link(Yii::t('header_footer', 'User Profile', array(), NULL, $this->currentLang), $this->createUrl('/web/userProfile', array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'])));
+                echo CHtml::link(Yii::t('header_footer', 'User Profile', array(), NULL, $this->currentLang), $this->createUrl('/web/userProfile/index', array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'])));
                 echo CHtml::closeTag("span");
                 echo CHtml::openTag("span");
                 echo CHtml::link(Yii::t('header_footer', 'Customer History', array(), NULL, $this->currentLang), $this->createUrl('/web/user/customerHistory', array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'])));

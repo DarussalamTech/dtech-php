@@ -110,3 +110,8 @@ div#UserProfile_temp_avatar img{
     height: 3px;
     width: 1px;
 }
+
+#uploadifive-UserProfile_temp_avatar input[type='file'] {
+    height: 100px;
+    cursor: pointer;
+}

@@ -1,38 +1,43 @@
 <?php
 Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/form.css');
 Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/uploadify/uploadify.css');
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/uploadify/jquery.uploadify.min.js');
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/uploadify/jquery.uploadifive.js');
 ?>
 <script type="text/javascript">
 <?php $timestamp = time(); ?>
     $(function() {
-        $('#UserProfile_temp_avatar').uploadify({
+        $('#UserProfile_temp_avatar').uploadifive({
             'formData': {
                 'timestamp': '<?php echo $timestamp; ?>',
                 'token': '<?php echo md5('unique_salt' . $timestamp); ?>',
                 'user_Id': '<?php echo Yii::app()->user->id ?>',
                 'bastPath': '<?php echo Yii::app()->basePath ?>'
             },
-            'swf': '<?php echo Yii::app()->baseUrl . '/uploadify/' ?>uploadify.swf',
-            'uploader': '<?php echo Yii::app()->baseUrl . '/uploadify/' ?>uploadify.php',
+            //'swf': '<?php echo Yii::app()->baseUrl . '/uploadify/' ?>uploadify.swf',
+            'uploadScript': '<?php echo Yii::app()->baseUrl . '/uploadify/' ?>uploadify.php',
             'buttonImage': '<?php echo $model->uploaded_img ?>',
             'fileTypeDesc': 'Image Files',
+            'buttonText':'<div id="thumb_avtar">Upload</div>',
             'fileTypeExts': '*.gif; *.jpg; *.png',
-            'onSWFReady': function() {
-                $('#UserProfile_temp_avatar-button').css('background-image', 'none');
-                $('#UserProfile_temp_avatar-button').css('text-indent', '0');
+            'onInit': function() {
+                $('#uploadifive-UserProfile_temp_avatar').css("height","100px");
+                //$('#uploadifive-UserProfile_temp_avatar').append("<div id='thumb_avtar'></div>");
+                $('#uploadifive-UserProfile_temp_avatar #thumb_avtar').css('background-image', 'none');
+                $('#uploadifive-UserProfile_temp_avatar #thumb_avtar').css('text-indent', '0');
+                $('#uploadifive-UserProfile_temp_avatar #thumb_avtar').css('height', '100px');
 
-                $('#UserProfile_temp_avatar-button').html('<img src ="<?php echo $model->uploaded_img ?>" />');
+                $('#uploadifive-UserProfile_temp_avatar #thumb_avtar').html('<img src ="<?php echo $model->uploaded_img ?>" style="height:100px"/>');
             },
-            'onUploadSuccess': function(file, data, response) {
+            'onUploadComplete': function(file, data, response) {
                 path = '<?php echo Yii::app()->baseUrl . '/uploadify/temp/' . Yii::app()->user->id ?>/';
 
-                $('#UserProfile_temp_avatar-button').css('background-image', 'none');
-                $('#UserProfile_temp_avatar-button').css('text-indent', '0');
-                $('#UserProfile_temp_avatar-button').css('z-index', '0');
+                $('#uploadifive-UserProfile_temp_avata #thumb_avtarr').css('background-image', 'none');
+                $('#Uuploadifive-UserProfile_temp_avata #thumb_avtarr').css('text-indent', '0');
+                $('#uploadifive-UserProfile_temp_avatar #thumb_avtar').css('z-index', '0');
 
-                $('#UserProfile_temp_avatar-button').html('<img src ="' + path + file.name + '" />');
+                $('#uploadifive-UserProfile_temp_avatar #thumb_avtar').html('<img src ="' + path + file.name + '" style="height:100px" />');
                 $('#UserProfile_avatar').val(file.name);
+                $("#uploadifive-UserProfile_temp_avatar-queue").html("");
 
             }
         });
