@@ -3,7 +3,7 @@
  * It is only for admin panel
  */
 
-if (Yii::app()->user->getIsSuperuser()):
+if (Yii::app()->user->getIsSuperuser() && isset($cityList)):
     ?>
 
     <div class="row">
