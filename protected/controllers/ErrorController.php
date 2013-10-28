@@ -7,14 +7,19 @@
 class ErrorController extends Controller {
 
     public function beforeAction($action) {
+
         Yii::app()->theme = 'landing_page_theme';
         Yii::app()->controller->layout = '';
-        return parent::beforeAction($action);
+        //return parent::beforeAction($action);
+        return true;
     }
 
     public function actionError() {
+
         $error = Yii::app()->errorHandler->error;
-        if ($error) {
+
+
+        if (!empty($error)) {
 
 
             $email['From'] = Yii::app()->params['adminEmail'];
@@ -40,8 +45,20 @@ class ErrorController extends Controller {
 
             $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
 
-            Yii::log(str_replace("<br/>","\n",$body), "info");
-            $this->render('error', array('error' => $error));
+            Yii::log(str_replace("<br/>", "\n", $body), "info");
+
+            /**
+             * if error of db then the layout will be changed
+             */
+            if ($error['code'] == 500 && $error['type'] == 'CDbException') {
+                Yii::app()->theme = 'dtech_second';
+                Yii::app()->controller->layout = 'site_down';
+                $this->render('error', array('error' => $error));
+            } else {
+                $this->render('error', array('error' => $error));
+            }
+
+
             if ($error['code'] != "404") {
                 $this->sendEmail2($email);
             }
