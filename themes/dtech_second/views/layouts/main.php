@@ -74,7 +74,7 @@
                             ?>
                         </li>
                         <li>
-                            <?php echo CHtml::link(Yii::t('header_footer', 'Blog', array(), NULL, $this->currentLang), Yii::app()->createUrl('/?r=blog'), array("target" => "_blank")); ?>
+                            <?php //echo CHtml::link(Yii::t('header_footer', 'Blog', array(), NULL, $this->currentLang), Yii::app()->createUrl('/?r=blog'), array("target" => "_blank")); ?>
                         </li>
                     </ul>
                     <div id="cart">
