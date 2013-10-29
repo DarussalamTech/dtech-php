@@ -42,8 +42,15 @@ var dtech_new = {
     },
     showtopMenu: function() {
         jQuery(".top_link_hover").parent().hover(function() {
+            link_width = parseInt(jQuery(this).width()-50);
+            if(link_width<=70){
+                link_width = 70;
+            }
+            jQuery(this).children().eq(1).children().eq(0).css("margin-left",link_width);
             jQuery(this).children().eq(1).show();
+            
         }, function() {
+            jQuery(this).children().eq(1).children().removeAttr("style");
             jQuery(this).children().eq(1).hide();
         });
     },
