@@ -42,7 +42,7 @@ var dtech_new = {
     },
     showtopMenu: function() {
         jQuery(".top_link_hover").parent().hover(function() {
-            link_width = parseInt(jQuery(this).width()-50);
+            link_width = parseInt(jQuery(this).width()-40);
             if(link_width<=70){
                 link_width = 70;
             }
