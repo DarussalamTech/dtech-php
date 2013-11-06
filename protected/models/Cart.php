@@ -62,7 +62,7 @@ class Cart extends DTActiveRecord {
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
             array('product_profile_id', 'numerical', 'integerOnly' => true),
             array('added_date', 'length', 'max' => 255),
-            array('price,image', 'safe'),
+            array('cart_id,user_id,price,image,quantity,session_id,city_id', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('cart_id, product_profile_id, added_date', 'safe', 'on' => 'search'),

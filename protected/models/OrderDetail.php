@@ -56,7 +56,7 @@ class OrderDetail extends DTActiveRecord {
             array('product_price', 'length', 'max' => 10),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('reverted_to_stock,cart_id', 'safe'),
+            array('quantity,user_order_id,reverted_to_stock,total_price,cart_id', 'safe'),
             array('user_order_id, order_id, product_profile_id, product_price', 'safe', 'on' => 'search'),
         );
     }

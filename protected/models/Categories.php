@@ -75,7 +75,7 @@ class Categories extends DTActiveRecord {
             array('user_order', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('is_main_featured,slug,category_image', 'safe'),
+            array('category_id,is_main_featured,slug,category_image', 'safe'),
             array('category_id, category_name, added_date, parent_id, city_id', 'safe', 'on' => 'search'),
         );
     }

@@ -13,7 +13,7 @@
     width: 960px;
     font-family: Segoe,"Segoe UI","DejaVu Sans","Trebuchet MS",Verdana,sans-serif;
 }
-.page_content h2 {
+.page_content h2:first-child {
     color: #2656A5;
     font-size: 18px;
     margin: 234px 0 15px;

@@ -51,7 +51,7 @@ class Order extends DTActiveRecord {
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
             array('total_price', 'length', 'max' => 10),
             array('order_date', 'length', 'max' => 255),
-            array('service_charges,notifyUser,transaction_id,status,city_id', 'safe'),
+            array('order_id,service_charges,notifyUser,transaction_id,status,city_id', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('order_id, user_id, total_price, order_date', 'safe', 'on' => 'search'),

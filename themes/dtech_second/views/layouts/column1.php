@@ -15,7 +15,9 @@
         /**
          * slider images come from here
          */
-        $slider = Slider::model()->findAll();
+        $criteria = new CDbCriteria;$criteria;
+        $criteria->select = "id,image,title,product_id";
+        $slider = Slider::model()->with('slider')->findAll($criteria);
 
         $counter = 1;
         foreach ($slider as $data):

@@ -97,10 +97,7 @@ class DTWebUser extends CWebUser {
 
             $cityModel = SelfSite::model()->findCityLocation($_REQUEST['city_id']);
 
-
-            $layout = SelfSite::model()->findLayout($cityModel->layout_id);
-
-            $this->saveDTSessions($cityModel, $layout);
+            $this->saveDTSessions($cityModel);
         }
         /**
          * when city id in session
@@ -117,9 +114,9 @@ class DTWebUser extends CWebUser {
          * when application is loading first time
          */ else if(!empty($site_info['site_headoffice'])){
             $cityModel = SelfSite::model()->findCityLocation($site_info['site_headoffice']);
-            $layout = SelfSite::model()->findLayout($cityModel->layout_id);
+            
 
-            $this->saveDTSessions($cityModel, $layout);
+            $this->saveDTSessions($cityModel);
 
         }
 
@@ -129,10 +126,10 @@ class DTWebUser extends CWebUser {
     /**
      * save darusslam sessions
      */
-    public function saveDTSessions($cityModel, $layout) {
+    public function saveDTSessions($cityModel) {
 
 
-        Yii::app()->session['layout'] = (!empty($layout) ? $layout->layout_name : "dtech_second");
+        Yii::app()->session['layout'] = "dtech_second";
 
         Yii::app()->session['country_short_name'] = $cityModel->country->short_name;
         Yii::app()->session['city_short_name'] = $cityModel->short_name;
@@ -140,7 +137,7 @@ class DTWebUser extends CWebUser {
         Yii::app()->session['country_id'] = $cityModel->country_id;
         Yii::app()->session['currency'] = $cityModel->currency->symbol;
 
-        Yii::app()->theme = !empty($layout) && is_object($layout) ? $layout->layout_name : "dtech_second";
+        Yii::app()->theme = "dtech_second";
 
 
         /**

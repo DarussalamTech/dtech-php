@@ -27,19 +27,23 @@ class DTActiveRecord extends CActiveRecord {
 
     public function __construct($scenario = 'insert') {
 
-        
-        $this->_action = isset(Yii::app()->controller->action->id)?Yii::app()->controller->action->id:"";
-        $this->_controller = Yii::app()->controller->id;
-        $this->_current_module = get_class(Yii::app()->controller->getModule());
         /**
-         * setting of admin site is running from model
+         * for only web application
          */
-        $this->isAdmin = Yii::app()->controller->isAdminSite;
+        if (php_sapi_name() != "cli") {
+            $this->_action = isset(Yii::app()->controller->action->id) ? Yii::app()->controller->action->id : "";
+            $this->_controller = Yii::app()->controller->id;
+            $this->_current_module = get_class(Yii::app()->controller->getModule());
+            /**
+             * setting of admin site is running from model
+             */
+            $this->isAdmin = Yii::app()->controller->isAdminSite;
+        }
         parent::__construct($scenario);
     }
 
     public function afterFind() {
-        if (isset(Yii::app()->controller->action->id)) {
+        if (php_sapi_name() != "cli" && isset(Yii::app()->controller->action->id)) {
             $this->_action = Yii::app()->controller->action->id;
             /**
              * setting of admin site is running from model
@@ -194,7 +198,7 @@ class DTActiveRecord extends CActiveRecord {
         }
         return parent::findByPk($pk, $condition, $params);
     }
-    
+
     /**
      *  the only reason
      *  dats y i made this function
@@ -204,8 +208,8 @@ class DTActiveRecord extends CActiveRecord {
      * @param type $params
      * @return type
      */
-    public function findFromPrimerkey($pk, $condition = '', $params = array()){
-         return parent::findByPk($pk, $condition, $params);
+    public function findFromPrimerkey($pk, $condition = '', $params = array()) {
+        return parent::findByPk($pk, $condition, $params);
     }
 
     public function findAll($condition = '', $params = array()) {
@@ -232,6 +236,12 @@ class DTActiveRecord extends CActiveRecord {
      */
     public function makeCityAdminCondition($condition) {
         /**
+         * 
+         */
+        if (php_sapi_name() == "cli") {
+            return "";
+        }
+        /**
          * PCM special condition
          * for city model it is temporary
          * bcoz it will take problem city id 
@@ -250,7 +260,7 @@ class DTActiveRecord extends CActiveRecord {
             "install"
         );
 
-        $actions = array("login", "logout", "storehome", "activate","index");
+        $actions = array("login", "logout", "storehome", "activate", "index");
 
         if (!in_array($controller, $controllers) && !in_array($this->_action, $actions) && !empty(Yii::app()->session['city_id'])) {
 
@@ -271,6 +281,9 @@ class DTActiveRecord extends CActiveRecord {
      * @return string
      */
     public function makeCriteriaCityAdmin($criteria) {
+        if (php_sapi_name() == "cli") {
+            return "";
+        }
         /**
          * PCM special condition
          * for city model it is temporary
@@ -287,13 +300,13 @@ class DTActiveRecord extends CActiveRecord {
             "commonSystem", "assignment",
             "authItem",
             "install");
-        $actions = array("login", "logout", "storehome", "activate","index"); // apply the criteria to all dtActiveRec execpt these methods..Ub
+        $actions = array("login", "logout", "storehome", "activate", "index"); // apply the criteria to all dtActiveRec execpt these methods..Ub
 
-      
+
 
         if (!in_array($controller, $controllers) && !in_array($this->_action, $actions) && !empty(Yii::app()->session['city_id'])) {
 
-              $city_id = isset(Yii::app()->session['city_id']) ? Yii::app()->session['city_id'] : $_REQUEST['city_id'];
+            $city_id = isset(Yii::app()->session['city_id']) ? Yii::app()->session['city_id'] : $_REQUEST['city_id'];
             if (!Yii::app()->user->isSuperuser && array_key_exists('city_id', $this->attributes)) {
                 $criteria->addCondition("t.city_id ='" . $city_id . "'");
             }
@@ -325,6 +338,7 @@ class DTActiveRecord extends CActiveRecord {
 
         return $this;
     }
+
     /**
      * update elements
      * will be inherit and save the attribute
@@ -337,8 +351,8 @@ class DTActiveRecord extends CActiveRecord {
     public function updateByPk($pk, $attributes, $condition = '', $params = array()) {
         $updateAttr = array("update_time" => new CDbExpression('NOW()'), "update_user_id" => Yii::app()->user->id);
         $attributes = array_merge($attributes, $updateAttr);
-        
-       
+
+
         parent::updateByPk($pk, $attributes, $condition, $params);
         return true;
     }

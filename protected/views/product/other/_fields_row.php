@@ -35,6 +35,15 @@ $relationName = "other";
         echo CHtml::activeTextField($model, '[' . $index . ']slag')
         ?>
     </div>
+    <div class="field" style="width:100px">
+        <?php
+        $criteria = new CDbCriteria();
+        $criteria->select = "language_id,language_name";
+        $languages = Language::model()->findAll($criteria);
+        echo CHtml::activeDropDownList($model, '[' . $index . ']language_id', CHtml::listData($languages, "language_id", "language_name"));
+        ?>
+    </div>
+
 
 
     <div class="del del-icon" >
