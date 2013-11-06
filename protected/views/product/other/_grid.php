@@ -31,6 +31,11 @@ $mName = "Other";
                 'value' => '$data->quantity',
                 "type" => "raw",
             ),
+            array(
+                'name' => 'language_id',
+                'value' => '!empty($data->productLanguage)?$data->productLanguage->language_name:""',
+                "type" => "raw",
+            ),
             array
                 (
                 'class' => 'CButtonColumn',
