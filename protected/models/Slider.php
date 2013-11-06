@@ -43,10 +43,10 @@ class Slider extends DTActiveRecord {
             array('title,product_id, create_time, create_user_id, update_time, update_user_id', 'required'),
             array('product_id', 'numerical', 'integerOnly' => true),
             array('image', 'file','types'=>'jpg, gif, png', 'allowEmpty'=>true),
-            array('image, title', 'length', 'max' => 255),
+            array('title', 'length', 'max' => 255),
           
             array('create_user_id, update_user_id', 'length', 'max' => 11),
-            array('city_id', 'safe'),
+            array('id,city_id,image', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, image,city_id, title, product_id, create_time, create_user_id, update_time, update_user_id', 'safe', 'on' => 'search'),
@@ -117,7 +117,7 @@ class Slider extends DTActiveRecord {
               $this->slider_link = CHtml::link("Update Slider",Yii::app()->controller->createUrl("/product/createSlider",array("id"=>$this->product_id)),
                             array("onclick"=>"dtech.openColorBox(this)"));
         }
-        parent::afterFind();
+        return parent::afterFind();
     }
 
 }

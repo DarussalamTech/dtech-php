@@ -16,9 +16,9 @@
 .page_content h2 {
     color: #2656A5;
     font-size: 18px;
-    margin: 234px 0 15px;
+/*    margin: 234px 0 15px;*/
 }
-.page_content p {
+.page_content p:first-child {
     color: #4A4A4A;
     font-size: 14px;
     line-height: 24px;

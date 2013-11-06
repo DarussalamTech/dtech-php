@@ -55,7 +55,7 @@ class Product extends DTActiveRecord {
         return array(
             array('parent_cateogry_id,product_name, city_id, is_featured', 'required'),
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
-            array('authors', 'safe'),
+            array('product_id,authors,product_rating', 'safe'),
             array('discount_type,discount_type,parent_cateogry_id,no_image,authors,product_description,product_overview', 'safe'),
             array('slag', 'safe'),
             array('city_id', 'numerical', 'integerOnly' => true),
@@ -174,7 +174,7 @@ class Product extends DTActiveRecord {
 
 
             $criteria = new CDbCriteria(array(
-                'select' => '*',
+                //'select' => '*',
                 'limit' => $limit,
                 'order' => 't.product_id DESC',
                     //'with'=>'commentCount' 
@@ -182,7 +182,7 @@ class Product extends DTActiveRecord {
             $criteria->addInCondition('t.product_id', $product_array);
         } else {
             $criteria = new CDbCriteria(array(
-                'select' => '*',
+                //'select' => '*',
                 'condition' => "t.city_id='" . $city_id . "' ",
                 'limit' => $limit,
                 'order' => 't.product_id DESC',

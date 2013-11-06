@@ -373,3 +373,4 @@ fieldset#body { padding:10px 13px; margin:0; }
 .logout a:hover { color:#666; }
 
 .logout a { clear:both; color:#000 !important; background: none !important; margin: 0 !important; }
+.yiiLog {float: left}

@@ -89,7 +89,7 @@ class Session extends CActiveRecord {
 
     public function validateIpAddress($attribute, $params) {
         $old_ip = CHttpRequest::getUserHostAddress();
-        if ($old_ip = $this->ip) {
+        if ($old_ip == $this->ip) {
             $this->model()->deleteByPk($this->ip);
         }
     }

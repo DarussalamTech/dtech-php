@@ -72,7 +72,19 @@ class SiteController extends Controller {
          */
         if (!empty($_POST['onoffswitch']) && $_POST['onoffswitch'] == "1") {
 
-          
+            /**
+             * save session if is comming from 
+             * landing page
+             */
+            $session_model = new Session;
+
+            if ($session_model->validate()) {
+
+                if ($session_model->save()) {
+                    
+                }
+            }
+
             if (empty($_POST['LandingModel']['city']) || $_POST['LandingModel']['city'] == "0") {
                 $city_id = Session::model()->getCity();
 
@@ -84,44 +96,18 @@ class SiteController extends Controller {
         }
 
         Yii::app()->user->SiteSessions;
-        $session_model = new Session;
 
-        if ($session_model->validate()) {
-
-            if ($session_model->save()) {
-                
-            }
-        }
 
 
         $model = new LandingModel();
         $this->countryLanding($model);
 
-
-
+        //to show home page only for this 
         Yii::app()->controller->layout = '//layouts/column1';
-
-
-
-        $order_detail = new OrderDetail;
-        $limit = 18; // 3 limits for old desing 8 limit for new design
-        /** featured products * */
-        $dataProvider = $order_detail->featuredBooks($limit);
-        $featured_products = $order_detail->getFeaturedProducts($dataProvider);
-
         /**
-         * best selling
+         * loading store home
          */
-        $dataProvider = $order_detail->bestSellings($limit);
-
-
-        $segments_footer_cats = Categories::model()->getCategoriesInSegment(5);
-
-        $dataProviderAll = Product::model()->allProducts();
         $this->render('//site/storehome', array(
-            'featured_products' => $featured_products,
-            'segments_footer_cats' => $segments_footer_cats,
-            'dataProvider' => $dataProviderAll,
         ));
     }
 

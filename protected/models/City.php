@@ -49,7 +49,8 @@ class City extends DTActiveRecord {
             array('city_name', 'unique'),
             array('country_id, layout_id', 'numerical', 'integerOnly' => true),
             array('city_name, short_name, address', 'length', 'max' => 255),
-            array('currency_id', 'safe'),
+            array('city_id,c_status,currency_id', 'safe'),
+            array('api_username,api_password,api_signature', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('city_id, country_id, city_name, short_name, address, layout_id', 'safe', 'on' => 'search'),

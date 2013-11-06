@@ -44,6 +44,7 @@ class Layout extends DTActiveRecord {
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
             array('site_id', 'numerical', 'integerOnly' => true),
             array('layout_name, layout_description, layout_color', 'length', 'max' => 255),
+            array('layout_id', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('layout_id, layout_name, layout_description, layout_color, site_id', 'safe', 'on' => 'search'),

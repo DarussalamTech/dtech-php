@@ -44,6 +44,7 @@ class ConfCurrency extends DTActiveRecord {
             array('name,symbol', 'unique'),
             array('symbol', 'length', 'max' => 15),
             array('create_user_id, update_user_id', 'length', 'max' => 11),
+            array('id', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, name, symbol, create_time, create_user_id, update_time, update_user_id', 'safe', 'on' => 'search'),
