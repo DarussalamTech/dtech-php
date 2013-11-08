@@ -16,7 +16,7 @@ class ProductController extends Controller {
         return array(
             // 'accessControl', // perform access control for CRUD operations
             'rights',
-            'https + index + view + update + create + slider + createSlider +sliderSetting+removeSlider+language',
+            'https + index + view + update + create + slider + createSlider +sliderSetting+removeSlider+language+toggleEnabled',
         );
     }
 
@@ -43,6 +43,7 @@ class ProductController extends Controller {
         /* Set filters and default active */
         $this->filters = array(
             'parent_cateogry_id' => Categories::model()->getParentCategories(),
+            'status' => array("1"=>"Enabled","0"=>"Disabled",""=>"All"),
         );
     }
 
@@ -326,10 +327,6 @@ class ProductController extends Controller {
      */
     public function actionDeleteChildByAjax($id, $mName) {
 
-
-
-
-
         if (Yii::app()->request->isAjaxRequest) {
             /* Get regarding model */
             $model = new $mName;
@@ -358,6 +355,22 @@ class ProductController extends Controller {
             "id" => $id,
             "model" => $model,
             "dir" => "productImages"));
+    }
+    /**
+     * update status of product
+     * @param type $id
+     */
+    public function actionToggleEnabled($id){
+        
+        $model = $this->loadModel($id);
+        $this->layout = "";
+        if ($model->status == 1) {
+            $model->status = 0;
+        } else {
+            $model->status = 1;
+        }
+      
+        Product::model()->updateByPk($id, array("status" => $model->status));
     }
 
     /*

@@ -49,6 +49,20 @@ $this->PcmWidget['filter'] = array('name' => 'ItstLeftFilter',
 </div><!-- search-form -->
 
 <?php
+$template = "";
+if (isset($this->OpPermission[ucfirst($this->id) . ".Update"]) && $this->OpPermission[ucfirst($this->id) . ".Update"]) {
+    $template.= "{enableimg} {disableimg} {enable} {disable} &nbsp;&nbsp;&nbsp; ";
+}
+if (isset($this->OpPermission[ucfirst($this->id) . ".View"]) && $this->OpPermission[ucfirst($this->id) . ".View"]) {
+    $template.= "{view}";
+}
+if (isset($this->OpPermission[ucfirst($this->id) . ".Update"]) && $this->OpPermission[ucfirst($this->id) . ".Update"]) {
+    $template.= "{update} ";
+}
+
+if (isset($this->OpPermission[ucfirst($this->id) . ".Delete"]) && $this->OpPermission[ucfirst($this->id) . ".Delete"]) {
+    $template.= "{delete}";
+}
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'product-grid',
     'dataProvider' => $model->search(),
@@ -95,6 +109,14 @@ $this->widget('zii.widgets.grid.CGridView', array(
             )
         ),
         array(
+            'name' => 'status',
+            'type' => 'Raw',
+            'value' => '($data->status==1)?"Active":"Disabled"',
+            'headerHtmlOptions' => array(
+                'style' => "text-align:left"
+            )
+        ),
+        array(
             'name' => 'create_time',
             'type' => 'Raw',
             'value' => '$data->create_time',
@@ -104,7 +126,52 @@ $this->widget('zii.widgets.grid.CGridView', array(
         ),
         array(
             'class' => 'CButtonColumn',
+            'template' => $template,
+            'buttons' => array(
+                'enable' => array(
+                    'label' => '[ Disable ]',
+                    'url' => 'Yii::app()->controller->createUrl("/product/toggleEnabled",array("id"=>$data->product_id))',
+                    'visible' => '$data->status==1',
+                    'click' => "function(event){
+                                event.preventDefault();
+                                $.ajax({
+                                    url: $(this).attr('href'),
+                                    success:function(msg){
+                                        $('#product-grid').yiiGridView.update('product-grid');
+                                    }
+                                });
+                                
+                              }",
+                ),
+                'disable' => array(
+                    'label' => '[ Enable ]',
+                    'url' => 'Yii::app()->controller->createUrl("/product/toggleEnabled",array("id"=>$data->product_id))',
+                    'visible' => '$data->status==0',
+                    'click' => "function(event){
+                                event.preventDefault();
+                                $.ajax({
+                                    url: $(this).attr('href'),
+                                    success:function(msg){
+                                        $('#product-grid').yiiGridView.update('product-grid');
+                                    }
+                                });
+                              }",
+                ),
+                'enableimg' => array(
+                    'label' => 'Enabled',
+                    'imageUrl' => Yii::app()->request->baseUrl . '/images/enable.png',
+                    'visible' => '$data->status==1',
+                ),
+                'disableimg' => array(
+                    'label' => 'Disabled',
+                    'imageUrl' => Yii::app()->request->baseUrl . '/images/disable.png',
+                    'visible' => '$data->status==0',
+                ),
+                
+            ),
+             'htmlOptions' => array('style'=>'width:144px;')  
         ),
     ),
 ));
+
 ?>

@@ -240,8 +240,9 @@ class ProductController extends Controller {
         try {
             $id = explode("-", $_REQUEST['slug']);
             $id = $id[count($id) - 1];
-
-            $product = Product::model()->localized(Yii::app()->controller->currentLang)->findByPk($id);
+            $criteria = new CDbCriteria();
+            $criteria->addCondition("t.status = 1");
+            $product = Product::model()->localized(Yii::app()->controller->currentLang)->findByPk($id,$criteria);
 
 
 
@@ -249,7 +250,7 @@ class ProductController extends Controller {
              * if no record found in english
              */
             if (empty($product)) {
-                $product = Product::model()->findByPk($id);
+                $product = Product::model()->findByPk($id,$criteria);
             }
 
             /** if product not found * */

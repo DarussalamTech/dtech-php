@@ -117,7 +117,7 @@ class OrderDetail extends DTActiveRecord {
 
         $criteria = new CDbCriteria(array(
             'select' => '*',
-            'condition' => "is_featured='" . $is_featured . "' AND t.city_id='" . Yii::app()->session['city_id'] . "'",
+            'condition' => "t.status = 1 AND is_featured='" . $is_featured . "' AND t.city_id='" . Yii::app()->session['city_id'] . "'",
             //'limit' => $limit,
             'order' => 't.product_id ASC',
                 //'with'=>'commentCount' 
@@ -220,7 +220,7 @@ class OrderDetail extends DTActiveRecord {
             'select' => "COUNT( product.product_id ) as totalOrder,product.*,product_profile.*",
             'group' => 'product.product_id',
             'distinct' => 'product.product_id',
-            'condition' => "product.city_id = '" . $city_id . "'",
+            'condition' => "product.status =1 AND product.city_id = '" . $city_id . "'",
             'order' => 'totalOrder DESC',
         ));
 

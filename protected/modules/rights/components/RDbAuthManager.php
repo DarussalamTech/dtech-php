@@ -146,15 +146,15 @@ class RDbAuthManager extends CDbAuthManager {
                  * PCM customized code
                  */
                 $cond = " ";
-                $role = $this->_roleModel->role;
+                
                 if (($type == 0 || $type == 1)) {
                     if (!empty($this->_roleModel->auth_item)) {
                         $autItem = str_replace(".*", "", $this->_roleModel->auth_item);
                         $cond = " AND ( name  Like '%" . $autItem . "%') ";
                     }
                 } else if ($type == 2) {
-                    if (!empty($role)) {
-                        $cond = " AND ( name  = '$role') ";
+                    if (!empty($this->_roleModel->role)) {
+                        $cond = " AND ( name  = '$this->_roleModel->role') ";
                     }
                 }
 

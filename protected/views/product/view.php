@@ -77,6 +77,12 @@ $this->widget('zii.widgets.CDetailView', array(
         array(
             'name' => 'is_featured',
             'value' => $model->is_featured,
+            'value' => ($model->is_featured==1)?"Yes":"No",
+        ),
+        array(
+            'name' => 'status',
+            'value' => $model->status,
+            'value' => ($model->status==1)?"Active":"No",
         ),
     ),
 ));

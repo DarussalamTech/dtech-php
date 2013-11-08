@@ -84,6 +84,11 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/f
         <?php echo $form->dropDownList($model, 'is_featured', array('0' => 'No', '1' => 'Yes'), array('size' => 1, 'maxlength' => 1)); ?>
         <?php echo $form->error($model, 'is_featured'); ?>
     </div>
+    <div class="row">
+        <?php echo $form->labelEx($model, 'status'); ?>
+        <?php echo $form->dropDownList($model, 'status', array('1' => 'Active', '0' => 'Disabled'), array('size' => 1, 'maxlength' => 1)); ?>
+        <?php echo $form->error($model, 'status'); ?>
+    </div>
 
     <?php
     $this->renderPartial("/common/_city_field", array("form" => $form, "model" => $model, "cityList" => $cityList));
