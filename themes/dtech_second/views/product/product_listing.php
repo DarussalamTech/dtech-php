@@ -19,9 +19,17 @@ $cs->registerCssFile(Yii::app()->theme->baseUrl . '/css/list.css');
                         <?php
                         $title = "All Books";
                         $category = "";
+                        $slug_array = array();
                         if (isset($_REQUEST['slug'])) {
                             $title = explode("-", $_REQUEST['slug']);
                             $category = $title = $title[0];
+                            $slug_array = explode('-', $_REQUEST['slug']);
+
+                            $last_element = array_pop($slug_array);
+                            $criteria = new CDbCriteria();
+                            $criteria->select = "category_name";
+                            $category_name = Categories::model()->findByPk($last_element, $criteria)->category_name;
+                            echo $category_name;
                         }
 
                         /*
@@ -38,13 +46,6 @@ $cs->registerCssFile(Yii::app()->theme->baseUrl . '/css/list.css');
                           echo $catego . ' ';
                           }
                          */
-                       $slug_array = explode('-', $_REQUEST['slug']);
-                       
-                        $last_element = array_pop($slug_array);
-                        $criteria = new CDbCriteria();
-                        $criteria->select = "category_name";
-                        $category_name = Categories::model()->findByPk($last_element, $criteria)->category_name;
-                        echo $category_name;
                         ?>
                     </h6>
                     <div id="right_main_conent">
