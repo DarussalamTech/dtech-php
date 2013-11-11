@@ -1,5 +1,5 @@
 <?php
-echo 'ehee';
+
 /* mean it is called by ajax. */
 if (!isset($display)) {
     $display = 'none';

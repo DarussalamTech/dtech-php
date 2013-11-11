@@ -30,7 +30,7 @@ $plusImage = "<div class='left_float' style='padding-top:2px'>" .
                 'onclick' => "
 					
                     u = '" . $this->createUrl("loadChildByAjax", array("mName" => "$mName", "dir" => $dir,
-                    "load_for" => $this->action->id, "upload_index" => $index)) . "&index=' +  " . $relationName . "_index_sc;
+                    "load_for" => $this->action->id, )) . "&index=' +  " . $relationName . "_index_sc;
                    
                     
                     add_newSub_child_row(u, '" . $dir . "', '" . $fields_div_id . "', 'grid_fields', true);

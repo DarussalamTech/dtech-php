@@ -46,7 +46,7 @@ class CMultipleRecords extends CActiveRecordBehavior {
                 }
                 $model = ($value['id'] > 0 ? $this->owner->findByPk($array) : new $this->owner); //new $this->owner;
             } else {
-                $model = ($value['id'] > 0 ? $this->owner->findByPk($value['id']) : new $this->owner); //new $this->owner;
+                $model = (isset($value['id']) && $value['id'] > 0 ? $this->owner->findByPk($value['id']) : new $this->owner); //new $this->owner;
             }
             /* Assign value[] */
             $model->attributes = $value;
