@@ -18,7 +18,7 @@ class SearchController extends Controller {
                 " UNION all " .
                 " SELECT product.product_name as name,'prdo' as module " .
                 " FROM product " .
-                " WHERE product.product_name LIKE '%" . $term . "%' LIMIT 6 " .
+                " WHERE  product.status = 1 AND product.product_name LIKE '%" . $term . "%' LIMIT 6 " .
                 ") a ";
 
 
@@ -71,7 +71,7 @@ class SearchController extends Controller {
             " product_categories.product_id = product.product_id " .
             "  LEFT OUTER JOIN categories ON " .
             " categories.category_id = product_categories.category_id " .
-            " WHERE " .
+            " WHERE product.status = 1 AND " .
             " ( " .
             " product.product_name LIKE '%" . $q . "%' " .
             " OR " .
