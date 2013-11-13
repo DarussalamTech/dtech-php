@@ -44,6 +44,7 @@ class ProductController extends Controller {
         $this->filters = array(
             'parent_cateogry_id' => Categories::model()->getParentCategories(),
             'status' => array("1"=>"Enabled","0"=>"Disabled",""=>"All"),
+            'is_slider' => array("1"=>"Enabled","0"=>"Disabled",""=>"All"),
         );
     }
 

@@ -12,10 +12,10 @@ Yii::app()->clientScript->registerScript('load_featured', 'jQuery(document).read
             <div class="main_features_books_part">
                 <?php
                 $counter = 1;
+
                 foreach ($this->menu_categories as $id => $p_cat) {
 
-                    if ($counter <= 4) {
-                       
+                    if ($p_cat['is_main_featured'] == 1) {
                         ?>
                         <div class = "qurani_books">
                             <?php
@@ -30,8 +30,8 @@ Yii::app()->clientScript->registerScript('load_featured', 'jQuery(document).read
 
                             <?php
                             echo CHtml::button(Yii::t('common', 'Shop Now', array(), NULL, $this->currentLang), array(
-                            "class" => "shop_now",
-                            "onclick" => "window.location ='" . $this->createUrl("/web/product/category", array("slug" => $p_cat['slug'])) . "'"
+                                "class" => "shop_now",
+                                "onclick" => "window.location ='" . $this->createUrl("/web/product/category", array("slug" => $p_cat['slug'])) . "'"
                             ));
                             ?>
                         </div>

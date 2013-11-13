@@ -28,6 +28,7 @@ $this->PcmWidget['filter'] = array('name' => 'ItstLeftFilter',
         'filters' => $this->filters,
         'keyUrl' => true,
         'action' => Yii::app()->createUrl($this->route),
+        'view'=>'slider',
         'grid_id' => 'product-grid',
         ));
 ?>

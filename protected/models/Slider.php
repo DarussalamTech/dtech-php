@@ -119,5 +119,14 @@ class Slider extends DTActiveRecord {
         }
         return parent::afterFind();
     }
+    /**
+     * get the ids of product thats has 
+     * slider enabled
+     */
+    public function getSliderProducts(){
+        $criteria = new CDbCriteria;
+        $criteria->select = "product_id";
+        return CHtml::listData($this->findAll($criteria), "product_id", "product_id");
+    }
 
 }

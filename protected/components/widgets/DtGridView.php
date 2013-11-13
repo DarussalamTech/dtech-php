@@ -135,7 +135,9 @@ class DtGridView extends CGridView
             forceHelperSize: true,
             items: 'tr',
             update : function () {
+            
                 serial = $('#" . $this->id . " table.items tbody').sortable('serialize', {key: 'items[]', attribute: 'class'});
+                
                 jQuery('#loading').show();
                 $.ajax({
                     'url': '" . $this->sortUrl . "',
@@ -160,7 +162,7 @@ class DtGridView extends CGridView
             helper: fixHelper
         }).disableSelection();
     ";
-        Yii::app()->clientScript->registerScript('sortable-project', $str_js);
+        Yii::app()->clientScript->registerScript('sortable-project', $str_js,  CClientScript::POS_READY);
     }
 
     public function renderTableHeader()

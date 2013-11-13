@@ -329,7 +329,7 @@ class Categories extends DTActiveRecord {
         $city_id = isset(Yii::app()->session['city_id']) ? Yii::app()->session['city_id'] : $_REQUEST['city_id'];
         $crtitera->addCondition("parent_id = 0 AND city_id = " . $city_id);
         $crtitera->select = "category_id,category_name,category_image,is_main_featured";
-        $crtitera->order = "FIELD(t.category_name ,'Books') DESC";
+        $crtitera->order = "user_order ASC";
         $categories = $this->findAll($crtitera);
 
         return $categories;
@@ -370,6 +370,7 @@ class Categories extends DTActiveRecord {
             $showCategories[$model->category_id] = array(
                 "category_id" => $model->category_id,
                 "name" => $model->category_name,
+                "is_main_featured" => $model->is_main_featured,
                 "slug" => $model->slug,
                 "image" => $model->cat_image_url,
             );

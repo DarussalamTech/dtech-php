@@ -24,7 +24,7 @@
 class Product extends DTActiveRecord {
 
     public $no_image;
-    public $max_product_id, $slider_link, $slider_remove_link;
+    public $max_product_id, $slider_link, $slider_remove_link,$is_slider;
 
     public function __construct($scenario = 'insert') {
         $this->no_image = Yii::app()->baseUrl . "/images/product_images/noimages.jpeg";
@@ -58,7 +58,7 @@ class Product extends DTActiveRecord {
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
             array('product_id,authors,product_rating', 'safe'),
             array('discount_type,discount_type,parent_cateogry_id,no_image,authors,product_description,product_overview', 'safe'),
-            array('status,slag', 'safe'),
+            array('is_slider,status,slag', 'safe'),
             array('city_id', 'numerical', 'integerOnly' => true),
             array('product_name', 'length', 'max' => 255),
             array('is_featured', 'length', 'max' => 1),
@@ -346,6 +346,14 @@ class Product extends DTActiveRecord {
         $criteria->compare('is_featured', $this->is_featured, true);
         $criteria->compare('slag', $this->slag, true);
         $criteria->compare('status', $this->status, true);
+        /**
+         * if slider is set
+         * then products that are the part of slider 
+         * will only b displayed
+         */
+        if(!empty($this->is_slider)){
+            $criteria->addInCondition("product_id", Slider::model()->getSliderProducts());
+        }
 
 
         return new CActiveDataProvider($this, array(

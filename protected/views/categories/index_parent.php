@@ -27,10 +27,16 @@ $('.search-form form').submit(function(){
 
 <h1>Add Product Categories</h1>
 
-<p>
-    You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
-    or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
-</p>
+
+<?php
+echo CHtml::openTag("div", array(
+    "class" => "flash-success",
+    "id" => 'flash-message',
+    "style" => "display:none"
+));
+
+echo CHtml::closeTag("div");
+?>
 
 <?php echo CHtml::link('Advanced Search', '#', array('class' => 'search-button')); ?>
 <div class="search-form" style="display:none">
@@ -54,14 +60,15 @@ if (isset($this->OpPermission[ucfirst($this->id) . ".Update"]) && $this->OpPermi
 }
 if (isset($this->OpPermission[ucfirst($this->id) . ".Delete"]) && $this->OpPermission[ucfirst($this->id) . ".Delete"]) {
     $template.= "{delete}";
-}//CVarDumper::dump($model->cat_image_url,20,TRUE);
+}
 $grid_array = array(
     'id' => 'categories-grid',
     'dataProvider' => $model->search(),
+    'sortUrl' => $this->createUrl("/categories/updateOrder"),
+    'rowCssClassExpression' => '"items[]_{$data->category_id}"',
     'filter' => $model,
     'columns' => array(
         array(
-        
             'name' => 'category_name',
             'type' => 'Raw',
             'value' => '$data->category_name',
@@ -77,12 +84,18 @@ $grid_array = array(
                 'style' => "text-align:left"
             )
         ),
-
+        array(
+            'name' => 'is_main_featured',
+            'type' => 'Raw',
+            'value' => '$data->is_main_featured',
+            'headerHtmlOptions' => array(
+                'style' => "text-align:left"
+            )
+        ),
         array(
             'name' => 'category_image',
             "type" => "raw",
-          
-           'value'=>'CHtml::link($data->category_image,$data->cat_image_url,array("rel" => "lightbox[_default]"))',
+            'value' => 'CHtml::link($data->category_image,$data->cat_image_url,array("rel" => "lightbox[_default]"))',
             'headerHtmlOptions' => array(
                 'style' => "text-align:left"
             )
@@ -110,5 +123,5 @@ $grid_array = array(
 if ($model->parent_id == '0') {
     unset($grid_array['filter']);
 }
-$this->widget('zii.widgets.grid.CGridView', $grid_array);
+$this->widget('DtGridView', $grid_array);
 ?>

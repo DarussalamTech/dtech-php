@@ -30,7 +30,9 @@ class DTUploadedFile extends CUploadedFile {
             foreach ($array as $folder) {
                 $newPath.=DIRECTORY_SEPARATOR . $folder;
                 if (!is_dir($newPath)) {
-                    mkdir($newPath, 0755);
+                    if(!@mkdir($newPath, 0755)){
+                        return "error";
+                    }
                 }
             }
         } else {
