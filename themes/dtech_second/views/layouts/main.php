@@ -7,7 +7,7 @@
         <script type="text/javascript" src="<?php echo Yii::app()->theme->baseUrl ?>/js/dtech_new.js"></script>
         <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl ?>/media/css/overlay.css" />
         <script src="<?php echo Yii::app()->baseUrl; ?>/media/js/dtech.js"></script>
-        <script type="text/javascript" src="<?php echo Yii::app()->theme->baseUrl ?>/js/msdropdown/jquery.dd.min.js"></script>
+       
         <meta charset="utf-8">
         <script>
             var yii_base_url = "<?php echo Yii::app()->baseUrl; ?>";
