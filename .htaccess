@@ -10,3 +10,10 @@ IndexIgnore /test/*
 IndexIgnore /video_devices/*
 IndexIgnore /waqas/*
 IndexIgnore /yii/*
+
+
+# supress php errors
+php_flag display_startup_errors on
+php_flag display_errors on
+php_flag html_errors on
+php_value error_reporting 1
