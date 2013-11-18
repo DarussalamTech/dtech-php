@@ -24,7 +24,7 @@
 class Product extends DTActiveRecord {
 
     public $no_image;
-    public $max_product_id, $slider_link, $slider_remove_link,$is_slider;
+    public $max_product_id, $slider_link, $slider_remove_link, $is_slider;
 
     public function __construct($scenario = 'insert') {
         $this->no_image = Yii::app()->baseUrl . "/images/product_images/noimages.jpeg";
@@ -75,8 +75,8 @@ class Product extends DTActiveRecord {
 
         $lang_id = isset($_POST['lang_id']) ? $_POST['lang_id'] : '1';
         $profile_id = isset($_REQUEST['profile_id']) ? $_REQUEST['profile_id'] : '1';
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
+            // NOTE: you may need to adjust the relation name and the related
+            // class name for the relations automatically generated below.
         return array(
             'slider' => array(self::HAS_ONE, 'Slider', 'product_id'),
             'carts' => array(self::HAS_MANY, 'Cart', 'product_id'),
@@ -155,6 +155,25 @@ class Product extends DTActiveRecord {
      */
     public function allProducts($product_array = array(), $limit = 30, $parent_category = "Books", $category = "") {
 
+        /**
+         * ajax based filtering
+         */
+        if (isset($_POST['ajax'])) {
+            return $this->ajaxGetProducts($product_array, $limit, $parent_category, $category);
+        } else {
+            return $this->onRefreshGetProducts($product_array, $limit, $parent_category, $category);
+        }
+    }
+
+    /**
+     * get all Server side
+     * @param type $product_array
+     *      it is comming from search function
+     * @param type $limit
+     * @param type $parent_category
+     * @param type $category
+     */
+    public function onRefreshGetProducts($product_array = array(), $limit = 30, $parent_category = "Books", $category = "") {
 
         /**
          * all parent categories 
@@ -173,91 +192,108 @@ class Product extends DTActiveRecord {
          */
         if (!empty($product_array)) {
 
-
             $criteria = new CDbCriteria(array(
-                //'select' => '*',
                 'limit' => $limit,
                 'order' => 't.product_id DESC',
-                    //'with'=>'commentCount' 
             ));
             $criteria->addInCondition('t.product_id', $product_array);
+            $criteria->addCondition("t.status = 1 ");
         } else {
             $criteria = new CDbCriteria(array(
-                //'select' => '*',
                 'condition' => "t.city_id='" . $city_id . "' ",
                 'limit' => $limit,
                 'order' => 't.product_id DESC',
-                    //'with'=>'commentCount' 
             ));
 
             $criteria->addCondition("t.status = 1 ");
-            /**
-             * that should only be book
-             */
             if ($category != "") {
 
                 $category = explode("-", $category);
                 if (in_array($category[count($category) - 1], $parent_categories)) {
+                    //if the category is parent then it would be fetch from direct parent category
                     $criteria->addCondition('t.parent_cateogry_id = ' . $category[count($category) - 1]);
                 } else {
 
                     /**
-                     * it could be the  ajax scanario 
+                     *  category whould be sub categories for products
+                     *  like book and Quran has many category
+                     *  product related to this
                      */
                     $criteria->join.= ' LEFT JOIN product_categories  ON ' .
                             't.product_id=product_categories.product_id';
-                    if (!isset($_POST['ajax'])) {
-                        $criteria->addCondition('product_categories.category_id= ' . $category[count($category) - 1]);
-                    }
+
+                    $criteria->addCondition('product_categories.category_id= ' . $category[count($category) - 1]);
                 }
-            } else if (!isset($_POST['ajax'])) {
+            } else {
+                /**
+                 * to load on only in case no category books 
+                 * will be the cateory
+                 */
                 $parent_cat = Categories::model()->getParentCategoryId($parent_category);
                 $criteria->addCondition('parent_cateogry_id = ' . $parent_cat);
             }
         }
+        $dataProvider = new DTActiveDataProvider($this, array(
+            'pagination' => array(
+                'pageSize' => 12,
+            ),
+            'criteria' => $criteria,
+        ));
 
+        return $dataProvider;
+    }
 
+    /**
+     * get all products on ajax call
+     * @param type $product_array
+     * @param type $limit
+     * @param type $parent_category
+     * @param type $category
+     */
+    public function ajaxGetProducts($product_array = array(), $limit = 30, $parent_category = "Books", $category = "") {
         /**
-         * ajax based filtering
+         * all parent categories 
+         * will be here
+         * checking if the sessions exits or not...
          */
-        if (isset($_POST['ajax'])) {
-
-
-            if (!empty($_POST['author'])) {
-                $author = explode(",", $_POST['author']);
-                $criteria->addInCondition("authors", $author);
-            }
-            if (!empty($_POST['langs'])) {
-                $langs = explode(",", $_POST['langs']);
-                $criteria->join.= ' INNER JOIN product_profile  ' .
-                        ' ON product_profile.product_id = t.product_id';
-
-                $criteria->addInCondition("product_profile.language_id", $langs);
-            }
-            if (!empty($_POST['cat_id'])) {
-                $criteria->addCondition('parent_cateogry_id = ' . $_POST['cat_id']);
-            }
-            if (!empty($_POST['categories'])) {
-                $categories = explode(",", $_POST['categories']);
-
-                $criteria->addInCondition("product_categories.category_id", $categories);
-            }
-            $criteria->distinct = "t.product_id";
+        if (empty(Yii::app()->controller->menu_categories)) {
+            $parent_categories = array();
+        } else {
+            $parent_categories = array_keys(Yii::app()->controller->menu_categories);
         }
-        /**
-         * this process is only running
-         * when ajax is off
-         */
-        if (!empty($_GET['category']) && !isset($_POST['ajax'])) {
+        $city_id = Yii::app()->session['city_id'];
+
+        $criteria = new CDbCriteria(array(
+            'condition' => "t.city_id='" . $city_id . "' ",
+            'limit' => $limit,
+            'order' => 't.product_id DESC',
+        ));
+
+        $criteria->addCondition("t.status = 1 ");
+
+        if (!empty($_POST['author'])) {
+            $author = explode(",", $_POST['author']);
+            $criteria->addInCondition("authors", $author);
+        }
+        if (!empty($_POST['langs'])) {
+            $langs = explode(",", $_POST['langs']);
+            $criteria->join.= ' INNER JOIN product_profile  ' .
+                    ' ON product_profile.product_id = t.product_id';
+
+            $criteria->addInCondition("product_profile.language_id", $langs);
+        }
+        if (!empty($_POST['cat_id'])) {
+            $criteria->addCondition('parent_cateogry_id = ' . $_POST['cat_id']);
+        }
+        if (!empty($_POST['categories'])) {
+            $categories = explode(",", $_POST['categories']);
             $criteria->join.= ' LEFT JOIN product_categories  ON ' .
                     't.product_id=product_categories.product_id';
-            $criteria->addCondition("product_categories.category_id='" . $_GET['category'] . "'");
+            $criteria->addInCondition("product_categories.category_id", $categories);
         }
+        $criteria->distinct = "t.product_id";
 
 
-        /**
-         * get category from slug
-         */
         $dataProvider = new DTActiveDataProvider($this, array(
             'pagination' => array(
                 'pageSize' => 12,
@@ -351,7 +387,7 @@ class Product extends DTActiveRecord {
          * then products that are the part of slider 
          * will only b displayed
          */
-        if(!empty($this->is_slider)){
+        if (!empty($this->is_slider)) {
             $criteria->addInCondition("product_id", Slider::model()->getSliderProducts());
         }
 

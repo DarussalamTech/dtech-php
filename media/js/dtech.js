@@ -1,16 +1,18 @@
 // JavaScript Document
 var dtech = {
     old_drop_val: "",
-    getmultiplechecboxValue: function(elem_id) {
+    // un        
+    getmultiplechecboxValue: function(elem_class) {
 
         var sel_ar = new Array();
-        $("." + elem_id).each(function() {
+        $("." + elem_class).each(function() {
             if ($(this).is(':checked')) {
 
                 sel_ar.push($(this).val());
             }
         });
-        if (elem_id == "author_checkbox")
+        //special case for dropdown list
+        if (elem_class == "author_checkbox")
         {
             if (jQuery(".author_checkbox option:selected"))
             {
@@ -19,6 +21,8 @@ var dtech = {
         }
         return sel_ar.join(",");
     },
+    /* using in product list page when click on ajax based filter for categories
+     authors */
     updateProductListing: function(ajax_url, id, dropDown) {
 
         var load_div = '<div id="load_subpanel_div" class="overlay" style="display:none">' +
@@ -26,55 +30,26 @@ var dtech = {
                 '<span class="lodingString">Please Wait....</span><span class="loading">. . . .</span>' +
                 '</div>' +
                 '</div>';
-        //$("#loading").show();
         rite_html = $("#right_main_conent").html();
         $("#right_main_conent").html(load_div + rite_html);
         $("#load_subpanel_div").show();
-        
-        if (dropDown == "authorDropDown") //only for author dropdown
-        {
-            jQuery.ajax({
-                type: "POST",
-                url: ajax_url,
-                data:
-                        {
-                            cat_id: id,
-                            ajax: 1,
-                            categories: dtech.getmultiplechecboxValue("filter_checkbox"),
-                            author: dtech.getmultiplechecboxValue("author_checkbox"),
-                            langs: dtech.getmultiplechecboxValue("lang_checkbox"),
-                        }
-            }).done(function(msg) {
-                $("#right_main_conent").html(msg);
-                jQuery("#load_subpanel_div").remove();
-            });
-        }
-        else {
-            jQuery.ajax({
-                type: "POST",
-                url: ajax_url,
-                data:
-                        {
-                            cat_id: id,
-                            ajax: 1,
-                            categories: dtech.getmultiplechecboxValue("filter_checkbox"),
-                            langs: dtech.getmultiplechecboxValue("lang_checkbox"),
-                        }
-            }).done(function(msg) {
-                $("#right_main_conent").html(msg);
-                if (id != "") {
-// s_url = "cat=" + id;
-// dtech.updatehashBrowerUrl(s_url);
-// dtech.updateCategoryStatus(id);
-                }
-                else {
-// dtech.updatehashBrowerUrl("");
-// dtech.updateCategoryStatus(id);
-                }
 
-                jQuery("#load_subpanel_div").remove();
-            });
-        }
+        jQuery.ajax({
+            type: "POST",
+            url: ajax_url,
+            data:
+                    {
+                        cat_id: id,
+                        ajax: 1,
+                        categories: dtech.getmultiplechecboxValue("filter_checkbox"),
+                        author: dtech.getmultiplechecboxValue("author_checkbox"),
+                        langs: dtech.getmultiplechecboxValue("lang_checkbox"),
+                    }
+        }).done(function(msg) {
+            $("#right_main_conent").html(msg);
+            jQuery("#load_subpanel_div").remove();
+        });
+
         return false;
     },
     updatePaginationFilter: function(obj) {
@@ -112,16 +87,6 @@ var dtech = {
             $("#list_featured").append(msg);
             $("#list_featured")
 
-            if (id != "") {
-                s_url = "cat=" + id;
-                dtech.updatehashBrowerUrl(s_url);
-                dtech.updateCategoryStatus(id);
-            }
-            else {
-//dtech.updatehashBrowerUrl("");
-                dtech.updateCategoryStatus(id);
-            }
-
             $("#load_subpanel_div").remove();
             jQuery("#sideBarBox").hide();
             jQuery(".under_best_seller").hide();
@@ -146,74 +111,15 @@ var dtech = {
             jQuery("#search_form").submit();
         }
     },
+    /**
+     * update browser url
+     * @param {type} s
+     * @returns {undefined}
+     */
     updatehashBrowerUrl: function(s) {
         window.location.hash = s;
     },
-    load_languageDetail: function() {
 
-        hash_str = window.location.hash;
-        if (hash_str != "") {
-            hash_str = hash_str.split("=");
-            if (typeof(hash_str[1]) != "undefined") {
-
-                lang_val = dtech.findLangVal(hash_str[1]);
-                //console.log(lang_val);
-                jQuery("#language").val(lang_val);
-                window.location.hash = "";
-                jQuery("#language").trigger("change");
-            }
-        }
-
-    },
-    findLangVal: function(text) {
-        return_lang = "";
-        jQuery("#language option").each(function() {
-            text = jQuery.trim(text);
-            if (jQuery(this).html() == text) {
-                return_lang = jQuery(this).val();
-                //return jQuery(this).val();
-            }
-        })
-
-        return return_lang;
-    },
-    /**
-     *  loaded automatically using category filtering
-     *  in ajax
-     * @returns {undefined}
-     */
-    loadallPrdoucts_Cat: function(url) {
-        hash_str = window.location.hash;
-        /**
-         * hybrid auth used hash sign
-         * dats y made this check
-         */
-        if (hash_str == "#_=_") {
-            return true;
-        }
-        if (hash_str != "") {
-            hash_str = hash_str.split("=");
-            if (typeof(hash_str[1]) != "undefined") {
-
-                dtech.updateProductListing(url, hash_str[1]);
-            }
-        }
-    },
-    /**
-     * to see which category is selected
-     * @param {type} cat_id
-     * @returns {undefined}
-     */
-    updateCategoryStatus: function(cat_id) {
-        $("#category_list ul li a").each(function() {
-            if ($(this).attr("id") == cat_id) {
-                $(this).css("font-weight", "bold");
-            }
-            else {
-                $(this).css("font-weight", "normal");
-            }
-        })
-    },
     custom_alert: function(output_msg, title_msg)
     {
         jQuery(".ui-widget ui-widget-content").remove();
@@ -238,15 +144,7 @@ var dtech = {
             }
         });
     },
-    /**
-     * for redirecting to quran cate
-     */
-    redirectToQuranCategory: function(obj) {
-        url = jQuery(obj).attr("href") + jQuery(obj).attr("cat");
-        window.location.href = url;
-        window.location.reload();
-        return true;
-    },
+
     showPaymentMethods: function(obj) {
         if ($(obj).val() == "1") {
             $(".pay_list").show();
@@ -551,38 +449,38 @@ var dtech = {
         div_id = $(obj).parent().attr("id");
         jsonObj = [];
         $("#" + div_id + " input").each(function() {
-			if($(this).is(':checked')){
-				jsonObj.push($(this).val());
-			}
+            if ($(this).is(':checked')) {
+                jsonObj.push($(this).val());
+            }
         });
-		// only checked user will go
-		if(jsonObj.length >0){
-			$(obj).hide();
-			$(obj).next().html("Sending Email.......");
-			jQuery("#loading").show();
-			jQuery.ajax({
-				type: "POST",
-				url: url,
-				async: false,
-				data: {"ids": jsonObj.join("|")},
-			}).done(function(response) {
-				$(obj).next().html("<br><b>Email Sent to All users</b>");
-				jQuery("#loading").hide();
-			});
-		}
-		else {
-			alert("Please made check the checkbox");
-		}
+        // only checked user will go
+        if (jsonObj.length > 0) {
+            $(obj).hide();
+            $(obj).next().html("Sending Email.......");
+            jQuery("#loading").show();
+            jQuery.ajax({
+                type: "POST",
+                url: url,
+                async: false,
+                data: {"ids": jsonObj.join("|")},
+            }).done(function(response) {
+                $(obj).next().html("<br><b>Email Sent to All users</b>");
+                jQuery("#loading").hide();
+            });
+        }
+        else {
+            alert("Please made check the checkbox");
+        }
     },
-	checkAllGroupBox : function(obj) {
-		parnt = $(obj).parent().parent().attr("id");
-		$( "#"+parnt+" input:checkbox").each(function(){
-			if($(this).is(':checked')){
-				$(this).prop('checked', false);
-			}
-			else {
-				$(this).prop('checked', true);
-			}
-		})
-	},
+    checkAllGroupBox: function(obj) {
+        parnt = $(obj).parent().parent().attr("id");
+        $("#" + parnt + " input:checkbox").each(function() {
+            if ($(this).is(':checked')) {
+                $(this).prop('checked', false);
+            }
+            else {
+                $(this).prop('checked', true);
+            }
+        })
+    },
 }

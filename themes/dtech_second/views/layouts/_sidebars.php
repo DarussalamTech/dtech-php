@@ -3,37 +3,14 @@
  * New theme side bars
  */
 ?>
+<input type='hidden' id='fb_page_pk' value='175377742595349' />
 <div id="tweets">
-    <h3><img src="<?php echo Yii::app()->theme->baseUrl ?>/images/fb_feed.png"><span>Facebook</span></h3>
-    <p>
-        <a target="_blank" href="https://www.facebook.com/photo.php?fbid=366796390120149&set=a.186173254849131.45033.175377742595349&type=1">
-            Quran’s Lesson
-        </a>
+    <h3 onclick="jQuery('#faceboo_feeds').toggle();" style='cursor:pointer'><img src="<?php echo Yii::app()->theme->baseUrl ?>/images/fb_feed.png"><span>Facebook</span></h3>
+    <div id='facebook_feeds'>
+          
+    </div>
 
-    </p>
-    <p>
-        <a target="_blank" href="https://www.facebook.com/photo.php?fbid=367944420005346&set=a.186173254849131.45033.175377742595349&type=1">
-            Quranic Dua with Calligraphy 
-        </a>
-    </p>
-    <p>
-        <a target="_blank" href="https://www.facebook.com/photo.php?fbid=367995870000201&set=a.186173254849131.45033.175377742595349&type=1">
-            Quran’s Lesson - Surah Āl‘Imran 3
-        </a>
 
-    </p>
-    <p>
-        <a target="_blank" href="https://www.facebook.com/photo.php?fbid=366376866828768&set=a.186173254849131.45033.175377742595349&type=1">
-            Wise Words (Quotation & Inspirations)
-        </a>
-    </p>
-
-    <p>
-        <a target="_blank"  href="https://www.facebook.com/photo.php?fbid=366240743509047&set=a.186173254849131.45033.175377742595349&type=1">
-            Jummah Prayer
-        </a>
-
-    </p>
 
 </div>
 <div class="right_under_content">

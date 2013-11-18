@@ -32,4 +32,12 @@ $conf_payPall_user = array(
     'returnUrl' => '/web/paypal/confirm/', //regardless of url management component
     'cancelUrl' => '/web/paypal/cancel/', //regardless of url management component
 );
+/**
+ * 
+ * 
+ */
+$curl = array(
+    'class' => 'application.components.classes.Curl',
+
+);
 ?>

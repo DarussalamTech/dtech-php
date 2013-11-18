@@ -10,6 +10,7 @@ $rules_web = array(
     /** Product detail * */
     '<lang:[\w-\.]+>/<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>' => '/site/storehome',
     '<lang:[\w-\.]+>/<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>' => '/site/storeHome',
+    '<lang:[\w-\.]+>/<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/facebookpage' => '/web/default/getFacebookFeeds',
     '<lang:[\w-\.]+>/<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/fillFeaturedBox' => '/site/fillFeaturedBox',
     '<lang:[\w-\.]+>/<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/contact' => '/site/contact',
     '<lang:[\w-\.]+>/<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/user/forgot' => '/web/user/forgot',

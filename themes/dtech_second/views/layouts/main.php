@@ -17,6 +17,7 @@
             $(document).ready(function() {
                 dtech_new.hideLoginBox();
                 dtech_new.showtopMenu();
+                dtech.updateElementAjax('<?php echo $this->createUrl("/web/default/getFacebookFeeds") ?>','facebook_feeds','fb_page_pk');
             });
         </script>
 

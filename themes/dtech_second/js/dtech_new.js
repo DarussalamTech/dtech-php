@@ -18,15 +18,7 @@ var dtech_new = {
             dtech_new.popupStatus = 0; // and set value to 0
         }
     },
-    loading: function() {
-        jQuery("div.loader").show();
-    },
-    closeloading: function() {
-        jQuery("div.loader").fadeOut('normal');
-    },
-    showBestSeller: function() {
-        jQuery(".under_best_seller").toggle('fast');
-    },
+
     registerCountryDropDown: function() {
         jQuery("#countries").msDropdown();
     },
@@ -292,5 +284,6 @@ var dtech_new = {
             }
 
         }, slider_timings * 1000);
-    }
+    },
+    
 }

@@ -19,7 +19,7 @@ $rules = array_merge($rules_admin, $rules_web);
 
 $url_manager = array(
     'urlFormat' => 'path',
-    'showScriptName' => true,
+    'showScriptName' => false,
     'rules' => $rules
 );
 //$url_manager = array();
