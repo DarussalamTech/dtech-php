@@ -43,8 +43,8 @@ class ProductController extends Controller {
         /* Set filters and default active */
         $this->filters = array(
             'parent_cateogry_id' => Categories::model()->getParentCategories(),
-            'status' => array("1"=>"Enabled","0"=>"Disabled",""=>"All"),
-            'is_slider' => array("1"=>"Enabled","0"=>"Disabled",""=>"All"),
+            'status' => array("1" => "Enabled", "0" => "Disabled", "" => "All"),
+            'is_slider' => array("1" => "Enabled", "0" => "Disabled", "" => "All"),
         );
     }
 
@@ -357,12 +357,13 @@ class ProductController extends Controller {
             "model" => $model,
             "dir" => "productImages"));
     }
+
     /**
      * update status of product
      * @param type $id
      */
-    public function actionToggleEnabled($id){
-        
+    public function actionToggleEnabled($id) {
+
         $model = $this->loadModel($id);
         $this->layout = "";
         if ($model->status == 1) {
@@ -370,7 +371,7 @@ class ProductController extends Controller {
         } else {
             $model->status = 1;
         }
-      
+
         Product::model()->updateByPk($id, array("status" => $model->status));
     }
 
@@ -480,6 +481,28 @@ class ProductController extends Controller {
         $model = ProductProfileLang::model()->findByPk($id);
         $model->delete();
         $this->redirect($this->createUrl("/product/profileLanguage", array("id" => $model->product_id)));
+    }
+
+    public function actionExportProduct($category='') {
+         header("Content-type: application/vnd.ms-excel");
+        header("Content-Disposition: attachment;Filename=document_name.xls");
+        
+ 
+
+        
+        $results = Yii::app()->db->createCommand()
+                ->select('*')
+                ->from('product_profile p1')
+                ->join('product p2', 'p1.product_id=p2.product_id')
+                ->andWhere("p2.parent_cateogry_id=:id",array(':id'=>57))
+                ->andWhere("p2.city_id=:city_id",array(':city_id'=>1))
+                ->queryAll();
+
+        
+ 
+       $this->renderPartial('_exportproduct',array('results'=>$results));
+
+       
     }
 
 }
