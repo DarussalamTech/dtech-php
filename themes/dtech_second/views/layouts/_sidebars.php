@@ -5,7 +5,7 @@
 ?>
 <input type='hidden' id='fb_page_pk' value='175377742595349' />
 <div id="tweets">
-    <h3 onclick="jQuery('#faceboo_feeds').toggle();" style='cursor:pointer'><img src="<?php echo Yii::app()->theme->baseUrl ?>/images/fb_feed.png"><span>Facebook</span></h3>
+    <h3 onclick="jQuery('#facebook_feeds').toggle();" style='cursor:pointer'><img src="<?php echo Yii::app()->theme->baseUrl ?>/images/fb_feed.png"><span>Facebook</span></h3>
     <div id='facebook_feeds'>
           
     </div>
