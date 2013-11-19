@@ -483,26 +483,45 @@ class ProductController extends Controller {
         $this->redirect($this->createUrl("/product/profileLanguage", array("id" => $model->product_id)));
     }
 
-    public function actionExportProduct($category='') {
-         header("Content-type: application/vnd.ms-excel");
-        header("Content-Disposition: attachment;Filename=document_name.xls");
-        
- 
+    public function actionExportProduct($category = '') {
 
-        
-        $results = Yii::app()->db->createCommand()
-                ->select('*')
-                ->from('product_profile p1')
-                ->join('product p2', 'p1.product_id=p2.product_id')
-                ->andWhere("p2.parent_cateogry_id=:id",array(':id'=>57))
-                ->andWhere("p2.city_id=:city_id",array(':city_id'=>1))
-                ->queryAll();
 
-        
- 
-       $this->renderPartial('_exportproduct',array('results'=>$results));
 
-       
+        if (!empty($category)) {
+            header("Content-type: application/vnd.ms-excel");
+            header("Content-Disposition: attachment;Filename=".$category.".xls");
+
+            $cat_id = Yii::app()->db->createCommand()
+                    ->select('category_id')
+                    ->from('categories p1')
+                    ->andWhere("p1.category_name=:name", array(':name' => $category))
+                    ->andWhere("p1.city_id=:city_id", array(':city_id' => Yii::app()->request->getQuery('city_id')))
+                    ->queryAll();
+
+
+
+
+
+            $results = Yii::app()->db->createCommand()
+                    ->select('*')
+                    ->from('product_profile p1')
+                    ->join('product p2', 'p1.product_id=p2.product_id')
+                    ->andWhere("p2.parent_cateogry_id=:id", array(':id' => $cat_id[0]['category_id']))
+                    ->andWhere("p2.city_id=:city_id", array(':city_id' => Yii::app()->request->getQuery('city_id')))
+                    ->queryAll();
+        } else {
+            header("Content-type: application/vnd.ms-excel");
+            header("Content-Disposition: attachment;Filename=All_Category.xls");
+
+            $results = Yii::app()->db->createCommand()
+                    ->select('*')
+                    ->from('product_profile p1')
+                    ->join('product p2', 'p1.product_id=p2.product_id')
+                    ->Where("p2.city_id=:city_id", array(':city_id' => Yii::app()->request->getQuery('city_id')))
+                    ->queryAll();
+        }
+
+        $this->renderPartial('_exportproduct', array('results' => $results));
     }
 
 }
