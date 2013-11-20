@@ -483,41 +483,58 @@ class ProductController extends Controller {
         $this->redirect($this->createUrl("/product/profileLanguage", array("id" => $model->product_id)));
     }
 
+    /**
+     * export algorithim for 
+     * books of darussalam
+     * @param type $category
+     */
     public function actionExportProduct($category = '') {
+
+        $select1 = "product.product_name,product.product_description,product.product_overview ,
+                product_profile.item_code,product_profile.title,product_profile.price,product_profile.quantity,
+                product_profile.isbn,product_profile.no_of_pages,
+                bind.title as binding,
+                printing.title as printing,
+                dimen.title as paper,
+                paper.title as dimension,product_profile.edition";
 
 
 
         if (!empty($category)) {
             header("Content-type: application/vnd.ms-excel");
-            header("Content-Disposition: attachment;Filename=".$category.".xls");
+            header("Content-Disposition: attachment;Filename=" . str_replace(" ", "_", $category) . ".xls");
 
             $cat_id = Yii::app()->db->createCommand()
                     ->select('category_id')
                     ->from('categories p1')
                     ->andWhere("p1.category_name=:name", array(':name' => $category))
                     ->andWhere("p1.city_id=:city_id", array(':city_id' => Yii::app()->request->getQuery('city_id')))
-                    ->queryAll();
-
-
-
-
+                    ->queryRow();
 
             $results = Yii::app()->db->createCommand()
-                    ->select('*')
-                    ->from('product_profile p1')
-                    ->join('product p2', 'p1.product_id=p2.product_id')
-                    ->andWhere("p2.parent_cateogry_id=:id", array(':id' => $cat_id[0]['category_id']))
-                    ->andWhere("p2.city_id=:city_id", array(':city_id' => Yii::app()->request->getQuery('city_id')))
+                    ->select($select1)
+                    ->from('product')
+                    ->join('product_profile', 'product_profile.product_id = product.product_id ')
+                    ->join('conf_products bind', 'bind.id = product_profile.binding ')
+                    ->join('conf_products printing', 'printing.id = product_profile.printing ')
+                    ->join('conf_products paper', 'paper.id = product_profile.paper ')
+                    ->join('conf_products dimen', 'dimen.id = product_profile.dimension ')
+                    ->andWhere("product.parent_cateogry_id=:id", array(':id' => $cat_id['category_id']))
+                    ->andWhere("product.city_id=:city_id", array(':city_id' => Yii::app()->request->getQuery('city_id')))
                     ->queryAll();
         } else {
             header("Content-type: application/vnd.ms-excel");
             header("Content-Disposition: attachment;Filename=All_Category.xls");
 
             $results = Yii::app()->db->createCommand()
-                    ->select('*')
-                    ->from('product_profile p1')
-                    ->join('product p2', 'p1.product_id=p2.product_id')
-                    ->Where("p2.city_id=:city_id", array(':city_id' => Yii::app()->request->getQuery('city_id')))
+                    ->select($select1)
+                    ->from('product')
+                    ->join('product_profile', 'product_profile.product_id = product.product_id ')
+                    ->join('conf_products bind', 'bind.id = product_profile.binding ')
+                    ->join('conf_products printing', 'printing.id = product_profile.printing ')
+                    ->join('conf_products paper', 'paper.id = product_profile.paper ')
+                    ->join('conf_products dimen', 'dimen.id = product_profile.dimension ')
+                    ->andWhere("product.city_id=:city_id", array(':city_id' => Yii::app()->request->getQuery('city_id')))
                     ->queryAll();
         }
 
