@@ -1,5 +1,5 @@
 <?php
-                
+
 class SiteController extends Controller {
 
     /**
@@ -366,6 +366,9 @@ class SiteController extends Controller {
      * admin login for detail
      */
     public function actionLoginAdmin() {
+        if (!Yii::app()->user->isGuest) {
+            $this->redirect($this->createUrl('/product/index'));
+        }
         Yii::app()->controller->layout = "//layouts/login_admin";
         Yii::app()->theme = "admin";
 
@@ -419,6 +422,7 @@ class SiteController extends Controller {
 
         $this->redirect(Yii::app()->homeUrl);
     }
+
     /**
      * authroize dot net test
      */

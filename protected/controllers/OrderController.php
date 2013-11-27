@@ -7,6 +7,7 @@ class OrderController extends Controller {
      * using two-column layout. See 'protected/views/layouts/column2.php'.
      */
     public $layout = '//layouts/column2';
+    public $filters;
 
     /**
      * @return array action filters
@@ -31,6 +32,23 @@ class OrderController extends Controller {
         parent::setPermissions($this->id, $operations);
 
         return true;
+    }
+
+    /**
+     * Initialize Left site filters
+     */
+    public function init() {
+        parent::init();
+        
+        $criteria = new CDbCriteria();
+        $criteria->select = "id,name";
+        $paymentModels = ConfPaymentMethods::model()->findAll($criteria);
+
+        /* Set filters and default active */
+        $this->filters = array(
+            'status' => Status::model()->gettingOrderStatus()+array(""=>"All"),
+            'payment_method_id' => CHtml::listData($paymentModels, "id", "name")+array(""=>"All"),
+        );
     }
 
     /**
