@@ -18,7 +18,7 @@ foreach ($products as $product):
                         'country' => Yii::app()->session['country_short_name'],
                         'city' => Yii::app()->session['city_short_name'],
                         'city_id' => Yii::app()->session['city_id'],
-                        "pcategory" => $product['category'],
+                        "pcategory" => $product['category_slug'],
                         "slug" => $product['slug'],
                     )), array('title' => $name));
             ?>
