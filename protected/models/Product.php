@@ -346,6 +346,7 @@ class Product extends DTActiveRecord {
                     'city_id' => $products->city_id,
                     'slug' => $products->slag,
                     'category' => $products->parent_category->category_name,
+                    'category_slug' => $products->parent_category->category_slug,
                     'city_short' => $products->city->short_name,
                     'country_short' => $products->city->country->short_name,
                     'product_name' => $products->product_name,
