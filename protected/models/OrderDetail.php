@@ -200,6 +200,7 @@ class OrderDetail extends DTActiveRecord {
                 'no_image' => $products->no_image,
                 'slug' => $products->slag,
                 'category' => $products->parent_category->category_name,
+                'category_slug' => $products->parent_category->category_slug,
                 'image' => $images
             );
         }
@@ -328,6 +329,7 @@ class OrderDetail extends DTActiveRecord {
                         'product_price' => $product_price,
                         'slug' => $best_join[$i]->product_profile->product->slag,
                         'category' => $best_join[$i]->product_profile->product->parent_category->category_name,
+                        'category_slug' => $best_join[$i]->product_profile->product->parent_category->category_slug,
                         'product_profile_id' => $best_join[$i]->product_profile->id,
                         'quantity' => $best_join[$i]->product_profile->quantity,
                         'totalOrder' => $product_totalOrder,
