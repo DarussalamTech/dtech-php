@@ -9,14 +9,13 @@ RewriteCond %{QUERY_STRING} ^option=com_virtuemart$ [NC]
 RewriteRule ^index\.php$ - [NC,L,R=404]
 
 
-RewriteRule ^uploads/ - [R=404,L,NC]
-RewriteRule ^media/ - [R=404,L,NC]
-RewriteRule ^images/ - [R=404,L,NC]
-RewriteRule ^test/ - [R=404,L,NC]
-RewriteRule ^video/ - [R=404,L,NC]
-RewriteRule ^waqas/ - [R=404,L,NC]
-RewriteRule ^yii/ - [R=404,L,NC]
-RewriteRule ^component/ - [R=404,L,NC]
+RewriteRule ^index.php/uploads/ - [R=404,L,NC]
+RewriteRule ^index.php/media/ - [R=404,L,NC]
+RewriteRule ^index.php/images/ - [R=404,L,NC]
+RewriteRule ^index.php/test/ - [R=404,L,NC]
+RewriteRule ^index.php/video/ - [R=404,L,NC]
+RewriteRule ^index.php/waqas/ - [R=404,L,NC]
+RewriteRule ^index.php/yii/ - [R=404,L,NC]
 RewriteRule ^index.php/component/ - [R=404,L,NC]
 
 
