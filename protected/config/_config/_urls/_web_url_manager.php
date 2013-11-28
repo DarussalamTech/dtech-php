@@ -50,6 +50,7 @@ $rules_web = array(
     '<lang:[\w-\.]+>/<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/<Product_page:[\w-\.]+>/others' => '/web/others/index',
     '<lang:[\w-\.]+>/<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/viewCart' => '/web/cart/viewcart',
     '<lang:[\w-\.]+>/<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/cart/addtocart' => '/cart/addtocart',
+    '<lang:[\w-\.]+>/<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/cart/addtowishlist' => '/cart/addtowishlist',
     '<lang:[\w-\.]+>/<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/cart/loadCart' => '/web/cart/loadCart',
     '<lang:[\w-\.]+>/<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/cart/editcart' => '/web/cart/editcart',
     '<lang:[\w-\.]+>/<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/deleteCart' => '/web/cart/deleteCart',

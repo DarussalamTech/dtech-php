@@ -66,27 +66,29 @@ class CartController extends Controller {
      */
     public function actionAddtowishlist() {
 
-        $ip = Yii::app()->request->getUserHostAddress();
-        $wishlist_model = new WishList();
-        if (isset(Yii::app()->user->id)) {
-            $wishlist = $wishlist_model->find('product_profile_id=' . $_REQUEST['product_profile_id'] . ' AND (user_id=' . Yii::app()->user->id . ' OR session_id="' . $ip . '")');
-            $ip = '';
-        } else {
-            $wishlist = $wishlist_model->find('product_profile_id=' . $_REQUEST['product_profile_id'] . ' AND session_id="' . $ip . '"');
-        }
-        if ($wishlist == null) {
+        if (Yii::app()->request->isAjaxRequest) {
+            $ip = Yii::app()->request->getUserHostAddress();
             $wishlist_model = new WishList();
-            $wishlist_model->product_profile_id = $_REQUEST['product_profile_id'];
-            $wishlist_model->user_id = Yii::app()->user->id;
-            $wishlist_model->city_id = Yii::app()->session['city_id'];
-            $wishlist_model->added_date = date(Yii::app()->params['dateformat']);
-            $wishlist_model->session_id = $ip;
-            $wishlist_model->save();
+            if (isset(Yii::app()->user->id)) {
+                $wishlist = $wishlist_model->find('product_profile_id=' . $_REQUEST['product_profile_id'] . ' AND (user_id=' . Yii::app()->user->id . ' OR session_id="' . $ip . '")');
+                $ip = '';
+            } else {
+                $wishlist = $wishlist_model->find('product_profile_id=' . $_REQUEST['product_profile_id'] . ' AND session_id="' . $ip . '"');
+            }
+            if ($wishlist == null) {
+                $wishlist_model = new WishList();
+                $wishlist_model->product_profile_id = $_REQUEST['product_profile_id'];
+                $wishlist_model->user_id = Yii::app()->user->id;
+                $wishlist_model->city_id = Yii::app()->session['city_id'];
+                $wishlist_model->added_date = date(Yii::app()->params['dateformat']);
+                $wishlist_model->session_id = $ip;
+                $wishlist_model->save();
+            }
+
+
+            $tot_wishlists = WishList::model()->getWishListCount();
+            echo CJSON::encode(array('product_profile_id' => $_REQUEST['product_profile_id'], 'wishlist_counter' => $tot_wishlists['total_pro']));
         }
-
-
-        $tot_wishlists = WishList::model()->getWishListCount();
-        echo CJSON::encode(array('product_profile_id' => $_REQUEST['product_profile_id'], 'wishlist_counter' => $tot_wishlists['total_pro']));
     }
 
     /**
