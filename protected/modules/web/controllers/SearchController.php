@@ -6,25 +6,28 @@
 class SearchController extends Controller {
 
     public function actionDosearch() {
+
         $connection = Yii::app()->db;
-        $term = $_REQUEST['term'];
+        $term = $connection->quoteValue("%".$_REQUEST['term']."%");
+
         $sql = "SELECT * " .
                 " FROM ( " .
                 " SELECT categories.category_name as name,'cat' as module " .
-                " FROM categories WHERE categories.category_name LIKE '%" . $term . "%'  LIMIT 2" .
+                " FROM categories WHERE categories.category_name LIKE " . $term . "  LIMIT 2" .
                 " UNION all " .
                 " SELECT author.author_name as name ,'author_name' as module " .
-                " FROM author WHERE author.author_name LIKE '%" . $term . "%' LIMIT 4 " .
+                " FROM author WHERE author.author_name LIKE " . $term . " LIMIT 4 " .
                 " UNION all " .
                 " SELECT product.product_name as name,'prdo' as module " .
                 " FROM product " .
-                " WHERE  product.status = 1 AND product.product_name LIKE '%" . $term . "%' LIMIT 6 " .
+                " WHERE  product.status = 1 AND product.product_name LIKE " . $term . " LIMIT 6 " .
                 ") a ";
 
 
         $arr = array();
 
         $command = $connection->createCommand($sql);
+        $command->prepare();
         $rows = $command->queryAll();
 
         foreach ($rows as $row) {
@@ -48,49 +51,50 @@ class SearchController extends Controller {
         if (isset($_REQUEST['serach_field'])) {
             $q = $_REQUEST['serach_field'];
             $q = utf8_decode($q);
+            $q = Yii::app()->db->quoteValue("%".$q."%");
             $sql = "Select " .
-            " DISTINCT(product.product_id), " .
-            " product.product_name, " .
-            " city.short_name as city_short, " .
-            " product.city_id, " .
-            " product.authors, " .
-            // " product.languages, " .
-            " country.short_name " .
-            " FROM product " .
-            " LEFT OUTER JOIN city " .
-            " ON city.city_id = product.city_id " .
-            " LEFT OUTER JOIN author " .
-            " ON author.author_id = product.authors " .
-            " LEFT outer JOIN product_profile " .
-            " ON product_profile.product_id = product.product_id " .
-            " LEFT  JOIN language " .
-            " ON language.language_id = product_profile.language_id " .
-            " INNER JOIN country " .
-            " ON country.country_id = city.country_id " .
-            " LEFT OUTER JOIN product_categories ON " .
-            " product_categories.product_id = product.product_id " .
-            "  LEFT OUTER JOIN categories ON " .
-            " categories.category_id = product_categories.category_id " .
-            " WHERE product.status = 1 AND " .
-            " ( " .
-            " product.product_name LIKE '%" . $q . "%' " .
-            " OR " .
-            " author.author_name LIKE '%" . $q . "%' " .
-            " OR " .
-            " categories.category_name LIKE '%" . $q . "%' " .
-            " OR " .
-            " city.short_name LIKE '%" . $q . "%' " .
-            " OR " .
-            " city.city_name LIKE '%" . $q . "%' " .
-            " OR " .
-            " language.language_name LIKE '%" . $q . "%' " .
-            " OR " .
-            " country.country_name LIKE '%" . $q . "%' " .
-            " OR " .
-            " country.short_name LIKE '%" . $q . "%' " .
-            " OR " .
-            " categories.category_name LIKE '%" . $q . "%' ) ";
-          
+                    " DISTINCT(product.product_id), " .
+                    " product.product_name, " .
+                    " city.short_name as city_short, " .
+                    " product.city_id, " .
+                    " product.authors, " .
+                    // " product.languages, " .
+                    " country.short_name " .
+                    " FROM product " .
+                    " LEFT OUTER JOIN city " .
+                    " ON city.city_id = product.city_id " .
+                    " LEFT OUTER JOIN author " .
+                    " ON author.author_id = product.authors " .
+                    " LEFT outer JOIN product_profile " .
+                    " ON product_profile.product_id = product.product_id " .
+                    " LEFT  JOIN language " .
+                    " ON language.language_id = product_profile.language_id " .
+                    " INNER JOIN country " .
+                    " ON country.country_id = city.country_id " .
+                    " LEFT OUTER JOIN product_categories ON " .
+                    " product_categories.product_id = product.product_id " .
+                    "  LEFT OUTER JOIN categories ON " .
+                    " categories.category_id = product_categories.category_id " .
+                    " WHERE product.status = 1 AND " .
+                    " ( " .
+                    " product.product_name LIKE " . $q . " " .
+                    " OR " .
+                    " author.author_name LIKE " . $q . " " .
+                    " OR " .
+                    " categories.category_name LIKE " . $q . " " .
+                    " OR " .
+                    " city.short_name LIKE " . $q . " " .
+                    " OR " .
+                    " city.city_name LIKE " . $q . " " .
+                    " OR " .
+                    " language.language_name LIKE " . $q . " " .
+                    " OR " .
+                    " country.country_name LIKE " . $q . " " .
+                    " OR " .
+                    " country.short_name LIKE " . $q . " " .
+                    " OR " .
+                    " categories.category_name LIKE " . $q . " ) ";
+
             $connection = Yii::app()->db;
             $command = $connection->createCommand($sql);
             $rows = $command->queryAll();
@@ -99,9 +103,9 @@ class SearchController extends Controller {
             foreach ($rows as $row) {
                 $product_array[$row['product_id']] = $row['product_id'];
             }
-            
+
             $dataProvider = Product::model()->allProducts($product_array);
-           
+
             $all_products = Product::model()->returnProducts($dataProvider);
 
 
@@ -119,7 +123,7 @@ class SearchController extends Controller {
 
             $dataProvider = Product::model()->allProducts();
             $all_products = Product::model()->returnProducts($dataProvider);
-            
+
             $this->productfilter($dataProvider, $all_products);
 
 

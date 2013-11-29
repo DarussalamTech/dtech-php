@@ -25,7 +25,7 @@
 
 	<div class="row">
 		<?php echo $form->label($model,'is_featured'); ?>
-		<?php echo $form->textField($model,'is_featured',array('size'=>1,'maxlength'=>1)); ?>
+		<?php echo $form->dropDownList($model,'is_featured',array("1"=>"Yes","0"=>"No")); ?>
 	</div>
 
 	<div class="row buttons">

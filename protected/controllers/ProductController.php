@@ -35,7 +35,7 @@ class ProductController extends Controller {
     }
 
     /**
-     * Initialize Project Report
+     * Initialize Left site filters
      */
     public function init() {
         parent::init();
@@ -45,6 +45,7 @@ class ProductController extends Controller {
             'parent_cateogry_id' => Categories::model()->getParentCategories(),
             'status' => array("1" => "Enabled", "0" => "Disabled", "" => "All"),
             'is_slider' => array("1" => "Enabled", "0" => "Disabled", "" => "All"),
+            'is_featured' => array("1" => "Featured", "0" => "No Featured", "" => "All"),
         );
     }
 

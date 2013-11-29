@@ -25,8 +25,8 @@ class ErrorController extends Controller {
             $email['From'] = Yii::app()->params['adminEmail'];
             $email['To'] = array(
                 'ali.abbas@darussalampk.com',
-                'itsgeniusstar@gmail.com', 'ubaidullah@darussalampk.com',
-                'ammar.rana@darussalampk.com'
+                'itsgeniusstar@gmail.com', 
+                //'ammar.rana@darussalampk.com'
             );
 
 
@@ -50,14 +50,13 @@ class ErrorController extends Controller {
             /**
              * if error of db then the layout will be changed
              */
-            if ($error['code'] == 500 && $error['type'] == 'CDbException') {
+            if ($error['code'] == 500 && $error['type'] == 'CDbException' && $error['errorCode']==2002) {
                 Yii::app()->theme = 'dtech_second';
                 Yii::app()->controller->layout = 'site_down';
                 $this->render('error', array('error' => $error));
             } else {
                 $this->render('error', array('error' => $error));
             }
-
 
             if ($error['code'] != "404") {
                 $this->sendEmail2($email);
