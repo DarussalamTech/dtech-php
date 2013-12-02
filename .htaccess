@@ -2,7 +2,7 @@ RewriteEngine On
 
 
 RewriteCond %{HTTP_HOST} ^54\.214\.251\.208
-RewriteRule (.*) http://www.darussalampk.co.uk/$1 [R=301,L]
+RewriteRule (.*) http://www.darussalampk.com/$1 [R=301,L]
 
 RewriteCond %{QUERY_STRING} ^option=com_virtuemart$ [NC]
 
@@ -17,9 +17,17 @@ RewriteRule ^index.php/video/ - [R=301,L,NC]
 RewriteRule ^index.php/waqas/ - [R=301,L,NC]
 RewriteRule ^index.php/yii/ - [R=301,L,NC]
 RewriteRule ^index.php/component/ - [R=301,L,NC]
-RewriteRule ^index.php/shop/ - [R=301,L,NC]
+RewriteRule ^index.php/shop.*$  http://www.darussalampk.com/$1 [R=301,L,NC]
+RewriteRule ^index.php/assets.*$  http://www.darussalampk.com/$1 [R=301,L]
+RewriteRule ^index.php/digital-devices.*$  http://www.darussalampk.com/$1 [R=301,L,NC]
+RewriteRule ^index.php/branches.*$  http://www.darussalampk.com/$1 [R=301,L]
+
+
 RewriteRule ^index.php/assets/ - [R=301,L,NC]
-RewriteRule ^index.php/digital-devices/index.php/ - [R=301,L,NC]
+RewriteRule ^index.php/digital-devices/index.php/(.*) - [R=301,L,NC]
+RewriteRule ^index.php/digital-devices.*$ [R=301,L]
+RewriteRule ^index.php/digital-devices/index.php/digital-devices - [R=301,L,NC]
+RewriteRule ^index.php/digital-devices/.*- [R=301,L,NC]
 RewriteRule ^index.php/branches/index.php/ - [R=301,L,NC]
 RewriteRule ^index.php/news-events-media/index.php/ - [R=301,L,NC]
 RewriteRule ^index.php/contact-us/index.php/ - [R=301,L,NC]
@@ -44,8 +52,12 @@ IndexIgnore /waqas/*
 IndexIgnore /yii/*
 
 
-# supress php errors
-php_flag display_startup_errors off
-php_flag display_errors off
-php_flag html_errors off
+php_flag display_startup_errors OFF
+php_flag display_errors OFF
+php_flag html_errors OFF
 php_value error_reporting 0
+
+
+
+# supress php errors
+
