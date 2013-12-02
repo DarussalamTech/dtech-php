@@ -106,7 +106,7 @@ class User extends DTActiveRecord {
         return array(
             'orders' => array(self::HAS_MANY, 'Order', 'user_id'),
             'status' => array(self::BELONGS_TO, 'Status', 'status_id', 'condition' => 'module="User"'),
-            'site' => array(self::BELONGS_TO, 'Site', 'site_id'),
+            'site' => array(self::BELONGS_TO, 'SelfSite', 'site_id'),
             'role' => array(self::BELONGS_TO, 'Authassignment', 'user_id'),
             'userProfiles' => array(self::HAS_ONE, 'UserProfile', 'id'),
             'city' => array(self::BELONGS_TO, 'City', 'city_id'),
@@ -267,10 +267,13 @@ class User extends DTActiveRecord {
         if ($params['strength'] === self::WEAK)
             $pattern = '/^(?=.*[a-zA-Z0-9]).{5,}$/';
         elseif ($params['strength'] === self::STRONG)
-            $pattern = '/^[a-z0-9_-]{5,18}$/';
+            $pattern = '/^(?=.*\d.*\d)[0-9A-Za-z!@#$%*]{8,}$/';
 
+        
         if (!preg_match($pattern, $this->$attribute))
-            $this->addError($attribute, 'Weak Password ! At least 5 characters.Passowrd can contain both letters and numbers!');
+            $this->addError($attribute, 'Weak Password ! At least 8 characters.Passowrd can contain both letters and numbers!');
+        
+        
     }
 
     public function customerHistory() {

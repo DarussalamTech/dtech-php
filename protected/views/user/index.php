@@ -80,11 +80,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
                 'style' => "text-align:left"
             )
         ),
-        /*
-          'activation_key',
-          'is_active',
-          'site_id',
-         */
+
         array(
             'class' => 'CButtonColumn',
             'template' => $button_template,

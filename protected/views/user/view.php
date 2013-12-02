@@ -42,7 +42,11 @@ $this->widget('zii.widgets.CDetailView', array(
             'name' => 'city_id',
             'value' => !empty($model->city) ? $model->city->city_name : "",
         ),
-        'site_id',
+        
+        array(
+            'name' => 'site_id',
+            'value' => !empty($model->site_id) ? $model->site->site_name : "",
+        ),
     ),
 ));
 ?>
