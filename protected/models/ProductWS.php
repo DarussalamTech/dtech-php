@@ -27,15 +27,20 @@ class ProductWS extends Product {
      * 
      * Get All books for web services
      */
-    public function getWsAllBooks() {
-
+    public function getWsAllBooks($cat_id = "") {
+        $cat_id=57;
         $criteria = new CDbCriteria(array(
             'select' => 't.product_id,t.product_name,t.product_description',
             'order' => 't.product_id ASC',
+            'condition' => 't.parent_id=57',
         ));
+        
+        if($cat_id != ""){
+            
+      
 
         $data = Product::model()->with(array('productProfile' => array('select' => 'price')))->findAll($criteria);
-
+        
         $all_products = array();
         $images = array();
         foreach ($data as $products) {
@@ -68,10 +73,15 @@ class ProductWS extends Product {
                 'product_author' => !empty($products->author) ? $products->author->author_name : "",
                 'currencySymbol' => '$',
                 'product_price' => $products->productProfile[0]->price,
-                'image' => $images
+                'image' => $images,
+                
             );
         }
         return $all_products;
+        }
+        else {
+            return "category Id is not set";
+        }
     }
 
     /*
@@ -156,6 +166,7 @@ class ProductWS extends Product {
         ));
 
         $data = Product::model()->with(array('productProfile' => array('select' => 'price'), 'productCategories'))->findAll($criteria);
+       
         $all_products = array();
         $images = array();
         foreach ($data as $products) {
@@ -191,8 +202,6 @@ class ProductWS extends Product {
                 'image' => $images
             );
         }
-
-
 
         return $all_products;
     }
