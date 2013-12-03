@@ -69,7 +69,7 @@ class ProductWS extends Product {
             $all_products[] = array(
                 'product_id' => $products->product_id,
                 'product_name' => $products->product_name,
-                'product_description' => $products->product_description,
+                //'product_description' => $products->product_description,
                 'product_author' => !empty($products->author) ? $products->author->author_name : "",
                 'currencySymbol' => '$',
                 'product_price' => $products->productProfile[0]->price,
@@ -195,7 +195,7 @@ class ProductWS extends Product {
             $all_products[] = array(
                 'product_id' => $products->product_id,
                 'product_name' => $products->product_name,
-                'product_description' => $products->product_description,
+                //'product_description' => $products->product_description,
                 'product_author' => !empty($products->author) ? $products->author->author_name : "",
                 'currencySymbol' => '$',
                 'product_price' => $products->productProfile[0]->price,
