@@ -7,7 +7,7 @@
         <script type="text/javascript" src="<?php echo Yii::app()->theme->baseUrl ?>/js/dtech_new.js"></script>
         <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl ?>/media/css/overlay.css" />
         <script src="<?php echo Yii::app()->baseUrl; ?>/media/js/dtech.js"></script>
-       
+
         <meta charset="utf-8">
         <script>
             var yii_base_url = "<?php echo Yii::app()->baseUrl; ?>";
@@ -17,7 +17,9 @@
             $(document).ready(function() {
                 dtech_new.hideLoginBox();
                 dtech_new.showtopMenu();
-                dtech.updateElementAjax('<?php echo $this->createUrl("/web/default/getFacebookFeeds") ?>','facebook_feeds','fb_page_pk');
+                if (jQuery("#facebook_feeds").length > 0) {
+                    dtech.updateElementAjax('<?php echo $this->createUrl("/web/default/getFacebookFeeds") ?>', 'facebook_feeds', 'fb_page_pk');
+                }
             });
         </script>
 
