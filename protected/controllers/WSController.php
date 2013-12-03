@@ -21,7 +21,7 @@ class WSController extends Controller {
             echo CJSON::encode($allBooks);
         } else if ($_REQUEST['record_set'] == 'product_category') {
             
-            $allBooks = ProductWS::model()->getWsAllBooksByCategory();
+                $allBooks = ProductWS::model()->getWsAllBooksByCategory();
 
             $this->layout = "";
 //            CVarDumper::dump($allBooks,10,true);
