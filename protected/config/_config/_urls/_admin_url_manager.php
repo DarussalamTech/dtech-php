@@ -69,7 +69,6 @@ $rules_admin = array(
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/product/exportProduct' => '/product/exportProduct',
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/product/sliderSetting' => '/product/sliderSetting',
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/product/createSlider' => '/product/createSlider',
-
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/categories/updateParent/<id:[\w-\.]+>' => '/categories/updateParent',
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/categories/update/<id:[\w-\.]+>' => '/categories/update',
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/author/update/<id:[\w-\.]+>' => '/author/update',
@@ -122,5 +121,16 @@ $rules_admin = array(
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/rights/authItem/update' => '/rights/authItem/update',
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/rights/assignment/view' => '/rights/assignment/view',
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/menus/installMenu' => '/menus/installMenu',
+    /**
+     * configuration
+     */
+    /** admin configurations url ** */
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/conf/load/' => '/configurations/load',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/conf/general/' => '/configurations/general',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/conf/load/' => '/configurations/load',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/conf/deleteG/' => '/configurations/deleteGeneral',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/conf/deleteO/' => '/configurations/deleteOther',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/<type:[\w-\.]+>/conf/load/' => '/configurations/load',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/conf/load/' => '/configurations/load',
 );
 ?>

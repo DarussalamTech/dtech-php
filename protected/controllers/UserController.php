@@ -62,6 +62,9 @@ class UserController extends Controller {
             $model->attributes = $_POST['User'];
             $pass = $model->user_password;
 
+            $model->site_id = !empty($model->site_id)?$model->site_id:Yii::app()->session['site_id'];
+           
+
             if ($model->save()) {
                 /**
                  * will send the email to create user
@@ -125,6 +128,7 @@ class UserController extends Controller {
 
         if (isset($_POST['UserUpdate'])) {
             $model->attributes = $_POST['UserUpdate'];
+            $model->site_id = !empty($model->site_id)?$model->site_id:Yii::app()->session['site_id'];
             if ($model->save())
                 $this->redirect(array('view', 'id' => $model->user_id));
         }
@@ -244,17 +248,17 @@ class UserController extends Controller {
 
 
             $emails = explode("|", $_POST['ids']);
-           
+
             foreach ($emails as $_id) {
                 $model = User::model()->findFromPrimerkey($_id);
-               
+
                 if (!empty($model)) {
-                   
+
                     $dt = new DTFunctions();
                     $activation_code = $dt->getRanddomeNo(15);
                     $model->updateByPk($model->user_id, array("activation_key" => $activation_code));
 
-                    
+
                     $url = $this->createAbsoluteUrl('/web/user/activate', array(
                         'key' => $activation_code,
                         'user_id' => $model->user_id,
@@ -262,17 +266,17 @@ class UserController extends Controller {
                         'lang' => $this->currentLang
                     ));
 
-                   
+
                     $email['From'] = Yii::app()->params['adminEmail'];
                     $email['To'] = $model->user_email;
                     $email['Subject'] = "Your New Activation Link on " . Yii::app()->name;
                     $body = $this->renderPartial("_sendInvitation", array('model' => $model, "url" => $url), true, false);
 
                     $email['Body'] = $body;
-                    
+
                     $email['Body'] = $this->renderPartial('/common/_email_template_pk', array('email' => $email), true, false);
-                   
-                    
+
+
                     $this->sendEmail2($email);
                 }
             }

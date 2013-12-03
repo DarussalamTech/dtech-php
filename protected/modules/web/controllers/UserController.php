@@ -46,6 +46,7 @@ class UserController extends Controller {
 
         $model = new User;
         Yii::app()->user->SiteSessions;
+       
 
         if (isset($_POST['User'])) {
 

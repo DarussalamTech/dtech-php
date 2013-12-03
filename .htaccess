@@ -1,7 +1,53 @@
 RewriteEngine On
+
+
+RewriteCond %{HTTP_HOST} ^54\.214\.251\.208
+RewriteRule (.*) http://www.darussalampk.com/$1 [R=301,L]
+
+
+
+
+RewriteRule ^index.php/uploads/ - [R=301,L]
+RewriteRule ^index.php/media/ - [R=301,L,NC]
+RewriteRule ^index.php/images/ - [R=301,L,NC]
+RewriteRule ^index.php/test/ - [R=301,L,NC]
+RewriteRule ^index.php/video/ - [R=301,L,NC]
+RewriteRule ^index.php/waqas/ - [R=301,L,NC]
+RewriteRule ^index.php/yii/ - [R=301,L,NC]
+RewriteRule ^index.php/component/ - [R=301,L,NC]
+RewriteRule ^index.php/shop.*$  http://www.darussalampk.com/$1 [R=301,L,NC]
+RewriteRule ^index.php/assets.*$  http://www.darussalampk.com/$1 [R=301,L]
+RewriteRule ^index.php/digital-devices.*$  http://www.darussalampk.com/$1 [R=301,L,NC]
+RewriteRule ^index.php/branches.*$  http://www.darussalampk.com/$1 [R=301,L]
+RewriteRule ^index.php/branches.*$  http://www.darussalampk.com/$1 [R=301,L]
+RewriteRule ^index.php/templates.*$  http://www.darussalampk.com/$1 [R=301,L]
+RewriteRule ^index.php/news-events-media.*$  http://www.darussalampk.com/$1 [R=301,L]
+RewriteRule ^index.php/themes.*$  http://www.darussalampk.com/$1 [R=301,L]
+RewriteRule ^index.php.*{QUERY_STRING}option=com_virtuemart$  http://www.darussalampk.com/$1 [R=301,L]
+
+     
+RewriteRule ^index.php/assets/ - [R=301,L,NC]
+RewriteRule ^index.php/digital-devices/index.php/(.*) - [R=301,L,NC]
+RewriteRule ^index.php/digital-devices.*$ [R=301,L]
+RewriteRule ^index.php/digital-devices/index.php/digital-devices - [R=301,L,NC]
+RewriteRule ^index.php/digital-devices/.* - [R=301,L,NC]
+RewriteRule ^index.php/themes/.* - [R=301,L,NC]
+RewriteRule ^index.php/branches/index.php/ - [R=301,L,NC]
+RewriteRule ^index.php/news-events-media/index.php/ - [R=301,L,NC]
+RewriteRule ^index.php/contact-us/index.php/ - [R=301,L,NC]
+RewriteRule ^index.php/index.php/index.php/ - [R=301,L,NC]
+RewriteRule ^index.php/index.php/index.php/ - [R=301,L,NC]
+RewriteRule ^templates/ja_mesolite_ii/ - [R=301,L,NC]
+RewriteRule ^templates/ja_mesolite_ii/ - [R=301,L,NC]
+
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)\?*$ index.php/$1 [L,QSA]
+
+
+
+
 
 IndexIgnore /uploads/*
 IndexIgnore /media/*
@@ -12,8 +58,12 @@ IndexIgnore /waqas/*
 IndexIgnore /yii/*
 
 
+php_flag display_startup_errors OFF
+php_flag display_errors OFF
+php_flag html_errors OFF
+php_value error_reporting 0
+
+
+
 # supress php errors
-php_flag display_startup_errors on
-php_flag display_errors on
-php_flag html_errors on
-php_value error_reporting 1
+

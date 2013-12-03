@@ -50,6 +50,7 @@ $rules_web = array(
     '<lang:[\w-\.]+>/<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/<Product_page:[\w-\.]+>/others' => '/web/others/index',
     '<lang:[\w-\.]+>/<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/viewCart' => '/web/cart/viewcart',
     '<lang:[\w-\.]+>/<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/cart/addtocart' => '/cart/addtocart',
+    '<lang:[\w-\.]+>/<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/cart/addtowishlist' => '/cart/addtowishlist',
     '<lang:[\w-\.]+>/<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/cart/loadCart' => '/web/cart/loadCart',
     '<lang:[\w-\.]+>/<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/cart/editcart' => '/web/cart/editcart',
     '<lang:[\w-\.]+>/<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/deleteCart' => '/web/cart/deleteCart',
@@ -84,14 +85,7 @@ $rules_web = array(
     '<lang:[\w-\.]+>/<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/getSearch' => '/web/search/getSearch',
     '<lang:[\w-\.]+>/<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/searchDetail' => '/web/search/searchDetail',
     '<lang:[\w-\.]+>/<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/viewPage/<id:[\w-\.]+>' => '/web/page/viewPage',
-    /** admin configurations url ** */
-    '<lang:[\w-\.]+>/<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/conf/load/' => '/configurations/load',
-    '<lang:[\w-\.]+>/<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/conf/general/' => '/configurations/general',
-    '<lang:[\w-\.]+>/<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/conf/load/' => '/configurations/load',
-    '<lang:[\w-\.]+>/<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/conf/deleteG/' => '/configurations/deleteGeneral',
-    '<lang:[\w-\.]+>/<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/conf/deleteO/' => '/configurations/deleteOther',
-    //'<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/<type:[\w-\.]+>/conf/load/' => '/configurations/load',
-    //'<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/conf/load/' => '/configurations/load',
+
 
     /** other urls * */
     '<lang:[\w-\.]+>/<controller:\w+>/<id:\d+>' => '<controller>/view',

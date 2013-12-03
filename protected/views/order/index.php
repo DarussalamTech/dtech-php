@@ -23,6 +23,14 @@ $('.search-form form').submit(function(){
 	return false;
 });
 ");
+$this->PcmWidget['filter'] = array('name' => 'ItstLeftFilter',
+    'attributes' => array(
+        'model' => $model,
+        'filters' => $this->filters,
+        'keyUrl' => true,
+        'action' => Yii::app()->createUrl($this->route),
+        'grid_id' => 'product-grid',
+        ));
 ?>
 
 <h1>Manage Orders</h1>

@@ -9,6 +9,7 @@ $form = $this->beginWidget('CActiveForm', array(
         'validateOnSubmit' => true,
     ),
         ));
+
 ?>
 <div class="form_container">
     <div class="row_left_form row_center_form">
