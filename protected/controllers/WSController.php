@@ -24,6 +24,7 @@ class WSController extends Controller {
             $allBooks = ProductWS::model()->getWsAllBooksByCategory();
 
             $this->layout = "";
+//            CVarDumper::dump($allBooks,10,true);
             echo CJSON::encode($allBooks);
         }
     }
@@ -57,6 +58,30 @@ class WSController extends Controller {
             echo CJSON::encode(array("error" => $e->getCode()));
         }
     }
+    public function actionGetCategories() {
+        $criteria = new CDbCriteria();
+        $criteria->select = "category_id,category_name";
+        $criteria->condition="t.parent_id= 57";
+        $categories = Categories_WS::model()->findAll($criteria);
+        
+        $cats = array();
+        foreach($categories as $cat){
+            $cats[] = array(
+                "category_id"=>$cat->category_id,
+                "category_name"=>$cat->category_name,
+            );
+        }
+
+        try {
+            $ret_array = array();
+            $ret_array['error'] = '';
+            $ret_array['data'] = $cats;
+            $ret_array['count'] = count($cats);
+            echo CJSON::encode($ret_array);
+        } Catch (Exception $e) {
+            echo CJSON::encode(array("error" => $e->getCode()));
+        }
+    }
 
     /*
      * Iphon service to Send All categories
@@ -65,14 +90,18 @@ class WSController extends Controller {
      */
 
     public function actionRequestedCategory($category_id = 0) {
+        
         $requested_cat = ProductWS::model()->getWsRequestByCategory($category_id);
         try {
+            
             $requested_product_arr = array();
             $requested_product_arr['error'] = '';
             $requested_product_arr['data'] = $requested_cat;
             $requested_product_arr['count'] = count($requested_cat);
+            
             echo CJSON::encode($requested_product_arr);
         } catch (Exception $e) {
+            die('here !! !!! !!!');
             echo CJSON::encode(array("error" => $e->getCode()));
         }
     }
