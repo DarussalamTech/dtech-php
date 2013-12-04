@@ -462,7 +462,8 @@ class Product extends DTActiveRecord {
      */
     public function setSlug() {
         $module = Yii::app()->controller->getModule();
-        if ($this->_controller == "site" || get_class($module) == "WebModule") {
+       
+        if ($this->_controller == "site" || get_class($module) == "WebModule" || $this->_controller == "wS") {
             $this->slag = trim($this->slag) . "-" . $this->primaryKey;
             $this->slag = str_replace(" ", "-", $this->slag);
             $this->slag = str_replace(Yii::app()->params['notallowdCharactorsUrl'], '', $this->slag);

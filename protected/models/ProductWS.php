@@ -73,6 +73,7 @@ class ProductWS extends Product {
                 'product_author' => !empty($products->author) ? $products->author->author_name : "",
                 'currencySymbol' => '$',
                 'product_price' => $products->productProfile[0]->price,
+                'product_url' => Yii::app()->controller->createUrl("/web/product/productDetail",array("pcategory"=>$products->parent_category->slug,"slug"=>$products->slag)),
                 'image' => $images,
                 
             );
@@ -96,7 +97,7 @@ class ProductWS extends Product {
         $category_info = array();
         foreach ($categories as $c) {
             $criteria = new CDbCriteria(array(
-                'select' => 't.product_id,t.product_name,t.product_description',
+                'select' => 't.product_id,t.product_name,t.product_description,t.slag',
                 'order' => 't.product_id ASC',
                 'condition' => "t.product_id=productCategories.product_id AND productCategories.category_id=$c->category_id"
             ));
@@ -134,7 +135,8 @@ class ProductWS extends Product {
                     'product_author' => !empty($products->author) ? $products->author->author_name : "",
                     'currencySymbol' => '$',
                     'product_price' => $products->productProfile[0]->price,
-                    'image' => $images
+                    'image' => $images,
+                    'product_url' => "http://www.darussalampk.com/en/pak/lahore/1/Books/".$products->slag."/detail"
                 );
             }
 
@@ -172,7 +174,7 @@ class ProductWS extends Product {
         foreach ($data as $products) {
             $product_id = $products->product_id;
             $criteria2 = new CDbCriteria;
-            $criteria2->select = 'id,product_profile_id,image_large,image_small,is_default';  // only select the 'title' column
+            $criteria2->select = 'id,product_profile_id,imslagage_large,image_small,is_default';  // only select the 'title' column
             $criteria2->condition = "product_profile_id='" . $product_id . "'";
             $imagedata = ProductImage::model()->findAll($criteria2);
             $images = array();
