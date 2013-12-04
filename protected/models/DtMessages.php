@@ -40,7 +40,7 @@ class DtMessages extends DTActiveRecord {
             array('create_time, create_user_id, update_time, update_user_id', 'required'),
             array('category', 'length', 'max' => 255),
             array('create_user_id, update_user_id', 'length', 'max' => 11),
-            array('message', 'safe'),
+            array('id,message', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, category, message, create_time, create_user_id, update_time, update_user_id', 'safe', 'on' => 'search'),

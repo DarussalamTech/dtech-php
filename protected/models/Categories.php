@@ -86,7 +86,7 @@ class Categories extends DTActiveRecord {
     public function uniqueCategory($attribute, $param) {
         $criteria = new CDbCriteria();
         $criteria->addCondition("category_name ='" . $this->$attribute . "'");
-        $criteria->addCondition("city_id = " . $this->city_id);
+        $criteria->addCondition("city_id = '" . $this->city_id."'");
         if (!$this->isNewRecord) {
             $criteria->addCondition("category_id !='" . $this->category_id . "'");
         }
@@ -184,7 +184,7 @@ class Categories extends DTActiveRecord {
             'select' => "COUNT(product_category_id ) as totalStock,t.category_id,t.category_name",
             'group' => 't.category_id',
             //'limit' => 14,
-            'condition' => "t.city_id=" . $city_id . " AND product.city_id=" . $city_id, //parent id = 0 means category that is parent by itself.show only parent category in list
+            'condition' => "t.city_id='" . $city_id . "' AND product.city_id='" . $city_id."'", //parent id = 0 means category that is parent by itself.show only parent category in list
             'order' => 'totalStock DESC',
         ));
         /**
@@ -311,7 +311,7 @@ class Categories extends DTActiveRecord {
     public function getParentCategories() {
         $crtitera = new CDbCriteria();
         $city_id = isset(Yii::app()->session['city_id']) ? Yii::app()->session['city_id'] : $_REQUEST['city_id'];
-        $crtitera->addCondition("parent_id = 0 AND city_id = " . $city_id);
+        $crtitera->addCondition("parent_id = 0 AND city_id = '" . $city_id."'");
         $crtitera->select = "category_id,category_name";
         $crtitera->order = "FIELD(t.category_name ,'Books') DESC";
         $categories = CHtml::listData($this->findAll($crtitera), "category_id", "category_name");
@@ -327,7 +327,7 @@ class Categories extends DTActiveRecord {
     public function getMenuParentCategories() {
         $crtitera = new CDbCriteria();
         $city_id = isset(Yii::app()->session['city_id']) ? Yii::app()->session['city_id'] : $_REQUEST['city_id'];
-        $crtitera->addCondition("parent_id = 0 AND city_id = " . $city_id);
+        $crtitera->addCondition("parent_id = 0 AND city_id = '" . $city_id."'");
         $crtitera->select = "category_id,category_name,category_image,is_main_featured";
         $crtitera->order = "user_order ASC";
         $categories = $this->findAll($crtitera);
