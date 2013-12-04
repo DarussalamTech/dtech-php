@@ -71,7 +71,7 @@ class User extends DTActiveRecord {
             array('agreement_status', 'compare', 'compareValue' => '1', 'message' => "You must accept the Darusslam Terms and conditions"),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('special_offer,agreement_status,old_password,user_password2', 'safe'),
+            array('user_id,user_name,special_offer,agreement_status,old_password,user_password2', 'safe'),
             array('user_id, user_password, role_id, status_id, city_id, activation_key, is_active, site_id', 'safe', 'on' => 'search'),
         );
     }
