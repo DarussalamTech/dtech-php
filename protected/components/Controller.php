@@ -87,7 +87,15 @@ class Controller extends RController {
     public $webPages = array();
 
     public function beforeAction($action) {
-
+        /**
+         * Now allowed urls 
+         * for to reduce errors
+         * from google bot
+         */
+        if(strstr($_SERVER['QUERY_STRING'],Yii::app()->params['notAllowedRequestUri'])){
+            $this->redirect(Yii::app()->homeUrl);
+        }
+   
         parent::beforeAction($action);
         $this->setPages();
         $this->installConfig();
@@ -606,7 +614,7 @@ class Controller extends RController {
         $selected = array("dateformat", "auto_item_code", "slider_time");
         $criteria->addInCondition("param", $selected);
         if (!empty($_REQUEST['city_id'])) {
-            $criteria->addCondition("city_id = " . $_REQUEST['city_id']);
+            $criteria->addCondition("city_id = '" . $_REQUEST['city_id']."'");
         }
         $criteria->select = "param,value";
 
