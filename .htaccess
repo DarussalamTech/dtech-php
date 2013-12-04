@@ -24,7 +24,10 @@ RewriteRule ^index.php/templates.*$  http://www.darussalampk.com/$1 [R=301,L]
 RewriteRule ^index.php/news-events-media.*$  http://www.darussalampk.com/$1 [R=301,L]
 RewriteRule ^index.php/themes.*$  http://www.darussalampk.com/$1 [R=301,L]
 RewriteRule ^index.php/uploads/user_profile/2/.Zojila_Road.jpg  http://www.darussalampk.com/$1 [R=301,L]
-RewriteRule ^index.php.*{QUERY_STRING}option=com_virtuemart$  http://www.darussalampk.com/$1 [R=301,L]
+#RewriteRule ^index.php.*{QUERY_STRING}option=com_virtuemart$  http://www.darussalampk.com/$1 [R=301,L]
+
+RewriteRule %{QUERY_STRING} !(^|&)option=com_virtuemar($|&)
+RewriteRule (.*) http://www.darussalampk.com? [R=301,L] 
 
      
 RewriteRule ^index.php/assets/ - [R=301,L,NC]
@@ -38,6 +41,7 @@ RewriteRule ^index.php/news-events-media/index.php/ - [R=301,L,NC]
 RewriteRule ^index.php/contact-us/index.php/ - [R=301,L,NC]
 RewriteRule ^index.php/index.php/index.php/ - [R=301,L,NC]
 RewriteRule ^index.php/index.php/index.php/ - [R=301,L,NC]
+RewriteRule ^index.php/index.php/index.php/index.php - [R=301,L,NC]
 RewriteRule ^templates/ja_mesolite_ii/ - [R=301,L,NC]
 RewriteRule ^templates/ja_mesolite_ii/ - [R=301,L,NC]
 RewriteRule \.(png|zip|gif|jpeg|jpg|css|js)$ - [R=301,L,NC]
