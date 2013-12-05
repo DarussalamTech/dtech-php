@@ -104,15 +104,20 @@ class ProductController extends Controller {
         $model = $this->loadModel($id);
       
         if ($shipingcountry == "countries") {
-            $model->shippable_countries = explode(",", $model->shippable_countries);
+          
+          
             if (isset($_POST['Product'])) {
-                $model->attributes = $_POST['Product'];
-
-                $countries = implode(",", $model->shippable_countries);
+                $model->shippable_countries = isset($_POST['Product']['shippable_countries'])?$_POST['Product']['shippable_countries']:"";
+                
+                
+                $countries = !empty($model->shippable_countries)?implode(",", $model->shippable_countries):"";
 
                 $model->updateByPk($model->product_id, array("shippable_countries" => $countries));
 
                 $this->redirect(array('view', 'id' => $model->product_id));
+            }
+            else {
+                  $model->shippable_countries = explode(",", $model->shippable_countries);
             }
             $this->render('_update_countries', array("model" => $model));
         } else {

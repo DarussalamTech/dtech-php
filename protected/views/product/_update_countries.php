@@ -25,6 +25,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/media/multi
         'enableAjaxValidation' => false,
         'htmlOptions' => array('enctype' => 'multipart/form-data'),
     ));
+    echo $form->hiddenField($model, 'product_id');
     ?>
     <div class="row">
         <?php echo $form->labelEx($model, 'shippable_countries'); ?>

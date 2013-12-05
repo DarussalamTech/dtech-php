@@ -89,6 +89,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
             </div>
             <div class="secure_input_type">
                 <?php
+               
                 echo $form->dropDownList($model, 'shipping_country', $regionList, array(
                     'empty' => 'Please Select Country',
                     'ajax' => array(

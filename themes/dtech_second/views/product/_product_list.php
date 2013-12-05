@@ -47,7 +47,7 @@ foreach ($products as $product) {
      * quantity check for displaying 
      * image that available or not
      */
-    if ($product['quantity'] > 0):
+    if ($product['quantity'] > 0 && $product['is_shippable'] ==1):
         echo CHtml::openTag("div", array(
             'class' => 'white_basket',
             'onclick' => '
@@ -89,7 +89,7 @@ foreach ($products as $product) {
                 )
         );
 
-        echo CHtml::image(Yii::app()->theme->baseUrl . '/images/basket_not-avail.jpg');
+        echo CHtml::image(Yii::app()->theme->baseUrl . '/images/basket_not-avail.jpg','');
         echo CHtml::closeTag("div");
     endif;
     echo CHtml::closeTag("div");

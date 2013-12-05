@@ -17,20 +17,20 @@ class zHtml extends CHtml {
         return $values;
     }
 
-   /**
-    * showing coma sperated string 
-    * in differnt style
-    * @param type $coma_string
-    */
+    /**
+     * showing coma sperated string 
+     * in differnt style
+     * @param type $coma_string
+     */
     public static function showComaSeperatedData($coma_string = "") {
 
         if (!empty($coma_string)) {
             $returnString = "<ul style='margin-left:20px'><li>";
             $returnString.=str_replace(",", "</li><li>", $coma_string);
             $returnString.= "</li></ul>";
+            return $returnString;
         }
-        
-        return $returnString;
+        return "";
     }
 
 }

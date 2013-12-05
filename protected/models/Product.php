@@ -355,6 +355,7 @@ class Product extends DTActiveRecord {
                     'product_overview' => $products->product_overview,
                     'product_description' => $products->product_description,
                     'product_price' => $products->productProfile[0]->price,
+                    'is_shippable' => $products->productProfile[0]->is_shippable ,
                     'product_profile_id' => $products->productProfile[0]->id,
                     'quantity' => $products->productProfile[0]->quantity,
                     'author' => $products->getAuthors(),
