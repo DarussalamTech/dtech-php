@@ -32,6 +32,16 @@ $mName = "Other";
                 "type" => "raw",
             ),
             array(
+                'name' => 'weight',
+                'value' => 'isset($data->weight_rel)?$data->weight_rel->title:""',
+                "type" => "raw",
+            ),
+            array(
+                'name' => 'is_shippable',
+                'value' => '$data->is_shippable == 1?"Yes":"No"',
+                "type" => "raw",
+            ),
+            array(
                 'name' => 'language_id',
                 'value' => '!empty($data->productLanguage)?$data->productLanguage->language_name:""',
                 "type" => "raw",
@@ -75,7 +85,8 @@ $mName = "Other";
                     'viewimage' => array(
                         'label' => 'View Image',
                         'url' => 'Yii::app()->controller->createUrl("viewImage",array("id" => $data->id))',
-                        'imageUrl' => Yii::app()->theme->baseUrl . "/images/icons/viewimage.jpeg",
+                        'imageUrl' => Yii::app()->theme->baseUrl . "/images/icons/view.png",
+                      
                     ),
                 ),
             ),

@@ -9,7 +9,7 @@ $relationName = "other";
 <div class="grid_fields" style="display:<?php echo $display; ?>">
 
 
-    <div class="field" style="width:200px">
+    <div class="field" style="width:100px">
         <?php
         if ($load_for == "view") {
             echo CHtml::activeHiddenField($model, '[' . $index . ']id');
@@ -25,9 +25,23 @@ $relationName = "other";
         echo CHtml::activeTextField($model, '[' . $index . ']price');
         ?>
     </div>
-    <div class="field" style="width:200px">
+    <div class="field" style="width:100px">
         <?php
         echo CHtml::activeTextField($model, '[' . $index . ']quantity')
+        ?>
+    </div>
+    <div class="field" style="width:100px">
+        <?php
+        $criteria = new CDbCriteria();
+        $criteria->select = "id,type,title";
+        $criteria->condition = "type='weight'";
+        $prod_pro = ConfProducts::model()->findAll($criteria);
+        echo CHtml::activeDropDownList($model, '[' . $index . ']weight', CHtml::listData($prod_pro, "id", "title"), array('prompt' => 'Select a Weight'));
+        ?>
+    </div>
+    <div class="field" style="width:50px">
+        <?php
+ echo CHtml::activeDropDownList($model, '[' . $index . ']is_shippable', array("0" => "No", "1" => "Yes"));
         ?>
     </div>
     <div class="field" style="width:100px">

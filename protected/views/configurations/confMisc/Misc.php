@@ -62,13 +62,24 @@ if (!$model->isNewRecord) {
 }
 ?>
 <?php
+$type = isset($_GET['type']) ? $_GET['type'] : "";
+if ($type == "General") {
+    $this->PcmWidget['filter'] = array('name' => 'ItstLeftFilter',
+        'attributes' => array(
+            'model' => ConfMisc::model(),
+            'filters' => $this->filters,
+            'keyUrl' => true,
+            'action' => Yii::app()->createUrl($this->route),
+            'grid_id' => 'misc-grid',
+    ));
+}
 $config = array(
     'pagination' => array('pageSize' => 30),
     'sort' => array(
         'defaultOrder' => 'id,city_id ASC',
     ),
     'criteria' => array(
-        'condition' => 'misc_type="' . $_GET['type'].'"',
+        'condition' => 'misc_type="' . $type . '"',
     )
 );
 $provider = new CActiveDataProvider("ConfMisc", $config);
@@ -99,7 +110,16 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'name' => 'city_id',
             'type' => 'Raw',
             'value' => '!empty($data->city)?$data->city->city_name:""',
-            'visible' => isset( $_GET['type']) &&  $_GET['type'] == "general" ?false:true,
+            'visible' => isset($_GET['type']) && $_GET['type'] == "general" ? false : true,
+            'headerHtmlOptions' => array(
+                'style' => "text-align:left"
+            ),
+        ),
+        array(
+            'name' => 'site_id',
+            'type' => 'Raw',
+            'value' => '!empty($data->site_id)?$data->site->site_name:""',
+            'visible' => isset($_GET['type']) && $_GET['type'] == "general" ? true : false,
             'headerHtmlOptions' => array(
                 'style' => "text-align:left"
             ),

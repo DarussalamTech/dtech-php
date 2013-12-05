@@ -32,7 +32,7 @@ class User extends DTActiveRecord {
      * @return User the static model class
      */
 
-    const LEVEL_CUSTOMER = 3, LEVEL_ADMIN = 2, LEVEL_SUPERADMIN = 1, LEVEL_UNKNOWN = 0;
+    const LEVEL_WHOLE_SELLER  = 4, LEVEL_CUSTOMER = 3, LEVEL_ADMIN = 2, LEVEL_SUPERADMIN = 1, LEVEL_UNKNOWN = 0;
     const WEAK = 0;
     const STRONG = 1;
 
@@ -142,6 +142,7 @@ class User extends DTActiveRecord {
         $levelList = array(
             self::LEVEL_ADMIN => 'SystemUsers',
             self::LEVEL_CUSTOMER => 'Customer',
+            self::LEVEL_WHOLE_SELLER => 'wholesale',
         );
         if ($level === null)
             return $levelList;

@@ -106,7 +106,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/f
 
     <?php
     if ($this->action->id != "update") {
-        $this->renderPartial('educationToys/_container', array('model' => $model, "type" => "field"));
+        
         $this->renderPartial('quranProfile/_container', array('model' => $model, "type" => "field"));
         $this->renderPartial('other/_container', array('model' => $model, "type" => "field"));
         $this->renderPartial('productProfile/_container', array('model' => $model, "type" => "field"));

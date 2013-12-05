@@ -102,8 +102,6 @@ if ($model->parent_category->category_name == "Others") {
     $this->renderPartial('productProfile/_container', array('model' => $model, "type" => "form"));
 } else if ($model->parent_category->category_name == "Quran") {
     $this->renderPartial('quranProfile/_container', array('model' => $model, "type" => "form"));
-} else if ($model->parent_category->category_name == "Educational Toys") {
-    $this->renderPartial('educationToys/_container', array('model' => $model, "type" => "form"));
 } else {
     $this->renderPartial('other/_container', array('model' => $model, "type" => "form"));
 }

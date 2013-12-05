@@ -27,6 +27,11 @@ class DTWebUser extends CWebUser {
         return ( $this->user && $this->user->role_id == User::LEVEL_ADMIN );
     }
 
+    //is user a whole seller
+    function getIsWholeSeller() {
+
+        return ($this->user && $this->user->role_id == User::LEVEL_WHOLE_SELLER);
+    }
     //is user a customer
     function getIsCustomer() {
 
@@ -42,7 +47,10 @@ class DTWebUser extends CWebUser {
         }
         return $this->_user;
     }
-
+    /**
+     * 
+     * @return boolean
+     */
     function getIpInfo() {
         $ip = Yii::app()->request->getUserHostAddress();
         $content = @file_get_contents('http://api.hostip.info/?ip=' . $ip);
@@ -128,7 +136,7 @@ class DTWebUser extends CWebUser {
      */
     public function saveDTSessions($cityModel) {
 
-
+        
         Yii::app()->session['layout'] = "dtech_second";
 
         Yii::app()->session['country_short_name'] = $cityModel->country->short_name;
