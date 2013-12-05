@@ -4,6 +4,9 @@
 Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/gridform.css');
 Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/functions.js');
 
+
+
+
 $this->breadcrumbs = array(
     'Products' => array('index'),
     $model->product_id,
@@ -25,6 +28,7 @@ if (!(Yii::app()->user->isGuest)) {
         <span class="creatdate">
             <?php
             if (isset($this->OpPermission[ucfirst($this->id) . ".Update"]) && $this->OpPermission[ucfirst($this->id) . ".Update"]) {
+                echo CHtml::link("Select Shippable Countries", $this->createUrl("update", array("id" => $model->primaryKey,"shipingcountry"=>"countries")), array('class' => "print_link_btn"));
                 echo CHtml::link("Edit", $this->createUrl("update", array("id" => $model->primaryKey)), array('class' => "print_link_btn"));
                 echo CHtml::link("Language Translation", $this->createUrl("/product/language", array("id" => $model->primaryKey)), array('class' => "print_link_btn"));
             }
@@ -77,12 +81,17 @@ $this->widget('zii.widgets.CDetailView', array(
         array(
             'name' => 'is_featured',
             'value' => $model->is_featured,
-            'value' => ($model->is_featured==1)?"Yes":"No",
+            'value' => ($model->is_featured == 1) ? "Yes" : "No",
         ),
         array(
             'name' => 'status',
             'value' => $model->status,
-            'value' => ($model->status==1)?"Active":"No",
+            'value' => ($model->status == 1) ? "Active" : "No",
+        ),
+        array(
+            'name' => 'shippable_countries',
+            'value' => zHtml::showComaSeperatedData($model->shippable_countries),
+            "type"=>"raw",
         ),
     ),
 ));
