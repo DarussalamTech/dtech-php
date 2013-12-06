@@ -28,81 +28,19 @@ class ProductWS extends Product {
      * Get All books for web services
      */
     public function getWsAllBooks($cat_id = "") {
-        $cat_id=57;
+        $cat_id = 57;
         $criteria = new CDbCriteria(array(
             'select' => 't.product_id,t.product_name,t.product_description',
             'order' => 't.product_id ASC',
             'condition' => 't.parent_id=57',
         ));
-        
-        if($cat_id != ""){
-            
-      
 
-        $data = Product::model()->with(array('productProfile' => array('select' => 'price')))->findAll($criteria);
-        
-        $all_products = array();
-        $images = array();
-        foreach ($data as $products) {
-            $product_id = $products->product_id;
-            $criteria2 = new CDbCriteria;
-            $criteria2->select = 'id,product_profile_id,image_large,image_small,is_default';  // only select the 'title' column
-            $criteria2->condition = "product_profile_id='" . $product_id . "'";
-            $imagedata = ProductImage::model()->findAll($criteria2);
-            $images = array();
-            foreach ($imagedata as $img) {
-                if ($img->is_default == 1) {
-                    $images[] = array(
-                        'image_large' => Yii::app()->request->hostInfo . $img->image_url['image_large'],
-                        'image_small' => Yii::app()->request->hostInfo . $img->image_url['image_small'],
-                    );
-                    break;
-                } else {
-                    $images[] = array(
-                        'image_large' => Yii::app()->request->hostInfo . $img->image_url['image_large'],
-                        'image_small' => Yii::app()->request->hostInfo . $img->image_url['image_small'],
-                    );
-                    break;
-                }
-            }
+        if ($cat_id != "") {
 
-            $all_products[] = array(
-                'product_id' => $products->product_id,
-                'product_name' => $products->product_name,
-                //'product_description' => $products->product_description,
-                'product_author' => !empty($products->author) ? $products->author->author_name : "",
-                'currencySymbol' => '$',
-                'product_price' => $products->productProfile[0]->price,
-                'product_url' => Yii::app()->controller->createUrl("/web/product/productDetail",array("pcategory"=>$products->parent_category->slug,"slug"=>$products->slag)),
-                'image' => $images,
-                
-            );
-        }
-        return $all_products;
-        }
-        else {
-            return "category Id is not set";
-        }
-    }
 
-    /*
-     * Get All Categories with relevant books
-     * for webservice
-     */
 
-    public function getWsAllBooksByCategory() {
-        $cate = new Categories;
-        $categories = $cate->getAllCategoriesForWebService();
+            $data = Product::model()->with(array('productProfile' => array('select' => 'price')))->findAll($criteria);
 
-        $category_info = array();
-        foreach ($categories as $c) {
-            $criteria = new CDbCriteria(array(
-                'select' => 't.product_id,t.product_name,t.product_description,t.slag',
-                'order' => 't.product_id ASC',
-                'condition' => "t.product_id=productCategories.product_id AND productCategories.category_id=$c->category_id"
-            ));
-
-            $data = Product::model()->with(array('productProfile' => array('select' => 'price'), 'productCategories'))->findAll($criteria);
             $all_products = array();
             $images = array();
             foreach ($data as $products) {
@@ -131,20 +69,114 @@ class ProductWS extends Product {
                 $all_products[] = array(
                     'product_id' => $products->product_id,
                     'product_name' => $products->product_name,
-                    'product_description' => $products->product_description,
+                    //'product_description' => $products->product_description,
                     'product_author' => !empty($products->author) ? $products->author->author_name : "",
                     'currencySymbol' => '$',
                     'product_price' => $products->productProfile[0]->price,
+                    'product_url' => Yii::app()->controller->createUrl("/web/product/productDetail", array("pcategory" => $products->parent_category->slug, "slug" => $products->slag)),
                     'image' => $images,
-                    'product_url' => "http://www.darussalampk.com/en/pak/lahore/1/Books/".$products->slag."/detail"
                 );
             }
+            return $all_products;
+        } else {
+            return "category Id is not set";
+        }
+    }
+
+    /*
+     * Get All Categories with relevant books
+     * for webservice
+     */
+
+    public function getWsAllBooksByCategory() {
+        $cate = new Categories;
+        $categories = $cate->getAllCategoriesForWebService();
+
+        $category_info = array();
+        foreach ($categories as $c) {
+        $criteria = new CDbCriteria(array(
+            'select' => 't.product_id,t.product_name,t.product_description,t.slag',
+            'with' => array('productProfile' => array('select' => 'price'), 'productCategories'),
+            'condition' => "t.product_id= productCategories.product_id AND productCategories.category_id=$c->category_id",
+//            'condition' => "t.parent_cateogry_id=57",
+            'order' => 't.product_id ASC',
+            'together' => true
+        ));
+        
+//        if($dat)
+
+
+        $dataProvider = new DTActiveDataProvider(Product::model(), array(
+            'pagination' => array(
+                'pageSize' => 12,
+//                'currentPage' =>1,
+            ),
+            'criteria' => $criteria,
+        ));
+
+        $data = $dataProvider->getData();
+
+
+
+        $all_products = array();
+        $images = array();
+        foreach ($data as $products) {
+            $product_id = $products->product_id;
+
+            $criteria2 = new CDbCriteria;
+            $criteria2->select = 'id,product_profile_id,image_large,image_small,is_default';  // only select the 'title' column
+            $criteria2->condition = "product_profile_id ='" . $products->productProfile[0]->id . "'";
+            $imagedata = ProductImage::model()->findAll($criteria2);
+
+
+            $images = array();
+            foreach ($imagedata as $img) {
+                if ($img->is_default == 1) {
+                    $images[] = array(
+                        'image_large' => Yii::app()->request->hostInfo . $img->image_url['image_large'],
+                        'image_small' => Yii::app()->request->hostInfo . $img->image_url['image_small'],
+                    );
+                    break;
+                } else {
+                    $images[] = array(
+                        'image_large' => Yii::app()->request->hostInfo . $img->image_url['image_large'],
+                        'image_small' => Yii::app()->request->hostInfo . $img->image_url['image_small'],
+                    );
+                    break;
+                }
+            }
+
+            $all_products[] = array(
+                'product_id' => $products->product_id,
+                'product_name' => $products->product_name,
+                'product_description' => $products->product_description,
+                'product_author' => !empty($products->author) ? $products->author->author_name : "",
+                'currencySymbol' => '$',
+                'product_price' => $products->productProfile[0]->price,
+                'image' => $images,
+                'product_url' => "http://www.darussalampk.com/en/pak/lahore/1/Books/" . $products->slag . "/detail"
+            );
+        }
+
+
 
             $category_info['category_products'][] = array(
                 'category_id' => $c->category_id,
                 'category_name' => $c->category_name,
-                'products' => $all_products
+                'products' => $all_products,
+                'pagination' => $dataProvider->pagination,
             );
+            
+//
+//        $products = array(
+//            'allCat' => $categories,
+//            'products' => $all_products,
+//            'pageSize' => $dataProvider->pagination->pageSize,
+//            'pageSize' => $dataProvider->pagination->getPageCount(),
+//            'itemCount' => $dataProvider->getItemCount(),
+//        );
+//        CVarDumper::dump($products, 10, true);
+//        die;
         }
         return $category_info;
     }
@@ -168,7 +200,7 @@ class ProductWS extends Product {
         ));
 
         $data = Product::model()->with(array('productProfile' => array('select' => 'price'), 'productCategories'))->findAll($criteria);
-       
+
         $all_products = array();
         $images = array();
         foreach ($data as $products) {
