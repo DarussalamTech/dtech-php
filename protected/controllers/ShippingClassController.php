@@ -64,6 +64,7 @@ class ShippingClassController extends Controller {
 
         if (isset($_POST['ShippingClass'])) {
             $model->attributes = $_POST['ShippingClass'];
+            
             if ($model->save())
                 $this->redirect(array('view', 'id' => $model->id));
         }

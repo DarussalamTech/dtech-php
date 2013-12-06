@@ -119,7 +119,6 @@ var dtech = {
     updatehashBrowerUrl: function(s) {
         window.location.hash = s;
     },
-
     custom_alert: function(output_msg, title_msg)
     {
         jQuery(".ui-widget ui-widget-content").remove();
@@ -144,7 +143,6 @@ var dtech = {
             }
         });
     },
-
     showPaymentMethods: function(obj) {
         if ($(obj).val() == "1") {
             $(".pay_list").show();
@@ -480,4 +478,38 @@ var dtech = {
             }
         })
     },
+    /**
+     * disable the shipping method on check of particular one
+     * 
+     * @param {type} obj
+     * @returns {undefined}
+     */
+    disableShippingMethod: function(obj) {
+        
+        if (jQuery(obj).is(":checked")) {
+            parent_div = jQuery(obj).parent().parent().parent().attr("id");
+
+            if (parent_div == "fix_based") {
+                jQuery("#range_based").hide();
+                jQuery("#weight_based").hide();
+            }
+            else if (parent_div == "range_based") {
+                jQuery("#fix_based").hide();
+                jQuery("#weight_based").hide();
+            }
+            else if (parent_div == "weight_based") {
+                jQuery("#fix_based").hide();
+                jQuery("#range_based").hide();
+            }
+
+        }
+        else {
+            jQuery("#fix_based").show();
+            jQuery("#weight_based").show();
+            jQuery("#range_based").show();
+
+        }
+    }
+    
+
 }

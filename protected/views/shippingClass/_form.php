@@ -7,6 +7,7 @@
 <div class="form wide">
 
     <?php
+   
     Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/gridform.css');
     $form = $this->beginWidget('CActiveForm', array(
         'id' => 'shipping-class-form',
@@ -20,7 +21,7 @@
         <div class="main">
             <!--        <div class="head">Field Force Labors</div>-->
             <div class="form_body">
-                <div class="grid_container">
+                <div class="grid_container" >
                     <div class="grid_title">
                         <div class="title" style="width:300px"><?php echo $form->labelEx($model, 'title'); ?></div>
 
@@ -44,16 +45,22 @@
                     <div class="clear"></div>
                     <div class="grid_fields">
                         <div class="field" style="width:300px">
-                            <?php echo $form->textField($model, 'source_city', array('size' => 60, 'maxlength' => 255)); ?>
+                            <?php
+                            $city = City::model()->findByPk(Yii::app()->session['city_id']);
+                            echo CHtml::label($city->city_name,$city->city_name,array("style"=>"margin-left:12px"));
+                            echo $form->hiddenField($model, 'source_city', array("value" => Yii::app()->session['city_id']));
+                            ?>
                         </div>
                         <div class="field" style="width:300px">
-                            <?php echo $form->textField($model, 'destination_city', array('size' => 60, 'maxlength' => 255)); ?>
+                            <?php echo $form->dropDownList($model, 'destination_city',
+                                    array(Yii::app()->session['city_id']=>"Same as source","0"=>"Out of Source")); 
+                            ?>
                         </div>
 
                     </div>
                 </div>
                 <div class="clear"></div>
-                <div class="grid_container">
+                <div class="grid_container <?php echo $model->is_fix_shpping ==1 && $model->is_post_find ==1?"show_ship_type":"hide_ship_type"  ?>" id="fix_based" >
                     <div class="grid_title">
                         <div class="title" style="width:300px"><?php echo $form->labelEx($model, 'is_fix_shpping'); ?></div>
                         <div class="title" style="width:300px"><?php echo $form->labelEx($model, 'fix_shipping_cost'); ?></div>
@@ -62,7 +69,7 @@
                     <div class="clear"></div>
                     <div class="grid_fields">
                         <div class="field" style="width:300px">
-                            <?php echo $form->checkBox($model, 'is_fix_shpping'); ?>
+                            <?php echo $form->checkBox($model, 'is_fix_shpping',array("onclick"=>"dtech.disableShippingMethod(this)")); ?>
                         </div>
                         <div class="field" style="width:300px">
                             <?php echo $form->textField($model, 'fix_shipping_cost', array('size' => 60, 'maxlength' => 255)); ?>
@@ -71,7 +78,7 @@
                 </div>
                 <div class="clear"></div>
 
-                <div class="grid_container">
+                <div class="grid_container <?php echo $model->is_pirce_range ==1 && $model->is_post_find ==1?"show_ship_type":"hide_ship_type"  ?>" id="range_based" >
                     <div class="grid_title">
                         <div class="title" style="width:300px"><?php echo $form->labelEx($model, 'is_pirce_range'); ?></div>
                         <div class="title" style="width:300px"><?php echo $form->labelEx($model, 'price_range_shipping_cost'); ?></div>
@@ -80,7 +87,7 @@
                     <div class="clear"></div>
                     <div class="grid_fields">
                         <div class="field" style="width:300px">
-                            <?php echo $form->checkBox($model, 'is_pirce_range'); ?>
+                            <?php echo $form->checkBox($model, 'is_pirce_range',array("onclick"=>"dtech.disableShippingMethod(this)")); ?>
                         </div>
                         <div class="field" style="width:300px">
                             <?php echo $form->textField($model, 'price_range_shipping_cost'); ?>
@@ -105,7 +112,7 @@
                     </div>
                 </div>
                 <div class="clear"></div>
-                <div class="grid_container">
+                <div class="grid_container <?php echo $model->is_weight_based ==1 && $model->is_post_find ==1?"show_ship_type":"hide_ship_type"  ?>" id="weight_based">
                     <div class="grid_title">
                         <div class="title" style="width:300px"><?php echo $form->labelEx($model, 'is_weight_based'); ?></div>
                         <div class="title" style="width:300px"><?php echo $form->labelEx($model, 'weight_range_shipping_cost'); ?></div>
@@ -114,7 +121,7 @@
                     <div class="clear"></div>
                     <div class="grid_fields">
                         <div class="field" style="width:300px">
-                            <?php echo $form->checkBox($model, 'is_weight_based'); ?>
+                            <?php echo $form->checkBox($model, 'is_weight_based',array("onclick"=>"dtech.disableShippingMethod(this)")); ?>
                         </div>
                         <div class="field" style="width:300px">
                             <?php echo $form->textField($model, 'weight_range_shipping_cost'); ?>
@@ -144,12 +151,16 @@
                 <div class="grid_container">
                     <div class="grid_title">
                         <div class="title" style="width:600px"><?php echo $form->labelEx($model, 'class_status'); ?></div>
+                        <div class="title" style="width:600px"><?php echo $form->labelEx($model, 'categories'); ?></div>
 
                     </div>
                     <div class="clear"></div>
                     <div class="grid_fields">
                         <div class="field" style="width:300px">
                             <?php echo $form->dropDownList($model, 'class_status', array("0" => "Disable", "1" => "Enable")); ?>
+                        </div>
+                        <div class="field" style="width:300px">
+                            <?php echo $form->dropDownList($model, 'categories', array("0" => "Disable", "1" => "Enable")); ?>
                         </div>
                     </div>
                 </div>
@@ -165,6 +176,8 @@
         <?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save', array("class" => "btn")); ?>
     </div>
 
-    <?php $this->endWidget(); ?>
+    <?php 
+                            CVarDumper::dump($model->getErrors(),10,true);
+    $this->endWidget(); ?>
 
 </div><!-- form -->

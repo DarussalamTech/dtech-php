@@ -9,8 +9,11 @@
  * @property integer $destination_city
  * @property string $title
  * @property double $fix_shipping_cost
+ * @property double $price_range_shipping_cost
+ * @property double $weight_range_shipping_cost
  * @property integer $is_fix_shpping
  * @property integer $is_pirce_range
+ * @property integer $is_weight_based
  * @property double $start_price
  * @property double $end_price
  * @property integer $min_weight_id
@@ -24,7 +27,14 @@
  */
 class ShippingClass extends DTActiveRecord {
 
-    public $is_weight_based;
+    /**
+     * this is var 
+     * for testing the site whether is posted 
+     * and retrieveing db
+     * @var type 
+     */
+    public $is_post_find;
+
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -45,18 +55,65 @@ class ShippingClass extends DTActiveRecord {
      * @return array validation rules for model attributes.
      */
     public function rules() {
+
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
             array('source_city, destination_city, title, min_weight_id, max_weight_id, categories, create_time, create_user_id, update_time, update_user_id', 'required'),
             array('source_city, destination_city, is_fix_shpping, is_pirce_range, min_weight_id, max_weight_id', 'numerical', 'integerOnly' => true),
-            array('class_status,fix_shipping_cost, start_price, end_price', 'numerical'),
+            array('is_fix_shpping,is_weight_based,is_pirce_range', 'numerical'),
+            array('start_price,end_price', 'numerical', 'integerOnly' => FALSE),
+            array('min_weight_id,max_weight_id', 'numerical', 'integerOnly' => FALSE),
+            array('price_range_shipping_cost,weight_range_shipping_cost,fix_shipping_cost',
+                'numerical', 'integerOnly' => FALSE),
+            array('fix_shipping_cost', 'validateShippingScanario'),
+            array('start_price,end_price,price_range_shipping_cost', 'validateShippingScanario'),
+            array('min_weight_id,max_weight_id,weight_range_shipping_cost', 'validateShippingScanario'),
+            array('class_status', 'numerical'),
             array('title, categories', 'length', 'max' => 255),
             array('create_user_id, update_user_id', 'length', 'max' => 11),
+            array('is_post_find', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, source_city, destination_city, title, fix_shipping_cost, is_fix_shpping, is_pirce_range, start_price, end_price, min_weight_id, max_weight_id, categories, create_time, create_user_id, update_time, update_user_id', 'safe', 'on' => 'search'),
         );
+    }
+
+    /**
+     *  validating shipping scanrio
+     */
+    public function validateShippingScanario() {
+        if ($this->is_fix_shpping == 1 && $this->fix_shipping_cost == "") {
+            $this->addError("fix_shipping_cost", "Error");
+        } else if ($this->is_pirce_range == 1) {
+            if ($this->start_price == "") {
+                $this->addError("start_price", "Error");
+            }
+            if ($this->end_price == "") {
+                $this->addError("end_price", "Error");
+            }
+            if ($this->price_range_shipping_cost == "") {
+                $this->addError("price_range_shipping_cost", "Error");
+            }
+        } else if ($this->is_weight_based == 1) {
+            if ($this->min_weight_id == "") {
+                $this->addError("min_weight_id", "Error");
+            }
+            if ($this->max_weight_id == "") {
+                $this->addError("max_weight_id", "Error");
+            }
+            if ($this->weight_range_shipping_cost == "") {
+                $this->addError("weight_range_shipping_cost", "Error");
+            }
+        }
+    }
+
+    /**
+     * 
+     */
+    public function beforeValidate() {
+        $this->is_post_find = 1;
+        return parent::beforeValidate();
     }
 
     /**
@@ -128,6 +185,15 @@ class ShippingClass extends DTActiveRecord {
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
         ));
+    }
+
+    /*     * *
+     * 
+     */
+
+    public function afterFind() {
+        $this->is_post_find = 1;
+        return parent::afterFind();
     }
 
 }

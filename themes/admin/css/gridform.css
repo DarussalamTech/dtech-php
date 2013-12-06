@@ -219,3 +219,9 @@ div.field div.errorMessage
     padding-bottom: 10px;
     margin-bottom: 10px;
 }
+.show_ship_type {
+    display: block;
+}
+.hide_ship_type {
+    display: none;
+}
