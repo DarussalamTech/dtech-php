@@ -37,6 +37,7 @@ class DTActiveRecord extends CActiveRecord {
             /**
              * setting of admin site is running from model
              */
+            
             $this->isAdmin = Yii::app()->controller->isAdminSite;
         }
         parent::__construct($scenario);

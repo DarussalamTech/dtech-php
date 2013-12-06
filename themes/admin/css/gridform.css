@@ -212,3 +212,10 @@ div.field div.errorMessage
 .full_grid_form {
     border-bottom: 1px solid black;
 }
+
+.grid_container {
+    border:1px dotted #999999;
+    float: left;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
