@@ -43,6 +43,8 @@
                         "m" => "Products", "type" => "Printing")) . '</li>' .
                     '<li>' . CHtml::link('Paper', array('/configurations/load',
                         "m" => "Products", "type" => "Paper")) . '</li>' .
+                    '<li>' . CHtml::link('Weight', array('/configurations/load',
+                        "m" => "Products", "type" => "weight")) . '</li>' .
                     '<li>' . CHtml::link('Author', array('/author/index',
                     ),array("style"=>Yii::app()->user->IsSuperuser?"display:none":"")) . '</li>' .
                     '<li>' . CHtml::link('Translator Compiler', array('/translatorCompiler/index',

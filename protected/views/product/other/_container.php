@@ -53,7 +53,7 @@ if (isset($_POST[$mName]) || ($this->action->id == 'create' && count($model->$re
                     " . $relationName . "_index_sc++;
                         
                     return false;
-                    ", "class" => "plus_bind"
+                    ", "class" => "plus_bind","style"=>"display:none"
             ))
             ?>
         </div>
@@ -68,8 +68,10 @@ if (isset($_POST[$mName]) || ($this->action->id == 'create' && count($model->$re
             <!--        <div class="head">Field Force Labors</div>-->
             <div class="form_body">
                 <div class="grid_title">
-                    <div class="title" style="width:200px"><?php echo CHtml::activeLabel($relateModelobj, 'price'); ?></div>
-                    <div class="title" style="width:200px"><?php echo CHtml::activeLabel($relateModelobj, 'quantity'); ?></div>
+                    <div class="title" style="width:100px"><?php echo CHtml::activeLabel($relateModelobj, 'price'); ?></div>
+                    <div class="title" style="width:100px"><?php echo CHtml::activeLabel($relateModelobj, 'quantity'); ?></div>
+                    <div class="title" style="width:100px"><?php echo CHtml::activeLabel($relateModelobj, 'weight'); ?></div>
+                    <div class="title" style="width:50px"><?php echo CHtml::activeLabel($relateModelobj, 'is_shippable'); ?></div>
                     <div class="title" style="width:100px"><?php echo CHtml::activeLabel($relateModelobj, 'slag'); ?></div>
                     <div class="title" style="width:100px"><?php echo CHtml::activeLabel($relateModelobj, 'language_id'); ?></div>
 

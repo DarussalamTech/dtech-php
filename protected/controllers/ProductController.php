@@ -99,32 +99,51 @@ class ProductController extends Controller {
      * @param integer $id the ID of the model to be updated
      */
 
-    public function actionUpdate($id) {
+    public function actionUpdate($id, $shipingcountry = "") {
 
         $model = $this->loadModel($id);
+      
+        if ($shipingcountry == "countries") {
+          
+          
+            if (isset($_POST['Product'])) {
+                $model->shippable_countries = isset($_POST['Product']['shippable_countries'])?$_POST['Product']['shippable_countries']:"";
+                
+                
+                $countries = !empty($model->shippable_countries)?implode(",", $model->shippable_countries):"";
 
+                $model->updateByPk($model->product_id, array("shippable_countries" => $countries));
 
-
-        $cityList = CHtml::listData(City::model()->findAll(), 'city_id', 'city_name');
-        $languageList = CHtml::listData(Language::model()->findAll(), 'language_id', 'language_name');
-        $authorList = CHtml::listData(Author::model()->findAll(array('order' => 'author_name')), 'author_id', 'author_name');
-
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
-
-        if (isset($_POST['Product'])) {
-            $model->attributes = $_POST['Product'];
-            if ($model->save()) {
                 $this->redirect(array('view', 'id' => $model->product_id));
             }
-        }
+            else {
+                  $model->shippable_countries = explode(",", $model->shippable_countries);
+            }
+            $this->render('_update_countries', array("model" => $model));
+        } else {
 
-        $this->render('update', array(
-            'model' => $model,
-            'cityList' => $cityList,
-            'languageList' => $languageList,
-            'authorList' => $authorList
-        ));
+            $cityList = CHtml::listData(City::model()->findAll(), 'city_id', 'city_name');
+            $languageList = CHtml::listData(Language::model()->findAll(), 'language_id', 'language_name');
+            $authorList = CHtml::listData(Author::model()->findAll(array('order' => 'author_name')), 'author_id', 'author_name');
+
+            // Uncomment the following line if AJAX validation is needed
+            // $this->performAjaxValidation($model);
+
+            if (isset($_POST['Product'])) {
+                $model->attributes = $_POST['Product'];
+                
+                if ($model->save()) {
+                    $this->redirect(array('view', 'id' => $model->product_id));
+                }
+            }
+
+            $this->render('update', array(
+                'model' => $model,
+                'cityList' => $cityList,
+                'languageList' => $languageList,
+                'authorList' => $authorList
+            ));
+        }
     }
 
     /**

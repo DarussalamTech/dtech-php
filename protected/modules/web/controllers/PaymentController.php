@@ -99,8 +99,12 @@ class PaymentController extends Controller {
                 }
             }
         }
-
-        $regionList = CHtml::listData(Region::model()->findAll(), 'id', 'name');
+        $criteria = new CDbCriteria;
+        if($country_list = Cart::model()->getCartCountryList()){
+            
+            $criteria->addInCondition("name", $country_list);
+        }
+        $regionList = CHtml::listData(Region::model()->findAll($criteria), 'id', 'name');
         $this->render('//payment/payment_method', array(
             'model' => $model,
             'regionList' => $regionList,

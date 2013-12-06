@@ -87,6 +87,16 @@ $mName = "ProductProfile";
                 'value' => '$data->quantity',
                 "type" => "raw",
             ),
+            array(
+                'name' => 'weight',
+                'value' => 'isset($data->weight_rel)?$data->weight_rel->title:$data->weight',
+                "type" => "raw",
+            ),
+            array(
+                'name' => 'is_shippable',
+                'value' => '$data->is_shippable == 1?"Yes":"No"',
+                "type" => "raw",
+            ),
             array
                 (
                 'class' => 'CButtonColumn',
@@ -128,7 +138,7 @@ $mName = "ProductProfile";
                     'viewimage' => array(
                         'label' => 'View Image',
                         'url' => 'Yii::app()->controller->createUrl("viewImage",array("id" => $data->id))',
-                        'imageUrl' => Yii::app()->theme->baseUrl . "/images/icons/viewimage.jpeg",
+                        'imageUrl' => Yii::app()->theme->baseUrl . "/images/icons/view.png",
                     ),
                 ),
             ),

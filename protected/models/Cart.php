@@ -166,6 +166,55 @@ class Cart extends DTActiveRecord {
     }
 
     /**
+     * get Country List
+     * from
+     * dats to do this
+     * if those countries are not the part
+     * of shipping countries wont be displayed
+     * 
+     */
+    public function getCartCountryList() {
+        $ip = Yii::app()->request->getUserHostAddress();
+
+
+        $criteria = new CDbCriteria();
+
+        if (isset(Yii::app()->user->id)) {
+            $criteria->condition = 'city_id=' . Yii::app()->session['city_id'] . ' AND (user_id=' . Yii::app()->user->user_id . ' OR session_id="' . Yii::app()->session['cart_session'] . '")';
+        } else {
+            $criteria->condition = 'city_id=' . Yii::app()->session['city_id'] . ' AND session_id="' . Yii::app()->session['cart_session'] . '"';
+        }
+         $criteria->select = "product_profile_id";
+         $criteria->distinct = true;
+         
+         $product_profile_ids = CHtml::listData($this->findAll($criteria),"product_profile_id","product_profile_id");
+         
+         //now getting country list
+         
+         $criteria = new CDbCriteria();
+         $criteria->select = "shippable_countries";
+         $criteria->addInCondition("product_profile.id", $product_profile_ids);
+         $criteria->join.= ' INNER JOIN product_profile  ON ' .
+                    't.product_id=product_profile.product_id';
+       
+         
+         if($products_countries = CHtml::listData(Product::model()->findAll($criteria),"shippable_countries","shippable_countries")){
+            
+             $products_countries = array_values($products_countries);
+             $products_countries[] = $products_countries[0];
+             $products_countries = implode(",",$products_countries);
+             
+             $products_countries = explode(",",$products_countries);
+             
+             return array_filter($products_countries);
+         }
+         
+         return array();
+
+    }
+   
+
+    /**
      * get Cart count for user
      */
     function getCartListCount() {

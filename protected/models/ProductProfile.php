@@ -13,6 +13,7 @@
  * @property integer $discount_value
  * @property integer $language_id
  * @property integer $quantity
+ * @property integer $weight
  * @property string $isbn
  * @property string $price
  *
@@ -63,7 +64,7 @@ class ProductProfile extends DTActiveRecord {
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
             array('title,product_id', 'safe'),
             array('id,size,no_of_pages,binding,printing,paper,edition,upload_index', 'safe'),
-            array('attribute,attribute_value,dimension,translator_id,compiler_id,quantity,slag', 'safe'),
+            array('is_shippable,weight,attribute,attribute_value,dimension,translator_id,compiler_id,quantity,slag', 'safe'),
             array('isbn', 'length', 'max' => 255),
             array('price,quantity', 'numerical', 'integerOnly' => FALSE),
             //array('language_id', 'UniqueLanguage'),
@@ -92,6 +93,7 @@ class ProductProfile extends DTActiveRecord {
             'binding_rel' => array(self::BELONGS_TO, 'ConfProducts', 'binding', 'condition' => 'type="Binding"'),
             'printing_rel' => array(self::BELONGS_TO, 'ConfProducts', 'printing', 'condition' => 'type="Printing"'),
             'paper_rel' => array(self::BELONGS_TO, 'ConfProducts', 'paper', 'condition' => 'type="Paper"'),
+            'weight_rel' => array(self::BELONGS_TO, 'ConfProducts', 'weight', 'condition' => 'type="weight"'),
             /*
              * relation for compiler and translator table
              */
@@ -210,6 +212,7 @@ class ProductProfile extends DTActiveRecord {
             'paper' => Yii::t('model_labels', 'Paper', array(), NULL, Yii::app()->controller->currentLang),
             'dimension' => Yii::t('model_labels', 'Dimension', array(), NULL, Yii::app()->controller->currentLang),
             'size' => Yii::t('model_labels', 'Size', array(), NULL, Yii::app()->controller->currentLang),
+            'weight' => Yii::t('model_labels', 'Weight', array(), NULL, Yii::app()->controller->currentLang),
             'language_id' => Yii::t('model_labels', 'Language', array(), NULL, Yii::app()->controller->currentLang),
             'edition' => Yii::t('model_labels', 'Edition', array(), NULL, Yii::app()->controller->currentLang),
             'compiler_id' => Yii::t('model_labels', 'Compiler', array(), NULL, Yii::app()->controller->currentLang),

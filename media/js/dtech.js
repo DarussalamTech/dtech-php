@@ -193,10 +193,7 @@ var dtech = {
                 $("#productProfile").show();
                 $("#productProfile .plus_bind").trigger('click');
             }
-            else if ($("#Product_parent_cateogry_id option:selected").text() == 'Educational Toys') {
-                $("#educationToys").show();
-                $("#educationToys .plus_bind").trigger('click');
-            }
+
             else if ($("#Product_parent_cateogry_id option:selected").text() == 'Quran') {
                 $("#quranProfile").show();
                 $("#quranProfile .plus_bind").trigger('click');

@@ -5,6 +5,8 @@
 
 Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/gridform.css');
 Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/functions.js');
+
+
 ?>
 
 <div class="form wide">
@@ -90,10 +92,11 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/f
         <?php echo $form->error($model, 'status'); ?>
     </div>
 
+
     <?php
     $this->renderPartial("/common/_city_field", array("form" => $form, "model" => $model, "cityList" => $cityList));
     $display = "";
-    if(isset($model->parent_category) && $model->parent_category->category_name!="Books"){
+    if (isset($model->parent_category) && $model->parent_category->category_name != "Books") {
         $display = "display:none";
     }
     ?>
@@ -106,7 +109,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/f
 
     <?php
     if ($this->action->id != "update") {
-        $this->renderPartial('educationToys/_container', array('model' => $model, "type" => "field"));
+
         $this->renderPartial('quranProfile/_container', array('model' => $model, "type" => "field"));
         $this->renderPartial('other/_container', array('model' => $model, "type" => "field"));
         $this->renderPartial('productProfile/_container', array('model' => $model, "type" => "field"));
@@ -126,4 +129,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/f
 
     <?php $this->endWidget(); ?>
 
+
 </div><!-- form -->
+
+

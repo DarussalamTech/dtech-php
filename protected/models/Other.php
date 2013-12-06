@@ -33,7 +33,7 @@ class Other extends DTActiveRecord {
         // will receive user inputs.
         return array(
             array('price', 'required'),
-            array('language_id,product_id,attribute,attribute_value,quantity,slag', 'safe'),
+            array('is_shippable,weight,language_id,product_id,attribute,attribute_value,quantity,slag', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('attribute,attribute_value', 'safe', 'on' => 'search'),
@@ -69,6 +69,7 @@ class Other extends DTActiveRecord {
             'orderDetails' => array(self::HAS_MANY, 'OrderDetail', 'product_profile_id'),
             'productLanguage' => array(self::BELONGS_TO, 'Language', 'language_id'),
             'productImages' => array(self::HAS_MANY, 'ProductImage', 'product_profile_id', 'order' => 'is_default DESC'),
+            'weight_rel' => array(self::BELONGS_TO, 'ConfProducts', 'weight', 'condition' => 'type="weight"'),
         );
 
         return array_merge(parent::relations(), $relations);

@@ -35,6 +35,19 @@
     echo $total_av;
     ?>
 </article>
+<article> 
+    <?php
+    echo Yii::t('model_labels', 'Shipping', array(), NULL, $this->currentLang) . ":";
+    ?>
+    <?php
+        if($product->productProfile[0]->is_shippable ==1){
+            echo "Available";
+        }
+        else {
+             echo "Not Available";
+        }
+    ?>
+</article>
 <?php
 /** rating value is comming from controller * */
 $this->widget('CStarRating', array(
@@ -69,7 +82,7 @@ $this->widget('CStarRating', array(
 </article>
 <div class="detail_shop_now">
     <?php
-    if ($total_av > 1) {
+    if ($total_av > 1 && $product->productProfile[0]->is_shippable ==1) {
         echo CHtml::button(Yii::t('common', 'SHOP NOW', array(), NULL, $this->currentLang), array('onclick' => '
                             jQuery("#loading").show();
                             jQuery("#status_available").hide();  

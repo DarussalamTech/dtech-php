@@ -11,6 +11,7 @@
  * @property string $product_price
  * @property string $parent_cateogry_id
  * @property string $status
+ * @property string $shippable_countries
  *
  * The followings are the available model relations:
  * @property Cart[] $carts
@@ -58,7 +59,7 @@ class Product extends DTActiveRecord {
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
             array('product_id,authors,product_rating', 'safe'),
             array('discount_type,discount_type,parent_cateogry_id,no_image,authors,product_description,product_overview', 'safe'),
-            array('is_slider,status,slag', 'safe'),
+            array('shippable_countries,is_slider,status,slag', 'safe'),
             array('city_id', 'numerical', 'integerOnly' => true),
             array('product_name', 'length', 'max' => 255),
             array('is_featured', 'length', 'max' => 1),
@@ -144,6 +145,7 @@ class Product extends DTActiveRecord {
             'city_id' => Yii::t('model_labels', 'City', array(), NULL, Yii::app()->controller->currentLang),
             'authors' => Yii::t('model_labels', 'Author', array(), NULL, Yii::app()->controller->currentLang),
             'is_featured' => Yii::t('model_labels', 'Is Featured', array(), NULL, Yii::app()->controller->currentLang),
+            'shippable_countries' => Yii::t('model_labels', 'Shippable Countries', array(), NULL, Yii::app()->controller->currentLang),
             'slag' => Yii::t('model_labels', 'Slug', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
@@ -353,6 +355,7 @@ class Product extends DTActiveRecord {
                     'product_overview' => $products->product_overview,
                     'product_description' => $products->product_description,
                     'product_price' => $products->productProfile[0]->price,
+                    'is_shippable' => $products->productProfile[0]->is_shippable ,
                     'product_profile_id' => $products->productProfile[0]->id,
                     'quantity' => $products->productProfile[0]->quantity,
                     'author' => $products->getAuthors(),

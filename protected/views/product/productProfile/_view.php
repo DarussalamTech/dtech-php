@@ -90,6 +90,21 @@ $this->widget('zii.widgets.CDetailView', array(
             'value' => $model->edition,
             "type" => "raw",
         ),
+        array(
+            'name' => 'quantity',
+            'value' => $model->quantity,
+            "type" => "raw",
+        ),
+        array(
+            'name' => 'weight',
+            'value' => isset($model->weight_rel) ? $model->weight_rel->title : "",
+            "type" => "raw",
+        ),
+        array(
+            'name' => 'is_shippable',
+            'value' => $model->is_shippable == 1?"Yes":"No",
+            "type" => "raw",
+        ),
     ),
 ));
 

@@ -65,6 +65,7 @@ class ConfMisc extends DTActiveRecord {
         // class name for the relations automatically generated below.
         return array(
             'city' => array(self::BELONGS_TO, 'City', 'city_id'),
+            'site' => array(self::BELONGS_TO, 'SelfSite', 'site_id'),
         );
     }
 
@@ -77,6 +78,7 @@ class ConfMisc extends DTActiveRecord {
             'title' => Yii::t('application', 'Title'),
             'param' => Yii::t('application', 'Param'),
             'value' => Yii::t('application', 'Value'),
+            'site_id' => Yii::t('application', 'Site'),
             'create_time' => Yii::t('application', 'Create Time'),
             'create_user_id' => Yii::t('application', 'Creat User'),
             'update_time' => Yii::t('application', 'Update Time'),

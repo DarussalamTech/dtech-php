@@ -7,6 +7,7 @@ class ConfigurationsController extends Controller {
      * using two-column layout. See 'protected/views/layouts/column2.php'.
      */
     public $layout = '//layouts/column2';
+    public $filters;
 
     /**
      * @return array action filters
@@ -43,7 +44,12 @@ class ConfigurationsController extends Controller {
      * General configurations
      */
     public function actionGeneral($m, $id = 0, $module = '', $type = '') {
+        
         if ($type == "general") {
+            $criteria = new CDbCriteria();
+            $criteria->select = "site_id,site_name";
+
+            $this->filters = array("site_id"=>CHtml::listData(SelfSite::model()->findAll($criteria), "site_id", "site_name"));
             $this->loadConfig($m, $id, $module, $type);
         }
     }
