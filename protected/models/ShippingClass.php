@@ -59,7 +59,7 @@ class ShippingClass extends DTActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('source_city, destination_city, title, min_weight_id, max_weight_id, categories, create_time, create_user_id, update_time, update_user_id', 'required'),
+            array('categories,source_city, destination_city, title, min_weight_id, max_weight_id, categories, create_time, create_user_id, update_time, update_user_id', 'required'),
             array('source_city, destination_city, is_fix_shpping, is_pirce_range, min_weight_id, max_weight_id', 'numerical', 'integerOnly' => true),
             array('is_fix_shpping,is_weight_based,is_pirce_range', 'numerical'),
             array('start_price,end_price', 'numerical', 'integerOnly' => FALSE),
@@ -113,7 +113,16 @@ class ShippingClass extends DTActiveRecord {
      */
     public function beforeValidate() {
         $this->is_post_find = 1;
+        $this->categories = isset($this->categories) ? implode(",", $this->categories) : "";
         return parent::beforeValidate();
+    }
+
+    /**
+     * 
+     */
+    public function afterValidate() {
+        $this->categories = explode(",", $this->categories);
+        return parent::afterValidate();
     }
 
     /**
@@ -123,8 +132,8 @@ class ShippingClass extends DTActiveRecord {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'source_city_rel' => array(self::BELONGS_TO, 'City', 'city_id'),
-            'dest_city_rel' => array(self::BELONGS_TO, 'City', 'city_id'),
+            'source_city_rel' => array(self::BELONGS_TO, 'City', 'source_city'),
+            'is_pirce_range' => array(self::BELONGS_TO, 'City', 'destination_city'),
             'min_weight_rel' => array(self::BELONGS_TO, 'ConfProducts', 'weight', 'condition' => 'type="weight"'),
             'max_weight_rel' => array(self::BELONGS_TO, 'ConfProducts', 'weight', 'condition' => 'type="weight"'),
         );
@@ -187,13 +196,41 @@ class ShippingClass extends DTActiveRecord {
         ));
     }
 
-    /*     * *
-     * 
+    /**
+     * set the value of flag is post and find 1
+     * @return type
      */
-
     public function afterFind() {
         $this->is_post_find = 1;
+        $this->categories = explode(",", $this->categories);
         return parent::afterFind();
+    }
+
+    /**
+     * before save
+     * for categories
+     * @return type
+     */
+    public function beforeSave() {
+        $this->categories = isset($this->categories) ? implode(",", $this->categories) : "";
+        return parent::beforeSave();
+    }
+
+    /**
+     * get multienum field
+     * categories names against
+     * multi enum
+     */
+    public function getCategoriesNames() {
+
+        if (!empty($this->categories)) {
+            $criteria = new CDbCriteria;
+            $criteria->select = "category_name";
+            $criteria->addInCondition('category_id',  $this->categories);
+            $categories = CHtml::listData(Categories::model()->findAll($criteria), "category_name", "category_name");
+
+            return implode(",", $categories);
+        }
     }
 
 }

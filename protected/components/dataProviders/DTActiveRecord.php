@@ -166,7 +166,7 @@ class DTActiveRecord extends CActiveRecord {
              * and the else part is for local data entry for system
              */
 
-            if (mb_detect_encoding($value) == "UTF-8" && !in_array($key, $not_keys)) {
+            if (is_string($value) && mb_detect_encoding($value) == "UTF-8" && !in_array($key, $not_keys)) {
 
                 $d[$key] = $this->_current_module == "WebModule" ? utf8_decode($value) : $value;
             } else {
