@@ -15,7 +15,7 @@ class ShippingClassController extends Controller {
         return array(
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
-            'https + index + view + update + create + delete+toggleEnabled',
+            'https + index + view + update + create + delete + toggleEnabled',
         );
     }
 
