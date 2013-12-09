@@ -24,8 +24,18 @@ $('.search-form form').submit(function(){
 });
 ");
 ?>
+<div class="pading-bottom-5">
+    <div class="left_float">
+        <h1>Manage Shipping Classes</h1>
 
-<h1>Manage Shipping Classes</h1>
+    </div>
+
+    <?php /* Convert to Monitoring Log Buttons */ ?>
+    <div class = "right_float">
+
+    </div>
+</div>
+<div class="clear"></div>
 
 <p>
     You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
