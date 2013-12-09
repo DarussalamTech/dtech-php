@@ -553,7 +553,10 @@ input.singlechecbox
     width: 15px !important;
     float: left
 }
-
+input[type='checkbox'] {
+    float: left;
+    width: 40px !important;
+}
 /*----custom css for form in rfi------*/
 #seq_no_text
 {
