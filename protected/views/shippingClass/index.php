@@ -84,6 +84,49 @@ $this->widget('zii.widgets.grid.CGridView', array(
         ),
         array(
             'class' => 'CButtonColumn',
+            'template' => '{enableimg} {disableimg} {enable} {disable} &nbsp;&nbsp;&nbsp;{view}{update}{delete}',
+            'buttons' => array(
+                'enable' => array(
+                    'label' => '[ Disable ]',
+                    'url' => 'Yii::app()->controller->createUrl("/shippingClass/toggleEnabled",array("id"=>$data->id))',
+                    'visible' => '$data->class_status==1',
+                    'click' => "function(event){
+                                event.preventDefault();
+                                $.ajax({
+                                    url: $(this).attr('href'),
+                                    success:function(msg){
+                                        $('#shipping-class-grid').yiiGridView.update('shipping-class-grid');
+                                    }
+                                });
+                                
+                              }",
+                ),
+                'disable' => array(
+                    'label' => '[ Enable ]',
+                    'url' => 'Yii::app()->controller->createUrl("/shippingClass/toggleEnabled",array("id"=>$data->id))',
+                    'visible' => '$data->class_status==0',
+                    'click' => "function(event){
+                                event.preventDefault();
+                                $.ajax({
+                                    url: $(this).attr('href'),
+                                    success:function(msg){
+                                        $('#shipping-class-grid').yiiGridView.update('shipping-class-grid');
+                                    }
+                                });
+                              }",
+                ),
+                'enableimg' => array(
+                    'label' => 'Enabled',
+                    'imageUrl' => Yii::app()->request->baseUrl . '/images/enable.png',
+                    'visible' => '$data->class_status==1',
+                ),
+                'disableimg' => array(
+                    'label' => 'Disabled',
+                    'imageUrl' => Yii::app()->request->baseUrl . '/images/disable.png',
+                    'visible' => '$data->class_status==0',
+                ),
+            ),
+            'htmlOptions' => array('style' => 'width:144px;')
         ),
     ),
 ));

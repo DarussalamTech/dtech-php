@@ -2,7 +2,6 @@
 
 class ShippingClassController extends Controller {
 
-     
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
      * using two-column layout. See 'protected/views/layouts/column2.php'.
@@ -16,6 +15,7 @@ class ShippingClassController extends Controller {
         return array(
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
+            'https + index + view + update + create + delete+toggleEnabled',
         );
     }
 
@@ -27,7 +27,7 @@ class ShippingClassController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('create', 'update', 'index', 'view', 'delete'),
+                'actions' => array('create', 'update', 'index', 'view', 'delete', 'toggleEnabled'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -64,8 +64,8 @@ class ShippingClassController extends Controller {
 
         if (isset($_POST['ShippingClass'])) {
             $model->attributes = $_POST['ShippingClass'];
-            
-            
+
+
             if ($model->save())
                 $this->redirect(array('view', 'id' => $model->id));
         }
@@ -122,6 +122,23 @@ class ShippingClassController extends Controller {
         $this->render('index', array(
             'model' => $model,
         ));
+    }
+
+    /**
+     * update status of product
+     * @param type $id
+     */
+    public function actionToggleEnabled($id) {
+
+        $model = $this->loadModel($id);
+        $this->layout = "";
+        if ($model->class_status == 1) {
+            $model->class_status = 0;
+        } else {
+            $model->class_status = 1;
+        }
+
+        $model->updateByPk($id, array("class_status" => $model->class_status));
     }
 
     /**
