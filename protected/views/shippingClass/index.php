@@ -79,6 +79,14 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'value' => '($data->is_weight_based == 1) ? "Enabled" : "Disabled"',
         ),
         array(
+            'name' => '_shipping_cost',
+            'value' => $model->_shipping_cost,
+        ),
+        array(
+            'name' => '_shipping_range',
+            'value' => $model->_shipping_range,
+        ),
+        array(
             'name' => 'class_status',
             'value' => '($data->class_status == 1) ? "Enabled" : "Disabled"',
         ),
