@@ -138,12 +138,11 @@ class ShippingClass extends DTActiveRecord {
      * price range so we need to validate
      * one condition atlease
      */
-    public function validateIfNoShipType() {
+    public function validateIfNoShipType($attribute) {
         if ($this->is_fix_shpping == 0 && $this->is_pirce_range == 0 && $this->is_weight_based == 0) {
-            $this->addError("is_post_find", "atleast one is compulsory");
-            $this->addError("is_fix_shpping", "atleast one is compulsory");
-            $this->addError("is_pirce_range", "atleast one is compulsory");
-            $this->addError("is_weight_based", "atleast one is compulsory");
+            $this->addError($attribute, "atleast Fix ,price range or weight range is compulsory");
+           // $this->addError("is_pirce_range", "atleast one is compulsory");
+           // $this->addError("is_weight_based", "atleast one is compulsory");
 
             $this->is_no_selected = 1;
         } else {
