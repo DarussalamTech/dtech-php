@@ -15,7 +15,7 @@ if (!(Yii::app()->user->isGuest)) {
 
 <div class="pading-bottom-5">
     <div class="left_float">
-        <h1>View Shipping Class #<?php echo $model->id; ?></h1>
+        <h1>View Shipping Class [<?php echo $model->title; ?>]</h1>
     </div>
 
     <?php /* Convert to Monitoring Log Buttons */ ?>
