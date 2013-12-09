@@ -69,14 +69,17 @@ $this->widget('zii.widgets.grid.CGridView', array(
         array(
             'name' => 'is_fix_shpping',
             'value' => '($data->is_fix_shpping == 1) ? "Enabled" : "Disabled"',
+            'headerHtmlOptions' => array('width' => "40")
         ),
         array(
             'name' => 'is_pirce_range',
             'value' => '($data->is_pirce_range == 1) ? "Enabled" : "Disabled"',
+            'headerHtmlOptions' => array('width' => "100")
         ),
         array(
             'name' => 'is_weight_based',
             'value' => '($data->is_weight_based == 1) ? "Enabled" : "Disabled"',
+            'headerHtmlOptions' => array('width' => "100")
         ),
         array(
             'name' => '_shipping_cost',
@@ -85,6 +88,10 @@ $this->widget('zii.widgets.grid.CGridView', array(
         array(
             'name' => '_shipping_range',
             'value' => $model->_shipping_range,
+        ),
+        array(
+            'name' => 'categories',
+            'value' => '$data->getCategoriesNames()',
         ),
         array(
             'name' => 'class_status',
@@ -134,7 +141,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
                     'visible' => '$data->class_status==0',
                 ),
             ),
-            'htmlOptions' => array('style' => 'width:144px;')
+            'htmlOptions' => array('style' => 'width:280px;')
         ),
     ),
 ));
