@@ -7,6 +7,7 @@ class ShippingClassController extends Controller {
      * using two-column layout. See 'protected/views/layouts/column2.php'.
      */
     public $layout = '//layouts/column2';
+    public $filters;
 
     /**
      * @return array action filters
@@ -34,6 +35,19 @@ class ShippingClassController extends Controller {
         $operations = array('create', 'update', 'index', 'delete');
         parent::setPermissions($this->id, $operations);
         return true;
+    }
+
+    /**
+     * Initialize Left site filters
+     */
+    public function init() {
+        parent::init();
+
+        /* Set filters and default active */
+        $this->filters = array(
+            'destination_city' => array(Yii::app()->session['city_id'] => "Same as source", "0" => "Out of Source", "" => "All"),
+       
+        );
     }
 
     /**

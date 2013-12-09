@@ -52,6 +52,15 @@ $('.search-form form').submit(function(){
 </div><!-- search-form -->
 
 <?php
+$this->PcmWidget['filter'] = array('name' => 'ItstLeftFilter',
+    'attributes' => array(
+        'model' => $model,
+        'filters' => $this->filters,
+        'keyUrl' => true,
+        'action' => Yii::app()->createUrl($this->route),
+        'grid_id' => 'shipping-class-grid',
+        ));
+
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'shipping-class-grid',
     'dataProvider' => $model->search(),
