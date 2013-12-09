@@ -7,8 +7,18 @@ $this->breadcrumbs = array(
     'Manage',
 );
 ?>
+<div class="pading-bottom-5">
+    <div class="left_float">
+        <h1>[Product Or Book] <?php echo $_GET['type']; ?></h1>
+    </div>
 
-<h1>Book <?php echo $_GET['type']; ?></h1>
+    <?php /* Convert to Monitoring Log Buttons */ ?>
+    <div class = "right_float">
+
+    </div>
+</div>
+<div class="clear"></div>
+
 <?php
 $this->renderPartial("confProducts/_form", array("model" => $model));
 ?>
