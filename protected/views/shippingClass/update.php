@@ -21,9 +21,9 @@ if (!(Yii::app()->user->isGuest)) {
     <div class = "right_float">
         <span class="creatdate">
             <?php
-            //if (isset($this->OpPermission[ucfirst($this->id) . ".Update"]) && $this->OpPermission[ucfirst($this->id) . ".Update"]) {
+            if (isset($this->OpPermission[ucfirst($this->id) . ".View"])) {
                 echo CHtml::link("view", $this->createUrl("view", array("id" => $model->primaryKey)), array('class' => "print_link_btn"));
-           // }
+            }
             ?>
         </span>
     </div>

@@ -22,9 +22,9 @@ if (!(Yii::app()->user->isGuest)) {
     <div class = "right_float">
         <span class="creatdate">
             <?php
-            //if (isset($this->OpPermission[ucfirst($this->id) . ".Update"]) && $this->OpPermission[ucfirst($this->id) . ".Update"]) {
-            echo CHtml::link("Edit", $this->createUrl("update", array("id" => $model->primaryKey)), array('class' => "print_link_btn"));
-            // }
+            if (isset($this->OpPermission[ucfirst($this->id) . ".Update"])) {
+                 echo CHtml::link("Edit", $this->createUrl("update", array("id" => $model->primaryKey)), array('class' => "print_link_btn"));
+            }
             ?>
         </span>
     </div>
