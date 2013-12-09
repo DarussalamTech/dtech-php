@@ -59,8 +59,8 @@ $this->widget('zii.widgets.CDetailView', array(
             'visible' => ($model->is_pirce_range == 1) ? true : false,
         ),
         array(
-            'name' => 'fix_shipping_cost',
-            'value' => $model->start_price,
+            'name' => 'price_range_shipping_cost',
+            'value' => $model->price_range_shipping_cost,
             'visible' => ($model->is_pirce_range == 1) ? true : false,
         ),
         array(
@@ -72,6 +72,11 @@ $this->widget('zii.widgets.CDetailView', array(
             'name' => 'end_price',
             'value' => $model->end_price,
             'visible' => ($model->is_pirce_range == 1) ? true : false,
+        ),
+        array(
+            'name' => 'weight_range_shipping_cost',
+            'value' => $model->weight_range_shipping_cost,
+            'visible' => ($model->is_weight_based == 1) ? true : false,
         ),
         array(
             'name' => 'is_weight_based',
