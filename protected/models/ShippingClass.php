@@ -175,7 +175,8 @@ class ShippingClass extends DTActiveRecord {
         // class name for the relations automatically generated below.
         return array(
             'source_city_rel' => array(self::BELONGS_TO, 'City', 'source_city'),
-            'is_pirce_range' => array(self::BELONGS_TO, 'City', 'destination_city'),
+            'dest_city_rel' => array(self::BELONGS_TO, 'City', 'destination_city'),
+            //'is_pirce_range' => array(self::BELONGS_TO, 'City', 'destination_city'),
             'min_weight_rel' => array(self::BELONGS_TO, 'ConfProducts', 'min_weight_id', 'condition' => 'type="weight"'),
             'max_weight_rel' => array(self::BELONGS_TO, 'ConfProducts', 'max_weight_id', 'condition' => 'type="weight"'),
         );
