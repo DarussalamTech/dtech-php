@@ -34,6 +34,8 @@ class ShippingClass extends DTActiveRecord {
      * @var type 
      */
     public $is_post_find, $is_no_selected;
+    
+    public $_shipping_cost,$_shipping_range;
 
     /**
      * Returns the static model of the specified AR class.
@@ -246,6 +248,18 @@ class ShippingClass extends DTActiveRecord {
     public function afterFind() {
         $this->is_post_find = 1;
         $this->categories = explode(",", $this->categories);
+        
+        if($this->is_fix_shpping ==1){
+            $this->_shipping_cost = $this->fix_shipping_cost;
+        }
+        else if($this->is_pirce_range ==1){
+            $this->_shipping_cost = $this->price_range_shipping_cost;
+            $this->_shipping_range = $this->start_price ." - ".$this->end_price;
+        }
+        else if($this->is_weight_based ==1){
+            $this->_shipping_cost = $this->weight_range_shipping_cost;
+            $this->_shipping_range = $this->min_weight_rel->title ." - ".$this->max_weight_rel->title;
+        }
         return parent::afterFind();
     }
 
