@@ -333,7 +333,7 @@ class MenusController extends Controller {
         /** FOr order module * */
         $ary[] = array("id" => "40", "pid" => "0", "root_parent" => "40", "controller" => "order", "action" => "index", "default_title" => "Order", "user_title" => "Order", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "3");
         $ary[] = array("id" => "41", "pid" => "40", "root_parent" => "40", "controller" => "order", "action" => "index", "default_title" => "List All", "user_title" => "List All", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "0");
-        
+
         /**
          * Category other links
          */
@@ -343,10 +343,14 @@ class MenusController extends Controller {
         /**
          * product module 
          */
-        
         $ary[] = array("id" => "44", "pid" => "26", "root_parent" => "26", "controller" => "product", "action" => "slider", "default_title" => "Make Slider", "user_title" => "Make Slider", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "2");
         $ary[] = array("id" => "45", "pid" => "26", "root_parent" => "26", "controller" => "product", "action" => "sliderSetting", "default_title" => "Slider Settings", "user_title" => "Slider Settings", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "2");
-        
+
+        //shipping class
+        $ary[] = array("id" => "46", "pid" => "0", "root_parent" => "46", "controller" => "shippingClass", "action" => "index", "default_title" => "Shipping Class", "user_title" => "Shipping Class", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "3");
+        $ary[] = array("id" => "47", "pid" => "46", "root_parent" => "46", "controller" => "shippingClass", "action" => "index", "default_title" => "List All", "user_title" => "List All", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "0");
+        $ary[] = array("id" => "48", "pid" => "46", "root_parent" => "46", "controller" => "shippingClass", "action" => "create", "default_title" => "Create", "user_title" => "Create", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "2");
+
         $this->updateWpbaseUrl();
         foreach ($ary as $attr) {
             $model = new Menu();

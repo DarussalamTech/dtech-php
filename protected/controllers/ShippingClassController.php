@@ -13,32 +13,26 @@ class ShippingClassController extends Controller {
      */
     public function filters() {
         return array(
-            'accessControl', // perform access control for CRUD operations
+            'rights',
             'postOnly + delete', // we only allow deletion via POST request
             'https + index + view + update + create + delete + toggleEnabled',
         );
     }
 
     /**
-     * Specifies the access control rules.
-     * This method is used by the 'accessControl' filter.
-     * @return array access control rules
+     * 
+     * @return string
      */
-    public function accessRules() {
-        return array(
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('create', 'update', 'index', 'view', 'delete', 'toggleEnabled'),
-                'users' => array('@'),
-            ),
-            array('deny', // deny all users
-                'users' => array('*'),
-            ),
-        );
+    public function allowedActions() {
+        return '@';
     }
 
     public function beforeAction($action) {
         parent::beforeAction($action);
         Yii::app()->theme = "admin";
+
+        $operations = array('create', 'update', 'index', 'delete');
+        parent::setPermissions($this->id, $operations);
         return true;
     }
 
