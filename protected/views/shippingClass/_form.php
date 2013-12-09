@@ -12,11 +12,12 @@
         'id' => 'shipping-class-form',
         'enableAjaxValidation' => false,
     ));
-
     ?>
 
     <p class="note">Fields with <span class="required">*</span> are required.</p>
-
+    <?php
+    echo $form->errorSummary($model);
+    ?>
     <div  class="subform">
         <div class="main">
             <!--        <div class="head">Field Force Labors</div>-->
@@ -53,7 +54,6 @@
                         </div>
                         <div class="field" style="width:300px">
                             <?php
-                            
                             echo $form->dropDownList($model, 'destination_city', array(Yii::app()->session['city_id'] => "Same as source", "0" => "Out of Source"));
                             ?>
                         </div>
@@ -79,7 +79,7 @@
                 </div>
                 <div class="clear"></div>
 
-                <div class="grid_container <?php echo $model->is_pirce_range == 1 && $model->is_post_find == 1  || $model->is_no_selected ? "show_ship_type" : "hide_ship_type" ?>" id="range_based" >
+                <div class="grid_container <?php echo $model->is_pirce_range == 1 && $model->is_post_find == 1 || $model->is_no_selected ? "show_ship_type" : "hide_ship_type" ?>" id="range_based" >
                     <div class="grid_title">
                         <div class="title" style="width:300px"><?php echo $form->labelEx($model, 'is_pirce_range'); ?></div>
                         <div class="title" style="width:300px"><?php echo $form->labelEx($model, 'price_range_shipping_cost'); ?></div>
@@ -113,7 +113,7 @@
                     </div>
                 </div>
                 <div class="clear"></div>
-                <div class="grid_container <?php echo $model->is_weight_based == 1 && $model->is_post_find == 1  || $model->is_no_selected ? "show_ship_type" : "hide_ship_type" ?>" id="weight_based">
+                <div class="grid_container <?php echo $model->is_weight_based == 1 && $model->is_post_find == 1 || $model->is_no_selected ? "show_ship_type" : "hide_ship_type" ?>" id="weight_based">
                     <div class="grid_title">
                         <div class="title" style="width:300px"><?php echo $form->labelEx($model, 'is_weight_based'); ?></div>
                         <div class="title" style="width:300px"><?php echo $form->labelEx($model, 'weight_range_shipping_cost'); ?></div>
@@ -134,15 +134,22 @@
 
                     <div class="grid_title">
                         <div class="title" style="width:300px"><?php echo $form->labelEx($model, 'min_weight_id'); ?></div>
-                        <div class="title" style="width:300px"><?php echo $form->labelEx($model, 'min_weight_id'); ?></div>
+                        <div class="title" style="width:300px"><?php echo $form->labelEx($model, 'max_weight_id'); ?></div>
                     </div>
                     <div class="clear"></div>
                     <div class="grid_fields">
                         <div class="field" style="width:300px">
-                            <?php echo $form->textField($model, 'min_weight_id', array('size' => 60, 'maxlength' => 255)); ?>
+                            <?php
+                                $criteria = new CDbCriteria();
+                                $criteria->select = "id,type,title";
+                                $criteria->condition = "type='weight'";
+                                $prod_pro = ConfProducts::model()->findAll($criteria);
+                                
+                                echo $form->dropDownList($model, 'min_weight_id', CHtml::listData($prod_pro,"id", "title"));
+                            ?>
                         </div>
                         <div class="field" style="width:300px">
-                            <?php echo $form->textField($model, 'min_weight_id', array('size' => 60, 'maxlength' => 255)); ?>
+                            <?php echo $form->dropDownList($model, 'max_weight_id', CHtml::listData($prod_pro,"id", "title")); ?>
                         </div>
 
                     </div>
@@ -157,10 +164,9 @@
                     <div class="clear"></div>
                     <div class="grid_fields">
                         <div class="field" style="width:300px">
-                            <?php echo 
-                                $form->ListBox($model, 'categories',
-                                CHtml::listData(Categories::model()->getMenuParentCategories(),
-                                        "category_id","category_name"),array("multiple"=>"multiple"));
+                            <?php
+                            echo
+                            $form->ListBox($model, 'categories', CHtml::listData(Categories::model()->getMenuParentCategories(), "category_id", "category_name"), array("multiple" => "multiple"));
                             ?>
                         </div>
                         <div class="field" style="width:300px">

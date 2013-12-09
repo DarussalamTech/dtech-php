@@ -33,7 +33,7 @@ class ShippingClass extends DTActiveRecord {
      * and retrieveing db
      * @var type 
      */
-    public $is_post_find,$is_no_selected ;
+    public $is_post_find, $is_no_selected;
 
     /**
      * Returns the static model of the specified AR class.
@@ -67,9 +67,9 @@ class ShippingClass extends DTActiveRecord {
             array('min_weight_id,max_weight_id', 'numerical', 'integerOnly' => FALSE),
             array('price_range_shipping_cost,weight_range_shipping_cost,fix_shipping_cost',
                 'numerical', 'integerOnly' => FALSE),
-            array('fix_shipping_cost', 'validateShippingScanario'),
-            array('start_price,end_price,price_range_shipping_cost', 'validateShippingScanario'),
-            array('min_weight_id,max_weight_id,weight_range_shipping_cost', 'validateShippingScanario'),
+            array('fix_shipping_cost', 'validateShippingFixScanario'),
+            array('start_price,end_price,price_range_shipping_cost', 'validateShippingRangeScanario'),
+            array('min_weight_id,max_weight_id,weight_range_shipping_cost', 'validateShippingWeightScanario'),
             array('class_status', 'numerical'),
             array('title, categories', 'length', 'max' => 255),
             array('create_user_id, update_user_id', 'length', 'max' => 11),
@@ -83,10 +83,17 @@ class ShippingClass extends DTActiveRecord {
     /**
      *  validating shipping scanrio
      */
-    public function validateShippingScanario() {
+    public function validateShippingFixScanario() {
         if ($this->is_fix_shpping == 1 && $this->fix_shipping_cost == "") {
             $this->addError("fix_shipping_cost", "Error");
-        } else if ($this->is_pirce_range == 1) {
+        }
+    }
+
+    /**
+     *  validating shipping scanrio
+     */
+    public function validateShippingRangeScanario() {
+        if ($this->is_pirce_range == 1) {
             if ($this->start_price == "") {
                 $this->addError("start_price", "Error");
             }
@@ -96,11 +103,18 @@ class ShippingClass extends DTActiveRecord {
             if ($this->price_range_shipping_cost == "") {
                 $this->addError("price_range_shipping_cost", "Error");
             }
-            
-            if($this->start_price >= $this->end_price){
+
+            if ($this->start_price >= $this->end_price) {
                 $this->addError("start_price", "start price should be less than");
             }
-        } else if ($this->is_weight_based == 1) {
+        }
+    }
+
+    /**
+     *  validating shipping scanrio
+     */
+    public function validateShippingWeightScanario() {
+        if ($this->is_weight_based == 1) {
             if ($this->min_weight_id == "") {
                 $this->addError("min_weight_id", "Error");
             }
@@ -110,14 +124,12 @@ class ShippingClass extends DTActiveRecord {
             if ($this->weight_range_shipping_cost == "") {
                 $this->addError("weight_range_shipping_cost", "Error");
             }
-            if($this->min_weight_id >= $this->max_weight_id){
+            if ($this->min_weight_id == $this->max_weight_id) {
                 $this->addError("max_weight_id", "Min Weight should be less than");
             }
         }
     }
-    
-   
-   
+
     /**
      * Becaause there is 
      * on way is compulsory either its
@@ -126,17 +138,15 @@ class ShippingClass extends DTActiveRecord {
      * price range so we need to validate
      * one condition atlease
      */
-    public function validateIfNoShipType(){
-        if($this->is_fix_shpping ==0 && $this->is_pirce_range ==0 && $this->is_weight_based ==0){
+    public function validateIfNoShipType() {
+        if ($this->is_fix_shpping == 0 && $this->is_pirce_range == 0 && $this->is_weight_based == 0) {
             $this->addError("is_post_find", "atleast one is compulsory");
             $this->addError("is_fix_shpping", "atleast one is compulsory");
             $this->addError("is_pirce_range", "atleast one is compulsory");
             $this->addError("is_weight_based", "atleast one is compulsory");
-            
+
             $this->is_no_selected = 1;
-           
-        }
-        else {
+        } else {
             $this->is_no_selected = 0;
         }
     }
@@ -167,8 +177,8 @@ class ShippingClass extends DTActiveRecord {
         return array(
             'source_city_rel' => array(self::BELONGS_TO, 'City', 'source_city'),
             'is_pirce_range' => array(self::BELONGS_TO, 'City', 'destination_city'),
-            'min_weight_rel' => array(self::BELONGS_TO, 'ConfProducts', 'weight', 'condition' => 'type="weight"'),
-            'max_weight_rel' => array(self::BELONGS_TO, 'ConfProducts', 'weight', 'condition' => 'type="weight"'),
+            'min_weight_rel' => array(self::BELONGS_TO, 'ConfProducts', 'min_weight_id', 'condition' => 'type="weight"'),
+            'max_weight_rel' => array(self::BELONGS_TO, 'ConfProducts', 'max_weight_id', 'condition' => 'type="weight"'),
         );
     }
 
@@ -259,7 +269,7 @@ class ShippingClass extends DTActiveRecord {
         if (!empty($this->categories)) {
             $criteria = new CDbCriteria;
             $criteria->select = "category_name";
-            $criteria->addInCondition('category_id',  $this->categories);
+            $criteria->addInCondition('category_id', $this->categories);
             $categories = CHtml::listData(Categories::model()->findAll($criteria), "category_name", "category_name");
 
             return implode(",", $categories);
