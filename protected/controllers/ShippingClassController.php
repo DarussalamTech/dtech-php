@@ -58,12 +58,13 @@ class ShippingClassController extends Controller {
      */
     public function actionCreate() {
         $model = new ShippingClass;
-
+        $model->is_no_selected = 1;
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
         if (isset($_POST['ShippingClass'])) {
             $model->attributes = $_POST['ShippingClass'];
+            
             
             if ($model->save())
                 $this->redirect(array('view', 'id' => $model->id));

@@ -13,39 +13,31 @@
     ));
     ?>
 
-    <div class="row">
-        <?php echo $form->label($model, 'id'); ?>
-        <?php echo $form->textField($model, 'id'); ?>
-    </div>
-
-    <div class="row">
-        <?php echo $form->label($model, 'source_city'); ?>
-        <?php echo $form->textField($model, 'source_city'); ?>
-    </div>
 
     <div class="row">
         <?php echo $form->label($model, 'destination_city'); ?>
-        <?php echo $form->textField($model, 'destination_city'); ?>
+        <?php
+        echo $form->dropDownList($model, 'destination_city', array(Yii::app()->session['city_id'] => "Same as source", "0" => "Out of Source"));
+        ?>
     </div>
 
     <div class="row">
         <?php echo $form->label($model, 'title'); ?>
         <?php echo $form->textField($model, 'title', array('size' => 60, 'maxlength' => 255)); ?>
     </div>
-
+    <div class="row">
+        <?php echo $form->label($model, 'is_fix_shpping'); ?>
+        <?php echo $form->checkBox($model, 'is_fix_shpping'); ?>
+    </div>
     <div class="row">
         <?php echo $form->label($model, 'fix_shipping_cost'); ?>
         <?php echo $form->textField($model, 'fix_shipping_cost'); ?>
     </div>
 
-    <div class="row">
-        <?php echo $form->label($model, 'is_fix_shpping'); ?>
-        <?php echo $form->textField($model, 'is_fix_shpping'); ?>
-    </div>
 
     <div class="row">
         <?php echo $form->label($model, 'is_pirce_range'); ?>
-        <?php echo $form->textField($model, 'is_pirce_range'); ?>
+        <?php echo $form->checkBox($model, 'is_pirce_range'); ?>
     </div>
 
     <div class="row">
@@ -59,6 +51,10 @@
     </div>
 
     <div class="row">
+        <?php echo $form->label($model, 'is_weight_based'); ?>
+        <?php echo $form->checkBox($model, 'is_weight_based'); ?>
+    </div>
+    <div class="row">
         <?php echo $form->label($model, 'min_weight_id'); ?>
         <?php echo $form->textField($model, 'min_weight_id'); ?>
     </div>
@@ -70,17 +66,20 @@
 
     <div class="row">
         <?php echo $form->label($model, 'categories'); ?>
-        <?php echo $form->textField($model, 'categories', array('size' => 60, 'maxlength' => 255)); ?>
+        <?php
+        echo
+        $form->ListBox($model, 'categories', CHtml::listData(Categories::model()->getMenuParentCategories(), "category_id", "category_name"), array("multiple" => "multiple"));
+        ?>
     </div>
 
     <div class="row">
         <?php echo $form->label($model, 'class_status'); ?>
-        <?php echo $form->textField($model, 'class_status'); ?>
+        <?php echo $form->dropDownList($model, 'class_status', array("0" => "Disable", "1" => "Enable")); ?>
     </div>
 
 
     <div class="row buttons">
-        <?php echo CHtml::submitButton('Search'); ?>
+        <?php echo CHtml::submitButton('Search', array("class" => "btn")); ?>
     </div>
 
     <?php $this->endWidget(); ?>

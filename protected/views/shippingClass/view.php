@@ -65,13 +65,13 @@ $this->widget('zii.widgets.CDetailView', array(
         ),
         array(
             'name' => 'start_price',
-            'value' => $model->end_price,
+            'value' => $model->start_price,
             'visible' => ($model->is_pirce_range == 1) ? true : false,
         ),
         array(
-            'name' => 'is_weight_based',
-            'value' => ($model->is_weight_based == 1) ? "Enabled" : "Disabled",
-            'visible' => ($model->is_weight_based == 1) ? true : false,
+            'name' => 'end_price',
+            'value' => $model->end_price,
+            'visible' => ($model->is_pirce_range == 1) ? true : false,
         ),
         array(
             'name' => 'is_weight_based',

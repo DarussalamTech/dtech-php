@@ -33,7 +33,7 @@ class ShippingClass extends DTActiveRecord {
      * and retrieveing db
      * @var type 
      */
-    public $is_post_find;
+    public $is_post_find,$is_no_selected ;
 
     /**
      * Returns the static model of the specified AR class.
@@ -62,6 +62,7 @@ class ShippingClass extends DTActiveRecord {
             array('categories,source_city, destination_city, title, min_weight_id, max_weight_id, categories, create_time, create_user_id, update_time, update_user_id', 'required'),
             array('source_city, destination_city, is_fix_shpping, is_pirce_range, min_weight_id, max_weight_id', 'numerical', 'integerOnly' => true),
             array('is_fix_shpping,is_weight_based,is_pirce_range', 'numerical'),
+            array('is_fix_shpping,is_weight_based,is_pirce_range', 'validateIfNoShipType'),
             array('start_price,end_price', 'numerical', 'integerOnly' => FALSE),
             array('min_weight_id,max_weight_id', 'numerical', 'integerOnly' => FALSE),
             array('price_range_shipping_cost,weight_range_shipping_cost,fix_shipping_cost',
@@ -95,6 +96,10 @@ class ShippingClass extends DTActiveRecord {
             if ($this->price_range_shipping_cost == "") {
                 $this->addError("price_range_shipping_cost", "Error");
             }
+            
+            if($this->start_price >= $this->end_price){
+                $this->addError("start_price", "start price should be less than");
+            }
         } else if ($this->is_weight_based == 1) {
             if ($this->min_weight_id == "") {
                 $this->addError("min_weight_id", "Error");
@@ -105,6 +110,34 @@ class ShippingClass extends DTActiveRecord {
             if ($this->weight_range_shipping_cost == "") {
                 $this->addError("weight_range_shipping_cost", "Error");
             }
+            if($this->min_weight_id >= $this->max_weight_id){
+                $this->addError("max_weight_id", "Min Weight should be less than");
+            }
+        }
+    }
+    
+   
+   
+    /**
+     * Becaause there is 
+     * on way is compulsory either its
+     * fix shipping
+     * or weight based
+     * price range so we need to validate
+     * one condition atlease
+     */
+    public function validateIfNoShipType(){
+        if($this->is_fix_shpping ==0 && $this->is_pirce_range ==0 && $this->is_weight_based ==0){
+            $this->addError("is_post_find", "atleast one is compulsory");
+            $this->addError("is_fix_shpping", "atleast one is compulsory");
+            $this->addError("is_pirce_range", "atleast one is compulsory");
+            $this->addError("is_weight_based", "atleast one is compulsory");
+            
+            $this->is_no_selected = 1;
+           
+        }
+        else {
+            $this->is_no_selected = 0;
         }
     }
 

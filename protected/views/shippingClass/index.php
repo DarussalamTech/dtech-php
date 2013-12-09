@@ -47,11 +47,31 @@ $this->widget('zii.widgets.grid.CGridView', array(
     'dataProvider' => $model->search(),
     'filter' => $model,
     'columns' => array(
-        'source_city',
-        'destination_city',
+        array(
+            'name' => 'source_city',
+            'value' => 'isset($data->source_city_rel) ? $data->source_city_rel->city_name : ""'
+        ),
+        array(
+            'name' => 'destination_city',
+            'value' => 'isset($data->dest_city_rel) ? $data->dest_city_rel->city_name : "Out Of Source"'
+        ),
         'title',
-        'fix_shipping_cost',
-        'is_fix_shpping',
+        array(
+            'name' => 'is_fix_shpping',
+            'value' => '($data->is_fix_shpping == 1) ? "Enabled" : "Disabled"',
+        ),
+        array(
+            'name' => 'is_pirce_range',
+            'value' => '($data->is_pirce_range == 1) ? "Enabled" : "Disabled"',
+        ),
+        array(
+            'name' => 'is_weight_based',
+            'value' => '($data->is_weight_based == 1) ? "Enabled" : "Disabled"',
+        ),
+        array(
+            'name' => 'class_status',
+            'value' => '($data->class_status == 1) ? "Enabled" : "Disabled"',
+        ),
         array(
             'class' => 'CButtonColumn',
         ),

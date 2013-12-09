@@ -12,6 +12,7 @@
         'id' => 'shipping-class-form',
         'enableAjaxValidation' => false,
     ));
+
     ?>
 
     <p class="note">Fields with <span class="required">*</span> are required.</p>
@@ -52,6 +53,7 @@
                         </div>
                         <div class="field" style="width:300px">
                             <?php
+                            
                             echo $form->dropDownList($model, 'destination_city', array(Yii::app()->session['city_id'] => "Same as source", "0" => "Out of Source"));
                             ?>
                         </div>
@@ -59,7 +61,7 @@
                     </div>
                 </div>
                 <div class="clear"></div>
-                <div class="grid_container <?php echo ($model->is_fix_shpping == 1 && $model->is_post_find == 1) || $model->isNewRecord ? "show_ship_type" : "hide_ship_type" ?>" id="fix_based" >
+                <div class="grid_container <?php echo ($model->is_fix_shpping == 1 && $model->is_post_find == 1) || $model->is_no_selected ? "show_ship_type" : "hide_ship_type" ?>" id="fix_based" >
                     <div class="grid_title">
                         <div class="title" style="width:300px"><?php echo $form->labelEx($model, 'is_fix_shpping'); ?></div>
                         <div class="title" style="width:300px"><?php echo $form->labelEx($model, 'fix_shipping_cost'); ?></div>
@@ -77,7 +79,7 @@
                 </div>
                 <div class="clear"></div>
 
-                <div class="grid_container <?php echo $model->is_pirce_range == 1 && $model->is_post_find == 1 ? "show_ship_type" : "hide_ship_type" ?>" id="range_based" >
+                <div class="grid_container <?php echo $model->is_pirce_range == 1 && $model->is_post_find == 1  || $model->is_no_selected ? "show_ship_type" : "hide_ship_type" ?>" id="range_based" >
                     <div class="grid_title">
                         <div class="title" style="width:300px"><?php echo $form->labelEx($model, 'is_pirce_range'); ?></div>
                         <div class="title" style="width:300px"><?php echo $form->labelEx($model, 'price_range_shipping_cost'); ?></div>
@@ -111,7 +113,7 @@
                     </div>
                 </div>
                 <div class="clear"></div>
-                <div class="grid_container <?php echo $model->is_weight_based == 1 && $model->is_post_find == 1 ? "show_ship_type" : "hide_ship_type" ?>" id="weight_based">
+                <div class="grid_container <?php echo $model->is_weight_based == 1 && $model->is_post_find == 1  || $model->is_no_selected ? "show_ship_type" : "hide_ship_type" ?>" id="weight_based">
                     <div class="grid_title">
                         <div class="title" style="width:300px"><?php echo $form->labelEx($model, 'is_weight_based'); ?></div>
                         <div class="title" style="width:300px"><?php echo $form->labelEx($model, 'weight_range_shipping_cost'); ?></div>
