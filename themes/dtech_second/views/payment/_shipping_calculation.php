@@ -15,7 +15,7 @@ foreach ($cart as $pro) {
     }
     $cart_html .= "<div class='login_img  " . $css_alternat . "'>";
     $cart_html .= "<p>";
-    $cart_html .= $pro->quantity;
+    $cart_html .= "<strong>".$pro->quantity."</strong> ";
     $cart_html .= substr($pro->productProfile->product->product_name, 0, 20) . "..";
     $cart_html .="<b>" . Yii::app()->session['currency'] . " " . round($pro->quantity * $pro->productProfile->price, 2) . "</b>";
     $cart_html .= "</p>";
