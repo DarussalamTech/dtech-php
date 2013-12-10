@@ -19,7 +19,7 @@ class PaymentController extends Controller {
              * applying filters for
              * secure actions
              */
-            'https + paymentMethod + validateCreditCard + processCreditCard + processManual +confirmOrder',
+            'https + paymentMethod + validateCreditCard + processCreditCard + processManual +confirmOrder + calculateShipping',
         );
     }
 
@@ -32,7 +32,7 @@ class PaymentController extends Controller {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('paymentmethod', 'confirmorder',
-                    'statelist', 'bstatelist', 'sstatelist',
+                    'statelist', 'bstatelist', 'sstatelist', 'calculateShipping',
                     'customer0rderDetailMailer', 'admin0rderDetailMailer'),
                 'users' => array('@'),
             ),
@@ -100,8 +100,8 @@ class PaymentController extends Controller {
             }
         }
         $criteria = new CDbCriteria;
-        if($country_list = Cart::model()->getCartCountryList()){
-            
+        if ($country_list = Cart::model()->getCartCountryList()) {
+
             $criteria->addInCondition("name", $country_list);
         }
         $regionList = CHtml::listData(Region::model()->findAll($criteria), 'id', 'name');
@@ -295,6 +295,17 @@ class PaymentController extends Controller {
         foreach ($stateList as $value => $name) {
             echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
         }
+    }
+
+    /**
+     * shipping cost calculation
+     */
+    public function actionCalculateShipping() {
+        Yii::app()->user->SiteSessions;
+
+        $cart = Cart::model()->getCartLists();
+
+        $this->renderPartial('//payment/_shipping_calculation', array('cart' => $cart));
     }
 
     public function actionconfirmOrder() {

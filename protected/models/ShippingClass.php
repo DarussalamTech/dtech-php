@@ -191,7 +191,7 @@ class ShippingClass extends DTActiveRecord {
         return array(
             'id' => 'ID',
             'source_city' => 'Source City',
-            'destination_city' => 'Destination City',
+            'destination_city' => 'Dest City',
             'title' => 'Title',
             'fix_shipping_cost' => 'Shipping Price',
             'is_fix_shpping' => 'Fix based',

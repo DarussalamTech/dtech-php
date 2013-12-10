@@ -285,5 +285,9 @@ var dtech_new = {
 
         }, slider_timings * 1000);
     },
+    calculateShipping : function(obj,url){
+        
+        dtech.updateElementAjax(url, "cost_shipping", jQuery(obj).attr("id"));
+    }
     
 }
