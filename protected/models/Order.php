@@ -7,6 +7,7 @@
  * @property integer $order_id
  * @property integer $user_id
  * @property string $total_price
+ * @property string $shipping_price
  * @property string $order_date
  * @property string $status
  * @property string $user_id
@@ -49,7 +50,7 @@ class Order extends DTActiveRecord {
             array('payment_method_id,user_id,total_price, order_date', 'required'),
             array('user_id', 'numerical', 'integerOnly' => true),
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
-            array('total_price', 'length', 'max' => 10),
+            array('shipping_price,total_price', 'length', 'max' => 10),
             array('order_date', 'length', 'max' => 255),
             array('order_id,service_charges,notifyUser,transaction_id,status,city_id', 'safe'),
             // The following rule is used by search().
@@ -114,6 +115,7 @@ class Order extends DTActiveRecord {
             'order_id' => Yii::t('model_labels', 'Order', array(), NULL, Yii::app()->controller->currentLang),
             'user_id' => Yii::t('model_labels', 'User', array(), NULL, Yii::app()->controller->currentLang),
             'total_price' => Yii::t('model_labels', 'Total Price', array(), NULL, Yii::app()->controller->currentLang),
+            'shipping_price' => Yii::t('model_labels', 'Shipping Price', array(), NULL, Yii::app()->controller->currentLang),
             'order_date' => Yii::t('model_labels', 'Order Date', array(), NULL, Yii::app()->controller->currentLang),
             'update_time' => Yii::t('model_labels', 'Last modified', array(), NULL, Yii::app()->controller->currentLang),
             'status' => Yii::t('common', 'Status', array(), NULL, Yii::app()->controller->currentLang),

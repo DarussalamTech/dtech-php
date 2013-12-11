@@ -44,12 +44,12 @@ class ConfigurationsController extends Controller {
      * General configurations
      */
     public function actionGeneral($m, $id = 0, $module = '', $type = '') {
-        
+
         if ($type == "general") {
             $criteria = new CDbCriteria();
             $criteria->select = "site_id,site_name";
 
-            $this->filters = array("site_id"=>CHtml::listData(SelfSite::model()->findAll($criteria), "site_id", "site_name"));
+            $this->filters = array("site_id" => CHtml::listData(SelfSite::model()->findAll($criteria), "site_id", "site_name"));
             $this->loadConfig($m, $id, $module, $type);
         }
     }
@@ -87,8 +87,9 @@ class ConfigurationsController extends Controller {
 
 
         if ($id != 0) {
+            $criteria = new CDbCriteria();
             if ($type != "") {
-                $criteria = new CDbCriteria();
+
                 if (array_key_exists('misc_type', $model->attributes)) {
                     $criteria->addCondition("misc_type = '" . $type . "'");
                 } else if (array_key_exists('type', $model->attributes)) {

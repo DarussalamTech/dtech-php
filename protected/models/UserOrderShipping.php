@@ -18,6 +18,7 @@
  * @property integer $shipping_zip
  * @property string $shipping_phone
  * @property string $shipping_mobile
+ * @property string $payment_method
  * @property string $create_time
  * @property string $create_user_id
  * @property string $update_time
@@ -59,7 +60,7 @@ class UserOrderShipping extends DTActiveRecord {
             array('shipping_prefix', 'length', 'max' => 4),
             array('shipping_first_name, shipping_last_name, shipping_address1, shipping_address2, shipping_country, shipping_state, shipping_city, shipping_phone, shipping_mobile', 'length', 'max' => 255),
             array('create_user_id, update_user_id', 'length', 'max' => 11),
-            array('order_id', 'safe'),
+            array('payment_method,order_id', 'safe'),
             array('shipping_phone, shipping_mobile', 'match', 'pattern'=>'/^[0-9-+]+$/'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
@@ -99,6 +100,7 @@ class UserOrderShipping extends DTActiveRecord {
             'shipping_zip' => 'Zip',
             'shipping_phone' => 'Phone',
             'shipping_mobile' => 'Mobile',
+            'payment_method' => 'Payment Method',
             'create_time' => 'Create Time',
             'create_user_id' => 'Create User',
             'update_time' => 'Update Time',
@@ -130,6 +132,7 @@ class UserOrderShipping extends DTActiveRecord {
         $criteria->compare('shipping_zip', $this->shipping_zip);
         $criteria->compare('shipping_phone', $this->shipping_phone, true);
         $criteria->compare('shipping_mobile', $this->shipping_mobile, true);
+        $criteria->compare('payment_method', $this->payment_method, true);
         $criteria->compare('create_time', $this->create_time, true);
         $criteria->compare('create_user_id', $this->create_user_id, true);
         $criteria->compare('update_time', $this->update_time, true);

@@ -145,6 +145,7 @@ class CreditCardForm extends CFormModel {
         $order = new Order;
         $order->user_id = Yii::app()->user->id;
         $order->total_price = Yii::app()->session['total_price'];
+        $order->shipping_price = Yii::app()->session['shipping_price'];
         $order->order_date = date('Y-m-d');
         $order->city_id = $_REQUEST['city_id'];
         $order->transaction_id = $transaction_id;

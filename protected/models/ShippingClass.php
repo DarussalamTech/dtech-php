@@ -34,8 +34,7 @@ class ShippingClass extends DTActiveRecord {
      * @var type 
      */
     public $is_post_find, $is_no_selected;
-    
-    public $_shipping_cost,$_shipping_range;
+    public $_shipping_cost, $_shipping_range;
 
     /**
      * Returns the static model of the specified AR class.
@@ -143,8 +142,8 @@ class ShippingClass extends DTActiveRecord {
     public function validateIfNoShipType($attribute) {
         if ($this->is_fix_shpping == 0 && $this->is_pirce_range == 0 && $this->is_weight_based == 0) {
             $this->addError($attribute, "atleast Fix price, price range or weight range is compulsory");
-           // $this->addError("is_pirce_range", "atleast one is compulsory");
-           // $this->addError("is_weight_based", "atleast one is compulsory");
+            // $this->addError("is_pirce_range", "atleast one is compulsory");
+            // $this->addError("is_weight_based", "atleast one is compulsory");
 
             $this->is_no_selected = 1;
         } else {
@@ -250,17 +249,15 @@ class ShippingClass extends DTActiveRecord {
     public function afterFind() {
         $this->is_post_find = 1;
         $this->categories = explode(",", $this->categories);
-        
-        if($this->is_fix_shpping ==1){
+
+        if ($this->is_fix_shpping == 1) {
             $this->_shipping_cost = $this->fix_shipping_cost;
-        }
-        else if($this->is_pirce_range ==1){
+        } else if ($this->is_pirce_range == 1) {
             $this->_shipping_cost = $this->price_range_shipping_cost;
-            $this->_shipping_range = $this->start_price ." - ".$this->end_price;
-        }
-        else if($this->is_weight_based ==1){
+            $this->_shipping_range = $this->start_price . " - " . $this->end_price;
+        } else if ($this->is_weight_based == 1) {
             $this->_shipping_cost = $this->weight_range_shipping_cost;
-            $this->_shipping_range = $this->min_weight_rel->title ." - ".$this->max_weight_rel->title;
+            $this->_shipping_range = $this->min_weight_rel->title . " - " . $this->max_weight_rel->title;
         }
         return parent::afterFind();
     }
@@ -290,6 +287,43 @@ class ShippingClass extends DTActiveRecord {
 
             return implode(",", $categories);
         }
+    }
+
+    /**
+     * SELECT * FROM shipping_class
+      WHERE is_pirce_range =1
+      AND source_city = 1
+      AND destination_city = 1
+      AND categories IN (57)
+      AND `end_price` >= 1625 AND `start_price` <= 1625
+
+     * @param type $categories
+     * @param type $range
+     * @param type $range_type
+     */
+    public function calculateShippingCost($categories, $range, $range_type) {
+        $criteria = new CDbCriteria;
+        $criteria->addCondition("source_city =" . Yii::app()->session['city_id']);
+        $criteria->addCondition("destination_city =" . Yii::app()->session['city_id']);
+        $criteria->addInCondition('categories', $categories);
+        $criteria->order = 'id DESC';
+        if ($range_type == "price") {
+            $criteria->addCondition('class_status = 1 AND end_price >= ' . $range . ' AND start_price <= ' . $range);
+            $criteria->addCondition("is_pirce_range = 1");
+        } else if ($range_type == "weight") {
+            $criteria->addCondition('class_status = 1 AND max_weight_id >= ' . $range . ' AND min_weight_id <= ' . $range);
+            $criteria->addCondition("is_weight_based = 1");
+        }
+
+        if ($ship_data = $this->find($criteria)) {
+            if ($range_type == "price")
+                return $ship_data->price_range_shipping_cost;
+            else if ($range_type == "weight")
+                return $ship_data->weight_range_shipping_cost;
+            else
+                return $ship_data->fix_shipping_cost;
+        }
+        return 0;
     }
 
 }

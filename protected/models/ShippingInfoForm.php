@@ -19,7 +19,7 @@ class ShippingInfoForm extends CFormModel {
     public $shipping_phone;
     public $shipping_mobile;
     public $payment_method;
-    public $_calculate_shipping,$_shipping_cost;
+    
     private $_identity;
     public $_states = array();
 
@@ -31,13 +31,13 @@ class ShippingInfoForm extends CFormModel {
     public function rules() {
         return array(
             // username and password are required
-            array('_shipping_cost,payment_method,shipping_first_name, shipping_last_name,
+            array('payment_method,shipping_first_name, shipping_last_name,
                    shipping_address1,shipping_country,
                    shipping_city, shipping_state, shipping_zip, shipping_phone', 'required'),
             array('shipping_phone', 'length', 'max' => 10),
             array('shipping_phone', 'numerical', 'integerOnly' => true),
             array('shipping_phone, shipping_mobile', 'match', 'pattern'=>'/^[0-9-+]+$/'),
-            array('_calculate_shipping,_states,payment_method', 'safe'),
+            array('_states,payment_method', 'safe'),
                 // rememberMe needs to be a boolean
                 //array('rememberMe', 'boolean'),
                 // password needs to be authenticated
@@ -65,7 +65,7 @@ class ShippingInfoForm extends CFormModel {
             'shipping_zip' => Yii::t('model_labels', 'Zip Code', array(), NULL, Yii::app()->controller->currentLang),
             'shipping_phone' => Yii::t('model_labels', 'Phone', array(), NULL, Yii::app()->controller->currentLang),
             'payment_method' => Yii::t('model_labels', 'Payment Method', array(), NULL, Yii::app()->controller->currentLang),
-            '_calculate_shipping' => Yii::t('model_labels', 'Calculate Shipping', array(), NULL, Yii::app()->controller->currentLang),
+            
         );
     }
 

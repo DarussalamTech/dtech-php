@@ -19,7 +19,7 @@ class PaymentController extends Controller {
              * applying filters for
              * secure actions
              */
-            'https + paymentMethod + validateCreditCard + processCreditCard + processManual +confirmOrder + calculateShipping',
+            'https + paymentMethod + validateCreditCard + processCreditCard + processManual +confirmOrder + calculateShipping + placeOrder',
         );
     }
 
@@ -33,6 +33,7 @@ class PaymentController extends Controller {
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('paymentmethod', 'confirmorder',
                     'statelist', 'bstatelist', 'sstatelist', 'calculateShipping',
+                    'placeOrder',
                     'customer0rderDetailMailer', 'admin0rderDetailMailer'),
                 'users' => array('@'),
             ),
@@ -76,7 +77,15 @@ class PaymentController extends Controller {
 
         if (isset($_POST['ShippingInfoForm'])) {
             $model->attributes = $_POST['ShippingInfoForm'];
-
+            
+            if($model->validate()){
+                UserProfile::model()->saveShippingInfo($_POST['ShippingInfoForm']);
+                $this->redirect($this->createUrl("/web/payment/placeOrder"));
+                
+            }
+            CVarDumper::dump($model->attributes, 10, true);
+            
+            die;
             $is_valid = $this->validateCreditCard($model, $creditCardModel);
 
 
@@ -93,7 +102,7 @@ class PaymentController extends Controller {
                         $this->processManual($creditCardModel);
                         break;
                     case "Pay Pal": //paypal
-                        UserProfile::model()->saveShippingInfo($_POST['ShippingInfoForm']);
+                        
                         $this->redirect($this->createUrl("/web/paypal/buy"));
                         break;
                 }
@@ -306,6 +315,15 @@ class PaymentController extends Controller {
         $cart = Cart::model()->getCartLists();
 
         $this->renderPartial('//payment/_shipping_calculation', array('cart' => $cart));
+    }
+    /**
+     * 
+     */
+    public function actionPlaceOrder(){
+        Yii::app()->user->SiteSessions;
+        $cart = Cart::model()->getCartLists();
+        $this->render('//payment/place_order', array('cart' => $cart));
+        
     }
 
     public function actionconfirmOrder() {
