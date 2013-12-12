@@ -61,14 +61,14 @@ class CreditCardForm extends CFormModel {
 
         $criteria = new CDbCriteria();
         $criteria->addCondition("name = 'Credit Card'");
-        $model = ConfPaymentMethods::model()->find($criteria);
+        $conf_model = ConfPaymentMethods::model()->find($criteria);
 
         /**
          * fetching information from db
          */
-        define("AUTHORIZENET_API_LOGIN_ID", $model->key);
-        define("AUTHORIZENET_TRANSACTION_KEY", $model->secret);
-        define("AUTHORIZENET_SANDBOX", ($model->sandbox) == "Enable" ? true : false);
+        define("AUTHORIZENET_API_LOGIN_ID", $conf_model->key);
+        define("AUTHORIZENET_TRANSACTION_KEY", $conf_model->secret);
+        define("AUTHORIZENET_SANDBOX", ($conf_model->sandbox) == "Enable" ? true : false);
 
         $author_rize = new AuthorizeNetException();
         $sale = new AuthorizeNetAIM;
@@ -76,7 +76,7 @@ class CreditCardForm extends CFormModel {
 
         $sale->setFields(
                 array(
-                    'amount' => Yii::app()->session['total_price'],
+                    'amount' => (double)Yii::app()->session['total_price'] + (double)Yii::app()->session['shipping_price'],
                     'card_num' => $model->card_number1 . $model->card_number2 . $model->card_number3 . $model->card_number4,
                     'exp_date' => $model->exp_month . $model->exp_year,
                     'first_name' => $model->first_name,

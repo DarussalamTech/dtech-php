@@ -3,10 +3,11 @@
 class PaypalController extends Controller {
 
     public function actionBuy() {
-
+        Yii::app()->user->SiteSessions;
         $paymentInfo = array();
-        // set 
-        $paymentInfo['Order']['theTotal'] = Yii::app()->session['total_price'];
+        // set total price here
+        $totalPrice = (double) Yii::app()->session['total_price'] + (double) Yii::app()->session['shipping_price'];
+        $paymentInfo['Order']['theTotal'] = $totalPrice;
         $paymentInfo['Order']['description'] = Yii::app()->session['description'];
         $paymentInfo['Order']['quantity'] = Yii::app()->session['quantity'];
 
@@ -16,12 +17,12 @@ class PaypalController extends Controller {
         $criteria = new CDbCriteria();
         $criteria->addCondition("name = 'Credit Card'");
         $model = ConfPaymentMethods::model()->find($criteria);
-        
-        
+
+
         Yii::app()->Paypal->apiUsername = $model->key;
         Yii::app()->Paypal->apiPassword = $model->secret;
         Yii::app()->Paypal->apiSignature = $model->signature;
-        Yii::app()->Paypal->apiLive = ($model->sandbox)=="Enable"?false:true;
+        Yii::app()->Paypal->apiLive = ($model->sandbox) == "Enable" ? false : true;
 
         // CVarDumper::dump($paymentInfo,10,true);
         Yii::app()->Paypal->returnUrl = Yii::app()->request->hostInfo . $this->createUrl("/web/paypal/confirm");
@@ -55,7 +56,7 @@ class PaypalController extends Controller {
     }
 
     public function actionConfirm() {
-
+        Yii::app()->user->SiteSessions;
         $token = trim($_GET['token']);
         $payerId = trim($_GET['PayerID']);
 
@@ -63,9 +64,11 @@ class PaypalController extends Controller {
         $result = Yii::app()->Paypal->GetExpressCheckoutDetails($token);
 
 
+        $totalPrice = (double) Yii::app()->session['total_price'] + (double) Yii::app()->session['shipping_price'];
+
         $result['PAYERID'] = $payerId;
         $result['TOKEN'] = $token;
-        $result['ORDERTOTAL'] = Yii::app()->session['total_price'];
+        $result['ORDERTOTAL'] = $totalPrice;
 
         //Detect errors 
         if (!Yii::app()->Paypal->isCallSucceeded($result)) {
@@ -111,16 +114,17 @@ class PaypalController extends Controller {
                 $criteria->order = "id DESC";
                 $model = UserOrderShipping::model()->find($criteria);
                 $model->updateByPk($model->id, array("order_id" => $order_id));
-                $this->render('confirm');
+                $this->render('//paypall/confirm');
             }
         }
     }
 
     public function actionCancel() {
+        Yii::app()->user->SiteSessions;
         //The token of tuhe cancelled payment typically used to cancel the payment within your application
         $token = $_GET['token'];
 
-        $this->render('cancel');
+        $this->render('//paypall/cancel');
     }
 
     public function actionDirectPayment() {

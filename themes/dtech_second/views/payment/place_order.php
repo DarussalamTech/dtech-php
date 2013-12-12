@@ -99,8 +99,8 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
         $shipping_price_books = ShippingClass::model()->calculateShippingCost($books_range['categories'], $books_range['price_range'], "price");
         $shipping_price_other = ShippingClass::model()->calculateShippingCost($other_range['categories'], $other_range['weight_range'], "weight");
         $shipping_cost = $shipping_price_books + $shipping_price_other;
-        
-        $this->setTotalAmountSession($grand_total, $total_quantity, "",$shipping_cost);
+
+        $this->setTotalAmountSession($grand_total, $total_quantity, "", $shipping_cost);
         ?>
 
         <div class='login_img'>
@@ -117,5 +117,28 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
             </div>
         </div>
         <div class="clear"></div>
-
+        <?php
+        $form = $this->beginWidget('CActiveForm', array(
+            'id' => 'card-form',
+            'enableClientValidation' => true,
+            'clientOptions' => array(
+                'validateOnSubmit' => false,
+            ),
+        ));
+        echo $form->hiddenField($userShipping,'payment_method');
+        //if payment method is credit card then
+        if ($userShipping->payment_method == "Credit Card") {
+            $this->renderPartial("//payment/_credit_card", array(
+                "model" => $userShipping,
+                "form" => $form,
+                "creditCardModel" => $creditCardModel)
+            );
+        }
+        echo CHtml::submitButton('Submit', array('class' => 'secure_button'));
+        $this->endWidget();
+        ?>
     </div>
+
+</div>
+
+

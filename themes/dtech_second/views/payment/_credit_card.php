@@ -1,6 +1,6 @@
 <div class="clear"></div>
 <h2 class="credit_card_fields">Credit Card</h2>
-<div class="under_left_method credit_card_fields" >
+<div class="under_left_method credit_card_fields row_left_form" >
     <h2>We accept Master Card, Visa, Discover and American Express.</h2>
 
 

@@ -77,35 +77,10 @@ class PaymentController extends Controller {
 
         if (isset($_POST['ShippingInfoForm'])) {
             $model->attributes = $_POST['ShippingInfoForm'];
-            
-            if($model->validate()){
+
+            if ($model->validate()) {
                 UserProfile::model()->saveShippingInfo($_POST['ShippingInfoForm']);
                 $this->redirect($this->createUrl("/web/payment/placeOrder"));
-                
-            }
-            CVarDumper::dump($model->attributes, 10, true);
-            
-            die;
-            $is_valid = $this->validateCreditCard($model, $creditCardModel);
-
-
-            if ($model->validate() && $is_valid) {
-
-                $creditCardModel->payment_method = $model->payment_method;
-
-                switch ($model->payment_method) {
-                    case "Credit Card": // credit card
-
-                        $this->processCreditCard($model, $creditCardModel);
-                        break;
-                    case "Cash On Delievery": // manual
-                        $this->processManual($creditCardModel);
-                        break;
-                    case "Pay Pal": //paypal
-                        
-                        $this->redirect($this->createUrl("/web/paypal/buy"));
-                        break;
-                }
             }
         }
         $criteria = new CDbCriteria;
@@ -316,14 +291,51 @@ class PaymentController extends Controller {
 
         $this->renderPartial('//payment/_shipping_calculation', array('cart' => $cart));
     }
+
     /**
-     * 
+     * palce order will be final step
+     * now 
      */
-    public function actionPlaceOrder(){
+    public function actionPlaceOrder() {
         Yii::app()->user->SiteSessions;
         $cart = Cart::model()->getCartLists();
-        $this->render('//payment/place_order', array('cart' => $cart));
-        
+        $criteria = new CDbCriteria;
+        $criteria->order = "id DESC";
+        $criteria->addCondition("user_id = " . Yii::app()->user->id);
+        $userShipping = UserOrderShipping::model()->find($criteria);
+        $creditCardModel = new CreditCardForm;
+
+        if (isset($_POST['UserOrderShipping'])) {
+            $userShipping->attributes = $_POST['UserOrderShipping'];
+            $is_valid = $this->validateCreditCard($userShipping, $creditCardModel);
+            if ($is_valid) {
+
+                $creditCardModel->payment_method = $userShipping->payment_method;
+
+                switch ($userShipping->payment_method) {
+                    case "Credit Card": // credit card
+
+                        $this->processCreditCard($userShipping, $creditCardModel);
+                        break;
+                    case "Cash On Delievery": // manual
+                        $this->processManual($creditCardModel);
+                        break;
+                    case "Pay Pal": //paypal
+
+                        $this->redirect($this->createUrl("/web/paypal/buy"));
+                        break;
+                }
+            }
+        }
+
+
+
+
+        $this->render('//payment/place_order', array(
+            'cart' => $cart,
+            'userShipping' => $userShipping,
+            'creditCardModel' => $creditCardModel,
+        ));
     }
 
     public function actionconfirmOrder() {
