@@ -131,6 +131,16 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'htmlOptions' => array("width" => "60")
         ),
         array(
+            'name' => 'shipping_price',
+            'value' => 'Yii::app()->session["currency"]." ".$data->shipping_price',
+            'htmlOptions' => array("width" => "60")
+        ),
+        array(
+            'name' => 'grand_price',
+            'value' => 'Yii::app()->session["currency"]." ".$data->grand_price',
+            'htmlOptions' => array("width" => "60")
+        ),
+        array(
             'class' => 'CLinkColumn',
             'label' => 'View Detail',
             'header' => 'History',

@@ -22,7 +22,7 @@ class Order extends DTActiveRecord {
      * listing status will contain dropdown list for 
      * @var type 
      */
-    public $listing_status, $notifyUser, $all_status,$service_charges;
+    public $listing_status, $notifyUser, $all_status,$service_charges,$grand_price;
 
     /**
      * Returns the static model of the specified AR class.
@@ -160,6 +160,7 @@ class Order extends DTActiveRecord {
     public function afterFind() {
         $this->order_date = DTFunctions::dateFormatForView($this->order_date);
         $this->manangeAdminElements();
+        $this->grand_price = number_format($this->total_price + $this->shipping_price,2);
         parent::afterFind();
     }
 

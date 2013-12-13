@@ -76,6 +76,8 @@ if (Yii::app()->user->hasFlash('status')) {
             'order_date',
             'update_time',
             'total_price',
+            'shipping_price',
+            'grand_price',
             array('name' => 'currency', 'value' => Yii::app()->session["currency"]),
             'service_charges',
             array(
@@ -141,4 +143,11 @@ if (Yii::app()->user->hasFlash('status')) {
     ));
     ?>
 </div>
-
+<div class='clear'></div>
+<div style="float: right;margin-right: 50px;font-style: italic">
+    Shipping Total : <?php echo $model->shipping_price ?>
+</div>
+<div class='clear'></div>
+<div style="float: right;margin-right: 50px;font-style: italic">
+    Grand Total : <?php echo $model->grand_price ?>
+</div>
