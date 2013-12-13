@@ -169,6 +169,7 @@
                             $categories = CHtml::listData(Categories::model()->getMenuParentCategories(), "category_id", "category_name");
                             
                             $books_quran = array_search("Books", $categories).",".array_search("Quran", $categories);
+                            //this function is setting to make two major cateogories
                             unset($categories[array_search("Books", $categories)]);
                             unset($categories[array_search("Quran", $categories)]);
                             $others = implode(",",array_keys($categories));
