@@ -80,7 +80,7 @@
         'user_name' => $model->user->user_email,
             ), false, false);
      
-    die();
+  
     ?>
 </div>
 
