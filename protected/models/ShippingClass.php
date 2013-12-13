@@ -125,7 +125,7 @@ class ShippingClass extends DTActiveRecord {
             if ($this->weight_range_shipping_cost == "") {
                 $this->addError("weight_range_shipping_cost", "Error");
             }
-            if ($this->min_weight_id == $this->max_weight_id) {
+            if ($this->min_weight_id >= $this->max_weight_id) {
                 $this->addError("max_weight_id", "Min Weight should be less than");
             }
         }
@@ -156,7 +156,7 @@ class ShippingClass extends DTActiveRecord {
      */
     public function beforeValidate() {
         $this->is_post_find = 1;
-        
+
         return parent::beforeValidate();
     }
 
@@ -164,7 +164,7 @@ class ShippingClass extends DTActiveRecord {
      * 
      */
     public function afterValidate() {
-        
+
         return parent::afterValidate();
     }
 
@@ -178,8 +178,7 @@ class ShippingClass extends DTActiveRecord {
             'source_city_rel' => array(self::BELONGS_TO, 'City', 'source_city'),
             'dest_city_rel' => array(self::BELONGS_TO, 'City', 'destination_city'),
             //'is_pirce_range' => array(self::BELONGS_TO, 'City', 'destination_city'),
-            'min_weight_rel' => array(self::BELONGS_TO, 'ConfProducts', 'min_weight_id', 'condition' => 'type="weight"'),
-            'max_weight_rel' => array(self::BELONGS_TO, 'ConfProducts', 'max_weight_id', 'condition' => 'type="weight"'),
+
         );
     }
 
@@ -257,7 +256,7 @@ class ShippingClass extends DTActiveRecord {
             $this->_shipping_range = $this->start_price . " - " . $this->end_price;
         } else if ($this->is_weight_based == 1) {
             $this->_shipping_cost = $this->weight_range_shipping_cost;
-            $this->_shipping_range = $this->min_weight_rel->title . " - " . $this->max_weight_rel->title;
+            $this->_shipping_range = $this->min_weight_id . " - " . $this->max_weight_id;
         }
         return parent::afterFind();
     }
@@ -300,22 +299,32 @@ class ShippingClass extends DTActiveRecord {
      * @param type $categories
      * @param type $range
      * @param type $range_type
+     *  if destination is same as source
+     * @param type $$is_source
      */
-    public function calculateShippingCost($categories, $range, $range_type) {
+    public function calculateShippingCost($categories, $range, $range_type, $is_source = 1) {
         $criteria = new CDbCriteria;
         $criteria->addCondition("source_city =" . Yii::app()->session['city_id']);
-        $criteria->addCondition("destination_city =" . Yii::app()->session['city_id']);
-        $criteria->addInCondition('categories', $categories);
+        if ($is_source == 1) {
+            $criteria->addCondition("destination_city =" . Yii::app()->session['city_id']);
+        }
+        else {
+            $criteria->addCondition("destination_city = 0 ");
+        }
+        $criteria->compare('categories', implode(",",$categories), true,"AND");
         $criteria->order = 'id DESC';
         if ($range_type == "price") {
             $criteria->addCondition('class_status = 1 AND end_price >= ' . $range . ' AND start_price <= ' . $range);
             $criteria->addCondition("is_pirce_range = 1");
         } else if ($range_type == "weight") {
+          
             $criteria->addCondition('class_status = 1 AND max_weight_id >= ' . $range . ' AND min_weight_id <= ' . $range);
             $criteria->addCondition("is_weight_based = 1");
+           
         }
 
         if ($ship_data = $this->find($criteria)) {
+            
             if ($range_type == "price")
                 return $ship_data->price_range_shipping_cost;
             else if ($range_type == "weight")
