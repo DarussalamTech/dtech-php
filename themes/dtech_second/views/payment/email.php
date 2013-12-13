@@ -22,13 +22,14 @@
             ),
             array(
                  'name'=>'transaction_id',
-                 'value'=>'$data->transaction_id',
+                 'value'=>$model->transaction_id,
                  'visible'=>!empty($model->transaction_id)?true:false
              ),
              array('name'=>'status', 'value' => $model->order_status->title),
             'order_date',
             'update_time',
             'total_price',
+            'shipping_price',
             array('name' => 'currency', 'value' => Yii::app()->session["currency"]),
             array(
                 'name' => 'payment_method_id',
@@ -78,6 +79,8 @@
         'model' => $model,
         'user_name' => $model->user->user_email,
             ), false, false);
+     
+    die();
     ?>
 </div>
 

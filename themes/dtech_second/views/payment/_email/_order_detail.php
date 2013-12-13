@@ -6,97 +6,53 @@ $user_id = Yii::app()->user->id;
 $config = array(
     'criteria' => array(
         'condition' => 'order_id=' . $model->order_id,
-        'order' =>'quantity DESC'
+        'order' => 'quantity DESC'
     ),
     'pagination' => array(
-                'pageSize' => 200,
-            ),
+        'pageSize' => 200,
+    ),
 );
 
 $mName_provider = new CActiveDataProvider('OrderDetail', $config);
+$total_price = 0;
 ?>
-
+<br/><br/>
 <h1 style="font-size: 14px">Orders Detail  </h1>
+<table>
+    <tr>
+        <th style="text-align:left;font-size:12px"><?php echo OrderDetail::model()->getAttributeLabel('order_date'); ?></th>
+        <th style="text-align:left;font-size:12px"><?php echo OrderDetail::model()->getAttributeLabel('product_name'); ?></th>
+        <th style="text-align:left;font-size:12px"><?php echo OrderDetail::model()->getAttributeLabel('quantity'); ?></th>
+        <th style="text-align:left;font-size:12px"><?php echo OrderDetail::model()->getAttributeLabel('stock'); ?></th>
+        <th style="text-align:left;font-size:12px"><?php echo OrderDetail::model()->getAttributeLabel('book_language'); ?></th>
+        <th style="text-align:left;font-size:12px"><?php echo OrderDetail::model()->getAttributeLabel('unit_price'); ?></th>
+        <th style="text-align:left;font-size:12px"><?php echo OrderDetail::model()->getAttributeLabel('total_price'); ?></th>
+    </tr>
+    <?php
+    foreach ($mName_provider->getData() as $data):
+        $total_price+= $data->total_price;
+        ?>
+        <tr>
+            <td style="text-align:left;font-size:12px"><?php echo $data->order->order_date; ?></td>
+            <td style="text-align:left;font-size:12px"><?php echo $data->product_profile->product->product_name; ?></td>
+            <td style="text-align:left;font-size:12px"><?php echo $data->quantity; ?></td>
+            <td style="text-align:left;font-size:12px"><?php echo $data->stock; ?></td>
+            <td style="text-align:left;font-size:12px"><?php echo $data->product_profile->productLanguage->language_name; ?></td>
+            <td style="text-align:left;font-size:12px"><?php echo $data->product_price; ?></td>
+            <td style="text-align:left;font-size:12px"><?php echo Yii::app()->session['currency'] . " " . number_format($data->total_price, 2); ?></td>
+        </tr>
+        <?php
+    endforeach;
+    $final_total = (double)Yii::app()->session['shipping_price'] + (double)$total_price
+    ?>
+    <tfoot style="font-weight:bold">
+        <tr>
+            <td colspan="7" style="text-align:right;font-size:12px">Shipping = <?php echo Yii::app()->session['currency'] . " " . number_format(Yii::app()->session['shipping_price'], 2); ?></td>
+        </tr> 
+        <tr>
+            <td colspan="7" style="text-align:right;font-size:12px">Total = <?php echo Yii::app()->session['currency'] . " " . number_format($final_total, 2); ?></td>
+        </tr> 
+    </tfoot>
 
+</table>
 
-
-<?php
-
-$this->widget('EmailGridView', array(
-    'id' => 'order-detail-grid',
-    'dataProvider' => $mName_provider,
-    //'filter' => $model,
-    'columns' => array(
-        array(
-            'name' => 'order_date',
-            'type' => 'Raw',
-            'value' => '$data->order->order_date',
-            'headerHtmlOptions' => array(
-                'style' => "text-align:left"
-            )
-        ),
-        array(
-            'name' => 'product_name',
-            'type' => 'Raw',
-            'value' => '$data->product_profile->product->product_name',
-            'headerHtmlOptions' => array(
-                'style' => "text-align:left"
-            )
-        ),
-        array(
-            'name' => 'book_language',
-            'type' => 'Raw',
-            'value' => '$data->product_profile->productLanguage->language_name',
-            'headerHtmlOptions' => array(
-                'style' => "text-align:left"
-            )
-        ),
-        array(
-            'name' => 'quantity',
-            'type' => 'Raw',
-            'value' => '$data->quantity',
-            'sortable'=>false,
-            'headerHtmlOptions' => array(
-                'style' => "text-align:left"
-            )
-        ),
-        array(
-            'name' => 'stock',
-            'type' => 'Raw',
-            'value' => '$data->stock',
-            'sortable'=>false,
-            'headerHtmlOptions' => array(
-                'style' => "text-align:left"
-            )
-        ),
-        array(
-            'name' => 'unit_price',
-            'type' => 'Raw',
-            'value' => '$data->product_price',
-            'sortable'=>false,
-            'headerHtmlOptions' => array(
-                'style' => "text-align:left"
-            )
-        ),
-        array(
-            'name' => 'total_price',
-            'type' => 'Raw',
-            'sortable'=>false,
-            'value' => '$data->product_price*$data->quantity',
-            'headerHtmlOptions' => array(
-                'style' => "text-align:left"
-            )
-        ),
-        array(
-            'header' => CHtml::activeLabel(OrderDetail::model(), 'total_price'),
-            'columnName' => 'total_price',
-            'class' => 'DtGridCountColumn',
-            'decimal' => true,
-           
-            "htmlOptions" => array("class" => 'cart-ourprice'),
-            'currencySymbol' => Yii::app()->session['currency'],
-            'footer' => ''
-        ),
-    ),
-));
-?>
