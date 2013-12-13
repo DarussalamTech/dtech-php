@@ -67,8 +67,10 @@
     <div class="row">
         <?php echo $form->label($model, 'categories'); ?>
         <?php
-        echo
-        $form->ListBox($model, 'categories', CHtml::listData(Categories::model()->getMenuParentCategories(), "category_id", "category_name"), array("multiple" => "multiple"));
+        $categories = CHtml::listData(Categories::model()->getMenuParentCategories(), "category_id", "category_name");
+        
+        echo $form->ListBox($model, 'categories', $categories, array("multiple" => "multiple"));
+        
         ?>
     </div>
 

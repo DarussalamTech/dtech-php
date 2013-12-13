@@ -156,7 +156,7 @@ class ShippingClass extends DTActiveRecord {
      */
     public function beforeValidate() {
         $this->is_post_find = 1;
-        $this->categories = isset($this->categories) ? implode(",", $this->categories) : "";
+        
         return parent::beforeValidate();
     }
 
@@ -164,7 +164,7 @@ class ShippingClass extends DTActiveRecord {
      * 
      */
     public function afterValidate() {
-        $this->categories = explode(",", $this->categories);
+        
         return parent::afterValidate();
     }
 

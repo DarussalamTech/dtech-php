@@ -140,16 +140,16 @@
                     <div class="grid_fields">
                         <div class="field" style="width:300px">
                             <?php
-                                $criteria = new CDbCriteria();
-                                $criteria->select = "id,type,title";
-                                $criteria->condition = "type='weight'";
-                                $prod_pro = ConfProducts::model()->findAll($criteria);
-                                
-                                echo $form->dropDownList($model, 'min_weight_id', CHtml::listData($prod_pro,"id", "title"));
+                            $criteria = new CDbCriteria();
+                            $criteria->select = "id,type,title";
+                            $criteria->condition = "type='weight'";
+                            $prod_pro = ConfProducts::model()->findAll($criteria);
+
+                            echo $form->dropDownList($model, 'min_weight_id', CHtml::listData($prod_pro, "id", "title"));
                             ?>
                         </div>
                         <div class="field" style="width:300px">
-                            <?php echo $form->dropDownList($model, 'max_weight_id', CHtml::listData($prod_pro,"id", "title")); ?>
+                            <?php echo $form->dropDownList($model, 'max_weight_id', CHtml::listData($prod_pro, "id", "title")); ?>
                         </div>
 
                     </div>
@@ -165,8 +165,19 @@
                     <div class="grid_fields">
                         <div class="field" style="width:300px">
                             <?php
-                            echo
-                            $form->ListBox($model, 'categories', CHtml::listData(Categories::model()->getMenuParentCategories(), "category_id", "category_name"), array("multiple" => "multiple"));
+                            //this process is done for gettting parent category
+                            $categories = CHtml::listData(Categories::model()->getMenuParentCategories(), "category_id", "category_name");
+                            
+                            $books_quran = array_search("Books", $categories).",".array_search("Quran", $categories);
+                            unset($categories[array_search("Books", $categories)]);
+                            unset($categories[array_search("Quran", $categories)]);
+                            $others = implode(",",array_keys($categories));
+                            //this process is done for gettting parent category
+                            
+                            if(!$model->isNewRecord){
+                                $model->categories = implode(",",$model->categories);
+                            }
+                            echo $form->dropDownList($model, 'categories', array($books_quran=>"Books and Quran",$others=>"Others Items"));
                             ?>
                         </div>
                         <div class="field" style="width:300px">
