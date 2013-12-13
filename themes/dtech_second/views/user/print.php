@@ -27,6 +27,7 @@
             'order_date',
             'update_time',
             'total_price',
+            'shipping_price',
             array('name' => 'currency', 'value' => Yii::app()->session["currency"]),
             array(
                 'name' => 'payment_method_id',
