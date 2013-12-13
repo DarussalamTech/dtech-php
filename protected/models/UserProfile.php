@@ -207,4 +207,18 @@ class UserProfile extends DTActiveRecord {
         $shippingInfo->save(false);
     }
 
+    /**
+     * update shipping order last id
+     * @param type $order_id
+     */
+    public function updateShippingInfo($order_id) {
+        $criteria = new CDbCriteria;
+        $criteria->addCondition("user_id = " . Yii::app()->user->id);
+        $criteria->order = "id DESC";
+
+        $model = UserOrderShipping::model()->find($criteria);
+        $model->updateByPk($model->id,array("order_id"=>$order_id));
+        return $model;
+    }
+
 }

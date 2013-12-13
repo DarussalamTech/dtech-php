@@ -54,6 +54,10 @@ class CreditCardForm extends CFormModel {
      * @param type $model credit card model
      * @param  type $model user for shipping
      * @return type
+     * 370000000000002
+     * 6759649826438453
+     * 4007000000027
+     * 4112530021797363   000
      */
     public function CreditCardPayment($shippingModel, $model) {
 
@@ -70,29 +74,35 @@ class CreditCardForm extends CFormModel {
         define("AUTHORIZENET_TRANSACTION_KEY", $conf_model->secret);
         define("AUTHORIZENET_SANDBOX", ($conf_model->sandbox) == "Enable" ? true : false);
 
+       
+
         $author_rize = new AuthorizeNetException();
         $sale = new AuthorizeNetAIM;
-
-
-        $sale->setFields(
-                array(
-                    'amount' => (double)Yii::app()->session['total_price'] + (double)Yii::app()->session['shipping_price'],
-                    'card_num' => $model->card_number1 . $model->card_number2 . $model->card_number3 . $model->card_number4,
-                    'exp_date' => $model->exp_month . $model->exp_year,
-                    'first_name' => $model->first_name,
-                    'last_name' => $model->last_name,
-                    'address' => $shippingModel->shipping_address1,
-                    'city' => $shippingModel->shipping_city,
-                    'state' => $shippingModel->shipping_state,
-                    'country' => "",
-                    'zip' => $shippingModel->shipping_zip,
-                    'email' => Yii::app()->user->name,
-                    'card_code' => "123",
-                )
+        $fields = array(
+            'amount' => (double) Yii::app()->session['total_price'] + (double) Yii::app()->session['shipping_price'],
+            'card_num' => $model->card_number1 . $model->card_number2 . $model->card_number3 . $model->card_number4,
+            'exp_date' => $model->exp_month . $model->exp_year,
+            'first_name' => $model->first_name,
+            'last_name' => $model->last_name,
+            'address' => $shippingModel->shipping_address1,
+            'city' => $shippingModel->shipping_city,
+            'state' => $shippingModel->shipping_state,
+            'country' => "",
+            'zip' => $shippingModel->shipping_zip,
+            'email' => Yii::app()->user->name,
+            'card_code' => "123",
         );
-
+        //CVarDumper::dump($fields, 10, true);
+        $sale->setFields($fields);
+        
+        //$fields['card_num'] = '4007000000027';
+        //$fields['amount'] = 25;
+        //$sale->setFields($fields);
+        
+        
+     
         $response = $sale->authorizeAndCapture();
-
+       
         if ($response->approved) {
             $transaction_id = $response->transaction_id;
             $order_id = $this->saveOrder($transaction_id);
@@ -138,8 +148,8 @@ class CreditCardForm extends CFormModel {
     public function saveOrder($transaction_id = "") {
         $error['status'] = false;
         $error['message'] = 'Payment successfully';
-        
-        
+
+
 
         //payment was completed successfully
         $order = new Order;
@@ -149,7 +159,7 @@ class CreditCardForm extends CFormModel {
         $order->order_date = date('Y-m-d');
         $order->city_id = $_REQUEST['city_id'];
         $order->transaction_id = $transaction_id;
-       
+
 
         $confM = ConfPaymentMethods::model()->find("name = '" . $this->payment_method . "'");
         $order->payment_method_id = $confM->id;
@@ -168,12 +178,12 @@ class CreditCardForm extends CFormModel {
         }
 
         $order->setRelationRecords('orderDetails', is_array($ordetail['OrderDetail']) ? $ordetail['OrderDetail'] : array());
-       
+
         if ($order->save()) {
 
             return $order->order_id;
         }
-   
+
         return "";
     }
 

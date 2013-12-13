@@ -19,7 +19,7 @@ class PaymentController extends Controller {
              * applying filters for
              * secure actions
              */
-            'https + paymentMethod + validateCreditCard + processCreditCard + processManual +confirmOrder + calculateShipping + placeOrder',
+            'https + paymentMethod + validateCreditCard + processCreditCard + processManual +confirmOrder + calculateShipping + placeOrder + emailTest',
         );
     }
 
@@ -33,7 +33,7 @@ class PaymentController extends Controller {
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('paymentmethod', 'confirmorder',
                     'statelist', 'bstatelist', 'sstatelist', 'calculateShipping',
-                    'placeOrder',
+                    'placeOrder','emailTest',
                     'customer0rderDetailMailer', 'admin0rderDetailMailer'),
                 'users' => array('@'),
             ),
@@ -171,7 +171,14 @@ class PaymentController extends Controller {
         if (!empty($error['order_id'])) {
             //save the shipping information of user
             $userProfile_model = UserProfile::model();
-            $userProfile_model->saveShippingInfo($_POST['ShippingInfoForm'], $error['order_id']);
+
+            $shippingInfo = $userProfile_model->updateShippingInfo($error['order_id']);
+
+
+            $this->customer0rderDetailMailer($shippingInfo, $error['order_id']);
+            $this->admin0rderDetailMailer($shippingInfo, $error['order_id']);
+            Yii::app()->user->setFlash('orderMail', 'Thank you...');
+
             $this->redirect(array('/web/payment/confirmOrder'));
         } else {
             $creditCardModel->showCreditCardErrors($error);
@@ -337,13 +344,24 @@ class PaymentController extends Controller {
             'creditCardModel' => $creditCardModel,
         ));
     }
-
+    /**
+     * confirm order
+     */
     public function actionconfirmOrder() {
 
         Yii::app()->user->SiteSessions;
         Yii::app()->theme = Yii::app()->session['layout'];
         Yii::app()->controller->layout = '//layouts/main';
         $this->render('//payment/confirm_order');
+    }
+    /**
+     * email test
+     */
+    public function actionEmailTest(){
+        Yii::app()->user->SiteSessions;
+        $shippingInfo = UserOrderShipping::model()->findByPk(76);
+        $this->customer0rderDetailMailer($shippingInfo, 78);
+        $this->admin0rderDetailMailer($shippingInfo, 78);
     }
 
 }
