@@ -65,6 +65,7 @@ class DtGridView extends CGridView
     /* ---it will be used for access control   --- */
 
     /* User access */
+  
 
     public $user_acccess;
     public $totalHeading = ""; //used for calculation of total of celss
@@ -295,8 +296,7 @@ class DtGridView extends CGridView
          */
         
            $data = $this->dataProvider->data[$row];
-          
-        
+    
         if ($this->colorBox == true)
         {
             $this->generateChecBoxCol($this->dataProvider->data[$row]->id);

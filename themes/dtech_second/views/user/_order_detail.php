@@ -49,7 +49,7 @@ $this->widget('DtGridView', array(
             'class' => 'DtGridCountColumn',
             'decimal' => false,
             "htmlOptions" => array("class" => 'cart-ourprice'),
-            //'currencySymbol' => Yii::app()->session['currency'],
+            'currencySymbol' => Yii::app()->session['currency'],
             'footer' => ''
         ),
         array(
@@ -73,3 +73,16 @@ $this->widget('DtGridView', array(
     ),
 ));
 ?>
+<div class="grid-view">
+    <table class="items">
+        <tfoot>
+            <tr class="even">
+                <td style="text-align: right"><span>Shipping : </span><?php echo $model->order->shipping_price; ?></td>
+            </tr>
+            <tr class="odd">
+                <td style="text-align: right"><span>Grand Total: </span><?php echo number_format((double)$model->order->total_price+(double)$model->order->shipping_price,2); ?></td>
+            </tr>
+        </tfoot>
+
+    </table>
+</div>
