@@ -194,11 +194,10 @@ class PaymentController extends Controller {
 
         $order_id = $creditCardModel->saveOrder("");
 
-        UserProfile::model()->saveShippingInfo($_POST['ShippingInfoForm'], $order_id);
-
-
-        $this->customer0rderDetailMailer($_POST['ShippingInfoForm'], $order_id);
-        $this->admin0rderDetailMailer($_POST['ShippingInfoForm'], $order_id);
+        $shippingInfo = UserProfile::model()->updateShippingInfo($order_id);
+  
+        $this->customer0rderDetailMailer($shippingInfo, $order_id);
+        $this->admin0rderDetailMailer($shippingInfo, $order_id);
         Yii::app()->user->setFlash('orderMail', 'Thank you...');
 
         $this->redirect(array('/web/payment/confirmOrder'));
