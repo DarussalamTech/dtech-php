@@ -48,6 +48,7 @@ $params = array(
     'otherLanguages_arr' => array('ar'=>"Arabic",'ur'=>"Urdu"),
     'https'=>false,
     'notAllowedRequestUri' =>'option=com_virtuemart',
+	'notAllowedRequestOptions' =>array('com_virtuemart','com_br'),
     'notallowdCharactorsUrl' => array('[',']','@','!','$','&','(',')','*','+',';',"'",",","?",":"),
 );
 ?>

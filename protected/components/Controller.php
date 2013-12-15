@@ -92,9 +92,17 @@ class Controller extends RController {
          * for to reduce errors
          * from google bot
          */
+		 
         if(strstr($_SERVER['QUERY_STRING'],Yii::app()->params['notAllowedRequestUri'])){
             $this->redirect(Yii::app()->homeUrl);
         }
+		//Not allowed urls
+		
+		if(!empty($_REQUEST['option']) && strstr($_REQUEST['option'],'com_')){
+			
+			$this->redirect(Yii::app()->homeUrl);
+		}	
+		
    
         parent::beforeAction($action);
         $this->setPages();
