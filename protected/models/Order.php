@@ -8,6 +8,7 @@
  * @property integer $user_id
  * @property string $total_price
  * @property string $shipping_price
+ * @property string $order
  * @property string $order_date
  * @property string $status
  * @property string $user_id
@@ -50,7 +51,7 @@ class Order extends DTActiveRecord {
             array('payment_method_id,user_id,total_price, order_date', 'required'),
             array('user_id', 'numerical', 'integerOnly' => true),
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
-            array('shipping_price,total_price', 'length', 'max' => 10),
+            array('tax_amount,shipping_price,total_price', 'length', 'max' => 10),
             array('order_date', 'length', 'max' => 255),
             array('order_id,service_charges,notifyUser,transaction_id,status,city_id', 'safe'),
             // The following rule is used by search().
@@ -120,6 +121,7 @@ class Order extends DTActiveRecord {
             'update_time' => Yii::t('model_labels', 'Last modified', array(), NULL, Yii::app()->controller->currentLang),
             'status' => Yii::t('common', 'Status', array(), NULL, Yii::app()->controller->currentLang),
             'service_charges' => Yii::t('common', 'Current Service Charges', array(), NULL, Yii::app()->controller->currentLang),
+            'tax_amount' => Yii::t('common', 'Tax Amount', array(), NULL, Yii::app()->controller->currentLang),
             'payment_method_id' => Yii::t('model_labels', 'Payment Method', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
@@ -144,6 +146,8 @@ class Order extends DTActiveRecord {
         $criteria->compare('total_price', $this->total_price, true);
         $criteria->compare('order_date', $this->order_date, true);
         $criteria->compare('status', $this->status, true);
+        $criteria->compare('tax_amount', $this->tax_amount, true);
+        $criteria->compare('shipping_price', $this->shipping_price, true);
         $criteria->compare('payment_method_id', $this->payment_method_id, true);
 
         $criteria->compare('city_id', Yii::app()->request->getQuery("city_id"), true);
@@ -160,7 +164,7 @@ class Order extends DTActiveRecord {
     public function afterFind() {
         $this->order_date = DTFunctions::dateFormatForView($this->order_date);
         $this->manangeAdminElements();
-        $this->grand_price = number_format($this->total_price + $this->shipping_price,2);
+        $this->grand_price = number_format($this->total_price + $this->shipping_price+$this->tax_amount,2);
         parent::afterFind();
     }
 

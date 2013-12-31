@@ -1,7 +1,16 @@
 /testclone/nbproject/private/
 /assets/
 /protected/runtime/
-/protected/config/_config/_conf_db-old.php
+/protected/config/_config/_conf_db.php
+/protected/messages/ar/
 /nbproject/
 /uploads/
 /uploadify/temp/
+/protected/tests/
+/protected/commands/doc
+/protected/commands/COPYING
+/protected/commands/COPYING.LESSER
+/protected/commands/ChangeLog
+/protected/commands/README.md
+/protected/commands/VERSION
+/protected/commands/DocCommand.php

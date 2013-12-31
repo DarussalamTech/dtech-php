@@ -6,11 +6,11 @@ $user_id = Yii::app()->user->id;
 $config = array(
     'criteria' => array(
         'condition' => 'order_id=' . $model->order_id,
-        'order' =>'quantity DESC'
+        'order' => 'quantity DESC'
     ),
     'pagination' => array(
-                'pageSize' => 200,
-            ),
+        'pageSize' => 200,
+    ),
 );
 
 $mName_provider = new CActiveDataProvider('OrderDetail', $config);
@@ -21,10 +21,10 @@ $mName_provider = new CActiveDataProvider('OrderDetail', $config);
 
 
 <?php
-
-$this->widget('zii.widgets.grid.CGridView', array(
+$this->widget('DtGridView', array(
     'id' => 'order-detail-grid',
     'dataProvider' => $mName_provider,
+    'footerHtml' => $footer_str,
     //'filter' => $model,
     'columns' => array(
         array(
@@ -55,7 +55,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'name' => 'quantity',
             'type' => 'Raw',
             'value' => '$data->quantity',
-            'sortable'=>false,
+            'sortable' => false,
             'headerHtmlOptions' => array(
                 'style' => "text-align:left"
             )
@@ -64,7 +64,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'name' => 'stock',
             'type' => 'Raw',
             'value' => '$data->stock',
-            'sortable'=>false,
+            'sortable' => false,
             'headerHtmlOptions' => array(
                 'style' => "text-align:left"
             )
@@ -73,7 +73,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'name' => 'unit_price',
             'type' => 'Raw',
             'value' => '$data->product_price',
-            'sortable'=>false,
+            'sortable' => false,
             'headerHtmlOptions' => array(
                 'style' => "text-align:left"
             )
@@ -81,7 +81,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         array(
             'name' => 'total_price',
             'type' => 'Raw',
-            'sortable'=>false,
+            'sortable' => false,
             'value' => '$data->product_price*$data->quantity',
             'headerHtmlOptions' => array(
                 'style' => "text-align:left"
@@ -92,7 +92,6 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'columnName' => 'total_price',
             'class' => 'DtGridCountColumn',
             'decimal' => true,
-           
             "htmlOptions" => array("class" => 'cart-ourprice'),
             'currencySymbol' => Yii::app()->session['currency'],
             'footer' => ''
