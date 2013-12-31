@@ -106,10 +106,12 @@ class CartController extends Controller {
         $model = ProductProfile::model()->findByPk($product_profile_id);
 
         $email['To'] = User::model()->getCityAdmin();
+        
         //$email['To'] = 'ubaidullah@darussalampk.com';
         $email['Subject'] = "This product is out of stock";
         $email['Body'] = "Sorry ! This product is out of stock.<br> Please inform me when available sending me an email to<br>" . Yii::app()->user->User->user_email . "<br>";
         $url = Yii::app()->request->hostInfo . $this->createUrl("/product/viewImage/", array("id" => $product_profile_id));
+       
         $email['Body'].=" <br/>" . CHtml::link($model->item_code, $url);
         $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
 

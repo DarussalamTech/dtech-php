@@ -82,6 +82,12 @@ $config = array(
         'condition' => 'misc_type="' . $type . '"',
     )
 );
+/**
+ * is only admin 
+ */
+if (Yii::app()->user->isAdmin) {
+    $config['criteria']['condition'].= ' AND city_id = "' . Yii::app()->session['city_id'] . '"';
+}
 $provider = new CActiveDataProvider("ConfMisc", $config);
 /* Show Grid */
 $this->widget('zii.widgets.grid.CGridView', array(

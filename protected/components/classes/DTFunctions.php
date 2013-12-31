@@ -1,18 +1,17 @@
 <?php
+
 /**
  * DTFunctions Functions
  *
  */
 //PCM: Date format conversion can be in PActiveRecord, as it will be appplied application wide --- discuss with Ayaz before working on it
-class DTFunctions
-{
+class DTFunctions {
 
     /**
      * Get Date Format
      * @return <string>
      */
-    public function getFormat()
-    {
+    public function getFormat() {
         return Yii::app()->params->dateformat; //ConfMisc::model()->findByPk(1)->value;
     }
 
@@ -20,8 +19,7 @@ class DTFunctions
      * get Date Format For Calendar
      * @return <string>
      */
-    public function getFormatForCal()
-    {
+    public function getFormatForCal() {
         $format = DTFunctions::getFormat();
         return str_replace(array('m', 'd', 'Y'), array('mm', 'dd', 'yy'), $format);
     }
@@ -30,31 +28,20 @@ class DTFunctions
      * get Date Format For validation
      * @return <string>
      */
-    public function getFormatForValidate()
-    {
+    public function getFormatForValidate() {
         $dateformat = array();
         $format = DTFunctions::getFormat();
-        if (!empty($format))
-        {
+        if (!empty($format)) {
             $dateformatAr = explode('/', $format);
-            if (count($dateformatAr) > 0)
-            {
-                foreach ($dateformatAr as $dateformatkey => $datefaormatval)
-                {
-                    if ($datefaormatval == 'm' || $datefaormatval == 'mm')
-                    {
+            if (count($dateformatAr) > 0) {
+                foreach ($dateformatAr as $dateformatkey => $datefaormatval) {
+                    if ($datefaormatval == 'm' || $datefaormatval == 'mm') {
                         $dateformat[] = 'M';
-                    }
-                    else if ($datefaormatval == 'y' || $datefaormatval == 'Y')
-                    {
+                    } else if ($datefaormatval == 'y' || $datefaormatval == 'Y') {
                         $dateformat[] = 'yy';
-                    }
-                    else if ($datefaormatval == 'yy' || $datefaormatval == 'YY')
-                    {
+                    } else if ($datefaormatval == 'yy' || $datefaormatval == 'YY') {
                         $dateformat[] = 'yyyy';
-                    }
-                    else
-                    {
+                    } else {
                         $dateformat[] = $datefaormatval;
                     }
                 }
@@ -70,10 +57,8 @@ class DTFunctions
      * @param <boolean> $validation
      * @return <date>
      */
-    public static function dateFormatForSave($date = '')
-    {
-        if (isset($date) && !empty($date))
-        {
+    public static function dateFormatForSave($date = '') {
+        if (isset($date) && !empty($date)) {
             $obj = new DTFunctions();
             $order = $obj->findOrder($obj->getFormat());
 
@@ -81,8 +66,7 @@ class DTFunctions
             /* breake down date to seprate month, day and year */
             $p = explode("/", $date);
             /* change formate and return */
-            if (!empty($p))
-            {
+            if (!empty($p)) {
                 return date("Y-m-d", strtotime($p[$order['y']] . '-' . $p[$order['m']] . '-' . $p[$order['d']]));
             }
         }
@@ -95,8 +79,7 @@ class DTFunctions
      * @param <type> $date
      * @return <date>
      */
-    public static function dateFormatForView($date = '')
-    {
+    public static function dateFormatForView($date = '') {
 
         if (!$date || $date == '0000-00-00' || $date == '0000-00-00 00:00:00')
             return '';
@@ -107,8 +90,7 @@ class DTFunctions
         return date($obj->getFormat(), strtotime($p[0] . '-' . $p[1] . '-' . $p[2]));
     }
 
-    public function timeFormatForView($date = '')
-    {
+    public function timeFormatForView($date = '') {
 
         if (!$date || $date == '0000-00-00' || $date == '0000-00-00 00:00:00')
             return '';
@@ -119,18 +101,14 @@ class DTFunctions
         return $t[1];
     }
 
-    public function dateFormatValidateByFile($date = '')
-    {
+    public function dateFormatValidateByFile($date = '') {
 
         $format = DTFunctions::getFormat();
         $format_ar = explode("/", $format);
         $date_ar = explode("/", $date);
-        if (count($format_ar) == count($date_ar))
-        {
+        if (count($format_ar) == count($date_ar)) {
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -140,8 +118,7 @@ class DTFunctions
      * @param <type> $format
      * @return int
      */
-    public function findOrder($format)
-    {
+    public function findOrder($format) {
         $p = explode("/", $format);
         $ary = array();
 
@@ -166,12 +143,10 @@ class DTFunctions
      * @return <String>
      *      String
      */
-    public function array_toString($array, $to = 0)
-    {
+    public function array_toString($array, $to = 0) {
         $string = "";
         if (!empty($array) && is_array($array))
-            foreach ($array as $data)
-            {
+            foreach ($array as $data) {
                 $string.=$data . ", ";
             }
         $string = substr($string, 0, strlen($string) - $to);
@@ -180,10 +155,8 @@ class DTFunctions
         return $string;
     }
 
-    public function dateFormatForSave_slash($date = '')
-    {
-        if (isset($date) && !empty($date))
-        {
+    public function dateFormatForSave_slash($date = '') {
+        if (isset($date) && !empty($date)) {
             //            $obj = new DTFunctions();
             //            $order = $obj->findOrder($obj->getFormat());
             //
@@ -200,25 +173,23 @@ class DTFunctions
         return '';
     }
 
-    public function getCustomFormate($date, $formate)
-    {
+    public function getCustomFormate($date, $formate) {
         return date($formate, strtotime($date));
     }
 
-    public function setFormate($formate)
-    {
+    public function setFormate($formate) {
         return $formate;
     }
 
-    /**'
+    /*     * '
      *
      * @param type $date1
      * @param type $date2
      * @return type 
      * get the date differnce in days years months
      */
-    public function getDdateDifference($date1, $date2)
-    {
+
+    public function getDdateDifference($date1, $date2) {
         //        $date1 = "2007-03-24";
         //        $date2 = "2009-06-26";
 
@@ -236,32 +207,29 @@ class DTFunctions
      * 
      * @param type $length 
      */
-    public function getRanddomeNo($length)
-    {
+    public function getRanddomeNo($length) {
         $character_array = array_merge(range("a", "z"), range("0", "9"));
         $string = "";
-        for ($i = 0; $i < $length; $i++)
-        {
+        for ($i = 0; $i < $length; $i++) {
             $string .= $character_array[rand(0, (count($character_array) - 1))];
         }
         return $string;
     }
+
     /**
      * getting Integor random no 
      * 
      * @param type $length 
      */
-    public function getIntRanddomeNo($length)
-    {
+    public function getIntRanddomeNo($length) {
         $character_array = array_merge(range("0", "9"));
         $int_r = "";
-        for ($i = 0; $i < $length; $i++)
-        {
+        for ($i = 0; $i < $length; $i++) {
             $int_r .= $character_array[rand(0, (count($character_array) - 1))];
         }
         return $int_r;
     }
-    
+
     /**
      * this function used to get
      * the name acutal name of auth table 
@@ -271,8 +239,7 @@ class DTFunctions
      * @param type $name 
      * like parm is authitem 
      */
-    public static function returnAuthTableName($name)
-    {
+    public static function returnAuthTableName($name) {
         $connection = Yii::app()->db;
         $dbarr = Yii::app()->db->connectionString;
         $dbex = explode(";", $dbarr);
@@ -286,13 +253,36 @@ class DTFunctions
         $parents = $connection->createCommand($sql)->queryAll();
         $array = array();
 
-        foreach ($parents as $data)
-        {
+        foreach ($parents as $data) {
             $array[strtolower($data['Tables_in_' . $dbname . ''])] = $data['Tables_in_' . $dbname . ''];
         }
 
         $table = $array[$name];
         return $table;
+    }
+    /**
+     * convert object to array
+     * @param type $d
+     * @return type
+     */
+    public static function objectToArray($d) {
+        if (is_object($d)) {
+            // Gets the properties of the given object
+            // with get_object_vars function
+            $d = get_object_vars($d);
+        }
+
+        if (is_array($d)) {
+            /*
+             * Return array converted to object
+             * Using __FUNCTION__ (Magic constant)
+             * for recursive call
+             */
+            return array_map(__FUNCTION__, $d);
+        } else {
+            // Return array
+            return $d;
+        }
     }
 
 }

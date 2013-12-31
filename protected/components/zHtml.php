@@ -1,11 +1,18 @@
 <?php
-
+/**
+ * extending CHTml feature for handling zHTml
+ */
 class zHtml extends CHtml {
 
     public static function enumDropDownList($model, $attribute, $htmlOptions = array()) {
         return CHtml::activeDropDownList($model, $attribute, self::enumItem($model, $attribute), $htmlOptions);
     }
-
+    /**
+     * enum columns of db table will be return here in array
+     * @param type $model
+     * @param type $attribute
+     * @return type
+     */
     public static function enumItem($model, $attribute) {
         $attr = $attribute;
         self::resolveName($model, $attr);

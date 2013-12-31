@@ -1,32 +1,16 @@
 <?php
 
 /*
-  ###############################################
-  ####                                       ####
-  ####    Author : Ali Abbas                 ####
-  ####    Date   : 5 Mar,2011                ####
-  ####    Updated:                           ####
-  ####                                       ####
-  ###############################################
-  
- *
- */
-
-/**
- * @author Ali Abbas
- * @version :since 1.1
- */
-/*
  * Class is used for inserting one to one relations 
  * reocrd bases on update and save case both 
  * view mode and create can both use this
  * when u want to insert multiple one to one records
- * 
- * 
+ * @author Ali Abbas
+ * @version :since 1.1
+ * @Date : 5 Mar,2011           
  */
 
-class COneRelations extends CActiveRecordBehavior
-{
+class COneRelations extends CActiveRecordBehavior {
 
     /**
      * this variable will set all the childs 
@@ -35,6 +19,7 @@ class COneRelations extends CActiveRecordBehavior
      * @var array 
      */
     private $childAr = array();
+
     /**
      *
      * @var boolean
@@ -45,13 +30,14 @@ class COneRelations extends CActiveRecordBehavior
      * be default it will be false 
      */
     private $valid = false;
+
     /**
      * for validation status 
      * scanrio
      * used making model object
      * @var type 
      */
-    public $scanario="";
+    public $scanario = "";
 
     /**
      *
@@ -67,8 +53,7 @@ class COneRelations extends CActiveRecordBehavior
      *         single child add and update
      *         
      */
-    public function saveOnetToOneMultipleChilds($relation, $postArray, $viewMode="",$scanario="")
-    {
+    public function saveOnetToOneMultipleChilds($relation, $postArray, $viewMode = "", $scanario = "") {
 
 
         $model = $this->owner;
@@ -77,7 +62,7 @@ class COneRelations extends CActiveRecordBehavior
 
         $this->saveViewMode($relation, $model, array($className => $postArray), $viewMode);
         $this->childAr[$className] = array_merge(array("data" => $postArray), array("relation" => $relation));
-        $this->scanario=$scanario;
+        $this->scanario = $scanario;
     }
 
     /**
@@ -99,36 +84,30 @@ class COneRelations extends CActiveRecordBehavior
      *         single child add and update
      * @return type 
      */
-    private function saveViewMode($relation, $model, $postArray, $viewMode)
-    {
+    private function saveViewMode($relation, $model, $postArray, $viewMode) {
 
 
         $activeRelation = $model->getActiveRelation($relation);
         $className = $activeRelation->className;
 
-        if (!empty($viewMode) && $viewMode == true && !empty($postArray[$className]))
-        {
+        if (!empty($viewMode) && $viewMode == true && !empty($postArray[$className])) {
 
             $fk_attribute = $activeRelation->foreignKey;
 
             $owner = $this->owner;
             $fk_attribute = $activeRelation->foreignKey;
             $pk = $owner->primaryKey;
-            if (isset($postArray[$className]))
-            {
+            if (isset($postArray[$className])) {
 
                 $m = empty($postArray[$className][$fk_attribute]) ? new $className($this->scanario) : $className::model()->findByPk($postArray[$className][$fk_attribute]);
 
                 $m->attributes = $postArray[$className];
 
-                if ($m->validate())
-                {
+                if ($m->validate()) {
                     $m->$fk_attribute = $pk;
                     $m->save(false);
                     Yii::app()->controller->redirect(array('view', 'id' => $owner->$fk_attribute, '#' => $relation));
-                }
-                else
-                {
+                } else {
                     $model->$relation = $m;
                     return false;
                 }
@@ -142,14 +121,12 @@ class COneRelations extends CActiveRecordBehavior
      * 
      * @param type $event 
      */
-    public function beforeValidate($event)
-    {
+    public function beforeValidate($event) {
         parent::beforeValidate($event);
         $model = $this->owner;
         $this->valid = false;
 
-        foreach ($this->childAr as $class => $child)
-        {
+        foreach ($this->childAr as $class => $child) {
 
             /**
              * child relation name
@@ -163,21 +140,17 @@ class COneRelations extends CActiveRecordBehavior
              */
             $className = $activeRelation->className;
 
-            if (isset($child['data']))
-            {
+            if (isset($child['data'])) {
 
                 $fk_attribute = $activeRelation->foreignKey;
 
                 $m = empty($child['data'][$fk_attribute]) ? new $className($this->scanario) : $className::model()->findByPk($child['data'][$fk_attribute]);
                 $m->attributes = $child['data'];
 
-                if ($m->validate())
-                {
+                if ($m->validate()) {
                     $this->valid = true;
                     $model->$childRelation = $m;
-                }
-                else
-                {
+                } else {
                     $model->$childRelation = $m;
                     $this->valid = false;
                     $model->addError($childRelation, "An error occured during the save of {$childRelation}");
@@ -192,20 +165,16 @@ class COneRelations extends CActiveRecordBehavior
      * 
      * @param type $event 
      */
-    public function afterSave($event)
-    {
+    public function afterSave($event) {
         parent::afterSave($event);
         $model = $this->owner;
 
         $transaction = Yii::app()->db->getCurrentTransaction();
-        if ($transaction === null || !$transaction->getActive())
-        {
+        if ($transaction === null || !$transaction->getActive()) {
             $transaction = Yii::app()->db->beginTransaction();
         }
-        try
-        {
-            foreach ($this->childAr as $class => $child)
-            {
+        try {
+            foreach ($this->childAr as $class => $child) {
 
                 /**
                  * child relation name
@@ -223,24 +192,21 @@ class COneRelations extends CActiveRecordBehavior
                  * 
                  */
                 $fk_attribute = $activeRelation->foreignKey;
-                
+
                 /**
                  * pk attribue od model
                  */
                 $pk = $model->primaryKey;
-                
-                if (isset($child['data']) && $this->valid == true)
-                {
+
+                if (isset($child['data']) && $this->valid == true) {
                     $m = empty($child['data'][$fk_attribute]) ? new $className() : $className::model()->findByPk($child['data'][$fk_attribute]);
                     $m->attributes = $child['data'];
-                    $m->$fk_attribute = $pk;                       
+                    $m->$fk_attribute = $pk;
                     $m->save(false);
                 }
             }
             $transaction->commit();
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             $transaction->rollback();
             /**
              * after roleback of every child 

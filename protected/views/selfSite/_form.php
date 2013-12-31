@@ -48,6 +48,47 @@
         <?php echo $form->error($model, 'site_headoffice'); ?>
     </div>
 
+    <div class="row">
+        <?php echo $form->labelEx($model, 'fb_key'); ?>
+        <?php echo $form->textField($model, 'fb_key', array('size' => 60, 'maxlength' => 255)); ?>
+        <?php echo $form->error($model, 'fb_key'); ?>
+    </div>
+    <div class="row">
+        <?php echo $form->labelEx($model, 'fb_secret'); ?>
+        <?php echo $form->textField($model, 'fb_secret', array('size' => 60, 'maxlength' => 255)); ?>
+        <?php echo $form->error($model, 'fb_secret'); ?>
+    </div>
+    <div class="row">
+        <?php echo $form->labelEx($model, 'google_key'); ?>
+        <?php echo $form->textField($model, 'google_key', array('size' => 60, 'maxlength' => 255)); ?>
+        <?php echo $form->error($model, 'google_key'); ?>
+    </div>
+    <div class="row">
+        <?php echo $form->labelEx($model, 'google_secret'); ?>
+        <?php echo $form->textField($model, 'google_secret', array('size' => 60, 'maxlength' => 255)); ?>
+        <?php echo $form->error($model, 'google_secret'); ?>
+    </div>
+    <div class="row">
+        <?php echo $form->labelEx($model, 'twitter_key'); ?>
+        <?php echo $form->textField($model, 'twitter_key', array('size' => 60, 'maxlength' => 255)); ?>
+        <?php echo $form->error($model, 'twitter_key'); ?>
+    </div>
+    <div class="row">
+        <?php echo $form->labelEx($model, 'twitter_secret'); ?>
+        <?php echo $form->textField($model, 'twitter_secret', array('size' => 60, 'maxlength' => 255)); ?>
+        <?php echo $form->error($model, 'twitter_secret'); ?>
+    </div>
+    <div class="row">
+        <?php echo $form->labelEx($model, 'linkedin_key'); ?>
+        <?php echo $form->textField($model, 'linkedin_key', array('size' => 60, 'maxlength' => 255)); ?>
+        <?php echo $form->error($model, 'linkedin_key'); ?>
+    </div>
+    <div class="row">
+        <?php echo $form->labelEx($model, 'linkedin_secret'); ?>
+        <?php echo $form->textField($model, 'linkedin_secret', array('size' => 60, 'maxlength' => 255)); ?>
+        <?php echo $form->error($model, 'linkedin_secret'); ?>
+    </div>
+
     <div class="row buttons">
         <?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save', array("class" => "btn")); ?>
         <?php

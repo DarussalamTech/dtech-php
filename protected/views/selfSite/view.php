@@ -32,5 +32,13 @@ if(!(Yii::app()->user->isGuest)) {
 	'attributes'=>array(
 		'site_name',
 		'site_descriptoin',
+		'fb_key',
+		'fb_secret',
+		'google_key',
+		'google_secret',
+		'twitter_key',
+		'twitter_secret',
+		'linkedin_key',
+		'linkedin_secret',
 	),
 )); ?>

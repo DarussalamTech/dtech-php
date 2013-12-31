@@ -16,8 +16,7 @@ class Controller extends RController {
      * Register script/css files
      * @var array
      */
-    public $cs;
-    public $scriptMap = array();
+    public $cs, $scriptMap = array();
 
     /**
      * to verify current page is admin or not
@@ -50,7 +49,6 @@ class Controller extends RController {
      * @var array context menu items. This property will be assigned to {@link CMenu::items}.
      */
     public $menu = array();
-    public $_module;
 
     /**
      * @var array the breadcrumbs of the current page. The value of this property will
@@ -58,6 +56,11 @@ class Controller extends RController {
      * for more details on how to specify this property.
      */
     public $breadcrumbs = array();
+
+    /**
+     * base path will be saved here
+     * @var type 
+     */
     public $basePath = "";
 
     /**
@@ -84,6 +87,13 @@ class Controller extends RController {
      * @var type 
      */
     public $webPcmWidget;
+
+    /**
+     *
+     * @var type 
+     * web pages like dynamic pages
+     * footer , shipping, contact,about us
+     */
     public $webPages = array();
 
     public function beforeAction($action) {
@@ -92,18 +102,17 @@ class Controller extends RController {
          * for to reduce errors
          * from google bot
          */
-		 
-        if(strstr($_SERVER['QUERY_STRING'],Yii::app()->params['notAllowedRequestUri'])){
+        if (strstr($_SERVER['QUERY_STRING'], Yii::app()->params['notAllowedRequestUri'])) {
             $this->redirect(Yii::app()->homeUrl);
         }
-		//Not allowed urls
-		
-		if(!empty($_REQUEST['option']) && strstr($_REQUEST['option'],'com_')){
-			
-			$this->redirect(Yii::app()->homeUrl);
-		}	
-		
-   
+        //Not allowed urls
+
+        if (!empty($_REQUEST['option']) && strstr($_REQUEST['option'], 'com_')) {
+
+            $this->redirect(Yii::app()->homeUrl);
+        }
+
+
         parent::beforeAction($action);
         $this->setPages();
         $this->installConfig();
@@ -139,12 +148,16 @@ class Controller extends RController {
     /* PCM: For Mohsin: Remove this code from here and manage it in a seprate compononet. */
 
     /**
-     * @property array, Holds all contorllers array
+     * property array, Holds all contorllers array
+     * @var type 
+     * 
      */
     public $controllers;
 
     /**
-     * @property array holds Operation's Permission
+     * property array holds Operation's Permission
+     * @var type 
+     * 
      */
     public $OpPermission = array();
 
@@ -248,11 +261,10 @@ class Controller extends RController {
         return Yii::app()->user->checkAccess($operation);
     }
 
-    /*
+    /**
      * to check if admin change his city 
      * which is not allowed with sessions
      */
-
     public function isChangeAdminCity() {
 
         if (!empty($this->controllers)) {
@@ -302,19 +314,23 @@ class Controller extends RController {
         }
     }
 
-    /*
+    /**
      * filtering the http and 
      * https for security purpose of 
      * the application:
      * extending from the Filter class residing
      * in proteted/DTHTtpsFilter :ubd
+     * @param type $filterChain
      */
-
     public function filterHttps($filterChain) {
         $filter = new DTHttpsFilter;
         $filter->filter($filterChain);
     }
 
+    /**
+     * filtering the http url only for local and testing env.
+     *  @param type $filterChain
+     */
     public function filterHttp($filterChain) {
         $filter = new DTHttpFilter;
         $filter->filter($filterChain);
@@ -547,7 +563,7 @@ class Controller extends RController {
     }
 
     /**
-     * 
+     * It is extend url will take now easy to make url in ciy and country
      * @param type $route
      * @param type $params
      * @param type $ampersand
@@ -569,10 +585,18 @@ class Controller extends RController {
     /**
      * set Total amount in session
      */
-    public function setTotalAmountSession($grand_total, $total_quantity, $description = "",$shipping=0) {
+    public function setTotalAmountSession($grand_total, $total_quantity, $description = "") {
         Yii::app()->session['total_price'] = round($grand_total, 2);
         Yii::app()->session['quantity'] = $total_quantity;
         Yii::app()->session['description'] = $description;
+    }
+
+    /**
+     * set shipping cost
+     * 
+     * @param type $shipping
+     */
+    public function setShippingCost($shipping) {
         Yii::app()->session['shipping_price'] = round($shipping, 2);
     }
 
@@ -588,11 +612,12 @@ class Controller extends RController {
     }
 
     /**
-     * 
+     *  Normal createUrl is now CREATED URL other wise it createurl will apned the session var while it not
+     *
      * @param type $route
      * @param type $params
      * @param type $ampersand
-     * @return My own simple Url redirctor
+     * @return type string
      */
     public function createDTUrl($route, $params = array(), $ampersand = '&') {
         if ($route === '')
@@ -604,19 +629,20 @@ class Controller extends RController {
         return Yii::app()->createUrl(trim($route, '/'), $params, $ampersand);
     }
 
-    /*
+    /**
+     * 
      * DT dumper for development only just pass the variable...
+     * @param type $var
+     * @return type
      */
-
     public function dtdump($var) {
         return CVarDumper::dump($var, 10, TRUE);
     }
 
-    /*
+    /**
      * Install configurations
      * for soical application
      */
-
     public function installConfig() {
 
         $criteria = new CDbCriteria();
@@ -624,7 +650,7 @@ class Controller extends RController {
         $selected = array("dateformat", "auto_item_code", "slider_time");
         $criteria->addInCondition("param", $selected);
         if (!empty($_REQUEST['city_id'])) {
-            $criteria->addCondition("city_id = '" . $_REQUEST['city_id']."'");
+            $criteria->addCondition("city_id = '" . $_REQUEST['city_id'] . "'");
         }
         $criteria->select = "param,value";
 

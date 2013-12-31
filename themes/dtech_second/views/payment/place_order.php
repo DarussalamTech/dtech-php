@@ -96,6 +96,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
 
         <?php
         echo $cart_html;
+       
         $shipping_price_books = ShippingClass::model()->calculateShippingCost($books_range['categories'], $books_range['price_range'], "price");
         $shipping_price_other = ShippingClass::model()->calculateShippingCost($other_range['categories'], $other_range['weight_range'], "weight");
         $shipping_cost = $shipping_price_books + $shipping_price_other;
@@ -109,11 +110,19 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
                 <span style='font-weight:bold;margin-left:50px;'></span>
                 <b>
                     <?php echo $shipping_cost; ?>
+                    <?php
+                        $grand_total = ($grand_total + (double) $shipping_cost);
+                        $tax_rate = ConfTaxRates::model()->getTaxRate($grand_total);
+                    ?>
                 </b>
             </p>
 
             <div style="float:right;margin-right: 10px;font-weight: bold">
-                <p>TOTAL : <?php echo Yii::app()->session['currency'] . " " . ($grand_total + (double) $shipping_cost); ?> </p>
+                <p>Tax : <?php echo Yii::app()->session['currency'] . " " .$tax_rate ; ?> </p>
+            </div>
+            <div class="clear"></div>
+            <div style="float:right;margin-right: 10px;font-weight: bold">
+                <p>TOTAL : <?php echo Yii::app()->session['currency'] . " " . ($grand_total + (double) $tax_rate); ?> </p>
             </div>
         </div>
         <div class="clear"></div>

@@ -20,6 +20,7 @@ class ConfTaxRates extends DTActiveRecord {
 
     public $confViewName = 'confTaxRates/index';
     public $_calulated_rate;
+
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -49,7 +50,7 @@ class ConfTaxRates extends DTActiveRecord {
             array('title', 'length', 'max' => 255),
             array('rate_type', 'length', 'max' => 10),
             array('create_user_id, update_user_id', 'length', 'max' => 11),
-            array('_calulated_rate','safe'),
+            array('_calulated_rate', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, city_id, title, price_level, tax_rate, rate_type, class_status, create_time, create_user_id, update_time, update_user_id', 'safe', 'on' => 'search'),
@@ -112,12 +113,32 @@ class ConfTaxRates extends DTActiveRecord {
             'criteria' => $criteria,
         ));
     }
+
     /**
      * run time calcluated valude
      */
     public function afterFind() {
-        $this->_calulated_rate = ($this->rate_type == "percentage")?($this->price_level * $this->tax_rate)/100:$this->tax_rate; 
+        $this->_calulated_rate = ($this->rate_type == "percentage") ? ($this->price_level * $this->tax_rate) / 100 : $this->tax_rate;
+        
         return parent::afterFind();
+    }
+
+    /**
+     * get Tax rate
+     * from pricing level
+     * @param type $price_level
+     * @return type
+     */
+    public function getTaxRate($price_level) {
+        $criteria = new CDbCriteria;
+        $criteria->limit = 1;
+        $criteria->order = "price_level";
+        $criteria->addCondition(" price_level >= " . $price_level);
+        //CVarDumper::dump($criteria, 10, true);
+        if ($rateModel = $this->find($criteria)) {
+            return $rateModel->_calulated_rate;
+        }
+        return 0;
     }
 
 }

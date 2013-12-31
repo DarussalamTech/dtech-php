@@ -191,11 +191,11 @@ $relationName = "productProfile";
 
         <?php echo CHtml::activeLabelEx($model, 'weight'); ?>
         <?php
-        $criteria = new CDbCriteria();
-        $criteria->select = "id,type,title";
-        $criteria->condition = "type='weight'";
-        $prod_pro = ConfProducts::model()->findAll($criteria);
-        echo CHtml::activeDropDownList($model, '[' . $index . ']weight', CHtml::listData($prod_pro, "id", "title"), array('prompt' => 'Select a Weight'));
+      
+        echo CHtml::activeTextField($model, '[' . $index . ']weight',array("style"=>"width:100px"));
+        echo " ";
+        echo CHtml::activeDropDownList($model, '[' . $index . ']weight_unit',
+                array("g"=>"g","kg"=>"kg"),array("style"=>"width:100px"));
         ?>
         <?php echo CHtml::error($model, 'weight'); ?>
     </div>
