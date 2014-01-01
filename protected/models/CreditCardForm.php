@@ -58,6 +58,7 @@ class CreditCardForm extends CFormModel {
      * 6759649826438453
      * 4007000000027
      * 4112530021797363   000
+     * DTECH8gY!0o.
      */
     public function CreditCardPayment($shippingModel, $model) {
 
@@ -74,12 +75,25 @@ class CreditCardForm extends CFormModel {
         define("AUTHORIZENET_TRANSACTION_KEY", $conf_model->secret);
         define("AUTHORIZENET_SANDBOX", ($conf_model->sandbox) == "Enable" ? true : false);
 
+        $total_amount = (double) Yii::app()->session['total_price'] + (double) Yii::app()->session['shipping_price'] + (double) Yii::app()->session['tax_amount'];
+        $amount_xml = ConfPaymentMethods::model()->convertToDollar($total_amount);
+        
+        //in case of payment error in conversion
+        if(isset($amount_xml['errors'])){
+            $error['status'] = true;
+            $error['message'] = $amount_xml['reason'];
+            return $error;
+        }
+        //currency will be converted to 
+        if(isset($amount_xml['convert_webxcurrency']['convert_webxcurrency']['exch_amount'])){
+            $total_amount = $amount_xml['convert_webxcurrency']['convert_webxcurrency']['exch_amount'];
+        }
        
 
         $author_rize = new AuthorizeNetException();
         $sale = new AuthorizeNetAIM;
         $fields = array(
-            'amount' => (double) Yii::app()->session['total_price'] + (double) Yii::app()->session['shipping_price'],
+            'amount' => $total_amount,
             'card_num' => $model->card_number1 . $model->card_number2 . $model->card_number3 . $model->card_number4,
             'exp_date' => $model->exp_month . $model->exp_year,
             'first_name' => $model->first_name,
@@ -156,7 +170,6 @@ class CreditCardForm extends CFormModel {
         $order->user_id = Yii::app()->user->id;
         $order->total_price = Yii::app()->session['total_price'];
         $order->shipping_price = Yii::app()->session['shipping_price'];
-        $order->tax_amount = Yii::app()->session['tax_amount'];
         $order->order_date = date('Y-m-d');
         $order->city_id = $_REQUEST['city_id'];
         $order->transaction_id = $transaction_id;
