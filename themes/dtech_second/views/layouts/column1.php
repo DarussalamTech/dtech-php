@@ -39,7 +39,7 @@
                                     'country' => Yii::app()->session['country_short_name'],
                                     'city' => Yii::app()->session['city_short_name'],
                                     'city_id' => Yii::app()->session['city_id'],
-                                    "pcategory" => $data->slider->parent_category->category_name,
+                                    "pcategory" => $data->slider->parent_category->category_slug,
                                     "slug" => $data->slider->slag,
                         )));
                     } else {
@@ -90,7 +90,7 @@
                                 'country' => Yii::app()->session['country_short_name'],
                                 'city' => Yii::app()->session['city_short_name'],
                                 'city_id' => Yii::app()->session['city_id'],
-                                "pcategory" => $data->slider->parent_category->category_name,
+                                "pcategory" => $data->slider->parent_category->category_slug,
                                 "slug" => $data->slider->slag,
                             )), array('class' => 'sliderDetail'));
                     ?>

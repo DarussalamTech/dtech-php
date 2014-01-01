@@ -33,7 +33,7 @@ class PaymentController extends Controller {
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('paymentmethod', 'confirmorder',
                     'statelist', 'bstatelist', 'sstatelist', 'calculateShipping',
-                    'placeOrder','emailTest',
+                    'placeOrder', 'emailTest',
                     'customer0rderDetailMailer', 'admin0rderDetailMailer'),
                 'users' => array('@'),
             ),
@@ -43,6 +43,9 @@ class PaymentController extends Controller {
         );
     }
 
+    /**
+     * Selection of payment method here
+     */
     public function actionpaymentMethod() {
         Yii::app()->user->SiteSessions;
 
@@ -195,7 +198,7 @@ class PaymentController extends Controller {
         $order_id = $creditCardModel->saveOrder("");
 
         $shippingInfo = UserProfile::model()->updateShippingInfo($order_id);
-  
+
         $this->customer0rderDetailMailer($shippingInfo, $order_id);
         $this->admin0rderDetailMailer($shippingInfo, $order_id);
         Yii::app()->user->setFlash('orderMail', 'Thank you...');
@@ -343,6 +346,7 @@ class PaymentController extends Controller {
             'creditCardModel' => $creditCardModel,
         ));
     }
+
     /**
      * confirm order
      */
@@ -353,10 +357,11 @@ class PaymentController extends Controller {
         Yii::app()->controller->layout = '//layouts/main';
         $this->render('//payment/confirm_order');
     }
+
     /**
      * email test
      */
-    public function actionEmailTest(){
+    public function actionEmailTest() {
         Yii::app()->user->SiteSessions;
         $shippingInfo = UserOrderShipping::model()->findByPk(76);
         $this->customer0rderDetailMailer($shippingInfo, 78);

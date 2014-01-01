@@ -41,9 +41,10 @@ RewriteRule ^index.php/contact-us/index.php/ - [R=301,L,NC]
 RewriteRule ^index.php/index.php/index.php/ - [R=301,L,NC]
 RewriteRule ^index.php/index.php/index.php/ - [R=301,L,NC]
 RewriteRule ^index.php/index.php/index.php/index.php - [R=301,L,NC]
+RewriteRule ^index.php/*/nextelem.html - [R=301,L,NC]
 RewriteRule ^templates/ja_mesolite_ii/ - [R=301,L,NC]
 RewriteRule ^templates/ja_mesolite_ii/ - [R=301,L,NC]
-RewriteRule \.(png|zip|gif|jpeg|jpg|css|js)$ - [R=301,L,NC]
+RewriteRule \.(png|zip|gif|jpeg|jpg|css|js|html)$ - [R=301,L,NC]
 
 
 RewriteCond %{REQUEST_FILENAME} !-f

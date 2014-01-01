@@ -91,7 +91,7 @@ $footer_str = '<tr>
     <td>&nbsp;</td>
 
     <td style="text-align: left;font-weight:bold">
-        Shipping Total : ' . $model->tax_amount . ' '.Yii::app()->session['currency']. '
+        Tax Total : ' . $model->tax_amount . ' '.Yii::app()->session['currency']. '
     </td>
 </tr>
 <tr>

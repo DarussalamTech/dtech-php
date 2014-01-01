@@ -7,7 +7,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
     <div class="secure_form">
         <div class="payment_method_big_img">
             <?php
-            echo CHtml::image(Yii::app()->theme->baseUrl . "/images/payment_method_big_img_03.png", 'Payment_method', array('class' => "payment_method_big_img"));
+            echo CHtml::image(Yii::app()->theme->baseUrl . "/images/place-order2.png", 'Payment_method', array('class' => "payment_method_big_img"));
             ?>
         </div>
         <div class="secure_payment">
@@ -73,13 +73,32 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
              */
             if ($pro->productProfile->product->parent_category->category_name == "Books" ||
                     $pro->productProfile->product->parent_category->category_name == "Quran") {
+
+                $prod_weight = (double) (isset($pro->productProfile->weight) ? $pro->productProfile->weight : 0);
+                //echo $pro->productProfile->weight_unit . "--=" . $prod_weight . "--" . $pro->productProfile->id;
+
+                if ($pro->productProfile->weight_unit == "g" && $prod_weight > 0) {
+                    $prod_weight = $prod_weight / 1000;
+                }
+
                 $books_range['price_range'] = $books_range['price_range'] + ($pro->quantity * $pro->productProfile->price);
-                $books_range['weight_range'] = $books_range['weight_range'] + (isset($pro->productProfile->weight_rel) ? $pro->productProfile->weight_rel->title : 0);
-                $books_range['categories'][] = $pro->productProfile->product->parent_cateogry_id;
+                $books_range['weight_range'] = $books_range['weight_range'] + $prod_weight;
+                //if unit is gram then it converted to kg
+
+
+                $books_range['categories'][$pro->productProfile->product->parent_cateogry_id] = $pro->productProfile->product->parent_cateogry_id;
             } else {
-                $other_range['price_range'] = $books_range['price_range'] + ($pro->quantity * $pro->productProfile->price);
-                $other_range['weight_range'] = $books_range['weight_range'] + (isset($pro->productProfile->weight_rel) ? $pro->productProfile->weight_rel->title : 0);
-                $other_range['categories'][] = $pro->productProfile->product->parent_cateogry_id;
+
+                $prod_weight = (double) (isset($pro->productProfile->weight) ? $pro->productProfile->weight : 0);
+                //echo $pro->productProfile->weight_unit . "--=" . $prod_weight . "--" . $pro->productProfile->id;
+                //if unit is gram then it converted to kg
+                if ($pro->productProfile->weight_unit == "g" && $prod_weight > 0) {
+                    $prod_weight = $prod_weight / 1000;
+                }
+
+                $other_range['price_range'] = $other_range['price_range'] + ($pro->quantity * $pro->productProfile->price);
+                $other_range['weight_range'] = $other_range['weight_range'] + $prod_weight;
+                $other_range['categories'][$pro->productProfile->product->parent_cateogry_id] = $pro->productProfile->product->parent_cateogry_id;
             }
 
             $cart_html .= "<div class='login_img  " . $css_alternat . "'>";
@@ -96,32 +115,47 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
 
         <?php
         echo $cart_html;
-       
-        $shipping_price_books = ShippingClass::model()->calculateShippingCost($books_range['categories'], $books_range['price_range'], "price");
-        $shipping_price_other = ShippingClass::model()->calculateShippingCost($other_range['categories'], $other_range['weight_range'], "weight");
+        $is_source = 1;
+
+        if (strtolower(Yii::app()->session['city_short_name']) != strtolower($userShipping->shipping_city)) {
+            $is_source = 0;
+        }
+
+        $shipping_price_books = ShippingClass::model()->calculateShippingCost($books_range['categories'], $books_range['price_range'], "price", $is_source);
+        $shipping_price_other = ShippingClass::model()->calculateShippingCost($other_range['categories'], $other_range['weight_range'], "weight", $is_source);
+
         $shipping_cost = $shipping_price_books + $shipping_price_other;
 
-        $this->setTotalAmountSession($grand_total, $total_quantity, "", $shipping_cost);
+        $this->setShippingCost($shipping_cost);
         ?>
 
         <div class='login_img'>
+            <p>
+                <span style='font-weight:bold;width:150px;float:left;'>Sub Total</span>
+                <span style='font-weight:bold;margin-left:50px;'></span>
+                <b>
+                    <?php echo $grand_total; ?>
+                 
+                </b>
+            </p>
             <p>
                 <span style='font-weight:bold;width:150px;float:left;'>Shipping Cost</span>
                 <span style='font-weight:bold;margin-left:50px;'></span>
                 <b>
                     <?php echo $shipping_cost; ?>
                     <?php
-                        $grand_total = ($grand_total + (double) $shipping_cost);
-                        $tax_rate = ConfTaxRates::model()->getTaxRate($grand_total);
+                    $grand_total = ($grand_total + (double) $shipping_cost);
+                    $tax_rate = ConfTaxRates::model()->getTaxRate($grand_total);
+                    
+                    $this->setTaxAmount($tax_rate);
                     ?>
                 </b>
             </p>
-
             <div style="float:right;margin-right: 10px;font-weight: bold">
-                <p>Tax : <?php echo Yii::app()->session['currency'] . " " .$tax_rate ; ?> </p>
+                <p>Tax : <?php echo Yii::app()->session['currency'] . " " . $tax_rate; ?> </p>
             </div>
             <div class="clear"></div>
-            <div style="float:right;margin-right: 10px;font-weight: bold">
+           <div style="float:right;margin-right: 10px;font-weight: bold">
                 <p>TOTAL : <?php echo Yii::app()->session['currency'] . " " . ($grand_total + (double) $tax_rate); ?> </p>
             </div>
         </div>
@@ -134,8 +168,8 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
                 'validateOnSubmit' => false,
             ),
         ));
-        echo $form->hiddenField($userShipping,'payment_method');
-        //if payment method is credit card then
+        echo $form->hiddenField($userShipping, 'payment_method');
+//if payment method is credit card then
         if ($userShipping->payment_method == "Credit Card") {
             $this->renderPartial("//payment/_credit_card", array(
                 "model" => $userShipping,

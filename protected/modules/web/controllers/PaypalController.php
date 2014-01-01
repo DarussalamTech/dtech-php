@@ -1,7 +1,11 @@
 <?php
-
+/**
+ * Paypall controller class Paypall payment method
+ */
 class PaypalController extends Controller {
-
+    /**
+     * request is here to recive her for buy of paypall like payment quantity , total
+     */
     public function actionBuy() {
         Yii::app()->user->SiteSessions;
         $paymentInfo = array();
@@ -15,7 +19,7 @@ class PaypalController extends Controller {
          * fetching information from db
          */
         $criteria = new CDbCriteria();
-        $criteria->addCondition("name = 'Credit Card'");
+        $criteria->addCondition("name = 'Pay Pal'");
         $model = ConfPaymentMethods::model()->find($criteria);
 
 
@@ -29,6 +33,26 @@ class PaypalController extends Controller {
         Yii::app()->Paypal->cancelUrl = Yii::app()->request->hostInfo . $this->createUrl("/web/paypal/cancel");
 
 
+        $amount_xml = ConfPaymentMethods::model()->convertToDollar($totalPrice);
+
+        //in case of payment error in conversion
+        //error hre
+        if (isset($amount_xml->errors)) {
+            $error['status'] = true;
+            $error['message'] = $amount_xml->reason;
+            echo $error['message'];
+            Yii::app()->end();
+        }
+        //currency will be converted to 
+        if (isset($amount_xml['convert_webxcurrency']['convert_webxcurrency']['exch_amount'])) {
+
+            $paymentInfo['Order']['theTotal'] = ceil((double) $amount_xml['convert_webxcurrency']['convert_webxcurrency']['exch_amount']);
+        }
+
+
+//        CVarDumper::dump(Yii::app()->Paypal, 10, true);
+//        CVarDumper::dump($paymentInfo, 10, true);
+//        die;
         // call paypal 
         $result = Yii::app()->Paypal->SetExpressCheckout($paymentInfo);
         //Detect Errors 
@@ -54,7 +78,9 @@ class PaypalController extends Controller {
             $this->redirect($payPalURL);
         }
     }
-
+    /**
+     * here is confirming process of payypall will be redirect to success
+     */
     public function actionConfirm() {
         Yii::app()->user->SiteSessions;
         $token = trim($_GET['token']);
@@ -69,6 +95,8 @@ class PaypalController extends Controller {
         $result['PAYERID'] = $payerId;
         $result['TOKEN'] = $token;
         $result['ORDERTOTAL'] = $totalPrice;
+
+
 
         //Detect errors 
         if (!Yii::app()->Paypal->isCallSucceeded($result)) {
@@ -101,7 +129,7 @@ class PaypalController extends Controller {
                 /**
                  * 1 ID is belong to pay pall
                  */
-                $creditCardModel->payment_method = 1;
+                $creditCardModel->payment_method = "Pay Pal";
                 $order_id = $creditCardModel->saveOrder($result['TOKEN']);
 
                 /**
@@ -114,11 +142,48 @@ class PaypalController extends Controller {
                 $criteria->order = "id DESC";
                 $model = UserOrderShipping::model()->find($criteria);
                 $model->updateByPk($model->id, array("order_id" => $order_id));
+                //sending email
+                $this->customer0rderDetailMailer($model, $order_id);
+                $this->admin0rderDetailMailer($model, $order_id);
+                Yii::app()->user->setFlash('orderMail', 'Thank you...');
+
                 $this->render('//paypall/confirm');
             }
         }
     }
+    /**
+     * method to send email to user
+     * @param type $customerInfo
+     * @param type $order_idmeth
+     */
+    public function customer0rderDetailMailer($customerInfo, $order_id) {
 
+        $email['From'] = Yii::app()->params['adminEmail'];
+        $email['To'] = Yii::app()->user->name;
+        $email['Subject'] = "Your Order Detail";
+        $email['Body'] = $this->renderPartial('//payment/_order_email_template2', array('customerInfo' => $customerInfo, 'order_id' => $order_id), true, false);
+        $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
+        $this->sendEmail2($email);
+    }
+
+    /*
+     * method to send order detail to Admin
+     */
+
+    public function admin0rderDetailMailer($customerInfo, $order_id) {
+
+        $email['From'] = Yii::app()->params['adminEmail'];
+
+        $email['To'] = User::model()->getCityAdmin();
+        $email['Subject'] = "New Order Placement";
+        $email['Body'] = $this->renderPartial('//payment/_order_email_template_admin', array('customerInfo' => $customerInfo, "order_id" => $order_id), true, false);
+        $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
+
+        $this->sendEmail2($email);
+    }
+    /**
+     * Cancel will be redirect here
+     */
     public function actionCancel() {
         Yii::app()->user->SiteSessions;
         //The token of tuhe cancelled payment typically used to cancel the payment within your application
@@ -126,7 +191,9 @@ class PaypalController extends Controller {
 
         $this->render('//paypall/cancel');
     }
-
+    /**
+     * A test method for payment gateway of paypall
+     */
     public function actionDirectPayment() {
         $paymentInfo = array('Member' =>
             array(

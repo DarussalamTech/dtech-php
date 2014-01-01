@@ -12,25 +12,29 @@
 //	HybridAuth Config file: http://hybridauth.sourceforge.net/userguide/Configuration.html
 // ----------------------------------------------------------------------------------------
 //http://localhost/test/test2/socialconnect/hybridauth-2.1.2/
+
+$siteModel = SelfSite::model()->getSiteInfo(Yii::app()->request->hostInfo.Yii::app()->baseUrl);
+
+
 return
         array(
             "base_url" => Yii::app()->request->hostInfo . Yii::app()->baseUrl . "/index.php/site/testHybrid",
             "providers" => array(
                 "Google" => array(
                     "enabled" => true,
-                    "keys" => array("id" => Yii::app()->params['google_key'], "secret" => Yii::app()->params['google_secret'])
+                    "keys" => array("id" => $siteModel['google_key'], "secret" => $siteModel['google_secret'])
                 ),
                 "Facebook" => array(
                     "enabled" => true,
-                    "keys" => array("id" => Yii::app()->params['fb_key'], "secret" => Yii::app()->params['fb_secret'])
+                    "keys" => array("id" => $siteModel['fb_key'], "secret" => $siteModel['fb_secret'])
                 ),
                 "Twitter" => array(
                     "enabled" => true,
-                    "keys" => array("key" => Yii::app()->params['twitter_key'], "secret" => Yii::app()->params['twitter_secret'])
+                    "keys" => array("key" => $siteModel['twitter_key'], "secret" => $siteModel['twitter_secret'])
                 ),
                 "LinkedIn" => array(
                     "enabled" => true,
-                    "keys" => array("key" => Yii::app()->params['linkedin_key'], "secret" => Yii::app()->params['linkedin_secret'])
+                    "keys" => array("key" => $siteModel['linkedin_key'], "secret" => $siteModel['linkedin_secret'])
                 ),
             ),
             // if you want to enable logging, set 'debug_mode' to true  then provide a writable file by the web server on "debug_file"

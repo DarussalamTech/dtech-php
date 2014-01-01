@@ -57,6 +57,7 @@ foreach ($cart as $pro) {
     echo $cart_html;
     $shipping_price_books = ShippingClass::model()->calculateShippingCost($books_range['categories'], $books_range['price_range'], "price");
     $shipping_price_other = ShippingClass::model()->calculateShippingCost($other_range['categories'], $other_range['weight_range'], "weight");
+  
     $shipping_cost = $shipping_price_books+$shipping_price_other;
     ?>
 

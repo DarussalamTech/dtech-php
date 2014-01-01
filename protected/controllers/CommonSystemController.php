@@ -36,6 +36,7 @@ class CommonSystemController extends Controller {
      *  here 
      */
     public function actionTinyUploadlayout() {
+       
         $model = new UploadForm;
 
         if (isset($_POST['UploadForm'])) {
@@ -52,7 +53,7 @@ class CommonSystemController extends Controller {
 
             // Add our stuff
         } else {
-
+                  
             $this->renderPartial("//common/tinyuploadlayout", array("model" => $model));
         }
     }

@@ -599,6 +599,14 @@ class Controller extends RController {
     public function setShippingCost($shipping) {
         Yii::app()->session['shipping_price'] = round($shipping, 2);
     }
+    /**
+     * set tax cost
+     * 
+     * @param type $tax
+     */
+    public function setTaxAmount($tax) {
+        Yii::app()->session['tax_amount'] = round($tax, 2);
+    }
 
     /**
      * to change admin city for
