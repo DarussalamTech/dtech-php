@@ -27,12 +27,12 @@ $this->widget('zii.widgets.grid.CGridView', array(
                 'update' => array
                     (
                     'label' => 'update',
-                    'url' => 'Yii::app()->controller->createUrl("load", array("m" => "' . $m . '", "id"=> $data->id,"type"=>""))',
+                    'url' => 'Yii::app()->controller->createUrl("load", array("m" => "' . $m . '", "id"=> $data->id))',
                 ),
                 'delete' => array
                     (
                     'label' => 'delete',
-                    'url' => 'Yii::app()->controller->createUrl("delete", array("m" => "' . $m . '", "id"=> $data->id,"type"=>""))',
+                    'url' => 'Yii::app()->controller->createUrl("deleteOther", array("m" => "' . $m . '", "id"=> $data->id))',
                 ),
             ),
         ),
