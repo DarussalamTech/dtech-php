@@ -15,4 +15,6 @@ class m131231_102108_tax_amount_inOrder extends DTDbMigration {
         $this->dropColumn($table, "tax_amount");
     }
 
+}
+
 ?>
