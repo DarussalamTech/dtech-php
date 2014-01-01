@@ -79,8 +79,11 @@ $this->widget('DtGridView', array(
             <tr class="even">
                 <td style="text-align: right"><span>Shipping : </span><?php echo $model->order->shipping_price; ?></td>
             </tr>
+            <tr class="even">
+                <td style="text-align: right"><span>Tax : </span><?php echo $model->order->tax_amount; ?></td>
+            </tr>
             <tr class="odd">
-                <td style="text-align: right"><span>Grand Total: </span><?php echo number_format((double)$model->order->total_price+(double)$model->order->shipping_price,2); ?></td>
+                <td style="text-align: right"><span>Grand Total: </span><?php echo number_format((double)$model->order->total_price+(double)$model->order->shipping_price+(double)$model->order->tax_amount,2); ?></td>
             </tr>
         </tfoot>
 
