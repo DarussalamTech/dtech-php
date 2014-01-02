@@ -20,6 +20,8 @@ class PageController extends Controller {
     //$models=new Pages();
 
     public function actionViewPage($id) {
+        $id = explode('-',$id);
+        $id = $id[count($id)-1];
         Yii::app()->user->SiteSessions;
         $page = Pages::model()->findByPk($id);
         if ($page->title == "FAQ's") {
