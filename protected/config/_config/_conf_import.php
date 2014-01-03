@@ -21,6 +21,7 @@ $import = array(
     'application.extensions.ProDropDown.*',
     'application.extensions.colorbox.*',
     'system.gii.CCodeFile',
+    
 
 ); 
 ?>

@@ -110,4 +110,53 @@ class ConfPaymentMethods extends DTActiveRecord {
         ));
     }
 
+    /**
+     * convert amount to usd if 
+     * the default currency rate is not in usd
+     * @param type $amount
+     */
+    public function convertToDollar($amount) {
+
+        if (Yii::app()->session['currency'] != "USD" && $amount>0) {
+            // Initialize the CURL library
+            $api_key = "a634e1f81617c61308330be500514cbe";
+            $cURL = curl_init();
+
+            // Set the URL to execute
+            curl_setopt($cURL, CURLOPT_URL, "http://xmlfeed.theeasyapi.com");
+
+            // Set options
+            curl_setopt($cURL, CURLOPT_HEADER, 0);
+            curl_setopt($cURL, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($cURL, CURLOPT_POST, 1);
+            curl_setopt($cURL, CURLOPT_POSTFIELDS, "request=<easyapi_wrapper>
+                <login>
+                   <apikey>" . $api_key . "</apikey>
+                </login>
+                <search>
+                   <service>convert_webxcurrency</service>
+                   <criteria>
+                      <amount>$amount</amount>
+                      <tocur>USD</tocur>
+                      <fromcur>".Yii::app()->session['currency']."</fromcur>
+                   </criteria>
+                </search>
+             </easyapi_wrapper>");
+
+            // Execute, saving results in a variable
+              $strPage = curl_exec($cURL);
+
+            // Close CURL resource
+             curl_close($cURL);
+
+            // Now the variable $strPage has the returned XML.
+            // Parse the XML into something a little more useful
+            $xml_ret = simplexml_load_string($strPage);
+            return json_decode(json_encode($xml_ret),true);
+           
+        }
+        
+        return $amount;
+    }
+
 }
