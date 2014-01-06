@@ -8,6 +8,7 @@
  * @property integer $product_id
  * @property integer $item_code
  * @property integer $title
+ * @property integer $arabic_name
  * @property integer $language_id
  * @property integer $discount_type
  * @property integer $discount_value
@@ -16,6 +17,7 @@
  * @property integer $weight
  * @property string $isbn
  * @property string $price
+ * @property string $color
  *
  * The followings are the available model relations:
  * @property Author $author
@@ -64,7 +66,7 @@ class ProductProfile extends DTActiveRecord {
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
             array('title,product_id', 'safe'),
             array('id,size,no_of_pages,binding,printing,paper,edition,upload_index', 'safe'),
-            array('is_shippable,weight,attribute,attribute_value,dimension,translator_id,compiler_id,quantity,slag', 'safe'),
+            array('arabic_name,color,is_shippable,weight,attribute,attribute_value,dimension,translator_id,compiler_id,quantity,slag', 'safe'),
             array('isbn', 'length', 'max' => 255),
             array('price,quantity', 'numerical', 'integerOnly' => FALSE),
             //array('language_id', 'UniqueLanguage'),
@@ -218,6 +220,8 @@ class ProductProfile extends DTActiveRecord {
             'compiler_id' => Yii::t('model_labels', 'Compiler', array(), NULL, Yii::app()->controller->currentLang),
             'translator_id' => Yii::t('model_labels', 'Translator', array(), NULL, Yii::app()->controller->currentLang),
             'slag' => Yii::t('model_labels', 'Slag', array(), NULL, Yii::app()->controller->currentLang),
+            'color' => Yii::t('model_labels', 'Color', array(), NULL, Yii::app()->controller->currentLang),
+            'arabic_name' => Yii::t('model_labels', 'Arabic Name', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 
@@ -239,6 +243,8 @@ class ProductProfile extends DTActiveRecord {
         $criteria->compare('paper', $this->paper, true);
         $criteria->compare('edition', $this->edition, true);
         $criteria->compare('slag', $this->slag, true);
+        $criteria->compare('arabic_name', $this->arabic_name, true);
+        $criteria->compare('color', $this->color, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,

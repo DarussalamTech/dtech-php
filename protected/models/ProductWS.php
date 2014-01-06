@@ -117,7 +117,11 @@ class ProductWS extends Product {
 
         $criteria = new CDbCriteria(array(
             'select' => 't.product_id,t.product_name,t.product_description,t.slag,t.parent_cateogry_id',
-            'with' => array('productProfile' => array('select' => 'price'), 'productCategories', 'author'),
+
+            'with' => array('productProfile' => array('select' => 'price','type' => 'INNER JOIN'), 'productCategories' => array('type' => 'INNER JOIN'), 'author'=> array('type' => 'INNER JOIN')),
+
+//            'with' => array('productProfile' => array('select' => 'price'), 'productCategories', 'author'),
+
             'condition' => "t.parent_cateogry_id=57" . $condtion,
             'order' => 't.product_id ASC',
             'distinct' => true,
@@ -203,6 +207,7 @@ class ProductWS extends Product {
             'pageSize' => $dataProvider->pagination->getPageSize(),
             'pageCount' => $dataProvider->pagination->getPageCount(),
             'itemCount' => $dataProvider->pagination->getItemCount(),
+
         );
 
 //        CVarDumper::dump($products['products'],20,true);
@@ -227,7 +232,9 @@ class ProductWS extends Product {
             'select' => 't.product_id,t.product_name,t.product_description,t.product_overview,t.slag,t.parent_cateogry_id',
             'with' => array('productProfile' => array('select' => 'price', 'type' => 'INNER JOIN')),
             'condition' => "t.parent_cateogry_id=57",
-            'order' => 't.product_id DESC',
+
+            'order' => 't.product_id ASC',
+
             'distinct' => 't.product_id',
             'together' => true,
         ));
@@ -250,6 +257,9 @@ class ProductWS extends Product {
 
         $all_products = array();
         $images = array();
+
+         $product_url=array();
+
 
 
         // Populating the Required fields for the frontend
@@ -279,6 +289,12 @@ class ProductWS extends Product {
                 }
             }
 
+              $product_url[]=array(
+               
+                'url'  => "http://www.darussalampk.com/en/pak/lahore/1/Books/" . $products->slag . "/detail"
+            );
+
+
             // Array is filled with all the products
             $all_products[] = array(
                 'product_id' => $products->product_id,
@@ -301,6 +317,9 @@ class ProductWS extends Product {
             'pageSize' => $dataProvider->pagination->getPageSize(),
             'pageCount' => $dataProvider->pagination->getPageCount(),
             'itemCount' => $dataProvider->pagination->getItemCount(),
+
+            'productUrlArray'=> $product_url,
+
         );
 
 
