@@ -33,7 +33,7 @@ class WSController extends Controller {
             // If the request is set to product category 
             //containg all books return by the Model
             
-            $allBooks = ProductWS::model()->getWsAllBooksByCatalogue($_REQUEST['page'],$_REQUEST['limit']);
+            $allBooks = ProductWS::model()->getWsAllBooksByCatalogue( $_REQUEST['page'],$_REQUEST['limit'],$_REQUEST['category'], $_REQUEST['author'], $_REQUEST['search'], $_REQUEST['lang']);
         
             
         }

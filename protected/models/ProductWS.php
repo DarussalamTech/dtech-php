@@ -117,11 +117,8 @@ class ProductWS extends Product {
 
         $criteria = new CDbCriteria(array(
             'select' => 't.product_id,t.product_name,t.product_description,t.slag,t.parent_cateogry_id',
-
-            'with' => array('productProfile' => array('select' => 'price','type' => 'INNER JOIN'), 'productCategories' => array('type' => 'INNER JOIN'), 'author'=> array('type' => 'INNER JOIN')),
-
+            'with' => array('productProfile' => array('select' => 'price', 'type' => 'INNER JOIN'), 'productCategories' => array('type' => 'INNER JOIN'), 'author' => array('type' => 'INNER JOIN')),
 //            'with' => array('productProfile' => array('select' => 'price'), 'productCategories', 'author'),
-
             'condition' => "t.parent_cateogry_id=57" . $condtion,
             'order' => 't.product_id ASC',
             'distinct' => true,
@@ -207,7 +204,6 @@ class ProductWS extends Product {
             'pageSize' => $dataProvider->pagination->getPageSize(),
             'pageCount' => $dataProvider->pagination->getPageCount(),
             'itemCount' => $dataProvider->pagination->getItemCount(),
-
         );
 
 //        CVarDumper::dump($products['products'],20,true);
@@ -224,17 +220,34 @@ class ProductWS extends Product {
      * @param type $limit
      * @return type
      */
-    public function getWsAllBooksByCatalogue($page = "", $limit = 5) {
+    public function getWsAllBooksByCatalogue($page = "", $limit = 5, $category = "", $author = "", $search = "", $language = "") {
+
+        $cate = new Categories;
+        // Getting the categories for drop downs
+        $categories = $cate->getAllCategoriesForWebService();
+        // Getting the language for drop downs
+
+        $lang = Language::model()->findAll();
+
+        // Getting the Authors for drop downs
+
+        $authors = Author::model()->findAll();
+
+
+
+        // making dynamic string according to the requirements
+
+        $condtion = !empty($category) ? " AND productCategories.category_id =" . $category : "";
+        $condtion .=!empty($author) ? " AND author.author_id =" . $author : "";
+        $condtion .=!empty($language) ? " AND productProfile.language_id =" . $language : "";
 
 
 
         $criteria = new CDbCriteria(array(
             'select' => 't.product_id,t.product_name,t.product_description,t.product_overview,t.slag,t.parent_cateogry_id',
-            'with' => array('productProfile' => array('select' => 'price', 'type' => 'INNER JOIN')),
-            'condition' => "t.parent_cateogry_id=57",
-
+            'with' => array('productProfile' => array('select' => 'price', 'type' => 'INNER JOIN'), 'productCategories' => array('type' => 'INNER JOIN'), 'author' => array('type' => 'INNER JOIN')),
+            'condition' => "t.parent_cateogry_id=57" . $condtion,
             'order' => 't.product_id ASC',
-
             'distinct' => 't.product_id',
             'together' => true,
         ));
@@ -252,13 +265,13 @@ class ProductWS extends Product {
         //Getting data from the data provider according to criteria
         $data = $dataProvider->getData();
 
-      
+
 
 
         $all_products = array();
         $images = array();
 
-         $product_url=array();
+        $product_url = array();
 
 
 
@@ -289,9 +302,8 @@ class ProductWS extends Product {
                 }
             }
 
-              $product_url[]=array(
-               
-                'url'  => "http://www.darussalampk.com/en/pak/lahore/1/Books/" . $products->slag . "/detail"
+            $product_url[] = array(
+                'url' => "http://www.darussalampk.com/en/pak/lahore/1/Books/" . $products->slag . "/detail"
             );
 
 
@@ -312,14 +324,16 @@ class ProductWS extends Product {
         }
 
         // Products To return to the front end
+
         $products = array(
+            'allCat' => $categories,
+            'languages' => $lang,
+            'authors' => $authors,
             'products' => $all_products,
             'pageSize' => $dataProvider->pagination->getPageSize(),
             'pageCount' => $dataProvider->pagination->getPageCount(),
             'itemCount' => $dataProvider->pagination->getItemCount(),
-
-            'productUrlArray'=> $product_url,
-
+            'productUrlArray' => $product_url,
         );
 
 
