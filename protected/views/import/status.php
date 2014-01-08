@@ -23,6 +23,11 @@ $this->widget('zii.widgets.CDetailView', array(
             'type' => 'raw'
         ),
         array(
+            'name' => 'Percentage Completed',
+            'value' => $data->completed_steps != 0 ? "<span id='perc_comp_imp'>" . $model->completed_steps * 100 / $model->total_steps . "</span>" : 0,
+            'type' => 'raw'
+        ),
+        array(
             'name' => 'total_steps',
             'value' => $model->total_steps,
             'type' => 'raw'
@@ -33,13 +38,8 @@ $this->widget('zii.widgets.CDetailView', array(
             'type' => 'raw'
         ),
         array(
-            'name' => 'Percentage Completed',
-            'value' => "<span id='perc_comp_imp'>".$model->completed_steps*100/$model->total_steps."</span>",
-            'type' => 'raw'
-        ),
-        array(
             'name' => 'sheet',
-            'value' => isset($sheet[$model->sheet])?$sheet[$model->sheet]:"",
+            'value' => isset($sheet[$model->sheet]) ? $sheet[$model->sheet] : "",
             'type' => 'raw'
         ),
         array(
@@ -58,7 +58,7 @@ $this->widget('zii.widgets.CDetailView', array(
 <div class="clear"></div>
 <div id="progressbar"></div>
 <script>
-    jQuery(function(){
+    jQuery(function() {
         jQuery("#progressbar").progressbar({
             value: parseFloat(jQuery("#perc_comp_imp").html())
         });
