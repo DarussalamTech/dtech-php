@@ -106,6 +106,20 @@ class ProductProfile extends DTActiveRecord {
     }
 
     /**
+     * get Relational Column here
+     */
+    public function relationColumns() {
+        return array(
+            'dimension' => array("model"=>'ConfProducts', "key"=>'title', 'condition' => 'type="Dimensions"'),
+            'binding' => array("model"=>'ConfProducts',  "key"=>'title', 'condition' => 'type="Binding"'),
+            'printing' => array("model"=>'ConfProducts',"key"=>'title', 'condition' => 'type="Printing"'),
+            'paper' => array("model"=>'ConfProducts',"key"=>'title', 'condition' => 'type="Paper"'),
+            'language_id' => array("model"=>'Language',"key"=>'language_name'),
+            
+        );
+    }
+
+    /**
      * Behaviour
      *
      */
