@@ -217,7 +217,7 @@ var dtech = {
      * @returns {undefined}
      */
     updateElementAjax: function(ajax_url, update_element_id, resource_elem_id) {
-
+        jQuery("#loading").show();
         if (jQuery("#" + resource_elem_id).val() != "") {
             jQuery.ajax({
                 type: "POST",
@@ -229,6 +229,7 @@ var dtech = {
                         }
             }).done(function(response) {
                 jQuery("#" + update_element_id).html(response);
+                jQuery("#loading").hide();
             });
         }
     },
