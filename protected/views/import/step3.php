@@ -1,6 +1,6 @@
 <div class="pading-bottom-5">
     <div class="left_float">
-        <h1>Step 2 Mapping Columns</h1>
+        <h1>Step 3 Mapping Columns</h1>
     </div>
 
 

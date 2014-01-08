@@ -64,15 +64,10 @@ $steps = ceil($total_length / 50);
 </script>
 <div class="pading-bottom-5">
     <div class="left_float">
-        <h1>Step 4 Start Importing</h1>
+        <h1>Step 5 Start Importing</h1>
     </div>
-
-
 </div>
 <div class="clear"></div>
-<?php
-//CVarDumper::dump(array_chunk($sheetData, 50), 10, true);
-?>
 <h2 id="status">
     Please wait your file is uploading...
     and importing data...
