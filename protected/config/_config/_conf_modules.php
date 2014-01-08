@@ -65,9 +65,12 @@ $modules = array(
             'Backup.Default.AllBackup',
             'Backup.Default.DownloadBackUpSql',
             'Backup.Default.DownloadImageBackup',
-          
             
-            
+            //Import module
+            'Import.Index',
+            'Import.MappingList',
+            'Import.Status',
+            'Import.Insert',
         ),
         'debug' => false, // Whether to enable debug mode.
     ),

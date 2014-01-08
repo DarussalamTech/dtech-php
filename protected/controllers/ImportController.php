@@ -7,13 +7,28 @@
  */
 class ImportController extends Controller {
 
+    /**
+     * @return array action filters
+     */
+    public function filters() {
+        return array(
+            // 'accessControl', // perform access control for CRUD operations
+            'rights',
+            'https + index + view + update + create',
+        );
+    }
+
+    public function allowedActions() {
+        return '@';
+    }
+
     public function beforeAction($action) {
         Yii::app()->theme = "admin";
-
         parent::beforeAction($action);
 
-        $operations = array('create', 'update', 'index', 'delete');
+        $operations = array('status');
         parent::setPermissions($this->id, $operations);
+
         return true;
     }
 
@@ -271,7 +286,7 @@ class ImportController extends Controller {
 
         $productRelations = Product::model()->relationColumns();
         $productProfRelations = ProductProfile::model()->relationColumns();
-        
+
         //process of excel data to db
         if (isset($_POST['data'])) {
             foreach ($_POST['data'] as $post) {
@@ -353,6 +368,17 @@ class ImportController extends Controller {
                 "completed_steps" => $_POST['index'])
             );
         }
+    }
+
+    /**
+     * mapping list
+     */
+    public function actionMappingList() {
+        $model = new ImportMapping('search');
+        $model->unsetAttributes();  // clear any default values
+        if (isset($_GET['ImportMapping']))
+            $model->attributes = $_GET['ImportMapping'];
+        $this->render("list",array("model"=>$model));
     }
 
     /**

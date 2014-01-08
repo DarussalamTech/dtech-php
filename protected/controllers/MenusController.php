@@ -351,6 +351,11 @@ class MenusController extends Controller {
         $ary[] = array("id" => "47", "pid" => "46", "root_parent" => "46", "controller" => "shippingClass", "action" => "index", "default_title" => "List All", "user_title" => "List All", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "0");
         $ary[] = array("id" => "48", "pid" => "46", "root_parent" => "46", "controller" => "shippingClass", "action" => "create", "default_title" => "Create", "user_title" => "Create", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "2");
 
+        //import class
+        $ary[] = array("id" => "49", "pid" => "0", "root_parent" => "49", "controller" => "import", "action" => "index", "default_title" => "Import", "user_title" => "Import", "is_assigned" => "Yes", "min_permission" => "status", "weight" => "3");
+        $ary[] = array("id" => "50", "pid" => "49", "root_parent" => "49", "controller" => "import", "action" => "mappingList", "default_title" => "List All", "user_title" => "List All", "is_assigned" => "Yes", "min_permission" => "status", "weight" => "0");
+        $ary[] = array("id" => "51", "pid" => "49", "root_parent" => "49", "controller" => "import", "action" => "I", "default_title" => "Create Import", "user_title" => "Create Import", "is_assigned" => "Yes", "min_permission" => "status", "weight" => "2");
+
         $this->updateWpbaseUrl();
         foreach ($ary as $attr) {
             $model = new Menu();
