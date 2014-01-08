@@ -41,6 +41,15 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'name' => 'city',
             'value' => 'isset($data->city) ? $data->city->city_name : ""',
             'type' => 'raw'
+        ),
+        array(
+            'class' => 'CButtonColumn',
+            'template' => '{view}',
+            'buttons' => array(
+                'view' => array(
+                    'url' => 'Yii::app()->controller->createUrl("/import/status",array("id"=>$data->id))',
+                ),
+            )
         )
     ),
 ));
