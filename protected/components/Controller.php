@@ -184,6 +184,7 @@ class Controller extends RController {
             "SelfSite" => "View",
             "TranslatorCompiler" => "View",
             "User" => "View",
+            "Import" => "Status",
             "ShippingClass" => "View",
                 //"Assignment" => "View",
         );
