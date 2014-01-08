@@ -256,6 +256,7 @@ class DTActiveRecord extends CActiveRecord {
             "wS", "error",
             "commonSystem",
             "assignment",
+            "import",
             "authItem",
             "install"
         );
@@ -297,6 +298,7 @@ class DTActiveRecord extends CActiveRecord {
 
         $controllers = array("search", "site", "wS",
             "error",
+            "import",
             "commonSystem", "assignment",
             "authItem",
             "install");
