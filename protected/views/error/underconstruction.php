@@ -101,7 +101,7 @@
                                 <div class="landing_logo">
                                     <?php
                                     echo Yii::app()->name;
-                                    echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/landing_page_logo_img_03.png", 'Logo'), $this->createUrl('/site/storeHome'));
+                                    echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/landing_page_logo_img_03.png", 'Logo'), "javascript:void(0)");
                                     ?>
                                 </div>
                                 <div class="landing_logo_right">
