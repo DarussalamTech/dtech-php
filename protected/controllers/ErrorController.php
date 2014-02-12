@@ -66,7 +66,17 @@ class ErrorController extends Controller {
         }
     }
 
+    public function actionUnderconstruction() {
+        
+        $this->layout = '';
+        $error['message'] = " Site is under construction!";
+        if ($error)
+            $this->renderPartial('underconstruction', array('error' => $error));
+        else
+            throw new CHttpException(404, 'Page not found.');
+    }
     public function actionUnconfigured() {
+        
         $this->layout = '';
         $error['message'] = " Site is not configured , please contact Darussalam admin!";
         if ($error)
