@@ -58,6 +58,7 @@ $rules_web = array(
     '<lang:[\w-\.]+>/<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/calculateShipping' => '/web/payment/calculateShipping',
     '<lang:[\w-\.]+>/<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/placeOrder' => '/web/payment/placeOrder',
     '<lang:[\w-\.]+>/<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/emailTest' => '/web/payment/emailTest',
+    '<lang:[\w-\.]+>/<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/productquantity/emailtous' => '/cart/emailtous',
     
     '<lang:[\w-\.]+>/<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/mailertest' => '/web/payment/mailer2',
     // '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/paymentmethod/' => '/web/payment/paymentmethod',
@@ -98,6 +99,7 @@ $rules_web = array(
     '<lang:[\w-\.]+>/<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/changePass' => '/web/user/changePass',
     '<lang:[\w-\.]+>/<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/setNewPass' => '/web/user/setNewPass',
     '<lang:[\w-\.]+>/<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/login' => '/web/site/login',
+    '<lang:[\w-\.]+>/<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/logout' => '/site/logout',
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/login' => '/site/login',
 );
 ?>

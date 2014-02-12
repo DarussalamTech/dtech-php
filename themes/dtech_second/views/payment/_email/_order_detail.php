@@ -43,11 +43,14 @@ $total_price = 0;
         </tr>
         <?php
     endforeach;
-    $final_total = (double)Yii::app()->session['shipping_price'] + (double)$total_price
+    $final_total = (double)Yii::app()->session['shipping_price'] + (double)$total_price + Yii::app()->session['tax_amount'];
     ?>
     <tfoot style="font-weight:bold">
         <tr>
             <td colspan="7" style="text-align:right;font-size:12px">Shipping = <?php echo Yii::app()->session['currency'] . " " . number_format(Yii::app()->session['shipping_price'], 2); ?></td>
+        </tr> 
+        <tr>
+            <td colspan="7" style="text-align:right;font-size:12px">Tax = <?php echo Yii::app()->session['currency'] . " " . number_format(Yii::app()->session['tax_amount'], 2); ?></td>
         </tr> 
         <tr>
             <td colspan="7" style="text-align:right;font-size:12px">Total = <?php echo Yii::app()->session['currency'] . " " . number_format($final_total, 2); ?></td>

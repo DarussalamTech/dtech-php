@@ -136,6 +136,11 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'htmlOptions' => array("width" => "60")
         ),
         array(
+            'name' => 'tax_amount',
+            'value' => 'Yii::app()->session["currency"]." ".$data->tax_amount',
+            'htmlOptions' => array("width" => "60")
+        ),
+        array(
             'name' => 'grand_price',
             'value' => 'Yii::app()->session["currency"]." ".$data->grand_price',
             'htmlOptions' => array("width" => "60")

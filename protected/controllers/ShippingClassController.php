@@ -46,7 +46,11 @@ class ShippingClassController extends Controller {
         /* Set filters and default active */
         $this->filters = array(
             'destination_city' => array(Yii::app()->session['city_id'] => "Same as source", "0" => "Out of Source", "" => "All"),
-       
+            'is_fix_shpping' => array(1 => "Yes", "No" => "No", "" => "All"),
+            'is_pirce_range' => array(1 => "Yes", "0" => "No", "" => "All"),
+            'is_weight_based' => array(1 => "Yes", "0" => "No", "" => "All"),
+            'class_status' => array(1 => "Enable", "0" => "Disable", "" => "All"),
+        
         );
     }
 
@@ -96,6 +100,7 @@ class ShippingClassController extends Controller {
 
         if (isset($_POST['ShippingClass'])) {
             $model->attributes = $_POST['ShippingClass'];
+          
             if ($model->save())
                 $this->redirect(array('view', 'id' => $model->id));
         }

@@ -89,7 +89,7 @@ $mName = "ProductProfile";
             ),
             array(
                 'name' => 'weight',
-                'value' => 'isset($data->weight_rel)?$data->weight_rel->title:$data->weight',
+                'value' => '!empty($data->weight)?$data->weight." ".$data->weight_unit:""',
                 "type" => "raw",
             ),
             array(

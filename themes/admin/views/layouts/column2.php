@@ -31,6 +31,8 @@
                         "m" => "PaymentMethods")) . '</li>' .
                     '<li>' . CHtml::link('Currency Rates', array('/configurations/load',
                         "m" => "Currency")) . '</li>' .
+                    '<li>' . CHtml::link('Tax Rates', array('/configurations/load',
+                        "m" => "TaxRates")) . '</li>' .
                     '</ul>',
                     'Product' => '<ul class="accordion-ul">' .
                     '<li>' . CHtml::link('Dimensions', array('/configurations/load',

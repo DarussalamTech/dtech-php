@@ -359,10 +359,16 @@ class ProductController extends Controller {
 
             if (!empty($_POST['lang_id'])) {
 
-
                 $product->productProfile = $product->productSelectedProfile;
             } else if (!empty($_REQUEST['profile_id'])) {
                 $product->productProfile = $product->productloadProfile;
+            }
+            /**
+             * temporary PCM 
+             */
+            if(!isset($product->productProfile[0])){
+                echo CJSON::encode(array());;
+                return true;
             }
 
             /**

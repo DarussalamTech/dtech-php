@@ -44,7 +44,7 @@ class SelfSite extends DTActiveRecord {
             array('site_name, site_descriptoin', 'length', 'max' => 255),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('site_id, site_name, site_descriptoin,country_id', 'safe', 'on' => 'search'),
+            array('site_id, site_name,status,site_descriptoin,country_id', 'safe', 'on' => 'search'),
         );
     }
 
@@ -117,14 +117,14 @@ class SelfSite extends DTActiveRecord {
 
     public function getSiteInfo($url) {
         $site = Yii::app()->db->createCommand()
-                ->select('site_id,site_name,site_descriptoin,site_headoffice')
+                ->select('site_id,site_name,site_descriptoin,site_headoffice,status')
                 ->from($this->tableName())
                 ->where("LOCATE(site_name,'$url')")
-                ->queryAll();
+                ->queryRow();
 
         //echo "LOCATE(site_name,'$url')";
-        if (isset($site[0])) {
-            return $site[0];
+        if (isset($site)) {
+            return $site;
         }
         else
             return 0;

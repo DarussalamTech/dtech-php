@@ -32,6 +32,7 @@ class DTWebUser extends CWebUser {
 
         return ($this->user && $this->user->role_id == User::LEVEL_WHOLE_SELLER);
     }
+
     //is user a customer
     function getIsCustomer() {
 
@@ -47,6 +48,7 @@ class DTWebUser extends CWebUser {
         }
         return $this->_user;
     }
+
     /**
      * 
      * @return boolean
@@ -67,12 +69,13 @@ class DTWebUser extends CWebUser {
 
     function getSiteSessions() {
 
-
+        
         $siteUrl = Yii::app()->request->hostInfo . Yii::app()->baseUrl;
         $site_info = SelfSite::model()->getSiteInfo($siteUrl);
-
-
-
+        
+        
+        
+      
 
         /**
          * When site is not in db
@@ -81,7 +84,12 @@ class DTWebUser extends CWebUser {
          * 
          */
         if ($site_info == 0) {
+            
             Yii::app()->controller->redirect(Yii::app()->createUrl("/error/unconfigured"));
+            return true;
+        }
+        else if($site_info['status']==0){
+            Yii::app()->controller->redirect(Yii::app()->createUrl("/error/underconstruction"));
             return true;
         }
 
@@ -110,7 +118,7 @@ class DTWebUser extends CWebUser {
         /**
          * when city id in session
          */ else if (!empty(Yii::app()->session['city_id'])) {
-            
+
             /**
              * Nothing do session is already saved
              */
@@ -120,15 +128,14 @@ class DTWebUser extends CWebUser {
         /**
          * start from scratch
          * when application is loading first time
-         */ else if(!empty($site_info['site_headoffice'])){
+         */ else if (!empty($site_info['site_headoffice'])) {
             $cityModel = SelfSite::model()->findCityLocation($site_info['site_headoffice']);
-            
+
 
             $this->saveDTSessions($cityModel);
-
         }
 
-        $this->installSocialConfigs();
+        //$this->installSocialConfigs();
     }
 
     /**
@@ -136,7 +143,7 @@ class DTWebUser extends CWebUser {
      */
     public function saveDTSessions($cityModel) {
 
-        
+
         Yii::app()->session['layout'] = "dtech_second";
 
         Yii::app()->session['country_short_name'] = $cityModel->country->short_name;
@@ -161,25 +168,6 @@ class DTWebUser extends CWebUser {
         $_REQUEST['city_id'] = $cityModel->city_id;
 
         return true;
-    }
-
-    /**
-     * Install configurations
-     * for soical application
-     */
-    public function installSocialConfigs() {
-
-        $criteria = new CDbCriteria();
-        $criteria->addCondition("misc_type='general'");
-        $selected = array("fb_key", "fb_secret", "google_key", "google_secret", "twitter_key", 'twitter_secret', 'linkedin_key', 'linkedin_secret');
-        $criteria->addInCondition("param", $selected);
-        $criteria->select = "param,value";
-        $conf = ConfMisc::model()->findAll($criteria);
-        if (!empty($conf)) {
-            foreach ($conf as $data) {
-                Yii::app()->params[$data->param] = $data->value;
-            }
-        }
     }
 
 }

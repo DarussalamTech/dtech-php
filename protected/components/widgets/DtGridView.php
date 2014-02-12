@@ -82,6 +82,12 @@ class DtGridView extends CGridView
     /* If sort url is given than this component will enable dragable rows. */
     public $sortUrl;
     public $rowCssClass = array('even', 'odd');
+    /**
+     * Footer html 
+     * will be part if u want to append extra html
+     * @var type 
+     */
+    public $footerHtml;
 
     /**
      * Init Par grid view. 
@@ -255,9 +261,12 @@ class DtGridView extends CGridView
                     echo "</tr>";
                 }
             }
-            if ($hasFilter)
+            if ($hasFilter){
                 $this->renderFilter();
+            }
+            echo $this->footerHtml;;
             echo "</tfoot>\n";
+            
         }
     }
 
@@ -314,6 +323,7 @@ class DtGridView extends CGridView
         foreach ($this->columns as $column)
             $column->renderDataCell($row);
         echo "</tr>\n";
+       
     }
 
     /**

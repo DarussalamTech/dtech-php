@@ -101,6 +101,16 @@ class Product extends DTActiveRecord {
             'productlangs' => array(self::HAS_MANY, 'ProductLang', 'product_id'),
         );
     }
+    
+    /**
+     * get Relational Column here
+     */
+    public function relationColumns(){
+        return array(
+            "authors"=>array("model"=>"Author","key"=>"author_name"),
+         
+        );
+    }
 
     /**
      * Behaviour

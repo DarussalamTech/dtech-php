@@ -30,9 +30,35 @@ class DTUploadedFile extends CUploadedFile {
             foreach ($array as $folder) {
                 $newPath.=DIRECTORY_SEPARATOR . $folder;
                 if (!is_dir($newPath)) {
-                    if(!@mkdir($newPath, 0755)){
+                    if (!@mkdir($newPath, 0755)) {
                         return "error";
                     }
+                }
+            }
+        } else {
+            return "error";
+        }
+        return $newPath . DIRECTORY_SEPARATOR;
+    }
+
+    /**
+     *  to get recursive folder
+     *  here images will be uploaded
+     */
+    public static function getRecurSiveDirectories($array = array()) {
+        $basePath = Yii::app()->basePath;
+
+        if (strstr($basePath, "protected")) {
+            $basePath = realPath($basePath . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR);
+        }
+        if (is_array($array)) {
+            $newPath = $basePath;
+            $array = array_merge(array("uploads"), $array);
+
+            foreach ($array as $folder) {
+                $newPath.=DIRECTORY_SEPARATOR . $folder;
+                if (!is_dir($newPath)) {
+                    return "error";
                 }
             }
         } else {
@@ -164,7 +190,7 @@ class DTUploadedFile extends CUploadedFile {
 
         // Copy resampled makes a smooth thumbnail
         imagecopyresampled($thumb, $sourceImage, 0, 0, 0, 0, $tWidth, $tHeight, $width, $height);
-        if(!isset($info['extension'])){
+        if (!isset($info['extension'])) {
             $info['extension'] = "jpg";
         }
         self::createImage($thumb, $pathToThumbs, $name, trim($info['extension']));
@@ -176,25 +202,24 @@ class DTUploadedFile extends CUploadedFile {
 
         /*
 
-        // continue only if this is a JPEG image
-        //echo "Creating thumbnail for {$pathToImage} <br />";
-        // load image and get image size
+          // continue only if this is a JPEG image
+          //echo "Creating thumbnail for {$pathToImage} <br />";
+          // load image and get image size
 
 
-        $img = self::imageCreateFrom("$pathToImage", $info['extension']);
-        $width = imagesx($img);
-        $height = imagesy($img);
-        // calculate thumbnail size
-        $new_width = $thumbWidth;
-        $new_height = floor($height * ( $thumbWidth / $width ));
-        // create a new temporary image
-        $tmp_img = imagecreatetruecolor($new_width, $new_height);
-        // copy and resize old image into new image
-        imagecopyresized($tmp_img, $img, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
-        // save thumbnail into a file
-        self::createImage($tmp_img, $pathToThumbs, $name, trim($info['extension']));
+          $img = self::imageCreateFrom("$pathToImage", $info['extension']);
+          $width = imagesx($img);
+          $height = imagesy($img);
+          // calculate thumbnail size
+          $new_width = $thumbWidth;
+          $new_height = floor($height * ( $thumbWidth / $width ));
+          // create a new temporary image
+          $tmp_img = imagecreatetruecolor($new_width, $new_height);
+          // copy and resize old image into new image
+          imagecopyresized($tmp_img, $img, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
+          // save thumbnail into a file
+          self::createImage($tmp_img, $pathToThumbs, $name, trim($info['extension']));
          * */
-         
     }
 
     /**

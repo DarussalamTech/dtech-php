@@ -236,12 +236,18 @@ class ProductController extends Controller {
 
             if ($model->save()) {
                 $upload_path = DTUploadedFile::creeatRecurSiveDirectories(array("slider", $model->id));
-                if (!empty($img_file)) {
-                    $img_file->saveAs($upload_path . $img_file->name);
-                }
 
+                if (!empty($img_file)) {
+
+                    if($img_file->saveAs($upload_path . $img_file->name)){
+                        echo "uploaded";
+                    }
+                    
+                }
                 $this->redirect(array('createSlider', 'id' => $id, "slider" => $model->id));
             }
+            
+            
         }
 
         $this->renderPartial('_slider', array(

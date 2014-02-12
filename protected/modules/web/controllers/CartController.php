@@ -55,7 +55,7 @@ class CartController extends Controller {
 
 
         $view = "//cart/_view_cart";
-        if ($_REQUEST['type'] == 'delete_cart') {
+        if (isset($_REQUEST['type']) && $_REQUEST['type'] == 'delete_cart') {
             $cart_model = new Cart();
 
             Cart::model()->deleteByPk($_REQUEST['cart_id']);
@@ -138,9 +138,10 @@ class CartController extends Controller {
                 $productProfile = ProductProfile::model()->findByPk($id);
 
                 $email['To'] = User::model()->getCityAdmin();
+                
                 $email['Subject'] = "This product is out of stock";
                 $email['Body'] = "This product is out of stock kindly make available to us and send me email";
-                $url = Yii::app()->request->hostInfo . $this->createUrl("/product/viewImage/", array("id" => $product_profile_id));
+                $url = Yii::app()->request->hostInfo . $this->createUrl("/product/viewImage/", array("id" => $id));
                 $email['Body'].=" <br/>" . CHtml::link($productProfile->item_code, $url);
                 $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
 

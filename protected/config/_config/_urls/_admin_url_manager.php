@@ -46,7 +46,8 @@ $rules_admin = array(
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/city/toggleEnabled/<id:[\w-\.]+>' => '/city/toggleEnabled',
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/product/toggleEnabled/<id:[\w-\.]+>' => '/product/toggleEnabled',
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/shippingClass/toggleEnabled/<id:[\w-\.]+>' => '/shippingClass/toggleEnabled',
-    
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/commonSystem/tinyUploadlayout' => '/commonSystem/tinyUploadlayout',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/commonSystem/tinyuploadtarget' => '/commonSystem/tinyuploadtarget',
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/userRole/create' => '/userRole/create',
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/country/create' => '/country/create',
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/city/create' => '/city/create',
@@ -121,6 +122,16 @@ $rules_admin = array(
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/dtMessages/editChild/<id:[\w-\.]+>' => '/dtMessages/editChild',
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/dtMessages/deleteChildByAjax/<id:[\w-\.]+>' => '/dtMessages/deleteChildByAjax',
     /**
+     * backup module
+     */
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/backup' => '/backup',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/backup/default/index' => '/backup/default/index',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/backup/default/backUpSql' => '/backup/default/backUpSql',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/backup/default/backUpImage' => '/backup/default/backUpImage',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/backup/default/allBackup' => '/backup/default/allBackup',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/backup/default/downloadBackUpSql' => '/backup/default/downloadBackUpSql',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/backup/default/downloadImageBackup' => '/backup/default/downloadImageBackup',
+    /**
      * rights module
      */
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/rights' => '/rights',
@@ -130,6 +141,7 @@ $rules_admin = array(
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/rights/authItem/update' => '/rights/authItem/update',
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/rights/assignment/view' => '/rights/assignment/view',
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/menus/installMenu' => '/menus/installMenu',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/menus/rebuildAssets' => '/menus/rebuildAssets',
     /**
      * configuration
      */
@@ -141,5 +153,15 @@ $rules_admin = array(
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/conf/deleteO/' => '/configurations/deleteOther',
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/<type:[\w-\.]+>/conf/load/' => '/configurations/load',
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/conf/load/' => '/configurations/load',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/conf/delete/' => '/configurations/delete',
+    /** Import module * */
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/import' => '/import',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/import/mappingList' => '/import/mappingList',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/import/insert' => '/import/insert',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/import/getCityCategories' => '/import/getCityCategories',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/import/status/<id:[\w-\.]+>' => '/import/status',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/import/index' => '/import/index',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/<step:[\w-\.]+>/<id:[\w-\.]+>/import/index' => '/import/index',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/<step:[\w-\.]+>/import/index' => '/import/index',
 );
 ?>

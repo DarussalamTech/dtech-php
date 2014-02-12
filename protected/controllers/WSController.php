@@ -10,27 +10,42 @@ class WSController extends Controller {
     public $layout = '';
 
     public function actionIndex() {
-        if(!isset($_REQUEST['record_set'])){
+
+        if (!isset($_REQUEST['record_set'])) {
+
             echo CJSON::encode(array("No Selection"));
             return true;
         }
         if ($_REQUEST['record_set'] == 'product') {
-         
+
             $allBooks = ProductWS::model()->getWsAllBooks();
             $this->layout = "";
             echo CJSON::encode($allBooks);
         } else if ($_REQUEST['record_set'] == 'product_category') {
+            // If the request is set to product category 
+            //containg all books return by the Model
             
-                $allBooks = ProductWS::model()->getWsAllBooksByCategory();
-
-            $this->layout = "";
-//            CVarDumper::dump($allBooks,10,true);
-            echo CJSON::encode($allBooks);
+            $allBooks = ProductWS::model()->getWsAllBooksByCategory($_REQUEST['page'], $_REQUEST['category'], $_REQUEST['author'], $_REQUEST['search'], $_REQUEST['lang']);
+        
+            
         }
+         else if ($_REQUEST['record_set'] == 'product_catalogue') {
+            // If the request is set to product category 
+            //containg all books return by the Model
+            
+            $allBooks = ProductWS::model()->getWsAllBooksByCatalogue( $_REQUEST['page'],$_REQUEST['limit'],$_REQUEST['category'], $_REQUEST['author'], $_REQUEST['search'], $_REQUEST['lang']);
+        
+            
+        }
+        
+
+        $this->layout = "";
+
+        echo CJSON::encode($allBooks, true);
     }
 
     /*
-     * Iphon service to Send All categories
+     * Iphone service to Send All categories
      * in Daraussalam Database
      * 
      */
@@ -39,12 +54,12 @@ class WSController extends Controller {
         $criteria = new CDbCriteria();
         $criteria->select = "category_id,category_name";
         $categories = Categories_WS::model()->findAll($criteria);
-        
+
         $cats = array();
-        foreach($categories as $cat){
+        foreach ($categories as $cat) {
             $cats[] = array(
-                "category_id"=>$cat->category_id,
-                "category_name"=>$cat->category_name,
+                "category_id" => $cat->category_id,
+                "category_name" => $cat->category_name,
             );
         }
 
@@ -58,17 +73,18 @@ class WSController extends Controller {
             echo CJSON::encode(array("error" => $e->getCode()));
         }
     }
+
     public function actionGetCategories() {
         $criteria = new CDbCriteria();
         $criteria->select = "category_id,category_name";
-        $criteria->condition="t.parent_id= 57";
+        $criteria->condition = "t.parent_id= 57";
         $categories = Categories_WS::model()->findAll($criteria);
-        
+
         $cats = array();
-        foreach($categories as $cat){
+        foreach ($categories as $cat) {
             $cats[] = array(
-                "category_id"=>$cat->category_id,
-                "category_name"=>$cat->category_name,
+                "category_id" => $cat->category_id,
+                "category_name" => $cat->category_name,
             );
         }
 
@@ -90,18 +106,18 @@ class WSController extends Controller {
      */
 
     public function actionRequestedCategory($category_id = 0) {
-        
+
         $requested_cat = ProductWS::model()->getWsRequestByCategory($category_id);
         try {
-            
+
             $requested_product_arr = array();
             $requested_product_arr['error'] = '';
             $requested_product_arr['data'] = $requested_cat;
             $requested_product_arr['count'] = count($requested_cat);
-            
+
             echo CJSON::encode($requested_product_arr);
         } catch (Exception $e) {
-            die('here !! !!! !!!');
+
             echo CJSON::encode(array("error" => $e->getCode()));
         }
     }

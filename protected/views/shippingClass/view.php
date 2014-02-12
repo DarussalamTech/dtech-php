@@ -23,7 +23,7 @@ if (!(Yii::app()->user->isGuest)) {
         <span class="creatdate">
             <?php
             if (isset($this->OpPermission[ucfirst($this->id) . ".Update"])) {
-                 echo CHtml::link("Edit", $this->createUrl("update", array("id" => $model->primaryKey)), array('class' => "print_link_btn"));
+                echo CHtml::link("Edit", $this->createUrl("update", array("id" => $model->primaryKey)), array('class' => "print_link_btn"));
             }
             ?>
         </span>
@@ -85,12 +85,12 @@ $this->widget('zii.widgets.CDetailView', array(
         ),
         array(
             'name' => 'min_weight_id',
-            'value' => !empty($model->min_weight_rel) ? $model->min_weight_rel->title : "",
+            'value' => $model->min_weight_id,
             'visible' => ($model->is_weight_based == 1) ? true : false,
         ),
         array(
             'name' => 'max_weight_id',
-            'value' => !empty($model->max_weight_rel) ? $model->max_weight_rel->title : "",
+            'value' => $model->max_weight_id,
             'visible' => ($model->is_weight_based == 1) ? true : false,
         ),
         array(

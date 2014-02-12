@@ -71,7 +71,7 @@
             foreach ($pages as $page) {
                 if (!in_array($page->title, $not_required_pages)) {
                     echo CHtml::openTag("span");
-                    echo CHtml::link(Yii::t('header_footer', $page->title, array(), NULL, $this->currentLang), $this->createUrl('/web/page/viewPage/', array("id" => $page->id)));
+                    echo CHtml::link(Yii::t('header_footer', $page->title, array(), NULL, $this->currentLang), $this->createUrl('/web/page/viewPage/', array("id" => str_replace(" ","-",$page->title)."-".$page->id)));
                     echo CHtml::closeTag("span");
                 }
             }

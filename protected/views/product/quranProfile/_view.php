@@ -75,7 +75,7 @@ $this->widget('zii.widgets.CDetailView', array(
         ),
         array(
             'name' => 'weight',
-            'value' => isset($model->weight_rel) ? $model->weight_rel->title : "",
+            'value' => !empty($model->weight)?$model->weight." ".$model->weight_unit:"",
             "type" => "raw",
         ),
         array(

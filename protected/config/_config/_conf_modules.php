@@ -12,15 +12,16 @@ $modules = array(
 
     'web',
     'blog',
+    'backup',
     'gii' => array(
         'class' => 'system.gii.GiiModule',
         'password' => '123',
         // If removed, Gii defaults to localhost only. Edit carefully to taste.
         'ipFilters' => array('127.0.0.1', '::1'),
     ),
-     'rights' => array(
+    'rights' => array(
         'superuserName' => 'SuperAdmin', // Name of the role with super user privileges.
-        'cityAdmin'=>'CityAdmin',
+        'cityAdmin' => 'CityAdmin',
         'authenticatedName' => 'Authenticated', // Name of the authenticated user role.
         'userIdColumn' => 'user_id', // Name of the user id column in the database.
         'userNameColumn' => 'user_name', // Name of the user name column in the database.
@@ -33,39 +34,46 @@ $modules = array(
         'baseUrl' => '/rights', // Base URL for Rights. Change if module is nested.
         'layout' => 'rights.views.layouts.main', // Layout to use for displaying Rights.
         'appLayout' => 'webroot.themes.admin.views.layouts.main', // Application layout.
-         /**
-          * it means super admin can only access these controllers
-          */
-        'superAllowedactions' =>array(
-                                    'User.*','Country.*',
-                                    'City.*','SelfSite.*',
-                                    'Configurations.Load',
-                                    'Configurations.General',
-                                    'Language.*','DtMessages.*',
+        /**
+         * it means super admin can only access these controllers
+         */
+        'superAllowedactions' => array(
+            'User.*', 'Country.*',
+            'City.*', 'SelfSite.*',
+            'Backup.*',
             
-                                    'User.View','Country.View',
-                                    'City.View','SelfSite.View',
-                                    'City.Update','Country.Update',
-                                    'Language.View',
+            'Configurations.Load',
+            'Configurations.General',
+            'Language.*', 'DtMessages.*',
+            'User.View', 'Country.View',
+            'City.View', 'SelfSite.View',
+            'City.Update', 'Country.Update',
+            'Language.View',
+            'City.ToggleEnabled',
+            'Country.ToggleEnabled',
+            'User.Index', 'Country.Index',
+            'City.Index', 'SelfSite.Index',
+            'Language.Index',
+            'User.Create', 'Country.Create',
+            'City.Create', 'SelfSite.Create',
+            'Language.Create',
             
-                                    'City.ToggleEnabled',
-                                    'Country.ToggleEnabled',
+            //backup module
+            'Backup.Default.Index',
+            'Backup.Default.BackUpSql',
+            'Backup.Default.BackUpImage',
+            'Backup.Default.AllBackup',
+            'Backup.Default.DownloadBackUpSql',
+            'Backup.Default.DownloadImageBackup',
             
-                                    'User.Index','Country.Index',
-                                    'City.Index','SelfSite.Index',
-                                    'Language.Index',
-            
-                                    'User.Create','Country.Create',
-                                    'City.Create','SelfSite.Create',
-                                    'Language.Create',
-            
-                                    
-                                    
-                                ),
-
+            //Import module
+            'Import.Index',
+            'Import.MappingList',
+            'Import.Status',
+            'Import.Insert',
+        ),
         'debug' => false, // Whether to enable debug mode.
     ),
-
 );
 
 

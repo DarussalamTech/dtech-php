@@ -37,7 +37,6 @@ class DTActiveRecord extends CActiveRecord {
             /**
              * setting of admin site is running from model
              */
-            
             $this->isAdmin = Yii::app()->controller->isAdminSite;
         }
         parent::__construct($scenario);
@@ -257,6 +256,7 @@ class DTActiveRecord extends CActiveRecord {
             "wS", "error",
             "commonSystem",
             "assignment",
+            "import",
             "authItem",
             "install"
         );
@@ -298,6 +298,7 @@ class DTActiveRecord extends CActiveRecord {
 
         $controllers = array("search", "site", "wS",
             "error",
+            "import",
             "commonSystem", "assignment",
             "authItem",
             "install");
@@ -356,6 +357,19 @@ class DTActiveRecord extends CActiveRecord {
 
         parent::updateByPk($pk, $attributes, $condition, $params);
         return true;
+    }
+
+    /**
+     * get Relations name
+     * against the codes
+     */
+    public function getRelationNames() {
+        $relations = array();
+        foreach ($this->relations() as $key => $rel) {
+            $relations[$key] = $key;
+        }
+
+        return $relations;
     }
 
 }

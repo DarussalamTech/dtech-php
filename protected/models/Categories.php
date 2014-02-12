@@ -285,6 +285,7 @@ class Categories extends DTActiveRecord {
             'select' => "t.category_id,t.category_name",
             'group' => 't.category_id',
             'order' => 't.category_name ASC',
+            'condition' => 't.parent_id=57',
         ));
         $cate = $this->with(array('productCategories' => array("select" => ""), 'productCategories.product' => array('alias' => 'product', 'joinType' => "INNER JOIN ", "select" => "")))->findAll($criteriaC);
         return $cate;

@@ -110,13 +110,22 @@ $this->widget('zii.widgets.grid.CGridView', array(
 
                 <td  style="text-align: right"><span>Shipping : </span><?php echo $model->shipping_price; ?></td>
             </tr>
+            <tr class="even">
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+
+                <td  style="text-align: right"><span>Tax : </span><?php echo $model->tax_amount; ?></td>
+            </tr>
             <tr class="odd">
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
-                <td  style="text-align: right"><span>Grand Total: </span><?php echo number_format((double) $model->total_price + (double) $model->shipping_price, 2); ?></td>
+                <td  style="text-align: right"><span>Grand Total: </span><?php echo number_format((double) $model->total_price + (double) $model->shipping_price + (double)$model->tax_amount, 2); ?></td>
             </tr>
         </tfoot>
 

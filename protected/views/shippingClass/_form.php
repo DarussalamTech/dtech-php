@@ -145,11 +145,11 @@
                             $criteria->condition = "type='weight'";
                             $prod_pro = ConfProducts::model()->findAll($criteria);
 
-                            echo $form->dropDownList($model, 'min_weight_id', CHtml::listData($prod_pro, "id", "title"));
+                            echo $form->dropDownList($model, 'min_weight_id', CHtml::listData($prod_pro, "title", "title"));
                             ?>
                         </div>
                         <div class="field" style="width:300px">
-                            <?php echo $form->dropDownList($model, 'max_weight_id', CHtml::listData($prod_pro, "id", "title")); ?>
+                            <?php echo $form->dropDownList($model, 'max_weight_id', CHtml::listData($prod_pro, "title", "title")); ?>
                         </div>
 
                     </div>

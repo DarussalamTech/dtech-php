@@ -1,14 +1,4 @@
-<?php
-/* @var $this SectionController */
-/* @var $model Section */
-
-$this->breadcrumbs = array(
-    'Book' => array('index'),
-    'Manage',
-);
-?>
-
-<h1>Book Dimensions</h1>
+<h1>Currency Rates</h1>
 <?php
 $this->renderPartial("confCurrency/_form", array("model" => $model));
 ?>
