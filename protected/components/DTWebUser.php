@@ -67,12 +67,13 @@ class DTWebUser extends CWebUser {
 
     function getSiteSessions() {
 
-
+        
         $siteUrl = Yii::app()->request->hostInfo . Yii::app()->baseUrl;
         $site_info = SelfSite::model()->getSiteInfo($siteUrl);
-
-
-
+        
+        
+        
+      
 
         /**
          * When site is not in db
@@ -81,7 +82,12 @@ class DTWebUser extends CWebUser {
          * 
          */
         if ($site_info == 0) {
+            
             Yii::app()->controller->redirect(Yii::app()->createUrl("/error/unconfigured"));
+            return true;
+        }
+        else if($site_info['status']==0){
+            Yii::app()->controller->redirect(Yii::app()->createUrl("/error/underconstruction"));
             return true;
         }
 
