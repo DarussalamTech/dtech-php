@@ -47,6 +47,11 @@
         <?php echo $form->dropDownList($model, 'site_headoffice', $model->_cites); ?>
         <?php echo $form->error($model, 'site_headoffice'); ?>
     </div>
+    <div class="row">
+        <?php echo $form->labelEx($model, 'status'); ?>
+        <?php echo $form->dropDownList($model, 'status', $model->_statuses); ?>
+        <?php echo $form->error($model, 'site_headoffice'); ?>
+    </div>
 
     <div class="row">
         <?php echo $form->labelEx($model, 'fb_key'); ?>

@@ -20,6 +20,10 @@
 		<?php echo $form->label($model,'site_name'); ?>
 		<?php echo $form->textField($model,'site_name',array('size'=>60,'maxlength'=>255)); ?>
 	</div>
+	<div class="row">
+		<?php echo $form->label($model,'status'); ?>
+		<?php echo $form->dropDownList($model, 'status', $model->_statuses); ?>
+	</div>
 
 	<div class="row">
 		<?php echo $form->label($model,'site_descriptoin'); ?>

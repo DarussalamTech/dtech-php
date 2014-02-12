@@ -8,11 +8,12 @@
  * @property string $site_name
  * @property string $site_descriptoin
  * @property string $site_headoffice
+ * @property string $status
  */
 class SelfSite extends DTActiveRecord {
 
     public $country_id;
-    public $_cites = array();
+    public $_cites = array(),$_statuses = array("0"=>"Disabled","1"=>"Enabled");
 
     /**
      * Returns the static model of the specified AR class.
@@ -40,7 +41,7 @@ class SelfSite extends DTActiveRecord {
             array('site_name, site_descriptoin', 'required'),
             array('site_name', 'unique'),
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
-            array('site_headoffice,_cites,country_id', 'safe'),
+            array('site_headoffice,_cites,country_id,status', 'safe'),
             array('site_name, site_descriptoin', 'length', 'max' => 255),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
@@ -86,6 +87,7 @@ class SelfSite extends DTActiveRecord {
         $criteria->compare('site_id', $this->site_id);
         $criteria->compare('site_name', $this->site_name, true);
         $criteria->compare('site_descriptoin', $this->site_descriptoin, true);
+        $criteria->compare('status', $this->status, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,

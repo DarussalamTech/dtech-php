@@ -54,6 +54,14 @@ $this->widget('zii.widgets.grid.CGridView', array(
             )
         ),
         array(
+            'name' => 'status',
+            'type' => 'Raw',
+            'value' => 'isset($data->_statuses[$data->status])?$data->_statuses[$data->status]:""',
+            'headerHtmlOptions' => array(
+                'style' => "text-align:left"
+            )
+        ),
+        array(
             'name' => 'site_descriptoin',
             'type' => 'Raw',
             'value' => '$data->site_descriptoin',
