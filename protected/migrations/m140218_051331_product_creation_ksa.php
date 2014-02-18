@@ -9,7 +9,7 @@ class m140218_051331_product_creation_ksa extends DTDbMigration {
         $table = 'product';
         
 
-        $data = $this->getQueryAll("SELECT city_id,product_name,parent_cateogry_id  from " . $table . " Where city_id = " . $lhr[0]);
+        $data = $this->getQueryAll("SELECT city_id,product_name,parent_cateogry_id,is_featured  from " . $table . " Where city_id = " . $lhr[0]);
         
 
         $parent_categories = $this->getQueryAll("SELECT category_image,category_name,category_id FROM `categories` where city_id=" . $lhr[0] . " and parent_id=0 ");
