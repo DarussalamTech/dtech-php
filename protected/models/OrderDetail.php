@@ -146,7 +146,8 @@ class OrderDetail extends DTActiveRecord {
         }
 
         $model = Product::model()->with(array('productProfile' => array('select' => '*')));
-
+        
+        
         $dataProvider = new DTActiveDataProvider($model, array(
             'pagination' => array(
                 'pageSize' => $limit,
