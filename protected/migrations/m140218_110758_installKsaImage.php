@@ -9,7 +9,7 @@ class m140218_110758_installKsaImage extends DTDbMigration {
     public function up() {
         $ryd = $this->getRiyadhCityId();
         $lhr = $this->getLahoreCityId();
-          return true;
+     
         //get ryad profiles
         $sql = "SELECT product_profile.* From product_profile
                 INNER JOIN product ON product_profile.product_id = product.product_id
