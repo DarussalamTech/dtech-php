@@ -29,9 +29,9 @@ class m140218_110758_installKsaImage extends DTDbMigration {
         $mapping = array();
         $counter = 0;
         foreach ($lahoreProfiles as $product) {
-            $mapping[$product['product_id']]['new'] = $ryadProfiles[$counter++]['product_id'];
+            $mapping[$product['id']]['new'] = $ryadProfiles[$counter++]['id'];
         }
-
+      
         //install images
         $this->installImages($mapping);
       
@@ -118,8 +118,7 @@ class m140218_110758_installKsaImage extends DTDbMigration {
             unset($image['create_user_id']);
             $image['product_profile_id'] = $new_id;
             $image['id'] = $newpk;
-            // print_r($image);
-
+            
             $this->insertRow("product_image", $image);
 
             $dir_path = $basePath . $newpk;
