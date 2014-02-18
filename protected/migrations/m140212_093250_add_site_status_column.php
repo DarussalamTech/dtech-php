@@ -12,14 +12,4 @@ class m140212_093250_add_site_status_column extends CDbMigration {
         $this->dropColumn($table, "status");
     }
 
-    /*
-      // Use safeUp/safeDown to do migration with transaction
-      public function safeUp()
-      {
-      }
-
-      public function safeDown()
-      {
-      }
-     */
 }

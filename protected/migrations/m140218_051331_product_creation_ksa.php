@@ -5,7 +5,7 @@ class m140218_051331_product_creation_ksa extends DTDbMigration {
     public function up() {
         $lhr = $this->getLahoreCityId();
         $ryd = $this->getRiyadhCityId();
-        //SELECT * FROM `product_profile` as t left join product on t.product_id=product.product_id where product.city_id=1
+      
         $table = 'product';
         
 
@@ -33,19 +33,12 @@ class m140218_051331_product_creation_ksa extends DTDbMigration {
         }
 
         foreach ($data as $columns) {
-            $ryd = $this->getRiyadhCityId();
             $columns['city_id'] = $ryd[0];
 
-
             $columns['parent_cateogry_id'] = $mapping[$columns['parent_cateogry_id']]['new'];
-
-
-
             
             $this->insertRow($table, $columns);
-            
-//            CVarDumper::dump(Yii::app()->db->getLastInsertID('product_id'));
-//            die('herere');
+
         }
 
         return true;

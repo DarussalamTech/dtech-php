@@ -18,14 +18,12 @@ class m140218_054724_createing_productprofile_ksa extends DTDbMigration {
             $mapping[$product['product_id']]['new'] = $prod_ryd[$counter++]['product_id'];
         }
 
-//        CVarDumper::dump($mapping);
-        
+
         foreach ($prod_prof as $column) {
-            $index=$column['product_id'];
-            $column['product_id']=$mapping[$index]['new'];
-            $column['item_code']='RYD-'.$mapping[$index]['new'];
-//            $column['language_id']=;
-//            $column['item_code']='RYD-'.$mapping[$index]['new'];
+            $index = $column['product_id'];
+            $column['product_id'] = $mapping[$index]['new'];
+            $column['item_code'] = 'RYD-' . $mapping[$index]['new'];
+
             $this->insertRow($table2, $column);
         }
 
@@ -38,14 +36,4 @@ class m140218_054724_createing_productprofile_ksa extends DTDbMigration {
         return true;
     }
 
-    /*
-      // Use safeUp/safeDown to do migration with transaction
-      public function safeUp()
-      {
-      }
-
-      public function safeDown()
-      {
-      }
-     */
 }
