@@ -15,8 +15,10 @@
         /**
          * slider images come from here
          */
-        $criteria = new CDbCriteria;$criteria;
+        $criteria = new CDbCriteria;
+        $criteria;
         $criteria->select = "id,image,title,product_id";
+        $criteria->addCondition("t.city_id = ".$_REQUEST['city_id']);
         $slider = Slider::model()->with('slider')->findAll($criteria);
 
         $counter = 1;
@@ -50,7 +52,7 @@
                 </div>
                 <div class="right_banner">
                     <p><img src="<?php echo Yii::app()->theme->baseUrl; ?>/images/left_colons_03.jpg" class="left_colon" />
-                        <?php echo $data->title ?>
+    <?php echo $data->title ?>
                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/images/right_colons_03.jpg" class="right_colon" /></p>
 
                     <?php
