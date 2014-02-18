@@ -21,7 +21,7 @@ class m140218_054724_createing_productprofile_ksa extends DTDbMigration {
 
         foreach ($prod_prof as $column) {
 
-            if (isset($column['product_id'])) {
+            if (!empty($column['product_id']) && !empty($mapping[$column['product_id']]['new'])) {
                 $index = $column['product_id'];
                 $column['product_id'] = $mapping[$index]['new'];
                 $column['item_code'] = 'RYD-' . $mapping[$index]['new'];
