@@ -202,7 +202,7 @@ class DTDbMigration extends CDbMigration {
      * @param type $$condition e.g where
      * @return type 
      * will be used to fetch all records 
-     * against table with key pair value
+     * against table with key paiw r value
      */
     public function findAllRecords($table, $columns, $key, $val, $condition = "") {
         $connection = $this->getConnection();
@@ -248,6 +248,27 @@ class DTDbMigration extends CDbMigration {
         $theData = fread($fh, filesize($dataFile));
         fclose($fh);
         return $theData;
+    }
+
+    /**
+     *  Get Riyadh city id
+     */
+    public function getRiyadhCityId() {
+        $connection = $this->getConnection();
+        $sql="SELECT city_id FROM `city` WHERE city_name='riyadh'";
+        $command = $connection->createCommand($sql);
+        $column = $command->queryColumn();
+        return $column;
+    }
+    /**
+     *  Get Riyadh city id
+     */
+    public function getLahoreCityId() {
+        $connection = $this->getConnection();
+        $sql="SELECT city_id FROM `city` WHERE city_name='lahore'";
+        $command = $connection->createCommand($sql);
+        $column = $command->queryColumn();
+        return $column;
     }
 
 }
