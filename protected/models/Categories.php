@@ -294,13 +294,17 @@ class Categories extends DTActiveRecord {
     /**
      * 
      * @param type $cat_name
+     * @param type $is_city
      * we having the categry
      */
-    public function getParentCategoryId($cat_name) {
+    public function getParentCategoryId($cat_name,$city = "") {
         $criteria = new CDbCriteria();
         $criteria->addCondition("t.category_name = '" . $cat_name . "'");
         $criteria->select = "category_id";
-
+        
+        if($city != ""){
+            $criteria->addCondition("city_id =".$city);
+        }
         $category = $this->find($criteria);
         return $category->category_id;
     }

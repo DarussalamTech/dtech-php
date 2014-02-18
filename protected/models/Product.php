@@ -241,10 +241,11 @@ class Product extends DTActiveRecord {
                  * to load on only in case no category books 
                  * will be the cateory
                  */
-                $parent_cat = Categories::model()->getParentCategoryId($parent_category);
+                $parent_cat = Categories::model()->getParentCategoryId($parent_category,$city_id);
                 $criteria->addCondition('parent_cateogry_id = ' . $parent_cat);
             }
         }
+       
         $dataProvider = new DTActiveDataProvider($this, array(
             'pagination' => array(
                 'pageSize' => 12,
