@@ -3,7 +3,7 @@
 class m140219_054253_updateauthorsforksa extends DTDbMigration {
 
     public function up() {
-        
+      
         $lhr = $this->getLahoreCityId();
         $ryd = $this->getRiyadhCityId();
 
@@ -11,7 +11,7 @@ class m140219_054253_updateauthorsforksa extends DTDbMigration {
 
 
         $data = $this->getQueryAll("SELECT product_id,city_id,product_name,parent_cateogry_id,is_featured,authors  from " . $table . " Where city_id = " . $lhr[0]);
-        
+
 
         $prod_lhr = $this->getQueryAll("SELECT product_id FROM `product` where city_id=" . $lhr[0]);
         $prod_ryd = $this->getQueryAll("SELECT product_id FROM `product` where city_id=" . $ryd[0]);
@@ -22,10 +22,10 @@ class m140219_054253_updateauthorsforksa extends DTDbMigration {
         foreach ($prod_lhr as $product) {
             $mapping[$product['product_id']]['new'] = $prod_ryd[$counter++]['product_id'];
         }
-       
-        
+
+
         foreach ($data as $columns) {
-        
+
             $columns['city_id'] = $ryd[0];
             if (!empty($mapping[$columns['product_id']]['new'])) {
                 $conditions = 'product_id=' . $mapping[$columns['product_id']]['new'];
@@ -33,7 +33,7 @@ class m140219_054253_updateauthorsforksa extends DTDbMigration {
 //                $this->($table, $columns);
             }
         }
-        return false;
+        return true;
     }
 
     public function down() {
