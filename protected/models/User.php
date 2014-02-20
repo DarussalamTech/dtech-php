@@ -268,7 +268,7 @@ class User extends DTActiveRecord {
         if ($params['strength'] === self::WEAK)
             $pattern = '/^(?=.*[a-zA-Z0-9]).{5,}$/';
         elseif ($params['strength'] === self::STRONG)
-            $pattern = '/^(?=.*\d.*\d)[0-9A-Za-z!@#$%*]{8,}$/';
+            $pattern = '/^(?=.*\d.*\d)[0-9 A-Z a-z !@#$%*]{8,}$/';
 
         
         if (!preg_match($pattern, $this->$attribute))
