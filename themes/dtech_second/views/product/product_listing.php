@@ -18,41 +18,14 @@ $cs->registerCssFile(Yii::app()->theme->baseUrl . '/css/list.css');
                     <h6>
                         <?php
                         $title = "All Books";
-                        $category = "";
-                        $slug_array = array();
-                        if (isset($_REQUEST['slug'])) {
-                            $title = explode("-", $_REQUEST['slug']);
-                            $category = $title = $title[0];
-                            $slug_array = explode('-', $_REQUEST['slug']);
-
-                            $last_element = array_pop($slug_array);
-                            $criteria = new CDbCriteria();
-                            $criteria->select = "category_name";
-                            $category_name = Categories::model()->findByPk($last_element, $criteria)->category_name;
-                            echo $category_name;
-                        }
-
-                        /*
-                         * to handle the category name
-                         * to be displayed in the product listing
-                         * of all category ..making from the slug
-
-                          if (!empty($products[0]['category'])) {
-                          echo Yii::t('common', $products[0]['category'] . "-->", array(), NULL, $this->currentLang);
-                          }
-                          $slug_array = split('-', $_REQUEST['slug']);
-                          $last_element = array_pop($slug_array);
-                          foreach ($slug_array as $catego) {
-                          echo $catego . ' ';
-                          }
-                         */
+                        echo isset($category_product['category_name']) ? $category_product['category_name'] : "";
                         ?>
                     </h6>
                     <div id="right_main_conent">
                         <?php
                         $this->renderPartial("//product/_product_list", array(
                             'products' => $products,
-                            'category' => $category,
+                            'category_product' => isset($category_product) ? $category_product :"",
                             'dataProvider' => $dataProvider,
                             'allCate' => $allCate));
                         ?>

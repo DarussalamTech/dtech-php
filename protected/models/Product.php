@@ -76,8 +76,8 @@ class Product extends DTActiveRecord {
 
         $lang_id = isset($_POST['lang_id']) ? $_POST['lang_id'] : '1';
         $profile_id = isset($_REQUEST['profile_id']) ? $_REQUEST['profile_id'] : '1';
-            // NOTE: you may need to adjust the relation name and the related
-            // class name for the relations automatically generated below.
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
         return array(
             'slider' => array(self::HAS_ONE, 'Slider', 'product_id'),
             'carts' => array(self::HAS_MANY, 'Cart', 'product_id'),
@@ -101,14 +101,13 @@ class Product extends DTActiveRecord {
             'productlangs' => array(self::HAS_MANY, 'ProductLang', 'product_id'),
         );
     }
-    
+
     /**
      * get Relational Column here
      */
-    public function relationColumns(){
+    public function relationColumns() {
         return array(
-            "authors"=>array("model"=>"Author","key"=>"author_name"),
-         
+            "authors" => array("model" => "Author", "key" => "author_name"),
         );
     }
 
@@ -171,6 +170,7 @@ class Product extends DTActiveRecord {
          * ajax based filtering
          */
         if (isset($_POST['ajax'])) {
+
             return $this->ajaxGetProducts($product_array, $limit, $parent_category, $category);
         } else {
             return $this->onRefreshGetProducts($product_array, $limit, $parent_category, $category);
@@ -241,7 +241,7 @@ class Product extends DTActiveRecord {
                  * to load on only in case no category books 
                  * will be the cateory
                  */
-                $parent_cat = Categories::model()->getParentCategoryId($parent_category,$city_id);
+                $parent_cat = Categories::model()->getParentCategoryId($parent_category, $city_id);
                 $criteria->addCondition('parent_cateogry_id = ' . $parent_cat);
             }
         }
@@ -305,8 +305,10 @@ class Product extends DTActiveRecord {
             $criteria->addInCondition("product_categories.category_id", $categories);
         }
         $criteria->distinct = "t.product_id";
-
-
+ 
+        /**
+         * in case of pagination include category check
+         */
         $dataProvider = new DTActiveDataProvider($this, array(
             'pagination' => array(
                 'pageSize' => 12,
@@ -316,6 +318,31 @@ class Product extends DTActiveRecord {
 
         return $dataProvider;
     }
+
+//    /**
+//     * add conditions on scrolling of page
+//     * to avoid effect to get the result same previous
+//     * 
+//     * @param type $category
+//     * @param type $parent_categories
+//     */
+//    public function addOnCriteriaOnSrolling($category, $parent_categories) {
+//        
+//        if (isset($_REQUEST['Product_page']) && $_REQUEST['Product_page'] > 1) {
+//            if ($category != "") {
+//
+//                $category = explode("-", $category);
+//                if (in_array($category[count($category) - 1], $parent_categories)) {
+//                    //if the category is parent then it would be fetch from direct parent category
+//                    $_POST['cat_id'] =  $category[count($category) - 1];
+//                } else {
+//                    return $category[count($category) - 1];
+//                }
+//            }
+//            
+//        }
+//        return "";
+//    }
 
     /**
      * return all products
@@ -366,7 +393,7 @@ class Product extends DTActiveRecord {
                     'product_overview' => $products->product_overview,
                     'product_description' => $products->product_description,
                     'product_price' => $products->productProfile[0]->price,
-                    'is_shippable' => $products->productProfile[0]->is_shippable ,
+                    'is_shippable' => $products->productProfile[0]->is_shippable,
                     'product_profile_id' => $products->productProfile[0]->id,
                     'quantity' => $products->productProfile[0]->quantity,
                     'author' => $products->getAuthors(),
@@ -476,7 +503,7 @@ class Product extends DTActiveRecord {
      */
     public function setSlug() {
         $module = Yii::app()->controller->getModule();
-       
+
         if ($this->_controller == "site" || get_class($module) == "WebModule" || $this->_controller == "wS") {
             $this->slag = trim($this->slag) . "-" . $this->primaryKey;
             $this->slag = str_replace(" ", "-", $this->slag);

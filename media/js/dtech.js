@@ -46,6 +46,7 @@ var dtech = {
                         langs: dtech.getmultiplechecboxValue("lang_checkbox"),
                     }
         }).done(function(msg) {
+            jQuery("#notification").remove();
             $("#right_main_conent").html(msg);
             jQuery("#load_subpanel_div").remove();
         });
@@ -72,22 +73,30 @@ var dtech = {
         rite_html = $("#list_featured").html();
         $("#list_featured").html(load_div + rite_html);
         $("#load_subpanel_div").show();
+        cat_id = jQuery("#category_id").val();
+        categories = dtech.getmultiplechecboxValue("filter_checkbox");
+        if(jQuery("#category_parent").val() !="" && jQuery("#category_id").val()!="0"){
+            categories+=categories.search(",")!=-1?","+cat_id:cat_id;
+        }
+        if(jQuery("#category_parent").val()!="0"){
+            cat_id = "";
+        }
         jQuery.ajax({
             type: "POST",
             url: ajax_url,
             data:
                     {
-                        cat_id: id,
+                        cat_id: cat_id,
                         ajax: 1,
                         author: dtech.getmultiplechecboxValue("author_checkbox"),
                         langs: dtech.getmultiplechecboxValue("lang_checkbox"),
-                        categories: dtech.getmultiplechecboxValue("filter_checkbox"),
+                        categories: categories,
                     }
         }).done(function(msg) {
-            $("#list_featured").append(msg);
-            $("#list_featured")
+            jQuery("#list_featured").append(msg);
+            
 
-            $("#load_subpanel_div").remove();
+            jQuery("#load_subpanel_div").remove();
             jQuery("#sideBarBox").hide();
             jQuery(".under_best_seller").hide();
         });

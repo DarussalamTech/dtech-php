@@ -29,7 +29,6 @@ class ProductController extends Controller {
                     'bestsellings',
                     'productdetail',
                     'productlisting',
-                    'productfilter',
                     'productDetailLang', 'category')"
         );
     }
@@ -49,7 +48,6 @@ class ProductController extends Controller {
                     'bestsellings',
                     'productdetail',
                     'productlisting',
-                    'productfilter',
                     'productDetailLang', 'category'),
                 'users' => array('*'),
             ),
@@ -77,7 +75,7 @@ class ProductController extends Controller {
             $this->productfilter();
         } else {
             //on browser refresh 
-            
+
 
             $dataProvider = Product::model()->allProducts();
             $all_products = Product::model()->returnProducts($dataProvider);
@@ -105,12 +103,28 @@ class ProductController extends Controller {
         $this->is_cat_filter = true;
         Yii::app()->user->SiteSessions;
 
+        //getting product category information from its slug
+        $category_product = array();
+        if (!empty($slug)) {
+            $slug_array = explode('-', $slug);
+            $category_product['category'] = $slug_array[0];
+
+            $criteria = new CDbCriteria();
+
+          
+            $catModel = Categories::model()->findByPk($slug_array[count($slug_array)-1], $criteria);
+            $category_product['category_name'] = $catModel->category_name;
+            $category_product['category_id'] = $catModel->category_id;
+            $category_product['parent_id'] = $catModel->parent_id;
+           
+        }
+
 
         /**
          * ajax based
          */
         if (isset($_POST['ajax'])) {
-            $this->productfilter($slug);
+            $this->productfilter($slug,$category_product);
         } else {
             //queries 
 
@@ -126,20 +140,23 @@ class ProductController extends Controller {
             $allCategories = Categories::model()->allCategories("", $parent_cat);
 
 
-
-
             $this->render('//product/all_products', array(
                 'products' => $all_products,
                 'dataProvider' => $dataProvider,
+                'category_product' => $category_product,
                 'allCate' => $allCategories));
         }
     }
 
     /**
+
      *  to get product on ajax bases
      *  for filter of category
+
+     * @param type $slug
+     * @param type $category_product
      */
-    public function productfilter($slug = "") {
+    public function productfilter($slug = "", $category_product = array()) {
         $dataProvider = Product::model()->allProducts("", "", "", $slug);
         $all_products = Product::model()->returnProducts($dataProvider);
         $category = "";
@@ -149,7 +166,7 @@ class ProductController extends Controller {
         }
         $this->renderPartial("//product/_product_list", array(
             'products' => $all_products,
-            'category' => $category,
+            'category_product' => isset($category_product) ? $category_product :"",
             'dataProvider' => $dataProvider,));
     }
 
@@ -242,7 +259,7 @@ class ProductController extends Controller {
             $id = $id[count($id) - 1];
             $criteria = new CDbCriteria();
             $criteria->addCondition("t.status = 1");
-            $product = Product::model()->localized(Yii::app()->controller->currentLang)->findByPk($id,$criteria);
+            $product = Product::model()->localized(Yii::app()->controller->currentLang)->findByPk($id, $criteria);
 
 
 
@@ -250,7 +267,7 @@ class ProductController extends Controller {
              * if no record found in english
              */
             if (empty($product)) {
-                $product = Product::model()->findByPk($id,$criteria);
+                $product = Product::model()->findByPk($id, $criteria);
             }
 
             /** if product not found * */
@@ -366,8 +383,9 @@ class ProductController extends Controller {
             /**
              * temporary PCM 
              */
-            if(!isset($product->productProfile[0])){
-                echo CJSON::encode(array());;
+            if (!isset($product->productProfile[0])) {
+                echo CJSON::encode(array());
+                ;
                 return true;
             }
 

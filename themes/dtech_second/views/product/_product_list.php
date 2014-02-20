@@ -1,4 +1,9 @@
 <?php
+//setting cateogry varables in hidden fields to grap in js
+if(isset($category_product)){
+    echo CHtml::hiddenField('category_id',$category_product['category_id']);
+    echo CHtml::hiddenField('category_parent',$category_product['parent_id']);
+}
 foreach ($products as $product) {
     $name = $product['product_name'];
 
@@ -25,19 +30,16 @@ foreach ($products as $product) {
                     'country' => Yii::app()->session['country_short_name'],
                     'city' => Yii::app()->session['city_short_name'],
                     'city_id' => Yii::app()->session['city_id'],
-                    "pcategory" => $category,
+                    "pcategory" => isset($category_product['category'])?$category_product['category']:"",
                     "slug" => $product['slug'],
                 ))
                 , array('title' => $name));
     }
     echo CHtml::openTag("h2");
     echo (strlen($name) > 50) ? substr($name, 0, 50) . ' ...' : $name;
-    // echo strlen($name);
-    //echo substr($name, 0, 52) . '...';
+
     echo CHtml::closeTag("h2");
-//    echo CHtml::openTag("p");
-//    echo substr($product['product_overview'], 0, 35) . '...';
-//    echo CHtml::closeTag("p");
+
     echo CHtml::closeTag("div");
     echo CHtml::openTag("div", array("class" => "featured_bottom"));
     echo CHtml::openTag("span");
@@ -106,7 +108,7 @@ foreach ($products as $product) {
     //$this->renderPartial('//product/_popup_product', array('image' => $image));
 }
 if (empty($products)) {
-    echo '<center><tt>';
+    echo '<center id="notification"><tt>';
     echo "No products available in this category for now. Please come back later.";
     echo '</tt></center>';
 }
