@@ -245,7 +245,7 @@ class Product extends DTActiveRecord {
                 $criteria->addCondition('parent_cateogry_id = ' . $parent_cat);
             }
         }
-       
+       //CVarDumper::dump($criteria,10,true);
         $dataProvider = new DTActiveDataProvider($this, array(
             'pagination' => array(
                 'pageSize' => 12,
@@ -298,6 +298,7 @@ class Product extends DTActiveRecord {
         if (!empty($_POST['cat_id'])) {
             $criteria->addCondition('parent_cateogry_id = ' . $_POST['cat_id']);
         }
+        //CVarDumper::dump($_POST['categories'],10,true);
         if (!empty($_POST['categories'])) {
             $categories = explode(",", $_POST['categories']);
             $criteria->join.= ' LEFT JOIN product_categories  ON ' .
@@ -305,7 +306,8 @@ class Product extends DTActiveRecord {
             $criteria->addInCondition("product_categories.category_id", $categories);
         }
         $criteria->distinct = "t.product_id";
- 
+        
+        //CVarDumper::dump($criteria,10,true);
         /**
          * in case of pagination include category check
          */

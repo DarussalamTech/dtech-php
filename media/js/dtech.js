@@ -50,7 +50,7 @@ var dtech = {
             $("#right_main_conent").html(msg);
             jQuery("#load_subpanel_div").remove();
         })
-         .fail(function() {
+                .fail(function() {
             jQuery("#load_subpanel_div").remove();
         })
                 ;
@@ -79,39 +79,50 @@ var dtech = {
         $("#load_subpanel_div").show();
         cat_id = jQuery("#category_id").val();
         categories = dtech.getmultiplechecboxValue("filter_checkbox");
-        
+
         if (jQuery("#category_parent").val() != "" && jQuery("#category_parent").val() != "0") {
-            categories += categories.search(",") != -1 ? "," + cat_id : cat_id;
+           
+            if (categories != "") {
+                categories += "," + cat_id;
+            }
+            else {
+                categories = cat_id;
+            }
+
         }
-        
+
         if (jQuery("#category_parent").val() == "0") {
-            cat_id = "";
+
         }
         else {
             cat_id = jQuery("#category_parent").val();
         }
-        jQuery.ajax({
-            type: "POST",
-            url: ajax_url,
-            data:
-                    {
-                        cat_id: cat_id,
-                        ajax: 1,
-                        author: dtech.getmultiplechecboxValue("author_checkbox"),
-                        langs: dtech.getmultiplechecboxValue("lang_checkbox"),
-                        categories: categories,
-                    }
-        }).done(function(msg) {
-            jQuery("#list_featured").append(msg);
+        categories = jQuery.trim(categories);
+        setTimeout(function() {
+            jQuery.ajax({
+                type: "POST",
+                url: ajax_url,
+                data:
+                        {
+                            cat_id: cat_id,
+                            ajax: 1,
+                            author: dtech.getmultiplechecboxValue("author_checkbox"),
+                            langs: dtech.getmultiplechecboxValue("lang_checkbox"),
+                            categories: categories,
+                        }
+            }).done(function(msg) {
+                jQuery("#list_featured").append(msg);
 
 
-            jQuery("#load_subpanel_div").remove();
-            jQuery("#sideBarBox").hide();
-            jQuery(".under_best_seller").hide();
-        })
-        .fail(function() {
-            jQuery("#load_subpanel_div").remove();
-        })
+                jQuery("#load_subpanel_div").remove();
+                jQuery("#sideBarBox").hide();
+                jQuery(".under_best_seller").hide();
+            })
+                    .fail(function() {
+                jQuery("#load_subpanel_div").remove();
+            })
+        }, 6000);
+
         ;
         return false;
     },
