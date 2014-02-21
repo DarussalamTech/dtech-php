@@ -99,9 +99,9 @@ class UserController extends Controller {
         $city_id = $_GET['city_id'];
         $criteria = new CDbCriteria;
         $criteria->select = '*';
-        $criteria->condition = "user_id='" . $user_id . "' AND city_id='" . $city_id . "'";
+        $criteria->condition = "user_id='" . $user_id . "'";
         $obj = User::model()->find($criteria);
-
+       
         if (!empty($obj)) {
             if ($obj->status_id == '1') {
                 //already activated
