@@ -521,7 +521,8 @@ class Controller extends RController {
 
 
             $mailer->FromName = (isset($email['FromName']) && !empty($email['FromName']) ? $email['FromName'] : Yii::app()->name); //Yii::app()->user->name;
-
+            Yii::app()->params['smtp'] = ConfMisc::model()->find("param = 'smtp'")->value;
+           
             if (Yii::app()->params['smtp'] == 1) {
                 $mailer->IsSMTP();
 
@@ -655,14 +656,14 @@ class Controller extends RController {
     public function installConfig() {
 
         $criteria = new CDbCriteria();
-        $criteria->addCondition("misc_type='other'");
+        $criteria->addCondition("misc_type = 'other' ");
         $selected = array("dateformat", "auto_item_code", "slider_time");
         $criteria->addInCondition("param", $selected);
         if (!empty($_REQUEST['city_id'])) {
             $criteria->addCondition("city_id = '" . $_REQUEST['city_id'] . "'");
         }
         $criteria->select = "param,value";
-
+       
         $conf = ConfMisc::model()->findAll($criteria);
 
         if (!empty($conf)) {
