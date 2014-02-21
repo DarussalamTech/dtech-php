@@ -479,7 +479,8 @@ var dtech = {
         jsonObj = [];
         $("#" + div_id + " input").each(function() {
             if ($(this).is(':checked')) {
-                jsonObj.push($(this).val());
+            
+                jsonObj.push($(this).parent().parent().find(".invitation_id").text());
             }
         });
         // only checked user will go

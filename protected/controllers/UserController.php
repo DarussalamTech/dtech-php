@@ -248,10 +248,10 @@ class UserController extends Controller {
 
 
             $emails = explode("|", $_POST['ids']);
-
+         
             foreach ($emails as $_id) {
                 $model = User::model()->findFromPrimerkey($_id);
-
+                    
                 if (!empty($model)) {
 
                     $dt = new DTFunctions();
