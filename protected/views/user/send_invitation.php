@@ -9,6 +9,7 @@ foreach($users as $user){
         $content.= "<span><input type='checkbox' class='user_".$counter."' value='".$s['user_email']."' />".$s['user_email']."</span>";
         $content.= "<span class='hidden' style='display:none'>".$s['user_id']."</span>";
         $content.= "<br/>";
+        $content.= "<br/>";
     }
    $content.= CHtml::button("Send",
            array(
