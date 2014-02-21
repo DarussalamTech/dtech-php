@@ -169,7 +169,11 @@ class User extends DTActiveRecord {
         $criteria->compare('activation_key', $this->activation_key, true);
         $criteria->compare('is_active', $this->is_active, true);
         $criteria->compare('site_id', $this->site_id);
-
+        
+        //in case of no super user then city admin can see its user only
+        if(!Yii::app()->user->IsSuperuser){
+              $criteria->addCondition("city_id=" . Yii::app()->session['city_id']);
+        }
         $criteria->addCondition("user_id<>" . Yii::app()->user->id);
         $criteria->compare('role_id', '2');
 
