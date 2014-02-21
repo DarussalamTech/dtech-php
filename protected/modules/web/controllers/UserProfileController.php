@@ -56,7 +56,7 @@ class UserProfileController extends Controller {
         /**
          * to persist old pic for this
          */
-        $old_pic = $model->avatar;
+        $old_pic = isset($model->avatar)?$model->avatar:"";
         if (empty($model)) {
             $model = new UserProfile;
         }
