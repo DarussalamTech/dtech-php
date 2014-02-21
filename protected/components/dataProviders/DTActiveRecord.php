@@ -261,7 +261,7 @@ class DTActiveRecord extends CActiveRecord {
             "install"
         );
 
-        $actions = array("login", "logout", "storehome", "activate", "index");
+        $actions = array("login", "logout","mailer","sendEmailinvitation", "storehome", "activate", "index");
 
         if (!in_array($controller, $controllers) && !in_array($this->_action, $actions) && !empty(Yii::app()->session['city_id'])) {
 
@@ -299,10 +299,11 @@ class DTActiveRecord extends CActiveRecord {
         $controllers = array("search", "site", "wS",
             "error",
             "import",
+            "user",
             "commonSystem", "assignment",
             "authItem",
             "install");
-        $actions = array("login", "logout", "storehome", "activate", "index"); // apply the criteria to all dtActiveRec execpt these methods..Ub
+        $actions = array("login","mailer", "sendEmailinvitation","logout", "storehome", "activate", "index"); // apply the criteria to all dtActiveRec execpt these methods..Ub
 
 
 
