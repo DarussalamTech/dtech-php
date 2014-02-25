@@ -528,7 +528,7 @@ class Controller extends RController {
 
                 $mailer->SMTPAuth = true;
                 $mailer->SMTPSecure = Yii::app()->params['mailSecuity'];
-                $mailer->SMTPDebug = 0;
+                $mailer->SMTPDebug = 2;
                 $mailer->Host = Yii::app()->params['mailHost'];
                 $mailer->Port = Yii::app()->params['mailPort'];
                 $mailer->Username = Yii::app()->params['mailUsername'];
@@ -553,13 +553,21 @@ class Controller extends RController {
 
 
 
-            $mailer->Send();
+            if(!$mailer->Send()){
+               // echo "NOt sent ".$mailer->ErrorInfo;
+            }
+            else {
+               // echo " sent";
+            }
             $mailer->ClearAddresses();
 
 
 
             //$mailer->Send();
             //$mailer->ClearAddresses();
+            
+             $mailer->ClearAddresses();
+            $mailer->SMTPKeepAlive = true;
         }
         return true;
     }
