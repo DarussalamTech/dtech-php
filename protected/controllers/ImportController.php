@@ -97,6 +97,8 @@ class ImportController extends Controller {
              * Excel module area to get Columns list
              */
             Yii::import("ext.phpexcel.XPHPExcel");
+
+
             $objPHPExcel = XPHPExcel::loadExcelFile($file);
 
             if (isset($_POST['ImportMapping'])) {
@@ -137,11 +139,17 @@ class ImportController extends Controller {
             /**
              * Excel module area to get Columns list
              */
+//            CVarDumper::dump($mapping->file_path, 10, true);
             $objPHPExcel = XPHPExcel::loadExcelFile($mapping->file_path);
 
             $sheetData = $objPHPExcel->getSheet($mapping->sheet)->toArray();
-            $headers = array_filter($sheetData[0]);
 
+            $headers = array_filter($sheetData[0]);
+//            if (strpos($mapping->file_path, '.csv') !== false) {
+//                $header = array();
+//                $header = explode('|', $headers[0]);
+//                $headers = $header;
+//            }
 
             /**
              * Database Columns list
@@ -236,7 +244,8 @@ class ImportController extends Controller {
          * columns maping should be more than 5
          */
         if (isset($_POST['ImportColumns']) && count($headers) - $countError <= 0) {
-            $import->addError("error_field", "Atleast 1 rows should be mapped");
+
+            $importModel->addError("error_field", "Atleast 1 rows should be mapped");
         } else if (isset($_POST['ImportColumns']) && count($headers) - $countError > 0) {
 
             $model->updateByPk($id, array("relational_json" => CJSON::encode($mapped_rel, true)));
@@ -267,8 +276,24 @@ class ImportController extends Controller {
          * Excel module area to get Columns list
          */
         $objPHPExcel = XPHPExcel::loadExcelFile($model->file_path);
-        //convert sheet to array        
+        //convert sheet to array  
+//        CVarDumper::dump($model->file_path,10,true);
+//                die;
+
         $sheetData = $objPHPExcel->getSheet(0)->toArray();
+//        $header = array();
+//        $counter=0;
+//        if (strpos($model->file_path, '.csv') !== false) {
+//            foreach ($sheetData as $row){
+//        
+//            
+//            $header[$counter++] = explode('|', $row[0]);
+//             
+//            }
+//            $sheetData=$header;
+//        }
+//        
+
 
         $this->render("step5", array("sheetData" => $sheetData, "model" => $model));
     }
@@ -283,13 +308,14 @@ class ImportController extends Controller {
         $dbCols = CJSON::decode($model->db_cols_json, true);
         $relationCols = CJSON::decode($model->relational_json, true);
         $headers = CJSON::decode($model->headers_json, true);
-
+        
         $productRelations = Product::model()->relationColumns();
         $productProfRelations = ProductProfile::model()->relationColumns();
 
         //process of excel data to db
         if (isset($_POST['data'])) {
             foreach ($_POST['data'] as $post) {
+
                 $pModel = new Product;
                 $pModel->city_id = $model->city_id;
                 $prModel = new ProductProfile;
@@ -299,8 +325,8 @@ class ImportController extends Controller {
                     if (isset($dbCols[$headerKey])) {
                         if (strstr($dbCols[$headerKey], "Product_")) {
                             $attr = str_replace("Product_", "", $dbCols[$headerKey]);
-
-                            $pModel->$attr = $post[$headerKey];
+                            if (!empty($post[$headerKey]))
+                                $pModel->$attr = $post[$headerKey];
 
                             if (isset($productRelations[$attr])) {
                                 $criteria = new CDbCriteria;
@@ -311,8 +337,8 @@ class ImportController extends Controller {
                             }
                         } else if (strstr($dbCols[$headerKey], "ProductProfile_")) {
                             $attr = str_replace("ProductProfile_", "", $dbCols[$headerKey]);
-
-                            $prModel->$attr = $post[$headerKey];
+                            if (!empty($post[$headerKey]))
+                                $prModel->$attr = $post[$headerKey];
                             if (isset($productProfRelations[$attr])) {
                                 $criteria = new CDbCriteria;
                                 $criteria->addCondition($productProfRelations[$attr]['key'] . " = '" . $post[$headerKey] . "'");
@@ -329,6 +355,7 @@ class ImportController extends Controller {
                 $pModel->parent_cateogry_id = $model->category;
                 $pModel->is_featured = 0;
                 if ($pModel->save()) {
+
                     $prModel->product_id = $pModel->primaryKey;
                     $prModel->save();
                     foreach ($headers as $headerKey => $header) {
@@ -360,9 +387,7 @@ class ImportController extends Controller {
                     }
                 }//end of product save
             }
-
-            //process to update ImprotColumns
-
+            
             $model->updateByPk($model->id, array(
                 "total_steps" => $_POST['total_steps'],
                 "completed_steps" => $_POST['index'])
@@ -378,7 +403,7 @@ class ImportController extends Controller {
         $model->unsetAttributes();  // clear any default values
         if (isset($_GET['ImportMapping']))
             $model->attributes = $_GET['ImportMapping'];
-        $this->render("list",array("model"=>$model));
+        $this->render("list", array("model" => $model));
     }
 
     /**
@@ -388,7 +413,11 @@ class ImportController extends Controller {
         if ($model = ImportMapping::model()->findByPk($id)) {
             Yii::import("ext.phpexcel.XPHPExcel");
             //if the completed steps is only less then then 1 then the update to complete
+
             if ($model->completed_steps + 1 == $model->total_steps) {
+//                CVarDumper::dump($model->completed_steps,10,true);
+//                die();
+                $model->completed_steps++;
                 $model->updateByPk($id, array("completed_steps" => $model->total_steps));
             }
             $this->render("status", array("model" => $model, "sheet" => XPHPExcel::loadExcelFile($model->file_path)->getSheetNames()));
