@@ -34,7 +34,7 @@ class ShippingInfoForm extends CFormModel {
             array('payment_method,shipping_first_name, shipping_last_name,
                    shipping_address1,shipping_country,
                    shipping_city, shipping_state, shipping_zip, shipping_phone', 'required'),
-            array('shipping_phone', 'length', 'max' => 10),
+            array('shipping_phone', 'length', 'max' => 255),
             array('shipping_phone', 'numerical', 'integerOnly' => true),
             array('shipping_phone, shipping_mobile', 'match', 'pattern'=>'/^[0-9-+]+$/'),
             array('_states,payment_method', 'safe'),
