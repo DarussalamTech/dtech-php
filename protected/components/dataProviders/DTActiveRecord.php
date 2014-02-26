@@ -252,7 +252,7 @@ class DTActiveRecord extends CActiveRecord {
         }
         $controller = Yii::app()->controller->id;
         $controllers = array(
-            "search", "site",
+            "site",
             "wS", "error",
             "commonSystem",
             "assignment",
@@ -296,7 +296,7 @@ class DTActiveRecord extends CActiveRecord {
         }
         $controller = Yii::app()->controller->id;
 
-        $controllers = array("search", "site", "wS",
+        $controllers = array( "site", "wS",
             "error",
             "import",
             "user",
