@@ -100,7 +100,7 @@ class Product extends DTActiveRecord {
             'language' => array(self::BELONGS_TO, 'Language', 'languages'),
             'productlangs' => array(self::HAS_MANY, 'ProductLang', 'product_id'),
             
-            'related_product' => array(self::HAS_ONE, 'RelatedProduct', 'related_product_id'),
+            'related_product' => array(self::HAS_ONE, 'RelatedProduct', 'related_product_id','condition'=>'product_id = '.Yii::app()->request->getParam('id')),
         );
     }
 
