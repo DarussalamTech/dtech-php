@@ -46,7 +46,25 @@ $this->widget('ext.lyiightbox.LyiightBox2', array(
                 }
                 ?>
             </div>
+
             <?php $this->renderPartial("//product/_product_comments", array("product" => $product, "rating_value" => $rating_value)); ?>    
+            <div class="clear"></div>
+            <div class="">
+                <h2>
+                    <?php echo Yii::t('product_detail', 'Related Products', array(), NULL, $this->currentLang) ?>
+                </h2>
+                <?php
+                $dataProvider = Product::model()->getRelatedProducts($product->product_id);
+
+                $products = Product::model()->returnProducts($dataProvider);
+
+                $this->renderPartial(
+                        "//product/featured_box", array(
+                    "dataProvider" => $dataProvider,
+                    "products" => $products,
+                ));
+                ?>
+            </div>
         </div>
 
     </div>

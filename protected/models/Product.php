@@ -99,8 +99,7 @@ class Product extends DTActiveRecord {
             'author' => array(self::BELONGS_TO, 'Author', 'authors'),
             'language' => array(self::BELONGS_TO, 'Language', 'languages'),
             'productlangs' => array(self::HAS_MANY, 'ProductLang', 'product_id'),
-            
-            'related_product' => array(self::HAS_ONE, 'RelatedProduct', 'related_product_id','condition'=>'product_id = '.Yii::app()->request->getParam('id')),
+            'related_product' => array(self::HAS_ONE, 'RelatedProduct', 'related_product_id', 'condition' => 'product_id = ' . Yii::app()->request->getParam('id')),
         );
     }
 
@@ -247,7 +246,7 @@ class Product extends DTActiveRecord {
                 $criteria->addCondition('parent_cateogry_id = ' . $parent_cat);
             }
         }
-       //CVarDumper::dump($criteria,10,true);
+        //CVarDumper::dump($criteria,10,true);
         $dataProvider = new DTActiveDataProvider($this, array(
             'pagination' => array(
                 'pageSize' => 12,
@@ -308,7 +307,7 @@ class Product extends DTActiveRecord {
             $criteria->addInCondition("product_categories.category_id", $categories);
         }
         $criteria->distinct = "t.product_id";
-        
+
         //CVarDumper::dump($criteria,10,true);
         /**
          * in case of pagination include category check
@@ -323,30 +322,27 @@ class Product extends DTActiveRecord {
         return $dataProvider;
     }
 
-//    /**
-//     * add conditions on scrolling of page
-//     * to avoid effect to get the result same previous
-//     * 
-//     * @param type $category
-//     * @param type $parent_categories
-//     */
-//    public function addOnCriteriaOnSrolling($category, $parent_categories) {
-//        
-//        if (isset($_REQUEST['Product_page']) && $_REQUEST['Product_page'] > 1) {
-//            if ($category != "") {
-//
-//                $category = explode("-", $category);
-//                if (in_array($category[count($category) - 1], $parent_categories)) {
-//                    //if the category is parent then it would be fetch from direct parent category
-//                    $_POST['cat_id'] =  $category[count($category) - 1];
-//                } else {
-//                    return $category[count($category) - 1];
-//                }
-//            }
-//            
-//        }
-//        return "";
-//    }
+    /**
+     * product id should be given 
+     * @param type $id
+     */
+    public function getRelatedProducts($id) {
+   
+        $related_products = RelatedProduct::model()->findAll("product_id = " . $id);
+        $related_products = CHtml::listData($related_products, "related_product_id", "related_product_id");
+       
+        $criteria = new CDbCriteria;
+        $criteria->addInCondition('product_id', $related_products);
+
+        $dataProvider = new DTActiveDataProvider($this, array(
+            'pagination' => array(
+                'pageSize' => 50,
+            ),
+            'criteria' => $criteria,
+        ));
+
+        return $dataProvider;
+    }
 
     /**
      * return all products
