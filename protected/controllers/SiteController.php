@@ -35,6 +35,9 @@ class SiteController extends Controller {
          */
         if (!empty(Yii::app()->session['site_headoffice']) && Yii::app()->session['site_headoffice'] != 0) {
             $_REQUEST['city_id'] = Yii::app()->session['site_headoffice'];
+            //country switching code
+            $model = new LandingModel();
+            $this->countryLanding($model);
 
             $this->redirect($this->createUrl("/site/storeHome"));
         } else {
@@ -203,6 +206,7 @@ class SiteController extends Controller {
                 Yii::app()->user->SiteSessions;
                 $this->redirect($this->createUrl('/site/storeHome'));
             }
+
             if (!empty($model->city)) {
                 $_REQUEST['city_id'] = $model->city;
                 Yii::app()->user->SiteSessions;
@@ -362,7 +366,7 @@ class SiteController extends Controller {
         }
         $model->password = "";
         // display the login form
-        
+
         $this->render('login', array('model' => $model));
     }
 
