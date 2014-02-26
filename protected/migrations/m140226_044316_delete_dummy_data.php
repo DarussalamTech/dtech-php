@@ -15,8 +15,8 @@ class m140226_044316_delete_dummy_data extends DTDbMigration {
         $data_products = $this->getQueryAll('SELECT * FROM `product`  where city_id=' . $ryd[0]);
         $basePath = Yii::app()->basePath . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "uploads";
         $basePath.= DIRECTORY_SEPARATOR . "product" . DIRECTORY_SEPARATOR;
-       // Deleting product images from the uploads directory
-       // Removing all the product images from the database tables
+        // Deleting product images from the uploads directory
+        // Removing all the product images from the database tables
         if (!empty($data)) {
             foreach ($data as $columns) {
                 if (is_dir($basePath . $columns['product_profile_id']))
@@ -26,7 +26,7 @@ class m140226_044316_delete_dummy_data extends DTDbMigration {
             }
         }
         // Delete  all the categories from product_cateogries
-        
+
         if (!empty($data_categories)) {
             foreach ($data_categories as $columns) {
 
@@ -34,7 +34,7 @@ class m140226_044316_delete_dummy_data extends DTDbMigration {
                     $this->delete($table2, "product_category_id=" . $columns['product_category_id']);
             }
         }
-        
+
         // Deleteing all the product profiles
         if (!empty($data_profiles)) {
             foreach ($data_profiles as $columns) {
@@ -43,7 +43,7 @@ class m140226_044316_delete_dummy_data extends DTDbMigration {
                     $this->delete($table3, "id=" . $columns['id']);
             }
         }
-        
+
         // Delete the products for darussalamksa
         if (!empty($data_products)) {
             foreach ($data_products as $columns) {
@@ -61,14 +61,4 @@ class m140226_044316_delete_dummy_data extends DTDbMigration {
         return true;
     }
 
-    /*
-      // Use safeUp/safeDown to do migration with transaction
-      public function safeUp()
-      {
-      }
-
-      public function safeDown()
-      {
-      }
-     */
 }
