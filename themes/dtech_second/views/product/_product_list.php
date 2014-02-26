@@ -1,6 +1,6 @@
 <?php
 //setting cateogry varables in hidden fields to grap in js
-if(isset($category_product)){
+if(isset($category_product['category_id']) && isset($category_product['category_id'])){
     echo CHtml::hiddenField('category_id',$category_product['category_id']);
     echo CHtml::hiddenField('category_parent',$category_product['parent_id']);
 }
