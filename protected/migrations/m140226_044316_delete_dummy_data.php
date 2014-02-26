@@ -5,6 +5,8 @@ class m140226_044316_delete_dummy_data extends DTDbMigration {
     public function up() {
         $table = 'product_image';
         $table2 = 'product_categories';
+        $table5 = 'cart';
+        $table6 = 'order_Detal';
         $table3 = 'product_profile';
         $table4 = 'product';
         $ryd = $this->getRiyadhCityId();
@@ -43,7 +45,7 @@ class m140226_044316_delete_dummy_data extends DTDbMigration {
             foreach ($data_cart as $columns) {
 
                 if (!empty($columns['cart_id']))
-                    $this->delete($table2, "cart_id=" . $columns['cart_id']);
+                    $this->delete($table5, "cart_id=" . $columns['cart_id']);
             }
         }
         
@@ -52,7 +54,7 @@ class m140226_044316_delete_dummy_data extends DTDbMigration {
             foreach ($data_categories as $columns) {
 
                 if (!empty($columns['user_order_id']))
-                    $this->delete($table2, "user_order_id=" . $columns['user_order_id']);
+                    $this->delete($table6, "user_order_id=" . $columns['user_order_id']);
             }
         }
         
