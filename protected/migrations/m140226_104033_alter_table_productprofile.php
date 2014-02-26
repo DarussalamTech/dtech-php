@@ -13,14 +13,5 @@ class m140226_104033_alter_table_productprofile extends CDbMigration {
         return true;
     }
 
-    /*
-      // Use safeUp/safeDown to do migration with transaction
-      public function safeUp()
-      {
-      }
 
-      public function safeDown()
-      {
-      }
-     */
 }
