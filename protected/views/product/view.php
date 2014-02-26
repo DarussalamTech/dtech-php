@@ -116,4 +116,7 @@ if ($model->parent_category->category_name == "Others") {
 }
 $this->renderPartial('productCategories/_container', array('model' => $model, "type" => "form"));
 $this->renderPartial('discount/_container', array('model' => $model, "type" => "form"));
+
+
+$this->renderPartial("_related_products",array("model"=>$model));
 ?>

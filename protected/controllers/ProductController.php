@@ -56,6 +56,9 @@ class ProductController extends Controller {
     public function actionView($id) {
         $model = $this->loadModel($id);
         $this->manageChildrens($model);
+
+        $this->addRelatedProducts($id);
+
         $this->render('view', array(
             'model' => $model,
         ));
@@ -102,22 +105,21 @@ class ProductController extends Controller {
     public function actionUpdate($id, $shipingcountry = "") {
 
         $model = $this->loadModel($id);
-      
+
         if ($shipingcountry == "countries") {
-          
-          
+
+
             if (isset($_POST['Product'])) {
-                $model->shippable_countries = isset($_POST['Product']['shippable_countries'])?$_POST['Product']['shippable_countries']:"";
-                
-                
-                $countries = !empty($model->shippable_countries)?implode(",", $model->shippable_countries):"";
+                $model->shippable_countries = isset($_POST['Product']['shippable_countries']) ? $_POST['Product']['shippable_countries'] : "";
+
+
+                $countries = !empty($model->shippable_countries) ? implode(",", $model->shippable_countries) : "";
 
                 $model->updateByPk($model->product_id, array("shippable_countries" => $countries));
 
                 $this->redirect(array('view', 'id' => $model->product_id));
-            }
-            else {
-                  $model->shippable_countries = explode(",", $model->shippable_countries);
+            } else {
+                $model->shippable_countries = explode(",", $model->shippable_countries);
             }
             $this->render('_update_countries', array("model" => $model));
         } else {
@@ -131,7 +133,7 @@ class ProductController extends Controller {
 
             if (isset($_POST['Product'])) {
                 $model->attributes = $_POST['Product'];
-                
+
                 if ($model->save()) {
                     $this->redirect(array('view', 'id' => $model->product_id));
                 }
@@ -239,15 +241,12 @@ class ProductController extends Controller {
 
                 if (!empty($img_file)) {
 
-                    if($img_file->saveAs($upload_path . $img_file->name)){
+                    if ($img_file->saveAs($upload_path . $img_file->name)) {
                         echo "uploaded";
                     }
-                    
                 }
                 $this->redirect(array('createSlider', 'id' => $id, "slider" => $model->id));
             }
-            
-            
         }
 
         $this->renderPartial('_slider', array(
@@ -447,6 +446,42 @@ class ProductController extends Controller {
         $this->manageChild($model, "other", "product");
         $this->manageChild($model, "productCategories", "product");
         $this->manageChild($model, "discount", "product");
+    }
+
+    /**
+     * adding related products 
+     * to show in frontend 
+     * @param type $id
+     */
+    public function addRelatedProducts($id) {
+        if (!empty($_POST['related_product'])) {
+
+            $is_save = false;
+            foreach ($_POST['related_product'] as $relProd) {
+                $count = RelatedProduct::model()->count("product_id = " . $id . " AND related_product_id = " . $relProd);
+                if ($count == 0) {
+                    $relateModel = new RelatedProduct();
+                    $relateModel->product_id = $id;
+                    $relateModel->related_product_id = $relProd;
+                    $relateModel->save();
+                    $is_save = true;
+                }
+            }
+
+            if ($is_save == true) {
+                Yii::app()->user->setFlash('status', 'Related Products has been added');
+            } else {
+                Yii::app()->user->setFlash('status', 'Nothing has been added in related Products');
+            }
+            //deleting those were not checked
+            $criteria = new CDbCriteria;
+            $criteria->addNotInCondition('related_product_id', $_POST['related_product']);
+            $criteria->addCondition('product_id =' . $id);
+            
+            RelatedProduct::model()->deleteAll($criteria);
+            
+            $this->redirect(array('view', 'id' => $id));
+        }
     }
 
     /**

@@ -99,6 +99,8 @@ class Product extends DTActiveRecord {
             'author' => array(self::BELONGS_TO, 'Author', 'authors'),
             'language' => array(self::BELONGS_TO, 'Language', 'languages'),
             'productlangs' => array(self::HAS_MANY, 'ProductLang', 'product_id'),
+            
+            'related_product' => array(self::HAS_ONE, 'RelatedProduct', 'related_product_id'),
         );
     }
 
