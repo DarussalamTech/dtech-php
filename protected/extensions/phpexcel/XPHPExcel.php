@@ -39,17 +39,23 @@ class XPHPExcel extends CComponent {
         /**
          * Excel module area to get Columns list
          */
+        ini_set('memory_limit', '512M');
         $phpExcel = self::createPHPExcel();
 
 
         $cacheMethod = PHPExcel_CachedObjectStorageFactory:: cache_to_phpTemp;
-        $cacheSettings = array(' memoryCacheSize ' => '20MB');
+        $cacheSettings = array(' memoryCacheSize ' => '512MB');
+
         PHPExcel_Settings::setCacheStorageMethod($cacheMethod, $cacheSettings);
 
 
         $inputFileType = PHPExcel_IOFactory::identify($file_path);
+
         $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+
         $objPHPExcel = $objReader->load($file_path);
+
+
 
         return $objPHPExcel;
     }
