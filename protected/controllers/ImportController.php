@@ -381,12 +381,16 @@ class ImportController extends Controller {
                                         $prodcat->category_id = $category->primaryKey;
                                         $prodcat->product_id = $pModel->primaryKey;
                                         $prodcat->save();
+                                        
+                                        
                                     } else {
                                         $category = new Categories;
                                         $category->category_name = $post[$headerKey];
                                         $category->parent_id = $model->category;
+                                        $category->city_id=$pModel->city_id;
 
                                         $category->save();
+                                       
 
                                         $prodcat = new ProductCategories();
                                         $prodcat->category_id = $category->primaryKey;
