@@ -95,8 +95,8 @@ class m140226_044316_delete_dummy_data extends DTDbMigration {
 
         //deleting orders now
 
-        $order_sql = "SELECT order.order_id = FROM order WHERE city_id = " . $ryd[0];
-        $order_his_sql = "SELECT id FROM order_history WHEREE order_id IN (".$order_sql.")";
+        $order_sql = "SELECT order_id FROM ".$this->getDBName().".order WHERE city_id = " . $ryd[0];
+        $order_his_sql = "SELECT id FROM order_history WHERE order_id IN (".$order_sql.")";
 
         $order_hist = $this->getQueryAll($order_his_sql);
         if(!empty($order_hist)){
