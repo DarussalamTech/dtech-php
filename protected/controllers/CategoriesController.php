@@ -188,9 +188,10 @@ class CategoriesController extends Controller {
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
-
+        $order_date = $model->added_date;
         if (isset($_POST['Categories'])) {
             $model->attributes = $_POST['Categories'];
+            $model->added_date = $order_date;
             if ($model->save())
                 $this->redirect(array('view', 'id' => $model->category_id));
         }
@@ -210,7 +211,7 @@ class CategoriesController extends Controller {
         $model = $this->loadModel($id);
 
         $old_img = $model->category_image;
-
+        $order_date = $model->added_date;
         // Uncomment the following line if AJAX validation is needed
         if (isset($_POST['Categories'])) {
             $model->attributes = $_POST['Categories'];
@@ -223,7 +224,7 @@ class CategoriesController extends Controller {
                 // conditon for if no image submited then old img should not be deleted
                 $model->category_image = $old_img;
             }
-
+            $model->added_date = $order_date;
             if ($model->save()) {
                 $upload_path = DTUploadedFile::creeatRecurSiveDirectories(array("parent_category", $model->category_id));
                 if (!empty($img_file)) {
