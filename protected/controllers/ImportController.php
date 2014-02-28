@@ -380,6 +380,7 @@ class ImportController extends Controller {
                                         $prodcat = new ProductCategories();
                                         $prodcat->category_id = $category->primaryKey;
                                         $prodcat->product_id = $pModel->primaryKey;
+                                        $prodcat->save();
                                     } else {
                                         $category = new Categories;
                                         $category->category_name = $post[$headerKey];
@@ -390,6 +391,7 @@ class ImportController extends Controller {
                                         $prodcat = new ProductCategories();
                                         $prodcat->category_id = $category->primaryKey;
                                         $prodcat->product_id = $pModel->primaryKey;
+                                        $prodcat->save();
                                     }
                                 }
                             }
