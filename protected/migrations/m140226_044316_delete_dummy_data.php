@@ -6,7 +6,7 @@ class m140226_044316_delete_dummy_data extends DTDbMigration {
         $table = 'product_image';
         $table2 = 'product_categories';
         $table5 = 'cart';
-        $table6 = 'order_Detal';
+        $table6 = 'order_detail';
         $table3 = 'product_profile';
         $table4 = 'product';
         $ryd = $this->getRiyadhCityId();
@@ -51,7 +51,7 @@ class m140226_044316_delete_dummy_data extends DTDbMigration {
         
         // Deleting all the order's detail
         if (!empty($data_orderDetail)) {
-            foreach ($data_categories as $columns) {
+            foreach ($data_orderDetail as $columns) {
 
                 if (!empty($columns['user_order_id']))
                     $this->delete($table6, "user_order_id=" . $columns['user_order_id']);
