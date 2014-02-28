@@ -61,8 +61,8 @@ class m140226_044316_delete_dummy_data extends DTDbMigration {
 
         if (!empty($data_orderDetail_history)) {
             foreach ($data_orderDetail_history as $columns) {
-                if (!empty($columns['user_order_id']))
-                    $this->delete("order_history_detail", "user_order_id=" . $columns['user_order_id']);
+                if (!empty($columns['id']))
+                    $this->delete("order_history_detail", "id=" . $columns['id']);
             }
         }
 
