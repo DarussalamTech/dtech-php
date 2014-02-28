@@ -308,7 +308,7 @@ class ImportController extends Controller {
         $dbCols = CJSON::decode($model->db_cols_json, true);
         $relationCols = CJSON::decode($model->relational_json, true);
         $headers = CJSON::decode($model->headers_json, true);
-        
+
         $productRelations = Product::model()->relationColumns();
         $productProfRelations = ProductProfile::model()->relationColumns();
 
@@ -357,7 +357,17 @@ class ImportController extends Controller {
                 if ($pModel->save()) {
 
                     $prModel->product_id = $pModel->primaryKey;
+//                    CVarDumper::dump($prModel->attributes,10,true);
+
+                    $short_name = City::model()->findByAttributes(
+                            array(), 'city_id=:city_id', array(':city_id' => $pModel->city_id)
+                    );
+                   
+                    $prModel->item_code = $short_name['short_name'].$prModel->product_id;
+
+
                     $prModel->save();
+                    
                     foreach ($headers as $headerKey => $header) {
                         if (isset($relationCols[$headerKey])) {
                             $relatonName = $relationCols[$headerKey];
@@ -387,7 +397,7 @@ class ImportController extends Controller {
                     }
                 }//end of product save
             }
-            
+
             $model->updateByPk($model->id, array(
                 "total_steps" => $_POST['total_steps'],
                 "completed_steps" => $_POST['index'])
