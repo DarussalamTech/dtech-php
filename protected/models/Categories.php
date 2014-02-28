@@ -66,13 +66,13 @@ class Categories extends DTActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('category_name,parent_id, added_date, city_id', 'required'),
+            array('category_name,parent_id, city_id', 'required'),
             array('category_name', 'uniqueCategory'),
             //array('category_name','unique'),
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
             array('parent_id, city_id', 'numerical', 'integerOnly' => true),
-            array('category_name, added_date', 'length', 'max' => 255),
-            array('user_order', 'safe'),
+            array('category_name', 'length', 'max' => 255),
+            array('user_order,added_date', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('category_id,is_main_featured,slug,category_image', 'safe'),
