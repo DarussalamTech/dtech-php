@@ -8,7 +8,14 @@
  * @property string $site_name
  * @property string $site_descriptoin
  * @property string $site_headoffice
- * @property string $status
+ * @property string $fb_key
+ * @property string $fb_secret
+ * @property string $google_key
+ * @property string $google_secret
+ * @property string $twitter_key
+ * @property string $twitter_secret
+ * @property string $linkedin_key
+ * @property string $linkedin_secret
  */
 class SelfSite extends DTActiveRecord {
 
@@ -43,6 +50,8 @@ class SelfSite extends DTActiveRecord {
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
             array('site_headoffice,_cites,country_id,status', 'safe'),
             array('site_name, site_descriptoin', 'length', 'max' => 255),
+            array("linkedin_key,linkedin_secret,fb_secret,fb_key","safe"),
+            array("google_key,google_secret,twitter_key,twitter_secret","safe"),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('site_id, site_name,status,site_descriptoin,country_id', 'safe', 'on' => 'search'),
@@ -87,7 +96,14 @@ class SelfSite extends DTActiveRecord {
         $criteria->compare('site_id', $this->site_id);
         $criteria->compare('site_name', $this->site_name, true);
         $criteria->compare('site_descriptoin', $this->site_descriptoin, true);
-        $criteria->compare('status', $this->status, true);
+        $criteria->compare('status', $this->fb_key, true);
+        $criteria->compare('status', $this->fb_secret, true);
+        $criteria->compare('status', $this->google_key, true);
+        $criteria->compare('status', $this->google_secret, true);
+        $criteria->compare('status', $this->twitter_key, true);
+        $criteria->compare('status', $this->twitter_secret, true);
+        $criteria->compare('status', $this->linkedin_key, true);
+        $criteria->compare('status', $this->linkedin_secret, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
