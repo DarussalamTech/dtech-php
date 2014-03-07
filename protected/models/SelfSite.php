@@ -135,7 +135,10 @@ class SelfSite extends DTActiveRecord {
 
     public function getSiteInfo($url) {
         $site = Yii::app()->db->createCommand()
-                ->select('site_id,site_name,site_descriptoin,site_headoffice,status')
+                ->select('site_id,site_name,site_descriptoin,site_headoffice,
+                            status,fb_key,fb_secret,google_key,google_secret,
+                            twitter_key,twitter_secret,linkedin_key,linkedin_secret
+                            ')
                 ->from($this->tableName())
                 ->where("LOCATE(site_name,'$url')")
                 ->queryRow();
