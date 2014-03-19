@@ -1,6 +1,10 @@
 <?php
 /* @var $this ZoneController */
-/* @var $model Zone */
+
+Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/gridform.css');
+Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/functions.js');
+
+
 
 $this->breadcrumbs = array(
     'Zones' => array('index'),
@@ -39,4 +43,7 @@ $this->widget('zii.widgets.CDetailView', array(
         'name',
     ),
 ));
+
+$this->renderPartial('countries/_container', array('model' => $model, "type" => "form"));
+$this->renderPartial('dhl_rates/_container', array('model' => $model, "type" => "form"));
 ?>

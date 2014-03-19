@@ -2,31 +2,34 @@
 /* @var $this ZoneController */
 /* @var $model Zone */
 /* @var $form CActiveForm */
+
+Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/gridform.css');
+Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/functions.js');
 ?>
 
 <div class="form wide">
 
-    <?php
-    $form = $this->beginWidget('CActiveForm', array(
-        'id' => 'zone-form',
-        'enableAjaxValidation' => false,
-    ));
-    ?>
+<?php
+$form = $this->beginWidget('CActiveForm', array(
+    'id' => 'zone-form',
+    'enableAjaxValidation' => false,
+        ));
+?>
 
     <p class="note">Fields with <span class="required">*</span> are required.</p>
 
-    <?php echo $form->errorSummary($model); ?>
+<?php echo $form->errorSummary($model); ?>
 
     <div class="row">
-        <?php echo $form->labelEx($model, 'name'); ?>
+<?php echo $form->labelEx($model, 'name'); ?>
         <?php echo $form->textField($model, 'name', array('size' => 60, 'maxlength' => 255)); ?>
         <?php echo $form->error($model, 'name'); ?>
     </div>
 
     <div class="row buttons">
-        <?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save', array("class" => "btn")); ?>
+<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save', array("class" => "btn")); ?>
     </div>
 
-    <?php $this->endWidget(); ?>
+<?php $this->endWidget(); ?>
 
 </div><!-- form -->

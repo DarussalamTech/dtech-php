@@ -92,6 +92,7 @@ class Country extends DTActiveRecord {
             'short_name' => Yii::t('common', 'Short Name', array(), NULL, Yii::app()->controller->currentLang),
             'site_id' => Yii::t('common', 'Site', array(), NULL, Yii::app()->controller->currentLang),
             'c_status' => Yii::t('model_labels', 'Status', array(), NULL, Yii::app()->controller->currentLang),
+            'dhl_code' => Yii::t('model_labels', 'Short Name', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 

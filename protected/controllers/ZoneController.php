@@ -25,9 +25,13 @@ class ZoneController extends Controller {
      */
     public function accessRules() {
         return array(
-           
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('create', 'update','index', 'view', 'import', 'uploadRates'),
+                'actions' => array('create', 'update',
+                    'index', 'view',
+                    'loadChildByAjax',
+                    'editChild',
+                    'deleteChildByAjax',
+                    'import', 'uploadRates'),
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -56,8 +60,11 @@ class ZoneController extends Controller {
      * @param integer $id the ID of the model to be displayed
      */
     public function actionView($id) {
+        $model = $this->loadModel($id);
+        $this->manageChildrens($model);
+        
         $this->render('view', array(
-            'model' => $this->loadModel($id),
+            'model' => $model,
         ));
     }
 
@@ -73,6 +80,7 @@ class ZoneController extends Controller {
 
         if (isset($_POST['Zone'])) {
             $model->attributes = $_POST['Zone'];
+            $this->checkCilds($model);
             if ($model->save())
                 $this->redirect(array('view', 'id' => $model->id));
         }
@@ -180,6 +188,89 @@ class ZoneController extends Controller {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
+    }
+
+    /*
+     * managing recrods
+     * at create
+     */
+
+    private function checkCilds($model) {
+
+        if (isset($_POST['ProductCategories'])) {
+            $model->setRelationRecords('productCategories', is_array($_POST['ProductCategories']) ? $_POST['ProductCategories'] : array());
+        }
+
+        return true;
+    }
+
+    /**
+     * will be used to manage child at 
+     * view mode
+     * @param type $model 
+     */
+    private function manageChildrens($model) {
+
+        $this->manageChild($model, "catlangs", "category");
+    }
+
+    /**
+     *
+     * @param <type> $mName
+     * @param <type> $index
+     */
+    public function actionLoadChildByAjax($mName, $dir, $load_for, $index, $upload_index = "") {
+        /* Get regarding model */
+        $model = new $mName;
+
+        $this->renderPartial($dir . '/_fields_row', array(
+            'index' => $index,
+            'model' => $model,
+            "load_for" => $load_for,
+            'dir' => $dir,
+           
+            'fields_div_id' => $dir . '_fields'), false, true);
+    }
+
+    /**
+     *
+     * @param <type> $id
+     * @param <type> $mName
+     * @param <type> $dir 
+     */
+    public function actionEditChild($id, $mName = "", $dir = "") {
+
+        /* Get regarding model */
+        $model = new $mName;
+        $render_view = $dir . '/_fields_row';
+
+        $model = $model->findByPk($id);
+
+
+        $this->renderPartial($render_view, array('index' => 1, 'model' => $model,
+            "load_for" => "view", 'dir' => $dir, "displayd" => "block",
+            'fields_div_id' => $dir . '_fields',
+                ), false, true);
+    }
+
+    /**
+     * delete child by ajax
+     * @param type $id
+     * @param type $mName
+     * @throws CHttpException 
+     */
+    public function actionDeleteChildByAjax($id, $mName) {
+
+        if (Yii::app()->request->isAjaxRequest) {
+            /* Get regarding model */
+            $model = new $mName;
+
+            $model = $model->findByPk($id);
+
+            $model->deleteByPk($id);
+        }
+        else
+            throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
     }
 
 }

@@ -57,7 +57,7 @@ class ZoneRatesHistory extends DTActiveRecord {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'rate0' => array(self::BELONGS_TO, 'DhlRates', 'rate_id'),
+            'rate0' => array(self::BELONGS_TO, 'ZoneRates', 'rate_id'),
         );
     }
 

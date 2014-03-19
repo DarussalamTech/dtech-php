@@ -172,7 +172,9 @@ $rules_admin = array(
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/<id:[\w-\.]+>/zone/view' => '/zone/view',
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/<id:[\w-\.]+>/zone/delete' => '/zone/delete',
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/zone/uploadRates' => '/zone/uploadRates',
-
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/zone/loadChildByAjax' => '/zone/loadChildByAjax',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/zone/editChild/<id:[\w-\.]+>' => '/zone/editChild',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/zone/deleteChildByAjax/<id:[\w-\.]+>' => '/zone/deleteChildByAjax',
     
 );
 ?>
