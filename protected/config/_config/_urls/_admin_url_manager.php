@@ -163,5 +163,16 @@ $rules_admin = array(
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/import/index' => '/import/index',
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/<step:[\w-\.]+>/<id:[\w-\.]+>/import/index' => '/import/index',
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/<step:[\w-\.]+>/import/index' => '/import/index',
+    
+    /** internation Shipping module * */
+    
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/zone/create' => '/zone/create',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/zone/index' => '/zone/index',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/<id:[\w-\.]+>/zone/update' => '/zone/update',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/<id:[\w-\.]+>/zone/view' => '/zone/view',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/<id:[\w-\.]+>/zone/delete' => '/zone/delete',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/zone/uploadRates' => '/zone/uploadRates',
+
+    
 );
 ?>

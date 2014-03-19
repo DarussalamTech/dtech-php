@@ -12,6 +12,7 @@
  * @property string $order_date
  * @property string $status
  * @property string $user_id
+ * @property string $dhl_history_id
  *
  * The followings are the available model relations:
  * @property User $user
@@ -53,7 +54,7 @@ class Order extends DTActiveRecord {
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
             array('tax_amount,shipping_price,total_price', 'length', 'max' => 10),
             array('order_date', 'length', 'max' => 255),
-            array('order_id,service_charges,notifyUser,transaction_id,status,city_id', 'safe'),
+            array('dhl_history_id,order_id,service_charges,notifyUser,transaction_id,status,city_id', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('order_id, user_id, total_price, order_date', 'safe', 'on' => 'search'),
@@ -123,6 +124,7 @@ class Order extends DTActiveRecord {
             'service_charges' => Yii::t('common', 'Current Service Charges', array(), NULL, Yii::app()->controller->currentLang),
             'tax_amount' => Yii::t('common', 'Tax Amount', array(), NULL, Yii::app()->controller->currentLang),
             'payment_method_id' => Yii::t('model_labels', 'Payment Method', array(), NULL, Yii::app()->controller->currentLang),
+            'dhl_history_id' => Yii::t('model_labels', 'Dhl Order ', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 
@@ -149,6 +151,7 @@ class Order extends DTActiveRecord {
         $criteria->compare('tax_amount', $this->tax_amount, true);
         $criteria->compare('shipping_price', $this->shipping_price, true);
         $criteria->compare('payment_method_id', $this->payment_method_id, true);
+        $criteria->compare('dhl_history_id', $this->dhl_history_id, true);
 
         $criteria->compare('city_id', Yii::app()->request->getQuery("city_id"), true);
 

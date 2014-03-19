@@ -29,6 +29,7 @@ if (!(Yii::app()->user->isGuest)) {
         </span>
     </div>
 </div>
+<div class="clear"></div>
 <?php
 $this->widget('zii.widgets.CDetailView', array(
     'data' => $model,

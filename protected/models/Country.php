@@ -9,6 +9,8 @@
  * @property string $short_name
  * @property integer $site_id
  * @property integer $c_status
+ * @property integer $dhl_code
+ * @property integer $zone_id
  *
  * The followings are the available model relations:
  * @property City[] $cities
@@ -46,10 +48,10 @@ class Country extends DTActiveRecord {
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
             array('site_id', 'numerical', 'integerOnly' => true),
             array('country_name, short_name', 'length', 'max' => 255),
-            array('country_id,c_status', 'safe'),
+            array('zone_id,dhl_code,country_id,c_status', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('country_id, country_name, short_name, site_id', 'safe', 'on' => 'search'),
+            array('zone_id,dhl_code,country_id, country_name, short_name, site_id', 'safe', 'on' => 'search'),
         );
     }
 
@@ -107,6 +109,8 @@ class Country extends DTActiveRecord {
         $criteria->compare('country_name', $this->country_name, true);
         $criteria->compare('short_name', $this->short_name, true);
         $criteria->compare('site_id', $this->site_id);
+        $criteria->compare('dhl_code', $this->dhl_code);
+        $criteria->compare('zone_id', $this->zone_id);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,

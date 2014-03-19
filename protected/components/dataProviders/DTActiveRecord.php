@@ -57,26 +57,33 @@ class DTActiveRecord extends CActiveRecord {
 
     protected function beforeValidate() {
 
+        if (php_sapi_name() != "cli") {
+            $this->_action = Yii::app()->controller->action->id;
 
-        $this->_action = Yii::app()->controller->action->id;
-        if ($this->isNewRecord) {
+            if ($this->isNewRecord) {
 
-            // set the create date, last updated date and the user doing the creating
-            $this->create_time = $this->update_time = date("Y-m-d H:i:s"); //new CDbExpression('NOW()');
-            $this->create_user_id = $this->update_user_id = Yii::app()->user->id;
-            // $this->users_id=1;//$this->update_user_id=Yii::app()->user->id;
-        } else {
-            //not a new record, so just set the last updated time and last updated user id
-            $this->update_time = new CDbExpression('NOW()');
-            $this->update_user_id = Yii::app()->user->id;
-            // $this->users_id=1;
+                // set the create date, last updated date and the user doing the creating
+                $this->create_time = $this->update_time = date("Y-m-d H:i:s"); //new CDbExpression('NOW()');
+                $this->create_user_id = $this->update_user_id = Yii::app()->user->id;
+                // $this->users_id=1;//$this->update_user_id=Yii::app()->user->id;
+            } else {
+                //not a new record, so just set the last updated time and last updated user id
+                $this->update_time = new CDbExpression('NOW()');
+                $this->update_user_id = Yii::app()->user->id;
+                // $this->users_id=1;
+            }
         }
+
+
         /**
-          special conidtion
+          special conidtion 
+         * in case of use php cli
          */
-        if (empty(Yii::app()->user->id)) {
+        if (!isset(Yii::app()->user->id) || php_sapi_name() =="Cli") {
             $this->create_user_id = 1;
             $this->update_user_id = 1;
+            $this->create_time = new CDbExpression('NOW()');
+            $this->update_time = new CDbExpression('NOW()');
         }
         parent::beforeValidate();
         $this->attributes = $this->decodeArray($this->attributes);
@@ -261,7 +268,7 @@ class DTActiveRecord extends CActiveRecord {
             "install"
         );
 
-        $actions = array("login", "logout","mailer","sendEmailinvitation", "storehome", "activate", "index");
+        $actions = array("login", "logout", "mailer", "sendEmailinvitation", "storehome", "activate", "index");
 
         if (!in_array($controller, $controllers) && !in_array($this->_action, $actions) && !empty(Yii::app()->session['city_id'])) {
 
@@ -296,14 +303,14 @@ class DTActiveRecord extends CActiveRecord {
         }
         $controller = Yii::app()->controller->id;
 
-        $controllers = array( "site", "wS",
+        $controllers = array("site", "wS",
             "error",
             "import",
             "user",
             "commonSystem", "assignment",
             "authItem",
             "install");
-        $actions = array("login","mailer", "sendEmailinvitation","logout", "storehome", "activate", "index"); // apply the criteria to all dtActiveRec execpt these methods..Ub
+        $actions = array("login", "mailer", "sendEmailinvitation", "logout", "storehome", "activate", "index"); // apply the criteria to all dtActiveRec execpt these methods..Ub
 
 
 
