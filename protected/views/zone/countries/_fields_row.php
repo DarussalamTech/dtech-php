@@ -27,20 +27,21 @@ $relationName = "countries";
 
     <div class="del del-icon" >
         <?php
-        echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . '/images/icons/plus.gif', 'Add'), '#', array(
-            'class' => 'plus',
-            'onclick' =>
-            "
-                
-		    u = '" . Yii::app()->controller->createUrl("loadChildByAjax", array("mName" => "$mName", "dir" => $dir, "load_for" => $load_for,)) . "&index=' + " . $relationName . "_index_sc;
-                    
-                    
-                    add_new_child_row(u, '" . $dir . "', '" . $fields_div_id . "', 'grid_fields', true);
-                    
-                    " . $relationName . "_index_sc++;
-                    return false;
-                    "
-        ));
+         //no need for this this will be from import script or migrations
+//        echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . '/images/icons/plus.gif', 'Add'), '#', array(
+//            'class' => 'plus',
+//            'onclick' =>
+//            "
+//                
+//		    u = '" . Yii::app()->controller->createUrl("loadChildByAjax", array("mName" => "$mName", "dir" => $dir, "load_for" => $load_for,)) . "&index=' + " . $relationName . "_index_sc;
+//                    
+//                    
+//                    add_new_child_row(u, '" . $dir . "', '" . $fields_div_id . "', 'grid_fields', true);
+//                    
+//                    " . $relationName . "_index_sc++;
+//                    return false;
+//                    "
+//        ));
         ?>
         <?php
         echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . '/images/icons/cross.gif', 'Delete'), '#', array('onclick' => 'delete_fields(this, 2, "#' . $relationName . '-form", ".grid_fields"); return false;', 'title' => 'sc'));

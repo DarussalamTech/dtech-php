@@ -197,8 +197,8 @@ class ZoneController extends Controller {
 
     private function checkCilds($model) {
 
-        if (isset($_POST['ProductCategories'])) {
-            $model->setRelationRecords('productCategories', is_array($_POST['ProductCategories']) ? $_POST['ProductCategories'] : array());
+        if (isset($_POST['ZoneRates'])) {
+            $model->setRelationRecords('dhl_rates', is_array($_POST['ZoneRates']) ? $_POST['ZoneRates'] : array());
         }
 
         return true;
@@ -211,7 +211,7 @@ class ZoneController extends Controller {
      */
     private function manageChildrens($model) {
 
-        $this->manageChild($model, "catlangs", "category");
+        $this->manageChild($model, "dhl_rates", "zone_dhl");
     }
 
     /**

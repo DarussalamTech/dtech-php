@@ -26,18 +26,19 @@ $plusImage = "<div class='left_float' style='padding-top:2px'>" .
         </div>
         <div class="right_float">
             <?php
-            echo CHtml::link('Add New', '#', array(
-                'onclick' => "
-
-                    u = '" . $this->createUrl("loadChildByAjax", array("mName" => "$mName", "dir" => $dir, "load_for" => $this->action->id,)) . "&index=' +  " . $relationName . "_index_sc;
-                    add_new_child_row(u, '" . $dir . "', '" . $fields_div_id . "', 'grid_fields', true);
-                    jQuery('#" . $relationName . "-plus').attr('class', 'plus_rotate');
-              
-                     
-                    " . $relationName . "_index_sc++;
-                    return false;
-                    ", "class" => "plus_bind"
-            ))
+              //no need for this this will be from import script or migrations
+//            echo CHtml::link('Add New', '#', array(
+//                'onclick' => "
+//
+//                    u = '" . $this->createUrl("loadChildByAjax", array("mName" => "$mName", "dir" => $dir, "load_for" => $this->action->id,)) . "&index=' +  " . $relationName . "_index_sc;
+//                    add_new_child_row(u, '" . $dir . "', '" . $fields_div_id . "', 'grid_fields', true);
+//                    jQuery('#" . $relationName . "-plus').attr('class', 'plus_rotate');
+//              
+//                     
+//                    " . $relationName . "_index_sc++;
+//                    return false;
+//                    ", "class" => "plus_bind"
+//            ))
             ?>
         </div>
         <div class="clear"></div>
