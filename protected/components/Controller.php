@@ -186,6 +186,7 @@ class Controller extends RController {
             "User" => "View",
             "Import" => "Status",
             "ShippingClass" => "View",
+            "Zone" => "View",
                 //"Assignment" => "View",
         );
     }

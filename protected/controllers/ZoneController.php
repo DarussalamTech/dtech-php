@@ -13,45 +13,26 @@ class ZoneController extends Controller {
      */
     public function filters() {
         return array(
-            'accessControl', // perform access control for CRUD operations
+            'rights',
             'postOnly + delete', // we only allow deletion via POST request
+            'https + index + view + update + create + delete + toggleEnabled',
         );
     }
 
     /**
-     * Specifies the access control rules.
-     * This method is used by the 'accessControl' filter.
-     * @return array access control rules
+     * 
+     * @return string
      */
-    public function accessRules() {
-        return array(
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('create', 'update',
-                    'index', 'view',
-                    'loadChildByAjax',
-                    'editChild',
-                    'deleteChildByAjax',
-                    'import', 'uploadRates'),
-                'users' => array('@'),
-            ),
-            array('allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions' => array('delete'),
-                'users' => array('admin'),
-            ),
-            array('deny', // deny all users
-                'users' => array('*'),
-            ),
-        );
+    public function allowedActions() {
+        return '@';
     }
 
-    /**
-     * setting theme and permissions
-     * @param type $action
-     * @return boolean
-     */
     public function beforeAction($action) {
-        Yii::app()->theme = "admin";
         parent::beforeAction($action);
+        Yii::app()->theme = "admin";
+
+        $operations = array('create', 'update', 'index', 'delete');
+        parent::setPermissions($this->id, $operations);
         return true;
     }
 
@@ -62,7 +43,7 @@ class ZoneController extends Controller {
     public function actionView($id) {
         $model = $this->loadModel($id);
         $this->manageChildrens($model);
-        
+
         $this->render('view', array(
             'model' => $model,
         ));
@@ -228,7 +209,6 @@ class ZoneController extends Controller {
             'model' => $model,
             "load_for" => $load_for,
             'dir' => $dir,
-           
             'fields_div_id' => $dir . '_fields'), false, true);
     }
 

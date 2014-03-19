@@ -43,7 +43,9 @@ $this->widget('zii.widgets.CDetailView', array(
         'name',
     ),
 ));
-
 $this->renderPartial('countries/_container', array('model' => $model, "type" => "form"));
-$this->renderPartial('dhl_rates/_container', array('model' => $model, "type" => "form"));
+if (stristr(Yii::app()->session['city_short_name'], "lahore")) {
+
+    $this->renderPartial('dhl_rates/_container', array('model' => $model, "type" => "form"));
+}
 ?>
