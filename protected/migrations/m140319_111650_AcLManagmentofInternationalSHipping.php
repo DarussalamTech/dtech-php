@@ -57,6 +57,16 @@ class m140319_111650_AcLManagmentofInternationalSHipping extends DTDbMigration {
         );
         $this->insert($table, $columns);
 
+        //view history
+        $table = "authitem";
+        $columns = array(
+            "name" => "Zone.ViewHistory",
+            "type" => "0",
+            "bizrule" => "",
+            "data" => "N;",
+        );
+        $this->insert($table, $columns);
+
         //zone view
 
         $table = "authitem";
@@ -165,6 +175,14 @@ class m140319_111650_AcLManagmentofInternationalSHipping extends DTDbMigration {
         );
         $this->insert($table, $columns);
 
+        //view history
+        $table = "authitemchild";
+        $columns = array(
+            "parent" => "Zone.View",
+            "child" => "Zone.ViewHistory",
+        );
+        $this->insert($table, $columns);
+
         //--------Rights-----
 
         $table = "rights";
@@ -206,6 +224,15 @@ class m140319_111650_AcLManagmentofInternationalSHipping extends DTDbMigration {
         $table = "rights";
         $columns = array(
             "itemname" => "Zone.View",
+            "type" => "0",
+        );
+        $this->insert($table, $columns);
+
+
+        //view history
+        $table = "rights";
+        $columns = array(
+            "itemname" => "Zone.ViewHistory",
             "type" => "0",
         );
         $this->insert($table, $columns);

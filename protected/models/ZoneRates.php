@@ -64,7 +64,7 @@ class ZoneRates extends DTActiveRecord {
         return array(
             'dhlRatesHistories' => array(self::HAS_MANY, 'ZoneRatesHistory', 'rate_id'),
             'zone' => array(self::BELONGS_TO, 'Zone', 'zone_id'),
-            'zone_dhl' => array(self::BELONGS_TO, 'Zone', 'zone_id','condition'=>'rate_type="dhl"'),
+            'zone_dhl' => array(self::BELONGS_TO, 'Zone', 'zone_id', 'condition' => 'rate_type="dhl"'),
         );
     }
 
@@ -111,14 +111,22 @@ class ZoneRates extends DTActiveRecord {
             'criteria' => $criteria,
         ));
     }
+
     /**
      * save history data
      */
     public function afterSave() {
-        $model = new ZoneRatesHistory;
-        $model->rate_id = $this->id;
-        $model->rate = $this->rate;
-        $model->save();
+        $criteria = new CDbCriteria;
+        $criteria->order = "create_time DESC";
+        $criteria->condition = "rate_id = " . $this->id;
+        $criteria->select = "rate";
+        $lastZone = ZoneRatesHistory::model()->find($criteria);
+        if ($lastZone != $this->rate) {
+            $model = new ZoneRatesHistory;
+            $model->rate_id = $this->id;
+            $model->rate = $this->rate;
+            $model->save();
+        }
         parent::afterSave();
         return true;
     }

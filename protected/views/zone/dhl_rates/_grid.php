@@ -37,7 +37,7 @@ $mName = "ZoneRates";
             array
                 (
                 'class' => 'CButtonColumn',
-                'template' => '{update} {delete}',
+                'template' => '{view} {update} {delete}',
                 'buttons' => array
                     (
                     'update' => array
@@ -64,6 +64,10 @@ $mName = "ZoneRates";
                     'delete' => array(
                         'label' => 'Delete',
                         'url' => 'Yii::app()->controller->createUrl("deleteChildByAjax",array("id" => $data->primaryKey, "mName" => "' . $mName . '"))',
+                    ),
+                    'view' => array(
+                        'label' => 'Delete',
+                        'url' => 'Yii::app()->controller->createUrl("viewHistory",array("id" => $data->primaryKey, "mName" => "' . $mName . '"))',
                     ),
                 ),
             ),

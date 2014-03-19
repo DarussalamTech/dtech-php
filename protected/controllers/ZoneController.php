@@ -253,4 +253,26 @@ class ZoneController extends Controller {
             throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
     }
 
+    /**
+     * 
+     * @param type $id
+     * @param type $mName
+     */
+    public function actionViewHistory($id, $mName) {
+        $criteria = new CDbCriteria;
+        $criteria->addCondition("rate_id = " . $id);
+        $dataProvider = new CActiveDataProvider("ZoneRatesHistory", array(
+            'criteria' => $criteria,
+            'sort' => array(
+                'defaultOrder' => array(
+                    'create_time' => 'DESC',
+                ),
+            ),
+            'pagination' => array(
+                'pageSize' => 40,
+            ),
+        ));
+        $this->render("history", array("dataProvider" => $dataProvider));
+    }
+
 }
