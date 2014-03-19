@@ -55,7 +55,7 @@ class Zone extends DTActiveRecord {
         return array(
             'rates' => array(self::HAS_MANY, 'ZoneRates', 'zone_id'),
             'countries' => array(self::HAS_MANY, 'Country', 'zone_id'),
-            'dhl_rates' => array(self::HAS_MANY, 'ZoneRates', 'zone_id','condition'=>'rate_type = "rate_type"'),
+            'dhl_rates' => array(self::HAS_MANY, 'ZoneRates', 'zone_id', 'condition' => 'rate_type = "rate_type"'),
         );
     }
 
@@ -92,6 +92,9 @@ class Zone extends DTActiveRecord {
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
+            'pagination' => array(
+                'pageSize' => 40,
+            ),
         ));
     }
 

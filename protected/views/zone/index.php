@@ -53,9 +53,7 @@ $('.search-form form').submit(function(){
 
 <?php
 $template = "";
-if (isset($this->OpPermission[ucfirst($this->id) . ".Update"]) && $this->OpPermission[ucfirst($this->id) . ".Update"]) {
-    $template.= "{enableimg} {disableimg} {enable} {disable} &nbsp;&nbsp;&nbsp; ";
-}
+
 if (isset($this->OpPermission[ucfirst($this->id) . ".View"]) && $this->OpPermission[ucfirst($this->id) . ".View"]) {
     $template.= "{view}";
 }
@@ -63,10 +61,7 @@ if (isset($this->OpPermission[ucfirst($this->id) . ".Update"]) && $this->OpPermi
     $template.= "{update} ";
 }
 
-if (isset($this->OpPermission[ucfirst($this->id) . ".Delete"]) && $this->OpPermission[ucfirst($this->id) . ".Delete"]) {
-    $template.= "{delete}";
-}
-$template.= "{view}";
+
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'zone-grid',
     'dataProvider' => $model->search(),

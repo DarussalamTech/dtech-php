@@ -16,7 +16,7 @@ if (Yii::app()->user->isAdmin || Yii::app()->user->isSuperAdmin) {
 
 <div class="pading-bottom-5">
     <div class="left_float">
-       <h1>Update Zone <?php echo $model->name; ?></h1>
+       <h1>Update Zone [<?php echo $model->name; ?>]</h1>
     </div>
 
     <?php /* Convert to Monitoring Log Buttons */ ?>
