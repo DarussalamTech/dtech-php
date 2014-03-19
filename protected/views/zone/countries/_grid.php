@@ -1,33 +1,39 @@
 <?php
 $relationName = "countries";
-$mName="Country";
+$mName = "Country";
 ?>
 
 <div class="<?php echo $relationName; ?> child" style="<?php echo 'display:' . (isset($_POST[$mName]) ? 'block' : 'none'); ?>">
     <?php
-    
     $config = array(
         'criteria' => array(
-           'condition' => 'zone_id =' . $model->primaryKey
-        )
+            'condition' => 'zone_id =' . $model->primaryKey
+        ),
+        'sort' => array(
+            'defaultOrder' => array(
+                'id' => true,
+            ),
+        ),
+        'pagination' => array(
+            'pageSize' => 40,
+        ),
     );
     $mNameobj = new $mName;
     $mName_provider = new CActiveDataProvider($mName, $config);
     $this->widget('zii.widgets.grid.CGridView', array(
-        'id' => $mName.'-grid',
+        'id' => $mName . '-grid',
         'dataProvider' => $mName_provider,
         'columns' => array(
-           array(
+            array(
                 'name' => 'country_name',
-                'value'=>'$data->country_name',
-                "type"=>"raw",
+                'value' => '$data->country_name',
+                "type" => "raw",
             ),
-           array(
+            array(
                 'name' => 'dhl_code',
-                'value'=>'$data->dhl_code',
-                "type"=>"raw",
+                'value' => '$data->dhl_code',
+                "type" => "raw",
             ),
-       
             array
                 (
                 'class' => 'CButtonColumn',
@@ -57,7 +63,7 @@ $mName="Country";
                     ),
                     'delete' => array(
                         'label' => 'Delete',
-                        'url' => 'Yii::app()->controller->createUrl("deleteChildByAjax",array("id" => $data->primaryKey, "mName" => "'.$mName.'"))',
+                        'url' => 'Yii::app()->controller->createUrl("deleteChildByAjax",array("id" => $data->primaryKey, "mName" => "' . $mName . '"))',
                     ),
                 ),
             ),

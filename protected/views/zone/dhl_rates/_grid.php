@@ -1,33 +1,39 @@
 <?php
 $relationName = "dhl_rates";
-$mName="ZoneRates";
+$mName = "ZoneRates";
 ?>
 
 <div class="<?php echo $relationName; ?> child" style="<?php echo 'display:' . (isset($_POST[$mName]) ? 'block' : 'none'); ?>">
     <?php
-    
     $config = array(
         'criteria' => array(
-           'condition' => ' rate_type = "dhl" AND zone_id =' . $model->primaryKey." AND city_id = '".$_REQUEST['city_id']."'",
-        )
+            'condition' => ' rate_type = "dhl" AND zone_id =' . $model->primaryKey . " AND city_id = '" . $_REQUEST['city_id'] . "'",
+        ),
+        'sort' => array(
+            'defaultOrder' => array(
+                'id' => true,
+            ),
+        ),
+        'pagination' => array(
+            'pageSize' => 40,
+        ),
     );
     $mNameobj = new $mName;
     $mName_provider = new CActiveDataProvider($mName, $config);
     $this->widget('zii.widgets.grid.CGridView', array(
-        'id' => $mName.'-grid',
+        'id' => $mName . '-grid',
         'dataProvider' => $mName_provider,
         'columns' => array(
-           array(
+            array(
                 'name' => 'weight',
-                'value'=>'$data->weight',
-                "type"=>"raw",
+                'value' => '$data->weight',
+                "type" => "raw",
             ),
-           array(
+            array(
                 'name' => 'rate',
-                'value'=>'$data->rate',
-                "type"=>"raw",
+                'value' => '$data->rate',
+                "type" => "raw",
             ),
-       
             array
                 (
                 'class' => 'CButtonColumn',
@@ -57,7 +63,7 @@ $mName="ZoneRates";
                     ),
                     'delete' => array(
                         'label' => 'Delete',
-                        'url' => 'Yii::app()->controller->createUrl("deleteChildByAjax",array("id" => $data->primaryKey, "mName" => "'.$mName.'"))',
+                        'url' => 'Yii::app()->controller->createUrl("deleteChildByAjax",array("id" => $data->primaryKey, "mName" => "' . $mName . '"))',
                     ),
                 ),
             ),
