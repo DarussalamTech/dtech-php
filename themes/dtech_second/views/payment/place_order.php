@@ -58,6 +58,8 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
 
         $books_range = array("price_range" => 0, "weight_range" => 0, 'categories' => array());
         $other_range = array("price_range" => 0, "weight_range" => 0, 'categories' => array());
+        //will be used in international shipping 
+        $total_weight = 0;
         foreach ($cart as $pro) {
             $grand_total = $grand_total + ($pro->quantity * $pro->productProfile->price);
             $total_quantity+=$pro->quantity;
@@ -71,15 +73,18 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
              * it is check for pk darussalam
              * to whether they want to use this this
              */
+
+            $prod_weight = (double) (isset($pro->productProfile->weight) ? $pro->productProfile->weight : 0);
+            //echo $pro->productProfile->weight_unit . "--=" . $prod_weight . "--" . $pro->productProfile->id;
+
+            if ($pro->productProfile->weight_unit == "g" && $prod_weight > 0) {
+                $prod_weight = $prod_weight / 1000;
+            }
+
             if ($pro->productProfile->product->parent_category->category_name == "Books" ||
                     $pro->productProfile->product->parent_category->category_name == "Quran") {
 
-                $prod_weight = (double) (isset($pro->productProfile->weight) ? $pro->productProfile->weight : 0);
-                //echo $pro->productProfile->weight_unit . "--=" . $prod_weight . "--" . $pro->productProfile->id;
 
-                if ($pro->productProfile->weight_unit == "g" && $prod_weight > 0) {
-                    $prod_weight = $prod_weight / 1000;
-                }
 
                 $books_range['price_range'] = $books_range['price_range'] + ($pro->quantity * $pro->productProfile->price);
                 $books_range['weight_range'] = $books_range['weight_range'] + $prod_weight;
@@ -89,17 +94,13 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
                 $books_range['categories'][$pro->productProfile->product->parent_cateogry_id] = $pro->productProfile->product->parent_cateogry_id;
             } else {
 
-                $prod_weight = (double) (isset($pro->productProfile->weight) ? $pro->productProfile->weight : 0);
-                //echo $pro->productProfile->weight_unit . "--=" . $prod_weight . "--" . $pro->productProfile->id;
-                //if unit is gram then it converted to kg
-                if ($pro->productProfile->weight_unit == "g" && $prod_weight > 0) {
-                    $prod_weight = $prod_weight / 1000;
-                }
+
 
                 $other_range['price_range'] = $other_range['price_range'] + ($pro->quantity * $pro->productProfile->price);
                 $other_range['weight_range'] = $other_range['weight_range'] + $prod_weight;
                 $other_range['categories'][$pro->productProfile->product->parent_cateogry_id] = $pro->productProfile->product->parent_cateogry_id;
             }
+            $total_weight+=$prod_weight;
 
             $cart_html .= "<div class='login_img  " . $css_alternat . "'>";
             $cart_html .= "<p>";
@@ -115,18 +116,53 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
 
         <?php
         echo $cart_html;
-        $is_source = 1;
+        $shipping_cost = 0;
+        //same is current city of website may pakistan (lahore) , saudi arab (Jaddah)
+        if (strtolower(Yii::app()->user->WebCity->country->country_name) == strtolower($userShipping->country->name)) {
+            $is_source = 1;
+            if (strtolower(Yii::app()->session['city_short_name']) != strtolower($userShipping->shipping_city)) {
+                $is_source = 0;
+            }
 
-        if (strtolower(Yii::app()->session['city_short_name']) != strtolower($userShipping->shipping_city)) {
-            $is_source = 0;
+            $shipping_price_books = ShippingClass::model()->calculateShippingCost($books_range['categories'], $books_range['price_range'], "price", $is_source);
+            $shipping_price_other = ShippingClass::model()->calculateShippingCost($other_range['categories'], $other_range['weight_range'], "weight", $is_source);
+
+            $shipping_cost = $shipping_price_books + $shipping_price_other;
+
+            $this->setShippingCost($shipping_cost);
+        } else {
+            $total_weight = 32;
+            $criteria = new CDbCriteria;
+            $condition = "zone_id = " . $userShipping->country->zone->id . " AND ";
+
+            $condition.= " rate_type = 'dhl' AND weight >= " . $total_weight;
+            $criteria->addCondition($condition);
+
+            if ($zone_rate = ZoneRates::model()->find($criteria)) {
+                 $shipping_cost = (double) str_replace(",", "", $zone_rate->rate);
+            } else {
+                //in case weight not found in category
+                
+                $criteria = new CDbCriteria;
+                $criteria->limit = 2;
+                $criteria->order = "id DESC";
+                $condition = "zone_id = " . $userShipping->country->zone->id . " AND ";
+
+                $condition.= " rate_type = 'dhl' ";
+                $criteria->addCondition($condition);
+                $zone_rate = ZoneRates::model()->findAll($criteria);
+              
+
+                //$zone_rate[1] is last weight rate
+                //$zone_rate[0] is multiply rate for increasing of 1000 g or 1 kg
+  
+                $incrment_rate = $zone_rate[0]->rate;
+                $weight_to_multiply= ceil($total_weight - $zone_rate[1]->weight) * $zone_rate[0]->rate;
+                $shipping_cost = $weight_to_multiply + str_replace(",","",$zone_rate[1]->rate);
+                
+            }
+             $this->setShippingCost($shipping_cost);
         }
-
-        $shipping_price_books = ShippingClass::model()->calculateShippingCost($books_range['categories'], $books_range['price_range'], "price", $is_source);
-        $shipping_price_other = ShippingClass::model()->calculateShippingCost($other_range['categories'], $other_range['weight_range'], "weight", $is_source);
-
-        $shipping_cost = $shipping_price_books + $shipping_price_other;
-
-        $this->setShippingCost($shipping_cost);
         ?>
 
         <div class='login_img'>
@@ -135,7 +171,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
                 <span style='font-weight:bold;margin-left:50px;'></span>
                 <b>
                     <?php echo $grand_total; ?>
-                 
+
                 </b>
             </p>
             <p>
@@ -146,7 +182,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
                     <?php
                     $grand_total = ($grand_total + (double) $shipping_cost);
                     $tax_rate = ConfTaxRates::model()->getTaxRate($grand_total);
-                    
+
                     $this->setTaxAmount($tax_rate);
                     ?>
                 </b>
@@ -155,7 +191,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
                 <p>Tax : <?php echo Yii::app()->session['currency'] . " " . $tax_rate; ?> </p>
             </div>
             <div class="clear"></div>
-           <div style="float:right;margin-right: 10px;font-weight: bold">
+            <div style="float:right;margin-right: 10px;font-weight: bold">
                 <p>TOTAL : <?php echo Yii::app()->session['currency'] . " " . ($grand_total + (double) $tax_rate); ?> </p>
             </div>
         </div>
@@ -169,7 +205,8 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
             ),
         ));
         echo $form->hiddenField($userShipping, 'payment_method');
-//if payment method is credit card then
+        
+        //if payment method is credit card then
         if ($userShipping->payment_method == "Credit Card") {
             $this->renderPartial("//payment/_credit_card", array(
                 "model" => $userShipping,
