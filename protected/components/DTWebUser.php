@@ -38,6 +38,11 @@ class DTWebUser extends CWebUser {
 
         return ($this->user && $this->user->role_id == User::LEVEL_CUSTOMER);
     }
+    //is user a customer
+    function getWebCity() {
+
+        return City::model()->findByPk(Yii::app()->session['city_id']);
+    }
 
     //get the logged user
     function getUser() {
@@ -165,6 +170,7 @@ class DTWebUser extends CWebUser {
           Yii::app()->theme = Yii::app()->params['theme'];
           }
          */
+        Yii::app()->user->userCity = $cityModel->city_id;
         $_REQUEST['city_id'] = $cityModel->city_id;
 
         return true;

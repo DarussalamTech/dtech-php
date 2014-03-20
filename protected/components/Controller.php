@@ -141,7 +141,8 @@ class Controller extends RController {
                 //'jquery-ui.min.js' => false,
                 //'jquery-ui.css' => false
         );
-
+    
+//        die;
         return true;
     }
 
