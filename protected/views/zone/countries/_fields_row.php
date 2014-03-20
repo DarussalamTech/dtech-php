@@ -3,7 +3,7 @@
 if (!isset($display)) {
     $display = 'none';
 }
-$mName = "Country";
+$mName = "Region";
 $relationName = "countries";
 ?>
 <div class="grid_fields" style="display:<?php echo $display; ?>">
@@ -12,10 +12,10 @@ $relationName = "countries";
     <div class="field" style="width:200px">
         <?php
         if ($load_for == "view") {
-            echo CHtml::activeHiddenField($model, '[' . $index . ']country_id');
+            echo CHtml::activeHiddenField($model, '[' . $index . ']id');
         }
 
-        echo CHtml::activeTextField($model, '[' . $index . ']country_name');
+        echo CHtml::activeTextField($model, '[' . $index . ']name');
         ?>
     </div>
     <div class="field" style="width:200px">

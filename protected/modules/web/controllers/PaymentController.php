@@ -91,6 +91,7 @@ class PaymentController extends Controller {
 
             $criteria->addInCondition("name", $country_list);
         }
+        $criteria->order = "name ASC";
         $regionList = CHtml::listData(Region::model()->findAll($criteria), 'id', 'name');
         $this->render('//payment/payment_method', array(
             'model' => $model,
@@ -130,9 +131,9 @@ class PaymentController extends Controller {
                 }
             }
         }
-
-
-        $regionList = CHtml::listData(Region::model()->findAll(), 'id', 'name');
+        $criteriaC = new CDbCriteria;
+        $criteriaC->order = "name ASC";
+        $regionList = CHtml::listData(Region::model()->findAll($criteriaC), 'id', 'name');
         $this->render('//payment/payment_method_billing', array(
             'model' => $model,
             'regionList' => $regionList,

@@ -2,7 +2,7 @@
 $dir = "countries";
 $fields_div_id = $dir . '_fields';
 $heading = "Countries";
-$mName = "Country";
+$mName = "Region";
 
 /* when page is rediretc it contains #relation name use same name to go at that child at page */
 $relationName = $dir;
@@ -58,7 +58,7 @@ $plusImage = "<div class='left_float' style='padding-top:2px'>" .
             <!--        <div class="head">Field Force Labors</div>-->
             <div class="form_body">
                 <div class="grid_title">
-                    <div class="title" style="width:200px"><?php echo CHtml::activeLabel($relateModelobj, 'country_name'); ?></div>
+                    <div class="title" style="width:200px"><?php echo CHtml::activeLabel($relateModelobj, 'name'); ?></div>
                     <div class="title" style="width:200px"><?php echo CHtml::activeLabel($relateModelobj, 'dhl_code'); ?></div>
                 </div>
                 <div class="clear"></div>

@@ -1,6 +1,6 @@
 <?php
 $relationName = "countries";
-$mName = "Country";
+$mName = "Region";
 ?>
 
 <div class="<?php echo $relationName; ?> child" style="<?php echo 'display:' . (isset($_POST[$mName]) ? 'block' : 'none'); ?>">
@@ -25,8 +25,8 @@ $mName = "Country";
         'dataProvider' => $mName_provider,
         'columns' => array(
             array(
-                'name' => 'country_name',
-                'value' => '$data->country_name',
+                'name' => 'name',
+                'value' => '$data->name',
                 "type" => "raw",
             ),
             array(
