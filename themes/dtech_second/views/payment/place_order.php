@@ -117,6 +117,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
         <?php
         echo $cart_html;
         $shipping_cost = 0;
+        $shippingPresentation = "";
         //same is current city of website may pakistan (lahore) , saudi arab (Jaddah)
         if (strtolower(Yii::app()->user->WebCity->country->country_name) == strtolower($userShipping->country->name)) {
             $is_source = 1;
@@ -131,7 +132,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
 
             $this->setShippingCost($shipping_cost);
         } else {
-            $total_weight = 32;
+            //$total_weight = 32;
             $criteria = new CDbCriteria;
             $condition = "zone_id = " . $userShipping->country->zone->id . " AND ";
 
@@ -139,10 +140,13 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
             $criteria->addCondition($condition);
 
             if ($zone_rate = ZoneRates::model()->find($criteria)) {
-                 $shipping_cost = (double) str_replace(",", "", $zone_rate->rate);
+                $shipping_cost = (double) str_replace(",", "", $zone_rate->rate);
+                //presentation to show user how we doen
+
+                $shippingPresentation = $this->renderPartial("//payment/_shipping_formula_presentation", array("zone_single_rate" => $zone_rate, "total_weight" => $total_weight), true);
             } else {
                 //in case weight not found in category
-                
+
                 $criteria = new CDbCriteria;
                 $criteria->limit = 2;
                 $criteria->order = "id DESC";
@@ -151,17 +155,20 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
                 $condition.= " rate_type = 'dhl' ";
                 $criteria->addCondition($condition);
                 $zone_rate = ZoneRates::model()->findAll($criteria);
-              
+
 
                 //$zone_rate[1] is last weight rate
                 //$zone_rate[0] is multiply rate for increasing of 1000 g or 1 kg
-  
+
                 $incrment_rate = $zone_rate[0]->rate;
-                $weight_to_multiply= ceil($total_weight - $zone_rate[1]->weight) * $zone_rate[0]->rate;
-                $shipping_cost = $weight_to_multiply + str_replace(",","",$zone_rate[1]->rate);
-                
+                $weight_to_multiply = ceil($total_weight - $zone_rate[1]->weight) * $zone_rate[0]->rate;
+                $shipping_cost = $weight_to_multiply + str_replace(",", "", $zone_rate[1]->rate);
+
+                //presentation to show user how we doen
+
+                $shippingPresentation = $this->renderPartial("//payment/_shipping_formula_presentation", array("zone_rate" => $zone_rate, "total_weight" => $total_weight), true);
             }
-             $this->setShippingCost($shipping_cost);
+            $this->setShippingCost($shipping_cost);
         }
         ?>
 
@@ -174,6 +181,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
 
                 </b>
             </p>
+            <?php echo $shippingPresentation; ?>
             <p>
                 <span style='font-weight:bold;width:150px;float:left;'>Shipping Cost</span>
                 <span style='font-weight:bold;margin-left:50px;'></span>
@@ -187,6 +195,9 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
                     ?>
                 </b>
             </p>
+
+
+
             <div style="float:right;margin-right: 10px;font-weight: bold">
                 <p>Tax : <?php echo Yii::app()->session['currency'] . " " . $tax_rate; ?> </p>
             </div>
@@ -205,7 +216,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
             ),
         ));
         echo $form->hiddenField($userShipping, 'payment_method');
-        
+
         //if payment method is credit card then
         if ($userShipping->payment_method == "Credit Card") {
             $this->renderPartial("//payment/_credit_card", array(
