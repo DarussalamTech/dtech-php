@@ -6,7 +6,7 @@ class m140317_065317_create_dhl_ratesTableHistory extends DTDbMigration {
         $table = "dhl_rates_history";
         $columns = array(
             'id' => 'int(11) NOT NULL AUTO_INCREMENT',
-            'rate' => 'decimal(10,4)  DEFAULT NULL',
+            'rate' => 'varchar(255)  DEFAULT NULL',
             'rate_id' => 'int(11) DEFAULT NULL',
             'create_time' => 'datetime NOT NULL',
             'create_user_id' => 'int(11) unsigned NOT NULL',

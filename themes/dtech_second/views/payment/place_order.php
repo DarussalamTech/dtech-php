@@ -118,6 +118,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
         echo $cart_html;
         $shipping_cost = 0;
         $shippingPresentation = "";
+        
         //same is current city of website may pakistan (lahore) , saudi arab (Jaddah)
         if (strtolower(Yii::app()->user->WebCity->country->country_name) == strtolower($userShipping->country->name)) {
             $is_source = 1;
@@ -132,7 +133,8 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
 
             $this->setShippingCost($shipping_cost);
         } else {
-            //$total_weight = 32;
+            
+            $shipping_rate_id = 0;
             $criteria = new CDbCriteria;
             $condition = "zone_id = " . $userShipping->country->zone->id . " AND ";
 
@@ -144,6 +146,8 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
                 //presentation to show user how we doen
 
                 $shippingPresentation = $this->renderPartial("//payment/_shipping_formula_presentation", array("zone_single_rate" => $zone_rate, "total_weight" => $total_weight), true);
+                $shipping_rate_id = $zone_rate->dhlRatesLastHist->id;
+                
             } else {
                 //in case weight not found in category
 
@@ -165,10 +169,10 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
                 $shipping_cost = $weight_to_multiply + str_replace(",", "", $zone_rate[1]->rate);
 
                 //presentation to show user how we doen
-
+                $shipping_rate_id = $zone_rate[1]->dhlRatesLastHist->id;
                 $shippingPresentation = $this->renderPartial("//payment/_shipping_formula_presentation", array("zone_rate" => $zone_rate, "total_weight" => $total_weight), true);
             }
-            $this->setShippingCost($shipping_cost);
+            $this->setShippingCost($shipping_cost,$shipping_rate_id);
         }
         ?>
 
@@ -216,7 +220,8 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
             ),
         ));
         echo $form->hiddenField($userShipping, 'payment_method');
-
+       
+        
         //if payment method is credit card then
         if ($userShipping->payment_method == "Credit Card") {
             $this->renderPartial("//payment/_credit_card", array(
