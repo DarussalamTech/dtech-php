@@ -171,6 +171,9 @@ class CreditCardForm extends CFormModel {
         $order->total_price = Yii::app()->session['total_price'];
         $order->shipping_price = Yii::app()->session['shipping_price'];
         $order->tax_amount = Yii::app()->session['tax_amount'];
+        if(isset(Yii::app()->session['currency_amount'])){
+            $order->currency_amount = Yii::app()->session['currency_amount'];
+        }
         //saving dhl_history_id for international
         $order->dhl_history_id = Yii::app()->session['shipping_rate_id'];
         $order->order_date = date('Y-m-d');

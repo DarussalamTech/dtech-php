@@ -43,7 +43,7 @@ $total_price = 0;
         </tr>
         <?php
     endforeach;
-    $final_total = (double)Yii::app()->session['shipping_price'] + (double)$total_price + Yii::app()->session['tax_amount'];
+    $final_total = (double) Yii::app()->session['shipping_price'] + (double) $total_price + Yii::app()->session['tax_amount'];
     ?>
     <tfoot style="font-weight:bold">
         <tr>
@@ -55,6 +55,17 @@ $total_price = 0;
         <tr>
             <td colspan="7" style="text-align:right;font-size:12px">Total = <?php echo Yii::app()->session['currency'] . " " . number_format($final_total, 2); ?></td>
         </tr> 
+        <?php
+        if ($currency_code != "" && $currency_code != Yii::app()->session['currency']) {
+            $converted_total = ConfPaymentMethods::model()->convertCurrency($final_total, Yii::app()->session['currency'], $currency_code);
+            ?>
+            <tr>
+                <td colspan="7" style="text-align:right;font-size:12px">Total In <?php echo $currency_code." = ".Yii::app()->session['currency'] . " " . number_format($converted_total, 2); ?></td>
+            </tr>
+            <?php
+        }
+        ?>
+
     </tfoot>
 
 </table>

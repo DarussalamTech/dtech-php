@@ -202,8 +202,9 @@ class PaymentController extends Controller {
 
         $this->customer0rderDetailMailer($shippingInfo, $order_id);
         $this->admin0rderDetailMailer($shippingInfo, $order_id);
+        die;
         Yii::app()->user->setFlash('orderMail', 'Thank you...');
-
+        
         $this->redirect(array('/web/payment/confirmOrder'));
     }
 
@@ -218,7 +219,8 @@ class PaymentController extends Controller {
         $email['Subject'] = "Your Order Detail";
         $email['Body'] = $this->renderPartial('//payment/_order_email_template2', array('customerInfo' => $customerInfo, 'order_id' => $order_id), true, false);
         $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
-        
+        echo $email['Body'];
+        die;
         $this->sendEmail2($email);
        
     }
@@ -367,8 +369,8 @@ class PaymentController extends Controller {
     public function actionEmailTest() {
         Yii::app()->user->SiteSessions;
         $shippingInfo = UserOrderShipping::model()->findByPk(76);
-        $this->customer0rderDetailMailer($shippingInfo, 78);
-        $this->admin0rderDetailMailer($shippingInfo, 78);
+        $this->customer0rderDetailMailer($shippingInfo, 102);
+        $this->admin0rderDetailMailer($shippingInfo, 102);
     }
 
 }

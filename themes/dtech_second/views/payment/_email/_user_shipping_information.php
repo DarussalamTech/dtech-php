@@ -1,11 +1,5 @@
 <h1 style="font-size: 14px">
-    <?php
-    $criteria = new CDbCriteria;
-    $criteria->addCondition("user_id = " . $user_id);
-    $criteria->order = "id DESC";
-
-    $model = UserOrderShipping::model()->find($criteria);
-    ?>
+   
     Shipping information
 
 </h1>
@@ -23,6 +17,10 @@
             array(
                 'name' => 'shipping_country',
                 'value' => isset($model->country->name) ? $model->country->name : "",
+            ),
+            array(
+                'name' => 'shipping_currency',
+                'value' => isset($model->country->currency_code) ? $model->country->currency_code : "",
             ),
             'shipping_state',
             'shipping_city',

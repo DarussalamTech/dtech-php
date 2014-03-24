@@ -620,6 +620,14 @@ class Controller extends RController {
     public function setTaxAmount($tax) {
         Yii::app()->session['tax_amount'] = round($tax, 2);
     }
+    /**
+     * set Converted currency total cost
+     * 
+     * @param type $tax
+     */
+    public function setCurrencyAmount($currency_total) {
+        Yii::app()->session['currency_amount'] = round($currency_total, 2);
+    }
 
     /**
      * to change admin city for

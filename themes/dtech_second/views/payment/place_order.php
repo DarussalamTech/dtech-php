@@ -1,7 +1,7 @@
 <?php
 Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/form.css');
 ?>
-<div id="login_content">
+<div id="login_content" class="place_order">
 
 
     <div class="secure_form">
@@ -46,12 +46,21 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
         $cart_html = "";
         $cart = $cart->getData();
 
+        //set the presentation for user to display his amount on his/her country
+        $useCurrency = "";
+        if (!empty($userShipping->country->currency_code) && $userShipping->country->currency_code != Yii::app()->session['currency']) {
+            $useCurrency = $userShipping->country->currency_code;
+        }
+
         $cart_html .= "<div class='login_img  '>";
         $cart_html .= "<p>";
 
-        $cart_html .= "<span style='font-weight:bold;width:400px;float:left;'>Product Title</span>";
-        $cart_html .= "<span style='font-weight:bold;margin-left:50px;'>Quantity</span> ";
-        $cart_html .="<b>Item Price</b>";
+        $cart_html .= "<span class='p-title'>Product Title</span>";
+        $cart_html .= "<span class='p-title'>Quantity</span> ";
+        $cart_html .="<b class='p-title'>Item Price</b>";
+        if ($useCurrency != "") {
+           // $cart_html .="<b class='p-title'>Item Price in " . $useCurrency . "</b>";
+        }
         $cart_html .= "</p>";
         $cart_html .= " </div>";
         $cart_html .= "<div class='clear'></div>";
@@ -105,9 +114,12 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
             $cart_html .= "<div class='login_img  " . $css_alternat . "'>";
             $cart_html .= "<p>";
 
-            $cart_html .= "<span style=';width:400px;float:left;'>" . substr($pro->productProfile->product->product_name, 0, 100) . "</span>";
-            $cart_html .= "<span style='font-weight:bold;margin-left:50px;'>" . $pro->quantity . "</span> ";
-            $cart_html .="<b>" . Yii::app()->session['currency'] . " " . round($pro->quantity * $pro->productProfile->price, 2) . "</b>";
+            $cart_html .= "<span class='p-values'>" . substr($pro->productProfile->product->product_name, 0, 100) . "</span>";
+            $cart_html .= "<span class='p-values'>" . $pro->quantity . "</span> ";
+            $cart_html .="<b class='p-values'>" . Yii::app()->session['currency'] . " " . round($pro->quantity * $pro->productProfile->price, 2) . "</b>";
+            if ($useCurrency != "") {
+               // $cart_html .="<b class='p-values'>" . $useCurrency . " " . ConfPaymentMethods::model()->convertCurrency(round($pro->quantity * $pro->productProfile->price, 2), Yii::app()->session['currency'], $useCurrency) . "</b>";
+            }
             $cart_html .= "</p>";
             $cart_html .= " </div>";
             $count++;
@@ -118,7 +130,9 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
         echo $cart_html;
         $shipping_cost = 0;
         $shippingPresentation = "";
-        
+
+
+
         //same is current city of website may pakistan (lahore) , saudi arab (Jaddah)
         if (strtolower(Yii::app()->user->WebCity->country->country_name) == strtolower($userShipping->country->name)) {
             $is_source = 1;
@@ -133,9 +147,11 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
 
             $this->setShippingCost($shipping_cost);
         } else {
-            
+
             $shipping_rate_id = 0;
             $criteria = new CDbCriteria;
+
+
             $condition = "zone_id = " . $userShipping->country->zone->id . " AND ";
 
             $condition.= " rate_type = 'dhl' AND weight >= " . $total_weight;
@@ -145,9 +161,8 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
                 $shipping_cost = (double) str_replace(",", "", $zone_rate->rate);
                 //presentation to show user how we doen
 
-                $shippingPresentation = $this->renderPartial("//payment/_shipping_formula_presentation", array("zone_single_rate" => $zone_rate, "total_weight" => $total_weight), true);
+                $shippingPresentation = $this->renderPartial("//payment/_shipping_formula_presentation", array("zone_single_rate" => $zone_rate, "total_weight" => $total_weight,"useCurrency"=>$useCurrency), true);
                 $shipping_rate_id = $zone_rate->dhlRatesLastHist->id;
-                
             } else {
                 //in case weight not found in category
 
@@ -170,44 +185,78 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
 
                 //presentation to show user how we doen
                 $shipping_rate_id = $zone_rate[1]->dhlRatesLastHist->id;
-                $shippingPresentation = $this->renderPartial("//payment/_shipping_formula_presentation", array("zone_rate" => $zone_rate, "total_weight" => $total_weight), true);
+                $shippingPresentation = $this->renderPartial("//payment/_shipping_formula_presentation", array("zone_rate" => $zone_rate, "total_weight" => $total_weight,"useCurrency"=>$useCurrency), true);
             }
-            $this->setShippingCost($shipping_cost,$shipping_rate_id);
+            $this->setShippingCost($shipping_cost, $shipping_rate_id);
         }
         ?>
 
         <div class='login_img'>
             <p>
-                <span style='font-weight:bold;width:150px;float:left;'>Sub Total</span>
-                <span style='font-weight:bold;margin-left:50px;'></span>
-                <b>
-                    <?php echo $grand_total; ?>
+                <span class='p-values'>Sub Total</span>
+                <span class='p-values'>&nbsp;</span>
 
+                <b class='p-values'>
+                    <?php echo Yii::app()->session['currency'] . " " . $grand_total; ?>
                 </b>
+                <?php
+                if ($useCurrency != "") {
+                    //echo "<b class='p-values'>" . $useCurrency . " " . ConfPaymentMethods::model()->convertCurrency($grand_total, Yii::app()->session['currency'], $useCurrency) . "</b>";
+                }
+                ?>
             </p>
             <?php echo $shippingPresentation; ?>
             <p>
-                <span style='font-weight:bold;width:150px;float:left;'>Shipping Cost</span>
-                <span style='font-weight:bold;margin-left:50px;'></span>
-                <b>
-                    <?php echo $shipping_cost; ?>
+                <span class='p-values'>Shipping Cost</span>
+                <span class='p-values'>
+                    <?php
+                    if ($useCurrency != "") {
+                        //echo "<b class='p-values'>" . $useCurrency . " " . ConfPaymentMethods::model()->convertCurrency(str_replace(",","",$shipping_cost), Yii::app()->session['currency'], $useCurrency) . "</b>";
+                    }
+                    ?>
+                </span>
+                <b class='p-values p-right-full'>
+                    <?php echo Yii::app()->session['currency'] . " " . $shipping_cost; ?>
                     <?php
                     $grand_total = ($grand_total + (double) $shipping_cost);
                     $tax_rate = ConfTaxRates::model()->getTaxRate($grand_total);
+
+
 
                     $this->setTaxAmount($tax_rate);
                     ?>
                 </b>
             </p>
 
-
-
-            <div style="float:right;margin-right: 10px;font-weight: bold">
-                <p>Tax : <?php echo Yii::app()->session['currency'] . " " . $tax_rate; ?> </p>
+            <div class="clear"></div>
+            <div style="margin-right: 10px;font-weight: bold">
+                <p>
+                    <span class="p-values">Tax : </span>  
+                    <span class='p-values'>
+                        <?php
+                        if ($useCurrency != "" && ($tax_rate > 0 || $tax_rate != "")) {
+                            //echo "<b class='p-values'>" . $useCurrency . " " . ConfPaymentMethods::model()->convertCurrency($tax_rate, Yii::app()->session['currency'], $useCurrency) . "</b>";
+                        }
+                        //0775433582
+                        ?>
+                    </span> 
+                    <span class="p-values p-right-full"><?php echo Yii::app()->session['currency'] . " " . $tax_rate; ?></span> 
+                </p>
             </div>
             <div class="clear"></div>
-            <div style="float:right;margin-right: 10px;font-weight: bold">
-                <p>TOTAL : <?php echo Yii::app()->session['currency'] . " " . ($grand_total + (double) $tax_rate); ?> </p>
+            <div style="margin-right: 10px;font-weight: bold">
+                <p><span class="p-values">TOTAL : </span>
+                    <span class="p-values">
+                        <?php
+                        if ($useCurrency != "") {
+                            $converted_total = ConfPaymentMethods::model()->convertCurrency(($grand_total + (double) $tax_rate), Yii::app()->session['currency'], $useCurrency);
+                            $this->setCurrencyAmount($converted_total);
+                            echo "<b class='p-values'>" . $useCurrency . " " .$converted_total  . "</b>";
+                            
+                        }
+                        ?>
+                    </span>
+                    <span class="p-right-full"><?php echo Yii::app()->session['currency'] . " " . ($grand_total + (double) $tax_rate); ?> </span></p>
             </div>
         </div>
         <div class="clear"></div>
@@ -220,8 +269,8 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
             ),
         ));
         echo $form->hiddenField($userShipping, 'payment_method');
-       
-        
+
+
         //if payment method is credit card then
         if ($userShipping->payment_method == "Credit Card") {
             $this->renderPartial("//payment/_credit_card", array(
