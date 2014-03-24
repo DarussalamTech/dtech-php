@@ -5,7 +5,7 @@
 </h1>
 <div>
     <?php
-    $this->widget('zii.widgets.CDetailView', array(
+    $this->widget('EmailDetailView', array(
         'data' => $model,
         'itemTemplate'=>'<tr class=\"{class}\"><th style="text-align:left;border:1px solid">{label}</th><td style="text-align:left;border:1px solid">{value}</td></tr>',
         'attributes' => array(

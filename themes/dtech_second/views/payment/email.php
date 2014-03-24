@@ -10,7 +10,7 @@
 
 <div style="width:100%;">
     <?php
-    $this->widget('zii.widgets.CDetailView', array(
+    $this->widget('EmailDetailView', array(
         'data' => $model,
         'htmlOptions' => array("style" => "width:100%"),
         'itemTemplate' => '<tr class=\"{class}\"><th style="text-align:left;border:1px solid ">{label}</th><td style="text-align:left;border:1px solid ">{value}</td></tr>',
