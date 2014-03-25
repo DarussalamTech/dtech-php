@@ -6,18 +6,23 @@
     ?>
     Billing Address 
     <?php
-    if (isset($this->OpPermission[ucfirst($this->id) . ".Update"]) && $this->OpPermission[ucfirst($this->id) . ".Update"]) {
+    //to check billing history for this order exist or not
+    $isbilling = 0;
+    if ($model = UserOrderBilling::model()->find($criteria)){
+        $isbilling = 1;
+        if (isset($this->OpPermission[ucfirst($this->id) . ".Update"]) && $this->OpPermission[ucfirst($this->id) . ".Update"]) {
 
-        echo CHtml::link("Edit", $this->createUrl("updateuseraddress", array(
-                    "id" => $model->primaryKey,
-                    "model" => "UserOrderBilling",
-                )), array('class' => "print_link_btn shipping_billing", "id" => $model->primaryKey . "-billing"));
+            echo CHtml::link("Edit", $this->createUrl("updateuseraddress", array(
+                        "id" => $model->primaryKey,
+                        "model" => "UserOrderBilling",
+                    )), array('class' => "print_link_btn shipping_billing", "id" => $model->primaryKey . "-billing"));
+        }
     }
     ?>
 </h1>
 <div>
 <?php
-if ($model = UserOrderBilling::model()->find($criteria)) {
+if ($isbilling) {
     $this->widget('zii.widgets.CDetailView', array(
         'data' => $model,
         'attributes' => array(
