@@ -1,10 +1,6 @@
 <h1>
     <?php
-    $criteria = new CDbCriteria;
-    $criteria->addCondition("user_id = " . $user_id);
-    $criteria->order = "id DESC";
 
-    $model = UserOrderBilling::model()->find($criteria);
     ?>
     Billing Address 
     <?php

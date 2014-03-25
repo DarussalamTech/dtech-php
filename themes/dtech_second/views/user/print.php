@@ -1,4 +1,4 @@
-<link href="<?php echo Yii::app()->theme->baseUrl.'/css/printpreview.css' ?>" rel="stylesheet" />
+<link href="<?php echo Yii::app()->theme->baseUrl . '/css/printpreview.css' ?>" rel="stylesheet" />
 <div class="pading-bottom-5">
     <div class="left_float">
         <h1>Order #<?php echo $model->order_id; ?></h1>
@@ -10,7 +10,6 @@
 
 <div style="width:50%;float:left">
     <?php
-  
     $this->widget('zii.widgets.CDetailView', array(
         'data' => $model,
         'attributes' => array(
@@ -19,11 +18,11 @@
                 'value' => !empty($model->user->user_email) ? $model->user->user_email : "",
             ),
             array(
-                 'name'=>'transaction_id',
-                 'value'=>'$data->transaction_id',
-                 'visible'=>!empty($model->transaction_id)?true:false
-             ),
-             array('name'=>'status', 'value' => $model->order_status->title),
+                'name' => 'transaction_id',
+                'value' => '$data->transaction_id',
+                'visible' => !empty($model->transaction_id) ? true : false
+            ),
+            array('name' => 'status', 'value' => $model->order_status->title),
             'order_date',
             'update_time',
             'total_price',
@@ -35,7 +34,6 @@
             ),
         ),
     ));
-
     ?>
 </div>
 
@@ -47,9 +45,11 @@
     <?php
     /**
      * user information
-     */ $this->renderPartial('//user/_print/_user_billing_information', array(
+     */
+    $this->renderPartial('//user/_print/_user_billing_information', array(
         'user_id' => $model->user->user_id,
         'user_name' => $model->user->user_email,
+        "order_id" => $model->order_id
     ));
     ?>
 </div>
@@ -58,9 +58,19 @@
     <?php
     /**
      * user information
-     */ $this->renderPartial('//user/_print/_user_shipping_information', array(
+     */
+    $criteria = new CDbCriteria;
+    $criteria->addCondition("user_id = " . $model->user->user_id . " AND order_id = " . $model->order_id);
+    $criteria->order = "id DESC";
+
+    $shipping = UserOrderShipping::model()->find($criteria);
+
+
+    $this->renderPartial('//user/_print/_user_shipping_information', array(
         'user_id' => $model->user->user_id,
         'user_name' => $model->user->user_email,
+        "order_id" => $model->order_id,
+        "model" => $shipping,
             ), false, false)
     ?>
 </div>
@@ -69,7 +79,8 @@
     <?php
     /**
      * product stock
-     */ $this->renderPartial('//user/_print/_order_detail', array(
+     */
+    $this->renderPartial('//user/_print/_order_detail', array(
         'model' => $model,
         'user_name' => $model->user->user_email,
             ), false, false);

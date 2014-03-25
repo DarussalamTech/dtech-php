@@ -1,7 +1,7 @@
 <h1 style="font-size: 14px">
     <?php
     $criteria = new CDbCriteria;
-    $criteria->addCondition("user_id = " . $user_id);
+    $criteria->addCondition("user_id = " . $user_id .' AND order_id ='.$order_id);
     $criteria->order = "id DESC";
 
     $model = UserOrderBilling::model()->find($criteria);

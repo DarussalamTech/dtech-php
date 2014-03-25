@@ -118,6 +118,7 @@ if (Yii::app()->user->hasFlash('status')) {
      */ $this->renderPartial('_user_billing_information', array(
         'user_id' => $model->user->user_id,
         'user_name' => $model->user->user_email,
+        "order_id" => $model->order_id,
     ));
     ?>
 </div>
@@ -129,6 +130,7 @@ if (Yii::app()->user->hasFlash('status')) {
      */ $this->renderPartial('_user_shipping_information', array(
         'user_id' => $model->user->user_id,
         'user_name' => $model->user->user_email,
+        "order_id" => $model->order_id,
     ));
     ?>
 </div>

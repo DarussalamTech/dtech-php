@@ -53,6 +53,7 @@
      * user information
      */ $this->renderPartial('//payment/_email/_user_billing_information', array(
         'user_id' => $model->user->user_id,
+        'order_id' =>$model->order_id,
         'user_name' => $model->user->user_email,
     ));
     ?>
@@ -61,7 +62,7 @@
 <div style="float: left;width:49%">
     <?php
     $criteria = new CDbCriteria;
-    $criteria->addCondition("user_id = " . $model->user->user_id);
+    $criteria->addCondition("user_id = " . $model->user->user_id.' AND order_id ='.$model->order_id);
     $criteria->order = "id DESC";
 
     $userSHipping = UserOrderShipping::model()->find($criteria);
