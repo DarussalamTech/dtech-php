@@ -220,5 +220,18 @@ class UserProfile extends DTActiveRecord {
         $model->updateByPk($model->id,array("order_id"=>$order_id));
         return $model;
     }
+    /**
+     * update billing order last id
+     * @param type $order_id
+     */
+    public function updateBillingInfo($order_id) {
+        $criteria = new CDbCriteria;
+        $criteria->addCondition("user_id = " . Yii::app()->user->id);
+        $criteria->order = "id DESC";
+
+        $model = UserOrderBilling::model()->find($criteria);
+        $model->updateByPk($model->id,array("order_id"=>$order_id));
+        return $model;
+    }
 
 }

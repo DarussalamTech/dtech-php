@@ -51,9 +51,11 @@
         <?php
         /**
          * user information
-         */ $this->renderPartial('//user/_order/_user_billing_information', array(
+         */ 
+        $this->renderPartial('//user/_order/_user_billing_information', array(
             'user_id' => $model->user->user_id,
             'user_name' => $model->user->user_email,
+            "order_id" => $model->order_id,
         ));
         ?>
     </div>
@@ -65,6 +67,7 @@
          */ $this->renderPartial('//user/_order/_user_shipping_information', array(
             'user_id' => $model->user->user_id,
             'user_name' => $model->user->user_email,
+            "order_id" => $model->order_id,
         ));
         ?>
     </div>
