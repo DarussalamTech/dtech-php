@@ -50,9 +50,18 @@
     <?php
     /**
      * user information
-     */ $this->renderPartial('print/_user_billing_information', array(
+     */
+    $criteria = new CDbCriteria;
+    $criteria->addCondition("user_id = " . $model->user->user_id . " AND order_id =" . $model->order_id);
+    $criteria->order = "id DESC";
+
+    $shipping = UserOrderShipping::model()->find($criteria);
+
+    $this->renderPartial('print/_user_billing_information', array(
         'user_id' => $model->user->user_id,
         'user_name' => $model->user->user_email,
+        "order_id" => $model->order_id,
+        "model" => $shipping,
     ));
     ?>
 </div>
@@ -61,9 +70,11 @@
     <?php
     /**
      * user information
-     */ $this->renderPartial('print/_user_shipping_information', array(
+     */
+    $this->renderPartial('print/_user_shipping_information', array(
         'user_id' => $model->user->user_id,
         'user_name' => $model->user->user_email,
+        "order_id" => $model->order_id,
             ), false, false)
     ?>
 </div>
@@ -79,7 +90,7 @@ $footer_str = '<tr>
     <td>&nbsp;</td>
 
     <td style="text-align: left;font-weight:bold">
-        Shipping Total : ' . $model->shipping_price . ' '.Yii::app()->session['currency']. '
+        Shipping Total : ' . $model->shipping_price . ' ' . Yii::app()->session['currency'] . '
     </td>
 <tr>
     <td>&nbsp;</td>
@@ -91,7 +102,7 @@ $footer_str = '<tr>
     <td>&nbsp;</td>
 
     <td style="text-align: left;font-weight:bold">
-        Tax Total : ' . $model->tax_amount . ' '.Yii::app()->session['currency']. '
+        Tax Total : ' . $model->tax_amount . ' ' . Yii::app()->session['currency'] . '
     </td>
 </tr>
 <tr>
@@ -105,9 +116,29 @@ $footer_str = '<tr>
 
   
     <td style="text-align: left;font-weight:bold">
-          Grand Total : ' . $model->grand_price . ' '.Yii::app()->session['currency']. '
+          Grand Total : ' . $model->grand_price . ' ' . Yii::app()->session['currency'] . '
     </td>
 </tr>';
+
+if (isset($shipping->country->currency_code) && $shipping->country->currency_code != Yii::app()->session['currency']) {
+    $final_total = (double) $model->total_price + (double) $model->shipping_price + (double) $model->tax_amount;
+
+    $converted_total = ConfPaymentMethods::model()->convertCurrency($final_total, Yii::app()->session['currency'], $shipping->country->currency_code);
+    $footer_str.='<tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+
+
+            <td style="text-align: left;font-weight:bold">
+                 Total In : ' .$shipping->country->currency_code . ' ' .  number_format($converted_total, 2) . '
+            </td>
+        </tr>';
+}
 ?>
 <div>
     <?php
