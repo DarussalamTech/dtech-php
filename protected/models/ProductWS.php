@@ -235,7 +235,7 @@ class ProductWS extends Product {
             'itemCount' => $dataProvider->pagination->getItemCount(),
         );
 
-        CVarDumper::dump($products['products'],10,true);
+//        CVarDumper::dump($products['products'],10,true);
 //        die;
         return $products;
     }
