@@ -88,7 +88,7 @@ class ProductWS extends Product {
      * for webservice
      */
 
-    public function getWsAllBooksByCategory($page = "", $category = "", $author = "", $search = "", $language = "") {
+    public function getWsAllBooksByCategory($page = "", $category = "",$popular= "",$price_max= "",$price_min="",$pages="",$lowrangeprice="",$highrangeprice="",$asc="",$desc=""){//,$price="",$price_max="") {
 
         $cate = new Categories;
         // Getting the categories for drop downs
@@ -102,25 +102,48 @@ class ProductWS extends Product {
         $authors = Author::model()->findAll();
 
 
-
+//SELECT p.id ,count(t.quantity) as sold  FROM `order_detail` as t  inner join product_profile as p on t.product_profile_id=p.id group by p.id
         // making dynamic string according to the requirements
+        $orderby="";
 
-        $condtion = !empty($category) ? " AND productCategories.category_id =" . $category : "";
-        $condtion .=!empty($author) ? " AND author.author_id =" . $author : "";
-        $condtion .=!empty($language) ? " AND productProfile.language_id =" . $language : "";
-
-
+        $condition="";
+        $condition = !empty($category) ? " AND productCategories.category_id =" . $category : "";
+        if ($popular != 0)
+            $condition .= "AND `productProfile`.`product_id` in (SELECT p.id  as sold  FROM `order_detail` as t  inner join product_profile as p on t.product_profile_id=p.id group by p.id)";
+        if ($pages != 0) {
+            $condition .=!empty($pages) ? " AND `productProfile`.no_of_pages  < " . $pages : "";
+        }
+        if ($price_max != 0) {
+            $orderby="price DESC";
+//            $condition .= "AND `productProfile`.price = (select max(price) from `product_profile` where city_id=1 AND parent_cateogry_id = 57) ";
+        }
+        if ($price_min != 0) {
+            $orderby="price ASC";
+//            $condition .= "AND `productProfile`.price = (select min(price) from `product_profile` where city_id=1 AND parent_cateogry_id = 57) ";
+        }
+        if ($asc != 0) {
+            $orderby="t.product_name ASC";
+//            $condition .= "AND `productProfile`.price = (select min(price) from `product_profile` where city_id=1 AND parent_cateogry_id = 57) ";
+        }
+        if ($desc != 0) {
+            $orderby="t.product_name DESC";
+//            $condition .= "AND `productProfile`.price = (select min(price) from `product_profile` where city_id=1 AND parent_cateogry_id = 57) ";
+        }
+        if (!empty($lowrangeprice) && !empty($highrangeprice)){
+            $condition .=" AND price >".$lowrangeprice." AND price < ".$highrangeprice;
+        }
+       
 
         $category_info = array();
 
         //Criteria building
 
         $criteria = new CDbCriteria(array(
-            'select' => 't.product_id,t.product_name,t.product_description,t.slag,t.parent_cateogry_id',
+            'select' => 't.product_id,t.create_time,t.update_time,t.product_name,t.product_description,t.slag,t.parent_cateogry_id',
             'with' => array('productProfile' => array('select' => 'price', 'type' => 'INNER JOIN'), 'productCategories' => array('type' => 'INNER JOIN'), 'author' => array('type' => 'INNER JOIN')),
 //            'with' => array('productProfile' => array('select' => 'price'), 'productCategories', 'author'),
-            'condition' => "t.parent_cateogry_id=57" . $condtion,
-            'order' => 't.product_id ASC',
+            'condition' => "t.parent_cateogry_id=57" . $condition,
+            'order' => $orderby,
             'distinct' => true,
             'together' => true,
         ));
@@ -132,7 +155,7 @@ class ProductWS extends Product {
         // Making data Provider for front end with pagination
         $dataProvider = new DTActiveDataProvider($this, array(
             'pagination' => array(
-                'pageSize' => 12,
+                'pageSize' => 6,
                 'currentPage' => $page,
             ),
             'criteria' => $criteria,
@@ -148,7 +171,7 @@ class ProductWS extends Product {
         $all_products = array();
         $images = array();
 
-
+        
         // Populating the Required fields for the frontend
         foreach ($data as $products) {
             $product_id = $products->product_id;
@@ -158,7 +181,12 @@ class ProductWS extends Product {
             $criteria2->condition = "product_profile_id ='" . $products->productProfile[0]->id . "'";
             $imagedata = ProductImage::model()->findAll($criteria2);
 
-
+//            CVarDumper::dump($products->create_time,10,true);
+            $date = date('Y-d-m h:i:s a', time());
+            
+        
+            $new=$date-$products->create_time;
+//             CVarDumper::dump($new,10,true);
             $images = array();
             foreach ($imagedata as $img) {
                 if ($img->is_default == 1) {
@@ -185,6 +213,7 @@ class ProductWS extends Product {
                 'product_author_id' => !empty($products->author) ? $products->author->author_id : "",
                 'currencySymbol' => '$',
                 'product_price' => $products->productProfile[0]->price,
+                'new' => $new,
                 'image' => $images,
                 'category_id' => !empty($products->productCategories[0]->category_id) ? $products->productCategories[0]->category_id : 57,
                 'product_url' => "http://www.darussalampk.com/en/pak/lahore/1/Books/" . $products->slag . "/detail"
@@ -206,7 +235,7 @@ class ProductWS extends Product {
             'itemCount' => $dataProvider->pagination->getItemCount(),
         );
 
-//        CVarDumper::dump($products['products'],20,true);
+        CVarDumper::dump($products['products'],10,true);
 //        die;
         return $products;
     }

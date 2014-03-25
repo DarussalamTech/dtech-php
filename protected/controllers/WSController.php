@@ -24,8 +24,35 @@ class WSController extends Controller {
         } else if ($_REQUEST['record_set'] == 'product_category') {
             // If the request is set to product category 
             //containg all books return by the Model
+            $pages=0;
             
-            $allBooks = ProductWS::model()->getWsAllBooksByCategory($_REQUEST['page'], $_REQUEST['category'], $_REQUEST['author'], $_REQUEST['search'], $_REQUEST['lang']);
+            if($_REQUEST['pages_2000']!= 0 )
+                $pages=2000;
+            else if($_REQUEST['pages_1000']!= 0)
+                $pages=1000;
+            else if($_REQUEST['pages_500']!= 0)
+                $pages=500;
+            else if($_REQUEST['pages_200']!= 0)
+                $pages=200;
+            else if($_REQUEST['pages_100']!= 0)    
+                $pages=100;
+            else 
+                $pages=0;
+                    
+                    
+              
+            $allBooks = ProductWS::model()->getWsAllBooksByCategory(
+                    $_REQUEST['page'], 
+                    $_REQUEST['category'],
+                    $_REQUEST['popular'],
+                    $_REQUEST['largest_price'],
+                    $_REQUEST['lowest_price'],
+                    $pages,
+                    $_REQUEST['lowrangeprice'],
+                    $_REQUEST['highrangeprice'],
+                    $_REQUEST['asc'],
+                    $_REQUEST['desc']
+                   );
         
             
         }
