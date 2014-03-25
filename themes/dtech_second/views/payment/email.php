@@ -1,7 +1,7 @@
 <link href="<?php echo Yii::app()->theme->baseUrl . '/css/printpreview.css' ?>" rel="stylesheet" />
 <div class="pading-bottom-5">
     <div class="left_float">
-        <h1 style="font-size: 14px">Order #<?php echo $model->order_id; ?></h1>
+        <h1 style="font-size: 14px;background: white;">Order #<?php echo $model->order_id; ?></h1>
     </div>
 
 
@@ -45,7 +45,7 @@
 </div>
 
 <br/><br/>
-<h1 style="font-size: 14px">User information</h1>
+<h1 style="font-size: 14px;background: white;">User information</h1>
 <div class="clear"></div>
 <div style="float: left;width:49%">
     <?php
