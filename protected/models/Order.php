@@ -7,6 +7,7 @@
  * @property integer $order_id
  * @property integer $user_id
  * @property string $total_price
+ * @property string $currency_amount
  * @property string $shipping_price
  * @property string $order
  * @property string $order_date
@@ -54,7 +55,7 @@ class Order extends DTActiveRecord {
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
             array('tax_amount,shipping_price,total_price', 'length', 'max' => 10),
             array('order_date', 'length', 'max' => 255),
-            array('dhl_history_id,order_id,service_charges,notifyUser,transaction_id,status,city_id', 'safe'),
+            array('currency_amount,dhl_history_id,order_id,service_charges,notifyUser,transaction_id,status,city_id', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('order_id, user_id, total_price, order_date', 'safe', 'on' => 'search'),
@@ -116,7 +117,8 @@ class Order extends DTActiveRecord {
         return array(
             'order_id' => Yii::t('model_labels', 'Order', array(), NULL, Yii::app()->controller->currentLang),
             'user_id' => Yii::t('model_labels', 'User', array(), NULL, Yii::app()->controller->currentLang),
-            'total_price' => Yii::t('model_labels', 'Total Price', array(), NULL, Yii::app()->controller->currentLang),
+            'total_price' => Yii::t('model_labels', 'Sub Total', array(), NULL, Yii::app()->controller->currentLang),
+            'currency_amount' => Yii::t('model_labels', 'Currency Total Price', array(), NULL, Yii::app()->controller->currentLang),
             'shipping_price' => Yii::t('model_labels', 'Shipping Price', array(), NULL, Yii::app()->controller->currentLang),
             'order_date' => Yii::t('model_labels', 'Order Date', array(), NULL, Yii::app()->controller->currentLang),
             'update_time' => Yii::t('model_labels', 'Last modified', array(), NULL, Yii::app()->controller->currentLang),
@@ -146,6 +148,7 @@ class Order extends DTActiveRecord {
         $criteria->compare('order_id', $this->order_id);
         $criteria->compare('user_id', $this->user_id);
         $criteria->compare('total_price', $this->total_price, true);
+        $criteria->compare('currency_amount', $this->currency_amount, true);
         $criteria->compare('order_date', $this->order_date, true);
         $criteria->compare('status', $this->status, true);
         $criteria->compare('tax_amount', $this->tax_amount, true);

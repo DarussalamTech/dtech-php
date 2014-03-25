@@ -213,7 +213,8 @@ class CDetailView extends CWidget
 				$value=null;
 
 			$tr['{value}']=$value===null ? $this->nullDisplay : $formatter->format($value,$attribute['type']);
-
+                      
+                        
 			$this->renderItem($attribute, $tr);
 
 			$i++;
@@ -232,6 +233,7 @@ class CDetailView extends CWidget
 	 */
 	protected function renderItem($options,$templateData)
 	{
+           
 		echo strtr(isset($options['template']) ? $options['template'] : $this->itemTemplate,$templateData);
 	}
 

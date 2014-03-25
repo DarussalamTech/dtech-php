@@ -11,6 +11,8 @@
  * @property string $address_format
  * @property integer $postcode_required
  * @property integer $status
+ * @property integer $zone_id
+ * @property integer $currency_code
  */
 class Region extends DTActiveRecord {
 
@@ -42,7 +44,7 @@ class Region extends DTActiveRecord {
             array('name', 'length', 'max' => 128),
             array('iso_code_2', 'length', 'max' => 2),
             array('iso_code_3', 'length', 'max' => 3),
-            array('zone_id,dhl_code', 'safe'),
+            array('currency_code,zone_id,dhl_code', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, name, iso_code_2, iso_code_3, address_format, postcode_required, status', 'safe', 'on' => 'search'),
@@ -92,6 +94,8 @@ class Region extends DTActiveRecord {
         $criteria->compare('address_format', $this->address_format, true);
         $criteria->compare('postcode_required', $this->postcode_required);
         $criteria->compare('status', $this->status);
+        $criteria->compare('zone_id', $this->zone_id);
+        $criteria->compare('currency_code', $this->currency_code);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,

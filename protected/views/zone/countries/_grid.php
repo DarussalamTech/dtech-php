@@ -34,6 +34,11 @@ $mName = "Region";
                 'value' => '$data->dhl_code',
                 "type" => "raw",
             ),
+            array(
+                'name' => 'currency_code',
+                'value' => '$data->currency_code',
+                "type" => "raw",
+            ),
             //no need for this this will be from import script or migrations
 //            array
 //                (

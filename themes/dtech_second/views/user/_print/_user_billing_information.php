@@ -1,16 +1,15 @@
 <h1>
     <?php
     $criteria = new CDbCriteria;
-    $criteria->addCondition("user_id = " . $user_id);
+    $criteria->addCondition("user_id = " . $user_id . " AND order_id = " . $order_id);
     $criteria->order = "id DESC";
-
-    $model = UserOrderBilling::model()->find($criteria);
     ?>
     Billing Address 
 
 </h1>
 <div>
-    <?php
+<?php
+if ($model = UserOrderBilling::model()->find($criteria)) {
     $this->widget('zii.widgets.CDetailView', array(
         'data' => $model,
         'attributes' => array(
@@ -30,6 +29,7 @@
             'billing_mobile',
         ),
     ));
-    ?>
+}
+?>
 </div>
 <div class="clear"></div>

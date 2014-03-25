@@ -115,9 +115,11 @@ if (Yii::app()->user->hasFlash('status')) {
     <?php
     /**
      * user information
-     */ $this->renderPartial('_user_billing_information', array(
+     */
+    $this->renderPartial('_user_billing_information', array(
         'user_id' => $model->user->user_id,
         'user_name' => $model->user->user_email,
+        "order_id" => $model->order_id,
     ));
     ?>
 </div>
@@ -126,9 +128,17 @@ if (Yii::app()->user->hasFlash('status')) {
     <?php
     /**
      * user information
-     */ $this->renderPartial('_user_shipping_information', array(
+     */
+    $criteria = new CDbCriteria;
+    $criteria->addCondition("user_id = " . $model->user->user_id . " AND order_id =" . $model->order_id);
+    $criteria->order = "id DESC";
+
+    $shipping = UserOrderShipping::model()->find($criteria);
+    $this->renderPartial('_user_shipping_information', array(
         'user_id' => $model->user->user_id,
         'user_name' => $model->user->user_email,
+        "order_id" => $model->order_id,
+        "model" => $shipping,
     ));
     ?>
 </div>
@@ -156,3 +166,17 @@ if (Yii::app()->user->hasFlash('status')) {
 <div style="float: right;margin-right: 50px;font-style: italic">
     Grand Total : <?php echo $model->grand_price; ?>
 </div>
+
+<?php
+if (isset($shipping->country->currency_code) &&  $shipping->country->currency_code != Yii::app()->session['currency']) {
+    $final_total = (double) $model->total_price + (double) $model->shipping_price + (double) $model->tax_amount;
+   
+    $converted_total = ConfPaymentMethods::model()->convertCurrency($final_total, Yii::app()->session['currency'], $shipping->country->currency_code);
+    ?>
+    <div class='clear'></div>
+    <div style="float: right;margin-right: 50px;font-style: italic">
+        Total In <?php echo  $shipping->country->currency_code . " =  " . number_format($converted_total, 2); ?>
+    </div>
+    <?php
+}
+?>

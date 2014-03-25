@@ -1,7 +1,7 @@
 <h1 style="font-size: 14px">
     <?php
     $criteria = new CDbCriteria;
-    $criteria->addCondition("user_id = " . $user_id);
+    $criteria->addCondition("user_id = " . $user_id .' AND order_id ='.$order_id);
     $criteria->order = "id DESC";
 
     $model = UserOrderBilling::model()->find($criteria);
@@ -11,7 +11,7 @@
 </h1>
 <div>
     <?php
-    $this->widget('zii.widgets.CDetailView', array(
+    $this->widget('EmailDetailView', array(
         'data' => $model,
         'itemTemplate'=>'<tr class=\"{class}\"><th style="text-align:left;border:1px solid">{label}</th><td style="text-align:left;border:1px solid">{value}</td></tr>',
         'attributes' => array(

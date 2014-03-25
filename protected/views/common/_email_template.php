@@ -12,7 +12,7 @@
         </h1>
     </center>
 
-    <h2><?php echo $email['Subject'] ?></h2>
+    <h2 style="background: white;"><?php echo $email['Subject'] ?></h2>
     <p style="color:#575757; font-size:13px;">
         <?php
         echo $email['Body'];

@@ -229,6 +229,41 @@ input[type=button],input[type=submit] {
     height: 182px;
 }
 #tweets p a {
-     color: #333333;
-     text-decoration: none;
+    color: #333333;
+    text-decoration: none;
+}
+
+/*----- place order last page css */
+.place_order p .p-title {
+    font-weight:bold;
+    width:220px;
+    float:left;
+}
+.place_order p .p-values {
+    font-weight:bold;
+    width:220px;
+    float:left;
+}
+.place_order .login_img {
+    border-bottom: 0;  
+    height: 30px;;
+    display: block;
+}
+.place_order .shipping_box {
+    border-bottom: 1px solid #E0E0E0;
+    margin-top: 33px;
+    border-top: 1px solid #E0E0E0;
+    padding: 5px;
+    height: 100px;
+}
+.place_order  .alternate_row_cart p span,.place_order  .alternate_row_cart p b{
+/*    background: none repeat scroll 0 0 #E9E9E9;*/
+    display: block;
+}
+.place_order p .p-right {
+    float: right !important;
+}
+.place_order p .p-right-full {
+     float: right !important;
+      width:auto;
 }

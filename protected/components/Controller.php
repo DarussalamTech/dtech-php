@@ -608,8 +608,9 @@ class Controller extends RController {
      * 
      * @param type $shipping
      */
-    public function setShippingCost($shipping) {
+    public function setShippingCost($shipping,$shipping_rate_id = 0) {
         Yii::app()->session['shipping_price'] = round($shipping, 2);
+        Yii::app()->session['shipping_rate_id'] = $shipping_rate_id;
     }
     /**
      * set tax cost
@@ -618,6 +619,14 @@ class Controller extends RController {
      */
     public function setTaxAmount($tax) {
         Yii::app()->session['tax_amount'] = round($tax, 2);
+    }
+    /**
+     * set Converted currency total cost
+     * 
+     * @param type $tax
+     */
+    public function setCurrencyAmount($currency_total) {
+        Yii::app()->session['currency_amount'] = round($currency_total, 2);
     }
 
     /**

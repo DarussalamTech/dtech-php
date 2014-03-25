@@ -1,6 +1,6 @@
 <?php
 Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/cart_gridview.css');
-if ($cart->getItemCount() <= 0) {
+if ($history->getItemCount() <= 0) {
     ?>
     <div class="no_orders">
         <div class="under_view_heading">
@@ -28,17 +28,11 @@ if ($cart->getItemCount() <= 0) {
     </div>
 
     <?php
-    //CVarDumper::dump($cart,20,TRUE);die;
-    $config = array(
-        'criteria' => array(
-        //'condition' => 'order_id=' . $cart->order_id,
-        )
-    );
-    $mName_provider = new CActiveDataProvider("Order");
+
 
     $this->widget('DtGridView', array(
         'id' => 'history-grid',
-        'dataProvider' => $cart,
+        'dataProvider' => $history,
         //'filter'=>false,
         'cssFile' => Yii::app()->theme->baseUrl . '/css/cart_gridview.css',
         'columns' => array(
@@ -56,7 +50,6 @@ if ($cart->getItemCount() <= 0) {
                 'class' => 'CLinkColumn',
                 'label' => 'View Products',
                 'header' => 'View Product Detail',
-          
                 'urlExpression' => 'Yii::app()->controller->createUrl("user/orderDetail",array("id"=>$data->order_id))',
                 'linkHtmlOptions' => array(
                     "onclick" => '
