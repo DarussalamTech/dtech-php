@@ -77,14 +77,26 @@ $this->widget('DtGridView', array(
     <table class="items">
         <tfoot>
             <tr class="even">
-                <td style="text-align: right"><span>Shipping : </span><?php echo $model->order->shipping_price; ?></td>
+                <td style="text-align: right"><span>Shipping : </span><?php echo $model->order->shipping_price." ".Yii::app()->session['currency']; ?></td>
             </tr>
             <tr class="even">
-                <td style="text-align: right"><span>Tax : </span><?php echo $model->order->tax_amount; ?></td>
+                <td style="text-align: right"><span>Tax : </span><?php echo $model->order->tax_amount." ".Yii::app()->session['currency']; ?></td>
             </tr>
             <tr class="odd">
-                <td style="text-align: right"><span>Grand Total: </span><?php echo number_format((double)$model->order->total_price+(double)$model->order->shipping_price+(double)$model->order->tax_amount,2); ?></td>
+                <td style="text-align: right"><span>Grand Total: </span><?php echo number_format((double) $model->order->total_price + (double) $model->order->shipping_price + (double) $model->order->tax_amount, 2)." ".Yii::app()->session['currency']; ?></td>
             </tr>
+            <?php
+            if ($currency_code != "" && $currency_code != Yii::app()->session['currency']) {
+                $final_total = (double) $model->order->total_price + (double) $model->order->shipping_price + (double) $model->order->tax_amount;
+                echo $final_total;
+                $converted_total = ConfPaymentMethods::model()->convertCurrency($final_total, Yii::app()->session['currency'], $currency_code);
+                ?>
+                <tr class="even">
+                    <td  style="text-align:right;"><span>Total In <?php echo $currency_code . "</span> =  " . number_format($converted_total, 2); ?></td>
+                </tr>
+                <?php
+            }
+            ?>
         </tfoot>
 
     </table>

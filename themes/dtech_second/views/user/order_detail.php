@@ -51,7 +51,7 @@
         <?php
         /**
          * user information
-         */ 
+         */
         $this->renderPartial('//user/_order/_user_billing_information', array(
             'user_id' => $model->user->user_id,
             'user_name' => $model->user->user_email,
@@ -64,9 +64,17 @@
         <?php
         /**
          * user information
-         */ $this->renderPartial('//user/_order/_user_shipping_information', array(
+         */
+        $criteria = new CDbCriteria;
+        $criteria->addCondition("user_id = " . $model->user->user_id . " AND order_id =" . $model->order_id);
+        $criteria->order = "id DESC";
+
+        $shipping = UserOrderShipping::model()->find($criteria);
+        
+        $this->renderPartial('//user/_order/_user_shipping_information', array(
             'user_id' => $model->user->user_id,
             'user_name' => $model->user->user_email,
+            'model' => $shipping,
             "order_id" => $model->order_id,
         ));
         ?>
@@ -79,6 +87,7 @@
          */ $this->renderPartial('//user/_order_detail', array(
             'model' => $model_d,
             'user_name' => $model->user->user_email,
+            'currency_code' => isset($shipping->country->currency_code) ? $shipping->country->currency_code:"",
         ));
         ?>
     </div>

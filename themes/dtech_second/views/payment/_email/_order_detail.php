@@ -62,7 +62,7 @@ $total_price = 0;
             $converted_total = ConfPaymentMethods::model()->convertCurrency($final_total, Yii::app()->session['currency'], $currency_code);
             ?>
             <tr style="background:#EBEBEB;">
-                <td colspan="7" style="text-align:right;font-size:12px">Total In <?php echo $currency_code." = ".Yii::app()->session['currency'] . " " . number_format($converted_total, 2); ?></td>
+                <td colspan="7" style="text-align:right;font-size:12px">Total In <?php echo $currency_code." =  " . number_format($converted_total, 2); ?></td>
             </tr>
             <?php
         }
