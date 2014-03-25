@@ -300,8 +300,8 @@ class UserController extends Controller {
     public function actionCustomerHistory() {
         Yii::app()->user->SiteSessions;
         $ip = Yii::app()->request->getUserHostAddress();
-        $history = User::model()->customerHistory();
-        $this->render('//user/customer_history', array('cart' => $history));
+        $order_history = User::model()->customerHistory();
+        $this->render('//user/customer_history', array('history' => $order_history));
     }
 
     public function actionPrint($id) {

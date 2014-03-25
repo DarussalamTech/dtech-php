@@ -368,9 +368,9 @@ class PaymentController extends Controller {
      */
     public function actionEmailTest() {
         Yii::app()->user->SiteSessions;
-        $shippingInfo = UserOrderShipping::model()->findByPk(76);
-        $this->customer0rderDetailMailer($shippingInfo, 102);
-        $this->admin0rderDetailMailer($shippingInfo, 102);
+        $shippingInfo = UserOrderShipping::model()->findByPk(119);
+        $this->customer0rderDetailMailer($shippingInfo, 103);
+        $this->admin0rderDetailMailer($shippingInfo, 103);
     }
 
 }

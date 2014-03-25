@@ -117,6 +117,7 @@ class ShippingInfoForm extends CFormModel {
             $this->shipping_city = $billing->billing_city;
             $this->shipping_zip = $billing->billing_zip;
             $this->shipping_phone = $billing->billing_phone;
+            $this->shipping_mobile = $billing->billing_mobile;
         }
         else if (isset($userinfo->is_shipping_address) && $userinfo->is_shipping_address == 1) {
             $this->shipping_first_name = $userinfo->first_name;
@@ -127,6 +128,7 @@ class ShippingInfoForm extends CFormModel {
             $this->shipping_city = $userinfo->city;
             $this->shipping_zip = $userinfo->zip_code;
             $this->shipping_phone = $userinfo->contact_number;
+           
         } else {
             $criteria = new CDbCriteria();
             $criteria->addCondition("user_id = " . Yii::app()->user->id);
@@ -144,6 +146,7 @@ class ShippingInfoForm extends CFormModel {
                 $this->shipping_city = $user_order_shipping->shipping_city;
                 $this->shipping_zip = $user_order_shipping->shipping_zip;
                 $this->shipping_phone = $user_order_shipping->shipping_phone;
+                $this->shipping_mobile = $user_order_shipping->shipping_mobile;
             }
         }
         $this->_states = $this->getStates();

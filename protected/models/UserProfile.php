@@ -204,7 +204,7 @@ class UserProfile extends DTActiveRecord {
         $shippingInfo->user_id = Yii::app()->user->id;
         $shippingInfo->order_id = $order_id;
 
-        $shippingInfo->save(false);
+        $shippingInfo->save();
     }
 
     /**
