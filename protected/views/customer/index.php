@@ -60,6 +60,14 @@ $this->widget('zii.widgets.grid.CGridView', array(
             )
         ),
         array(
+            'name' => 'user_name',
+            'type' => 'Raw',
+            'value' => '$data->user_name',
+            'headerHtmlOptions' => array(
+                'style' => "text-align:left"
+            )
+        ),
+        array(
             'name' => 'status_id',
             'type' => 'Raw',
             'value' => '($data->status_id==1)?$data->status->title:"Inactive"',
