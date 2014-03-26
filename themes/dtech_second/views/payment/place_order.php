@@ -130,7 +130,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
         echo $cart_html;
         $shipping_cost = 0;
         $shippingPresentation = "";
-
+        $total_weight = 35;
 
 
         //same is current city of website may pakistan (lahore) , saudi arab (Jaddah)
