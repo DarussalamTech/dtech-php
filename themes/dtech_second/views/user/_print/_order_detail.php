@@ -125,8 +125,22 @@ $this->widget('zii.widgets.grid.CGridView', array(
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
-                <td  style="text-align: right"><span>Grand Total: </span><?php echo number_format((double) $model->total_price + (double) $model->shipping_price + (double)$model->tax_amount, 2); ?></td>
+                <td  style="text-align: right"><span>Grand Total: </span><?php echo number_format((double) $model->total_price + (double) $model->shipping_price + (double) $model->tax_amount, 2); ?></td>
             </tr>
+            <?php
+            if ($currency_code != "" && $currency_code != Yii::app()->session['currency']) {
+                ?>
+                <tr class="even">
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td  style="text-align:right;"><span>Total In <?php echo $currency_code . "</span> =  " . number_format(ceil($model->currency_amount), 2); ?></td>
+                </tr>
+                <?php
+            }
+            ?>
         </tfoot>
 
     </table>

@@ -89,10 +89,10 @@ $this->widget('DtGridView', array(
             if ($currency_code != "" && $currency_code != Yii::app()->session['currency']) {
                 $final_total = (double) $model->order->total_price + (double) $model->order->shipping_price + (double) $model->order->tax_amount;
               
-                $converted_total = ConfPaymentMethods::model()->convertCurrency($final_total, Yii::app()->session['currency'], $currency_code);
+               
                 ?>
                 <tr class="even">
-                    <td  style="text-align:right;"><span>Total In <?php echo $currency_code . "</span> =  " . number_format($converted_total, 2); ?></td>
+                    <td  style="text-align:right;"><span>Total In <?php echo $currency_code . "</span> =  " . number_format(ceil($model->order->currency_amount), 2); ?></td>
                 </tr>
                 <?php
             }

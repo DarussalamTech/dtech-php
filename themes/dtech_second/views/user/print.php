@@ -71,7 +71,7 @@
         'user_name' => $model->user->user_email,
         "order_id" => $model->order_id,
         "model" => $shipping,
-            ), false, false)
+            ), false, false);
     ?>
 </div>
 <div class="clear"></div>
@@ -83,6 +83,7 @@
     $this->renderPartial('//user/_print/_order_detail', array(
         'model' => $model,
         'user_name' => $model->user->user_email,
+         'currency_code' => isset($shipping->country->currency_code) ? $shipping->country->currency_code:"",
             ), false, false);
     ?>
 </div>
