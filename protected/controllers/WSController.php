@@ -10,7 +10,7 @@ class WSController extends Controller {
     public $layout = '';
 
     public function actionIndex() {
-
+           
         if (!isset($_REQUEST['record_set'])) {
 
             echo CJSON::encode(array("No Selection"));
@@ -64,8 +64,7 @@ class WSController extends Controller {
         
             
         }
-        
-
+       
         $this->layout = "";
 
         echo CJSON::encode($allBooks, true);
