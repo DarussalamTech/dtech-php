@@ -142,7 +142,7 @@ class ProductWS extends Product {
             'select' => 't.is_featured,t.product_id,t.create_time,t.update_time,t.product_name,t.product_description,t.slag,t.parent_cateogry_id ',
             'with' => array(
                 'productProfile' => array('select' => 'price', 'type' => 'INNER JOIN'),
-                'productCategories' => array('type' => 'INNER JOIN'),
+        
                 'author' => array('type' => 'INNER JOIN')
             ),
 //            'with' => array('productProfile' => array('select' => 'price'), 'productCategories', 'author'),
@@ -152,8 +152,12 @@ class ProductWS extends Product {
             'together' => true,
         ));
        
+        if(!empty($category)){
+            $criteria->with['productCategories'] = array('type' => 'LEFT OUTER JOIN');
+        }
       
-
+       
+        
      
 
         // Making data Provider for front end with pagination
@@ -169,8 +173,7 @@ class ProductWS extends Product {
 
         //Getting data from the data provider according to criteria
         $data = $dataProvider->getData();
-       
- 
+
 
         $all_products = array();
         $images = array();
