@@ -111,7 +111,9 @@ class ProductWS extends Product {
         if ($popular != 0)
             $condition .= "AND `productProfile`.`product_id` in (SELECT p.id  as sold  FROM `order_detail` as t  inner join product_profile as p on t.product_profile_id=p.id group by p.id)";
         if ($pages != 0) {
-            $condition .=!empty($pages) ? " AND `productProfile`.no_of_pages  < " . $pages : "";
+            $condition .=!empty($pages) ? " AND `productProfile`.no_of_pages  <= " . $pages : "";
+            $orderby = " productProfile.no_of_pages DESC ";
+            
         }
         if ($price_max != 0) {
             $orderby = "price DESC";
@@ -129,8 +131,9 @@ class ProductWS extends Product {
             $orderby = "t.product_name DESC";
 //            $condition .= "AND `productProfile`.price = (select min(price) from `product_profile` where city_id=1 AND parent_cateogry_id = 57) ";
         }
+        //no more this condition
         if (!empty($lowrangeprice) && !empty($highrangeprice)) {
-            $condition .=" AND price >" . $lowrangeprice . " AND price < " . $highrangeprice;
+            //$condition .=" AND price >" . $lowrangeprice . " AND price < " . $highrangeprice;
         }
 
 
@@ -174,7 +177,7 @@ class ProductWS extends Product {
         //Getting data from the data provider according to criteria
         $data = $dataProvider->getData();
 
-
+       
         $all_products = array();
         $images = array();
 
