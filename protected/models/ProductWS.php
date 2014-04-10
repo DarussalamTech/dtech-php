@@ -89,7 +89,6 @@ class ProductWS extends Product {
      */
 
     public function getWsAllBooksByCategory($page = "", $category = "", $popular = "", $price_max = "", $price_min = "", $pages = "", $lowrangeprice = "", $highrangeprice = "", $asc = "", $desc = "") {//,$price="",$price_max="") {
-        
         $cate = new Categories;
         // Getting the categories for drop downs
         $categories = $cate->getAllCategoriesForWebService();
@@ -111,9 +110,16 @@ class ProductWS extends Product {
         if ($popular != 0)
             $condition .= "AND `productProfile`.`product_id` in (SELECT p.id  as sold  FROM `order_detail` as t  inner join product_profile as p on t.product_profile_id=p.id group by p.id)";
         if ($pages != 0) {
-            $condition .=!empty($pages) ? " AND `productProfile`.no_of_pages  <= " . $pages : "";
-            $orderby = " productProfile.no_of_pages DESC ";
+            $rang_page = array(
+                '100' => array("start" => 0, "end" => 100),
+                '200' => array("start" => 101, "end" => 200),
+                '500' => array("start" => 201, "end" => 500),
+                '1000' => array("start" => 501, "end" => 1000),
+                '2000' => array("start" => 1001, "end" => 2000),
+            );
             
+            $condition .=!empty($pages) ? " AND ("."productProfile.no_of_pages  >= " . $rang_page[$pages]['start']. " AND productProfile.no_of_pages  <= " . $rang_page[$pages]['end'].") ":" ";
+            $orderby = " productProfile.no_of_pages DESC ";
         }
         if ($price_max != 0) {
             $orderby = "price DESC";
@@ -145,7 +151,6 @@ class ProductWS extends Product {
             'select' => 't.is_featured,t.product_id,t.create_time,t.update_time,t.product_name,t.product_description,t.slag,t.parent_cateogry_id ',
             'with' => array(
                 'productProfile' => array('select' => 'price', 'type' => 'INNER JOIN'),
-        
                 'author' => array('type' => 'INNER JOIN')
             ),
 //            'with' => array('productProfile' => array('select' => 'price'), 'productCategories', 'author'),
@@ -154,14 +159,14 @@ class ProductWS extends Product {
             'distinct' => true,
             'together' => true,
         ));
-       
-        if(!empty($category)){
+
+        if (!empty($category)) {
             $criteria->with['productCategories'] = array('type' => 'LEFT OUTER JOIN');
         }
-      
-       
-        
-     
+
+
+
+
 
         // Making data Provider for front end with pagination
         $dataProvider = new DTActiveDataProvider($this, array(
@@ -171,13 +176,13 @@ class ProductWS extends Product {
             ),
             'criteria' => $criteria,
         ));
-        
-        
+
+//CVarDumper::dump($criteria,10,true);
 
         //Getting data from the data provider according to criteria
         $data = $dataProvider->getData();
 
-       
+
         $all_products = array();
         $images = array();
 
@@ -186,7 +191,7 @@ class ProductWS extends Product {
         foreach ($data as $products) {
             $product_id = $products->product_id;
 //            echo $products->product_id ."-";
-          
+
             $criteria2 = new CDbCriteria;
             $criteria2->select = 'id,product_profile_id,image_large,image_small,is_default';  // only select the 'title' column
             $criteria2->condition = "product_profile_id ='" . $products->productProfile[0]->id . "'";
