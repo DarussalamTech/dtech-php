@@ -106,9 +106,9 @@ class ProductWS extends Product {
         $orderby = "";
 
         $condition = "";
-        $condition = !empty($category) ? " AND productCategories.category_id =" . $category : "";
+        $condition = !empty($category) ? " AND productCategories.category_id =" . $category : " ";
         if ($popular != 0)
-            $condition .= "AND `productProfile`.`product_id` in (SELECT p.id  as sold  FROM `order_detail` as t  inner join product_profile as p on t.product_profile_id=p.id group by p.id)";
+            $condition .= " AND `productProfile`.`product_id` in (SELECT p.id  as sold  FROM `order_detail` as t  inner join product_profile as p on t.product_profile_id=p.id group by p.id)";
         if ($pages != 0) {
             $rang_page = array(
                 '100' => array("start" => 0, "end" => 100),
@@ -154,7 +154,7 @@ class ProductWS extends Product {
                 'author' => array('type' => 'INNER JOIN')
             ),
 //            'with' => array('productProfile' => array('select' => 'price'), 'productCategories', 'author'),
-            'condition' => "t.parent_cateogry_id=57  " . $condition,
+            'condition' => " t.parent_cateogry_id=57  " . $condition,
             'order' => $orderby,
             'distinct' => true,
             'together' => true,
