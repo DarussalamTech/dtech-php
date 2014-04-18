@@ -5,6 +5,7 @@ class m140325_075353_makingOrderIdsetAsForbilling extends DTDbMigration {
     public function up() {
         $table = "user_order_billing";
         $billings = $this->getQueryAll("SELECT * FROM " . $table . " WHERE order_id IS  NULL OR order_id = 0");
+        
         foreach ($billings as $billing) {
             if ($billing['order_id'] == 0) {
 
@@ -31,7 +32,7 @@ class m140325_075353_makingOrderIdsetAsForbilling extends DTDbMigration {
                 echo "\n";
             }
         }
-        return false;
+       
     }
 
     public function down() {
