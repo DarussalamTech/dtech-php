@@ -162,7 +162,15 @@ class DTDbMigration extends CDbMigration {
      */
     public function getSuperUserId() {
         $con = $this->getConnection();
-        $sql = "Select user_id,user_name from user where user_email='super@yahoo.com'";
+        //get super user id from role 
+        
+        $sql = "Select userid FROM  authassignment where itemname='SuperAdmin'";
+        $command = $con->createCommand($sql);
+        
+        $user_id = $command->queryColumn();
+        
+        
+        $sql = "Select user_id,user_name from user where user_id=".$user_id[0];
         $command = $con->createCommand($sql);
         $row = $command->queryRow();
         return $row;
