@@ -169,7 +169,9 @@ foreach ($session->keys as $key) {
         <section>
             <p> Head Office Location</p>
         </section>
-        <div id="map-2" style="width:700px;height:220px;"></div>              
+
+        <div id="map-2" style="width:700px;height:220px;"></div> 
+        
     </div>
 
 </div>

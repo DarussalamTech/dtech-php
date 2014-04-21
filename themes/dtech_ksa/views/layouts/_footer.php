@@ -16,48 +16,20 @@
 
                         </span>
                     </section>
-                    <section><img src="<?php echo Yii::app()->theme->baseUrl; ?>/images/home.png" /><span>Darussalam Publishers</span></section>
-                    <p>
-                        <?php echo Yii::t('header_footer', " Muraba'a Area-Dabbab Street, Opposite to Chamber of Commerce", array(), NULL, $this->currentLang); ?>
-
-                    </p>
+                    
                 </div>
             </div>
         </div>
-        <div class="center_footer">
-            <h4>                
-                <?php echo Yii::t('header_footer', 'get in TOUCH.', array(), NULL, $this->currentLang); ?>
-            </h4>
-            <div class="under_center_footer">
-                <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/t_img_03.png"), "http://twitter.com/darussalamsns",array("target"=>"_blank")); ?>
-                <?php //echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/in_img_03.png"), "javascript:void(0)"); ?>
-                <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/f_img_03.png", ''), "http://www.facebook.com/darussalam.sns",array("target"=>"_blank")); ?>
-                <?php //echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/g_img_03.png"), "javascript:void(0)"); ?>
-            </div>
-        </div>
+        
         <div class="right_footer">
-            <h4><img src="<?php echo Yii::app()->theme->baseUrl; ?>/images/darussalam_img_03.png" /> 
-                <span>
-                    <?php echo Yii::t('header_footer', 'whats NEW?.', array(), NULL, $this->currentLang); ?>
-                </span>
-            </h4>
+            
             <div class="under_right_footer">
-                <article>
-                    <?php echo Yii::t('header_footer', 'Beta Website releasd.', array(), NULL, $this->currentLang); ?>
-                </article>
-                <span>
-                    <i>
-                        <?php echo Yii::t('header_footer', 'Authentic Isamic Books.', array(), NULL, $this->currentLang); ?>
-                    </i>
-                </span>
-                <article>
-                    <?php echo Yii::t('header_footer', 'Darussalam Publishers', array(), NULL, $this->currentLang); ?>
-                </article>
-                <span>
-                    <i>
-                        <?php echo Yii::t('header_footer', 'Islamic Ebooks and apps', array(), NULL, $this->currentLang); ?>
-                    </i>
-                </span>
+                <section><img src="<?php echo Yii::app()->theme->baseUrl; ?>/images/home.png" /><span>Darussalam Publishers</span>
+               <p>
+                        <?php echo Yii::t('header_footer', " Muraba'a Area-Dabbab Street, Opposite to Chamber of Commerce", array(), NULL, $this->currentLang); ?>
+
+               </p> 
+                    </section>
             </div>
         </div>
     </footer>

@@ -28,7 +28,7 @@ header { width:100%; padding: 0; margin: 0;
 #main_features_part { width:100%; padding: 0px; margin: 0; float:left; }
 
 #footer_part { width:100%; padding: 0px; margin: 30px 0 0 0; float:left;
-               height:318px; 
+               height:150px; 
                /*background:url(../images/footer-bg.png) repeat-x; */
                background:#089ad4 repeat-x;
 }
@@ -214,11 +214,11 @@ footer { width:960px; padding: 0; margin: 0 auto; }
 
 .right_under_content p { color:#454545; font-family:Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif; font-size:10px; padding: 0; margin: 0; text-align:right; }
 
-#left_footer { padding: 0; margin: 0 40px; width:230px; float:left; height:200px; }
+#left_footer { padding: 0; margin: 20px 40px; width:300px; float:left; height:160px; }
 
-.under_left_footer { padding: 0; margin: 0; border-bottom: 1px solid #000000; border-top: 1px solid #000000; width:260px; float:left; }
+.under_left_footer { padding: 0; margin: 0;  border-top: 1px solid #000000; width:660px; float:left; height: 100px}
 
-#left_footer h4 { color:#FFF; font-size:20px; font-weight: bold; font-family:Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif; }
+#left_footer h4 { color:#FFF; font-size:20px; font-weight: bold; font-family:Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif; padding: 0; margin: 0;}
 
 #left_footer h4 img { padding: 0; margin: 0 0 0 20px; float:left; }
 
@@ -234,9 +234,9 @@ footer { width:960px; padding: 0; margin: 0 auto; }
 
 .section_part p { padding: 0; margin: 0 0 0 30px; color:#FFF; font-size:12px; font-family:Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif; }
 
-.center_footer { padding: 0; margin: 24px 40px; width:230px; float:left; height:200px; }
+.center_footer { padding: 5px; margin: 24px 40px; width:230px; float:left; height:160px; }
 
-.center_footer h4 { color:#FFF; font-size:20px; font-weight: bold; font-family:Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif; }
+.center_footer h4 { color:#FFF; font-size:20px; font-weight: bold; font-family:Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;padding: 9px; margin: 0; }
 
 .center_footer h4 img { padding: 0; margin: 0 0 0 20px; float:left; }
 
@@ -246,21 +246,23 @@ footer { width:960px; padding: 0; margin: 0 auto; }
 
 .under_center_footer a img { padding: 0; margin: 10px 14px; }
 
-.right_footer { padding: 0; margin: 7px 40px; width:230px; float:left; height:200px; }
+.right_footer { padding: 0; margin: 30px 40px; width:230px; float:left; height:160px; }
 
-.right_footer h4 { color:#FFF; font-size:20px; font-weight: bold; font-family:Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif; }
+.right_footer h4 { color:#FFF; font-size:20px; font-weight: bold; font-family:Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif; padding: 0; margin: 0;}
 
 .right_footer h4 img { padding: 0; margin: 0 0 0 20px; float:left; }
 
 .right_footer h4 span { padding: 0; margin: 10px 0 0 10px; float:left; }
 
-.under_center_footer { padding: 0; margin: 0; border-bottom: 1px solid #000000; border-top: 1px solid #000000; width:260px; float:left; height:168px; }
+.under_center_footer { padding: 0; margin: 0; border-bottom: 1px solid #000000; border-top: 1px solid #000000; width:260px; float:left; height:160px; }
 
-.under_right_footer { padding: 0; margin: 30px 0 0 0; border-bottom: 1px solid #000000; border-top: 1px solid #000000; width:260px; float:left; height:168px; }
+.under_right_footer { padding: 0; margin: 30px 0 0 0;  width:260px; float:left; height:168px; }
 
 .under_right_footer article { color:#FFF; font-size:12px; font-family:Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif; padding: 0; margin: 15px 0 0 20px; }
 
 .under_right_footer span { color:#FFF; font-size:12px; font-family:Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif; padding: 0; margin: 0 0 0 20px; }
+
+.under_right_footer p { padding: 0; margin: 0 0 0 35px; color:#FFF; font-size:12px; font-family:Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif; }
 
 #footer_nav p { padding: 0; margin: 6px 0 0 0; float:right; }
 
