@@ -1,5 +1,3 @@
-
-
 <?php
 
 class SiteController extends Controller {
@@ -261,6 +259,7 @@ class SiteController extends Controller {
         Yii::app()->user->SiteSessions;
         // Yii::app()->controller->layout = '//layouts/main';
         $model = new ContactForm;
+
         if (isset($_POST['ContactForm'])) {
             $model->attributes = $_POST['ContactForm'];
             if ($model->validate()) {
@@ -271,16 +270,20 @@ class SiteController extends Controller {
                      * if the button is checked
                      */
                     $email['To'] = $model->email;
-                    $email['From'] = Yii::app()->params['adminEmail'];
+                    $email['From'] = User::model()->getCityAdmin();
                     $email['Subject'] = 'Contact Notification From ' . Yii::app()->name;
+                    $email['Message_type'] = $model->message_type;
                     $email['Body'] = $model->body;
                     $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
                     $this->sendEmail2($email);
                 }
 
-                $email['To'] = Yii::app()->params['adminEmail'];
-                $email['From'] = $model->email;
-                $email['Subject'] = $model->subject . 'From Mr/Mrs: ' . $model->name;
+               // $email['To'] = "akram.khan@darussalampk.com"; //User::model()->getCityAdmin();
+                $email['To'] =  User::model()->getCityAdmin();
+                $email['From'] = $model->email; 
+                $email['Message_type'] = $model->message_type;
+                $email['Subject'] = "[".$email['Message_type']."] ".$model->subject.' From Mr/Mrs: ' . $model->name;
+              
                 $email['Body'] = $model->body;
                 $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
 
@@ -289,6 +292,7 @@ class SiteController extends Controller {
                 $this->redirect($this->createUrl('/site/contact', array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id'])));
             }
         }
+
         $this->render($this->slash . '/site/contact', array('model' => $model));
     }
 
