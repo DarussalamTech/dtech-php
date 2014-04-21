@@ -1,0 +1,69 @@
+@charset "utf-8";
+/* CSS Document */
+
+#book_detail_part { padding: 0; margin: 0; width:100%; float:left; }
+
+#book_detail { padding: 0; margin: 0 auto; width:960px; font-family: "Gill Sans","Gill Sans MT","Myriad Pro","DejaVu Sans Condensed",Helvetica,Arial,sans-serif;color: #575757; }
+
+#book_detail h1 { border: 1px solid #c3c3c3; padding: 0 0px 0 20px; margin: 0 0; background:#f0f0f0; width:940px; color:#282828; font-size:25px; font-family:"Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, sans-serif; }
+
+.upper_detail { width:920px; padding: 5px 0px; margin: 30px 20px 0 20px; border-bottom: 1px solid #b7b7b7; float:left; }
+
+.left_upper_part { width:230px; float:left; padding: 0; margin: 0; }
+
+.right_upper_part { width:670px; float:left; padding: 0 0 0 20px; margin: 0; }
+
+.right_upper_part h2 { padding: 3px 0; margin: 0; color:#089ad4; font-size:27px; font-family:"Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, sans-serif; }
+
+.right_upper_part p { padding: 3px 0; margin: 0; color:#575757; font-size:17px; font-family:"Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, sans-serif; }
+
+.right_upper_part section { padding: 3px 0; margin: 0; color:#555555; font-size:15px; font-family:Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif; }
+
+.right_upper_part article { padding: 3px 0 5px 0; margin: 0; color:#91604f; font-size:13px; font-family:Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif; font-weight:bold;clear: both; }
+
+.detail_shop_now { padding: 0; margin: 35px 0 0 0; }
+
+.detail_shop_now input[type="button"] { border:none; color:#FFF; background:#ebb91c; border-radius:5px; height:35px; padding: 0 17px; margin: 0 0px 0 30px; float:left; font-family:Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif; font-size:13px; cursor:pointer; }
+
+.detail_shop_now input[type="button"]:first-child { margin: 0; }
+
+.center_detail { width:900px; padding: 5px 10px; margin: 10px 0px 0 0px; border-bottom: 0px solid #b7b7b7; float:left; }
+
+.center_detail p { padding: 0; margin: 0; color:#575757; font-size:15px; font-family:"Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, sans-serif; }
+
+.center_detail h2 { padding: 8px 0 0 0; margin: 0; color:#089ad4; font-size:28px; font-family:"Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, sans-serif; }
+
+.bottom_detail { width:900px; padding: 5px 10px; margin: 10px 20px 0 20px; float:left; }
+
+.bottom_detail h2 { padding: 0px 0 0 0; margin: 0; color:#089ad4; font-size:28px; font-family:"Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, sans-serif; }
+
+.under_bottom_detail { width:920px; padding: 0 0 15px 0; margin: 15px 0 0 0; border-bottom: 1px solid #b7b7b7; float:left; }
+
+.under_bottm_detail { width:920px; padding: 0 0 15px 0; margin: 15px 0 0px 0; float:left; }
+
+.left_bottom_detail { padding: 0; margin: 0; width:80px; float:left; }
+
+.right_bottom_detail { padding: 0 0 0 20px; margin: 0; width:465px; float:left; }
+
+.right_bottom_detail p { padding: 0; margin: 0; color:#575757; font-size:15px; font-family:"Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, sans-serif; }
+
+.right_bottom_detail textarea { width:460px; border:none; border: 1px solid #aeaeae; }
+
+.right_bottom_detail input[type="button"] { height:35px; color:#FFF; font-size:13px; font-family:Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif; background:#ebb91c; border:none; border-radius: 3px; padding: 0 10px; margin: 10px 0 0 0; clear:both; float:right; }
+#gridd {
+    margin: 10px 20px 0;
+    padding: 5px 10px;
+    width: 900px;
+    float: left;
+}
+#gridd #right_description h4 {
+    margin-top: 10px;
+    color: #089AD4;
+}
+.right_bottom_detail textarea[readonly='readonly'] {
+    background: #EBEBEB;
+}
+.border_detail{
+    border-bottom: 1px solid #B7B7B7;
+    padding-bottom: 17px;
+}
