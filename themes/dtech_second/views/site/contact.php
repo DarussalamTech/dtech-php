@@ -40,6 +40,10 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/con
                 <?php echo $form->textField($model, 'subject', array('class' => 'form_name')); ?>
             </div>
             <div class="contact_form">
+                <p> <?php echo $form->labelEx($model, 'message_type'); ?></p>
+                <?php echo $form->dropDownList($model, 'message_type', array('Suggession'=>'Suggestion','Enquiry'=>'Enquiry', 'Complaint'=>'Complaint'), array('options' => array('Suggestion' => array('selected' => true)))); ?>
+            </div>
+            <div class="contact_form">
                 <p><?php echo $form->labelEx($model, 'body'); ?></p>
                 <?php echo $form->textArea($model, 'body', array('rows' => 5, 'cols' => 31, 'style' => 'resize:none')); ?>
 
