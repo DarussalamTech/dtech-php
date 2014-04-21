@@ -69,13 +69,13 @@ class DTWebUser extends CWebUser {
 
     function getSiteSessions() {
 
-        
+
         $siteUrl = Yii::app()->request->hostInfo . Yii::app()->baseUrl;
         $site_info = SelfSite::model()->getSiteInfo($siteUrl);
-        
-        
-        
-      
+
+
+
+
 
         /**
          * When site is not in db
@@ -84,11 +84,10 @@ class DTWebUser extends CWebUser {
          * 
          */
         if ($site_info == 0) {
-            
+
             Yii::app()->controller->redirect(Yii::app()->createUrl("/error/unconfigured"));
             return true;
-        }
-        else if($site_info['status']==0){
+        } else if ($site_info['status'] == 0) {
             Yii::app()->controller->redirect(Yii::app()->createUrl("/error/underconstruction"));
             return true;
         }
@@ -113,7 +112,7 @@ class DTWebUser extends CWebUser {
 
             $cityModel = SelfSite::model()->findCityLocation($_REQUEST['city_id']);
 
-            $this->saveDTSessions($cityModel);
+            $this->saveDTSessions($cityModel, $site_info);
         }
         /**
          * when city id in session
@@ -132,7 +131,7 @@ class DTWebUser extends CWebUser {
             $cityModel = SelfSite::model()->findCityLocation($site_info['site_headoffice']);
 
 
-            $this->saveDTSessions($cityModel);
+            $this->saveDTSessions($cityModel, $site_info);
         }
 
         //$this->installSocialConfigs();
@@ -140,11 +139,17 @@ class DTWebUser extends CWebUser {
 
     /**
      * save darusslam sessions
+     * including theme currency ,city and country
+     * @param type $cityModel
+     * @param type $site_info
+     * @return boolean
      */
-    public function saveDTSessions($cityModel) {
+    public function saveDTSessions($cityModel, $site_info = array()) {
 
 
-        Yii::app()->session['layout'] = "dtech_second";
+        $theme = SelfSite::model()->findLayout($site_info['site_id']);
+        
+        Yii::app()->session['layout'] = $theme;
 
         Yii::app()->session['country_short_name'] = $cityModel->country->short_name;
         Yii::app()->session['city_short_name'] = $cityModel->short_name;
@@ -152,7 +157,7 @@ class DTWebUser extends CWebUser {
         Yii::app()->session['country_id'] = $cityModel->country_id;
         Yii::app()->session['currency'] = $cityModel->currency->symbol;
 
-        Yii::app()->theme = "dtech_second";
+        Yii::app()->theme = $theme;
 
 
         /**
