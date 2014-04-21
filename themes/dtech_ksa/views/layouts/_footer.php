@@ -66,7 +66,7 @@
     <div id="darussalam_bar">
         <p>
             <?php
-            echo Yii::t('header_footer', '&copy; 2013 Darussalam, Inc. All Rights Reserved.', array(), NULL, $this->currentLang)
+            echo Yii::t('header_footer', '&copy; 2014 Darussalam, Inc. All Rights Reserved.', array(), NULL, $this->currentLang)
             ?>
         </p>
     </div>
