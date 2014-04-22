@@ -22,5 +22,5 @@ $url_manager = array(
     'showScriptName' => false,
     'rules' => $rules
 );
-//$url_manager = array();
+
 ?>

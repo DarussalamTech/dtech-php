@@ -179,5 +179,10 @@ $rules_admin = array(
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/zone/deleteChildByAjax/<id:[\w-\.]+>' => '/zone/deleteChildByAjax',
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/zone/viewHistory/<id:[\w-\.]+>' => '/zone/viewHistory',
     
-);
+    //notifications
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/notification/create' => '/notifcation/create',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/notification/list' => '/notifcation/index',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/<id:[\w-\.]+>/notification/sendcopy' => '/notifcation/copy',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/<id:[\w-\.]+>/notification/view' => '/notifcation/view',
+  );
 ?>

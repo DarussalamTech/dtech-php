@@ -44,6 +44,7 @@
     text-decoration: none;
 }
 
+
 .grid-view table.items th a:hover {
     color: #595959;
 }
@@ -82,7 +83,14 @@
 .grid-view table.items thead tr:hover {
     background:none;
 }
-
+.grid-view table.items tr.not_read td a {
+    font-weight: bold !important;
+    color:black;
+}
+.grid-view table.items tr.not_read td  {
+    font-weight: bold !important;
+    color:black;
+}
 
 .grid-view .link-column img
 {
@@ -152,7 +160,7 @@
     margin-left: 15px;
 }
 
--------- print button per project 
+
 .per-project 
 {
     width: 80%;
