@@ -55,7 +55,8 @@ if (Yii::app()->user->hasFlash('status')) {
         <?php echo $form->hiddenField($model, 'type', array('value' => 'sent')); ?>
     </div>
     <div class="clear_from_tag_five"></div>
-    <div class="row">
+    <div class="row <?php echo $model->hasErrors("to")?"error_row":""; ?>">
+        
         <?php echo $form->labelEx($model, 'to'); ?>
         <?php echo $form->textField($model, 'to', array('size' => 60, 'maxlength' => 255)); ?>
         <?php echo $form->error($model, 'to'); ?>

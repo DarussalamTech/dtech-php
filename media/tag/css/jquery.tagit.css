@@ -81,3 +81,6 @@ ul.tagit input[type="text"]:focus {
 input.error + ul.tagit {
     background: none repeat scroll 0 0 #F95E5E;
 }
+div.error_row ul.tagit {
+    background: none repeat scroll 0 0 #F95E5E;
+}

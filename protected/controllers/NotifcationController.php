@@ -92,7 +92,7 @@ class NotifcationController extends Controller {
 
                 $model->saveToUserInbox();
                 Yii::app()->user->setFlash('status', "Your Notification has been sent");
-
+                
                 if (!empty($model->email_sent)) {
                     $this->sendNotification($model);
                 }
@@ -124,8 +124,9 @@ class NotifcationController extends Controller {
                 //send to all users 
                 $model->saveToUserInbox();
                 Yii::app()->user->setFlash('status', "Your Notification has been sent");
-
+             
                 if (!empty($model->email_sent)) {
+                  
                     $this->sendNotification($model);
                 }
 
@@ -144,12 +145,13 @@ class NotifcationController extends Controller {
      */
     public function sendNotification($model) {
 
-        $email['To'] = $model->to;
+        $email['To'] = explode(",",$model->to);
         $email['From'] = User::model()->findFromPrimerkey($model->from)->user_email;
         $email['Subject'] = $model->subject;
 
         $email['Body'] = $model->body;
         $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
+       
         $this->sendEmail2($email);
     }
 
