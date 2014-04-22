@@ -364,7 +364,7 @@ class MenusController extends Controller {
         //rates import class
         $ary[] = array("id" => "55", "pid" => "0", "root_parent" => "55", "controller" => "notifcation", "action" => "index", "default_title" => "Notifications", "user_title" => "Notifications", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "3");
         $ary[] = array("id" => "56", "pid" => "55", "root_parent" => "55", "controller" => "notifcation", "action" => "index", "default_title" => "Inbox", "user_title" => "Inbox", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "0");
-        $ary[] = array("id" => "57", "pid" => "55", "root_parent" => "55", "controller" => "notifcation", "action" => "Compose New", "default_title" => "Compose New", "user_title" => "Create Import", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "2");
+        $ary[] = array("id" => "57", "pid" => "55", "root_parent" => "55", "controller" => "notifcation", "action" => "create", "default_title" => "Compose New", "user_title" => "Compose New", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "2");
 
 
         foreach ($ary as $attr) {
