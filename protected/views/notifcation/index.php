@@ -38,7 +38,7 @@ $('.search-form form').submit(function(){
         ?>
         <?php
         echo ColorBox::link("Create Folder", $this->createUrl("/notifcation/createFolder"), 
-                array('class' => "print_link_btn"), array("height"=>"300","width"=>"400"));
+                array('class' => "print_link_btn colorbox"), array("height"=>"300","width"=>"400"));
        
         ?>
     </div>
