@@ -14,26 +14,33 @@ class NotifcationController extends Controller {
      */
     public function filters() {
         return array(
-            'accessControl', // perform access control for CRUD operations
-            'postOnly + delete', // we only allow deletion via POST request
+            // 'accessControl', // perform access control for CRUD operations
+            'rights',
+            'https + index + view + copy + create',
         );
     }
 
     /**
-     * Specifies the access control rules.
-     * This method is used by the 'accessControl' filter.
-     * @return array access control rules
+     * 
+     * @return string
      */
-    public function accessRules() {
-        return array(
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('create', 'copy', 'admin', 'delete', 'index', 'view'),
-                'users' => array('@'),
-            ),
-            array('deny', // deny all users
-                'users' => array('*'),
-            ),
-        );
+    public function allowedActions() {
+        return '@';
+    }
+
+    /**
+     * 
+     * @param type $action
+     * @return boolean
+     */
+    public function beforeAction($action) {
+        Yii::app()->theme = "admin";
+        parent::beforeAction($action);
+
+        $operations = array('view');
+        parent::setPermissions($this->id, $operations);
+
+        return true;
     }
 
     /**
@@ -46,17 +53,6 @@ class NotifcationController extends Controller {
         $this->filters = array(
             'type' => array("inbox" => "Inbox", "sent" => "Sent",),
         );
-    }
-
-    /**
-     * 
-     * @param type $action
-     * @return boolean
-     */
-    public function beforeAction($action) {
-        Yii::app()->theme = "admin";
-        parent::beforeAction($action);
-        return true;
     }
 
     /**
@@ -92,7 +88,7 @@ class NotifcationController extends Controller {
 
                 $model->saveToUserInbox();
                 Yii::app()->user->setFlash('status', "Your Notification has been sent");
-                
+
                 if (!empty($model->email_sent)) {
                     $this->sendNotification($model);
                 }
@@ -124,9 +120,9 @@ class NotifcationController extends Controller {
                 //send to all users 
                 $model->saveToUserInbox();
                 Yii::app()->user->setFlash('status', "Your Notification has been sent");
-             
+
                 if (!empty($model->email_sent)) {
-                  
+
                     $this->sendNotification($model);
                 }
 
@@ -145,13 +141,13 @@ class NotifcationController extends Controller {
      */
     public function sendNotification($model) {
 
-        $email['To'] = explode(",",$model->to);
+        $email['To'] = explode(",", $model->to);
         $email['From'] = User::model()->findFromPrimerkey($model->from)->user_email;
         $email['Subject'] = $model->subject;
 
         $email['Body'] = $model->body;
         $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
-       
+
         $this->sendEmail2($email);
     }
 
@@ -178,8 +174,8 @@ class NotifcationController extends Controller {
 
         if (isset($_GET['Notifcation'])) {
             $model->attributes = $_GET['Notifcation'];
-            if($model->from !=""){
-                $model->from = User::model()->get("user_email = '".$model->from."'")->user_id;
+            if ($model->from != "") {
+                $model->from = User::model()->get("user_email = '" . $model->from . "'")->user_id;
             }
         }
         if ($model->type == "" || $model->type == "inbox") {
