@@ -26,7 +26,7 @@ $('.search-form form').submit(function(){
 
 <div class="pading-bottom-5">
     <div class="left_float">
-        <h1>Your Notifications</h1>
+        <h1>Your <?php echo $model->type; ?> Notifications</h1>
     </div>
 
     <?php /* Convert to Monitoring Log Buttons */ ?>
@@ -35,6 +35,11 @@ $('.search-form form').submit(function(){
         echo CHtml::link("Compose New", $this->createUrl("/notifcation/create"), array(
             'class' => "print_link_btn",
         ));
+        ?>
+        <?php
+        echo ColorBox::link("Create Folder", $this->createUrl("/notifcation/createFolder"), 
+                array('class' => "print_link_btn"), array("height"=>"300","width"=>"400"));
+       
         ?>
     </div>
 </div>

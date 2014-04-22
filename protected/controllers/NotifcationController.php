@@ -16,7 +16,7 @@ class NotifcationController extends Controller {
         return array(
             // 'accessControl', // perform access control for CRUD operations
             'rights',
-            'https + index + view + copy + create',
+            'https + index + view + copy + create + createFolder',
         );
     }
 
@@ -188,6 +188,14 @@ class NotifcationController extends Controller {
             'model' => $model,
         ));
     }
+    
+    /**
+     * create new folder
+     */
+    public function actionCreateFolder(){
+        $model = new NotificationFolder;
+        $this->renderPartial("_createfolder",array("model"=>$model));
+    }
 
     /**
      * Returns the data model based on the primary key given in the GET variable.
@@ -198,8 +206,16 @@ class NotifcationController extends Controller {
      */
     public function loadModel($id) {
         $model = Notifcation::model()->findByPk($id);
-        if ($model === null)
+        
+        if ($model === null){
             throw new CHttpException(404, 'The requested page does not exist.');
+        }
+        else if ($model->type == "sent" && $model->from != Yii::app()->user->id){
+            throw new CHttpException(404, 'The requested page does not exist.');
+        } 
+        else if ($model->type == "inbox" && !strstr(Yii::app()->user->user->user_email,$model->to)){
+            throw new CHttpException(404, 'The requested page does not exist.');
+        } 
         return $model;
     }
 

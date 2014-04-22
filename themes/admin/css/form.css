@@ -38,6 +38,9 @@ div.form
 {
     width: 787px;
 }
+div.form.color-box-width {
+    width:100% !important;
+}
 /* end for screen resolution */
 /*div.form input,
 div.form textarea,

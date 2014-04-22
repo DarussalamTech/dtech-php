@@ -44,6 +44,12 @@ class NotificationFolder extends DTActiveRecord {
             array('id, name, create_time, create_user_id, update_time, update_user_id', 'safe', 'on' => 'search'),
         );
     }
+    /**
+     * 
+     */
+    public function checkUserUnique(){
+        
+    }
 
     /**
      * @return array relational rules.

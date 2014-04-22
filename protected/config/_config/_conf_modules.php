@@ -77,6 +77,7 @@ $modules = array(
             'Notifcation.Create',
             'Notifcation.Copy',
             'Notifcation.View',
+            'Notifcation.CreateFolder',
         ),
         'debug' => false, // Whether to enable debug mode.
     ),
