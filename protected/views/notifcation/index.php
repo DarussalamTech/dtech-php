@@ -65,6 +65,13 @@ $this->widget('DtGridView', array(
     'rowCssClassExpression' => '$data->is_read ==0?"not_read":""',
     'columns' => array(
         array(
+            'header' => '<input type="checkbox" id="parent_checkbox" onclick="
+                  dtech.checkUnCheckUnder(this)
+             " />',
+            'class' => 'CCheckBoxColumn',
+            
+        ),
+        array(
             'name' => 'subject',
             'value' => 'CHtml::link($data->subject,Yii::app()->controller->createUrl("/notifcation/view",array("id"=>$data->id)))',
             "type" => 'raw',

@@ -52,7 +52,7 @@ class Notifcation extends DTActiveRecord {
             array('to', 'length', 'max' => 255),
             array('to', 'validateEmailTo'),
             array('type', 'length', 'max' => 5),
-            array('email_sent,related_id,related_to,subject,body,attachment','safe'),
+            array('email_sent,related_id,related_to,subject,body,attachment', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, from, to, type, folder,subject,body,attachment, create_time, create_user_id, update_time, update_user_id', 'safe', 'on' => 'search'),
@@ -70,14 +70,15 @@ class Notifcation extends DTActiveRecord {
             'folder_rel' => array(self::BELONGS_TO, 'NotificationFolder', 'folder'),
         );
     }
+
     /**
      * validate email 
      */
-    public function validateEmailTo(){
-        $explode = explode(",",$this->to);
-        foreach($explode as $email){
+    public function validateEmailTo() {
+        $explode = explode(",", $this->to);
+        foreach ($explode as $email) {
             $email_validate = new CEmailValidator();
-            if(!$email_validate->validateValue($email)){
+            if (!$email_validate->validateValue($email)) {
                 $this->addError("to", "One or more email is not valid");
             }
         }
@@ -118,7 +119,7 @@ class Notifcation extends DTActiveRecord {
         $criteria = new CDbCriteria;
 
         $criteria->compare('id', $this->id);
-        $criteria->compare('t.from', $this->from,true);
+        $criteria->compare('t.from', $this->from, true);
         $criteria->compare('t.to', $this->to, true);
         $criteria->compare('t.type', $this->type, true);
         $criteria->compare('folder', $this->folder);
@@ -136,27 +137,30 @@ class Notifcation extends DTActiveRecord {
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
+            'pagination' => array(
+                'pageSize' => 40,
+            ),
         ));
     }
+
     /**
      * save to user inbox
      * which are involved in this process
      * @param type $model
      */
-    public function saveToUserInbox(){
-        $user_arr = explode(",",$this->to);
-        
-        foreach($user_arr as $user_email){
-           
-            $user = User::model()->get('user_email = "'.$user_email.'"');
+    public function saveToUserInbox() {
+        $user_arr = explode(",", $this->to);
+
+        foreach ($user_arr as $user_email) {
+
+            $user = User::model()->get('user_email = "' . $user_email . '"');
             $notify = new Notifcation;
             $notify->attributes = $this->attributes;
-           
-            
+
+
             $notify->type = "inbox";
-          
+
             $notify->save();
-            
         }
         return true;
     }

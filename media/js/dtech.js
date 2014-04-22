@@ -513,6 +513,9 @@ var dtech = {
             }
         })
     },
+    checkUnCheckUnder: function(obj){
+        jQuery("table.items td.checkbox-column input").prop("checked", obj.checked);
+    },        
     /**
      * disable the shipping method on check of particular one
      * 
