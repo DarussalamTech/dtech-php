@@ -8,6 +8,12 @@
         <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl ?>/media/css/overlay.css" />
         <script src="<?php echo Yii::app()->baseUrl; ?>/media/js/dtech.js"></script>
 
+
+
+        <script type="text/javascript" src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery.flipcountdown.js"></script>
+        <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl ?>/css/jquery.flipcountdown.css" />
+
+
         <meta charset="utf-8">
         <script>
             var yii_base_url = "<?php echo Yii::app()->baseUrl; ?>";
@@ -21,6 +27,25 @@
                     dtech.updateElementAjax('<?php echo $this->createUrl("/web/default/getFacebookFeeds") ?>', 'facebook_feeds', 'fb_page_pk');
                 }
             });
+        </script>
+        <script>
+            jQuery(function($) {
+                var i = 1000;
+                $('#logo_timer').flipcountdown();
+                var i = 1;
+                $('#retroclockbox_counter').flipcountdown({
+                    tick: function() {
+                        return i++;
+                    }
+                });
+                $('#retroclockbox2').flipcountdown({showHour: false, showMinute: false, showSecond: true});
+                $('#retroclockbox3').flipcountdown({tzoneOffset: 3, showSecond: false});
+                $('#retroclockbox4').flipcountdown({am: true});
+                $('#retroclockbox5').flipcountdown({speedFlip: 50});
+                $('#retroclockbox6').flipcountdown({tick: function() {
+                        return new Date('5/10/2012 12:34:23');
+                    }});
+            })
         </script>
 
         <title><?php echo Yii::app()->name ?></title>
@@ -99,11 +124,11 @@
         <div id="header_bottom">
             <div id="logo_part">
                 <div id="logo">
-
                     <?php
                     echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/images/logo_beta.png", 'Logo'), $this->createUrl('/site/storeHome'));
                     ?>
-                </div>
+                     <div id="logo_timer" style="float: right;"></div>
+                    </div>
                 <div id="right_logo">
                     <p>
 
