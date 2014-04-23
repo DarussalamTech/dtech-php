@@ -289,6 +289,11 @@ class User extends DTActiveRecord {
         $criteria->order = "status ='process' DESC";
         $data = new CActiveDataProvider('Order', array(
             'criteria' => $criteria,
+            'sort' => array(
+                'defaultOrder' => array(
+                    'create_time' => 'DESC',
+                ),
+            ),
             'pagination' => array(
                 'pageSize' => 100,
             ),

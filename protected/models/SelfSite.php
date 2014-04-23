@@ -160,7 +160,7 @@ class SelfSite extends DTActiveRecord {
             "t.short_name,layout_id",
             'condition' => "t.city_id='" . $city_id . "'"
         ));
-
+       
         $cityfind = City::model()->with(array(
                     'country' => array(
                         'select' => 'c.country_name,c.short_name',

@@ -91,6 +91,7 @@ class PaymentController extends Controller {
 
             $criteria->addInCondition("name", $country_list);
         }
+        $criteria->order = "name ASC";
         $regionList = CHtml::listData(Region::model()->findAll($criteria), 'id', 'name');
         $this->render('//payment/payment_method', array(
             'model' => $model,
@@ -130,9 +131,9 @@ class PaymentController extends Controller {
                 }
             }
         }
-
-
-        $regionList = CHtml::listData(Region::model()->findAll(), 'id', 'name');
+        $criteriaC = new CDbCriteria;
+        $criteriaC->order = "name ASC";
+        $regionList = CHtml::listData(Region::model()->findAll($criteriaC), 'id', 'name');
         $this->render('//payment/payment_method_billing', array(
             'model' => $model,
             'regionList' => $regionList,
@@ -176,6 +177,7 @@ class PaymentController extends Controller {
             $userProfile_model = UserProfile::model();
 
             $shippingInfo = $userProfile_model->updateShippingInfo($error['order_id']);
+            $billingInfo = $userProfile_model->updateBillingInfo($error['order_id']);
 
 
             $this->customer0rderDetailMailer($shippingInfo, $error['order_id']);
@@ -198,9 +200,11 @@ class PaymentController extends Controller {
         $order_id = $creditCardModel->saveOrder("");
 
         $shippingInfo = UserProfile::model()->updateShippingInfo($order_id);
+        $billingInfo = UserProfile::model()->updateBillingInfo($order_id);
 
         $this->customer0rderDetailMailer($shippingInfo, $order_id);
         $this->admin0rderDetailMailer($shippingInfo, $order_id);
+
         Yii::app()->user->setFlash('orderMail', 'Thank you...');
 
         $this->redirect(array('/web/payment/confirmOrder'));
@@ -217,9 +221,8 @@ class PaymentController extends Controller {
         $email['Subject'] = "Your Order Detail";
         $email['Body'] = $this->renderPartial('//payment/_order_email_template2', array('customerInfo' => $customerInfo, 'order_id' => $order_id), true, false);
         $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
-        
+
         $this->sendEmail2($email);
-       
     }
 
     /*
@@ -365,9 +368,9 @@ class PaymentController extends Controller {
      */
     public function actionEmailTest() {
         Yii::app()->user->SiteSessions;
-        $shippingInfo = UserOrderShipping::model()->findByPk(76);
-        $this->customer0rderDetailMailer($shippingInfo, 78);
-        $this->admin0rderDetailMailer($shippingInfo, 78);
+        $shippingInfo = UserOrderShipping::model()->findByPk(119);
+        $this->customer0rderDetailMailer($shippingInfo, 103);
+        $this->admin0rderDetailMailer($shippingInfo, 103);
     }
 
 }

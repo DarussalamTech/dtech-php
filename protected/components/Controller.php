@@ -141,7 +141,8 @@ class Controller extends RController {
                 //'jquery-ui.min.js' => false,
                 //'jquery-ui.css' => false
         );
-
+    
+//        die;
         return true;
     }
 
@@ -186,6 +187,8 @@ class Controller extends RController {
             "User" => "View",
             "Import" => "Status",
             "ShippingClass" => "View",
+            "Zone" => "View",
+            "Notifcation" => "View",
                 //"Assignment" => "View",
         );
     }
@@ -561,13 +564,16 @@ class Controller extends RController {
             $mailer->Subject = $email['Subject'];
             $mailer->Body = $email['Body'];
 
-            if (!$mailer->Send()) {
-                // echo "NOt sent ".$mailer->ErrorInfo;
-            } else {
-                // echo " sent";
+
+
+            if(!$mailer->Send()){
+               //echo "NOt sent ".$mailer->ErrorInfo;
+            }
+            else {
+                //echo " sent";
             }
             $mailer->ClearAddresses();
-
+          
 
 
             //$mailer->Send();
@@ -613,8 +619,9 @@ class Controller extends RController {
      * 
      * @param type $shipping
      */
-    public function setShippingCost($shipping) {
+    public function setShippingCost($shipping,$shipping_rate_id = 0) {
         Yii::app()->session['shipping_price'] = round($shipping, 2);
+        Yii::app()->session['shipping_rate_id'] = $shipping_rate_id;
     }
 
     /**
@@ -624,6 +631,14 @@ class Controller extends RController {
      */
     public function setTaxAmount($tax) {
         Yii::app()->session['tax_amount'] = round($tax, 2);
+    }
+    /**
+     * set Converted currency total cost
+     * 
+     * @param type $tax
+     */
+    public function setCurrencyAmount($currency_total) {
+        Yii::app()->session['currency_amount'] = round($currency_total, 2);
     }
 
     /**

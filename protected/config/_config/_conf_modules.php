@@ -71,6 +71,15 @@ $modules = array(
             'Import.MappingList',
             'Import.Status',
             'Import.Insert',
+            
+            //Notifcation
+            'Notifcation.Index',
+            'Notifcation.Create',
+            'Notifcation.Copy',
+            'Notifcation.View',
+            'Notifcation.CreateFolder',
+            'Notifcation.MoveTo',
+            'Notifcation.MarkStatus',
         ),
         'debug' => false, // Whether to enable debug mode.
     ),

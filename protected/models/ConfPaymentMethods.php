@@ -117,7 +117,7 @@ class ConfPaymentMethods extends DTActiveRecord {
      */
     public function convertToDollar($amount) {
 
-        if (Yii::app()->session['currency'] != "USD" && $amount>0) {
+        if (Yii::app()->session['currency'] != "USD" && $amount > 0) {
             // Initialize the CURL library
             $api_key = "a634e1f81617c61308330be500514cbe";
             $cURL = curl_init();
@@ -138,25 +138,40 @@ class ConfPaymentMethods extends DTActiveRecord {
                    <criteria>
                       <amount>$amount</amount>
                       <tocur>USD</tocur>
-                      <fromcur>".Yii::app()->session['currency']."</fromcur>
+                      <fromcur>" . Yii::app()->session['currency'] . "</fromcur>
                    </criteria>
                 </search>
              </easyapi_wrapper>");
 
             // Execute, saving results in a variable
-              $strPage = curl_exec($cURL);
+            $strPage = curl_exec($cURL);
 
             // Close CURL resource
-             curl_close($cURL);
+            curl_close($cURL);
 
             // Now the variable $strPage has the returned XML.
             // Parse the XML into something a little more useful
             $xml_ret = simplexml_load_string($strPage);
-            return json_decode(json_encode($xml_ret),true);
-           
+            return json_decode(json_encode($xml_ret), true);
         }
-        
+
         return $amount;
+    }
+
+    /**
+     * 
+     * @param type $amount
+     * @param type $from
+     * @param type $to
+     * @return type
+     */
+    public function convertCurrency($amount, $from, $to) {
+        $url = "https://www.google.com/finance/converter?a=$amount&from=$from&to=$to";
+        $data = file_get_contents($url);
+        preg_match("/<span class=bld>(.*)<\/span>/", $data, $converted);
+        $converted = preg_replace("/[^0-9.]/", "", $converted[1]);
+        
+        return ceil($converted);
     }
 
 }

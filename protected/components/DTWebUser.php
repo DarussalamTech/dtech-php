@@ -38,6 +38,11 @@ class DTWebUser extends CWebUser {
 
         return ($this->user && $this->user->role_id == User::LEVEL_CUSTOMER);
     }
+    //is user a customer
+    function getWebCity() {
+
+        return City::model()->findByPk(Yii::app()->session['city_id']);
+    }
 
     //get the logged user
     function getUser() {
@@ -146,11 +151,11 @@ class DTWebUser extends CWebUser {
      */
     public function saveDTSessions($cityModel, $site_info = array()) {
 
-
+        
         $theme = SelfSite::model()->findLayout($site_info['site_id']);
         
         Yii::app()->session['layout'] = $theme;
-
+       
         Yii::app()->session['country_short_name'] = $cityModel->country->short_name;
         Yii::app()->session['city_short_name'] = $cityModel->short_name;
         Yii::app()->session['city_id'] = $cityModel->city_id;
@@ -170,6 +175,7 @@ class DTWebUser extends CWebUser {
           Yii::app()->theme = Yii::app()->params['theme'];
           }
          */
+        Yii::app()->user->userCity = $cityModel->city_id;
         $_REQUEST['city_id'] = $cityModel->city_id;
 
         return true;

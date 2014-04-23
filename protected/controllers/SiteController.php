@@ -285,8 +285,8 @@ class SiteController extends Controller {
                 $email['Reply'] = $model->email; 
                 $email['FromName'] = $model->name; 
                 $email['Message_type'] = $model->message_type;
-                $email['Subject'] = "[".$email['Message_type']."] ".$model->subject.' From Mr/Mrs: ' . $model->name;
-              
+                $email['Subject'] = "[" . $email['Message_type'] . "] " . $model->subject . ' From Mr/Mrs: ' . $model->name;
+
                 $email['Body'] = $model->body;
                 $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
 
@@ -341,9 +341,11 @@ class SiteController extends Controller {
 
                 if (Yii::app()->user->isSuperAdmin) {
                     $_REQUEST['city_id'] = Yii::app()->user->user->city_id;
+                    
                     Yii::app()->user->SiteSessions;
                     Yii::app()->session['isSuper'] = 1;
                     $this->isAdminSite = true;
+
                     $this->redirect($this->createUrl('/user/index'));
                 } else if (Yii::app()->user->isAdmin) {
 
@@ -412,7 +414,7 @@ class SiteController extends Controller {
                         $_REQUEST['city_id'] = Yii::app()->user->user->city_id;
                         Yii::app()->user->SiteSessions;
                         Yii::app()->session['isSuper'] = 1;
-
+                        
                         $this->redirect($this->createUrl('/user/index'));
                     } else if (Yii::app()->user->isAdmin) {
 

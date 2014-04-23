@@ -11,6 +11,7 @@
  * @property string $category
  * @property string $city_id
  * @property string $total_steps
+ * @property string $allmappings
  * @property string $completed_steps
  * @property string $sheet
  * @property string $headers_json
@@ -22,6 +23,8 @@
  * @property string $update_user_id
  */
 class ImportMapping extends DTActiveRecord {
+
+    public $allmappings;
 
     /**
      * Returns the static model of the specified AR class.
@@ -50,7 +53,7 @@ class ImportMapping extends DTActiveRecord {
             array('file_name, file_path, module', 'length', 'max' => 255),
             array('create_user_id, update_user_id', 'length', 'max' => 11),
             array('relational_json,headers_json, db_cols_json', 'safe'),
-            array('category,city_id, total_steps,completed_steps', 'safe'),
+            array('allmappings,category,city_id, total_steps,completed_steps', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, file_name, file_path, module, headers_json, db_cols_json, create_time, create_user_id, update_time, update_user_id', 'safe', 'on' => 'search'),
@@ -77,6 +80,7 @@ class ImportMapping extends DTActiveRecord {
             'file_name' => 'File Name',
             'file_path' => 'File Path',
             'module' => 'Module',
+            'allmappings' => 'All Mappings',
             'category' => 'Category',
             'sheet' => 'Sheet No',
             'city_id' => 'City',
@@ -123,5 +127,14 @@ class ImportMapping extends DTActiveRecord {
             'criteria' => $criteria,
         ));
     }
+
+    /**
+     * 
+     */
+    public function getAllmapping() {
+        
+    }
+
+ 
 
 }
