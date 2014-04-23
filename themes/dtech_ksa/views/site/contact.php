@@ -113,52 +113,52 @@ foreach ($session->keys as $key) {
     <div class="right_contact_part">
         <div class="countries_contact">
             <h3>Kingdom Of Saudi Arabia</h3>
-            <br>
-            <div class="contact_us_branch">Riyadh Avenue Branch:</div>
+          
+            <div class="contact_us_branch">Riyadh Avenue Branch</div>
             <p>Tel: 00966-1-4032296</p>
             <p>Fax: 00966-1-4032269</p> 
 
-            <div class="contact_us_branch">Olaya Branch:</div>
+            <div class="contact_us_branch">Olaya Branch</div>
             <p>Tel: 00966-1-4614483</p>
             <p>Fax: 00966-1-4644945</p>
 
-            <div class="contact_us_branch">Malaz Branch:</div>
+            <div class="contact_us_branch">Malaz Branch</div>
             <p>Tel: 00966-1-4735220</p>
             <p>Fax: 00966-1-4735221</p>
 
-            <div class="contact_us_branch">Suwaidi Branch:</div>
+            <div class="contact_us_branch">Suwaidi Branch</div>
             <p>Tel: 00966-1-4286641</p>
             <p>Fax: 00966-1-4286641</p>
 
-            <div class="contact_us_branch">Suwailam Branch:</div>
+            <div class="contact_us_branch">Suwailam Branch</div>
             <p>Tel: 00966-1-2860422</p>
             <p>Fax: 00966-1-2860422</p>
 
-            <div class="contact_us_branch">Jeddah Branch:</div>
+            <div class="contact_us_branch">Jeddah Branch</div>
             <p>Tel: 00966-2-6879254</p>
             <p>Fax: 00966-2-6336270</p>
 
-            <div class="contact_us_branch">Madinah Branch:</div>
+            <div class="contact_us_branch">Madinah Branch</div>
             <p>Tel: 00966-4-8234446</p>
             <p>Fax: 00966-2-8550119</p>
 
-            <div class="contact_us_branch">Makkah Branch:</div>
+            <div class="contact_us_branch">Makkah Branch</div>
             <p>Tel: 00966-2-5376862</p>
             <p>Fax: 00966-2-5376862</p>
 
-            <div class="contact_us_branch">Al Khobar Branch:</div>
+            <div class="contact_us_branch">Al Khobar Branch</div>
             <p>Tel: 00966-3-6879254</p>
             <p>Fax: 00966-3-8691551</p>
 
-            <div class="contact_us_branch">Qaseem Branch:</div>
+            <div class="contact_us_branch">Qaseem Branch</div>
             <p>Tel: 00966-6-3268965</p>
             <p>Fax: 00966-6-3268965</p>
 
-            <div class="contact_us_branch">K.Masheet Branch:</div>
+            <div class="contact_us_branch">K.Masheet Branch</div>
             <p>Tel: 00966-7-2207055</p>
             <p>Fax: 00966-7-2207055</p>
 
-            <div class="contact_us_branch">Yanbu Branch:</div>
+            <div class="contact_us_branch">Yanbu Branch</div>
             <p>Tel: 00966-4-3229188</p>
             <p>Fax: 00966-4-3229188</p>
 
