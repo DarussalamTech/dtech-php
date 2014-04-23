@@ -52,6 +52,7 @@ class NotifcationController extends Controller {
         /* Set filters and default active */
         $this->filters = array(
             'type' => array("inbox" => "Inbox", "sent" => "Sent",),
+            'folder' => CHtml::listData(NotificationFolder::model()->getUserFolders(),"id","name"),
         );
     }
 
@@ -180,10 +181,13 @@ class NotifcationController extends Controller {
         }
         if ($model->type == "" || $model->type == "inbox") {
             $model->type = "inbox";
+            $model->folder = "";
             $model->to = Yii::app()->user->user->user_email;
         } else if ($model->type == "sent") {
             $model->from = Yii::app()->user->id;
+            $model->folder = "";
         }
+        
         $this->render('index', array(
             'model' => $model,
         ));
@@ -194,6 +198,12 @@ class NotifcationController extends Controller {
      */
     public function actionCreateFolder(){
         $model = new NotificationFolder;
+        if(isset($_POST['NotificationFolder'])){
+            $model->attributes = $_POST['NotificationFolder'];
+            if($model->save()){
+                Yii::app()->user->setFlash("status","Folder has been added");
+            }
+        }
         $this->renderPartial("_createfolder",array("model"=>$model));
     }
 

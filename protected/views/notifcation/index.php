@@ -32,6 +32,7 @@ $('.search-form form').submit(function(){
     <?php /* Convert to Monitoring Log Buttons */ ?>
     <div class = "right_float">
         <?php
+        
         echo CHtml::link("Compose New", $this->createUrl("/notifcation/create"), array(
             'class' => "print_link_btn",
         ));
