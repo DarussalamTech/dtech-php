@@ -162,15 +162,17 @@ jQuery(document).on('click', '$selector', function(){
 	 * @since 1.1.5
 	 */
 	public static function checkRequirements($extension=null)
-	{
+	{ 
 		if(extension_loaded('imagick'))
 		{
+                      
 			$imagick=new Imagick();
 			$imagickFormats=$imagick->queryFormats('PNG');
 		}
 		if(extension_loaded('gd'))
 		{
 			$gdInfo=gd_info();
+                        
 		}
 		if($extension===null)
 		{
