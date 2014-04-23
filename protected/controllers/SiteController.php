@@ -271,6 +271,7 @@ class SiteController extends Controller {
                      */
                     $email['To'] = $model->email;
                     $email['From'] = User::model()->getCityAdmin();
+                    $email['Reply'] = User::model()->getCityAdmin();
                     $email['Message_type'] = $model->message_type;
                     $email['Subject'] = "[".$email['Message_type']."] ".' Contact Notification From ' . Yii::app()->name;
                     $email['Body'] = $model->body;
@@ -281,6 +282,8 @@ class SiteController extends Controller {
                 //$email['To'] = "akram.khan@darussalampk.com"; //User::model()->getCityAdmin();
                 $email['To'] =  User::model()->getCityAdmin();
                 $email['From'] = $model->email; 
+                $email['Reply'] = $model->email; 
+                $email['FromName'] = $model->name; 
                 $email['Message_type'] = $model->message_type;
                 $email['Subject'] = "[".$email['Message_type']."] ".$model->subject.' From Mr/Mrs: ' . $model->name;
               
