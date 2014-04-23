@@ -303,7 +303,8 @@ class User extends DTActiveRecord {
     public function getCityAdmin() {
         $critera = new CDbCriteria();
         $critera->select = "user_email";
-        $critera->condition = "role_id =2";
+        $critera->condition = "role_id =2 AND city_id = :city_id";
+        $critera->params = array("city_id"=> Yii::app()->request->getQuery("city_id"));
         $user = User::model()->find($critera);
         if (!empty($user)) {
             return $user->user_email;
