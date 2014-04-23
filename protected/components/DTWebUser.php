@@ -151,11 +151,11 @@ class DTWebUser extends CWebUser {
      */
     public function saveDTSessions($cityModel, $site_info = array()) {
 
-
+        
         $theme = SelfSite::model()->findLayout($site_info['site_id']);
         
         Yii::app()->session['layout'] = $theme;
-
+       
         Yii::app()->session['country_short_name'] = $cityModel->country->short_name;
         Yii::app()->session['city_short_name'] = $cityModel->short_name;
         Yii::app()->session['city_id'] = $cityModel->city_id;

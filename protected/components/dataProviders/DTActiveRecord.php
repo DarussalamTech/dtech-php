@@ -218,7 +218,12 @@ class DTActiveRecord extends CActiveRecord {
     public function findFromPrimerkey($pk, $condition = '', $params = array()) {
         return parent::findByPk($pk, $condition, $params);
     }
-
+    /**
+     * 
+     * @param type $condition
+     * @param type $params
+     * @return type
+     */
     public function findAll($condition = '', $params = array()) {
         if (is_object($condition)) {
             $condition = $this->makeCriteriaCityAdmin($condition);
@@ -228,7 +233,33 @@ class DTActiveRecord extends CActiveRecord {
 
         return parent::findAll($condition, $params);
     }
-
+    /**
+     * alternate function of find all
+     * will help us to get all records
+     * without any city id condition
+     * @param type $condition
+     */
+    public function getAll($condition = ''){
+        return parent::findAll($condition);
+    }
+    /**
+     * alternate function of find all
+     * will help us to get all records
+     * without any city id condition
+     * @param type $condition
+     * @param type $params
+     */
+    public function get($condition = '', $params = array()){
+        return parent::find($condition, $params);
+    }
+    /**
+     * over rided function of to make city condition
+     * is available
+     * @param type $attributes
+     * @param type $condition
+     * @param type $params
+     * @return type
+     */
     public function findByAttributes($attributes, $condition = '', $params = array()) {
         if (is_object($condition)) {
             $condition = $this->makeCriteriaCityAdmin($condition);
@@ -268,7 +299,7 @@ class DTActiveRecord extends CActiveRecord {
             "install"
         );
 
-        $actions = array("login", "logout", "mailer", "sendEmailinvitation", "storehome", "activate", "index");
+        $actions = array("login","loginAdmin", "logout", "mailer", "sendEmailinvitation", "storehome", "activate", "index");
 
         if (!in_array($controller, $controllers) && !in_array($this->_action, $actions) && !empty(Yii::app()->session['city_id'])) {
 
@@ -310,7 +341,7 @@ class DTActiveRecord extends CActiveRecord {
             "commonSystem", "assignment",
             "authItem",
             "install");
-        $actions = array("login", "mailer", "sendEmailinvitation", "logout", "storehome", "activate", "index"); // apply the criteria to all dtActiveRec execpt these methods..Ub
+        $actions = array("login","loginAdmin", "mailer", "sendEmailinvitation", "logout", "storehome", "activate", "index"); // apply the criteria to all dtActiveRec execpt these methods..Ub
 
 
 

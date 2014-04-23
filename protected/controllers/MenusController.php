@@ -355,13 +355,18 @@ class MenusController extends Controller {
         $ary[] = array("id" => "49", "pid" => "0", "root_parent" => "49", "controller" => "import", "action" => "index", "default_title" => "Import", "user_title" => "Import", "is_assigned" => "Yes", "min_permission" => "status", "weight" => "3");
         $ary[] = array("id" => "50", "pid" => "49", "root_parent" => "49", "controller" => "import", "action" => "mappingList", "default_title" => "List All", "user_title" => "List All", "is_assigned" => "Yes", "min_permission" => "status", "weight" => "0");
         $ary[] = array("id" => "51", "pid" => "49", "root_parent" => "49", "controller" => "import", "action" => "index", "default_title" => "Create Import", "user_title" => "Create Import", "is_assigned" => "Yes", "min_permission" => "status", "weight" => "2");
-        
+
         //rates import class
         $ary[] = array("id" => "52", "pid" => "0", "root_parent" => "52", "controller" => "zone", "action" => "index", "default_title" => "Zone Rates", "user_title" => "Zone Rates", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "3");
         $ary[] = array("id" => "53", "pid" => "52", "root_parent" => "52", "controller" => "zone", "action" => "index", "default_title" => "List All", "user_title" => "List All", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "0");
         $ary[] = array("id" => "54", "pid" => "52", "root_parent" => "52", "controller" => "zone", "action" => "uploadRates", "default_title" => "Upload Rates", "user_title" => "Create Import", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "2");
 
-        
+        //rates import class
+        $ary[] = array("id" => "55", "pid" => "0", "root_parent" => "55", "controller" => "notifcation", "action" => "index", "default_title" => "Notifications", "user_title" => "Notifications", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "3");
+        $ary[] = array("id" => "56", "pid" => "55", "root_parent" => "55", "controller" => "notifcation", "action" => "index", "default_title" => "Inbox", "user_title" => "Inbox", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "0");
+        $ary[] = array("id" => "57", "pid" => "55", "root_parent" => "55", "controller" => "notifcation", "action" => "create", "default_title" => "Compose New", "user_title" => "Compose New", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "2");
+
+
         foreach ($ary as $attr) {
             $model = new Menu();
             $model->attributes = $attr;

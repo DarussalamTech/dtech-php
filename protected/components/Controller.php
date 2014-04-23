@@ -188,6 +188,7 @@ class Controller extends RController {
             "Import" => "Status",
             "ShippingClass" => "View",
             "Zone" => "View",
+            "Notifcation" => "View",
                 //"Assignment" => "View",
         );
     }
@@ -556,13 +557,13 @@ class Controller extends RController {
 
 
             if(!$mailer->Send()){
-               // echo "NOt sent ".$mailer->ErrorInfo;
+               //echo "NOt sent ".$mailer->ErrorInfo;
             }
             else {
-               // echo " sent";
+                //echo " sent";
             }
             $mailer->ClearAddresses();
-
+          
 
 
             //$mailer->Send();

@@ -97,7 +97,7 @@ class ColorBox extends CWidget
      * @return String
      * @throws CHttpException 
      */
-    public function link($title, $url = "#", $htmlOptions = array(), $colorBoxOptions = array())
+    public static function link($title, $url = "#", $htmlOptions = array(), $colorBoxOptions = array())
     {
         if (isset($htmlOptions["class"]))
         {
