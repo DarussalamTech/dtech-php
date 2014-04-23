@@ -523,9 +523,11 @@ class Controller extends RController {
 
 
 
+            //echo $email['From'];
             $mailer->FromName = (isset($email['FromName']) && !empty($email['FromName']) ? $email['FromName'] : Yii::app()->name); //Yii::app()->user->name;
+            //print_r($mailer->FromName);
             Yii::app()->params['smtp'] = ConfMisc::model()->find("param = 'smtp'")->value;
-           
+            // print_r(Yii::app()->params['smtp']);
             if (Yii::app()->params['smtp'] == 1) {
                 $mailer->IsSMTP();
 
@@ -536,7 +538,8 @@ class Controller extends RController {
                 $mailer->Port = Yii::app()->params['mailPort'];
                 $mailer->Username = Yii::app()->params['mailUsername'];
                 $mailer->Password = Yii::app()->params['mailPassword'];
-                //CVarDumper::dump($mailer,10,true);
+
+                // CVarDumper::dump($mailer,10,true); die;
             }
 
             $mailer->IsHTML(true);
@@ -550,7 +553,14 @@ class Controller extends RController {
             } else {
                 $mailer->AddAddress($email['To']);
             }
+
             $mailer->From = $email['From'];
+            if (isset($email['Reply'])) {
+                $mailer->AddReplyTo($email['Reply']);
+            }
+            else {
+                 $mailer->AddReplyTo($email['From']);
+            }
             $mailer->Subject = $email['Subject'];
             $mailer->Body = $email['Body'];
 
@@ -568,8 +578,8 @@ class Controller extends RController {
 
             //$mailer->Send();
             //$mailer->ClearAddresses();
-            
-             $mailer->ClearAddresses();
+
+            $mailer->ClearAddresses();
             $mailer->SMTPKeepAlive = true;
         }
         return true;
@@ -613,6 +623,7 @@ class Controller extends RController {
         Yii::app()->session['shipping_price'] = round($shipping, 2);
         Yii::app()->session['shipping_rate_id'] = $shipping_rate_id;
     }
+
     /**
      * set tax cost
      * 
@@ -683,7 +694,7 @@ class Controller extends RController {
             $criteria->addCondition("city_id = '" . $_REQUEST['city_id'] . "'");
         }
         $criteria->select = "param,value";
-       
+
         $conf = ConfMisc::model()->findAll($criteria);
 
         if (!empty($conf)) {
