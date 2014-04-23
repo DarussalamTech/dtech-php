@@ -81,7 +81,7 @@ var dtech = {
         categories = dtech.getmultiplechecboxValue("filter_checkbox");
 
         if (jQuery("#category_parent").val() != "" && jQuery("#category_parent").val() != "0") {
-           
+
             if (categories != "") {
                 categories += "," + cat_id;
             }
@@ -307,6 +307,61 @@ var dtech = {
         jQuery('#' + form_id).attr("action", jQuery(obj).attr('href'));
         jQuery('#' + form_id).submit();
     },
+    //related to notification
+    moveTOFolder: function(obj) {
+        notifications = dtech.getmultiplechecboxValue('child-check-box');
+
+        if (notifications != "") {
+            jQuery("#loading").show();
+            jQuery.ajax({
+                type: "POST",
+                url: jQuery(obj).attr("href"),
+                async: false,
+                data:
+                        {
+                            folder_id: jQuery(obj).attr("folder_id"),
+                            notifications: notifications,
+                        }
+            }).done(function(response) {
+                jQuery("#loading").hide();
+                if (response.search("success") != -1) {
+                    alert("Notifications has been moved");
+                    location.reload();
+                }
+
+            });
+        }
+        else {
+            alert("Nothing has been selected");
+        }
+    },
+    //related to notification
+    markNotifStatus: function(obj) {
+        notifications = dtech.getmultiplechecboxValue('child-check-box');
+
+        if (notifications != "") {
+            jQuery("#loading").show();
+            jQuery.ajax({
+                type: "POST",
+                url: jQuery(obj).attr("href"),
+                async: false,
+                data:
+                        {
+                            notifications: notifications,
+                        }
+            }).done(function(response) {
+                jQuery("#loading").hide();
+                if (response.search("success") != -1) {
+                    alert("Status has been updated");
+                    location.reload();
+                }
+
+            });
+        }
+        else {
+            alert("Nothing has been selected");
+        }
+    },
     increaseQuantity: function(obj) {
         /**
          * accessing text field
@@ -479,7 +534,7 @@ var dtech = {
         jsonObj = [];
         $("#" + div_id + " input").each(function() {
             if ($(this).is(':checked')) {
-            
+
                 jsonObj.push($(this).parent().parent().find(".invitation_id").text());
             }
         });
@@ -513,9 +568,18 @@ var dtech = {
             }
         })
     },
-    checkUnCheckUnder: function(obj){
+    checkUnCheckUnder: function(obj) {
         jQuery("table.items td.checkbox-column input").prop("checked", obj.checked);
-    },        
+    },
+    /**
+     * if the value is is true then checked
+     * other 
+     * @param {type} status
+     * @returns {undefined}
+     */
+    checkUnCheckUndervalue: function(status) {
+        jQuery("table.items td.checkbox-column input").prop("checked", status);
+    },
     /**
      * disable the shipping method on check of particular one
      * 

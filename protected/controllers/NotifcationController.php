@@ -16,7 +16,7 @@ class NotifcationController extends Controller {
         return array(
             // 'accessControl', // perform access control for CRUD operations
             'rights',
-            'https + index + view + copy + create + createFolder',
+            'https + index + view + copy + create + createFolder + moveTo + markStatus',
         );
     }
 
@@ -52,7 +52,8 @@ class NotifcationController extends Controller {
         /* Set filters and default active */
         $this->filters = array(
             'type' => array("inbox" => "Inbox", "sent" => "Sent",),
-            'folder' => CHtml::listData(NotificationFolder::model()->getUserFolders(),"id","name"),
+            'is_read' => array("0" => "Un-Read", "1" => "Read",),
+            'folder' => CHtml::listData(NotificationFolder::model()->getUserFolders(), "id", "name"),
         );
     }
 
@@ -179,32 +180,60 @@ class NotifcationController extends Controller {
                 $model->from = User::model()->get("user_email = '" . $model->from . "'")->user_id;
             }
         }
-        if ($model->type == "" || $model->type == "inbox") {
+        if ($model->folder != "") {
+            
+        } else if ($model->type == "" || $model->type == "inbox") {
             $model->type = "inbox";
-            $model->folder = "";
+
             $model->to = Yii::app()->user->user->user_email;
         } else if ($model->type == "sent") {
             $model->from = Yii::app()->user->id;
-            $model->folder = "";
         }
-        
+
         $this->render('index', array(
             'model' => $model,
         ));
     }
-    
+
     /**
      * create new folder
      */
-    public function actionCreateFolder(){
+    public function actionCreateFolder() {
         $model = new NotificationFolder;
-        if(isset($_POST['NotificationFolder'])){
+        if (isset($_POST['NotificationFolder'])) {
             $model->attributes = $_POST['NotificationFolder'];
-            if($model->save()){
-                Yii::app()->user->setFlash("status","Folder has been added");
+            if ($model->save()) {
+                Yii::app()->user->setFlash("status", "Folder has been added");
             }
         }
-        $this->renderPartial("_createfolder",array("model"=>$model));
+        $this->renderPartial("_createfolder", array("model" => $model));
+    }
+
+    /**
+     * move to particular Foler
+     */
+    public function actionMoveTo() {
+        if (isset($_POST['folder_id']) && isset($_POST['notifications'])) {
+            $notifications = explode(",", $_POST['notifications']);
+            foreach ($notifications as $notif) {
+                Notifcation::model()->updateByPk($notif, array("folder" => $_POST['folder_id']));
+            }
+            echo "success";
+        }
+    }
+
+    /**
+     * mark status
+     */
+    public function actionMarkStatus($status) {
+
+        if (isset($_POST['notifications'])) {
+            $notifications = explode(",", $_POST['notifications']);
+            foreach ($notifications as $notif) {
+                Notifcation::model()->updateByPk($notif, array("is_read" => $status));
+            }
+            echo "success";
+        }
     }
 
     /**
@@ -216,16 +245,14 @@ class NotifcationController extends Controller {
      */
     public function loadModel($id) {
         $model = Notifcation::model()->findByPk($id);
-        
-        if ($model === null){
+
+        if ($model === null) {
+            throw new CHttpException(404, 'The requested page does not exist.');
+        } else if ($model->type == "sent" && $model->from != Yii::app()->user->id) {
+            throw new CHttpException(404, 'The requested page does not exist.');
+        } else if ($model->type == "inbox" && !strstr(Yii::app()->user->user->user_email, $model->to)) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
-        else if ($model->type == "sent" && $model->from != Yii::app()->user->id){
-            throw new CHttpException(404, 'The requested page does not exist.');
-        } 
-        else if ($model->type == "inbox" && !strstr(Yii::app()->user->user->user_email,$model->to)){
-            throw new CHttpException(404, 'The requested page does not exist.');
-        } 
         return $model;
     }
 

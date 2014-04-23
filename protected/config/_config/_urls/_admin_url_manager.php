@@ -186,5 +186,8 @@ $rules_admin = array(
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/notification/list' => '/notifcation/index',
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/<id:[\w-\.]+>/notification/sendcopy' => '/notifcation/copy',
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/<id:[\w-\.]+>/notification/view' => '/notifcation/view',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/notification/move-to' => '/notifcation/moveTo',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/notification/mark-<status:[\w-\.]+>' => '/notifcation/markStatus',
+    
   );
 ?>

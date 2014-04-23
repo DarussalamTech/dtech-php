@@ -52,7 +52,7 @@ class Notifcation extends DTActiveRecord {
             array('to', 'length', 'max' => 255),
             array('to', 'validateEmailTo'),
             array('type', 'length', 'max' => 5),
-            array('email_sent,related_id,related_to,subject,body,attachment', 'safe'),
+            array('is_read,folder,email_sent,related_id,related_to,subject,body,attachment', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, from, to, type, folder,subject,body,attachment, create_time, create_user_id, update_time, update_user_id', 'safe', 'on' => 'search'),

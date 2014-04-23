@@ -78,6 +78,8 @@ $modules = array(
             'Notifcation.Copy',
             'Notifcation.View',
             'Notifcation.CreateFolder',
+            'Notifcation.MoveTo',
+            'Notifcation.MarkStatus',
         ),
         'debug' => false, // Whether to enable debug mode.
     ),

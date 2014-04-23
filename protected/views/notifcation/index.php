@@ -2,6 +2,7 @@
 /* @var $this NotifcationController */
 /* @var $model Notifcation */
 Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/gridview.css');
+
 $this->breadcrumbs = array(
     'Notifcations' => array('index'),
     'List',
@@ -20,8 +21,8 @@ $('.search-form form').submit(function(){
 	});
 	return false;
 });
+ $('.select-on-check').unbind('click');
 ");
-
 ?>
 
 <div class="pading-bottom-5">
@@ -32,19 +33,20 @@ $('.search-form form').submit(function(){
     <?php /* Convert to Monitoring Log Buttons */ ?>
     <div class = "right_float">
         <?php
-        
         echo CHtml::link("Compose New", $this->createUrl("/notifcation/create"), array(
             'class' => "print_link_btn",
         ));
         ?>
         <?php
-        echo ColorBox::link("Create Folder", $this->createUrl("/notifcation/createFolder"), 
-                array('class' => "print_link_btn colorbox"), array("height"=>"300","width"=>"400"));
-       
+        echo ColorBox::link("Create Folder", $this->createUrl("/notifcation/createFolder"), array('class' => "print_link_btn colorbox"), array("height" => "300", "width" => "400"));
         ?>
     </div>
 </div>
 <div class='clear'></div>
+<?php
+    $this->renderPartial("_inbox_header");
+?>
+<div class="clear"></div>
 <?php echo CHtml::link('Advanced Search', '#', array('class' => 'search-button')); ?>
 <div class="search-form" style="display:none">
     <?php
@@ -75,7 +77,8 @@ $this->widget('DtGridView', array(
                   dtech.checkUnCheckUnder(this)
              " />',
             'class' => 'CCheckBoxColumn',
-            
+            'selectableRows' => 2,
+            'checkBoxHtmlOptions'=>array("class"=>"child-check-box")
         ),
         array(
             'name' => 'subject',
