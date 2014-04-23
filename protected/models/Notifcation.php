@@ -23,6 +23,7 @@
  */
 class Notifcation extends DTActiveRecord {
 
+    public $_source;
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -52,7 +53,7 @@ class Notifcation extends DTActiveRecord {
             array('to', 'length', 'max' => 255),
             array('to', 'validateEmailTo'),
             array('type', 'length', 'max' => 5),
-            array('is_read,folder,email_sent,related_id,related_to,subject,body,attachment', 'safe'),
+            array('_source,is_read,folder,email_sent,related_id,related_to,subject,body,attachment', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, from, to, type, folder,subject,body,attachment, create_time, create_user_id, update_time, update_user_id', 'safe', 'on' => 'search'),
@@ -97,6 +98,7 @@ class Notifcation extends DTActiveRecord {
             'subject' => 'Subject',
             'attachment' => 'Attachment',
             'body' => 'Body',
+            '_source' => '',
             'related_id' => 'Related',
             'related_to' => 'Related To',
             'email_sent' => 'Send as email',
@@ -163,6 +165,19 @@ class Notifcation extends DTActiveRecord {
             $notify->save();
         }
         return true;
+    }
+    /**
+     * 
+     * @return type
+     */
+    public function afterFind() {
+        if($this->type=="inbox"){
+            $this->_source = "From : ".$this->from_rel->user_email;
+        }
+        else if($this->type=="sent"){
+            $this->_source = "To : ".$this->to;
+        }
+        return parent::afterFind();
     }
 
 }

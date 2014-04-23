@@ -64,6 +64,7 @@
                      * 
                      * @var type 
                      */
+                    
                     echo CHtml::link(ucwords($field), array($this->view, $model_name . "[" . $column . "]" => $this->keyUrl == false ? $field : $keyField), $htmlOptions);
                 }
                 echo CHtml::closeTag('li');

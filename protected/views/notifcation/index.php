@@ -44,7 +44,7 @@ $('.search-form form').submit(function(){
 </div>
 <div class='clear'></div>
 <?php
-    $this->renderPartial("_inbox_header");
+$this->renderPartial("_inbox_header");
 ?>
 <div class="clear"></div>
 <?php echo CHtml::link('Advanced Search', '#', array('class' => 'search-button')); ?>
@@ -62,7 +62,8 @@ $this->PcmWidget['filter'] = array('name' => 'ItstLeftFilter',
         'model' => $model,
         'filters' => $this->filters,
         'keyUrl' => true,
-        'action' => Yii::app()->createUrl($this->route),
+        "view" => $this->route,
+        'action' => Yii::app()->createUrl($this->route, array("type" => $model->type)),
         'grid_id' => 'notifcation-grid',
         ));
 ?>
@@ -78,7 +79,7 @@ $this->widget('DtGridView', array(
              " />',
             'class' => 'CCheckBoxColumn',
             'selectableRows' => 2,
-            'checkBoxHtmlOptions'=>array("class"=>"child-check-box")
+            'checkBoxHtmlOptions' => array("class" => "child-check-box")
         ),
         array(
             'name' => 'subject',
@@ -86,15 +87,12 @@ $this->widget('DtGridView', array(
             "type" => 'raw',
         ),
         array(
-            'name' => 'to',
-            'value' => '$data->to',
-            "visible" => $model->type == "sent" ? true : false
+            'name' => '_source',
+            'value' => '$data->_source',
+            
         ),
-        array(
-            'name' => 'from',
-            'value' => '$data->from_rel->user_email',
-            "visible" => $model->type == "inbox" ? true : false
-        ),
+        
+       
     ),
 ));
 ?>

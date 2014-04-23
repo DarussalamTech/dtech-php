@@ -52,7 +52,7 @@ class NotifcationController extends Controller {
         /* Set filters and default active */
         $this->filters = array(
             'type' => array("inbox" => "Inbox", "sent" => "Sent",),
-            'is_read' => array("0" => "Un-Read", "1" => "Read",),
+            //'is_read' => array("0" => "Un-Read", "1" => "Read",),
             'folder' => CHtml::listData(NotificationFolder::model()->getUserFolders(), "id", "name"),
         );
     }
@@ -182,9 +182,9 @@ class NotifcationController extends Controller {
         }
         if ($model->folder != "") {
             
-        } else if ($model->type == "" || $model->type == "inbox") {
+        } 
+        else if ($model->type == "" || $model->type == "inbox") {
             $model->type = "inbox";
-
             $model->to = Yii::app()->user->user->user_email;
         } else if ($model->type == "sent") {
             $model->from = Yii::app()->user->id;
