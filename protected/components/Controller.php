@@ -526,7 +526,7 @@ class Controller extends RController {
             //echo $email['From'];
             $mailer->FromName = (isset($email['FromName']) && !empty($email['FromName']) ? $email['FromName'] : Yii::app()->name); //Yii::app()->user->name;
             //print_r($mailer->FromName);
-            Yii::app()->params['smtp'] = ConfMisc::model()->find("param = 'smtp'")->value;
+            Yii::app()->params['smtp'] = ConfMisc::model()->get("param = 'smtp'")->value;
             // print_r(Yii::app()->params['smtp']);
             if (Yii::app()->params['smtp'] == 1) {
                 $mailer->IsSMTP();
