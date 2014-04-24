@@ -1,6 +1,9 @@
 <?php
 Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/notification-style.css');
 Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/notification-slideout.css');
+
+Yii::app()->clientScript->registerScriptFile(Yii::app()->request->baseUrl . '/packages/jui/js/jquery-ui.min.js');
+Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/packages/jui/css/base/jquery-ui.css');
 ?>
 <div class="email-menu">
     <ul>
@@ -17,18 +20,41 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/not
         </li>
 
         <li><a class="" href="<?php echo $this->createUrl("/notifcation/create"); ?>">New</a>
-        <li><a class="" href="javascript:void(0)">Delete</a>
-        </li>
+            <?php
+            if ($this->action->id == "index") {
+                ?>
+            <li>
+                <a onclick="if (confirm('Are you sure you want to delete')) {
+                                dtech.markNotifStatus(this);
+                                return false;
+                            } else {
+                                return false;
+                            }" class="mark-deleted" href="<?php echo $this->createUrl("/notifcation/markDeleted"); ?>">Delete</a>
+            </li>
+            <?php
+        } else if ($this->action->id == "deletedItems") {
+            ?>
+            <li>
+                <a onclick="if (confirm('Are you sure you want to delete')) {
+                                dtech.markNotifStatus(this);
+                                return false;
+                            } else {
+                                return false;
+                            }" class="mark-deleted" href="<?php echo $this->createUrl("/notifcation/delete"); ?>">Delete</a>
+            </li>
+            <?php
+        }
+        ?>
         <li>
             <a class="dropdown text-only" 
-                href="javascript:void(0)">
+               href="javascript:void(0)">
                 Move to
                 <span class="arrow"></span>
             </a>
             <ul class="width-2">
                 <?php
                 foreach ($this->filters['folder'] as $folder_key => $folder):
-                    echo '<li><a href="'.$this->createUrl("/notifcation/moveTo").'" folder_id="'.$folder_key.'" onclick="dtech.moveTOFolder(this);return false;">' . $folder . '</a></li>';
+                    echo '<li><a href="' . $this->createUrl("/notifcation/moveTo") . '" folder_id="' . $folder_key . '" onclick="dtech.moveTOFolder(this);return false;">' . $folder . '</a></li>';
                 endforeach;
                 echo '<li>';
                 echo ColorBox::link("Create Folder", $this->createUrl("/notifcation/createFolder"), array('class' => "colorbox"), array("height" => "300", "width" => "400"));
@@ -41,12 +67,15 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/not
 
         <li><a class="dropdown text-only" href="#">More<span class="arrow"></span></a>
             <ul class="width-3">
-               
-                <li><a onclick="dtech.markNotifStatus(this);return false;" href="<?php echo $this->createUrl("/notifcation/markStatus",array("status"=>"1")); ?>">Mark as read</a></li>
-                <li><a onclick="dtech.markNotifStatus(this);return false;" href="<?php echo $this->createUrl("/notifcation/markStatus",array("status"=>"0")); ?>">Mark as unread</a></li>
+
+                <li><a class="read-status" onclick="dtech.markNotifStatus(this);
+                        return false;" href="<?php echo $this->createUrl("/notifcation/markStatus", array("status" => "1")); ?>">Mark as read</a></li>
+                <li><a class="read-status" onclick="dtech.markNotifStatus(this);
+                        return false;" href="<?php echo $this->createUrl("/notifcation/markStatus", array("status" => "0")); ?>">Mark as unread</a></li>
 
             </ul>
         </li>
+        <li><a class="" href="<?php echo $this->createUrl('/notifcation/deletedItems'); ?>" >Trash Items</a></li>
         <li><a class="refresh" href="javascript:void(0)" onclick="location.reload()">&nbsp;</a></li>
         <!--        <li><a class="num"><b>1</b>–<b>50</b> of <b>52</b></a></li>
                 <li><a class="previous" href="#">&nbsp;</a></li>

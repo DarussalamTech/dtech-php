@@ -23,8 +23,9 @@
         $admin_users = CJSON::encode($admin_users);
 
         Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/media/tag/css/jquery.tagit.css');
+        
         Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/media/tag/css/tagit.ui-zendesk.css');
-        Yii::app()->clientScript->registerScriptFile(Yii::app()->request->baseUrl . '/packages/jui/js/jquery-ui.min.js');
+        
         Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/media/tag/js/tag-it.js', CClientScript::POS_END);
 
         if ($model->type == "inbox" || $model->type == "") {

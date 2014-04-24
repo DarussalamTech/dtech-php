@@ -16,6 +16,7 @@
  * @property integer $related_id
  * @property integer $email_sent
  * @property integer $is_read
+ * @property integer $deleted
  * @property string $create_time
  * @property string $create_user_id
  * @property string $update_time
@@ -24,6 +25,7 @@
 class Notifcation extends DTActiveRecord {
 
     public $_source;
+
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -53,7 +55,7 @@ class Notifcation extends DTActiveRecord {
             array('to', 'length', 'max' => 255),
             array('to', 'validateEmailTo'),
             array('type', 'length', 'max' => 5),
-            array('_source,is_read,folder,email_sent,related_id,related_to,subject,body,attachment', 'safe'),
+            array('deleted,_source,is_read,folder,email_sent,related_id,related_to,subject,body,attachment', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, from, to, type, folder,subject,body,attachment, create_time, create_user_id, update_time, update_user_id', 'safe', 'on' => 'search'),
@@ -103,6 +105,7 @@ class Notifcation extends DTActiveRecord {
             'related_to' => 'Related To',
             'email_sent' => 'Send as email',
             'is_read' => 'Viewed',
+            'deleted' => 'Deleted',
             'create_time' => 'Create Time',
             'create_user_id' => 'Create User',
             'update_time' => 'Update Time',
@@ -132,10 +135,36 @@ class Notifcation extends DTActiveRecord {
         $criteria->compare('related_to', $this->related_to);
         $criteria->compare('email_sent', $this->email_sent);
         $criteria->compare('is_read', $this->is_read);
+        $criteria->compare('deleted', $this->deleted);
         $criteria->compare('create_time', $this->create_time, true);
         $criteria->compare('create_user_id', $this->create_user_id, true);
         $criteria->compare('update_time', $this->update_time, true);
         $criteria->compare('update_user_id', $this->update_user_id, true);
+
+
+
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+            'pagination' => array(
+                'pageSize' => 40,
+            ),
+        ));
+    }
+
+    /**
+     * get Deleted items
+     */
+    public function getDeletedItems() {
+
+        $criteria = new CDbCriteria;
+
+        $criteria->condition =  '(t.from =:user OR t.to LiKE  :to) ';
+        $criteria->params = array(
+            "user" => Yii::app()->user->id,
+            "to" => Yii::app()->user->user->user_email
+        );
+
+        $criteria->compare('deleted', 1);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -166,16 +195,16 @@ class Notifcation extends DTActiveRecord {
         }
         return true;
     }
+
     /**
      * 
      * @return type
      */
     public function afterFind() {
-        if($this->type=="inbox"){
-            $this->_source = "From : ".$this->from_rel->user_email;
-        }
-        else if($this->type=="sent"){
-            $this->_source = "To : ".$this->to;
+        if ($this->type == "inbox") {
+            $this->_source = "From : " . $this->from_rel->user_email;
+        } else if ($this->type == "sent") {
+            $this->_source = "To : " . $this->to;
         }
         return parent::afterFind();
     }

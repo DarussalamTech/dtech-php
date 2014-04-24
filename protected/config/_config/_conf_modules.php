@@ -80,6 +80,9 @@ $modules = array(
             'Notifcation.CreateFolder',
             'Notifcation.MoveTo',
             'Notifcation.MarkStatus',
+            'Notifcation.MarkDeleted',
+            'Notifcation.DeletedItems',
+            'Notifcation.Delete',
         ),
         'debug' => false, // Whether to enable debug mode.
     ),

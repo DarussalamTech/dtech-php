@@ -16,7 +16,8 @@ class NotifcationController extends Controller {
         return array(
             // 'accessControl', // perform access control for CRUD operations
             'rights',
-            'https + index + view + copy + create + createFolder + moveTo + markStatus',
+            'https + index + view + copy + create + createFolder + moveTo 
+                + markStatus + deletedItems + delete',
         );
     }
 
@@ -158,12 +159,30 @@ class NotifcationController extends Controller {
      * If deletion is successful, the browser will be redirected to the 'admin' page.
      * @param integer $id the ID of the model to be deleted
      */
-    public function actionDelete($id) {
-        $this->loadModel($id)->delete();
+    public function actionDelete($id = "") {
 
-        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-        if (!isset($_GET['ajax']))
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+        if ($id != "") {
+            $this->loadModel($id)->delete();
+
+            // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+            if (!isset($_GET['ajax']))
+                $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
+        }
+        else {
+
+
+            if (isset($_POST['notifications'])) {
+                $notifications = explode(",", $_POST['notifications']);
+
+                foreach ($notifications as $notif) {
+
+                    Notifcation::model()->deleteByPk($notif);
+                }
+
+                echo "success";
+            }
+            return true;
+        }
     }
 
     /**
@@ -182,14 +201,23 @@ class NotifcationController extends Controller {
         }
         if ($model->folder != "") {
             
-        } 
-        else if ($model->type == "" || $model->type == "inbox") {
+        } else if ($model->type == "" || $model->type == "inbox") {
             $model->type = "inbox";
             $model->to = Yii::app()->user->user->user_email;
         } else if ($model->type == "sent") {
             $model->from = Yii::app()->user->id;
         }
+        $model->deleted = 0;
+        $this->render('index', array(
+            'model' => $model,
+        ));
+    }
 
+    /**
+     * 
+     */
+    public function actionDeletedItems() {
+        $model = new Notifcation();
         $this->render('index', array(
             'model' => $model,
         ));
@@ -216,7 +244,7 @@ class NotifcationController extends Controller {
         if (isset($_POST['folder_id']) && isset($_POST['notifications'])) {
             $notifications = explode(",", $_POST['notifications']);
             foreach ($notifications as $notif) {
-                Notifcation::model()->updateByPk($notif, array("folder" => $_POST['folder_id']));
+                Notifcation::model()->updateByPk($notif, array("folder" => $_POST['folder_id'],"deleted"=>0));
             }
             echo "success";
         }
@@ -230,7 +258,12 @@ class NotifcationController extends Controller {
         if (isset($_POST['notifications'])) {
             $notifications = explode(",", $_POST['notifications']);
             foreach ($notifications as $notif) {
-                Notifcation::model()->updateByPk($notif, array("is_read" => $status));
+                if ($status == "deleted") {
+                    $model = Notifcation::model()->findByPk($notif);
+                    $model->markDeleted();
+                } else {
+                    Notifcation::model()->updateByPk($notif, array("is_read" => $status));
+                }
             }
             echo "success";
         }
