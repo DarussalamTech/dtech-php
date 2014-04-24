@@ -17,7 +17,7 @@ class NotifcationController extends Controller {
             // 'accessControl', // perform access control for CRUD operations
             'rights',
             'https + index + view + copy + create + createFolder + moveTo 
-                + markStatus + deletedItems + delete',
+                + markStatus + deletedItems + delete + manageFolders +deleteFolder',
         );
     }
 
@@ -214,7 +214,7 @@ class NotifcationController extends Controller {
     }
 
     /**
-     * 
+     * show deleted items
      */
     public function actionDeletedItems() {
         $model = new Notifcation();
@@ -226,8 +226,11 @@ class NotifcationController extends Controller {
     /**
      * create new folder
      */
-    public function actionCreateFolder() {
+    public function actionCreateFolder($id = "") {
         $model = new NotificationFolder;
+        if($id!=""){
+            $model = NotificationFolder::model()->findByPk($id);
+        }
         if (isset($_POST['NotificationFolder'])) {
             $model->attributes = $_POST['NotificationFolder'];
             if ($model->save()) {
@@ -244,7 +247,7 @@ class NotifcationController extends Controller {
         if (isset($_POST['folder_id']) && isset($_POST['notifications'])) {
             $notifications = explode(",", $_POST['notifications']);
             foreach ($notifications as $notif) {
-                Notifcation::model()->updateByPk($notif, array("folder" => $_POST['folder_id'],"deleted"=>0));
+                Notifcation::model()->updateByPk($notif, array("folder" => $_POST['folder_id'], "deleted" => 0));
             }
             echo "success";
         }
@@ -267,6 +270,32 @@ class NotifcationController extends Controller {
             }
             echo "success";
         }
+    }
+
+    /**
+     * manage folders
+     */
+    public function actionManageFolders() {
+        $model = new NotificationFolder('search');
+        $model->create_user_id = Yii::app()->user->id;
+
+        $this->render("manage_folders", array("model" => $model));
+    }
+
+    /**
+     * Notification folders will be deleted here
+     */
+    public function actionDeleteFolder($id) {
+        NotificationFolder::model()->findByPk($id)->delete();
+        
+        $notifications = Notifcation::model()->findAll("folder = ".$id);
+        foreach($notifications as $notif){
+            $notifications = Notifcation::model()->updateByPk($notif,array("folder"=>""));
+        }
+
+        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+        if (!isset($_GET['ajax']))
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('manageFolders'));
     }
 
     /**
