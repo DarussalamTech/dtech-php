@@ -48,10 +48,10 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/packages/jui/c
         <li>
             <a class="dropdown text-only" 
                href="javascript:void(0)">
-                Move to
-                <span class="arrow"></span>
-            </a>
-            <ul class="width-2">
+                Move to<span class="arrow"></span></a>
+                
+            
+            <ul class="width-3">
                 <?php
                 foreach ($this->filters['folder'] as $folder_key => $folder):
                     echo '<li><a href="' . $this->createUrl("/notifcation/moveTo") . '" folder_id="' . $folder_key . '" onclick="dtech.moveTOFolder(this);return false;">' . $folder . '</a></li>';
