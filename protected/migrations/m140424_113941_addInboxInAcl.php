@@ -121,8 +121,8 @@ class m140424_113941_addInboxInAcl extends DTDbMigration {
             "data" => "N;",
         );
         $this->insert($table, $columns);
-
-        /********************************************************/
+//
+//        /********************************************************/
         $table = "authitemchild";
         $columns = array(
             "parent" => "Notifcation.*",
@@ -185,6 +185,16 @@ class m140424_113941_addInboxInAcl extends DTDbMigration {
             "child" => "Notifcation.Index",
         );
         $this->insert($table, $columns);
+        
+        
+         //-------------
+        $table = "authitemchild";
+        $columns = array(
+            "parent" => "Notifcation.Index",
+            "child" => "Notifcation.DeletedItems",
+        );
+        $this->insert($table, $columns);
+
 
         //-------------
         $table = "authitemchild";
@@ -233,22 +243,6 @@ class m140424_113941_addInboxInAcl extends DTDbMigration {
         );
         $this->insert($table, $columns);
 
-
-        //-------------
-        $table = "authitemchild";
-        $columns = array(
-            "parent" => "Notifcation.Index",
-            "child" => "Notifcation.DeletedItems",
-        );
-        $this->insert($table, $columns);
-
-        //view history
-        $table = "authitemchild";
-        $columns = array(
-            "parent" => "Notifcation.Index",
-            "child" => "Notifcation.View",
-        );
-        $this->insert($table, $columns);
 
         //--------Rights-----
 
@@ -327,13 +321,7 @@ class m140424_113941_addInboxInAcl extends DTDbMigration {
         );
         $this->insert($table, $columns);
 
-        $table = "rights";
-        $columns = array(
-            "itemname" => "Notifcation.DeletedItems",
-            "type" => "0",
-        );
-        $this->insert($table, $columns);
-
+      
         $table = "rights";
         $columns = array(
             "itemname" => "Notifcation.ManageFolders",
