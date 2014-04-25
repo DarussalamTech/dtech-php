@@ -79,7 +79,7 @@ class m140424_113941_addInboxInAcl extends DTDbMigration {
         );
         $this->insert($table, $columns);
 
-        //zone view
+        //Notification view
 
         $table = "authitem";
         $columns = array(
@@ -90,7 +90,7 @@ class m140424_113941_addInboxInAcl extends DTDbMigration {
         );
         $this->insert($table, $columns);
 
-        //zone view
+        //Notification view
 
         $table = "authitem";
         $columns = array(
@@ -101,8 +101,28 @@ class m140424_113941_addInboxInAcl extends DTDbMigration {
         );
         $this->insert($table, $columns);
 
+        //Notification 
+        $table = "authitem";
+        $columns = array(
+            "name" => "Notifcation.ManageFolders",
+            "type" => "0",
+            "bizrule" => "",
+            "data" => "N;",
+        );
+        $this->insert($table, $columns);
 
-        //-------------
+        //Notification view
+
+        $table = "authitem";
+        $columns = array(
+            "name" => "Notifcation.DeleteFolder",
+            "type" => "0",
+            "bizrule" => "",
+            "data" => "N;",
+        );
+        $this->insert($table, $columns);
+
+        /********************************************************/
         $table = "authitemchild";
         $columns = array(
             "parent" => "Notifcation.*",
@@ -130,8 +150,8 @@ class m140424_113941_addInboxInAcl extends DTDbMigration {
             "child" => "Notifcation.Index",
         );
         $this->insert($table, $columns);
-        
-        
+
+
         //-------------
         $table = "authitemchild";
         $columns = array(
@@ -182,7 +202,7 @@ class m140424_113941_addInboxInAcl extends DTDbMigration {
             "child" => "Notifcation.View",
         );
         $this->insert($table, $columns);
-        
+
         //-------------
         $table = "authitemchild";
         $columns = array(
@@ -190,7 +210,21 @@ class m140424_113941_addInboxInAcl extends DTDbMigration {
             "child" => "Notifcation.CreateFolder",
         );
         $this->insert($table, $columns);
-        
+        //-------------
+        $table = "authitemchild";
+        $columns = array(
+            "parent" => "Notifcation.Index",
+            "child" => "Notifcation.ManageFolders",
+        );
+        $this->insert($table, $columns);
+        //-------------
+        $table = "authitemchild";
+        $columns = array(
+            "parent" => "Notifcation.Index",
+            "child" => "Notifcation.DeleteFolder",
+        );
+        $this->insert($table, $columns);
+
         //-------------
         $table = "authitemchild";
         $columns = array(
@@ -227,7 +261,7 @@ class m140424_113941_addInboxInAcl extends DTDbMigration {
         //-------------
         $table = "rights";
         $columns = array(
-            "itemname" => "Zone.Create",
+            "itemname" => "Notifcation.Create",
             "type" => "0",
         );
         $this->insert($table, $columns);
@@ -235,28 +269,28 @@ class m140424_113941_addInboxInAcl extends DTDbMigration {
         //-------------
         $table = "rights";
         $columns = array(
-            "itemname" => "Zone.Update",
+            "itemname" => "Notifcation.Copy",
             "type" => "0",
         );
         $this->insert($table, $columns);
         //-------------
         $table = "rights";
         $columns = array(
-            "itemname" => "Zone.Index",
+            "itemname" => "Notifcation.Index",
             "type" => "0",
         );
         $this->insert($table, $columns);
         //-------------
         $table = "rights";
         $columns = array(
-            "itemname" => "Zone.Delete",
+            "itemname" => "Notifcation.Delete",
             "type" => "0",
         );
         $this->insert($table, $columns);
         //-------------
         $table = "rights";
         $columns = array(
-            "itemname" => "Zone.View",
+            "itemname" => "Notifcation.View",
             "type" => "0",
         );
         $this->insert($table, $columns);
@@ -265,7 +299,7 @@ class m140424_113941_addInboxInAcl extends DTDbMigration {
         //view history
         $table = "rights";
         $columns = array(
-            "itemname" => "Zone.ViewHistory",
+            "itemname" => "Notifcation.CreateFolder",
             "type" => "0",
         );
         $this->insert($table, $columns);
@@ -274,21 +308,42 @@ class m140424_113941_addInboxInAcl extends DTDbMigration {
 
         $table = "rights";
         $columns = array(
-            "itemname" => "Zone.LoadChildByAjax",
+            "itemname" => "Notifcation.MoveTo",
             "type" => "0",
         );
         $this->insert($table, $columns);
 
         $table = "rights";
         $columns = array(
-            "itemname" => "Zone.EditChild",
+            "itemname" => "Notifcation.MarkStatus",
             "type" => "0",
         );
         $this->insert($table, $columns);
 
         $table = "rights";
         $columns = array(
-            "itemname" => "Zone.DeleteChildByAjax",
+            "itemname" => "Notifcation.DeletedItems",
+            "type" => "0",
+        );
+        $this->insert($table, $columns);
+
+        $table = "rights";
+        $columns = array(
+            "itemname" => "Notifcation.DeletedItems",
+            "type" => "0",
+        );
+        $this->insert($table, $columns);
+
+        $table = "rights";
+        $columns = array(
+            "itemname" => "Notifcation.ManageFolders",
+            "type" => "0",
+        );
+        $this->insert($table, $columns);
+
+        $table = "rights";
+        $columns = array(
+            "itemname" => "Notifcation.DeleteFolder",
             "type" => "0",
         );
         $this->insert($table, $columns);
@@ -296,41 +351,52 @@ class m140424_113941_addInboxInAcl extends DTDbMigration {
 
     public function down() {
         $table = "authitem";
-        $this->delete($table, "name='Zone.*'");
-        $this->delete($table, "name='Zone.Create'");
-        $this->delete($table, "name='Zone.Update'");
-        $this->delete($table, "name='Zone.Delete'");
-        $this->delete($table, "name='Zone.Index'");
-        $this->delete($table, "name='Zone.View'");
-        $this->delete($table, "name='Zone.DeleteChildByAjax'");
-        $this->delete($table, "name='Zone.EditChild'");
-        $this->delete($table, "name='Zone.LoadChildByAjax'");
+        $this->delete($table, "name='Notifcation.*'");
+        $this->delete($table, "name='Notifcation.Create'");
+        $this->delete($table, "name='Notifcation.Copy'");
+        $this->delete($table, "name='Notifcation.Delete'");
+        $this->delete($table, "name='Notifcation.Index'");
+        $this->delete($table, "name='Notifcation.View'");
+        
+        $this->delete($table, "name='Notifcation.DeletedItems'");
+        $this->delete($table, "name='Notifcation.ManageFolders'");
+        $this->delete($table, "name='Notifcation.DeleteFolder'");
+        $this->delete($table, "name='Notifcation.MoveTo'");
+        $this->delete($table, "name='Notifcation.MarkStatus'");
+        $this->delete($table, "name='Notifcation.CreateFolder'");
+      
 
 
         $table = "authitemchild";
-        $this->delete($table, "child='Zone.Create'");
-        $this->delete($table, "child='Zone.Update'");
-        $this->delete($table, "child='Zone.Delete'");
-        $this->delete($table, "child='Zone.Index'");
-        $this->delete($table, "child='Zone.View'");
+        $this->delete($table, "child='Notifcation.Create'");
+        $this->delete($table, "child='Notifcation.Copy'");
+        $this->delete($table, "child='Notifcation.Delete'");
+        $this->delete($table, "child='Notifcation.Index'");
+        $this->delete($table, "child='Notifcation.View'");
 
-        $this->delete($table, "child='Zone.DeleteChildByAjax'");
-        $this->delete($table, "child='Zone.EditChild'");
-        $this->delete($table, "child='Zone.LoadChildByAjax'");
+        $this->delete($table, "child='Notifcation.DeletedItems'");
+        $this->delete($table, "child='Notifcation.ManageFolders'");
+        $this->delete($table, "child='Notifcation.DeleteFolder'");
+        $this->delete($table, "child='Notifcation.MoveTo'");
+        $this->delete($table, "child='Notifcation.MarkStatus'");
+        $this->delete($table, "child='Notifcation.CreateFolder'");
 
 
         $table = "rights";
-        $this->delete($table, "itemname='Zone.*'");
-        $this->delete($table, "itemname='Zone.Create'");
-        $this->delete($table, "itemname='Zone.Update'");
-        $this->delete($table, "itemname='Zone.Delete'");
-        $this->delete($table, "itemname='Zone.Index'");
-        $this->delete($table, "itemname='Zone.View'");
+        $this->delete($table, "itemname='Notifcation.*'");
+        $this->delete($table, "itemname='Notifcation.Create'");
+        $this->delete($table, "itemname='Notifcation.Copy'");
+        $this->delete($table, "itemname='Notifcation.Delete'");
+        $this->delete($table, "itemname='Notifcation.Index'");
+        $this->delete($table, "itemname='Notifcation.View'");
 
 
-        $this->delete($table, "itemname='Zone.DeleteChildByAjax'");
-        $this->delete($table, "itemname='Zone.EditChild'");
-        $this->delete($table, "itemname='Zone.LoadChildByAjax'");
+        $this->delete($table, "itemname='Notifcation.DeletedItems'");
+        $this->delete($table, "itemname='Notifcation.ManageFolders'");
+        $this->delete($table, "itemname='Notifcation.DeleteFolder'");
+        $this->delete($table, "itemname='Notifcation.MoveTo'");
+        $this->delete($table, "itemname='Notifcation.MarkStatus'");
+        $this->delete($table, "itemname='Notifcation.CreateFolder'");
     }
 
 }
