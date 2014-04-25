@@ -228,13 +228,18 @@ class NotifcationController extends Controller {
      */
     public function actionCreateFolder($id = "") {
         $model = new NotificationFolder;
-        if($id!=""){
+        if ($id != "") {
             $model = NotificationFolder::model()->findByPk($id);
         }
         if (isset($_POST['NotificationFolder'])) {
             $model->attributes = $_POST['NotificationFolder'];
             if ($model->save()) {
-                Yii::app()->user->setFlash("status", "Folder has been added");
+                if ($id == "") {
+                    Yii::app()->user->setFlash("status", "Folder has been added");
+                }
+                else {
+                     Yii::app()->user->setFlash("status", "Folder has been updated");
+                }
             }
         }
         $this->renderPartial("_createfolder", array("model" => $model));
@@ -287,10 +292,10 @@ class NotifcationController extends Controller {
      */
     public function actionDeleteFolder($id) {
         NotificationFolder::model()->findByPk($id)->delete();
-        
-        $notifications = Notifcation::model()->findAll("folder = ".$id);
-        foreach($notifications as $notif){
-            $notifications = Notifcation::model()->updateByPk($notif,array("folder"=>""));
+
+        $notifications = Notifcation::model()->findAll("folder = " . $id);
+        foreach ($notifications as $notif) {
+            $notifications = Notifcation::model()->updateByPk($notif, array("folder" => ""));
         }
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser

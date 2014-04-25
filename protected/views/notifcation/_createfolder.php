@@ -1,6 +1,6 @@
 <div class="pading-bottom-5">
     <div class="left_float">
-        <h1>Create Folder</h1>
+        <h1><?php echo $model->isNewRecord ? "Create":"Update"?> Folder</h1>
     </div>
 
     <?php /* Convert to Monitoring Log Buttons */ ?>

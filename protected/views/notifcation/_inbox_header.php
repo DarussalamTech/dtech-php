@@ -59,13 +59,17 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/packages/jui/c
                 echo '<li>';
                 echo ColorBox::link("Create Folder", $this->createUrl("/notifcation/createFolder"), array('class' => "colorbox"), array("height" => "300", "width" => "400"));
                 echo '</li>';
+                echo '<li>';
+                echo CHtml::link("Manage Folders", $this->createUrl("/notifcation/manageFolders"), array('class' => ""));
+                echo '</li>';
                 ?>
 
 
             </ul>
         </li>
 
-        <li><a class="dropdown text-only" href="#">More<span class="arrow"></span></a>
+        <li>
+            <a class="dropdown text-only" href="#">More<span class="arrow"></span></a>
             <ul class="width-3">
 
                 <li><a class="read-status" onclick="dtech.markNotifStatus(this);
