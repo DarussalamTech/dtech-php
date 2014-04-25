@@ -13,8 +13,8 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/packages/jui/c
             <ul class="width-1">
                 <li><a href="javascript:void(0)" onclick="dtech.checkUnCheckUndervalue(true)">All</a></li>
                 <li><a href="javascript:void(0)" onclick="dtech.checkUnCheckUndervalue(false)">None</a></li>
-                <li><a href="<?php echo $this->createUrl("/notifcation/index", array("Notifcation[is_read]" => 1)); ?>">Read</a></li>
-                <li><a href="<?php echo $this->createUrl("/notifcation/index", array("Notifcation[is_read]" => 0)); ?>">Unread</a></li>
+<!--                <li><a href="<?php //echo $this->createUrl("/notifcation/index", array("Notifcation[is_read]" => 1)); ?>">Read</a></li>
+                <li><a href="<?php //echo $this->createUrl("/notifcation/index", array("Notifcation[is_read]" => 0)); ?>">Unread</a></li>-->
 
             </ul>
         </li>
