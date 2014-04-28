@@ -269,7 +269,7 @@ class ShippingClass extends DTActiveRecord {
     public function beforeSave() {
         
         
-        $this->categories = !empty($this->categories) && is_array($this->categories) ? implode(",", $this->categories) : "";
+        $this->categories = !empty($this->categories) && is_array($this->categories) ? implode(",", $this->categories) : $this->categories;
         return parent::beforeSave();
     }
 
