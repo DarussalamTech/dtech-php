@@ -85,6 +85,15 @@ $modules = array(
             'Notifcation.Delete',
             'Notifcation.ManageFolders',
             'Notifcation.DeleteFolder',
+            
+            
+            //Product Template
+            'ProductTemplate.Index',
+            'ProductTemplate.Create',
+            'ProductTemplate.Copy',
+            'ProductTemplate.View',
+            'ProductTemplate.Delete',
+       
         ),
         'debug' => false, // Whether to enable debug mode.
     ),

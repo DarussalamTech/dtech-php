@@ -106,5 +106,6 @@ $rules_web = array(
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/login' => '/site/login',
     //'<v:[\w-\.]+>/<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/captcha' => '/site/captcha',
     //'<lang:[\w-\.]+>/refresh:[\w-\.]+>/<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/captcha' => '/site/captcha',
-);  
+
+ );  
 ?>
