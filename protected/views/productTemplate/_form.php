@@ -30,12 +30,6 @@
     </div>
 
     <div class="row">
-        <?php echo $form->labelEx($model, 'parent_id'); ?>
-        <?php echo $form->textField($model, 'parent_id'); ?>
-        <?php echo $form->error($model, 'parent_id'); ?>
-    </div>
-
-    <div class="row">
         <?php echo $form->labelEx($model, 'slag'); ?>
         <?php echo $form->textField($model, 'slag', array('size' => 30, 'maxlength' => 30)); ?>
         <?php echo $form->error($model, 'slag'); ?>
@@ -43,15 +37,30 @@
 
     <div class="row">
         <?php echo $form->labelEx($model, 'parent_cateogry_id'); ?>
-        <?php echo $form->textField($model, 'parent_cateogry_id'); ?>
+        <?php
+        $criteria = new CDbCriteria();
+        $criteria->addCondition("parent_id = 0");
+        $criteria->select = "category_id,category_name";
+        $criteria->addCondition("city_id =" . Yii::app()->session['city_id']);
+        $criteria->order = " FIELD(t.category_name ,'Books') DESC ";
+        $categories = Categories::model()->findAll($criteria);
+        echo $form->dropDownList($model, 'parent_cateogry_id', array("" => "Select") + CHtml::listData($categories, "category_id", "category_name"), array(
+            "onchange" => "dtech.showProductChildren(this)",
+            "onclick" => "
+                    dtech.preserveOldVal(this);
+                       if( $('#Product_parent_cateogry_id option:selected').text()!='Books'){
+                            $('#Product_authors').parent().hide();
+                        }
+                        else {
+                             $('#Product_authors').parent().show();
+                        }
+                    "
+                )
+        );
+        ?>
         <?php echo $form->error($model, 'parent_cateogry_id'); ?>
     </div>
 
-    <div class="row">
-        <?php echo $form->labelEx($model, 'product_description'); ?>
-        <?php echo $form->textArea($model, 'product_description', array('rows' => 6, 'cols' => 50)); ?>
-        <?php echo $form->error($model, 'product_description'); ?>
-    </div>
 
     <div class="row">
         <?php echo $form->labelEx($model, 'product_overview'); ?>
@@ -60,39 +69,34 @@
     </div>
 
     <div class="row">
-        <?php echo $form->labelEx($model, 'status'); ?>
-        <?php echo $form->textField($model, 'status'); ?>
-        <?php echo $form->error($model, 'status'); ?>
-    </div>
-
-    <div class="row">
-        <?php echo $form->labelEx($model, 'city_id'); ?>
-        <?php echo $form->textField($model, 'city_id'); ?>
-        <?php echo $form->error($model, 'city_id'); ?>
+        <?php echo $form->labelEx($model, 'product_description'); ?>
+        <?php
+        $this->widget('application.extensions.tinymce.ETinyMce', array(
+            'editorTemplate' => 'full',
+            'model' => $model,
+            'attribute' => 'product_description',
+            'options' => array('theme' => 'advanced')));
+        ?>
+        <?php //echo $form->textArea($model, 'product_description', array("rows" => 4, "cols" => 81, 'style' => 'resize: none; width:500px;')); ?>
+        <?php echo $form->error($model, 'product_description'); ?>
     </div>
 
     <div class="row">
         <?php echo $form->labelEx($model, 'is_featured'); ?>
-        <?php echo $form->textField($model, 'is_featured', array('size' => 1, 'maxlength' => 1)); ?>
+        <?php echo $form->dropDownList($model, 'is_featured', array('0' => 'No', '1' => 'Yes'), array('size' => 1, 'maxlength' => 1)); ?>
         <?php echo $form->error($model, 'is_featured'); ?>
     </div>
-
     <div class="row">
-        <?php echo $form->labelEx($model, 'product_rating'); ?>
-        <?php echo $form->textField($model, 'product_rating'); ?>
-        <?php echo $form->error($model, 'product_rating'); ?>
+        <?php echo $form->labelEx($model, 'status'); ?>
+        <?php echo $form->dropDownList($model, 'status', array('1' => 'Active', '0' => 'Disabled'), array('size' => 1, 'maxlength' => 1)); ?>
+        <?php echo $form->error($model, 'status'); ?>
     </div>
 
-    <div class="row">
-        <?php echo $form->labelEx($model, 'authors'); ?>
-        <?php echo $form->textField($model, 'authors', array('size' => 60, 'maxlength' => 255)); ?>
-        <?php echo $form->error($model, 'authors'); ?>
-    </div>
 
-    <div class="row">
-        <?php echo $form->labelEx($model, 'shippable_countries'); ?>
-        <?php echo $form->textField($model, 'shippable_countries', array('size' => 60, 'maxlength' => 900)); ?>
-        <?php echo $form->error($model, 'shippable_countries'); ?>
+    <div class="row" style="<?php //echo $display ?>">
+        <?php //echo $form->labelEx($model, 'authors'); ?>
+        <?php //echo $form->dropDownList($model, 'authors', $authorList, array('prompt' => 'Select Author')); ?>
+        <?php //echo $form->error($model, 'authors'); ?>
     </div>
 
 
