@@ -11,7 +11,7 @@
                     <section><img src="<?php echo Yii::app()->theme->baseUrl; ?>/images/mail.png" />
                         <span>
                             <?php
-                            echo CHtml::mailto("it@darussalamksa.com");
+                            echo CHtml::mailto("info@darussalamksa.com");
                             ?>
 
                         </span>
@@ -26,7 +26,7 @@
             <div class="under_right_footer">
                 <section><img src="<?php echo Yii::app()->theme->baseUrl; ?>/images/home.png" /><span>Darussalam Publishers</span>
                <p>
-                        <?php echo Yii::t('header_footer', " Muraba'a Area-Dabbab Street, Opposite to Chamber of Commerce", array(), NULL, $this->currentLang); ?>
+                        <?php echo Yii::t('header_footer', " Muraba'a Area-Dabbab Street, Opposite to Chamber of Commerce Riyadh, KSA", array(), NULL, $this->currentLang); ?>
 
                </p> 
                     </section>
