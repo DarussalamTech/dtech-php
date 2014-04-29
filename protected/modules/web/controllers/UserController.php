@@ -106,10 +106,10 @@ class UserController extends Controller {
             if ($obj->status_id == '1') {
                 //already activated
                 Yii::app()->user->setFlash('login', 'Your account is already activated. Please try login or if you have missed your login information then go to forgot password section. Thank You');
-                $this->redirect(array('/site/login'));
+                $this->redirect($this->createUrl('/site/login'));
             } else if ($obj->activation_key != $activation_key) {
                 Yii::app()->user->setFlash('login', 'Your activation key not registered. Please resend activation key and activate your account. Thank You');
-                $this->redirect(array('/site/login'));
+                $this->redirect($this->createUrl('/site/login'));
             }
 
             Yii::app()->user->setFlash('login', 'Thank You ! Your account has been activated....Now Please Login');
@@ -123,11 +123,11 @@ class UserController extends Controller {
             } else {
                 $modelUser = new User;
                 $modelUser->updateByPk($user_id, array('status_id' => '1'));
-                $this->redirect(array('/site/login'));
+               $this->redirect($this->createUrl('/site/login'));
             }
         } else {
             Yii::app()->user->setFlash('login', 'User does not exist. Please signup and get activation link.');
-            $this->redirect(array('/site/login'));
+            $this->redirect($this->createUrl('/site/login'));
         }
     }
 
