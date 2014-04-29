@@ -112,19 +112,15 @@ class City extends DTActiveRecord {
     }
 
     /**
-     * 
-     * @return boolean
+     * get city id from from city
+     * @param type $name
      */
-    public function afterSave() {
-        parent::afterSave();
-        return true;
-    }
-
-    /**
-     * 
-     */
-    public function installConfiguration() {
-        $model = new ConfMisc;
+    public function getCityId($name) {
+        $criteria = new CDbCriteria;
+        $criteria->condition = 't.city_name = :city_name';
+        $criteria->params = array(":city_name" => $name);
+       
+        return City::model()->get($criteria);
     }
 
 }

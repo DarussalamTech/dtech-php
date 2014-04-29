@@ -267,7 +267,11 @@ class User extends DTActiveRecord {
         return md5($password) === $old_password;
         //return $password;
     }
-
+    /**
+     * 
+     * @param type $attribute
+     * @param type $params
+     */
     public function passwordStrength($attribute, $params) {
         if ($params['strength'] === self::WEAK)
             $pattern = '/^(?=.*[a-zA-Z0-9]).{5,}$/';
@@ -280,7 +284,10 @@ class User extends DTActiveRecord {
         
         
     }
-
+    /**
+     * 
+     * @return \CActiveDataProvider
+     */
     public function customerHistory() {
         $data = "";
         $id = Yii::app()->user->id;
@@ -316,5 +323,6 @@ class User extends DTActiveRecord {
             return Yii::app()->params['default_admin'];
         }
     }
+
 
 }

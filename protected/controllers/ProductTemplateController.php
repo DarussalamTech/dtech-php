@@ -60,7 +60,7 @@ class ProductTemplateController extends Controller {
     public function actionCreate() {
         $model = new ProductTemplate;
 
-     
+
 
         if (isset($_POST['ProductTemplate'])) {
             $model->attributes = $_POST['ProductTemplate'];
@@ -114,9 +114,12 @@ class ProductTemplateController extends Controller {
     public function actionIndex() {
         $model = new ProductTemplate('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['ProductTemplate']))
+        $city = City::model()->getCityId('Super');
+        
+        if (isset($_GET['ProductTemplate'])){
             $model->attributes = $_GET['ProductTemplate'];
-
+        }
+        $model->city_id = $city->city_id;
         $this->render('index', array(
             'model' => $model,
         ));
