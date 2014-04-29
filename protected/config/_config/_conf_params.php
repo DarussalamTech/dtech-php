@@ -49,6 +49,6 @@ $params = array(
     'https' => false,
     'notAllowedRequestUri' => 'option=com_virtuemart',
     'notAllowedRequestOptions' => array('com_virtuemart', 'com_br'),
-    'notallowdCharactorsUrl' => array('[', ']', '@', '!', '$', '&', '(', ')', '*', '+', ';', "'", ",", "?", ":"),
+    'notallowdCharactorsUrl' => array('[', ']', '@', '!', '$', '&', '(', ')', '*', '+', ';', "'", ",", "?", ":", " "),
 );
 ?>
