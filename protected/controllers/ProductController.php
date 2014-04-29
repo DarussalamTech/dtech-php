@@ -316,7 +316,7 @@ class ProductController extends Controller {
     public function actionLoadChildByAjax($mName, $dir, $load_for, $index, $upload_index = "") {
         /* Get regarding model */
         $model = new $mName;
-
+       
         $this->renderPartial($dir . '/_fields_row', array(
             'index' => $index,
             'model' => $model,
@@ -423,9 +423,7 @@ class ProductController extends Controller {
         if (isset($_POST['Quran'])) {
             $model->setRelationRecords('quranProfile', is_array($_POST['Quran']) ? $_POST['Quran'] : array());
         }
-        if (isset($_POST['EducationToys'])) {
-            $model->setRelationRecords('educationToys', is_array($_POST['EducationToys']) ? $_POST['EducationToys'] : array());
-        }
+        
         if (isset($_POST['ProductDiscount'])) {
             $model->setRelationRecords('discount', is_array($_POST['ProductDiscount']) ? $_POST['ProductDiscount'] : array());
         }

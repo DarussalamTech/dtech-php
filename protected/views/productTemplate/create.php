@@ -22,4 +22,4 @@ $this->renderPartial("/common/_left_menu");
 <div class="clear"></div>
 
 
-<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php echo $this->renderPartial('_form', array('model'=>$model,'authorList' => $authorList)); ?>

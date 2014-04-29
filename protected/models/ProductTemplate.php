@@ -5,7 +5,7 @@
  * @abstract to create for Super Admin Product Template
  */
 class ProductTemplate extends Product {
-    
+
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -33,15 +33,24 @@ class ProductTemplate extends Product {
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
             array('product_id,authors,product_rating', 'safe'),
             array('parent_cateogry_id,no_image,authors,product_description,product_overview', 'safe'),
-           
             array('city_id', 'numerical', 'integerOnly' => true),
             array('product_name', 'length', 'max' => 255),
             array('is_featured', 'length', 'max' => 1),
-            array("status","safe"),
+            array("status", "safe"),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('product_id, product_name,product_description, city_id, is_featured', 'safe', 'on' => 'search'),
         );
+    }
+    /**
+     * 
+     * @return type
+     */
+    public function relations() {
+        $relations = parent::relations();
+        $relations['productTemplateProfile'] = array(self::HAS_MANY, 'ProductTemplateProfile', 'product_id');
+       
+        return $relations;
     }
 
 }

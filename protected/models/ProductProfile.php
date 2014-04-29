@@ -233,7 +233,7 @@ class ProductProfile extends DTActiveRecord {
             'edition' => Yii::t('model_labels', 'Edition', array(), NULL, Yii::app()->controller->currentLang),
             'compiler_id' => Yii::t('model_labels', 'Compiler', array(), NULL, Yii::app()->controller->currentLang),
             'translator_id' => Yii::t('model_labels', 'Translator', array(), NULL, Yii::app()->controller->currentLang),
-            'slag' => Yii::t('model_labels', 'Slag', array(), NULL, Yii::app()->controller->currentLang),
+            'slag' => Yii::t('model_labels', 'Slug', array(), NULL, Yii::app()->controller->currentLang),
             'color' => Yii::t('model_labels', 'Color', array(), NULL, Yii::app()->controller->currentLang),
             'arabic_name' => Yii::t('model_labels', 'Arabic Name', array(), NULL, Yii::app()->controller->currentLang),
         );

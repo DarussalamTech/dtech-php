@@ -59,6 +59,16 @@ class Other extends DTActiveRecord {
     }
 
     /**
+     * 
+     * @return type
+     */
+    public function attributeLabels() {
+        return array(
+            'slag' => 'Slug'
+        );
+    }
+
+    /**
      * @return array relational rules.
      */
     public function relations() {

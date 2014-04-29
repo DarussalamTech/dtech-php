@@ -74,7 +74,7 @@ class ProductTemplateController extends Controller {
      */
     public function actionCreate() {
         $model = new ProductTemplate;
-
+        $authorList = CHtml::listData(Author::model()->findAll(array('order' => 'author_name')), 'author_id', 'author_name');
 
 
         if (isset($_POST['ProductTemplate'])) {
@@ -85,6 +85,7 @@ class ProductTemplateController extends Controller {
 
         $this->render('create', array(
             'model' => $model,
+            'authorList' => $authorList
         ));
     }
 
@@ -95,6 +96,7 @@ class ProductTemplateController extends Controller {
      */
     public function actionUpdate($id) {
         $model = $this->loadModel($id);
+        $authorList = CHtml::listData(Author::model()->findAll(array('order' => 'author_name')), 'author_id', 'author_name');
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
@@ -107,6 +109,7 @@ class ProductTemplateController extends Controller {
 
         $this->render('update', array(
             'model' => $model,
+            'authorList' => $authorList
         ));
     }
 

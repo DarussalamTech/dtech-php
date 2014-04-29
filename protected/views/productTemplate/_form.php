@@ -7,6 +7,8 @@
 <div class="form wide">
 
     <?php
+    Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/gridform.css');
+    Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/functions.js');
     $form = $this->beginWidget('CActiveForm', array(
         'id' => 'product-template-form',
         'enableAjaxValidation' => false,
@@ -45,16 +47,7 @@
         $criteria->order = " FIELD(t.category_name ,'Books') DESC ";
         $categories = Categories::model()->findAll($criteria);
         echo $form->dropDownList($model, 'parent_cateogry_id', array("" => "Select") + CHtml::listData($categories, "category_id", "category_name"), array(
-            "onchange" => "dtech.showProductChildren(this)",
-            "onclick" => "
-                    dtech.preserveOldVal(this);
-                       if( $('#Product_parent_cateogry_id option:selected').text()!='Books'){
-                            $('#Product_authors').parent().hide();
-                        }
-                        else {
-                             $('#Product_authors').parent().show();
-                        }
-                    "
+   
                 )
         );
         ?>
@@ -93,11 +86,18 @@
     </div>
 
 
-    <div class="row" style="<?php //echo $display ?>">
-        <?php //echo $form->labelEx($model, 'authors'); ?>
-        <?php //echo $form->dropDownList($model, 'authors', $authorList, array('prompt' => 'Select Author')); ?>
-        <?php //echo $form->error($model, 'authors'); ?>
+    <div class="row" >
+        <?php echo $form->labelEx($model, 'authors'); ?>
+        <?php echo $form->dropDownList($model, 'authors', $authorList, array('prompt' => 'Select Author')); ?>
+        <?php echo $form->error($model, 'authors'); ?>
     </div>
+
+    <?php
+    if ($this->action->id != "update") {
+
+        $this->renderPartial('productTemplateProfile/_container', array('model' => $model, "type" => "field"));
+    }
+    ?>
 
 
     <div class="row buttons">
