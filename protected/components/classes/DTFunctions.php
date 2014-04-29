@@ -260,6 +260,21 @@ class DTFunctions {
         $table = $array[$name];
         return $table;
     }
+    
+    
+    
+    /**
+     * custom function to make url good looking
+     * @param type $str
+     * @return type
+     */
+     public static function replaceString($str) {
+        
+        $result = str_replace (Yii::app()->params['notallowdCharactorsUrl'],"-",$str);
+        $result = str_replace ('---','-',$result);
+        $result = str_replace ('--','-',$result);
+        return $result;
+    }
     /**
      * convert object to array
      * @param type $d
