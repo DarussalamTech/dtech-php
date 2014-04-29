@@ -21,6 +21,15 @@ $('.search-form form').submit(function(){
 	return false;
 });
 ");
+//rendering filters
+$this->PcmWidget['filter'] = array('name' => 'ItstLeftFilter',
+    'attributes' => array(
+        'model' => $model,
+        'filters' => $this->filters,
+        'keyUrl' => true,
+        'action' => Yii::app()->createUrl($this->route),
+        'grid_id' => 'product-grid',
+        ));
 ?>
 
 
@@ -63,6 +72,22 @@ $this->widget('zii.widgets.grid.CGridView', array(
         array(
             'name' => 'parent_cateogry_id',
             'value' => '!empty($data->parent_category)?$data->parent_category->category_name:""',
+        ),
+        array(
+            'name' => 'is_featured',
+            'type' => 'Raw',
+            'value' => '($data->is_featured==1)?"Yes":"No"',
+            'headerHtmlOptions' => array(
+                'style' => "text-align:left"
+            )
+        ),
+        array(
+            'name' => 'status',
+            'type' => 'Raw',
+            'value' => '($data->status==1)?"Active":"Disabled"',
+            'headerHtmlOptions' => array(
+                'style' => "text-align:left"
+            )
         ),
         array(
             'class' => 'CButtonColumn',

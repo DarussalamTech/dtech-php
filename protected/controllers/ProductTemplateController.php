@@ -7,6 +7,7 @@ class ProductTemplateController extends Controller {
      * using two-column layout. See 'protected/views/layouts/column2.php'.
      */
     public $layout = '//layouts/column2';
+    public $filters;
 
     /**
      * @return array action filters
@@ -40,6 +41,20 @@ class ProductTemplateController extends Controller {
         parent::setPermissions($this->id, $operations);
 
         return true;
+    }
+
+    /**
+     * Initialize Left site filters
+     */
+    public function init() {
+        parent::init();
+
+        /* Set filters and default active */
+        $this->filters = array(
+            'parent_cateogry_id' => Categories::model()->getParentCategories(),
+            'status' => array("1" => "Enabled", "0" => "Disabled", "" => "All"),
+            'is_featured' => array("1" => "Featured", "0" => "No Featured", "" => "All"),
+        );
     }
 
     /**
@@ -115,8 +130,8 @@ class ProductTemplateController extends Controller {
         $model = new ProductTemplate('search');
         $model->unsetAttributes();  // clear any default values
         $city = City::model()->getCityId('Super');
-        
-        if (isset($_GET['ProductTemplate'])){
+
+        if (isset($_GET['ProductTemplate'])) {
             $model->attributes = $_GET['ProductTemplate'];
         }
         $model->city_id = $city->city_id;

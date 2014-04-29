@@ -37,6 +37,7 @@ class ProductTemplate extends Product {
             array('city_id', 'numerical', 'integerOnly' => true),
             array('product_name', 'length', 'max' => 255),
             array('is_featured', 'length', 'max' => 1),
+            array("status","safe"),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('product_id, product_name,product_description, city_id, is_featured', 'safe', 'on' => 'search'),
