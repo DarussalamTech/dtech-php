@@ -322,7 +322,7 @@ class SiteController extends Controller {
 
         Yii::app()->controller->layout = "//layouts/column2";
         Yii::app()->user->SiteSessions;
-        Yii::app()->theme = 'dtech_second';
+       
         $model = new LoginForm;
         $ip = getenv("REMOTE_ADDR");
         // if it is ajax validation request
