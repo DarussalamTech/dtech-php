@@ -312,12 +312,12 @@ class NotifcationController extends Controller {
      */
     public function loadModel($id) {
         $model = Notifcation::model()->findByPk($id);
-
+      
         if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
         } else if ($model->type == "sent" && $model->from != Yii::app()->user->id) {
             throw new CHttpException(404, 'The requested page does not exist.');
-        } else if ($model->type == "inbox" && !strstr(Yii::app()->user->user->user_email, $model->to)) {
+        } else if ($model->type == "inbox" && !strstr($model->to,Yii::app()->user->User->user_email)) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
         return $model;
