@@ -157,7 +157,7 @@ class ProductTemplateController extends Controller {
      * @throws CHttpException
      */
     public function loadModel($id) {
-        $model = ProductTemplate::model()->getByPk($id);
+        $model = ProductTemplate::model()->findFromPrimerkey($id);
 
         $city = City::model()->getCityId('Super');
         if ($model === null) {
