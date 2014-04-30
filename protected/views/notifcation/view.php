@@ -44,7 +44,7 @@ $this->widget('zii.widgets.CDetailView', array(
         ),
         array(
             'name' => 'to',
-            'value' => $model->to
+            'value' => str_replace(",",", ",$model->to)
         ),
         array(
             'name' => 'subject',

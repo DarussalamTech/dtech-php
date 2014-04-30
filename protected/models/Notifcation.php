@@ -148,6 +148,9 @@ class Notifcation extends DTActiveRecord {
             'pagination' => array(
                 'pageSize' => 40,
             ),
+            'sort'=>array(
+                "defaultOrder"=>"id DESC",
+            )
         ));
     }
 
@@ -190,6 +193,7 @@ class Notifcation extends DTActiveRecord {
 
 
             $notify->type = "inbox";
+            $notify->is_read = 0;
 
             $notify->save();
         }
@@ -204,7 +208,7 @@ class Notifcation extends DTActiveRecord {
         if ($this->type == "inbox") {
             $this->_source = "From : " . $this->from_rel->user_email;
         } else if ($this->type == "sent") {
-            $this->_source = "To : " . $this->to;
+            $this->_source = "To : " . str_replace(",",", ",$this->to);
         }
         return parent::afterFind();
     }
