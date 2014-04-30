@@ -93,6 +93,10 @@ $modules = array(
             'ProductTemplate.Copy',
             'ProductTemplate.View',
             'ProductTemplate.Delete',
+            'ProductTemplate.LoadChildByAjax',
+            'ProductTemplate.EditChild',
+            'ProductTemplate.DeleteChildByAjax',
+          
        
         ),
         'debug' => false, // Whether to enable debug mode.

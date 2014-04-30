@@ -17,28 +17,13 @@ $mName = "ProductTemplateProfile";
         'dataProvider' => $mName_provider,
         'columns' => array(
             array(
-                'name' => 'item_code',
-                'value' => '$data->item_code',
-                "type" => "raw",
-            ),
-            array(
-                'name' => 'price',
-                'value' => '$data->price',
-                "type" => "raw",
-            ),
-            array(
-                'name' => 'quantity',
-                'value' => '$data->quantity',
+                'name' => 'title',
+                'value' => '$data->title',
                 "type" => "raw",
             ),
             array(
                 'name' => 'weight',
                 'value' => '!empty($data->weight)?$data->weight." ".$data->weight_unit:""',
-                "type" => "raw",
-            ),
-            array(
-                'name' => 'is_shippable',
-                'value' => '$data->is_shippable == 1?"Yes":"No"',
                 "type" => "raw",
             ),
             array(
@@ -86,7 +71,6 @@ $mName = "ProductTemplateProfile";
                         'label' => 'View Image',
                         'url' => 'Yii::app()->controller->createUrl("viewImage",array("id" => $data->id))',
                         'imageUrl' => Yii::app()->theme->baseUrl . "/images/icons/view.png",
-                      
                     ),
                 ),
             ),
@@ -94,7 +78,7 @@ $mName = "ProductTemplateProfile";
     ));
     ?>
 </div>
-<?php
-$this->widget('ext.lyiightbox.LyiightBox2', array(
-));
-?>
+    <?php
+    $this->widget('ext.lyiightbox.LyiightBox2', array(
+    ));
+    ?>
