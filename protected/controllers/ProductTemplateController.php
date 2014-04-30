@@ -82,7 +82,7 @@ class ProductTemplateController extends Controller {
         if (isset($_POST['ProductTemplate'])) {
             $model->attributes = $_POST['ProductTemplate'];
             $this->checkCilds($model);
-            $model->city_id =  City::model()->getCityId('Super')->city_id;
+            $model->city_id = City::model()->getCityId('Super')->city_id;
             if ($model->save()) {
                 $this->redirect(array('view', 'id' => $model->product_id));
             }
@@ -108,7 +108,7 @@ class ProductTemplateController extends Controller {
 
         if (isset($_POST['ProductTemplate'])) {
             $model->attributes = $_POST['ProductTemplate'];
-            $model->city_id =  City::model()->getCityId('Super')->city_id;
+            $model->city_id = City::model()->getCityId('Super')->city_id;
             if ($model->save())
                 $this->redirect(array('view', 'id' => $model->product_id));
         }
@@ -157,11 +157,12 @@ class ProductTemplateController extends Controller {
      * @throws CHttpException
      */
     public function loadModel($id) {
-        $model = ProductTemplate::model()->get($id);
-         $city = City::model()->getCityId('Super');
-        if ($model === null)
+        $model = ProductTemplate::model()->getByPk($id);
+
+        $city = City::model()->getCityId('Super');
+        if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
-        else if($model->city_id != $city->city_id){
+        } else if ($model->city_id != $city->city_id) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
         return $model;

@@ -12,7 +12,7 @@ class ProductTemplateProfile extends ProductProfile {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('price,language_id,weight,weight_unit', 'required'),
+            array('language_id,weight,weight_unit', 'required'),
         );
     }
 

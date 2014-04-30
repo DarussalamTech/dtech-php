@@ -7,16 +7,20 @@ $this->breadcrumbs = array(
     $model->product_id,
 );
 
-$this->menu = array(
-    array('label' => 'List ProductTemplate', 'url' => array('index')),
-    array('label' => 'Create ProductTemplate', 'url' => array('create')),
-    array('label' => 'Update ProductTemplate', 'url' => array('update', 'id' => $model->product_id)),
-    array('label' => 'Delete ProductTemplate', 'url' => '#', 'linkOptions' => array('submit' => array('delete', 'id' => $model->product_id), 'confirm' => 'Are you sure you want to delete this item?')),
-    array('label' => 'Manage ProductTemplate', 'url' => array('admin')),
-);
+$this->renderPartial("/common/_left_menu");
 ?>
+<div class="pading-bottom-5">
+    <div class="left_float">
+        <h1>View Product Template #<?php echo $model->product_name; ?></h1>
+    </div>
 
-<h1>View ProductTemplate #<?php echo $model->product_id; ?></h1>
+    <?php /* Convert to Monitoring Log Buttons */ ?>
+    <div class = "right_float">
+
+    </div>
+</div>
+<div class="clear"></div>
+
 
 <?php
 $this->widget('zii.widgets.CDetailView', array(
@@ -57,4 +61,6 @@ $this->widget('zii.widgets.CDetailView', array(
         ),
     ),
 ));
+
+ $this->renderPartial('productTemplateProfile/_container', array('model' => $model, "type" => "form"));
 ?>
