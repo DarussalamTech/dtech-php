@@ -24,13 +24,18 @@ $this->renderPartial("/common/_left_menu");
 
 <?php
 Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/gridform.css');
-    Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/functions.js');
+Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/functions.js');
 $this->widget('zii.widgets.CDetailView', array(
     'data' => $model,
     'attributes' => array(
         array(
             'name' => 'product_name',
             'value' => $model->product_name,
+        ),
+        array(
+            'name' => 'universal_name',
+            'value' => $model->universal_name,
+            'type' => 'raw',
         ),
         array(
             'name' => 'product_overview',
@@ -64,5 +69,5 @@ $this->widget('zii.widgets.CDetailView', array(
     ),
 ));
 
- $this->renderPartial('productTemplateProfile/_container', array('model' => $model, "type" => "form"));
+$this->renderPartial('productTemplateProfile/_container', array('model' => $model, "type" => "form"));
 ?>
