@@ -17,7 +17,14 @@ $this->renderPartial("/common/_left_menu");
 
     <?php /* Convert to Monitoring Log Buttons */ ?>
     <div class = "right_float">
-
+        <?php
+        
+         if (isset($this->OpPermission[ucfirst($this->id) . ".View"]) && $this->OpPermission[ucfirst($this->id) . ".View"]) {
+                
+                echo CHtml::link("View", $this->createUrl("view", array("id" => $model->primaryKey)), array('class' => "print_link_btn"));
+                
+            }
+        ?>
     </div>
 </div>
 <div class="clear"></div>

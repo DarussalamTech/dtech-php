@@ -32,7 +32,7 @@ class User extends DTActiveRecord {
      * @return User the static model class
      */
 
-    const LEVEL_WHOLE_SELLER  = 4, LEVEL_CUSTOMER = 3, LEVEL_ADMIN = 2, LEVEL_SUPERADMIN = 1, LEVEL_UNKNOWN = 0;
+    const LEVEL_WHOLE_SELLER = 4, LEVEL_CUSTOMER = 3, LEVEL_ADMIN = 2, LEVEL_SUPERADMIN = 1, LEVEL_UNKNOWN = 0;
     const WEAK = 0;
     const STRONG = 1;
 
@@ -169,10 +169,10 @@ class User extends DTActiveRecord {
         $criteria->compare('activation_key', $this->activation_key, true);
         $criteria->compare('is_active', $this->is_active, true);
         $criteria->compare('site_id', $this->site_id);
-        
+
         //in case of no super user then city admin can see its user only
-        if(!Yii::app()->user->IsSuperuser){
-              $criteria->addCondition("city_id=" . Yii::app()->session['city_id']);
+        if (!Yii::app()->user->IsSuperuser) {
+            $criteria->addCondition("city_id=" . Yii::app()->session['city_id']);
         }
         $criteria->addCondition("user_id<>" . Yii::app()->user->id);
         $criteria->compare('role_id', '2');
@@ -267,6 +267,7 @@ class User extends DTActiveRecord {
         return md5($password) === $old_password;
         //return $password;
     }
+
     /**
      * 
      * @param type $attribute
@@ -278,12 +279,11 @@ class User extends DTActiveRecord {
         elseif ($params['strength'] === self::STRONG)
             $pattern = '/^(?=.*\d.*\d)[0-9 A-Z a-z !@#$%*]{8,}$/';
 
-        
+
         if (!preg_match($pattern, $this->$attribute))
             $this->addError($attribute, 'Weak Password ! At least 8 characters.Passowrd can contain both letters and numbers!');
-        
-        
     }
+
     /**
      * 
      * @return \CActiveDataProvider
@@ -309,20 +309,28 @@ class User extends DTActiveRecord {
     }
 
     /**
+     *
      * Get city admin
      * Temporray
+     *
+     * @param type $all
+     * @return type
      */
-    public function getCityAdmin() {
+    public function getCityAdmin($all = false) {
         $critera = new CDbCriteria();
         $critera->select = "user_email";
-        $critera->condition = "role_id =2";
-        $user = User::model()->find($critera);
-        if (!empty($user)) {
-            return $user->user_email;
-        } else {
-            return Yii::app()->params['default_admin'];
+        $critera->condition = "role_id = 2";
+        if ($all == false) {
+            $user = User::model()->find($critera);
+            if (!empty($user)) {
+                return $user->user_email;
+            } else {
+                return Yii::app()->params['default_admin'];
+            }
+        }
+        else {
+            return User::model()->findAll($critera);
         }
     }
-
 
 }

@@ -16,7 +16,9 @@ $this->renderPartial("/common/_left_menu");
 
     <?php /* Convert to Monitoring Log Buttons */ ?>
     <div class = "right_float">
-
+        <?php
+        echo CHtml::link("Edit", $this->createUrl("update", array("id" => $model->primaryKey)), array('class' => "print_link_btn"));
+        ?>
     </div>
 </div>
 <div class="clear"></div>

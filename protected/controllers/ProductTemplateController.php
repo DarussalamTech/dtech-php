@@ -84,6 +84,7 @@ class ProductTemplateController extends Controller {
             $this->checkCilds($model);
             $model->city_id = City::model()->getCityId('Super')->city_id;
             if ($model->save()) {
+                $this->sendNotifications($model);
                 $this->redirect(array('view', 'id' => $model->product_id));
             }
         }
@@ -263,14 +264,18 @@ class ProductTemplateController extends Controller {
      * @param type $model
      */
     private function sendNotifications($model){
-        $email['To'] = explode(",", $model->to);
-        $email['From'] = User::model()->findFromPrimerkey($model->from)->user_email;
-        $email['Subject'] = $model->subject;
-
-        $email['Body'] = $model->body;
-        $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
-
-        $this->sendEmail2($email);
+        $city_admins = User::model()->getCityAdmin(true);
+        $city_admins = CHtml::listData($city_admins,"user_email","user_email");
+        $email['To'] = $city_admins;
+        $email['From'] = Yii::app()->user->User->user_email;
+        CVarDumper::dump($email,10,true);
+        
+//        $email['Subject'] = $model->subject;
+//
+//        $email['Body'] = $model->body;
+//        $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
+//
+//        $this->sendEmail2($email);
     }
 
 }

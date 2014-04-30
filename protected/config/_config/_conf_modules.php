@@ -90,7 +90,7 @@ $modules = array(
             //Product Template
             'ProductTemplate.Index',
             'ProductTemplate.Create',
-            'ProductTemplate.Copy',
+            'ProductTemplate.Update',
             'ProductTemplate.View',
             'ProductTemplate.Delete',
             'ProductTemplate.LoadChildByAjax',
