@@ -246,8 +246,6 @@ class ProductTemplateController extends Controller {
         if (isset($_POST['ProductTemplateProfile'])) {
             $model->setRelationRecords('productTemplateProfile', is_array($_POST['ProductTemplateProfile']) ? $_POST['ProductTemplateProfile'] : array());
         }
-
-
         return true;
     }
 
@@ -259,6 +257,20 @@ class ProductTemplateController extends Controller {
     private function manageChildrens($model) {
 
         $this->manageChild($model, "productTemplateProfile", "productTemplate");
+    }
+    /**
+     * send notifications
+     * @param type $model
+     */
+    private function sendNotifications($model){
+        $email['To'] = explode(",", $model->to);
+        $email['From'] = User::model()->findFromPrimerkey($model->from)->user_email;
+        $email['Subject'] = $model->subject;
+
+        $email['Body'] = $model->body;
+        $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
+
+        $this->sendEmail2($email);
     }
 
 }
