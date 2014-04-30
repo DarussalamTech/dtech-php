@@ -63,7 +63,7 @@ class ProductTemplate extends Product {
         $criteria->condition = "universal_name = :universal_name";
         $criteria->params = array(":universal_name"=>$this->universal_name);
         if(!$this->isNewRecord){
-            $criteria->condition.= "product_id <> :product_id";
+            $criteria->condition.= " AND product_id <> :product_id";
             $criteria->params [':product_id'] = $this->product_id;
         }
         if($this->count($criteria)>=1){
