@@ -252,16 +252,7 @@ class DTActiveRecord extends CActiveRecord {
     public function get($condition = '', $params = array()){
         return parent::find($condition, $params);
     }
-    /**
-     * alternate function 
-     * @param type $pk
-     * @param type $condition
-     * @param array $params
-     * @return type
-     */
-    public function getByPk($pk,$condition, $params = array()){
-        return parent::findByPk($pk,$condition, $params = array());
-    }
+
     /**
      * over rided function of to make city condition
      * is available
