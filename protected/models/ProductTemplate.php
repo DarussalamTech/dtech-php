@@ -36,6 +36,7 @@ class ProductTemplate extends Product {
             array('city_id', 'numerical', 'integerOnly' => true),
             array('product_name', 'length', 'max' => 255),
             array('is_featured', 'length', 'max' => 1),
+            array("universal_name",'validateUniqueUniversalCode'),
             array("status", "safe"),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
@@ -51,6 +52,23 @@ class ProductTemplate extends Product {
         $relations['productTemplateProfile'] = array(self::HAS_MANY, 'ProductTemplateProfile', 'product_id');
        
         return $relations;
+    }
+    /**
+     * validate universal code
+     * while super admin cannot able to insert duplicate
+     * codes
+     */
+    public function validateUniqueUniversalCode(){
+        $criteria = new CDbCriteria;
+        $criteria->condition = "universal_name = :universal_name";
+        $criteria->params = array(":universal_name"=>$this->universal_name);
+        if(!$this->isNewRecord){
+            $criteria->condition.= "product_id <> :product_id";
+            $criteria->params [':product_id'] = $this->product_id;
+        }
+        if($this->count($criteria)>=1){
+            $this->addError("universal_name","this product is already exists");
+        }
     }
 
 }
