@@ -23,6 +23,8 @@ $this->renderPartial("/common/_left_menu");
 
 
 <?php
+Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/gridform.css');
+    Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/functions.js');
 $this->widget('zii.widgets.CDetailView', array(
     'data' => $model,
     'attributes' => array(
