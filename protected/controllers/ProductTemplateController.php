@@ -16,7 +16,7 @@ class ProductTemplateController extends Controller {
         return array(
             // 'accessControl', // perform access control for CRUD operations
             'rights',
-            'https + index + view + update + create + delete + 
+            'https + index + view + update + create + delete + viewImage +
                     loadChildByAjax + editChild + deleteChildByAjax',
         );
     }
@@ -85,7 +85,7 @@ class ProductTemplateController extends Controller {
             $model->city_id = City::model()->getCityId('Super')->city_id;
             if ($model->save()) {
                 $this->sendNotifications($model);
-                
+
                 $this->redirect(array('view', 'id' => $model->product_id));
             }
         }
@@ -238,6 +238,24 @@ class ProductTemplateController extends Controller {
             throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
     }
 
+    /**
+     * view image by
+     * @param type $id
+     * @param type $mName
+     */
+    public function actionViewImage($id) {
+        $model = ProductTemplateProfile::model()->findByPk($id);
+        $path = $this->createUrl("viewImage", array("id" => $id));
+        $this->manageChild($model, "productImages", "productProfile", "", 0, $path);
+        $this->manageChild($model, "productAttributes", "productProfile", "", 0, $path);
+
+
+        $this->render("productImages/_grid", array(
+            "id" => $id,
+            "model" => $model,
+            "dir" => "productImages"));
+    }
+
     /*
      * managing recrods
      * at create
@@ -260,47 +278,48 @@ class ProductTemplateController extends Controller {
 
         $this->manageChild($model, "productTemplateProfile", "productTemplate");
     }
+
     /**
      * send notifications
      * @param type $model
      */
-    private function sendNotifications($model){
+    private function sendNotifications($model) {
         $city_admins = User::model()->getCityAdmin(true);
-        $city_admins = CHtml::listData($city_admins,"user_email","user_email");
+        $city_admins = CHtml::listData($city_admins, "user_email", "user_email");
         $email['To'] = $city_admins;
         $email['From'] = Yii::app()->user->User->user_email;
-        $email['Subject'] = str_replace("s","",$model->parent_category->category_name);
-        $email['Subject'].=" [".$model->product_name."] has been created by super admin as template ";
-        $email['Body'] = " Hi admins <br/> Super admin has created a ".str_replace("s","",$model->parent_category->category_name);
+        $email['Subject'] = str_replace("s", "", $model->parent_category->category_name);
+        $email['Subject'].=" [" . $model->product_name . "] has been created by super admin as template ";
+        $email['Body'] = " Hi admins <br/> Super admin has created a " . str_replace("s", "", $model->parent_category->category_name);
         $email['Body'].= " <br/> ";
-        $email['Body'].= " [".$model->product_name."] has been created by super admin as template ";
+        $email['Body'].= " [" . $model->product_name . "] has been created by super admin as template ";
         $email['Body'].= "<br/> Please click on following link to view <br/>";
-        $link = $this->createAbsoluteUrl("/productTemplate/view",array("id"=>$model->product_id));
-        $email['Body'].= CHtml::link($link,$link);
+        $link = $this->createAbsoluteUrl("/productTemplate/view", array("id" => $model->product_id));
+        $email['Body'].= CHtml::link($link, $link);
         $email['Body'].= "<br/>";
         $email['Body'].= "<br/>";
         $email['Body'].= "Regards <br/>";
         $email['Body'].= Yii::app()->user->User->user_name;
-        
-         $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
-        
+
+        $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
+
         $this->sendEmail2($email);
-        
+
         $notification = new Notifcation;
         $notification->from = Yii::app()->user->id;
-        $notification->to = implode(",",$city_admins);
+        $notification->to = implode(",", $city_admins);
         $notification->subject = $email['Subject'];
         $notification->is_read = 1;
         $notification->type = "sent";
-       
+
         $notification->body = $email['Body'];
         $notification->related_id = $model->product_id;
         $notification->related_to = get_class($model);
         $notification->save();
-        
+
         $notification->saveToUserInbox();
-        Yii::app()->user->setFlash("success","Template has been created successfully and message has been sent to all city admins");
-        
+        Yii::app()->user->setFlash("success", "Template has been created successfully and message has been sent to all city admins");
+
         return true;
     }
 
