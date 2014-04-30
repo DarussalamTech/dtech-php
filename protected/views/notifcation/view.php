@@ -6,7 +6,15 @@ $this->breadcrumbs = array(
     'Notifcations' => array('index'),
     $model->id,
 );
-
+$this->PcmWidget['filter'] = array('name' => 'ItstLeftFilter',
+    'attributes' => array(
+        'model' => $model,
+        'filters' => $this->filters,
+        'keyUrl' => true,
+        "view" => "index",
+        'action' => Yii::app()->createUrl($this->route),
+        'grid_id' => 'product-grid',
+        ));
 ?>
 
 
