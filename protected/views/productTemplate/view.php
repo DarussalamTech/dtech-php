@@ -78,4 +78,5 @@ $this->widget('zii.widgets.CDetailView', array(
 ));
 
 $this->renderPartial('productTemplateProfile/_container', array('model' => $model, "type" => "form"));
+$this->renderPartial('_grid_cities', array('model' => $model, "type" => "form"));
 ?>

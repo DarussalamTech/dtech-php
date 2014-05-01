@@ -67,6 +67,20 @@ class ProductTemplateController extends Controller {
         $this->manageChildrens($model);
         $this->render('view', array(
             'model' => $model,
+            'template'=>$template
+        ));
+    }
+    /**
+     * Displays a particular model.
+     * @param integer $id the ID of the model to be displayed
+     * availibility in different stores
+     */
+    public function actionViewProduct($id, $template = 0) {
+        $model = $this->loadModel($id ,$template);
+        $this->manageChildrens($model);
+        $this->render('viewProduct', array(
+            'model' => $model,
+            'template'=>$template
         ));
     }
 
@@ -158,13 +172,19 @@ class ProductTemplateController extends Controller {
      * @return ProductTemplate the loaded model
      * @throws CHttpException
      */
-    public function loadModel($id) {
+    public function loadModel($id,$template = 0) {
         $model = ProductTemplate::model()->findFromPrimerkey($id);
-
+       
+        //if the template is in condition then the product will be shown here
+       
         $city = City::model()->getCityId('Super');
         if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
-        } else if ($model->city_id != $city->city_id) {
+        } 
+        else if($template ==1){
+             return $model;
+        }
+        else if ($model->city_id != $city->city_id) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
         return $model;

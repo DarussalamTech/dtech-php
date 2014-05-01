@@ -97,6 +97,7 @@ $modules = array(
             'ProductTemplate.EditChild',
             'ProductTemplate.DeleteChildByAjax',
             'ProductTemplate.ViewImage',
+            'ProductTemplate.ViewProduct',
           
        
         ),
