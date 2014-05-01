@@ -27,6 +27,20 @@ Yii::app()->clientScript->registerScript('tag', "
 
 ", CClientScript::POS_END);
 
+    Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/media/editor/redactor.css');
+    Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/media/editor/redactor.js', CClientScript::POS_END);
+    Yii::app()->clientScript->registerScript('editor_rel', "
+      $('#Notifcation_body').redactor({
+                focus: true,
+                autoresize: false,
+                initCallback: function()
+                {
+
+                }
+            });
+
+      ", CClientScript::POS_READY);
+
 if (Yii::app()->user->hasFlash('status')) {
     echo CHtml::openTag("div", array("class" => "flash-success"));
     echo Yii::app()->user->getFlash("status");
@@ -72,14 +86,8 @@ if (Yii::app()->user->hasFlash('status')) {
     <div class="clear_from_tag_ten"></div>
     <div class="row">
         <?php echo $form->labelEx($model, 'body'); ?>
-        <?php //echo $form->textArea($model, 'body'); ?>
-        <?php
-        $this->widget('application.extensions.tinymce.ETinyMce', array(
-            'editorTemplate' => 'full',
-            'model' => $model,
-            'attribute' => 'body',
-            'options' => array('theme' => 'advanced')));
-        ?>
+        <?php echo $form->textArea($model, 'body'); ?>
+       
         <?php echo $form->error($model, 'body'); ?>
     </div>
 
