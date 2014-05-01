@@ -68,7 +68,8 @@ $this->widget('zii.widgets.CDetailView', array(
     ),
 ));
 ?>
-<div class="pading-bottom-5">
+
+<div class="subsection-header">
     <div class="left_float">
         <h1>View This Product Profiles</h1>
     </div>
