@@ -70,6 +70,7 @@ class City extends DTActiveRecord {
             'layout1' => array(self::HAS_ONE, 'Layout', 'layout_id'),
             'products' => array(self::HAS_MANY, 'Product', 'city_id'),
             'currency' => array(self::BELONGS_TO, 'ConfCurrency', 'currency_id'),
+            'site' => array(self::HAS_ONE, 'SelfSite', 'site_headoffice','condition'=>'site_headoffice <>0'),
         );
     }
 
@@ -121,6 +122,23 @@ class City extends DTActiveRecord {
         $criteria->params = array(":city_name" => $name);
        
         return City::model()->get($criteria);
+    }
+    /**
+     * 
+     * @param type $universal_name
+     */
+    public function getProductAvailability($universal_name){
+        $criteria = new CDbCriteria;
+        $criteria->condition = "city_id = :city_id AND universal_name = :universal_name";
+        $criteria->params = array(":universal_name"=>$universal_name,"city_id"=>$this->city_id);
+        if($product = Product::model()->get($criteria)){
+           $url = Yii::app()->controller->createUrl("/productTemplate/viewProduct",array("id"=>$product->product_id,"template"=>1));
+           $image = CHtml::image(Yii::app()->baseUrl."/images/enable.png");
+           return CHtml::link($image." Already Available",$url,array("class"=>"print_link_btn"));
+        }
+        else{          
+           return CHtml::link("Make Available","javascript:void(0)",array("class"=>"print_link_btn"));
+        }
     }
 
 }
