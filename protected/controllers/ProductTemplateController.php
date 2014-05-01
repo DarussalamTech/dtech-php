@@ -17,6 +17,7 @@ class ProductTemplateController extends Controller {
             // 'accessControl', // perform access control for CRUD operations
             'rights',
             'https + index + view + update + create + delete + viewImage +
+                    viewProduct +
                     loadChildByAjax + editChild + deleteChildByAjax',
         );
     }
