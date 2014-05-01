@@ -13,6 +13,16 @@
         'id' => 'product-template-form',
         'enableAjaxValidation' => false,
     ));
+    Yii::app()->clientScript->registerScript('product_ready', "
+        
+  if($('#ProductTemplate_parent_cateogry_id option:selected').text()!='Books'){
+                                    jQuery('#ProductTemplate_authors').parent().hide();
+                                }
+                                else {
+                                    jQuery('#ProductTemplate_authors').parent().show();
+                                }
+
+", CClientScript::POS_READY);
     ?>
 
     <p class="note">Fields with <span class="required">*</span> are required.</p>
@@ -47,7 +57,16 @@
         $criteria->order = " FIELD(t.category_name ,'Books') DESC ";
         $categories = Categories::model()->findAll($criteria);
         echo $form->dropDownList($model, 'parent_cateogry_id', array("" => "Select") + CHtml::listData($categories, "category_id", "category_name"), array(
-   
+            "onchange" => "
+                           
+                                if($('#ProductTemplate_parent_cateogry_id option:selected').text()!='Books'){
+                                    jQuery('#ProductTemplate_authors').parent().hide();
+                                }
+                                else {
+                                    jQuery('#ProductTemplate_authors').parent().show();
+                                }
+
+                        "
                 )
         );
         ?>
