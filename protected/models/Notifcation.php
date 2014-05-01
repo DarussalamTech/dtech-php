@@ -24,7 +24,7 @@
  */
 class Notifcation extends DTActiveRecord {
 
-    public $_source;
+    public $_source, $_related_to;
 
     /**
      * Returns the static model of the specified AR class.
@@ -55,7 +55,7 @@ class Notifcation extends DTActiveRecord {
             array('to', 'length', 'max' => 255),
             array('to', 'validateEmailTo'),
             array('type', 'length', 'max' => 5),
-            array('deleted,_source,is_read,folder,email_sent,related_id,related_to,subject,body,attachment', 'safe'),
+            array('_related_to,deleted,_source,is_read,folder,email_sent,related_id,related_to,subject,body,attachment', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, from, to, type, folder,subject,body,attachment, create_time, create_user_id, update_time, update_user_id', 'safe', 'on' => 'search'),
@@ -71,6 +71,7 @@ class Notifcation extends DTActiveRecord {
         return array(
             'from_rel' => array(self::BELONGS_TO, 'User', 'from'),
             'folder_rel' => array(self::BELONGS_TO, 'NotificationFolder', 'folder'),
+            'product' => array(self::BELONGS_TO, 'Product', 'related_id'),
         );
     }
 
@@ -103,6 +104,7 @@ class Notifcation extends DTActiveRecord {
             '_source' => '',
             'related_id' => 'Related',
             'related_to' => 'Related To',
+            '_related_to' => 'Related Record',
             'email_sent' => 'Send as email',
             'is_read' => 'Viewed',
             'deleted' => 'Deleted',
@@ -148,8 +150,8 @@ class Notifcation extends DTActiveRecord {
             'pagination' => array(
                 'pageSize' => 40,
             ),
-            'sort'=>array(
-                "defaultOrder"=>"id DESC",
+            'sort' => array(
+                "defaultOrder" => "id DESC",
             )
         ));
     }
@@ -161,7 +163,7 @@ class Notifcation extends DTActiveRecord {
 
         $criteria = new CDbCriteria;
 
-        $criteria->condition =  '(t.from =:user OR t.to LiKE  :to) ';
+        $criteria->condition = '(t.from =:user OR t.to LiKE  :to) ';
         $criteria->params = array(
             "user" => Yii::app()->user->id,
             "to" => Yii::app()->user->user->user_email
@@ -208,7 +210,17 @@ class Notifcation extends DTActiveRecord {
         if ($this->type == "inbox") {
             $this->_source = "From : " . $this->from_rel->user_email;
         } else if ($this->type == "sent") {
-            $this->_source = "To : " . str_replace(",",", ",$this->to);
+            $this->_source = "To : " . str_replace(",", ", ", $this->to);
+        }
+
+        //set related to
+        if (!empty($this->related_to) && !empty($this->related_to)) {
+            switch ($this->related_to) {
+                case "ProductTemplate":
+                    $this->_related_to = CHtml::link($this->product->product_name,Yii::app()->controller->createUrl("/productTemplate/view",array("id"=>$this->related_id)));   
+                    break;
+                
+            }
         }
         return parent::afterFind();
     }

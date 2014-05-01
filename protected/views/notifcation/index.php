@@ -92,6 +92,16 @@ $this->widget('DtGridView', array(
             'name' => '_source',
             'value' => '$data->_source',
         ),
+        array(
+            'name' => 'related_to',
+            'value' => '$data->related_to',
+            "type"=>"raw",
+        ),
+        array(
+            'name' => '_related_to',
+            'value' => '$data->_related_to',
+            "type"=>"raw",
+        ),
     ),
 ));
 ?>

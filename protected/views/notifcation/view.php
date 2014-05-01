@@ -63,6 +63,11 @@ $this->widget('zii.widgets.CDetailView', array(
             'value' => $model->body,
             "type" => 'raw',
         ),
+        array(
+            'name' => '_related_to',
+            'value' => $model->_related_to,
+            "type" => 'raw',
+        ),
     ),
 ));
 ?>
