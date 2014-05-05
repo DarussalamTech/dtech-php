@@ -136,7 +136,7 @@ class City extends DTActiveRecord {
         if($product = Product::model()->get($criteria)){
            $url = Yii::app()->controller->createUrl("/productTemplate/viewProduct",array("id"=>$product->product_id,"template"=>1));
            $image = CHtml::image(Yii::app()->baseUrl."/images/enable.png");
-           return CHtml::link($image." Already Available",$url,array("class"=>"print_link_btn"));
+           return CHtml::link($image." Already Available",$url,array("class"=>"link_btn"));
         }
         else{          
 
