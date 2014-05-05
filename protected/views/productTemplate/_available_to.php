@@ -51,6 +51,7 @@ echo '<div class="clear"></div>';
         echo CHtml::submitButton('Available To', array(
             "class" => "btn",
             "onclick" => '
+                                 jQuery("#loading").show();
                                  jQuery.ajax({
                                     type: "POST",
                                     url: jQuery("#product-available-form").attr("action"),
@@ -58,6 +59,7 @@ echo '<div class="clear"></div>';
                                     success: function(data)
                                     {
                                         jQuery("#cboxLoadedContent").html(data);
+                                        jQuery("#loading").hide();
                                         setTimeout(function() {
                                             if(jQuery("#cboxLoadedContent .flash-success").length!=0){
                                                 location.reload();

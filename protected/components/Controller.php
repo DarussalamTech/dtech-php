@@ -532,7 +532,7 @@ class Controller extends RController {
 
                 $mailer->SMTPAuth = true;
                 $mailer->SMTPSecure = Yii::app()->params['mailSecuity'];
-                $mailer->SMTPDebug = 2;
+                //$mailer->SMTPDebug = 2;
                 $mailer->Host = Yii::app()->params['mailHost'];
                 $mailer->Port = Yii::app()->params['mailPort'];
                 $mailer->Username = Yii::app()->params['mailUsername'];

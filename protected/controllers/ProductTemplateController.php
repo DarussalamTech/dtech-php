@@ -292,7 +292,8 @@ class ProductTemplateController extends Controller {
                 if ($pmodel->hasErrors()) {
                     Yii::app()->user->setFlash('error_status', $pmodel->getErrors());
                 } else {
-                    Yii::app()->user->setFlash('status', "Product has been Saved to particular city");
+                    $this->sendCreatedNotifications($pmodel,$model->message);
+                    Yii::app()->user->setFlash('status', "Product has been added to " . $pmodel->city->city_name . " city");
                 }
             }
         }
@@ -367,4 +368,52 @@ class ProductTemplateController extends Controller {
         return true;
     }
 
+    /**
+     * send product created on on particular city notification
+     * @param type $model
+     */
+    private function sendCreatedNotifications($model,$body) {
+        $criteria = new CDbCriteria;
+        $criteria->condition = "city_id =:city_id";
+        $criteria->params = array(":city_id"=>$model->city_id);
+        $user = User::model()->get($criteria);
+        $email['To'] = $user->user_email;
+        $email['From'] = Yii::app()->user->User->user_email;
+        
+        $email['Subject'] = str_replace("s", "", $model->parent_category->category_name);
+        $email['Subject'].=" [" . $model->product_name . "] has been added to your database ";
+        $email['Body'] = $body;
+        $email['Body'].= "<br/>";
+        $email['Body'].= " [" . $model->product_name . "] has been added to your database ";
+        $email['Body'].= "<br/> Please click on following link to view after login<br/>";
+        $link = $this->createAbsoluteUrl("/product/view", array("id" => $model->product_id));
+        $email['Body'].= CHtml::link($link, $link);
+        $email['Body'].= "<br/>";
+        $email['Body'].= "<br/>";
+        $email['Body'].= "Regards <br/>";
+        $email['Body'].= Yii::app()->user->User->user_name;
+
+        $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
+        CVarDumper::dump($email,10,true);
+        $this->sendEmail2($email);
+
+        $notification = new Notifcation;
+        $notification->from = Yii::app()->user->id;
+        $notification->to = $user->user_email;
+        $notification->subject = $email['Subject'];
+        $notification->is_read = 1;
+        $notification->type = "sent";
+
+        $notification->body = $email['Body'];
+        $notification->related_id = $model->parent_id;
+        $notification->related_to = get_class($model);
+        $notification->save();
+
+        $notification->saveToUserInbox();
+        
+
+        return true;
+    }
 }
+
+

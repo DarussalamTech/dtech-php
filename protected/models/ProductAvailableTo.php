@@ -49,8 +49,8 @@ class ProductAvailableTo extends CFormModel {
         $criteria = new CDbCriteria;
         $criteria->condition = "LOWER(category_name) =:category_name AND city_id =:city_id";
         $criteria->params = array(
-            "category_name" => strtolower($product->parent_category->category_name),
-            "city_id" => $this->to_city
+            ":category_name" => strtolower($product->parent_category->category_name),
+            ":city_id" => $this->to_city
         );
         $criteria->select = "category_id,category_name";
         if ($category = Categories::model()->get($criteria)) {
