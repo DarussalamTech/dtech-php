@@ -386,7 +386,16 @@ class ProductTemplateController extends Controller {
         $email['Body'].= "<br/>";
         $email['Body'].= " [" . $model->product_name . "] has been added to your database ";
         $email['Body'].= "<br/> Please click on following link to view after login<br/>";
-        $link = $this->createAbsoluteUrl("/product/view", array("id" => $model->product_id));
+        $link = Yii::app()->request->hostInfo.$this->createUrl("/product/view", 
+                    array(
+                        "id" => $model->product_id,
+                        "city_id"=>$model->city_id,
+                        "country"=>$model->city->country->short_name,
+                        "city"=>$model->city->short_name 	
+                ),
+                "&",
+                true
+              );
         $email['Body'].= CHtml::link($link, $link);
         $email['Body'].= "<br/>";
         $email['Body'].= "<br/>";
@@ -394,7 +403,7 @@ class ProductTemplateController extends Controller {
         $email['Body'].= Yii::app()->user->User->user_name;
 
         $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
-        CVarDumper::dump($email,10,true);
+       
         $this->sendEmail2($email);
 
         $notification = new Notifcation;
