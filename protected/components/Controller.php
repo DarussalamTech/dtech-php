@@ -576,14 +576,18 @@ class Controller extends RController {
         return true;
     }
 
-    /**
-     * It is extend url will take now easy to make url in ciy and country
-     * @param type $route
-     * @param type $params
-     * @param type $ampersand
-     * @return boolean
-     */
-    public function createUrl($route, $params = array(), $ampersand = '&') {
+   /**
+    * It is extend url will take now easy to make url in ciy and country
+    * @param type $route
+    * @param type $params
+    * @param type $ampersand
+    *   merge param means if it is true then it preffers user parameters otherwise
+    *   it takes session
+    * @param type $merge
+    * 
+    * @return type
+    */
+    public function createUrl($route, $params = array(), $ampersand = '&',$merge = false) {
 
         $conCate = array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id']);
         /**
@@ -592,7 +596,8 @@ class Controller extends RController {
         if (!$this->isAdminSite) {
             $conCate['lang'] = $this->currentLang;
         }
-        $params = array_merge($params, $conCate);
+        $params = $merge ==false?array_merge($params, $conCate):array_merge($conCate,$params);
+        CVarDumper::dump($params,10,true);
         return parent::createUrl($route, $params, $ampersand);
     }
 
