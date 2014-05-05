@@ -597,7 +597,7 @@ class Controller extends RController {
             $conCate['lang'] = $this->currentLang;
         }
         $params = $merge ==false?array_merge($params, $conCate):array_merge($conCate,$params);
-        CVarDumper::dump($params,10,true);
+       
         return parent::createUrl($route, $params, $ampersand);
     }
 
