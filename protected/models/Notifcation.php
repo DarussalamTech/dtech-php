@@ -186,7 +186,7 @@ class Notifcation extends DTActiveRecord {
      */
     public function saveToUserInbox() {
         $user_arr = explode(",", $this->to);
-
+     
         foreach ($user_arr as $user_email) {
 
             $user = User::model()->get('user_email = "' . $user_email . '"');

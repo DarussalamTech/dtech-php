@@ -39,6 +39,13 @@ class ProductImage extends DTActiveRecord {
     public $oldDetailImg = "";
     public $image_url = array();
 
+    /**
+     * this varaible is used to directly copy the files from
+     * source folder just like product template
+     * @var type 
+     */
+    public $_is_copy = false;
+
     public function __construct($scenario = 'insert') {
         $this->no_image = Yii::app()->baseUrl . "/images/product_images/noimages.jpeg";
         parent::__construct($scenario);
@@ -70,7 +77,7 @@ class ProductImage extends DTActiveRecord {
             //array('product_profile_id, image_small, image_large', 'required'),
             array('product_profile_id', 'numerical', 'integerOnly' => true),
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
-            array('id,upload_index,no_image,image_url,oldLargeImg,oldSmallImg,upload_key,is_default', 'safe'),
+            array('id,_is_copy,upload_index,no_image,image_url,oldLargeImg,oldSmallImg,upload_key,is_default', 'safe'),
             array('image_cart,image_detail,image_small, image_large', 'length', 'max' => 255),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
@@ -173,9 +180,9 @@ class ProductImage extends DTActiveRecord {
      * @return type 
      */
     public function beforeSave() {
-
-
-        $this->setUploadVars();
+        if($this->_is_copy ==false){
+            $this->setUploadVars();
+        }
         $this->updateAllToUndefault();
 
 
@@ -183,8 +190,10 @@ class ProductImage extends DTActiveRecord {
     }
 
     public function afterSave() {
+        if ($this->_is_copy == false) {
+            $this->uploadImages();
+        }
 
-        $this->uploadImages();
         parent::afterSave();
         return true;
     }
@@ -208,8 +217,6 @@ class ProductImage extends DTActiveRecord {
             $this->image_detail = $this->oldDetailImg;
             $this->image_cart = $this->oldCartImg;
         }
-
-        
     }
 
     /**
@@ -226,6 +233,27 @@ class ProductImage extends DTActiveRecord {
 
             $large_img->saveAs($upload_path . str_replace(" ", "_", $this->image_large));
 
+            DTUploadedFile::createThumbs($upload_path . $this->image_large, $upload_path, 130, str_replace(" ", "_", "small_" . $this->image_large));
+            DTUploadedFile::createThumbs($upload_path . $this->image_large, $upload_path, 75, str_replace(" ", "_", "cart_" . $this->image_large));
+            DTUploadedFile::createThumbs($upload_path . $this->image_large, $upload_path, 180, str_replace(" ", "_", "detail_" . $this->image_large));
+            $this->deleteldImage();
+        }
+    }
+
+    /**
+     * copy images
+     * when product template is cloned to particular city
+     * this process automatically done
+     * from cloning throught 
+     */
+    public function copyImages($source) {
+
+        if (is_file($source)) {
+            $folder_array = array("product", $this->productProfile->primaryKey, "product_images", $this->id);
+            $upload_path = DTUploadedFile::creeatRecurSiveDirectories($folder_array);
+            //copying from clone
+            copy($source,$upload_path.str_replace(" ", "_", $this->image_large));
+        
             DTUploadedFile::createThumbs($upload_path . $this->image_large, $upload_path, 130, str_replace(" ", "_", "small_" . $this->image_large));
             DTUploadedFile::createThumbs($upload_path . $this->image_large, $upload_path, 75, str_replace(" ", "_", "cart_" . $this->image_large));
             DTUploadedFile::createThumbs($upload_path . $this->image_large, $upload_path, 180, str_replace(" ", "_", "detail_" . $this->image_large));

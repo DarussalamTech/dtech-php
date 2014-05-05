@@ -64,7 +64,29 @@ class ProductAvailableTo extends CFormModel {
                 $pModel->product_id = $model->product_id;
                 $pModel->attributes = $productProfile->attributes;
                 
-                $pModel->save();
+                if($pModel->save()){
+                   
+                    foreach($productProfile->productImages as $pImage){
+                        $imageModel = new ProductImage();
+                        $imageModel->product_profile_id = $pModel->id;
+                        $imageModel->is_default = $pImage->is_default;
+                        $imageModel->image_large = $pImage->image_large;
+                        $imageModel->image_small = $pImage->image_small;
+                        $imageModel->image_detail = $pImage->image_detail;
+                        $imageModel->image_cart = $pImage->image_cart;
+                        //set thats y system start copying
+                       
+                      
+                        $imageModel->_is_copy = true;
+                        if($imageModel->save()){
+                              
+                            $folder_array = array("product", $productProfile->primaryKey, "product_images", $pImage->id);
+                            $source = DTUploadedFile::getRecurSiveDirectories($folder_array).$pImage->image_large;
+                            
+                            $imageModel->copyImages($source);
+                        }
+                    }
+                }
             }
         }
         

@@ -374,8 +374,8 @@ class ProductTemplateController extends Controller {
      */
     private function sendCreatedNotifications($model,$body) {
         $criteria = new CDbCriteria;
-        $criteria->condition = "city_id =:city_id";
-        $criteria->params = array(":city_id"=>$model->city_id);
+        $criteria->condition = "city_id =:city_id AND role_id =:role_id";
+        $criteria->params = array(":city_id"=>$model->city_id,"role_id"=>"2");
         $user = User::model()->get($criteria);
         $email['To'] = $user->user_email;
         $email['From'] = Yii::app()->user->User->user_email;
