@@ -68,20 +68,21 @@ class ProductTemplateController extends Controller {
         $this->manageChildrens($model);
         $this->render('view', array(
             'model' => $model,
-            'template'=>$template
+            'template' => $template
         ));
     }
+
     /**
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed
      * availibility in different stores
      */
     public function actionViewProduct($id, $template = 0) {
-        $model = $this->loadModel($id ,$template);
+        $model = $this->loadModel($id, $template);
         $this->manageChildrens($model);
         $this->render('viewProduct', array(
             'model' => $model,
-            'template'=>$template
+            'template' => $template
         ));
     }
 
@@ -173,19 +174,17 @@ class ProductTemplateController extends Controller {
      * @return ProductTemplate the loaded model
      * @throws CHttpException
      */
-    public function loadModel($id,$template = 0) {
+    public function loadModel($id, $template = 0) {
         $model = ProductTemplate::model()->findFromPrimerkey($id);
-       
+
         //if the template is in condition then the product will be shown here
-       
+
         $city = City::model()->getCityId('Super');
         if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
-        } 
-        else if($template ==1){
-             return $model;
-        }
-        else if ($model->city_id != $city->city_id) {
+        } else if ($template == 1) {
+            return $model;
+        } else if ($model->city_id != $city->city_id) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
         return $model;
@@ -276,23 +275,29 @@ class ProductTemplateController extends Controller {
             "model" => $model,
             "dir" => "productImages"));
     }
+
     /**
      * 
      * @param type $id
      */
-    public function actionMakeAvailable($id,$to_city){
+    public function actionMakeAvailable($id, $to_city) {
 
         $model = new ProductAvailableTo();
         $model->template_product_id = $id;
         $model->to_city = $to_city;
-        if(isset($_POST['ProductAvailableTo'])){
+        if (isset($_POST['ProductAvailableTo'])) {
             $model->attributes = $_POST['ProductAvailableTo'];
-            if($model->validate()){
-                
+            if ($model->validate()) {
+                $pmodel = $model->makeAvailableTo();
+                if ($pmodel->hasErrors()) {
+                    Yii::app()->user->setFlash('error_status', $pmodel->getErrors());
+                } else {
+                    Yii::app()->user->setFlash('status', "Product has been Saved to particular city");
+                }
             }
         }
-        
-        $this->renderPartial("_available_to",array("model"=>$model));
+
+        $this->renderPartial("_available_to", array("model" => $model));
     }
 
     /*

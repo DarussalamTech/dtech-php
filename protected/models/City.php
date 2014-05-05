@@ -141,7 +141,7 @@ class City extends DTActiveRecord {
         else{          
 
            $url = Yii::app()->controller->createUrl("/productTemplate/makeAvailable",array("id"=>Yii::app()->request->getQuery("id"),"to_city"=>$city_id));
-           return ColorBox::link("Make Available", $url, array('class' => "colorbox print_link_btn"), array("height" => "300", "width" => "400"));
+           return ColorBox::link("Make Available", $url, array('class' => "colorbox print_link_btn"), array("height" => "400", "width" => "600"));
         }
     }
 

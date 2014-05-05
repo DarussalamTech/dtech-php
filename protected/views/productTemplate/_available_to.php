@@ -16,6 +16,22 @@ if (Yii::app()->user->hasFlash('status')) {
     echo CHtml::closeTag("div");
 }
 echo '<div class="clear"></div>';
+//for flash error
+if (Yii::app()->user->hasFlash('error_status')) {
+    echo CHtml::openTag("div", array("class" => "flash-error"));
+    if(is_array(Yii::app()->user->getFlash("error_status"))){
+        foreach(Yii::app()->user->getFlash("error_status") as $error){
+            echo $error;
+            echo '<div class="clear"></div>';
+        }
+        
+    }
+    else {
+        echo Yii::app()->user->getFlash("error_status");
+    }
+    echo CHtml::closeTag("div");
+}
+echo '<div class="clear"></div>';
 ?>
 <div class="form wide color-box-width">
 
