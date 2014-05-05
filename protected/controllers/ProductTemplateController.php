@@ -17,7 +17,7 @@ class ProductTemplateController extends Controller {
             // 'accessControl', // perform access control for CRUD operations
             'rights',
             'https + index + view + update + create + delete + viewImage +
-                    viewProduct +
+                    viewProduct + makeAvailable +
                     loadChildByAjax + editChild + deleteChildByAjax',
         );
     }
@@ -275,6 +275,24 @@ class ProductTemplateController extends Controller {
             "id" => $id,
             "model" => $model,
             "dir" => "productImages"));
+    }
+    /**
+     * 
+     * @param type $id
+     */
+    public function actionMakeAvailable($id,$to_city){
+
+        $model = new ProductAvailableTo();
+        $model->template_product_id = $id;
+        $model->to_city = $to_city;
+        if(isset($_POST['ProductAvailableTo'])){
+            $model->attributes = $_POST['ProductAvailableTo'];
+            if($model->validate()){
+                
+            }
+        }
+        
+        $this->renderPartial("_available_to",array("model"=>$model));
     }
 
     /*

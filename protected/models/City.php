@@ -124,10 +124,12 @@ class City extends DTActiveRecord {
         return City::model()->get($criteria);
     }
     /**
-     * 
+     * get product avaiability for particular city
      * @param type $universal_name
+     * @param type $city_id
+     * @return type
      */
-    public function getProductAvailability($universal_name){
+    public function getProductAvailability($universal_name,$city_id =0){
         $criteria = new CDbCriteria;
         $criteria->condition = "city_id = :city_id AND universal_name = :universal_name";
         $criteria->params = array(":universal_name"=>$universal_name,"city_id"=>$this->city_id);
@@ -137,7 +139,9 @@ class City extends DTActiveRecord {
            return CHtml::link($image." Already Available",$url,array("class"=>"print_link_btn"));
         }
         else{          
-           return CHtml::link("Make Available","javascript:void(0)",array("class"=>"print_link_btn"));
+
+           $url = Yii::app()->controller->createUrl("/productTemplate/makeAvailable",array("id"=>Yii::app()->request->getQuery("id"),"to_city"=>$city_id));
+           return ColorBox::link("Make Available", $url, array('class' => "colorbox print_link_btn"), array("height" => "300", "width" => "400"));
         }
     }
 

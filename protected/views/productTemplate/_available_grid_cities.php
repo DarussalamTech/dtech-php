@@ -40,7 +40,7 @@
                 ),
                 array(
                     'header' => 'Availability',
-                    'value' => '$data->getProductAvailability("'.$model->universal_name.'")',
+                    'value' => '$data->getProductAvailability("'.$model->universal_name.'",$data->city_id)',
                     "type" => "raw",
                 ),
                
