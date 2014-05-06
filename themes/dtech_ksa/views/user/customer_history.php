@@ -1,6 +1,6 @@
 <?php
 Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/cart_gridview.css');
-if ($cart->getItemCount() <= 0) {
+if (isset($cart) && $cart->getItemCount() <= 0) {
     ?>
     <div class="no_orders">
         <div class="under_view_heading">
@@ -35,31 +35,30 @@ if ($cart->getItemCount() <= 0) {
         )
     );
     $mName_provider = new CActiveDataProvider("Order");
-
-    $this->widget('DtGridView', array(
-        'id' => 'history-grid',
-        'dataProvider' => $cart,
-        //'filter'=>false,
-        'cssFile' => Yii::app()->theme->baseUrl . '/css/cart_gridview.css',
-        'columns' => array(
-            array(
-                'name' => 'order_date',
-                'value' => '!empty($data->order_date)?$data->order_date:""',
-                "type" => "raw",
-            ),
-            array(
-                'name' => 'status',
-                'value' => '!empty($data->status)?$data->order_status->title:""',
-                "type" => "raw",
-            ),
-            array(
-                'class' => 'CLinkColumn',
-                'label' => 'View Products',
-                'header' => 'View Product Detail',
-          
-                'urlExpression' => 'Yii::app()->controller->createUrl("user/orderDetail",array("id"=>$data->order_id))',
-                'linkHtmlOptions' => array(
-                    "onclick" => '
+    if (isset($cart)) {
+        $this->widget('DtGridView', array(
+            'id' => 'history-grid',
+            'dataProvider' => $cart,
+            //'filter'=>false,
+            'cssFile' => Yii::app()->theme->baseUrl . '/css/cart_gridview.css',
+            'columns' => array(
+                array(
+                    'name' => 'order_date',
+                    'value' => '!empty($data->order_date)?$data->order_date:""',
+                    "type" => "raw",
+                ),
+                array(
+                    'name' => 'status',
+                    'value' => '!empty($data->status)?$data->order_status->title:""',
+                    "type" => "raw",
+                ),
+                array(
+                    'class' => 'CLinkColumn',
+                    'label' => 'View Products',
+                    'header' => 'View Product Detail',
+                    'urlExpression' => 'Yii::app()->controller->createUrl("user/orderDetail",array("id"=>$data->order_id))',
+                    'linkHtmlOptions' => array(
+                        "onclick" => '
                     $("#loading").show();
                     ajax_url = $(this).attr("href");
                    
@@ -72,16 +71,17 @@ if ($cart->getItemCount() <= 0) {
                     });
                     return false;
                     '
+                    ),
+                ),
+                array(
+                    'class' => 'CLinkColumn',
+                    'label' => 'Full Detail',
+                    'header' => 'Full Detail',
+                    'urlExpression' => 'Yii::app()->controller->createUrl("/web/user/customerDetail",array("id"=>$data->order_id))',
                 ),
             ),
-            array(
-                'class' => 'CLinkColumn',
-                'label' => 'Full Detail',
-                'header' => 'Full Detail',
-                'urlExpression' => 'Yii::app()->controller->createUrl("/web/user/customerDetail",array("id"=>$data->order_id))',
-            ),
-        ),
-    ));
+        ));
+    }
 }
 ?>
 <style>

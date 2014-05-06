@@ -87,9 +87,11 @@ footer { width:960px; padding: 0; margin: 0 auto; }
 
 .lamp { float:right; position:absolute; }
 
-#logo { padding: 0; margin: 0; width:650px; float:left; }
+#logo { padding: 0; margin: 0; width:500px; float:left; }
 
-#right_logo { padding: 0; margin: 10px 0 0 0; width:300px; float:left; }
+#logo_timer { padding: 0; margin: 40px 0 0 0;  }
+
+#right_logo { padding: 0; margin: 10px 0 0 0; width:300px; float:right; }
 
 #right_logo p { padding: 0; margin: 0; font-size:11px; font-family:Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif; color:#909090; }
 

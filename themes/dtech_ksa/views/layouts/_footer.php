@@ -11,7 +11,7 @@
                     <section><img src="<?php echo Yii::app()->theme->baseUrl; ?>/images/mail.png" />
                         <span>
                             <?php
-                            echo CHtml::mailto("it@darussalamksa.com");
+                            echo CHtml::mailto("info@darussalamksa.com");
                             ?>
 
                         </span>
@@ -26,7 +26,7 @@
             <div class="under_right_footer">
                 <section><img src="<?php echo Yii::app()->theme->baseUrl; ?>/images/home.png" /><span>Darussalam Publishers</span>
                <p>
-                        <?php echo Yii::t('header_footer', " Muraba'a Area-Dabbab Street, Opposite to Chamber of Commerce", array(), NULL, $this->currentLang); ?>
+                        <?php echo Yii::t('header_footer', " Muraba'a Area-Dabbab Street, Opposite to Chamber of Commerce Riyadh, KSA", array(), NULL, $this->currentLang); ?>
 
                </p> 
                     </section>
@@ -43,7 +43,7 @@
             foreach ($pages as $page) {
                 if (!in_array($page->title, $not_required_pages)) {
                     echo CHtml::openTag("span");
-                    echo CHtml::link(Yii::t('header_footer', $page->title, array(), NULL, $this->currentLang), $this->createUrl('/web/page/viewPage/', array("id" => str_replace(" ","-",$page->title)."-".$page->id)));
+                    echo CHtml::link(Yii::t('header_footer', $page->title, array(), NULL, $this->currentLang), $this->createUrl('/web/page/viewPage/', array("id" => DTFunctions::replaceString($page->title)."-".$page->id)));
                     echo CHtml::closeTag("span");
                 }
             }
@@ -66,7 +66,7 @@
     <div id="darussalam_bar">
         <p>
             <?php
-            echo Yii::t('header_footer', '&copy; 2013 Darussalam, Inc. All Rights Reserved.', array(), NULL, $this->currentLang)
+            echo Yii::t('header_footer', '&copy; 2014 Darussalam, Inc. All Rights Reserved.', array(), NULL, $this->currentLang)
             ?>
         </p>
     </div>
