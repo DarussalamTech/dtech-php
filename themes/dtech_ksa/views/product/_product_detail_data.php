@@ -207,6 +207,24 @@
         <?php
     endif;
     ?>
+        
+     <?php
+    if (!empty($product->productProfile[0]->weight)):
+        ?>
+        <p>
+            <?php
+            echo Yii::t('model_labels', 'Weight', array(), NULL, $this->currentLang) . ":";
+            ?>
+            <?php
+            echo $product->productProfile[0]->weight." ";
+            echo $product->productProfile[0]->weight_unit;
+            ?>
+        </p>
+        <?php
+    endif;
+    ?>
+        
+        
     <?php
     if (!empty($product->productProfile[0]->edition)):
         ?>

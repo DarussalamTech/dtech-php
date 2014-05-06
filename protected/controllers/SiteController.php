@@ -271,20 +271,23 @@ class SiteController extends Controller {
                      */
                     $email['To'] = $model->email;
                     $email['From'] = User::model()->getCityAdmin();
-                    $email['Subject'] = 'Contact Notification From ' . Yii::app()->name;
+                    $email['Reply'] = User::model()->getCityAdmin();
                     $email['Message_type'] = $model->message_type;
+                    $email['Subject'] = "[".$email['Message_type']."] ".' Contact Notification From ' . Yii::app()->name;
                     $email['Body'] = $model->body;
                     $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
                     $this->sendEmail2($email);
                 }
 
-                // $email['To'] = "akram.khan@darussalampk.com"; //User::model()->getCityAdmin();
-                $email['To'] = User::model()->getCityAdmin();
-                $email['From'] = $model->email;
+                //$email['To'] = "akram.khan@darussalampk.com"; //User::model()->getCityAdmin();
+                $email['To'] =  User::model()->getCityAdmin();
+                $email['From'] = $model->email; 
+                $email['Reply'] = $model->email; 
+                $email['FromName'] = $model->name; 
                 $email['Message_type'] = $model->message_type;
                 $email['Subject'] = "[" . $email['Message_type'] . "] " . $model->subject . ' From Mr/Mrs: ' . $model->name;
 
-                $email['Body'] = $model->body;
+                $email['Body'] = '<strong> From Email address: </strong>'. $email['From'] ."<br>".$model->body;
                 $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
 
                 $this->sendEmail2($email);
@@ -319,7 +322,7 @@ class SiteController extends Controller {
 
         Yii::app()->controller->layout = "//layouts/column2";
         Yii::app()->user->SiteSessions;
-        Yii::app()->theme = 'dtech_second';
+       
         $model = new LoginForm;
         $ip = getenv("REMOTE_ADDR");
         // if it is ajax validation request

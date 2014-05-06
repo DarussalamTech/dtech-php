@@ -319,17 +319,13 @@ class User extends DTActiveRecord {
     public function getCityAdmin($all = false) {
         $critera = new CDbCriteria();
         $critera->select = "user_email";
-        $critera->condition = "role_id = 2";
-        if ($all == false) {
-            $user = User::model()->find($critera);
-            if (!empty($user)) {
-                return $user->user_email;
-            } else {
-                return Yii::app()->params['default_admin'];
-            }
-        }
-        else {
-            return User::model()->findAll($critera);
+        $critera->condition = "role_id =2 AND city_id = :city_id";
+        $critera->params = array("city_id"=> Yii::app()->request->getQuery("city_id"));
+        $user = User::model()->find($critera);
+        if (!empty($user)) {
+            return $user->user_email;
+        } else {
+            return Yii::app()->params['default_admin'];
         }
     }
 
