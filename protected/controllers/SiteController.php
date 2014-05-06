@@ -318,8 +318,12 @@ class SiteController extends Controller {
         }
 
         Yii::app()->controller->layout = "//layouts/column2";
-        Yii::app()->user->SiteSessions;
+       
         
+        if(empty(Yii::app()->theme)){
+             $this->redirect($this->createUrl("/site/index"));
+                     
+        }
         
         $model = new LoginForm;
         $ip = getenv("REMOTE_ADDR");
