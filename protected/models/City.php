@@ -70,7 +70,7 @@ class City extends DTActiveRecord {
             'layout1' => array(self::HAS_ONE, 'Layout', 'layout_id'),
             'products' => array(self::HAS_MANY, 'Product', 'city_id'),
             'currency' => array(self::BELONGS_TO, 'ConfCurrency', 'currency_id'),
-            'site' => array(self::HAS_ONE, 'SelfSite', 'site_headoffice','condition'=>'site_headoffice <>0'),
+            'site' => array(self::HAS_ONE, 'SelfSite', 'site_headoffice', 'condition' => 'site_headoffice <>0'),
         );
     }
 
@@ -120,28 +120,32 @@ class City extends DTActiveRecord {
         $criteria = new CDbCriteria;
         $criteria->condition = 't.city_name = :city_name';
         $criteria->params = array(":city_name" => $name);
-       
+
         return City::model()->get($criteria);
     }
+
     /**
      * get product avaiability for particular city
      * @param type $universal_name
      * @param type $city_id
      * @return type
      */
-    public function getProductAvailability($universal_name,$city_id =0){
+    public function getProductAvailability($universal_name, $city_id = 0) {
         $criteria = new CDbCriteria;
         $criteria->condition = "city_id = :city_id AND universal_name = :universal_name";
-        $criteria->params = array(":universal_name"=>$universal_name,"city_id"=>$this->city_id);
-        if($product = Product::model()->get($criteria)){
-           $url = Yii::app()->controller->createUrl("/productTemplate/viewProduct",array("id"=>$product->product_id,"template"=>1));
-           $image = CHtml::image(Yii::app()->baseUrl."/images/enable.png");
-           return CHtml::link($image." Already Available",$url,array("class"=>"link_btn"));
-        }
-        else{          
+        $criteria->params = array(":universal_name" => $universal_name, "city_id" => $this->city_id);
+        if ($product = Product::model()->get($criteria)) {
+            $url = Yii::app()->controller->createUrl("/productTemplate/viewProduct", array("id" => $product->product_id, "template" => 1));
+            $image = CHtml::image(Yii::app()->baseUrl . "/images/enable.png");
+            return CHtml::link($image . " Already Available", $url, array("class" => "link_btn"));
+        } else {
+            //adding access control for this 
+            if (Yii::app()->controller->checkViewAccess(ucfirst(Yii::app()->controller->id) . ".MakeAvailable")) {
+               $url = Yii::app()->controller->createUrl("/productTemplate/makeAvailable", array("id" => Yii::app()->request->getQuery("id"), "to_city" => $city_id));
+               return ColorBox::link("Make Available", $url, array('class' => "colorbox print_link_btn"), array("height" => "400", "width" => "600"));
+            }
+            
 
-           $url = Yii::app()->controller->createUrl("/productTemplate/makeAvailable",array("id"=>Yii::app()->request->getQuery("id"),"to_city"=>$city_id));
-           return ColorBox::link("Make Available", $url, array('class' => "colorbox print_link_btn"), array("height" => "400", "width" => "600"));
         }
     }
 
