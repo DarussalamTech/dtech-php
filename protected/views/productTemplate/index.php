@@ -60,7 +60,21 @@ $this->PcmWidget['filter'] = array('name' => 'ItstLeftFilter',
 </div><!-- search-form -->
 
 <?php
-$button_template = "{view} {update} {delete}";
+$button_template = "";
+
+
+if ($this->checkViewAccess(ucfirst($this->id) . ".View")) {
+    $button_template.= "{view}";
+}
+if ($this->checkViewAccess(ucfirst($this->id) . ".Update")) {
+    $button_template.= "{update} ";
+}
+
+if ($this->checkViewAccess(ucfirst($this->id) . ".Delete")) {
+    $button_template.= "{delete}";
+}
+
+
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'product-template-grid',
     'dataProvider' => $model->search(),

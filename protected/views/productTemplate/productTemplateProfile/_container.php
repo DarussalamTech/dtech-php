@@ -38,8 +38,8 @@ if (isset($_POST[$mName]) || ($this->action->id == 'create' && count($model->$re
         </div>
         <div class="right_float">
             <?php
-            echo CHtml::link('Add New', '#', array(
-                'onclick' => "
+            $add_link = CHtml::link('Add New', '#', array(
+                        'onclick' => "
 					
                     u = '" . $this->createUrl("loadChildByAjax", array("mName" => "$mName", "dir" => $dir, "load_for" => $this->action->id,)) . "&index=' +  " . $relationName . "_index_sc;
                    
@@ -52,7 +52,19 @@ if (isset($_POST[$mName]) || ($this->action->id == 'create' && count($model->$re
                         
                     return false;
                     ", "class" => "plus_bind",
-            ))
+            ));
+            //action id
+            if ($this->action->id == "create") {
+                echo $add_link;
+            } else if (Yii::app()->user->getIsSuperuser()) {
+                echo $add_link;
+            } else {
+                //for other userrs
+
+                if ($this->checkViewAccess(ucfirst($this->id) . ".LoadChildByAjax")) {
+                    echo $add_link;
+                }
+            }
             ?>
         </div>
         <div class="clear"></div>
@@ -69,7 +81,7 @@ if (isset($_POST[$mName]) || ($this->action->id == 'create' && count($model->$re
                     <div class="title" style="width:200px"><?php echo CHtml::activeLabel($relateModelobj, 'language_id'); ?></div>
                     <div class="title" style="width:200px"><?php echo CHtml::activeLabel($relateModelobj, 'title'); ?></div>
                     <div class="title" style="width:200px"><?php echo CHtml::activeLabel($relateModelobj, 'weight'); ?></div>
-                    
+
 
 
 

@@ -113,8 +113,15 @@
 
     <?php
     if ($this->action->id != "update") {
-
-        $this->renderPartial('productTemplateProfile/_container', array('model' => $model, "type" => "field"));
+       
+       
+        if ($this->checkViewAccess(ucfirst($this->id) . ".LoadChildByAjax")) {
+            $this->renderPartial('productTemplateProfile/_container', array('model' => $model, "type" => "field"));
+        }
+        else if (Yii::app()->user->getIsSuperuser()) {
+            $this->renderPartial('productTemplateProfile/_container', array('model' => $model, "type" => "field"));
+        }
+        
     }
     ?>
 

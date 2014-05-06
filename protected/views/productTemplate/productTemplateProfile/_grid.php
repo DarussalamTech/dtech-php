@@ -12,6 +12,14 @@ $mName = "ProductTemplateProfile";
     );
     $mNameobj = new $mName;
     $mName_provider = new CActiveDataProvider($mName, $config);
+    
+    $btn_template = "";
+    if($this->checkViewAccess(ucfirst($this->id) . ".EditChild")){
+        $btn_template.="{update}";
+    }
+    if($this->checkViewAccess(ucfirst($this->id) . ".ViewImage")){
+        $btn_template.="{viewimage}";
+    }
     $this->widget('zii.widgets.grid.CGridView', array(
         'id' => $mName . '-grid',
         'dataProvider' => $mName_provider,
@@ -34,7 +42,7 @@ $mName = "ProductTemplateProfile";
             array
                 (
                 'class' => 'CButtonColumn',
-                'template' => '{update} {viewimage}',
+                'template' => $btn_template,
                 'buttons' => array
                     (
                     'update' => array

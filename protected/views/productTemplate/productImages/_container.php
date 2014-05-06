@@ -26,11 +26,11 @@ $plusImage = "<div class='left_float' style='padding-top:2px'>" .
         </div>
         <div class="right_float">
             <?php
-            echo CHtml::link('Add New', '#', array(
-                'onclick' => "
+            $add_link = CHtml::link('Add New', '#', array(
+                        'onclick' => "
 					
-                    u = '" . $this->createUrl("loadChildByAjax", array("mName" => "$mName", "dir" => $dir, 
-                        "load_for" => $this->action->id)) . "&index=' +  " . $relationName . "_index_sc;
+                    u = '" . $this->createUrl("loadChildByAjax", array("mName" => "$mName", "dir" => $dir,
+                            "load_for" => $this->action->id)) . "&index=' +  " . $relationName . "_index_sc;
                    
                     
                     add_newSub_child_row(u, '" . $dir . "', '" . $fields_div_id . "', 'grid_fields', true);
@@ -41,7 +41,13 @@ $plusImage = "<div class='left_float' style='padding-top:2px'>" .
                         
                     return false;
                     ", "class" => "plus_bind"
-            ))
+            ));
+            if (Yii::app()->user->getIsSuperuser()) {
+                echo $add_link;
+            } else if ($this->checkViewAccess(ucfirst($this->id) . ".LoadChildByAjax")) {
+                //for other userrs
+                echo $add_link;
+            }
             ?>
         </div>
         <div class="clear"></div>
@@ -89,7 +95,7 @@ $plusImage = "<div class='left_float' style='padding-top:2px'>" .
                                 "load_for" => $this->action->id,
                                 'display' => 'block',
                                 'dir' => $dir,
-                                "upload_index"=>$index,
+                                "upload_index" => $index,
                                 'fields_div_id' => $fields_div_id));
                             $relationName_index_sc = $key;
                         }

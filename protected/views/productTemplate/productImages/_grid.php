@@ -2,7 +2,6 @@
 $relationName = "productImages";
 $mName = "ProductImage";
 $this->renderPartial("_view_profile", array("model" => $model));
-
 ?>
 <div class="<?php echo $relationName; ?> child" style="<?php echo 'display:block'; ?>">
     <?php
@@ -13,6 +12,13 @@ $this->renderPartial("_view_profile", array("model" => $model));
     );
     $mNameobj = new $mName;
     $mName_provider = new CActiveDataProvider($mName, $config);
+    $btn_template = "";
+    if ($this->checkViewAccess(ucfirst($this->id) . ".EditChild")) {
+        $btn_template.="{update}";
+    }
+    if ($this->checkViewAccess(ucfirst($this->id) . ".DeleteChildByAjax")) {
+        $btn_template.="{delete}";
+    }
     $this->widget('zii.widgets.grid.CGridView', array(
         'id' => $mName . '-grid',
         'dataProvider' => $mName_provider,
@@ -33,7 +39,7 @@ $this->renderPartial("_view_profile", array("model" => $model));
             array
                 (
                 'class' => 'CButtonColumn',
-                'template' => '{update} {delete}',
+                'template' => $btn_template,
                 'buttons' => array
                     (
                     'update' => array
