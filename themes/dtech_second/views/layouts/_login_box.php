@@ -4,7 +4,7 @@
     $login_model = new LoginForm;
     $form = $this->beginWidget('CActiveForm', array(
         'id' => 'login_frm',
-        'action' => Yii::app()->createUrl('/site/login'),
+        'action' => $this->createUrl('/site/login'),
         'enableClientValidation' => true,
         'clientOptions' => array(
             'validateOnSubmit' => true,
