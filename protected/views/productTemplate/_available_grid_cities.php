@@ -12,6 +12,7 @@
 
     <div class="child">
         <?php
+
         $config = array(
             'criteria' => array(
                 'condition' => 't.city_id <> :city_id AND c_status = :status AND site.site_headoffice<>0',
@@ -27,6 +28,11 @@
                     'defaultOrder'=>'t.city_name ASC,site.site_headoffice DESC',
             )
         );
+        
+        if(!Yii::app()->user->getIsSuperuser()){
+            $config['criteria']['condition'].=' AND ( city_id =:session_city) ';
+            $config['criteria']['params'][':session_city'] = Yii::app()->request->getQuery('city_id');
+        }
 
         $mName_provider = new CActiveDataProvider("City", $config);
         $this->widget('zii.widgets.grid.CGridView', array(

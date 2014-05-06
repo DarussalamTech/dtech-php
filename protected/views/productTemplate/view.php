@@ -8,6 +8,10 @@ $this->breadcrumbs = array(
 );
 
 $this->renderPartial("/common/_left_menu");
+
+Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/media/editor/redactor.css');
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/media/editor/redactor.js', CClientScript::POS_END);
+
 ?>
 <div class="pading-bottom-5">
     <div class="left_float">
@@ -79,6 +83,8 @@ $this->widget('zii.widgets.CDetailView', array(
 
 $this->renderPartial('productTemplateProfile/_container', array('model' => $model, "type" => "form"));
 $this->renderPartial('_available_grid_cities', array('model' => $model, "type" => "form"));
-$this->renderPartial('_grid_cities', array('model' => $model, "type" => "form"));
-
+//only super admin can see this action
+if (Yii::app()->user->getIsSuperuser()) {
+    $this->renderPartial('_grid_cities', array('model' => $model, "type" => "form"));
+}
 ?>
