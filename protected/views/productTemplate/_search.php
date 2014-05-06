@@ -25,14 +25,6 @@
     </div>
 
 
-
-    <div class="row">
-        <?php echo $form->label($model, 'slag'); ?>
-        <?php echo $form->textField($model, 'slag', array('size' => 30, 'maxlength' => 30)); ?>
-    </div>
-
-
-
     <div class="row buttons">
         <?php echo CHtml::submitButton('Search', array("class" => "btn")); ?>
     </div>
