@@ -376,7 +376,7 @@ class SiteController extends Controller {
         $model->password = "";
         // display the login form
 
-        $this->render('login', array('model' => $model));
+        $this->render('//site/login', array('model' => $model));
     }
 
     /**
