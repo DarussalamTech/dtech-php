@@ -86,7 +86,7 @@ if (Yii::app()->user->hasFlash('status')) {
     <div class="clear_from_tag_ten"></div>
     <div class="row">
         <?php echo $form->labelEx($model, 'body'); ?>
-        <?php echo $form->textArea($model, 'body'); ?>
+        <?php echo $form->textArea($model, 'body',array("style"=>"height:300px")); ?>
        
         <?php echo $form->error($model, 'body'); ?>
     </div>

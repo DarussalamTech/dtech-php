@@ -322,7 +322,11 @@ class SiteController extends Controller {
 
         Yii::app()->controller->layout = "//layouts/column2";
         Yii::app()->user->SiteSessions;
-       
+        
+        if (empty(Yii::app()->theme)) {
+            $this->redirect($this->createUrl("/site/index"));
+        }
+
         $model = new LoginForm;
         $ip = getenv("REMOTE_ADDR");
         // if it is ajax validation request
@@ -341,7 +345,7 @@ class SiteController extends Controller {
 
                 if (Yii::app()->user->isSuperAdmin) {
                     $_REQUEST['city_id'] = Yii::app()->user->user->city_id;
-                    
+
                     Yii::app()->user->SiteSessions;
                     Yii::app()->session['isSuper'] = 1;
                     $this->isAdminSite = true;
@@ -414,7 +418,7 @@ class SiteController extends Controller {
                         $_REQUEST['city_id'] = Yii::app()->user->user->city_id;
                         Yii::app()->user->SiteSessions;
                         Yii::app()->session['isSuper'] = 1;
-                        
+
                         $this->redirect($this->createUrl('/user/index'));
                     } else if (Yii::app()->user->isAdmin) {
 
