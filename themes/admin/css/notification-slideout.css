@@ -1,0 +1,13 @@
+#slidebox{
+    width:180px;
+    /*height:150px;*/
+    padding:5px;
+    background-color:#fff;
+    border-top:3px solid #E28409;   
+    position:fixed;
+    bottom:0px;
+    right:0px;
+    -moz-box-shadow:-2px 0px 5px #aaa;
+    -webkit-box-shadow:-2px 0px 5px #aaa;
+    box-shadow:-2px 0px 5px #aaa;
+}

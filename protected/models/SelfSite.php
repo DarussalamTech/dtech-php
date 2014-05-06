@@ -160,7 +160,7 @@ class SelfSite extends DTActiveRecord {
             "t.short_name,layout_id",
             'condition' => "t.city_id='" . $city_id . "'"
         ));
-
+       
         $cityfind = City::model()->with(array(
                     'country' => array(
                         'select' => 'c.country_name,c.short_name',
@@ -178,11 +178,12 @@ class SelfSite extends DTActiveRecord {
      * @param type $layout_id
      * @return string
      */
-    public function findLayout($layout_id) {
-        if (!empty($layout_id)) {
-
-            $layout = Layout::model()->find("layout_id=" . $layout_id);
-            return !empty($layout) ? $layout : "dtech_second";
+    public function findLayout($site_id) {
+        if (!empty($site_id)) {
+           
+            $layout = Layout::model()->find("site_id=" . $site_id);
+            
+            return !empty($layout) ? $layout->layout_name : "dtech_second";
         } else {
             return "dtech_second";
         }
