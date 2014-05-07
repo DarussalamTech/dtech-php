@@ -7,6 +7,7 @@ class TranslatorCompilerController extends Controller {
      * using two-column layout. See 'protected/views/layouts/column2.php'.
      */
     public $layout = '//layouts/column2';
+    public $filters;
 
     /**
      * @return array action filters
@@ -31,6 +32,22 @@ class TranslatorCompilerController extends Controller {
         parent::setPermissions($this->id, $operations);
 
         return true;
+    }
+    
+    /**
+     * Initialize Left site filters
+     */
+    public function init() {
+        parent::init();
+
+        /* Set filters and default active */
+        $this->filters = array(
+
+            'type' => array("translator" => "Translator", "compiler" => "Compiler", "" => "All"),
+         
+        );
+
+
     }
 
 

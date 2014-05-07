@@ -13,6 +13,12 @@ $this->menu=array(
 );
 ?>
 
-<h1>Create Translator Compiler</h1>
 
+<div class="pading-bottom-5">
+    <div class="left_float">
+        <h1>Create Translator Compiler</h1>
+    </div>
+</div>
+
+<div class="clear"></div>
 <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>

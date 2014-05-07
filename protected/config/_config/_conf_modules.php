@@ -133,6 +133,14 @@ $modules = array(
             'Categories.IndexParent',
             'Categories.UpdateParent',
             'Categories.CreateParent',
+            
+             //Category Module
+            'TranslatorCompiler.Index',
+            'TranslatorCompiler.Create',
+            'TranslatorCompiler.Update',
+            'TranslatorCompiler.View',
+            'TranslatorCompiler.Delete',
+
         ),
         'debug' => false, // Whether to enable debug mode.
     ),

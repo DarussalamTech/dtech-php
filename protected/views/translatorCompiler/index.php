@@ -6,8 +6,8 @@ $this->breadcrumbs = array(
     'Translator Compilers',
 );
 
-if(!(Yii::app()->user->isGuest)) {
-        $this->renderPartial("/common/_left_menu");
+if (!(Yii::app()->user->isGuest)) {
+    $this->renderPartial("/common/_left_menu");
 }
 
 
@@ -23,10 +23,27 @@ $('.search-form form').submit(function(){
 	return false;
 });
 ");
+
+//showing filters
+$this->PcmWidget['filter'] = array('name' => 'ItstLeftFilter',
+    'attributes' => array(
+        'model' => $model,
+        'filters' => $this->filters,
+        'keyUrl' => true,
+        'action' => Yii::app()->createUrl($this->route),
+        'grid_id' => 'translator-compiler-grid',
+        ));
 ?>
 
-<h1>Translator Compilers</h1>
 
+
+<div class="pading-bottom-5">
+    <div class="left_float">
+        <h1>Translator Compilers</h1>
+    </div>
+</div>
+
+<div class="clear"></div>
 <?php echo CHtml::link('Advanced Search', '#', array('class' => 'search-button')); ?>
 <div class="search-form" style="display:none">
     <?php
@@ -36,15 +53,14 @@ $('.search-form form').submit(function(){
     ?>
 </div><!-- search-form -->
 <?php
-
 $template = "";
-if(isset($this->OpPermission[ucfirst($this->id).".View"]) && $this->OpPermission[ucfirst($this->id).".View"]){
+if (isset($this->OpPermission[ucfirst($this->id) . ".View"]) && $this->OpPermission[ucfirst($this->id) . ".View"]) {
     $template.= "{view}";
 }
-if(isset($this->OpPermission[ucfirst($this->id).".Update"]) && $this->OpPermission[ucfirst($this->id).".Update"]){
+if (isset($this->OpPermission[ucfirst($this->id) . ".Update"]) && $this->OpPermission[ucfirst($this->id) . ".Update"]) {
     $template.= "{update}";
 }
-if(isset($this->OpPermission[ucfirst($this->id).".Delete"]) && $this->OpPermission[ucfirst($this->id).".Delete"]){
+if (isset($this->OpPermission[ucfirst($this->id) . ".Delete"]) && $this->OpPermission[ucfirst($this->id) . ".Delete"]) {
     $template.= "{delete}";
 }
 
@@ -71,7 +87,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         ),
         array(
             'class' => 'CButtonColumn',
-            'template'=>$template
+            'template' => $template
         ),
     )
 ));

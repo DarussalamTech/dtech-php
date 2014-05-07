@@ -25,10 +25,22 @@ class CategoriesController extends Controller {
     public function init() {
         parent::init();
 
+
+
         /* Set filters and default active */
         $this->filters = array(
             'parent_id' => Categories::model()->getParentCategories(),
         );
+
+        if (Yii::app()->user->getIsSuperuser()) {
+            $criteria = new CDbCriteria;
+            $criteria->condition = ' t.c_status = :status AND site.site_headoffice<>0';
+            $criteria->with = array("site" => array('joinType' => 'INNER JOIN'));
+            $criteria->params = array(':status' => 1);
+
+            $cityList = CHtml::listData(City::model()->findAll($criteria), 'city_id', 'city_name');
+            $this->filters['city_id'] = $cityList;
+        }
     }
 
     /**
@@ -97,12 +109,12 @@ class CategoriesController extends Controller {
             $categotyList = array();
         }
         $categoriesList = CHtml::listData($categotyList, 'category_id', 'category_name');
-        
+
         $criteria = new CDbCriteria;
         $criteria->condition = ' t.c_status = :status AND site.site_headoffice<>0';
         $criteria->with = array("site" => array('joinType' => 'INNER JOIN'));
         $criteria->params = array(':status' => 1);
-        
+
         $cityList = CHtml::listData(City::model()->findAll($criteria), 'city_id', 'city_name');
 
         unset($categotyList);
@@ -131,6 +143,13 @@ class CategoriesController extends Controller {
     public function actionCreateParent() {
 
         $model = new Categories;
+
+        $criteria = new CDbCriteria;
+        $criteria->condition = ' t.c_status = :status AND site.site_headoffice<>0';
+        $criteria->with = array("site" => array('joinType' => 'INNER JOIN'));
+        $criteria->params = array(':status' => 1);
+
+        $cityList = CHtml::listData(City::model()->findAll($criteria), 'city_id', 'city_name');
         // $model->attachCbehavour();
         // Uncomment the following line if AJAX validation is needed
         if (isset($_POST['Categories'])) {
@@ -152,20 +171,24 @@ class CategoriesController extends Controller {
             }
         }
 
+
+
         $this->render('create', array(
             'model' => $model,
+            'cityList' => $cityList
         ));
     }
 
     public function getSubCategories($sub_catetory_id, $category_name) {
         global $categotyList;
         $childCategories = Categories::model()->findAllByAttributes(array('parent_id' => $sub_catetory_id));
-        if ($childCategories != null) {
-            foreach ($childCategories as $child) {
-                $categotyList[] = array('category_id' => $child->category_id, 'category_name' => $category_name . ' ->' . $child->category_name);
-                $this->getSubCategories($child->category_id, $category_name . '->' . $child->category_name);
-            }
-        }
+        return $childCategories;
+//        if ($childCategories != null) {
+//            foreach ($childCategories as $child) {
+//                $categotyList[] = array('category_id' => $child->category_id, 'category_name' => $category_name . ' ->' . $child->category_name);
+//                $this->getSubCategories($child->category_id, $category_name . '->' . $child->category_name);
+//            }
+//        }
     }
 
     /**
@@ -190,7 +213,12 @@ class CategoriesController extends Controller {
             $categotyList = array();
         }
         $categoriesList = CHtml::listData($categotyList, 'category_id', 'category_name');
-        $cityList = CHtml::listData(City::model()->findAll(), 'city_id', 'city_name');
+        $criteria = new CDbCriteria;
+        $criteria->condition = ' t.c_status = :status AND site.site_headoffice<>0';
+        $criteria->with = array("site" => array('joinType' => 'INNER JOIN'));
+        $criteria->params = array(':status' => 1);
+
+        $cityList = CHtml::listData(City::model()->findAll($criteria), 'city_id', 'city_name');
         unset($categotyList);
 
         // Uncomment the following line if AJAX validation is needed
@@ -219,6 +247,13 @@ class CategoriesController extends Controller {
 
         $old_img = $model->category_image;
 
+        $criteria = new CDbCriteria;
+        $criteria->condition = ' t.c_status = :status AND site.site_headoffice<>0';
+        $criteria->with = array("site" => array('joinType' => 'INNER JOIN'));
+        $criteria->params = array(':status' => 1);
+
+        $cityList = CHtml::listData(City::model()->findAll($criteria), 'city_id', 'city_name');
+
         // Uncomment the following line if AJAX validation is needed
         if (isset($_POST['Categories'])) {
             $model->attributes = $_POST['Categories'];
@@ -244,6 +279,7 @@ class CategoriesController extends Controller {
 
         $this->render('update', array(
             'model' => $model,
+            'cityList' => $cityList
         ));
     }
 

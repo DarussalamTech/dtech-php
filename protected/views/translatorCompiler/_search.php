@@ -21,7 +21,7 @@
 		<?php echo $form->textField($model,'type',array('size'=>10,'maxlength'=>10)); ?>
 	</div>
 	<div class="row buttons">
-		<?php echo CHtml::submitButton('Search'); ?>
+		<?php echo CHtml::submitButton('Search',array("class"=>"btn")); ?>
 	</div>
 
 <?php $this->endWidget(); ?>

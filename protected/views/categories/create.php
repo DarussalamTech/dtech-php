@@ -49,7 +49,9 @@ if ($this->action->id != "createParent") {
     </div>
 </div>
 <div class="clear"></div>';
-    echo $this->renderPartial('_form_parent', array('model' => $model,
+    echo $this->renderPartial('_form_parent', array(
+        'model' => $model,
+        'cityList' => $cityList
     ));
 }
 ?>

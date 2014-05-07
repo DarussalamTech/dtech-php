@@ -47,6 +47,16 @@ class ProductController extends Controller {
             'is_slider' => array("1" => "Enabled", "0" => "Disabled", "" => "All"),
             'is_featured' => array("1" => "Featured", "0" => "No Featured", "" => "All"),
         );
+
+        if (Yii::app()->user->getIsSuperuser()) {
+            $criteria = new CDbCriteria;
+            $criteria->condition = ' t.c_status = :status AND site.site_headoffice<>0';
+            $criteria->with = array("site" => array('joinType' => 'INNER JOIN'));
+            $criteria->params = array(':status' => 1);
+
+            $cityList = CHtml::listData(City::model()->findAll($criteria), 'city_id', 'city_name');
+            $this->filters['city_id'] = $cityList;
+        }
     }
 
     /**
@@ -316,7 +326,7 @@ class ProductController extends Controller {
     public function actionLoadChildByAjax($mName, $dir, $load_for, $index, $upload_index = "") {
         /* Get regarding model */
         $model = new $mName;
-       
+
         $this->renderPartial($dir . '/_fields_row', array(
             'index' => $index,
             'model' => $model,
@@ -423,7 +433,7 @@ class ProductController extends Controller {
         if (isset($_POST['Quran'])) {
             $model->setRelationRecords('quranProfile', is_array($_POST['Quran']) ? $_POST['Quran'] : array());
         }
-        
+
         if (isset($_POST['ProductDiscount'])) {
             $model->setRelationRecords('discount', is_array($_POST['ProductDiscount']) ? $_POST['ProductDiscount'] : array());
         }
@@ -475,9 +485,9 @@ class ProductController extends Controller {
             $criteria = new CDbCriteria;
             $criteria->addNotInCondition('related_product_id', $_POST['related_product']);
             $criteria->addCondition('product_id =' . $id);
-            
+
             RelatedProduct::model()->deleteAll($criteria);
-            
+
             $this->redirect(array('view', 'id' => $id));
         }
     }
