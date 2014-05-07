@@ -144,7 +144,6 @@ class Notifcation extends DTActiveRecord {
         $criteria->compare('update_user_id', $this->update_user_id, true);
 
 
-
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
             'pagination' => array(
@@ -185,14 +184,15 @@ class Notifcation extends DTActiveRecord {
 
         $criteria = new CDbCriteria;
 
-        $criteria->condition = '( t.to LiKE :to AND is_read=:is_read AND t.type=:type) ';
+        $criteria->condition = '( t.to LiKE :to AND is_read=:is_read AND t.type=:type AND deleted =:deleted) ';
         $criteria->params = array(
             "to" => Yii::app()->user->user->user_email,
-            "is_read"=>"1",
+            "is_read"=>"0",
             "type"=>"inbox",
+            "deleted"=>"0",
         );
 
-        //$criteria->compare('deleted', 0);
+
         return $this->count($criteria);
     }
 
