@@ -483,7 +483,7 @@ class Controller extends RController {
 
                 $childCount = Menu::model()->count("pid = $menu->id");
                 if (
-                        $menu->min_permission == "" || ($menu->min_permission != "" && $this->getPermission(ucfirst($menu->controller) . "." . ucfirst($operation)))
+                        $menu->min_permission == "" || ($menu->min_permission != "" && $this->checkViewAccess(ucfirst($menu->controller) . "." . ucfirst($operation)))
                 ) {
                     $foundAny = true;
 
