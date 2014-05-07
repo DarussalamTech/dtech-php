@@ -7,10 +7,10 @@ $this->breadcrumbs=array(
 	'Create',
 );
 
-$this->menu=array(
-	array('label'=>'List Author', 'url'=>array('index')),
-	array('label'=>'Manage Author', 'url'=>array('admin')),
-);
+if (!(Yii::app()->user->isGuest)) {
+    $this->renderPartial("/common/_left_menu");
+}
+
 ?>
 <div class="pading-bottom-5">
     <div class="left_float">

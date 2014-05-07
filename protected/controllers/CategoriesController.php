@@ -97,7 +97,14 @@ class CategoriesController extends Controller {
             $categotyList = array();
         }
         $categoriesList = CHtml::listData($categotyList, 'category_id', 'category_name');
-        $cityList = CHtml::listData(City::model()->findAll(), 'city_id', 'city_name');
+        
+        $criteria = new CDbCriteria;
+        $criteria->condition = ' t.c_status = :status AND site.site_headoffice<>0';
+        $criteria->with = array("site" => array('joinType' => 'INNER JOIN'));
+        $criteria->params = array(':status' => 1);
+        
+        $cityList = CHtml::listData(City::model()->findAll($criteria), 'city_id', 'city_name');
+
         unset($categotyList);
 
 
@@ -188,10 +195,10 @@ class CategoriesController extends Controller {
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
-        
+
         if (isset($_POST['Categories'])) {
             $model->attributes = $_POST['Categories'];
-            
+
             if ($model->save())
                 $this->redirect(array('view', 'id' => $model->category_id));
         }
@@ -211,7 +218,7 @@ class CategoriesController extends Controller {
         $model = $this->loadModel($id);
 
         $old_img = $model->category_image;
-       
+
         // Uncomment the following line if AJAX validation is needed
         if (isset($_POST['Categories'])) {
             $model->attributes = $_POST['Categories'];
@@ -224,7 +231,7 @@ class CategoriesController extends Controller {
                 // conditon for if no image submited then old img should not be deleted
                 $model->category_image = $old_img;
             }
-            
+
             if ($model->save()) {
                 $upload_path = DTUploadedFile::creeatRecurSiveDirectories(array("parent_category", $model->category_id));
                 if (!empty($img_file)) {
