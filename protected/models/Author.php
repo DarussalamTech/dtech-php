@@ -37,6 +37,7 @@ class Author extends DTActiveRecord {
         // will receive user inputs.
         return array(
             array('author_name', 'required'),
+            array('author_name', 'unique'),
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
             array('author_name', 'length', 'max' => 255),
             array('user_order', 'safe'),
