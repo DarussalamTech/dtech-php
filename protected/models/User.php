@@ -317,7 +317,7 @@ class User extends DTActiveRecord {
      * @return type
      */
     public function getCityAdmin($all = false) {
-        $critera = new CDbCriteria();
+        $critera = new CDbCriteria(); 
         $critera->select = "user_email";
         $critera->condition = "role_id = 2";
         if ($all == false) {
