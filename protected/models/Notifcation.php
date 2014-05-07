@@ -192,6 +192,7 @@ class Notifcation extends DTActiveRecord {
             $user = User::model()->get('user_email = "' . $user_email . '"');
             $notify = new Notifcation;
             $notify->attributes = $this->attributes;
+            $notify->to = $user_email;
 
 
             $notify->type = "inbox";
