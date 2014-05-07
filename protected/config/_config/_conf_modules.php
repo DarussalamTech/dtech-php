@@ -147,6 +147,15 @@ $modules = array(
             'Zone.View',
             'Zone.Delete',
             'Zone.UploadRates',
+            //Customer Module
+            'Customer.Index',
+            'Customer.Create',
+            'Customer.Update',
+            'Customer.View',
+            'Customer.Delete',
+            'Customer.OrderDetail',
+            'Customer.OrdersList',
+        
 
         ),
         'debug' => false, // Whether to enable debug mode.
