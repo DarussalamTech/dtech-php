@@ -68,7 +68,7 @@ class ProductTemplateController extends Controller {
         $this->manageChildrens($model);
         $this->render('view', array(
             'model' => $model,
-            'template' => $template
+            
         ));
     }
 
