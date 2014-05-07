@@ -16,7 +16,7 @@ class ProductController extends Controller {
         return array(
             // 'accessControl', // perform access control for CRUD operations
             'rights',
-            'https + index + view + update + create + slider + createSlider +sliderSetting+removeSlider+language+toggleEnabled',
+            'https + index + view + update + create + slider + createSlider +sliderSetting+removeSlider+language+toggleEnabled + createFromTemplate',
         );
     }
 
@@ -87,7 +87,7 @@ class ProductController extends Controller {
         $criteria->params = array(':status' => 1);
 
         $cityList = CHtml::listData(City::model()->findAll($criteria), 'city_id', 'city_name');
-        
+
         $languageList = CHtml::listData(Language::model()->findAll(), 'language_id', 'language_name');
         $authorList = CHtml::listData(Author::model()->findAll(array('order' => 'author_name')), 'author_id', 'author_name');
 
@@ -110,6 +110,132 @@ class ProductController extends Controller {
             'languageList' => $languageList,
             'authorList' => $authorList
         ));
+    }
+
+    /**
+     * copy from template 
+     * @param type $id
+     */
+    public function actionCreateFromTemplate($id) {
+        $model = new Product;
+
+        $template = ProductTemplate::model()->findFromPrimerkey($id);
+
+        $model->attributes = $template->attributes;
+        $model->parent_id = $id;
+        unset($model->product_id);
+        $model->city_id = Yii::app()->request->getQuery("to_city");
+        //getting relation name
+        $profiles = array();
+        $relations = array(
+            "books" => array("productProfile", "ProductProfile"),
+            "quran" => array("quranProfile", "Quran"),
+            "others" => array("other", "Other"),
+        );
+        $relation_arr = $relations["others"];
+        if (isset($relations[strtolower($template->parent_category->category_name)])) {
+            $relation_arr = $relations[strtolower($template->parent_category->category_name)];
+        }
+
+        foreach ($template->productTemplateProfile as $relation) {
+            $pModel = new $relation_arr[1];
+            $pModel->attributes = $relation->attributes;
+            $profiles[] = $pModel;
+        }
+
+        $model->$relation_arr[0] = $profiles;
+
+
+        $criteria = new CDbCriteria;
+        $criteria->condition = ' t.c_status = :status AND site.site_headoffice<>0';
+        $criteria->with = array("site" => array('joinType' => 'INNER JOIN'));
+        $criteria->params = array(':status' => 1);
+
+        $cityList = CHtml::listData(City::model()->findAll($criteria), 'city_id', 'city_name');
+
+        $languageList = CHtml::listData(Language::model()->findAll(), 'language_id', 'language_name');
+        $authorList = CHtml::listData(Author::model()->findAll(array('order' => 'author_name')), 'author_id', 'author_name');
+
+
+        // Uncomment the following line if AJAX validation is needed
+        // $this->performAjaxValidation($model);
+
+        if (isset($_POST['Product'])) {
+            $model->attributes = $_POST['Product'];
+            $this->checkCilds($model);
+
+            if ($model->save()) {
+                $count = 0;
+
+                foreach ($model->$relation_arr[0] as $profile) {
+                    $productAvailable = new ProductAvailableTo;
+                    $productAvailable->saveImages($template->productTemplateProfile[$count], $profile);
+                    $count++;
+                }
+                $this->sendCreatedNotifications($model);
+                Yii::app()->user->setFlash('status', "Product has been added to " . $model->city->city_name . " city");
+                $this->redirect(array('view', 'id' => $model->product_id));
+            }
+        }
+
+        $this->render('create', array(
+            'model' => $model,
+            'cityList' => $cityList,
+            'languageList' => $languageList,
+            'authorList' => $authorList
+        ));
+    }
+
+    /**
+     * send product created on on particular city notification
+     * @param type $model
+     */
+    private function sendCreatedNotifications($model) {
+        $criteria = new CDbCriteria;
+        $criteria->condition = "city_id =:city_id AND role_id =:role_id";
+        $criteria->params = array(":city_id" => $model->city_id, "role_id" => "2");
+        $user = User::model()->get($criteria);
+        $email['To'] = $user->user_email;
+        $email['From'] = Yii::app()->user->User->user_email;
+
+        $email['Subject'] = str_replace("s", "", $model->parent_category->category_name);
+        $email['Subject'].=" [" . $model->product_name . "] has been added to your database ";
+ 
+        $email['Body']= " [" . $model->product_name . "] has been added to your database ";
+        $email['Body'].= "<br/> Please click on following link to view after login<br/>";
+        $link = Yii::app()->request->hostInfo . $this->createUrl("/product/view", array(
+                    "id" => $model->product_id,
+                    "city_id" => $model->city_id,
+                    "country" => $model->city->country->short_name,
+                    "city" => $model->city->short_name
+                        ), "&", true
+        );
+        $email['Body'].= CHtml::link($link, $link);
+        $email['Body'].= "<br/>";
+        $email['Body'].= "<br/>";
+        $email['Body'].= "Regards <br/>";
+        $email['Body'].= Yii::app()->user->User->user_name;
+
+        $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
+
+        $this->sendEmail2($email);
+
+        $notification = new Notifcation;
+        $notification->from = Yii::app()->user->id;
+        $notification->to = $user->user_email;
+        $notification->subject = $email['Subject'];
+        $notification->is_read = 1;
+        $notification->type = "sent";
+
+        $notification->body = $email['Body'];
+        $notification->related_id = $model->parent_id;
+        $notification->related_to = get_class($model);
+        $notification->save();
+
+        $notification->saveToUserInbox();
+
+
+        return true;
     }
 
     /*     * product_id
@@ -146,9 +272,9 @@ class ProductController extends Controller {
             $criteria->params = array(':status' => 1);
 
             $cityList = CHtml::listData(City::model()->findAll($criteria), 'city_id', 'city_name');
-            
+
             $languageList = CHtml::listData(Language::model()->findAll(), 'language_id', 'language_name');
-            
+
             $authorList = CHtml::listData(Author::model()->findAll(array('order' => 'author_name')), 'author_id', 'author_name');
 
             // Uncomment the following line if AJAX validation is needed

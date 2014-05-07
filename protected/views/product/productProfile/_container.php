@@ -14,13 +14,14 @@ $plusImage = "<div class='left_float' style='padding-top:2px'>" .
 
 $basic_feature_div = "none";
 $basic_cont_div = "none";
-if (isset($_POST[$mName]) || ($this->action->id == 'create' && count($model->$relationName) > 0)) {
+if (isset($_POST[$mName]) || (($this->action->id == 'create' || $this->action->id == 'createFromTemplate') && count($model->$relationName) > 0)) {
     $basic_feature_div = "block";
     $basic_cont_div = "block";
 }
 else if($this->action->id == 'view'){
    $basic_cont_div = "block";
 }
+
 ?>
 
 <div class="child-container" id ="<?php echo $dir; ?>" style="display:<?php echo $basic_cont_div; ?>">
@@ -82,8 +83,9 @@ else if($this->action->id == 'view'){
                 <div id="<?php echo $fields_div_id; ?>" class="form wide">
                     <?php
                     /* for loading with js */
+                    
                     $relationName_index_sc = -1;
-                    if (isset($_POST[$mName]) || ($this->action->id == 'create' && count($model->$relationName) > 0)) {
+                    if (isset($_POST[$mName]) || (($this->action->id == 'create' || $this->action->id == 'createFromTemplate') && count($model->$relationName) > 0)) {
                         foreach ($model->$relationName as $key => $relationModel) {
 
                             $this->renderPartial($dir . '/_fields_row', array('index' => $key, 'model' => $relationModel,

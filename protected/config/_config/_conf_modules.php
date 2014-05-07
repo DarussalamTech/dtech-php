@@ -121,6 +121,7 @@ $modules = array(
             'Product.ProfileLanguage',
             'Product.ProfileLanguageDelete',
             'Product.ExportProduct',
+            'Product.CreateFromTemplate',
             //Category Module
             'Categories.Index',
             'Categories.Create',
