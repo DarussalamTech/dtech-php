@@ -11,7 +11,6 @@ $this->renderPartial("/common/_left_menu");
 
 Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/media/editor/redactor.css');
 Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/media/editor/redactor.js', CClientScript::POS_END);
-
 ?>
 <div class="pading-bottom-5">
     <div class="left_float">
@@ -21,7 +20,9 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/media/edito
     <?php /* Convert to Monitoring Log Buttons */ ?>
     <div class = "right_float">
         <?php
-        echo CHtml::link("Edit", $this->createUrl("update", array("id" => $model->primaryKey)), array('class' => "print_link_btn"));
+        if ($this->checkViewAccess(ucfirst($this->id) . ".Update")) {
+            echo CHtml::link("Edit", $this->createUrl("update", array("id" => $model->primaryKey)), array('class' => "print_link_btn"));
+        }
         ?>
     </div>
 </div>
