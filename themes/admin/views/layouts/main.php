@@ -80,8 +80,7 @@
                             $notifications = Notifcation::model()->getUnreadInboxNotifcationCount();
                             $this->widget('zii.widgets.CMenu', array(
                                 'items' => array(
-                                
-                                    array('label' => 'Notification ('.$notifications.')', 'url' => $this->createUrl('/notifcation/index'), 'visible' => (Yii::app()->user->isAdmin || Yii::app()->user->isSuperAdmin) ? 1 : 0, 'itemOptions' => array('style' => $notifications>0?"font-weight:bold":"")),
+                                    array('label' => 'Notification (' . $notifications . ')', 'url' => $this->createUrl('/notifcation/index'), 'visible' => (Yii::app()->user->isAdmin || Yii::app()->user->isSuperAdmin) ? 1 : 0, 'itemOptions' => array('style' => $notifications > 0 ? "font-weight:bold" : "")),
                                     array('label' => 'Access Control', 'url' => $this->createUrl('/rights'), 'visible' => (Yii::app()->user->isAdmin || Yii::app()->user->isSuperAdmin) ? 1 : 0, 'itemOptions' => array('class' => '')),
                                     array('label' => 'Change Password', 'url' => $this->createUrl('/user/changePassword'), 'visible' => (Yii::app()->user->isGuest) ? 0 : 1, 'itemOptions' => array('class' => '')),
                                     array('label' => 'Configuration', 'url' => $this->createUrl('/configurations/general', array('m' => 'Misc', 'type' => 'general')), 'visible' => (Yii::app()->user->isSuperuser) ? 1 : 0, 'itemOptions' => array('class' => '')),
@@ -93,6 +92,7 @@
                             ?>
                         </div>
                         <div class="clear"></div>
+
                     </div>
                     <?php
                     //&& Yii::app()->user->type=="admin"
@@ -122,6 +122,7 @@
                 <div class="menu" id="submenu_hold">
                 </div>
             </div>
+
 
             <!-- mainmenu -->
             <div class="clear"></div>

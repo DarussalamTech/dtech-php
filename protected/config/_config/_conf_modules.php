@@ -134,12 +134,19 @@ $modules = array(
             'Categories.UpdateParent',
             'Categories.CreateParent',
             
-             //Category Module
+             //Translator Module
             'TranslatorCompiler.Index',
             'TranslatorCompiler.Create',
             'TranslatorCompiler.Update',
             'TranslatorCompiler.View',
             'TranslatorCompiler.Delete',
+             //Zone Module
+            'Zone.Index',
+            'Zone.Create',
+            'Zone.Update',
+            'Zone.View',
+            'Zone.Delete',
+            'Zone.UploadRates',
 
         ),
         'debug' => false, // Whether to enable debug mode.

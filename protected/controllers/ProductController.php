@@ -81,7 +81,13 @@ class ProductController extends Controller {
     public function actionCreate() {
         $model = new Product;
 
-        $cityList = CHtml::listData(City::model()->findAll(), 'city_id', 'city_name');
+        $criteria = new CDbCriteria;
+        $criteria->condition = ' t.c_status = :status AND site.site_headoffice<>0';
+        $criteria->with = array("site" => array('joinType' => 'INNER JOIN'));
+        $criteria->params = array(':status' => 1);
+
+        $cityList = CHtml::listData(City::model()->findAll($criteria), 'city_id', 'city_name');
+        
         $languageList = CHtml::listData(Language::model()->findAll(), 'language_id', 'language_name');
         $authorList = CHtml::listData(Author::model()->findAll(array('order' => 'author_name')), 'author_id', 'author_name');
 
@@ -133,9 +139,16 @@ class ProductController extends Controller {
             }
             $this->render('_update_countries', array("model" => $model));
         } else {
+            //gettign city list
+            $criteria = new CDbCriteria;
+            $criteria->condition = ' t.c_status = :status AND site.site_headoffice<>0';
+            $criteria->with = array("site" => array('joinType' => 'INNER JOIN'));
+            $criteria->params = array(':status' => 1);
 
-            $cityList = CHtml::listData(City::model()->findAll(), 'city_id', 'city_name');
+            $cityList = CHtml::listData(City::model()->findAll($criteria), 'city_id', 'city_name');
+            
             $languageList = CHtml::listData(Language::model()->findAll(), 'language_id', 'language_name');
+            
             $authorList = CHtml::listData(Author::model()->findAll(array('order' => 'author_name')), 'author_id', 'author_name');
 
             // Uncomment the following line if AJAX validation is needed
