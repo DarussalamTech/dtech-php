@@ -178,6 +178,23 @@ class Notifcation extends DTActiveRecord {
             ),
         ));
     }
+    /**
+     * get unread count
+     */
+    public function getUnreadInboxNotifcationCount() {
+
+        $criteria = new CDbCriteria;
+
+        $criteria->condition = '( t.to LiKE :to AND is_read=:is_read AND t.type=:type) ';
+        $criteria->params = array(
+            "to" => Yii::app()->user->user->user_email,
+            "is_read"=>"1",
+            "type"=>"inbox",
+        );
+
+        //$criteria->compare('deleted', 0);
+        return $this->count($criteria);
+    }
 
     /**
      * save to user inbox
