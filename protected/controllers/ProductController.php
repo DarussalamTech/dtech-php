@@ -16,7 +16,7 @@ class ProductController extends Controller {
         return array(
             // 'accessControl', // perform access control for CRUD operations
             'rights',
-            'https + index + view + update + create + slider + createSlider +sliderSetting+removeSlider+language+toggleEnabled + createFromTemplate',
+            'https + index + view + update + create + createFromTemplate + slider + createSlider +sliderSetting+removeSlider+language+toggleEnabled + createFromTemplate',
         );
     }
 
