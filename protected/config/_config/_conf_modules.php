@@ -41,7 +41,6 @@ $modules = array(
             'User.*', 'Country.*',
             'City.*', 'SelfSite.*',
             'Backup.*',
-            
             'Configurations.Load',
             'Configurations.General',
             'Language.*', 'DtMessages.*',
@@ -57,7 +56,6 @@ $modules = array(
             'User.Create', 'Country.Create',
             'City.Create', 'SelfSite.Create',
             'Language.Create',
-            
             //backup module
             'Backup.Default.Index',
             'Backup.Default.BackUpSql',
@@ -65,13 +63,19 @@ $modules = array(
             'Backup.Default.AllBackup',
             'Backup.Default.DownloadBackUpSql',
             'Backup.Default.DownloadImageBackup',
-            
+            /**
+             * adding author
+             */
+            'Author.Index',
+            'Author.Create',
+            'Author.Update',
+            'Author.View',
+            'Author.Delete',
             //Import module
             'Import.Index',
             'Import.MappingList',
             'Import.Status',
             'Import.Insert',
-            
             //Notifcation
             'Notifcation.Index',
             'Notifcation.Create',
@@ -85,8 +89,6 @@ $modules = array(
             'Notifcation.Delete',
             'Notifcation.ManageFolders',
             'Notifcation.DeleteFolder',
-            
-            
             //Product Template
             'ProductTemplate.Index',
             'ProductTemplate.Create',
@@ -99,8 +101,63 @@ $modules = array(
             'ProductTemplate.ViewImage',
             'ProductTemplate.ViewProduct',
             'ProductTemplate.MakeAvailable',
-          
-       
+            //Product Module
+            'Product.Index',
+            'Product.Create',
+            'Product.Update',
+            'Product.View',
+            'Product.Delete',
+            'Product.LoadChildByAjax',
+            'Product.EditChild',
+            'Product.DeleteChildByAjax',
+            'Product.Slider',
+            'Product.CreateSlider',
+            'Product.RemoveSlider',
+            'Product.SliderSetting',
+            'Product.ViewImage',
+            'Product.ToggleEnabled',
+            'Product.Language',
+            'Product.LanguageDelete',
+            'Product.ProfileLanguage',
+            'Product.ProfileLanguageDelete',
+            'Product.ExportProduct',
+            'Product.CreateFromTemplate',
+            //Category Module
+            'Categories.Index',
+            'Categories.Create',
+            'Categories.Update',
+            'Categories.View',
+            'Categories.Delete',
+            'Categories.LoadChildByAjax',
+            'Categories.EditChild',
+            'Categories.UpdateOrder',
+            'Categories.IndexParent',
+            'Categories.UpdateParent',
+            'Categories.CreateParent',
+            
+             //Translator Module
+            'TranslatorCompiler.Index',
+            'TranslatorCompiler.Create',
+            'TranslatorCompiler.Update',
+            'TranslatorCompiler.View',
+            'TranslatorCompiler.Delete',
+             //Zone Module
+            'Zone.Index',
+            'Zone.Create',
+            'Zone.Update',
+            'Zone.View',
+            'Zone.Delete',
+            'Zone.UploadRates',
+            //Customer Module
+            'Customer.Index',
+            'Customer.Create',
+            'Customer.Update',
+            'Customer.View',
+            'Customer.Delete',
+            'Customer.OrderDetail',
+            'Customer.OrdersList',
+        
+
         ),
         'debug' => false, // Whether to enable debug mode.
     ),

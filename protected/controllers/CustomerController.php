@@ -16,7 +16,7 @@ class CustomerController extends Controller {
         return array(
             // 'accessControl', // perform access control for CRUD operations
             'rights',
-            'https + index + view + update + create',
+            'https + index + view + update + create + orderDetail + ordersList',
         );
     }
 

@@ -26,6 +26,10 @@
         <?php echo $form->error($model, 'upload_file'); ?>
     </div>
 
+    <?php
+    $this->renderPartial("/common/_city_field", array("form" => $form, "model" => $model, "cityList" => $cityList));
+    ?>
+
 
     <div class="row buttons">
         <?php echo CHtml::submitButton('Upload', array("class" => "btn")); ?>

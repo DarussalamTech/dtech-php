@@ -25,8 +25,18 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Add Product Categories</h1>
 
+<div class="pading-bottom-5">
+    <div class="left_float">
+        <h1>Manage Product Categories</h1>
+    </div>
+
+    <?php /* Convert to Monitoring Log Buttons */ ?>
+    <div class = "right_float">
+
+    </div>
+</div>
+<div class="clear"></div>
 
 <?php
 echo CHtml::openTag("div", array(

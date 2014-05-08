@@ -8,7 +8,7 @@ $this->breadcrumbs = array(
     'Update',
 );
 
-$this->renderPartial("/common/_left_menu");
+$this->renderPartial("/common/_left_single_menu");
 ?>
 
 <h1>Update User <?php echo $model->user_id; ?></h1>

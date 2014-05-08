@@ -35,7 +35,7 @@ $this->PcmWidget['filter'] = array('name' => 'ItstLeftFilter',
 
 <div class="pading-bottom-5">
     <div class="left_float">
-        <h1>Add New Products</h1>
+        <h1>Manage Products</h1>
     </div>
 
     <?php /* Convert to Monitoring Log Buttons */ ?>

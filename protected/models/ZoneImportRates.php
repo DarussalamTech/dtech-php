@@ -11,13 +11,14 @@ class ZoneImportRates extends CFormModel {
     /**
      * upload file
      */
-    public $upload_file;
+    public $upload_file,$city_id;
 
     public function rules() {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
             array('upload_file', 'safe'),
+            array('city_id', 'required'),
             array('upload_file', 'file', 'types' => 'xls,xlsx,csv', 'allowEmpty' => false),
         );
     }
@@ -81,7 +82,7 @@ class ZoneImportRates extends CFormModel {
                 $model->weight = $row[0];
                 $model->rate = $row[$key];
                 $model->zone_id = $zone['id'];
-                $model->city_id = $_REQUEST['city_id'];
+                $model->city_id = $this->city_id;
                 $model->rate_type = "dhl";
                 $model->save();
             }
