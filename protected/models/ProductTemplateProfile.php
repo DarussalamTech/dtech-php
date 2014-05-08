@@ -13,6 +13,7 @@ class ProductTemplateProfile extends ProductProfile {
         // will receive user inputs.
         return array(
             array('language_id,weight,weight_unit', 'required'),
+            array('title', 'safe'),
         );
     }
 
