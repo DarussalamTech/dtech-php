@@ -140,7 +140,7 @@ class City extends DTActiveRecord {
             return CHtml::link($image . " Already Available", $url, array("class" => "link_btn"));
         } else {
             //adding access control for this 
-            if (Yii::app()->controller->checkViewAccess(ucfirst(Yii::app()->controller->id) . ".MakeAvailable")) {
+            if (Yii::app()->controller->checkViewAccess("Product.CreateFromTemplate")) {
                $url = Yii::app()->controller->createUrl("/product/createFromTemplate", array("id" => Yii::app()->request->getQuery("id"), "to_city" => $city_id));
                return CHtml::link("Make Available", $url, array('class' => " print_link_btn"), array("height" => "400", "width" => "600"));
             }
