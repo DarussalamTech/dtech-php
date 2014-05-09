@@ -49,3 +49,6 @@ Disallow:/category/Learning--Memorization-165
 User-agent: *
 Disallow:/en/ksa/ria/5/Books/Qisas-ul-Anbiyah-------Urdu----3215/detail
 
+User-agent: *
+Disallow:/en/ksa/ria/5/Salat/-2448/detail?ProductProfile_sort=printing
+
