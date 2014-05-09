@@ -33,3 +33,6 @@ Disallow:/en/ksa/ria/5/Children/-2264/detail?ProductProfile_sort=price
 User-agent: *
 Disallow:/en/ksa/ria/5/Biography/-2661/detail
 
+User-agent: *
+Disallow:/General/Truthness-of-Islam-and----Urdu-3275/detail
+
