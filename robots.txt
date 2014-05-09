@@ -1,0 +1,35 @@
+
+
+User-agent: *
+Disallow:/en/ksa/ria/5/Children/-2264/detail?ProductProfile_sort=price
+
+
+User-agent: *
+Disallow:/en/ksa/ria/5/Books/Qurani-Qaida-Urdu---3229/detail
+
+
+User-agent: *
+Disallow:/en/ksa/ria/5/General/15-principles-of-leadership-gu-3357/detail
+
+
+User-agent: *
+Disallow:/en/ksa/ria/5/General/15-principles-of-leadership-gu-3357/detail
+
+User-agent: *
+Disallow:/en/ksa/ria/5/Books/Qurani-Qaida-Urdu---3229/detail
+
+User-agent: *
+Disallow:/en/ksa/ria/5/Books/Qurani-Qaida-Urdu---3229/detail
+
+User-agent: *
+Disallow:/en/ksa/ria/5/Biography/Biog--of-Mohammad-Nasiruddin-A-3332/detail
+
+User-agent: *
+Disallow:/en/ksa/ria/5/Islam/Qurani-Qaida-Urdu---3229/detail
+
+User-agent: *
+Disallow:/en/ksa/ria/5/Children/-2264/detail?ProductProfile_sort=price
+
+User-agent: *
+Disallow:/en/ksa/ria/5/Biography/-2661/detail
+
