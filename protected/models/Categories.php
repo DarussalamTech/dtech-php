@@ -120,14 +120,14 @@ class Categories extends DTActiveRecord {
         }
         $this->slug = str_replace(" ", "-", $this->category_name . "-" . $this->primaryKey);
         $this->slug = str_replace("/", "-", $this->slug);
-        $this->slug = str_replace(Yii::app()->params['notallowdCharactorsUrl'], '', $this->slug);
+        $this->slug = MyHelper::convert_no_sign(str_replace(Yii::app()->params['notallowdCharactorsUrl'], '', $this->slug));
         /**
          * category slug for url
          * that will be used in url
          * for going to particular book detail
          */
         $this->category_slug = str_replace(" ", "-", $this->category_name);
-        $this->category_slug = str_replace(Yii::app()->params['notallowdCharactorsUrl'], '', $this->category_slug);
+        $this->category_slug = MyHelper::convert_no_sign(str_replace(Yii::app()->params['notallowdCharactorsUrl'], '', $this->category_slug));
         parent::afterFind();
     }
 
