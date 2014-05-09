@@ -41,4 +41,8 @@ Disallow:/category/Salat-Supplication-Repentance-134
 
 User-agent: *
 Disallow:/en/pak/lahore/1/category/Baba-Salam--187
+Disallow:/category/Salat-Supplication-Repentance-134
+
+User-agent: *
+Disallow:/category/Learning--Memorization-165
 
