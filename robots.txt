@@ -36,3 +36,9 @@ Disallow:/en/ksa/ria/5/Biography/-2661/detail
 User-agent: *
 Disallow:/General/Truthness-of-Islam-and----Urdu-3275/detail
 
+User-agent: *
+Disallow:/category/Salat-Supplication-Repentance-134
+
+User-agent: *
+Disallow:/en/pak/lahore/1/category/Baba-Salam--187
+
