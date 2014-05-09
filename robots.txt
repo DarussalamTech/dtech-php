@@ -56,5 +56,7 @@ User-agent: *
 Disallow:/en/ksa/ria/5/Books/-2308/detail
 
 User-agent: *
-Disallow:en/ksa/ria/5/category/Audio-Cassettes-180
+Disallow:/en/ksa/ria/5/category/Audio-Cassettes-180
 
+User-agent: *
+Disallow:/en/ksa/ria/5/category/Seerah-171
