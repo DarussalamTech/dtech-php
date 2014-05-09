@@ -541,9 +541,9 @@ class Product extends DTActiveRecord {
      */
     public function saveSlug() {
         if (!empty($this->slag)) {
-            $this->slag = str_replace(" ", "-", $this->slag);
+            $this->slag = MyHelper::convert_no_sign($this->slag);
         } else {
-            $this->slag = str_replace(" ", "-", $this->product_name);
+            $this->slag = MyHelper::convert_no_sign($this->product_name);
         }
     }
 
