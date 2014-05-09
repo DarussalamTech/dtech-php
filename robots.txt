@@ -46,3 +46,6 @@ Disallow:/category/Salat-Supplication-Repentance-134
 User-agent: *
 Disallow:/category/Learning--Memorization-165
 
+User-agent: *
+Disallow:/en/ksa/ria/5/Books/Qisas-ul-Anbiyah-------Urdu----3215/detail
+
