@@ -60,3 +60,13 @@ Disallow:/en/ksa/ria/5/category/Audio-Cassettes-180
 
 User-agent: *
 Disallow:/en/ksa/ria/5/category/Seerah-171
+
+User-agent: *
+Disallow:/en/ksa/ria/5/Seerah/The-Noble-Life-of-the-Prophet--3395/detail
+
+User-agent: *
+Disallow:/en/ksa/ria/5/General/Biog--Umar-bin-Khattab---Urdu--3089/detail
+
+User-agent: *
+Disallow:/en/ksa/ria/5/Books/Qurani-Qaida-Urdu---3229/detail
+
