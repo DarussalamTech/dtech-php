@@ -137,7 +137,7 @@ class CartController extends Controller {
 
                 $productProfile = ProductProfile::model()->findByPk($id);
 
-                $email['To'] = User::model()->getCityAdmin();
+                $email['To'] = User::model()->getCityAdmin(false,true);
                 
                 $email['Subject'] = "This product is out of stock";
                 $email['Body'] = "This product is out of stock kindly make available to us and send me email";

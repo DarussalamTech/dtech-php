@@ -10,6 +10,12 @@ if (!(Yii::app()->user->isGuest)) {
     $this->renderPartial("/common/_left_menu");
 }
 ?>
-<h1>User Creation</h1>
 
+<div class="pading-bottom-5">
+    <div class="left_float">
+        <h1>User Creation</h1>
+    </div>
+
+</div>
+<div class="clear"></div>
 <?php echo $this->renderPartial('_form', array('model' => $model, 'cityList' => $cityList,)); ?>
