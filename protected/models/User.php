@@ -322,14 +322,15 @@ class User extends DTActiveRecord {
         $criteria->condition = "role_id =:role";
         if ($all == false) {
             if ($to == false) {
+                $criteria->params = array("role" => 2);
                 $user = User::model()->find($criteria);
             } else {
                 //in case of city of particular city admins
-                $criteria->addCondition( "t.city_id =:city_id");
-                $criteria->params = array("city_id" => Yii::app()->request->getQuery("city_id"),"role"=>2);
+                $criteria->addCondition("t.city_id =:city_id");
+                $criteria->params = array("city_id" => Yii::app()->request->getQuery("city_id"), "role" => 2);
 
                 $user = CHtml::listData(User::model()->findAll($criteria), "user_email", "user_email");
-
+               
                 return $user;
             }
 
@@ -339,6 +340,7 @@ class User extends DTActiveRecord {
                 return Yii::app()->params['default_admin'];
             }
         } else {
+            $criteria->params = array("role" => 2);
             return User::model()->findAll($criteria);
         }
     }

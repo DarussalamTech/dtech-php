@@ -280,7 +280,7 @@ class SiteController extends Controller {
                 }
 
                 //$email['To'] = "akram.khan@darussalampk.com"; //User::model()->getCityAdmin();
-                $email['To'] =  User::model()->getCityAdmin();
+                $email['To'] = User::model()->getCityAdmin(false,true);
                 $email['From'] = $model->email; 
                 $email['Reply'] = $model->email; 
                 $email['FromName'] = $model->name; 
