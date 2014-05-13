@@ -78,9 +78,10 @@
                         <div class="header-top-login-details">
                             <?php
                             $notifications = Notifcation::model()->getUnreadInboxNotifcationCount();
+
                             $this->widget('zii.widgets.CMenu', array(
                                 'items' => array(
-                                    array('label' => 'Notification (' . $notifications . ')', 'url' => $this->createUrl('/notifcation/index'), 'visible' => (Yii::app()->user->isAdmin || Yii::app()->user->isSuperAdmin) ? 1 : 0, 'itemOptions' => array('style' => $notifications > 0 ? "font-weight:bold" : "")),
+                                    array("type" => "raw", 'label' => 'Notification', 'url' => $this->createUrl('/notifcation/index'), 'visible' => (Yii::app()->user->isAdmin || Yii::app()->user->isSuperAdmin) ? 1 : 0, 'linkOptions' => array("id" => "notifcations"), 'itemOptions' => array('style' => $notifications > 0 ? "font-weight:bold" : "")),
                                     array('label' => 'Access Control', 'url' => $this->createUrl('/rights'), 'visible' => (Yii::app()->user->isAdmin || Yii::app()->user->isSuperAdmin) ? 1 : 0, 'itemOptions' => array('class' => '')),
                                     array('label' => 'Change Password', 'url' => $this->createUrl('/user/changePassword'), 'visible' => (Yii::app()->user->isGuest) ? 0 : 1, 'itemOptions' => array('class' => '')),
                                     array('label' => 'Configuration', 'url' => $this->createUrl('/configurations/general', array('m' => 'Misc', 'type' => 'general')), 'visible' => (Yii::app()->user->isSuperuser) ? 1 : 0, 'itemOptions' => array('class' => '')),
@@ -268,8 +269,25 @@
                 window.onbeforeunload = null;
             }
             )
+            updateNotifcations();
+            setInterval(updateNotifcations, 6000); //300000 MS == 5 minutes
         });
 
+
+        function updateNotifcations() {
+            dtech.updateElementAjax('<?php echo $this->createUrl("/notifcation/getTotalNotifications") ?>', 'notifcations', '');
+
+            setTimeout(function() {
+                var r = /\d+/;
+                var s = jQuery("a#notifcations").html();
+                if(s.match(r)>0){
+                    jQuery("a#notifcations").parent("style","font-weight:bold");
+                } 
+                else {
+                    jQuery("a#notifcations").parent("style","font-weight:normal");
+                }
+            }, 500);
+        }
     </script>
 
 </html>

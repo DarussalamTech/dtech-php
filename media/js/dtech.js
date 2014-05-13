@@ -258,7 +258,7 @@ var dtech = {
                 async: false,
                 data:
                         {
-                            resource_elem_id: jQuery("#" + resource_elem_id).val(),
+                            resource_elem_id: resource_elem_id !=""?jQuery("#" + resource_elem_id).val():"",
                         }
             }).done(function(response) {
                 jQuery("#" + update_element_id).html(response);

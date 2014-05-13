@@ -17,7 +17,7 @@ class NotifcationController extends Controller {
             // 'accessControl', // perform access control for CRUD operations
             'rights',
             'https + index + view + copy + create + createFolder + moveTo 
-                + markStatus + deletedItems + delete + manageFolders +deleteFolder',
+                + markStatus + deletedItems + delete + manageFolders +deleteFolder + getTotalNotifications',
         );
     }
 
@@ -211,6 +211,17 @@ class NotifcationController extends Controller {
         $this->render('index', array(
             'model' => $model,
         ));
+    }
+    /**
+     * get Notifcation count
+     */
+    public function actionGetTotalNotifications(){
+        $criteria = new CDbCriteria;
+        $criteria->compare("t.to", Yii::app()->user->user->user_email,true);
+        $criteria->addCondition(" is_read =:is_read ");
+        $criteria->params  = $criteria->params+array("is_read"=>0);
+      
+        echo "Notification (".Notifcation::model()->count($criteria).")";
     }
 
     /**

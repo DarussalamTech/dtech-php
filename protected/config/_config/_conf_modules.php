@@ -89,6 +89,7 @@ $modules = array(
             'Notifcation.Delete',
             'Notifcation.ManageFolders',
             'Notifcation.DeleteFolder',
+            'Notifcation.GetTotalNotifications',
             //Product Template
             'ProductTemplate.Index',
             'ProductTemplate.Create',
