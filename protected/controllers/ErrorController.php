@@ -25,8 +25,8 @@ class ErrorController extends Controller {
             $email['From'] = Yii::app()->params['adminEmail'];
             $email['To'] = array(
                 'ali.abbas@darussalampk.com',
-                'itsgeniusstar@gmail.com', 
-                //'ammar.rana@darussalampk.com'
+                'itsgeniusstar@gmail.com',
+                    //'ammar.rana@darussalampk.com'
             );
 
 
@@ -46,8 +46,8 @@ class ErrorController extends Controller {
             $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
 
             Yii::log(str_replace("<br/>", "\n", $body), "info");
-            
-            
+
+
             $log = new Log();
             $log->ip = CHttpRequest::getUserHostAddress();
             $log->browser = Yii::app()->request->userAgent;
@@ -57,18 +57,17 @@ class ErrorController extends Controller {
             $log->message = $error['message'];
             $log->type = $error['type'];
             $log->trace = $error['trace'];
-            
-            if(strstr($log->browser,"bot.html")){
-                $log->htaccess_rule = "RedirectMatch 301 ".Yii::app()->request->url." ".Yii::app()->request->hostInfo.Yii::app()->request->baseUrl;
-                $log->robots_txt_rule = "User-agent: * \n";
-                $log->robots_txt_rule.=" Disallow:".Yii::app()->request->url;
-                $log->save();
-            }
 
+            if (strstr($log->browser, "bot.html")) {
+                $log->htaccess_rule = "RedirectMatch 301 " . Yii::app()->request->url . " " . Yii::app()->request->hostInfo . Yii::app()->request->baseUrl;
+                $log->robots_txt_rule = "User-agent: * \n";
+                $log->robots_txt_rule.=" Disallow:" . Yii::app()->request->url;
+            }
+            $log->save();
             /**
              * if error of db then the layout will be changed
              */
-            if ($error['code'] == 500 && $error['type'] == 'CDbException' && $error['errorCode']==2002) {
+            if ($error['code'] == 500 && $error['type'] == 'CDbException' && $error['errorCode'] == 2002) {
                 Yii::app()->theme = 'dtech_second';
                 Yii::app()->controller->layout = 'site_down';
                 $this->render('error', array('error' => $error));
@@ -85,7 +84,7 @@ class ErrorController extends Controller {
     }
 
     public function actionUnderconstruction() {
-        
+
         $this->layout = '';
         $error['message'] = " Site is under construction!";
         if ($error)
@@ -93,8 +92,9 @@ class ErrorController extends Controller {
         else
             throw new CHttpException(404, 'Page not found.');
     }
+
     public function actionUnconfigured() {
-        
+
         $this->layout = '';
         $error['message'] = " Site is not configured , please contact Darussalam admin!";
         if ($error)
