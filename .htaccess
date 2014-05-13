@@ -75,5 +75,40 @@ php_value error_reporting 0
 
 
 
+#ksa errors
+
+RedirectMatch 301  /en/ksa/ria/5/Children/-2264/detail?ProductProfile_sort=price http://www.darussalamksa.com
+RedirectMatch 301  /en/ksa/ria/5/Books/Qurani-Qaida-Urdu---3229/detail http://www.darussalamksa.com
+RedirectMatch 301  /en/ksa/ria/5/General/15-principles-of-leadership-gu-3357/detail http://www.darussalamksa.com
+RedirectMatch 301  /en/ksa/ria/5/General/15-principles-of-leadership-gu-3357/detail http://www.darussalamksa.com
+RedirectMatch 301  /en/ksa/ria/5/Books/Qurani-Qaida-Urdu---3229/detail http://www.darussalamksa.com
+RedirectMatch 301  /en/ksa/ria/5/Books/Qurani-Qaida-Urdu---3229/detail http://www.darussalamksa.com
+RedirectMatch 301  /en/ksa/ria/5/Biography/Biog--of-Mohammad-Nasiruddin-A-3332/detail http://www.darussalamksa.com
+RedirectMatch 301  /en/ksa/ria/5/Islam/Qurani-Qaida-Urdu---3229/detail http://www.darussalamksa.com
+RedirectMatch 301  /en/ksa/ria/5/Children/-2264/detail?ProductProfile_sort=price http://www.darussalamksa.com
+RedirectMatch 301  /en/ksa/ria/5/Biography/-2661/detail http://www.darussalamksa.com
+RedirectMatch 301  /en/ksa/ria/5/General/Truthness-of-Islam-and----Urdu-3275/detail http://www.darussalamksa.com
+RedirectMatch 301  /en/ksa/ria/5/category/Salat-Supplication-Repentance-134 http://www.darussalamksa.com
+
+RedirectMatch 301  /en/ksa/ria/5/category/Salat-Supplication-Repentance-134 http://www.darussalamksa.com
+RedirectMatch 301  /en/ksa/ria/5/category/Learning--Memorization-165 http://www.darussalamksa.com
+RedirectMatch 301  /en/ksa/ria/5/Books/Qisas-ul-Anbiyah-------Urdu----3215/detail http://www.darussalamksa.com
+RedirectMatch 301  /en/ksa/ria/5/Salat/-2448/detail?ProductProfile_sort=printing http://www.darussalamksa.com
+RedirectMatch 301  /en/ksa/ria/5/Books/-2308/detail http://www.darussalamksa.com
+RedirectMatch 301  /en/ksa/ria/5/category/Audio-Cassettes-180 http://www.darussalamksa.com
+RedirectMatch 301  /en/ksa/ria/5/category/Seerah-171 http://www.darussalamksa.com
+RedirectMatch 301  /en/ksa/ria/5/Seerah/The-Noble-Life-of-the-Prophet--3395/detail http://www.darussalamksa.com
+RedirectMatch 301  /en/ksa/ria/5/General/Biog--Umar-bin-Khattab---Urdu--3089/detail http://www.darussalamksa.com
+RedirectMatch 301  /en/ksa/ria/5/Books/Qurani-Qaida-Urdu---3229/detail http://www.darussalamksa.com
+RedirectMatch 301  /en/ksa/ria/5/category/Seerah-171 http://www.darussalamksa.com
+
+RedirectMatch 301  /en/pak/lahore/1/category/Baba-Salam--187 http://www.darussalampk.com
+RedirectMatch 301  /en/pak/Lahore/1/General/Truthness-of-Islam-and----Urdu-3275/detail http://www.darussalampk.com
+RedirectMatch 301  /en/pak/Lahore/1/category/Salat-Supplication-Repentance-134 http://www.darussalampk.com
+
+
+
+
+
 # supress php errors
 
