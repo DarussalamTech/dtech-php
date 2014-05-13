@@ -33,3 +33,43 @@ Disallow:/en/ksa/ria/5/Children/-2264/detail?ProductProfile_sort=price
 User-agent: *
 Disallow:/en/ksa/ria/5/Biography/-2661/detail
 
+User-agent: *
+Disallow:/General/Truthness-of-Islam-and----Urdu-3275/detail
+
+User-agent: *
+Disallow:/category/Salat-Supplication-Repentance-134
+
+User-agent: *
+Disallow:/en/pak/lahore/1/category/Baba-Salam--187
+Disallow:/category/Salat-Supplication-Repentance-134
+
+User-agent: *
+Disallow:/category/Learning--Memorization-165
+
+User-agent: *
+Disallow:/en/ksa/ria/5/Books/Qisas-ul-Anbiyah-------Urdu----3215/detail
+
+User-agent: *
+Disallow:/en/ksa/ria/5/Salat/-2448/detail?ProductProfile_sort=printing
+
+User-agent: *
+Disallow:/en/ksa/ria/5/Books/-2308/detail
+
+User-agent: *
+Disallow:/en/ksa/ria/5/category/Audio-Cassettes-180
+
+User-agent: *
+Disallow:/en/ksa/ria/5/category/Seerah-171
+
+User-agent: *
+Disallow:/en/ksa/ria/5/Seerah/The-Noble-Life-of-the-Prophet--3395/detail
+
+User-agent: *
+Disallow:/en/ksa/ria/5/General/Biog--Umar-bin-Khattab---Urdu--3089/detail
+
+User-agent: *
+Disallow:/en/ksa/ria/5/Books/Qurani-Qaida-Urdu---3229/detail
+
+User-agent: *
+Disallow:/en/ksa/ria/5/category/Seerah-171
+

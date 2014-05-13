@@ -312,23 +312,34 @@ class User extends DTActiveRecord {
      *
      * Get city admin
      * Temporray
-     *
+     * if all is true then get all city admins
      * @param type $all
      * @return type
      */
-    public function getCityAdmin($all = false) {
-        $critera = new CDbCriteria();
-        $critera->select = "user_email";
-        $critera->condition = "role_id = 2";
+    public function getCityAdmin($all = false, $to = false) {
+        $criteria = new CDbCriteria();
+        $criteria->select = "user_email";
+        $criteria->condition = "role_id =:role";
         if ($all == false) {
-            $user = User::model()->find($critera);
+            if ($to == false) {
+                $user = User::model()->find($criteria);
+            } else {
+                //in case of city of particular city admins
+                $criteria->addCondition( "t.city_id =:city_id");
+                $criteria->params = array("city_id" => Yii::app()->request->getQuery("city_id"),"role"=>2);
+
+                $user = CHtml::listData(User::model()->findAll($criteria), "user_email", "user_email");
+
+                return $user;
+            }
+
             if (!empty($user)) {
                 return $user->user_email;
             } else {
                 return Yii::app()->params['default_admin'];
             }
         } else {
-            return User::model()->findAll($critera);
+            return User::model()->findAll($criteria);
         }
     }
 

@@ -8,14 +8,15 @@ $this->breadcrumbs=array(
 	'Update',
 );
 
-$this->menu=array(
-	array('label'=>'List User', 'url'=>array('index')),
-	array('label'=>'Create User', 'url'=>array('create')),
-	array('label'=>'View User', 'url'=>array('view', 'id'=>$model->user_id)),
-	array('label'=>'Manage User', 'url'=>array('admin')),
-);
+$this->menu=array();
 ?>
+<div class="pading-bottom-5">
+    <div class="left_float">
+       <h1>Dear: <?php echo $model->user_email; ?>  Update your Profile</h1>
+    </div>
 
-<h1>Dear: <?php echo $model->user_email; ?>  Update your Profile</h1>
+</div>
+<div class="clear"></div>
+
 
 <?php echo $this->renderPartial('_form_profile', array('model'=>$model)); ?>
