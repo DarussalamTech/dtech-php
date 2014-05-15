@@ -157,7 +157,12 @@ $modules = array(
             'Customer.Delete',
             'Customer.OrderDetail',
             'Customer.OrdersList',
-        
+            
+            //Log
+            'Log.Index',
+            'Log.View',
+            'Log.Robote',
+            'Log.HtAccess',
 
         ),
         'debug' => false, // Whether to enable debug mode.

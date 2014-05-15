@@ -211,5 +211,11 @@ $rules_admin = array(
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/<id:[\w-\.]+>/notification/deleteFolder' => '/notifcation/deleteFolder',
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/notification/get-total-notifications' => '/notifcation/getTotalNotifications',
     
-  );
+    //log 
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/log/view/<id:[\w-\.]+>' => '/log/view',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/log/index' => '/log/index',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/log' => '/log/index',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/log/htaccess' => '/log/htAccess',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/log/robote' => '/log/robote',
+   );
 ?>

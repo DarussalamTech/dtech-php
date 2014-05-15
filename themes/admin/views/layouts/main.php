@@ -284,7 +284,7 @@
                     jQuery("a#notifcations").parent("style","font-weight:bold");
                 } 
                 else {
-                    jQuery("a#notifcations").parent("style","font-weight:normal");
+//                    jQuery("a#notifcations").parent("style","font-weight:normal");
                 }
             }, 500);
         }
