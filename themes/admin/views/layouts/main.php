@@ -270,7 +270,7 @@
             }
             )
             updateNotifcations();
-            setInterval(updateNotifcations, 6000); //300000 MS == 5 minutes
+            setInterval(updateNotifcations, 80000); //300000 MS == 5 minutes
         });
 
 
