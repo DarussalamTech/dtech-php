@@ -211,7 +211,7 @@ class ProductTemplateController extends Controller {
                     $record->deleteByPk($record->product_id);
                     Yii::app()->db->createCommand("SET FOREIGN_KEY_CHECKS=1;")->execute();
                 } else {
-                    CVarDumper::dump($record, 10, true);
+                    
                     $record->deleteByPk($record->product_id);
                     Yii::app()->db->createCommand("SET FOREIGN_KEY_CHECKS=1;")->execute();
                 }
