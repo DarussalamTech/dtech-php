@@ -84,6 +84,7 @@ class ProductProfile extends DTActiveRecord {
         // class name for the relations automatically generated below.
         return array(
             'product' => array(self::BELONGS_TO, 'Product', 'product_id'),
+            'cart_products' => array(self::HAS_MANY, 'Cart', 'product_profile_id'),
             'orderDetails' => array(self::HAS_MANY, 'OrderDetail', 'product_profile_id'),
             'productLanguage' => array(self::BELONGS_TO, 'Language', 'language_id'),
             'productImages' => array(self::HAS_MANY, 'ProductImage', 'product_profile_id', 'order' => 'is_default DESC'),

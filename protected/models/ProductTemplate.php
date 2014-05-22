@@ -51,6 +51,7 @@ class ProductTemplate extends Product {
     public function relations() {
         $relations = parent::relations();
         $relations['productTemplateProfile'] = array(self::HAS_MANY, 'ProductTemplateProfile', 'product_id');
+        $relations['productTemplatesChilderns'] = array(self::HAS_MANY, 'ProductTemplate', 'parent_id');
        
         return $relations;
     }

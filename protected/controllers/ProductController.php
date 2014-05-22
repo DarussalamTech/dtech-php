@@ -200,8 +200,8 @@ class ProductController extends Controller {
 
         $email['Subject'] = str_replace("s", "", $model->parent_category->category_name);
         $email['Subject'].=" [" . $model->product_name . "] has been added to your database ";
- 
-        $email['Body']= " [" . $model->product_name . "] has been added to your database ";
+
+        $email['Body'] = " [" . $model->product_name . "] has been added to your database ";
         $email['Body'].= "<br/> Please click on following link to view after login<br/>";
         $link = Yii::app()->request->hostInfo . $this->createUrl("/product/view", array(
                     "id" => $model->product_id,
@@ -303,11 +303,88 @@ class ProductController extends Controller {
      * @param integer $id the ID of the model to be deleted
      */
     public function actionDelete($id) {
-        $this->loadModel($id)->delete();
+        $record = $this->loadModel($id);
+        $delete = 1;
 
-        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-        if (!isset($_GET['ajax']))
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+        if (count($record->productProfile) > 0) {
+      
+            foreach ($record->productProfile as $child) {
+                if (count($child->cart_products) > 0) {
+                    $delete = 0;
+                    break;
+                }
+                if (count($child->orderDetails) > 0) {
+                    $delete = 0;
+                    break;
+                }
+            }
+        }
+      
+        if ($delete == 1) {
+            Yii::app()->db->createCommand("SET FOREIGN_KEY_CHECKS=0;")->execute();
+            try {
+                /*
+                 * Checking if there is data in relavant child tables if yes first delete all them
+                 */
+                if (count($record->productCategories) > 0 || count($record->productProfile) > 0) {
+
+                    /*
+                     * Checking for product category is ther any
+                     * record related to current product instance if 
+                     * yes then delete them
+                     */
+                    if (count($record->productCategories) > 0) {
+                        $criteria = new CDbCriteria();
+                        $criteria->select = '*';
+                        $criteria->condition = "product_id=$id";
+                        $child_model = ProductCategories::model()->findAll($criteria);
+                        foreach ($child_model as $child) {
+                            $child->deleteByPk($child->product_category_id);
+                        }
+                    }
+
+                    /*
+                     * Checking for productImages is ther any
+                     * record related to current product instance if 
+                     * yes then delete them
+                     */
+                    if (count($record->productProfile) > 0) {
+                        $criteria = new CDbCriteria();
+                        $criteria->select = '*';
+                        $criteria->condition = "product_id=$id";
+                        $child_model = ProductProfile::model()->findAll($criteria);
+
+                        foreach ($child_model as $child) {
+                            foreach ($child->productImages as $image) {
+                                ProductImage::model()->deleteByPk($image->id);
+                            }
+                            $child->deleteByPk($child->id);
+                        }
+                    }
+
+
+                    $record->deleteByPk($record->product_id);
+                    Yii::app()->db->createCommand("SET FOREIGN_KEY_CHECKS=1;")->execute();
+                } else {
+                    CVarDumper::dump($record, 10, true);
+                    $record->deleteByPk($record->product_id);
+                    Yii::app()->db->createCommand("SET FOREIGN_KEY_CHECKS=1;")->execute();
+                }
+
+
+
+                Yii::app()->user->setFlash('success', "Product data with its related data has deleted successfully");
+                 $this->redirect(array('index'));
+            } catch (CDbException $e) {
+
+                Yii::app()->user->setFlash('errorIntegrity', "Ooops ! Relational Error with any orders");
+                $this->redirect(array('index'));
+            }
+        }
+        else {
+             Yii::app()->user->setFlash('errorIntegrity', "Product cannot be deleted because involve with orders and cart");
+             $this->redirect(array('index'));
+        }
     }
 
     /**

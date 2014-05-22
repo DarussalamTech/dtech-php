@@ -68,7 +68,6 @@ class ProductTemplateController extends Controller {
         $this->manageChildrens($model);
         $this->render('view', array(
             'model' => $model,
-            
         ));
     }
 
@@ -143,11 +142,93 @@ class ProductTemplateController extends Controller {
      * @param integer $id the ID of the model to be deleted
      */
     public function actionDelete($id) {
-        $this->loadModel($id)->delete();
+        $record = $this->loadModel($id);
+        $delete = 1;
 
-        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-        if (!isset($_GET['ajax']))
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+        if (count($record->productTemplatesChilderns) > 0) {
+            $delete = 0;
+            
+        }
+
+        if (count($record->productProfile) > 0 && $delete ==1) {
+
+            foreach ($record->productProfile as $child) {
+
+                if (count($child->cart_products) > 0) {
+                    $delete = 0;
+                    break;
+                }
+                if (count($child->orderDetails) > 0) {
+                    $delete = 0;
+                    break;
+                }
+            }
+        }
+
+        if ($delete == 1) {
+            Yii::app()->db->createCommand("SET FOREIGN_KEY_CHECKS=0;")->execute();
+            try {
+                /*
+                 * Checking if there is data in relavant child tables if yes first delete all them
+                 */
+                if (count($record->productCategories) > 0 || count($record->productProfile) > 0) {
+
+                    /*
+                     * Checking for product category is ther any
+                     * record related to current product instance if 
+                     * yes then delete them
+                     */
+                    if (count($record->productCategories) > 0) {
+                        $criteria = new CDbCriteria();
+                        $criteria->select = '*';
+                        $criteria->condition = "product_id=$id";
+                        $child_model = ProductCategories::model()->findAll($criteria);
+                        foreach ($child_model as $child) {
+                            $child->deleteByPk($child->product_category_id);
+                        }
+                    }
+
+                    /*
+                     * Checking for productImages is ther any
+                     * record related to current product instance if 
+                     * yes then delete them
+                     */
+                    if (count($record->productProfile) > 0) {
+                        $criteria = new CDbCriteria();
+                        $criteria->select = '*';
+                        $criteria->condition = "product_id=$id";
+                        $child_model = ProductProfile::model()->findAll($criteria);
+
+                        foreach ($child_model as $child) {
+                            foreach ($child->productImages as $image) {
+                                ProductImage::model()->deleteByPk($image->id);
+                            }
+                            $child->deleteByPk($child->id);
+                        }
+                    }
+
+
+                    $record->deleteByPk($record->product_id);
+                    Yii::app()->db->createCommand("SET FOREIGN_KEY_CHECKS=1;")->execute();
+                } else {
+                    CVarDumper::dump($record, 10, true);
+                    $record->deleteByPk($record->product_id);
+                    Yii::app()->db->createCommand("SET FOREIGN_KEY_CHECKS=1;")->execute();
+                }
+
+
+
+                Yii::app()->user->setFlash('success', "Product Template data with its related data has deleted successfully");
+                $this->redirect(array('index'));
+            } catch (CDbException $e) {
+
+                Yii::app()->user->setFlash('errorIntegrity', "Ooops ! Relational Error with any orders");
+                $this->redirect(array('index'));
+            }
+        } else {
+            Yii::app()->user->setFlash('errorIntegrity', "Product Template cannot be deleted because involve with differnt cities or orders and cart");
+            $this->redirect(array('index'));
+        }
     }
 
     /**
@@ -292,7 +373,7 @@ class ProductTemplateController extends Controller {
                 if ($pmodel->hasErrors()) {
                     Yii::app()->user->setFlash('error_status', $pmodel->getErrors());
                 } else {
-                    $this->sendCreatedNotifications($pmodel,$model->message);
+                    $this->sendCreatedNotifications($pmodel, $model->message);
                     Yii::app()->user->setFlash('status', "Product has been added to " . $pmodel->city->city_name . " city");
                 }
             }
@@ -372,30 +453,27 @@ class ProductTemplateController extends Controller {
      * send product created on on particular city notification
      * @param type $model
      */
-    private function sendCreatedNotifications($model,$body) {
+    private function sendCreatedNotifications($model, $body) {
         $criteria = new CDbCriteria;
         $criteria->condition = "city_id =:city_id AND role_id =:role_id";
-        $criteria->params = array(":city_id"=>$model->city_id,"role_id"=>"2");
+        $criteria->params = array(":city_id" => $model->city_id, "role_id" => "2");
         $user = User::model()->get($criteria);
         $email['To'] = $user->user_email;
         $email['From'] = Yii::app()->user->User->user_email;
-        
+
         $email['Subject'] = str_replace("s", "", $model->parent_category->category_name);
         $email['Subject'].=" [" . $model->product_name . "] has been added to your database ";
         $email['Body'] = $body;
         $email['Body'].= "<br/>";
         $email['Body'].= " [" . $model->product_name . "] has been added to your database ";
         $email['Body'].= "<br/> Please click on following link to view after login<br/>";
-        $link = Yii::app()->request->hostInfo.$this->createUrl("/product/view", 
-                    array(
-                        "id" => $model->product_id,
-                        "city_id"=>$model->city_id,
-                        "country"=>$model->city->country->short_name,
-                        "city"=>$model->city->short_name 	
-                ),
-                "&",
-                true
-              );
+        $link = Yii::app()->request->hostInfo . $this->createUrl("/product/view", array(
+                    "id" => $model->product_id,
+                    "city_id" => $model->city_id,
+                    "country" => $model->city->country->short_name,
+                    "city" => $model->city->short_name
+                        ), "&", true
+        );
         $email['Body'].= CHtml::link($link, $link);
         $email['Body'].= "<br/>";
         $email['Body'].= "<br/>";
@@ -403,7 +481,7 @@ class ProductTemplateController extends Controller {
         $email['Body'].= Yii::app()->user->User->user_name;
 
         $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
-       
+
         $this->sendEmail2($email);
 
         $notification = new Notifcation;
@@ -419,10 +497,10 @@ class ProductTemplateController extends Controller {
         $notification->save();
 
         $notification->saveToUserInbox();
-        
+
 
         return true;
     }
-}
 
+}
 

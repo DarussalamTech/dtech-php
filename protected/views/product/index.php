@@ -26,7 +26,7 @@ $this->PcmWidget['filter'] = array('name' => 'ItstLeftFilter',
     'attributes' => array(
         'model' => $model,
         'filters' => $this->filters,
-        'keyUrl'=>true,
+        'keyUrl' => true,
         'action' => Yii::app()->createUrl($this->route),
         'grid_id' => 'product-grid',
         ));
@@ -44,6 +44,21 @@ $this->PcmWidget['filter'] = array('name' => 'ItstLeftFilter',
     </div>
 </div>
 <div class="clear"></div>
+<?php
+if (Yii::app()->user->hasFlash('success')) {
+    echo CHtml::openTag("div", array("class" => "flash-success"));
+    echo Yii::app()->user->getFlash("success");
+    echo CHtml::closeTag("div");
+}
+echo '<div class="clear"></div>';
+if (Yii::app()->user->hasFlash('errorIntegrity')) {
+    echo CHtml::openTag("div", array("class" => "flash-error"));
+    echo Yii::app()->user->getFlash("errorIntegrity");
+    echo CHtml::closeTag("div");
+}
+echo '<div class="clear"></div>';
+
+?>
 <p>
     You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
     or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
@@ -76,11 +91,10 @@ if (isset($this->OpPermission[ucfirst($this->id) . ".Delete"]) && $this->OpPermi
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'product-grid',
     'dataProvider' => $model->search(),
-    
     'filter' => $model,
     'pager' => array(
         'cssFile' => Yii::app()->theme->baseUrl . '/css/pager.css',
-     ),
+    ),
     'columns' => array(
         array(
             'name' => 'product_name',
@@ -145,6 +159,8 @@ $this->widget('zii.widgets.grid.CGridView', array(
         array(
             'class' => 'CButtonColumn',
             'template' => $template,
+            'deleteConfirmation' => 'Are You Sure? You Want to delete this Product,its images and profile',
+            'afterDelete' => 'window.location.reload()',
             'buttons' => array(
                 'enable' => array(
                     'label' => '[ Disable ]',
@@ -185,11 +201,9 @@ $this->widget('zii.widgets.grid.CGridView', array(
                     'imageUrl' => Yii::app()->request->baseUrl . '/images/disable.png',
                     'visible' => '$data->status==0',
                 ),
-                
             ),
-             'htmlOptions' => array('style'=>'width:144px;')  
+            'htmlOptions' => array('style' => 'width:144px;')
         ),
     ),
 ));
-
 ?>

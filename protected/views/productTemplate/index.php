@@ -44,7 +44,21 @@ $this->PcmWidget['filter'] = array('name' => 'ItstLeftFilter',
     </div>
 </div>
 <div class="clear"></div>
+<?php
+if (Yii::app()->user->hasFlash('success')) {
+    echo CHtml::openTag("div", array("class" => "flash-success"));
+    echo Yii::app()->user->getFlash("success");
+    echo CHtml::closeTag("div");
+}
+echo '<div class="clear"></div>';
+if (Yii::app()->user->hasFlash('errorIntegrity')) {
+    echo CHtml::openTag("div", array("class" => "flash-error"));
+    echo Yii::app()->user->getFlash("errorIntegrity");
+    echo CHtml::closeTag("div");
+}
+echo '<div class="clear"></div>';
 
+?>
 <p>
     You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
     or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
@@ -106,6 +120,8 @@ $this->widget('zii.widgets.grid.CGridView', array(
         array(
             'class' => 'CButtonColumn',
             'template' => $button_template,
+            'deleteConfirmation' => 'Are You Sure? You Want to delete this Product,its images and profile',
+            'afterDelete' => 'window.location.reload()',
         ),
     ),
 ));
