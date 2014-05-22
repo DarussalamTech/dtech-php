@@ -118,6 +118,15 @@ $this->widget('zii.widgets.grid.CGridView', array(
             )
         ),
         array(
+            'header' => 'Available Cities',
+            'type' => 'Raw',
+            'value' => 'City::model()->getAvailableCities($data->universal_name)',
+            'headerHtmlOptions' => array(
+                'style' => "text-align:left;width:100px;"
+                
+            )
+        ),
+        array(
             'class' => 'CButtonColumn',
             'template' => $button_template,
             'deleteConfirmation' => 'Are You Sure? You Want to delete this Product,its images and profile',

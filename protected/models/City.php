@@ -141,12 +141,33 @@ class City extends DTActiveRecord {
         } else {
             //adding access control for this 
             if (Yii::app()->controller->checkViewAccess("Product.CreateFromTemplate")) {
-               $url = Yii::app()->controller->createUrl("/product/createFromTemplate", array("id" => Yii::app()->request->getQuery("id"), "to_city" => $city_id));
-               return CHtml::link("Make Available", $url, array('class' => " print_link_btn"), array("height" => "400", "width" => "600"));
+                $url = Yii::app()->controller->createUrl("/product/createFromTemplate", array("id" => Yii::app()->request->getQuery("id"), "to_city" => $city_id));
+                return CHtml::link("Make Available", $url, array('class' => " print_link_btn"), array("height" => "400", "width" => "600"));
             }
-            
-
         }
+    }
+
+    /**
+     * 
+     * @param type $universal_name
+     *   product universal name
+     *   under this product template
+     */
+    public function getAvailableCities($universal_name) {
+        $criteria = new CDbCriteria;
+        $criteria->addCondition("universal_name= :universal_name AND city_id <> :city_id");
+        $criteria->params = array(
+            ':universal_name' => $universal_name,
+            ':city_id' => $this->getCityId("Super")->city_id,
+        );
+        $criteria->distinct = "city_id";
+        $products = ProductTemplate::model()->getAll($criteria);
+        $cities = array();
+        foreach($products as $product){
+            $cities[$product->city->city_name] = $product->city->city_name;
+        }
+        
+        return implode(", ",$cities);
     }
 
 }
