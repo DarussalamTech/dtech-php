@@ -65,10 +65,13 @@ class City extends DTActiveRecord {
         // class name for the relations automatically generated below.
         return array(
             'categories' => array(self::HAS_MANY, 'Categories', 'city_id'),
+            'products' => array(self::HAS_MANY, 'Product', 'city_id'),
+            'orders' => array(self::HAS_MANY, 'Order', 'city_id'),
+            'shippments' => array(self::HAS_MANY, 'ShippingClass', 'source_city'),
             'layout' => array(self::BELONGS_TO, 'Layout', 'layout_id'),
             'country' => array(self::BELONGS_TO, 'Country', 'country_id'),
             'layout1' => array(self::HAS_ONE, 'Layout', 'layout_id'),
-            'products' => array(self::HAS_MANY, 'Product', 'city_id'),
+            
             'currency' => array(self::BELONGS_TO, 'ConfCurrency', 'currency_id'),
             'site' => array(self::HAS_ONE, 'SelfSite', 'site_headoffice', 'condition' => 'site_headoffice <>0'),
         );
