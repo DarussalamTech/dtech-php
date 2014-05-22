@@ -90,6 +90,10 @@ $this->widget('zii.widgets.grid.CGridView', array(
                 'style' => "text-align:left"
             )
         ),
+         array(
+            'name' => 'role',
+            'value' => '!empty($data->role) ? $data->role->itemname : ""',
+        ),
 
         array(
             'class' => 'CButtonColumn',
