@@ -5,6 +5,8 @@
     $criteria->order = "id DESC";
 
     $model = UserOrderBilling::model()->find($criteria);
+     CVarDumper::dump($criteria,10,true);
+     die;
     ?>
     Billing Address 
 

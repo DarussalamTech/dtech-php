@@ -186,6 +186,8 @@ class CreditCardForm extends CFormModel {
         $ordetail = array();
         $cart_model = new Cart();
         $cart = $cart_model->findAll('user_id=' . Yii::app()->user->id);
+        
+        
 
         foreach ($cart as $pro) {
             $ordetail['OrderDetail'][] = array(

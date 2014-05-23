@@ -8,5 +8,6 @@
 </h2>
 <?php
 $model = Order::model()->findByPk($order_id);
+
 $this->renderPartial("//payment/email", array("model" => $model));
 ?>

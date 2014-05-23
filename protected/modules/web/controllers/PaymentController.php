@@ -111,10 +111,12 @@ class PaymentController extends Controller {
         $critera = new CDbCriteria();
         $critera->addCondition("user_id = " . Yii::app()->user->id);
         $critera->order = "id DESC";
-        $model = UserOrderBilling::model()->find($critera);
-
-        if (empty($model)) {
-            $model = new UserOrderBilling;
+        
+        $model = new UserOrderBilling;
+        if ($old_model = UserOrderBilling::model()->find($critera)) {
+            $model->attributes = $old_model->attributes;
+            //setting empty after it will be updated
+            $model->order_id = "";
         }
         if (isset($_POST['UserOrderBilling'])) {
             $model->attributes = $_POST['UserOrderBilling'];

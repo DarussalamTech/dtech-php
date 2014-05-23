@@ -177,6 +177,7 @@ class Notifcation extends DTActiveRecord {
             ),
         ));
     }
+
     /**
      * get unread count
      */
@@ -187,9 +188,9 @@ class Notifcation extends DTActiveRecord {
         $criteria->condition = '( t.to LiKE :to AND is_read=:is_read AND t.type=:type AND deleted =:deleted) ';
         $criteria->params = array(
             "to" => Yii::app()->user->user->user_email,
-            "is_read"=>"0",
-            "type"=>"inbox",
-            "deleted"=>"0",
+            "is_read" => "0",
+            "type" => "inbox",
+            "deleted" => "0",
         );
 
 
@@ -203,7 +204,7 @@ class Notifcation extends DTActiveRecord {
      */
     public function saveToUserInbox() {
         $user_arr = explode(",", $this->to);
-     
+
         foreach ($user_arr as $user_email) {
 
             $user = User::model()->get('user_email = "' . $user_email . '"');
@@ -235,9 +236,10 @@ class Notifcation extends DTActiveRecord {
         if (!empty($this->related_to) && !empty($this->related_to)) {
             switch ($this->related_to) {
                 case "ProductTemplate":
-                    $this->_related_to = CHtml::link($this->product->product_name,Yii::app()->controller->createUrl("/productTemplate/view",array("id"=>$this->related_id)));   
+                    if (isset($this->product)) {
+                        $this->_related_to = CHtml::link($this->product->product_name, Yii::app()->controller->createUrl("/productTemplate/view", array("id" => $this->related_id)));
+                    }
                     break;
-                
             }
         }
         return parent::afterFind();

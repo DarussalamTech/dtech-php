@@ -34,6 +34,7 @@ class PaypalController extends Controller {
 
 
         $amount_xml = ConfPaymentMethods::model()->convertToDollar($totalPrice);
+       
 
         //in case of payment error in conversion
         //error hre
@@ -49,10 +50,8 @@ class PaypalController extends Controller {
             $paymentInfo['Order']['theTotal'] = ceil((double) $amount_xml['convert_webxcurrency']['convert_webxcurrency']['exch_amount']);
         }
 
-
-//        CVarDumper::dump(Yii::app()->Paypal, 10, true);
-//        CVarDumper::dump($paymentInfo, 10, true);
-//        die;
+        
+       
         // call paypal 
         $result = Yii::app()->Paypal->SetExpressCheckout($paymentInfo);
         //Detect Errors 
@@ -98,32 +97,32 @@ class PaypalController extends Controller {
 
 
 
-        //Detect errors 
-        if (!Yii::app()->Paypal->isCallSucceeded($result)) {
-            if (Yii::app()->Paypal->apiLive === true) {
-                //Live mode basic error message
-                $error = 'We were unable to process your request. Please try again later';
-            } else {
-                //Sandbox output the actual error message to dive in.
-                $error = $result['L_LONGMESSAGE0'];
-            }
-            echo $error;
-            Yii::app()->end();
-        } else {
-
-            $paymentResult = Yii::app()->Paypal->DoExpressCheckoutPayment($result);
-            //Detect errors  
-            if (!Yii::app()->Paypal->isCallSucceeded($paymentResult)) {
-                if (Yii::app()->Paypal->apiLive === true) {
-                    //Live mode basic error message
-                    $error = 'We were unable to process your request. Please try again later';
-                } else {
-                    //Sandbox output the actual error message to dive in.
-                    $error = $paymentResult['L_LONGMESSAGE0'];
-                }
-                echo $error;
-                Yii::app()->end();
-            } else {
+//        //Detect errors 
+//        if (!Yii::app()->Paypal->isCallSucceeded($result)) {
+//            if (Yii::app()->Paypal->apiLive === true) {
+//                //Live mode basic error message
+//                $error = 'We were unable to process your request. Please try again later';
+//            } else {
+//                //Sandbox output the actual error message to dive in.
+//                $error = $result['L_LONGMESSAGE0'];
+//            }
+//            echo $error;
+//            Yii::app()->end();
+//        } else {
+//
+//            $paymentResult = Yii::app()->Paypal->DoExpressCheckoutPayment($result);
+//            //Detect errors  
+//            if (!Yii::app()->Paypal->isCallSucceeded($paymentResult)) {
+//                if (Yii::app()->Paypal->apiLive === true) {
+//                    //Live mode basic error message
+//                    $error = 'We were unable to process your request. Please try again later';
+//                } else {
+//                    //Sandbox output the actual error message to dive in.
+//                    $error = $paymentResult['L_LONGMESSAGE0'];
+//                }
+//                echo $error;
+//                Yii::app()->end();
+//            } else {
                 //payment was completed successfully
                 $creditCardModel = new CreditCardForm;
                 /**
@@ -131,6 +130,8 @@ class PaypalController extends Controller {
                  */
                 $creditCardModel->payment_method = "Pay Pal";
                 $order_id = $creditCardModel->saveOrder($result['TOKEN']);
+                //$order_id = 117;
+               
 
                 /**
                  * Saving information in userShipping model
@@ -141,6 +142,7 @@ class PaypalController extends Controller {
                 $criteria->addCondition("user_id = " . Yii::app()->user->id);
                 $criteria->order = "id DESC";
                 $model = UserOrderShipping::model()->find($criteria);
+           
                 $model->updateByPk($model->id, array("order_id" => $order_id));
                 //sending email
                 $this->customer0rderDetailMailer($model, $order_id);
@@ -148,8 +150,8 @@ class PaypalController extends Controller {
                 Yii::app()->user->setFlash('orderMail', 'Thank you...');
 
                 $this->render('//paypall/confirm');
-            }
-        }
+//            }
+//        }
     }
     /**
      * method to send email to user
