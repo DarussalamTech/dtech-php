@@ -82,7 +82,8 @@ class PaymentController extends Controller {
             $model->attributes = $_POST['ShippingInfoForm'];
 
             if ($model->validate()) {
-                UserProfile::model()->saveShippingInfo($_POST['ShippingInfoForm']);
+                $shipping_id = UserProfile::model()->saveShippingInfo($_POST['ShippingInfoForm']);\
+                Yii::app()->session['shipping_id'] = $shipping_id; 
                 $this->redirect($this->createUrl("/web/payment/placeOrder"));
             }
         }
@@ -111,7 +112,7 @@ class PaymentController extends Controller {
         $critera = new CDbCriteria();
         $critera->addCondition("user_id = " . Yii::app()->user->id);
         $critera->order = "id DESC";
-        
+
         $model = new UserOrderBilling;
         if ($old_model = UserOrderBilling::model()->find($critera)) {
             $model->attributes = $old_model->attributes;
@@ -125,6 +126,7 @@ class PaymentController extends Controller {
                 Yii::app()->session['billing_prefix'] = $model->billing_prefix;
                 Yii::app()->session['billing_first_name'] = $model->billing_first_name;
                 Yii::app()->session['billing_last_name'] = $model->billing_last_name;
+                Yii::app()->session['billing_id'] = $model->id; 
                 if ($model->isSameShipping) {
 
                     $this->redirect($this->createUrl("/web/payment/paymentmethod", array("billing" => $model->id)));
@@ -235,7 +237,7 @@ class PaymentController extends Controller {
 
         $email['From'] = Yii::app()->params['adminEmail'];
 
-        $email['To'] = User::model()->getCityAdmin(false,true);
+        $email['To'] = User::model()->getCityAdmin(false, true);
         $email['Subject'] = "New Order Placement";
         $email['Body'] = $this->renderPartial('//payment/_order_email_template_admin', array('customerInfo' => $customerInfo, "order_id" => $order_id), true, false);
         $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
