@@ -79,13 +79,30 @@ class Notifcation extends DTActiveRecord {
      * validate email 
      */
     public function validateEmailTo() {
-        $explode = explode(",", $this->to);
+        if(is_string($this->to)){
+            $explode = explode(",", $this->to);
+        }
+        else if(is_array($this->to)) {
+            $explode = $this->to;
+        }
         foreach ($explode as $email) {
             $email_validate = new CEmailValidator();
             if (!$email_validate->validateValue($email)) {
                 $this->addError("to", "One or more email is not valid");
             }
         }
+        
+    }
+    /**
+     * 
+     * @return type
+     */
+    public function beforeValidate() {
+        if(is_array($this->to)){
+            $this->to = implode(",", $this->to);
+        }
+        
+        return parent::beforeValidate();
     }
 
     /**
@@ -220,6 +237,7 @@ class Notifcation extends DTActiveRecord {
         }
         return true;
     }
+
 
     /**
      * 

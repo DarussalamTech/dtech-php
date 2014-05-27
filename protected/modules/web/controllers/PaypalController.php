@@ -180,6 +180,7 @@ class PaypalController extends Controller {
                 }
 
                 $model->updateByPk($model->id, array("order_id" => $order_id));
+
                 //sending email
                 $this->customer0rderDetailMailer($model, $order_id);
                 $this->admin0rderDetailMailer($model, $order_id);
@@ -217,6 +218,19 @@ class PaypalController extends Controller {
         $email['Subject'] = "New Order Placement";
         $email['Body'] = $this->renderPartial('//payment/_order_email_template_admin', array('customerInfo' => $customerInfo, "order_id" => $order_id), true, false);
         $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
+
+
+        $notification = new Notifcation;
+        $notification->from = Yii::app()->user->id;
+        $notification->to = User::model()->getCityAdmin(false, true);
+        $notification->subject = "New Order Placement";
+        $notification->is_read = 0;
+        $notification->type = "inbox";
+
+        $notification->body = $email['Body'];
+        $notification->related_id = $order_id;
+        $notification->related_to = "Order";
+        $notification->save();
 
         $this->sendEmail2($email);
     }
