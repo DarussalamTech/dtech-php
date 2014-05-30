@@ -6,6 +6,7 @@ class SiteController extends Controller {
      * Declares class-based actions.
      */
     public function actions() {
+        Yii::app()->theme = "abound";
         return array(
             // captcha action renders the CAPTCHA image displayed on the contact page
             'captcha' => array(
@@ -390,8 +391,8 @@ class SiteController extends Controller {
         if (!Yii::app()->user->isGuest) {
             $this->redirect($this->createUrl('/product/index'));
         }
-        Yii::app()->controller->layout = "//layouts/login_admin";
-        Yii::app()->theme = "admin";
+        //Yii::app()->controller->layout = "//layouts/login_admin";
+        Yii::app()->theme = "abound";
 
         $model = new LoginForm;
 
@@ -431,7 +432,7 @@ class SiteController extends Controller {
             }
         }
         // display the login form
-        $this->render('login_admin', array('model' => $model));
+        $this->render('//site/login', array('model' => $model));
     }
 
     /**
