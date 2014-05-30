@@ -3,7 +3,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>abound - Yii theme</title>
+        <title><?php echo CHtml::encode($this->pageTitle); ?></title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Free yii themes, free web application theme">
         <meta name="author" content="Webapplicationthemes.com">
@@ -16,6 +16,8 @@
         <?php
         $baseUrl = Yii::app()->theme->baseUrl;
         $cs = Yii::app()->getClientScript();
+        $cs->registerScriptFile(Yii::app()->baseUrl . '/packages/jui/js/jquery.js',  CClientScript::POS_BEGIN);
+        
         ?>
         
         <!-- Fav and Touch and touch icons -->
@@ -38,7 +40,7 @@
         <link rel="alternate stylesheet" type="text/css" media="screen" title="style6" href="<?php echo $baseUrl; ?>/css/style-purple.css" />
         <link rel="alternate stylesheet" type="text/css" media="screen" title="style7" href="<?php echo $baseUrl; ?>/css/style-red.css" />
         <?php
-        $cs->registerScriptFile(Yii::app()->baseUrl . '/packages/jui/js/jquery.js');
+      
         $cs->registerScriptFile($baseUrl . '/js/bootstrap.min.js');
         $cs->registerScriptFile($baseUrl . '/js/plugins/jquery.sparkline.js');
         $cs->registerScriptFile($baseUrl . '/js/plugins/jquery.flot.min.js');
