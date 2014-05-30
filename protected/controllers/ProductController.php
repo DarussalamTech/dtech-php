@@ -25,9 +25,9 @@ class ProductController extends Controller {
     }
 
     public function beforeAction($action) {
-        Yii::app()->theme = "admin";
+        Yii::app()->theme = "abound";
         parent::beforeAction($action);
-
+        unset(Yii::app()->clientScript->scriptMap['jquery.js']);
         $operations = array('create', 'update', 'index', 'delete');
         parent::setPermissions($this->id, $operations);
 
@@ -366,7 +366,7 @@ class ProductController extends Controller {
                     $record->deleteByPk($record->product_id);
                     Yii::app()->db->createCommand("SET FOREIGN_KEY_CHECKS=1;")->execute();
                 } else {
-                    CVarDumper::dump($record, 10, true);
+                    
                     $record->deleteByPk($record->product_id);
                     Yii::app()->db->createCommand("SET FOREIGN_KEY_CHECKS=1;")->execute();
                 }
