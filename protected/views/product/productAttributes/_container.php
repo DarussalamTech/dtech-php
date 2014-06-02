@@ -13,8 +13,8 @@ $plusImage = "<div class='left_float' style='padding-top:2px'>" .
         "</div>";
 ?>
 
-<div class="child-container child-container-nth" id ="<?php echo $dir; ?>">
-    <div class="subsection-header">
+<div class="child-container child-container-nth portlet" id ="<?php echo $dir; ?>">
+    <div class="subsection-header portlet-decoration">
         <div class="left_float">
             <?php
             if ($this->action->id == 'view') {

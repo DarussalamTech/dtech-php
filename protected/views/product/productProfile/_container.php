@@ -24,8 +24,8 @@ else if($this->action->id == 'view'){
 
 ?>
 
-<div class="child-container" id ="<?php echo $dir; ?>" style="display:<?php echo $basic_cont_div; ?>">
-    <div class="subsection-header">
+<div class="child-container portlet" id ="<?php echo $dir; ?>" style="display:<?php echo $basic_cont_div; ?>">
+    <div class="subsection-heade portlet-decoration">
         <div class="left_float">
             <?php
             if ($this->action->id == 'view') {
