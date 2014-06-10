@@ -25,15 +25,15 @@ class TranslatorCompilerController extends Controller {
     }
 
     public function beforeAction($action) {
-        Yii::app()->theme = "admin";
+        Yii::app()->theme = "abound";
         parent::beforeAction($action);
-
+        unset(Yii::app()->clientScript->scriptMap['jquery.js']);
         $operations = array('create', 'update', 'index', 'delete');
         parent::setPermissions($this->id, $operations);
 
         return true;
     }
-    
+
     /**
      * Initialize Left site filters
      */
@@ -42,14 +42,9 @@ class TranslatorCompilerController extends Controller {
 
         /* Set filters and default active */
         $this->filters = array(
-
             'type' => array("translator" => "Translator", "compiler" => "Compiler", "" => "All"),
-         
         );
-
-
     }
-
 
     /**
      * Displays a particular model.

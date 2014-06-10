@@ -25,9 +25,9 @@ class OrderController extends Controller {
     }
 
     public function beforeAction($action) {
-        Yii::app()->theme = "admin";
+        Yii::app()->theme = "abound";
         parent::beforeAction($action);
-
+        unset(Yii::app()->clientScript->scriptMap['jquery.js']);
         $operations = array('create', 'update', 'index', 'delete');
         parent::setPermissions($this->id, $operations);
 
@@ -39,15 +39,15 @@ class OrderController extends Controller {
      */
     public function init() {
         parent::init();
-        
+
         $criteria = new CDbCriteria();
         $criteria->select = "id,name";
         $paymentModels = ConfPaymentMethods::model()->findAll($criteria);
 
         /* Set filters and default active */
         $this->filters = array(
-            'status' => Status::model()->gettingOrderStatus()+array(""=>"All"),
-            'payment_method_id' => CHtml::listData($paymentModels, "id", "name")+array(""=>"All"),
+            'status' => Status::model()->gettingOrderStatus() + array("" => "All"),
+            'payment_method_id' => CHtml::listData($paymentModels, "id", "name") + array("" => "All"),
         );
     }
 

@@ -29,8 +29,8 @@ class ZoneController extends Controller {
 
     public function beforeAction($action) {
         parent::beforeAction($action);
-        Yii::app()->theme = "admin";
-
+        Yii::app()->theme = "abound";
+        unset(Yii::app()->clientScript->scriptMap['jquery.js']);
         $operations = array('create', 'update', 'index', 'delete');
         parent::setPermissions($this->id, $operations);
         return true;
@@ -150,7 +150,7 @@ class ZoneController extends Controller {
             }
         }
 
-        $this->render("uploadRates", array("model" => $model,'cityList' => $cityList));
+        $this->render("uploadRates", array("model" => $model, 'cityList' => $cityList));
     }
 
     /**
