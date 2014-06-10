@@ -7,6 +7,8 @@
 <div class="form wide">
 
     <?php
+    Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/gridform.css');
+    Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/functions.js');
     $form = $this->beginWidget('CActiveForm', array(
         'id' => 'categories-form',
         'enableAjaxValidation' => false,

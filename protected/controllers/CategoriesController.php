@@ -13,7 +13,7 @@ class CategoriesController extends Controller {
         Yii::app()->theme = "abound";
         parent::beforeAction($action);
         unset(Yii::app()->clientScript->scriptMap['jquery.js']);
-        unset(Yii::app()->clientScript->scriptMap['/packages/jui/js/jquery.js']);
+       
         $operations = array('create', 'update', 'index', 'delete');
         parent::setPermissions($this->id, $operations);
 
