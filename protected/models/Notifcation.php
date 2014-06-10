@@ -258,13 +258,10 @@ class Notifcation extends DTActiveRecord {
                     if (isset($this->product)) {
                         $this->_related_to = CHtml::link($this->product->product_name, Yii::app()->controller->createUrl("/productTemplate/view", array("id" => $this->related_id)));
                     }
-                case "ProductTemplate":
-                    if (isset($this->product)) {
-                        $this->_related_to = CHtml::link($this->product->product_name, Yii::app()->controller->createUrl("/productTemplate/view", array("id" => $this->related_id)));
-                    }
+      
                 case "Order":
                     if (isset($this->order)) {
-                        $this->_related_to = CHtml::link($this->order->user->user_name, Yii::app()->controller->createUrl("/order/view", array("id" => $this->related_id)));
+                        $this->_related_to = CHtml::link($this->order->user->user_name." [".$this->order->order_date."]", Yii::app()->controller->createUrl("/order/view", array("id" => $this->related_id)));
                     }
                     break;
             }
