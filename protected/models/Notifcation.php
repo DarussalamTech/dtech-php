@@ -72,6 +72,7 @@ class Notifcation extends DTActiveRecord {
             'from_rel' => array(self::BELONGS_TO, 'User', 'from'),
             'folder_rel' => array(self::BELONGS_TO, 'NotificationFolder', 'folder'),
             'product' => array(self::BELONGS_TO, 'Product', 'related_id'),
+            'order' => array(self::BELONGS_TO, 'Order', 'related_id'),
         );
     }
 
@@ -256,6 +257,14 @@ class Notifcation extends DTActiveRecord {
                 case "ProductTemplate":
                     if (isset($this->product)) {
                         $this->_related_to = CHtml::link($this->product->product_name, Yii::app()->controller->createUrl("/productTemplate/view", array("id" => $this->related_id)));
+                    }
+                case "ProductTemplate":
+                    if (isset($this->product)) {
+                        $this->_related_to = CHtml::link($this->product->product_name, Yii::app()->controller->createUrl("/productTemplate/view", array("id" => $this->related_id)));
+                    }
+                case "Order":
+                    if (isset($this->order)) {
+                        $this->_related_to = CHtml::link($this->order->user->user_name, Yii::app()->controller->createUrl("/order/view", array("id" => $this->related_id)));
                     }
                     break;
             }
