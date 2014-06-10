@@ -25,7 +25,7 @@ $this->beginContent('//layouts/main');
                         array('label' => 'Logout', 'url' => array('/site/logout'), 'visible' => (Yii::app()->user->isGuest) ? 0 : 1, 'itemOptions' => array('class' => 'logout border-none')),
                         array('label' => 'Login', 'url' => array('/site/login'), 'visible' => (Yii::app()->user->isGuest) ? 1 : 0, 'itemOptions' => array('class' => 'logout border-none')),
                         // Include the operations menu
-                        array('label' => 'OPERATIONS', 'items' => $this->menu),
+                        //array('label' => 'OPERATIONS', 'items' => $this->menu),
                     ),
                 ));
                 ?>
@@ -81,8 +81,7 @@ $this->beginContent('//layouts/main');
                             "category" => "models_labels")) . '</li>' .
                         '<li>' . CHtml::link('Product Detail', array('/dtMessages/index',
                             "category" => "product_detail")) . '</li>' .
-//                        '<li>' . CHtml::link('Product Category', array('/dtMessages/index',
-//                            "category" => "product_category")) . '</li>' .
+
                         '</ul>',
                     );
 
