@@ -21,7 +21,8 @@ $plusImage = "<div class='left_float' style='padding-top:2px'>" .
                 echo CHtml::link($plusImage . ' ' . $heading, 'javascript:;', array('class' => $relationName . '-buttonsc'));
             }
             else
-                echo $plusImage . " " . $heading;
+                 echo $plusImage ;
+                echo "<div class='portlet-title'>".$heading."</div>";
             ?>
         </div>
         <div class="right_float">

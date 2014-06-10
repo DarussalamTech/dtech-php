@@ -8,7 +8,7 @@ $mName = "Quran";
 $relationName = $dir;
 echo '<a name="' . $relationName . '"></a>';
 
-$plusImage = "<div class='left_float' style='padding-top:2px'>" .
+$plusImage = "<div class='small_left_float' style='padding-top:2px'>" .
         CHtml::image(Yii::app()->theme->baseUrl . '/images/icons/plus.gif', 'bingo', array('class' => 'rotate_iamge', 'id' => $relationName . '-plus', 'class' => 'plus')) .
         "</div>";
 
@@ -23,8 +23,8 @@ else if($this->action->id == 'view'){
 }
 ?>
 
-<div class="child-container" id ="<?php echo $dir; ?>" style="display:<?php echo $basic_cont_div; ?>">
-    <div class="subsection-header">
+<div class="child-container portlet" id ="<?php echo $dir; ?>" style="display:<?php echo $basic_cont_div; ?>">
+    <div class="subsection-header portlet-decoration">
         <div class="left_float">
             <?php
             if ($this->action->id == 'view') {

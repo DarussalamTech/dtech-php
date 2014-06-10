@@ -9,7 +9,7 @@ $relationName = "other";
 <div class="grid_fields" style="display:<?php echo $display; ?>">
 
 
-    <div class="field" style="width:100px">
+    <div class="field" style="width:15%">
         <?php
         if ($load_for == "view") {
             echo CHtml::activeHiddenField($model, '[' . $index . ']id');
@@ -25,12 +25,12 @@ $relationName = "other";
         echo CHtml::activeTextField($model, '[' . $index . ']price');
         ?>
     </div>
-    <div class="field" style="width:100px">
+    <div class="field" style="width:15%">
         <?php
         echo CHtml::activeTextField($model, '[' . $index . ']quantity')
         ?>
     </div>
-    <div class="field" style="width:100px">
+    <div class="field" style="width:15%">
       <?php
       
         echo CHtml::activeTextField($model, '[' . $index . ']weight',array("style"=>"width:35px"));
@@ -39,17 +39,17 @@ $relationName = "other";
                 array("g"=>"g","kg"=>"kg"),array("style"=>"width:38px"));
         ?>
     </div>
-    <div class="field" style="width:50px">
+    <div class="field" style="width:10%">
         <?php
  echo CHtml::activeDropDownList($model, '[' . $index . ']is_shippable', array("0" => "No", "1" => "Yes"));
         ?>
     </div>
-    <div class="field" style="width:100px">
+    <div class="field" style="width:15%">
         <?php
         echo CHtml::activeTextField($model, '[' . $index . ']slag')
         ?>
     </div>
-    <div class="field" style="width:100px">
+    <div class="field" style="width:15%">
         <?php
         $criteria = new CDbCriteria();
         $criteria->select = "language_id,language_name";

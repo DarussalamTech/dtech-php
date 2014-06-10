@@ -16,7 +16,7 @@
         <?php
         $baseUrl = Yii::app()->theme->baseUrl;
         $cs = Yii::app()->getClientScript();
-        $cs->registerScriptFile(Yii::app()->baseUrl . '/packages/jui/js/jquery.js',  CClientScript::POS_BEGIN);
+        $cs->registerScriptFile(Yii::app()->baseUrl . '/packages/jui/js/jquery.js',  CClientScript::POS_HEAD);
         
         ?>
         
@@ -62,7 +62,9 @@
     </head>
 
     <body>
-
+        <?php
+        
+        ?>
         <section id="navigation-main">   
             <!-- Require the navigation -->
             <?php require_once('tpl_navigation.php') ?>

@@ -191,11 +191,9 @@ $relationName = "productProfile";
 
         <?php echo CHtml::activeLabelEx($model, 'weight'); ?>
         <?php
-      
-        echo CHtml::activeTextField($model, '[' . $index . ']weight',array("style"=>"width:100px"));
+        echo CHtml::activeTextField($model, '[' . $index . ']weight', array("style" => "width:100px"));
         echo " ";
-        echo CHtml::activeDropDownList($model, '[' . $index . ']weight_unit',
-                array("g"=>"g","kg"=>"kg"),array("style"=>"width:100px"));
+        echo CHtml::activeDropDownList($model, '[' . $index . ']weight_unit', array("g" => "g", "kg" => "kg"), array("style" => "width:100px"));
         ?>
         <?php echo CHtml::error($model, 'weight'); ?>
     </div>
@@ -209,13 +207,13 @@ $relationName = "productProfile";
     </div>
 
     <div class="clear"></div>
-
-    <div class="del del-icon" >
-        <?php
-        echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . '/images/icons/plus.gif', 'Add'), '#', array(
-            'class' => 'plus',
-            'onclick' =>
-            "
+    <div class="span12">
+        <div class="del_fulform del-icon" style="" >
+            <?php
+            echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . '/images/icons/plus.gif', 'Add'), '#', array(
+                'class' => 'plus',
+                'onclick' =>
+                "
                    
 		    u = '" . Yii::app()->controller->createUrl("loadChildByAjax", array("mName" => "$mName", "dir" => $dir, "load_for" => $load_for,)) . "&index=' + " . $relationName . "_index_sc;
                     u+='&parent_cat='+parent_cat; 
@@ -224,12 +222,14 @@ $relationName = "productProfile";
                     " . $relationName . "_index_sc++;
                     return false;
                     "
-        ));
-        ?>
-        <?php
-        echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . '/images/icons/cross.gif', 'Delete'), '#', array('onclick' => 'delete_fields(this, 2, "#' . $relationName . '-form", ".grid_fields"); return false;', 'title' => 'sc'));
-        ?>
+            ));
+            ?>
+            <?php
+            echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . '/images/icons/cross.gif', 'Delete'), '#', array('onclick' => 'delete_fields(this, 2, "#' . $relationName . '-form", ".grid_fields"); return false;', 'title' => 'sc'));
+            ?>
+        </div>
     </div>
+
 
     <div class="clear"></div>
 </div>

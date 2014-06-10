@@ -8,7 +8,7 @@ $mName = "ProductProfile";
 $relationName = $dir;
 echo '<a name="' . $relationName . '"></a>';
 
-$plusImage = "<div class='left_float' style='padding-top:2px'>" .
+$plusImage = "<div class='small_left_float' style='padding-top:2px'>" .
         CHtml::image(Yii::app()->theme->baseUrl . '/images/icons/plus.gif', 'bingo', array('class' => 'rotate_iamge', 'id' => $relationName . '-plus', 'class' => 'plus')) .
         "</div>";
 
@@ -32,7 +32,8 @@ else if($this->action->id == 'view'){
                 echo CHtml::link($plusImage . ' ' . $heading, 'javascript:;', array('class' => $relationName . '-buttonsc'));
             }
             else
-                echo $plusImage . " " . $heading;
+                echo $plusImage ;
+                echo "<div class='portlet-title'>".$heading."</div>";
             ?>
         </div>
         <div class="right_float">

@@ -10,9 +10,10 @@ class CategoriesController extends Controller {
     public $filters;
 
     public function beforeAction($action) {
-        Yii::app()->theme = "admin";
+        Yii::app()->theme = "abound";
         parent::beforeAction($action);
-
+        unset(Yii::app()->clientScript->scriptMap['jquery.js']);
+        unset(Yii::app()->clientScript->scriptMap['/packages/jui/js/jquery.js']);
         $operations = array('create', 'update', 'index', 'delete');
         parent::setPermissions($this->id, $operations);
 
@@ -88,7 +89,7 @@ class CategoriesController extends Controller {
         $model = new Categories();
 
         global $categotyList;
-
+        
         $this->changeAdminCity();
         $model->city_id = Yii::app()->session['city_id'];
 
@@ -301,9 +302,10 @@ class CategoriesController extends Controller {
      */
     public function actionIndex() {
         $model = new Categories('search');
-
+        
         $this->init();
         $model->unsetAttributes();  // clear any default values
+ 
         $model->city_id = Yii::app()->request->getQuery('city_id');
 
         if (isset($_GET['Categories']))

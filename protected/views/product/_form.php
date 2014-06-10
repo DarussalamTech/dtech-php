@@ -68,7 +68,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/f
         <?php echo $form->labelEx($model, 'product_overview'); ?>
         <?php echo $form->textArea($model, 'product_overview', array("rows" => 4, "cols" => 81, 'style' => 'resize: none; width:300px;height:80px')); ?>
         <?php echo $form->error($model, 'product_overview'); ?>
-    </div>
+    <!--</div>-->
 
 
 
@@ -76,11 +76,11 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/f
     <div class="row">
         <?php echo $form->labelEx($model, 'product_description'); ?>
         <?php
-        $this->widget('application.extensions.tinymce.ETinyMce', array(
-            'editorTemplate' => 'full',
-            'model' => $model,
-            'attribute' => 'product_description',
-            'options' => array('theme' => 'advanced')));
+//        $this->widget('application.extensions.tinymce.ETinyMce', array(
+//            'editorTemplate' => 'full',
+//            'model' => $model,
+//            'attribute' => 'product_description',
+//            'options' => array('theme' => 'advanced')));
         ?>
         <?php //echo $form->textArea($model, 'product_description', array("rows" => 4, "cols" => 81, 'style' => 'resize: none; width:500px;')); ?>
         <?php echo $form->error($model, 'product_description'); ?>

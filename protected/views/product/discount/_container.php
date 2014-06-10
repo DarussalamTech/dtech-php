@@ -8,7 +8,7 @@ $mName = "ProductDiscount";
 $relationName = $dir;
 echo '<a name="' . $relationName . '"></a>';
 
-$plusImage = "<div class='left_float' style='padding-top:2px'>" .
+$plusImage = "<div class='small_left_float' style='padding-top:2px'>" .
         CHtml::image(Yii::app()->theme->baseUrl . '/images/icons/plus.gif', 'bingo', array('class' => 'rotate_iamge', 'id' => $relationName . '-plus', 'class' => 'plus')) .
         "</div>";
 ?>
@@ -21,7 +21,8 @@ $plusImage = "<div class='left_float' style='padding-top:2px'>" .
                 echo CHtml::link($plusImage . ' ' . $heading, 'javascript:;', array('class' => $relationName . '-buttonsc'));
             }
             else
-                echo $plusImage . " " . $heading;
+                echo $plusImage;
+            echo "<div class='portlet-title'>" . $heading . "</div>";
             ?>
         </div>
         <div class="right_float">
@@ -60,7 +61,7 @@ $plusImage = "<div class='left_float' style='padding-top:2px'>" .
                     <div class="title" style="width:200px"><?php echo CHtml::activeLabel($relateModelobj, 'discount_type'); ?></div>
                     <div class="title" style="width:200px"><?php echo CHtml::activeLabel($relateModelobj, 'discount_value'); ?></div>
                     <div class="title" style="width:100px"><?php echo CHtml::activeLabel($relateModelobj, 'applied'); ?></div>
-                    
+
 
                 </div>
                 <div class="clear"></div>
@@ -78,7 +79,6 @@ $plusImage = "<div class='left_float' style='padding-top:2px'>" .
                 ?>
                 <div id="<?php echo $fields_div_id; ?>" class="form">
                     <?php
-                    
                     /* for loading with js */
                     $relationName_index_sc = -1;
                     if (isset($_POST[$mName]) || ($this->action->id == 'create' && count($model->$relationName) > 0)) {
@@ -88,7 +88,7 @@ $plusImage = "<div class='left_float' style='padding-top:2px'>" .
                                 "load_for" => $this->action->id,
                                 'display' => 'block',
                                 'dir' => $dir,
-                                "parent_category"=> $model->parent_cateogry_id,
+                                "parent_category" => $model->parent_cateogry_id,
                                 'fields_div_id' => $fields_div_id));
                             $relationName_index_sc = $key;
                         }
