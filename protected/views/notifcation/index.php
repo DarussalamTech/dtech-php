@@ -25,14 +25,16 @@ $this->PcmWidget['filter'] = array('name' => 'ItstLeftFilter',
     </div>
 
     <?php /* Convert to Monitoring Log Buttons */ ?>
-    <div class = "right_float">
+    <div class = "right_float no-clear">
         <?php
         echo CHtml::link("Compose New", $this->createUrl("/notifcation/create"), array(
-            'class' => "print_link_btn",
+            'class' => "print_link_btn ",
         ));
         ?>
         <?php
-        echo ColorBox::link("Create Folder", $this->createUrl("/notifcation/createFolder"), array('class' => "print_link_btn colorbox"), array("height" => "300", "width" => "400"));
+        echo ColorBox::link("Create Folder", $this->createUrl("/notifcation/createFolder"), 
+                array('class' => "print_link_btn colorbox"), 
+                array("height" => "300", "width" => "400"));
         ?>
     </div>
 </div>

@@ -63,7 +63,7 @@ class ColorBox extends CWidget
     {
         $cs = Yii::app()->clientScript;
 
-        $cs->registerScriptFile(Yii::app()->request->baseUrl . '/media/colorbox/jquery.colorbox.js');
+        $cs->registerScriptFile(Yii::app()->request->baseUrl . '/media/colorbox/jquery.colorbox.js',CClientScript::POS_END);
         $cs->registerCssFile(Yii::app()->request->baseUrl . '/media/colorbox/colorbox.css');
     }
 

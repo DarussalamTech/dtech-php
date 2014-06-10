@@ -2,7 +2,7 @@
 Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/notification-style.css');
 Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/notification-slideout.css');
 
-Yii::app()->clientScript->registerScriptFile(Yii::app()->request->baseUrl . '/packages/jui/js/jquery-ui.min.js');
+//Yii::app()->clientScript->registerScriptFile(Yii::app()->request->baseUrl . '/packages/jui/js/jquery-ui.min.js');
 Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/packages/jui/css/base/jquery-ui.css');
 ?>
 <div class="email-menu">

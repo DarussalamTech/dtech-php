@@ -35,9 +35,9 @@ class NotifcationController extends Controller {
      * @return boolean
      */
     public function beforeAction($action) {
-        Yii::app()->theme = "admin";
+        Yii::app()->theme = "abound";
         parent::beforeAction($action);
-
+        unset(Yii::app()->clientScript->scriptMap['jquery.js']);
         $operations = array('view');
         parent::setPermissions($this->id, $operations);
 
