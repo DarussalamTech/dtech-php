@@ -546,3 +546,6 @@ div.errorMessage {
 .clear{
     clear:both;
 }
+.no-clear a {
+    clear:none;
+}
