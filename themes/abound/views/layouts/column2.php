@@ -11,13 +11,21 @@ $this->beginContent('//layouts/main');
             <div class="sidebar-nav">
 
                 <?php
+                $notifications = Notifcation::model()->getUnreadInboxNotifcationCount();
                 $this->widget('zii.widgets.CMenu', array(
                     /* 'type'=>'list', */
                     'encodeLabel' => false,
                     'items' => array(
-                        array('label' => '<i class="icon icon-home"></i>  Dashboard <span class="label label-info pull-right">BETA</span>', 'url' => array('/site/index'), 'itemOptions' => array('class' => '')),
-                        array('label' => '<i class="icon icon-search"></i> About this theme <span class="label label-important pull-right">HOT</span>', 'url' => 'http://www.webapplicationthemes.com/abound-yii-framework-theme/'),
-                        array('label' => '<i class="icon icon-envelope"></i> Messages <span class="badge badge-success pull-right">12</span>', 'url' => '#'),
+                        array('label' => '<i class="icon icon-home"></i>  Dashboard <span class="label label-info pull-right">Dash</span>', 'url' => array('/site/index'), 'itemOptions' => array('class' => '')),
+                        
+                        
+                        array("type" => "raw", 'label' => 'Notification', 'url' => $this->createUrl('/notifcation/index'), 'visible' => (Yii::app()->user->isAdmin || Yii::app()->user->isSuperAdmin) ? 1 : 0, 'linkOptions' => array("id" => "notifcations"), 'itemOptions' => array('style' => $notifications > 0 ? "font-weight:bold" : "")),
+                        array('label' => 'Access Control', 'url' => $this->createUrl('/rights'), 'visible' => (Yii::app()->user->isAdmin || Yii::app()->user->isSuperAdmin) ? 1 : 0, 'itemOptions' => array('class' => '')),
+                        array('label' => 'Change Password', 'url' => $this->createUrl('/user/changePassword'), 'visible' => (Yii::app()->user->isGuest) ? 0 : 1, 'itemOptions' => array('class' => '')),
+                        array('label' => 'Configuration', 'url' => $this->createUrl('/configurations/general', array('m' => 'Misc', 'type' => 'general')), 'visible' => (Yii::app()->user->isSuperuser) ? 1 : 0, 'itemOptions' => array('class' => '')),
+                        array('label' => 'Configuration', 'url' => $this->createUrl('/configurations/load', array('m' => 'Misc', 'type' => 'other')), 'visible' => (Yii::app()->user->isSuperuser) ? 0 : 1, 'itemOptions' => array('class' => '')),
+                        array('label' => 'Logout', 'url' => array('/site/logout'), 'visible' => (Yii::app()->user->isGuest) ? 0 : 1, 'itemOptions' => array('class' => 'logout border-none')),
+                        array('label' => 'Login', 'url' => array('/site/login'), 'visible' => (Yii::app()->user->isGuest) ? 1 : 0, 'itemOptions' => array('class' => 'logout border-none')),
                         // Include the operations menu
                         array('label' => 'OPERATIONS', 'items' => $this->menu),
                     ),

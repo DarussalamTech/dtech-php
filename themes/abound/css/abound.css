@@ -549,3 +549,34 @@ div.errorMessage {
 .no-clear a {
     clear:none;
 }
+#loading {
+    background: url(../images/loading.gif) no-repeat #FFF;
+    display: none;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+    border-left: 1px solid black;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 0 0 5px #000000;
+    font-weight: bold;
+    left: 50%;
+    padding: 5px 5px 5px 25px;
+    position: fixed;
+    top: 0;
+    z-index: 100000 !important;
+
+}
+#loading_colorbox {
+    background: url(../images/loading.gif) no-repeat #FFF;
+    display: none;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+    border-left: 1px solid black;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 0 0 5px #000000;
+    font-weight: bold;
+    left: 50%;
+    padding: 5px 5px 5px 25px;
+    position: absolute;
+    top: 0;
+
+}

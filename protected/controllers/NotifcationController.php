@@ -221,7 +221,7 @@ class NotifcationController extends Controller {
         $criteria->addCondition(" is_read =:is_read ");
         $criteria->params  = $criteria->params+array("is_read"=>0);
       
-        echo "Notification (".Notifcation::model()->count($criteria).")";
+        echo "<i class='icon icon-envelope'></i>Notification <span class='badge badge-success pull-right'>(".Notifcation::model()->count($criteria).") </span>";
     }
 
     /**
