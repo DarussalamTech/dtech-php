@@ -32,7 +32,7 @@ class DefaultController extends Controller {
     }
 
     public function beforeAction($action) {
-        Yii::app()->theme = "admin";
+        Yii::app()->theme = "abound";
         parent::beforeAction($action);
 
         $operations = array('create', 'update', 'index', 'delete');

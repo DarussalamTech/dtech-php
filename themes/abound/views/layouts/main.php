@@ -16,7 +16,9 @@
         <?php
         $baseUrl = Yii::app()->theme->baseUrl;
         $cs = Yii::app()->getClientScript();
-        $cs->registerScriptFile(Yii::app()->baseUrl . '/packages/jui/js/jquery.js', CClientScript::POS_HEAD);
+        if (get_class($this->getModule()) != "RightsModule") {
+            $cs->registerScriptFile(Yii::app()->baseUrl . '/packages/jui/js/jquery.js', CClientScript::POS_HEAD);
+        }
         ?>
 
         <!-- Fav and Touch and touch icons -->
@@ -221,7 +223,7 @@
             setTimeout(function() {
                 var r = /\d+/;
                 var s = jQuery("a#notifcations").html();
-                if (typeof(s)!="undefined" && s.match(r) > 0) {
+                if (typeof(s) != "undefined" && s.match(r) > 0) {
                     jQuery("a#notifcations").parent("style", "font-weight:bold");
                 }
                 else {

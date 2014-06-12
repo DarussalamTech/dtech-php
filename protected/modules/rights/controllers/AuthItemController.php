@@ -19,7 +19,8 @@ class AuthItemController extends Controller {
 
         parent::beforeAction($action);
         Yii::app()->user->SiteSessions;
-        Yii::app()->theme = "admin";
+        Yii::app()->theme = "abound";
+        unset(Yii::app()->clientScript->scriptMap['jquery.js']);
         return true;
     }
 
@@ -54,8 +55,8 @@ class AuthItemController extends Controller {
      */
     public function filters() {
         return array(
-            'accessControl','https+ roles + permissions'
-            );
+            'accessControl', 'https+ roles + permissions'
+        );
     }
 
     /**
@@ -83,7 +84,7 @@ class AuthItemController extends Controller {
             $allowed_array = array('permissions', 'roles', 'assign',
                 'revoke',);
         }
-
+       
         return array(
             array('allow', // Allow superusers to access Rights
                 'actions' => $allowed_array,
@@ -197,6 +198,7 @@ class AuthItemController extends Controller {
      */
     public function actionRoles() {
         Yii::app()->user->rightsReturnUrl = array('authItem/roles');
+        unset(Yii::app()->clientScript->scriptMap['jquery.ui']);
 
         $dataProvider = new RAuthItemDataProvider('roles', array(
             'type' => CAuthItem::TYPE_ROLE,

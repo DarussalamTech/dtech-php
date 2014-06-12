@@ -98,7 +98,7 @@
 		// Run this for each selected element
 		return this.each(function() {
 
-			var $this = $(this);
+			var $this = jQuery(this);
 			var $tbody = $this.find('tbody');
 
 			// Apply the id for sorting to the table rows

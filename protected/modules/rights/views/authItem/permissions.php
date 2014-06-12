@@ -46,24 +46,33 @@ $this->renderPartial("_role_change_form", array("model" => $roleModel));
     ?>
 
     <p class="info">*) <?php echo Rights::t('core', 'Hover to see from where the permission is inherited.'); ?></p>
+    <?php
+        Yii::app()->clientScript->registerScript('rights_module_tooltip_grid', "
+            jQuery(function(){
+            
+                /**
+                 * Attach the tooltip to the inherited items.
+                 */
+                jQuery('.inherited-item').rightsTooltip({
+                    title: '".Rights::t('core', 'Source').":'
+                });
 
+                /**
+                 * Hover functionality for rights' tables.
+                 */
+                jQuery('#rights tbody tr').hover(function() {
+                    jQuery(this).addClass('hover'); // On mouse over
+                }, function() {
+                    jQuery(this).removeClass('hover'); // On mouse out
+                });
+            
+            })
+        
+        ",CClientScript::POS_END);
+    ?>
     <script type="text/javascript">
 
-        /**
-         * Attach the tooltip to the inherited items.
-         */
-        jQuery('.inherited-item').rightsTooltip({
-            title: '<?php echo Rights::t('core', 'Source'); ?>: '
-        });
-
-        /**
-         * Hover functionality for rights' tables.
-         */
-        $('#rights tbody tr').hover(function() {
-            $(this).addClass('hover'); // On mouse over
-        }, function() {
-            $(this).removeClass('hover'); // On mouse out
-        });
+  
 
     </script>
 
