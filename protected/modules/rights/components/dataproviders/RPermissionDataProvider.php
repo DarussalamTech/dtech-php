@@ -92,8 +92,11 @@ class RPermissionDataProvider extends CDataProvider {
         $permissions = array();
         foreach ($this->_roles as $roleName => $role) {
             $permissions[$roleName] = array();
-            foreach ($this->_items as $itemName => $item)
-                $permissions[$roleName][$itemName] = $this->_authorizer->hasPermission($itemName, null, $allPermissions[$roleName]);
+            foreach ($this->_items as $itemName => $item) {
+                if (isset($allPermissions[$roleName])) {
+                    $permissions[$roleName][$itemName] = $this->_authorizer->hasPermission($itemName, null, $allPermissions[$roleName]);
+                }
+            }
         }
 
         // Set the permission property
@@ -127,11 +130,11 @@ class RPermissionDataProvider extends CDataProvider {
 
             foreach ($this->_roles as $roleName => $role) {
                 // Item is directly assigned to the role
-                if ($permissions[$roleName][$itemName] === Rights::PERM_DIRECT) {
+                if (isset($permissions[$roleName][$itemName]) && $permissions[$roleName][$itemName] === Rights::PERM_DIRECT) {
                     $permissionColumn = $item->getRevokePermissionLink($role);
                 }
                 // Item is inherited by the role from one of its children
-                else if ($permissions[$roleName][$itemName] === Rights::PERM_INHERITED && isset($parents[$roleName][$itemName]) === true) {
+                else if (isset($permissions[$roleName][$itemName]) && $permissions[$roleName][$itemName] === Rights::PERM_INHERITED && isset($parents[$roleName][$itemName]) === true) {
                     $permissionColumn = $item->getInheritedPermissionText($parents[$roleName][$itemName], $this->displayParentType);
                 }
                 // Item is not assigned to the role
@@ -190,12 +193,12 @@ class RPermissionDataProvider extends CDataProvider {
         /**
          * in case of ajax 
          */
-        if (isset($_POST['ajax'])) {           
+        if (isset($_POST['ajax'])) {
             $roleModel->role = $_POST['role'];
             $roleModel->auth_item = $_POST['auth_item'];
         }
-        
-       
+
+
         /**
          * for doing filtering of role and auth item
          */
