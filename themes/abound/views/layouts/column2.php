@@ -1,36 +1,34 @@
 <?php /* @var $this Controller */ ?>
 <?php
-
 $this->beginContent('//layouts/main');
-
 ?>
 
 <div class="row-fluid">
-    <?php
-    if (!Yii::app()->user->isGuest) {
-        ?>
+<?php
+if (!Yii::app()->user->isGuest) {
+    ?>
         <div class="span3">
             <div class="sidebar-nav">
 
-                <?php
-                $notifications = Notifcation::model()->getUnreadInboxNotifcationCount();
-                $this->widget('zii.widgets.CMenu', array(
-                    /* 'type'=>'list', */
-                    'encodeLabel' => false,
-                    'items' => array(
-                        array('label' => '<i class="icon icon-home"></i>  Dashboard <span class="label label-info pull-right">Dash</span>', 'url' => array('/site/index'), 'itemOptions' => array('class' => '')),
-                        array("type" => "raw", 'label' => 'Notification', 'url' => $this->createUrl('/notifcation/index'), 'visible' => (Yii::app()->user->isAdmin || Yii::app()->user->isSuperAdmin) ? 1 : 0, 'linkOptions' => array("id" => "notifcations"), 'itemOptions' => array('style' => $notifications > 0 ? "font-weight:bold" : "")),
-                        array('label' => 'Access Control', 'url' => $this->createUrl('/rights'), 'visible' => (Yii::app()->user->isAdmin || Yii::app()->user->isSuperAdmin) ? 1 : 0, 'itemOptions' => array('class' => '')),
-                        array('label' => 'Change Password', 'url' => $this->createUrl('/user/changePassword'), 'visible' => (Yii::app()->user->isGuest) ? 0 : 1, 'itemOptions' => array('class' => '')),
-                        array('label' => 'Configuration', 'url' => $this->createUrl('/configurations/general', array('m' => 'Misc', 'type' => 'general')), 'visible' => (Yii::app()->user->isSuperuser) ? 1 : 0, 'itemOptions' => array('class' => '')),
-                        array('label' => 'Configuration', 'url' => $this->createUrl('/configurations/load', array('m' => 'Misc', 'type' => 'other')), 'visible' => (Yii::app()->user->isSuperuser) ? 0 : 1, 'itemOptions' => array('class' => '')),
-                        array('label' => 'Logout', 'url' => array('/site/logout'), 'visible' => (Yii::app()->user->isGuest) ? 0 : 1, 'itemOptions' => array('class' => 'logout border-none')),
-                        array('label' => 'Login', 'url' => array('/site/login'), 'visible' => (Yii::app()->user->isGuest) ? 1 : 0, 'itemOptions' => array('class' => 'logout border-none')),
-                        // Include the operations menu
-                        //array('label' => 'OPERATIONS', 'items' => $this->menu),
-                    ),
-                ));
-                ?>
+    <?php
+    $notifications = Notifcation::model()->getUnreadInboxNotifcationCount();
+    $this->widget('zii.widgets.CMenu', array(
+        /* 'type'=>'list', */
+        'encodeLabel' => false,
+        'items' => array(
+            array('label' => '<i class="icon icon-home"></i>  Dashboard <span class="label label-info pull-right">Dash</span>', 'url' => array('/site/index'), 'itemOptions' => array('class' => '')),
+            array("type" => "raw", 'label' => 'Notification', 'url' => $this->createUrl('/notifcation/index'), 'visible' => (Yii::app()->user->isAdmin || Yii::app()->user->isSuperAdmin) ? 1 : 0, 'linkOptions' => array("id" => "notifcations"), 'itemOptions' => array('style' => $notifications > 0 ? "font-weight:bold" : "")),
+            array('label' => 'Access Control', 'url' => $this->createUrl('/rights'), 'visible' => (Yii::app()->user->isAdmin || Yii::app()->user->isSuperAdmin) ? 1 : 0, 'itemOptions' => array('class' => '')),
+            array('label' => 'Change Password', 'url' => $this->createUrl('/user/changePassword'), 'visible' => (Yii::app()->user->isGuest) ? 0 : 1, 'itemOptions' => array('class' => '')),
+            array('label' => 'Configuration', 'url' => $this->createUrl('/configurations/general', array('m' => 'Misc', 'type' => 'general')), 'visible' => (Yii::app()->user->isSuperuser) ? 1 : 0, 'itemOptions' => array('class' => '')),
+            array('label' => 'Configuration', 'url' => $this->createUrl('/configurations/load', array('m' => 'Misc', 'type' => 'other')), 'visible' => (Yii::app()->user->isSuperuser) ? 0 : 1, 'itemOptions' => array('class' => '')),
+            array('label' => 'Logout', 'url' => array('/site/logout'), 'visible' => (Yii::app()->user->isGuest) ? 0 : 1, 'itemOptions' => array('class' => 'logout border-none')),
+            array('label' => 'Login', 'url' => array('/site/login'), 'visible' => (Yii::app()->user->isGuest) ? 1 : 0, 'itemOptions' => array('class' => 'logout border-none')),
+        // Include the operations menu
+        //array('label' => 'OPERATIONS', 'items' => $this->menu),
+        ),
+    ));
+    ?>
                 <?php
                 /*
                  * If configuration controller is called
@@ -83,7 +81,6 @@ $this->beginContent('//layouts/main');
                             "category" => "models_labels")) . '</li>' .
                         '<li>' . CHtml::link('Product Detail', array('/dtMessages/index',
                             "category" => "product_detail")) . '</li>' .
-
                         '</ul>',
                     );
 
@@ -115,37 +112,90 @@ $this->beginContent('//layouts/main');
                 ?>
             </div>
             <br>
+                <?php
+                //storing all logic here
+                $total_items = DashboardStats::getTotalItems();
+                $total_books = DashboardStats::getTotalItems("Books");
+                $total_others = DashboardStats::getTotalItems("Books", true);
+                $total_booksin_perc = ($total_books * 100) / $total_items;
+                $total_others_perc = ($total_others * 100) / $total_items;
+
+                //get total orders 
+
+                $total_orders = DashboardStats::getTotalOrders();
+                $total_orders_ship = DashboardStats::getTotalOrders("Shipped");
+                $total_orders_ship_perc = ($total_orders_ship * 100)/$total_orders;
+                $total_orders_pend = DashboardStats::getTotalOrders("Pending");
+                $total_orders_pend_perc = ($total_orders_pend * 100)/$total_orders;
+                $total_orders_canc = DashboardStats::getTotalOrders("Cancelled");
+                $total_orders_canc_perc = ($total_orders_canc * 100)/$total_orders;
+                
+                $total_orders_ref = DashboardStats::getTotalOrders("Refunded");
+                $total_orders_ref_perc = ($total_orders_ref * 100)/$total_orders;
+                ?>
             <table class="table table-striped table-bordered">
                 <tbody>
                     <tr>
-                        <td width="50%">Bandwith Usage</td>
+                        <td width="50%">Total Items</td>
                         <td>
-                            <div class="progress progress-danger">
-                                <div class="bar" style="width: 80%"></div>
+                            <div class="progress progress-danger"  alt="<?php echo $total_items; ?>" title="<?php echo $total_items; ?>">
+                                <div class="bar" style="width: 100%" alt="<?php echo $total_items; ?>" title="<?php echo $total_items; ?>"></div>
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td>Disk Spage</td>
+                        <td>Books</td>
                         <td>
-                            <div class="progress progress-warning">
-                                <div class="bar" style="width: 60%"></div>
+                            <div class="progress progress-warning" alt="<?php echo $total_books; ?>" title="<?php echo $total_books; ?>">
+                                <div class="bar" style="width: <?php echo $total_booksin_perc ?>%"></div>
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td>Conversion Rate</td>
+                        <td>Other Items</td>
                         <td>
-                            <div class="progress progress-success">
-                                <div class="bar" style="width: 40%"></div>
+                            <div class="progress progress-success" alt="<?php echo $total_others; ?>" title="<?php echo $total_others; ?>">
+                                <div class="bar" style="width: <?php echo $total_others_perc ?>%"></div>
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td>Closed Sales</td>
+                        <td>Total Orders</td>
                         <td>
-                            <div class="progress progress-info">
-                                <div class="bar" style="width: 20%"></div>
+                            <div class="progress progress-info" alt="<?php echo $total_orders; ?>" title="<?php echo $total_orders; ?>">
+                                <div class="bar" style="width: 100%"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Shipped Orders</td>
+                        <td>
+                            <div class="progress progress-info" alt="<?php echo $total_orders_ship_perc; ?>" title="<?php echo $total_orders_ship_perc; ?>">
+                                <div class="bar" style="width: <?php echo $total_orders_ship_perc; ?>%"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Pending Orders</td>
+                        <td>
+                            <div class="progress progress-info" alt="<?php echo $total_orders_ship; ?>" title="<?php echo $total_orders_ship; ?>">
+                                <div class="bar" style="width: <?php echo $total_orders_pend_perc; ?>%"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Canceled Orders</td>
+                        <td>
+                            <div class="progress progress-info" alt="<?php echo $total_orders_canc; ?>" title="<?php echo $total_orders_canc; ?>">
+                                <div class="bar" style="width: <?php echo $total_orders_canc_perc; ?>%"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Refunded Orders</td>
+                        <td>
+                            <div class="progress progress-info" alt="<?php echo $total_orders_ref; ?>" title="<?php echo $total_orders_ref; ?>">
+                                <div class="bar" style="width: <?php echo $total_orders_ref_perc; ?>%"></div>
                             </div>
                         </td>
                     </tr>
@@ -154,14 +204,18 @@ $this->beginContent('//layouts/main');
             <div class="well">
 
                 <dl class="dl-horizontal">
-                    <dt>Account status</dt>
-                    <dd>$1,234,002</dd>
-                    <dt>Open Invoices</dt>
-                    <dd>$245,000</dd>
-                    <dt>Overdue Invoices</dt>
-                    <dd>$20,023</dd>
-                    <dt>Converted Quotes</dt>
-                    <dd>$560,000</dd>
+                    <dt>Total Customers</dt>
+                    <dd><?php echo DashboardStats::getTotalCustomers(); ?></dd>
+                    <dt>Total Orders</dt>
+                    <dd><?php echo $total_orders; ?></dd>
+                    <dt>Shipped Orders</dt>
+                    <dd><?php echo $total_orders_ship; ?></dd>
+                    <dt>Pending Orders</dt>
+                    <dd><?php echo $total_orders_pend; ?></dd>
+                    <dt>Canceled Orders</dt>
+                    <dd><?php echo $total_orders_canc; ?></dd>
+                    <dt>Refunded Orders</dt>
+                    <dd><?php echo $total_orders_ref; ?></dd>
 
                 </dl>
             </div>
@@ -169,14 +223,14 @@ $this->beginContent('//layouts/main');
         </div><!--/span-->
         <div class="span9">
 
-            <?php if (isset($this->breadcrumbs)): ?>
-                <?php
-                $this->widget('zii.widgets.CBreadcrumbs', array(
-                    'links' => $this->breadcrumbs,
-                    'homeLink' => CHtml::link('Dashboard'),
-                    'htmlOptions' => array('class' => 'breadcrumb')
-                ));
-                ?><!-- breadcrumbs -->
+    <?php if (isset($this->breadcrumbs)): ?>
+        <?php
+        $this->widget('zii.widgets.CBreadcrumbs', array(
+            'links' => $this->breadcrumbs,
+            'homeLink' => CHtml::link('Dashboard'),
+            'htmlOptions' => array('class' => 'breadcrumb')
+        ));
+        ?><!-- breadcrumbs -->
                 <?php
             endif;
         }
@@ -187,6 +241,6 @@ $this->beginContent('//layouts/main');
 
     </div><!--/span-->
 </div><!--/row-->
-<?php
-$this->endContent();
-?>
+        <?php
+        $this->endContent();
+        ?>

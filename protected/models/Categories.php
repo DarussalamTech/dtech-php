@@ -299,7 +299,7 @@ class Categories extends DTActiveRecord {
      */
     public function getParentCategoryId($cat_name,$city = "") {
         $criteria = new CDbCriteria();
-        $criteria->addCondition("t.category_name = '" . $cat_name . "'");
+        $criteria->addCondition("Lower(t.category_name) = '" . strtolower($cat_name) . "'");
         $criteria->select = "category_id";
         
         if($city != ""){
