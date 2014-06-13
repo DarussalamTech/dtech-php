@@ -175,7 +175,7 @@ h1,h2,h3,h4, .portlet > .portlet-decoration, .sidebar-nav > ul > li > a, .navbar
 }
 
 .stat-block .stat-count {
-    width: 90px;
+    width: 125px;
 }
 
 .stat-block .stat-count span:last-child {
