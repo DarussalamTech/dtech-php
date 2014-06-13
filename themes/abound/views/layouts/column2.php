@@ -117,21 +117,21 @@ if (!Yii::app()->user->isGuest) {
                 $total_items = DashboardStats::getTotalItems();
                 $total_books = DashboardStats::getTotalItems("Books");
                 $total_others = DashboardStats::getTotalItems("Books", true);
-                $total_booksin_perc = ($total_books * 100) / $total_items;
-                $total_others_perc = ($total_others * 100) / $total_items;
+                $total_booksin_perc = ($total_items>0)?($total_books * 100) / $total_items:0;
+                $total_others_perc = ($total_items>0)?($total_others * 100) / $total_items:0;
 
                 //get total orders 
 
                 $total_orders = DashboardStats::getTotalOrders();
                 $total_orders_ship = DashboardStats::getTotalOrders("Shipped");
-                $total_orders_ship_perc = ($total_orders_ship * 100)/$total_orders;
+                $total_orders_ship_perc = $total_orders>0?($total_orders_ship * 100)/$total_orders:0;
                 $total_orders_pend = DashboardStats::getTotalOrders("Pending");
-                $total_orders_pend_perc = ($total_orders_pend * 100)/$total_orders;
+                $total_orders_pend_perc = $total_orders>0?($total_orders_pend * 100)/$total_orders:0;
                 $total_orders_canc = DashboardStats::getTotalOrders("Cancelled");
-                $total_orders_canc_perc = ($total_orders_canc * 100)/$total_orders;
+                $total_orders_canc_perc = $total_orders>0?($total_orders_canc * 100)/$total_orders:0;
                 
                 $total_orders_ref = DashboardStats::getTotalOrders("Refunded");
-                $total_orders_ref_perc = ($total_orders_ref * 100)/$total_orders;
+                $total_orders_ref_perc = ($total_orders>0)?($total_orders_ref * 100)/$total_orders:0;
                 ?>
             <table class="table table-striped table-bordered">
                 <tbody>
