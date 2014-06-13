@@ -76,7 +76,8 @@ class Session extends CActiveRecord {
      */
 
     public function saveSession() {
-        $this->ip = CHttpRequest::getUserHostAddress();
+        $chttp = new CHttpRequest();
+        $this->ip = $chttp->getUserHostAddress();
         $this->city_id = Yii::app()->session['city_id'];
         $this->country_id = Yii::app()->session['country_id'];
     }
@@ -88,14 +89,16 @@ class Session extends CActiveRecord {
      */
 
     public function validateIpAddress($attribute, $params) {
-        $old_ip = CHttpRequest::getUserHostAddress();
+        $chttp = new CHttpRequest();
+        $old_ip = $chttp->getUserHostAddress();
         if ($old_ip == $this->ip) {
             $this->model()->deleteByPk($this->ip);
         }
     }
     
     public function getCity(){
-        $session = $this->find("ip = '".CHttpRequest::getUserHostAddress()."'");
+        $chttp = new CHttpRequest();
+        $session = $this->find("ip = '".$chttp->getUserHostAddress()."'");
         return $session->city_id;
     }
 
