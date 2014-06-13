@@ -1,4 +1,4 @@
-<?php
+g<?php
 
 /**
  * This is the model class for table "site".

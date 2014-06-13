@@ -214,6 +214,10 @@ $rules_admin = array(
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/<id:[\w-\.]+>/notification/deleteFolder' => '/notifcation/deleteFolder',
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/notification/get-total-notifications' => '/notifcation/getTotalNotifications',
     
+    //dashboard
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/dash-board/index' => '/DashBoard/index',
+    
+    
     //log 
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/log/view/<id:[\w-\.]+>' => '/log/view',
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/log/index' => '/log/index',

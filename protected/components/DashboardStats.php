@@ -44,7 +44,7 @@ class DashboardStats extends CComponent {
      * @param type $category
      * @return type
      */
-    public function getTotalItems($category = "", $notequal = false) {
+    public static function getTotalItems($category = "", $notequal = false) {
 
         $criteria = new CDbCriteria;
 
@@ -68,6 +68,54 @@ class DashboardStats extends CComponent {
         }
 
         return Product::model()->count($criteria);
+    }
+
+    /**
+     * 
+     * @param type $type
+     */
+    public static function getSalesByType($type = "WEEK") {
+
+        $oDbConnection = Yii::app()->db;
+        
+        $sql = "SELECT SUM(`total_price`) as total,create_time 
+                FROM `order` GROUP BY WEEK(`create_time`) ORDER BY create_time DESC LIMIT 7 ";
+        if ($type == "DAY") {
+            $sql = "SELECT (
+                    `total_price`
+                    ) AS total, create_time, NOW( ) , DATE_SUB( NOW( ) , INTERVAL 100
+                    DAY )
+                    FROM `order`
+                    WHERE create_time <= NOW( )
+                    AND create_time >= DATE_SUB( NOW( ) , INTERVAL 30
+                    DAY )
+                    ORDER BY create_time DESC
+                    LIMIT 7 ";
+        }
+        if ($type == "WEEK") {
+            $sql = "SELECT SUM(`total_price`) as total,create_time 
+                FROM `order` GROUP BY WEEK(`create_time`)  ORDER BY create_time DESC LIMIT 7";
+        }
+        else if ($type =="MONTH"){
+            $sql = "SELECT SUM(`total_price`) as total,create_time 
+                FROM `order` GROUP BY MONTH(`create_time`) ORDER BY create_time DESC LIMIT 7";
+        }
+        else if ($type =="YEAR"){
+            $sql = "SELECT SUM(`total_price`) as total,create_time  
+                FROM `order` GROUP BY YEAR(`create_time`)  ORDER BY create_time DESC LIMIT 7";
+        }
+
+        $oCommand = $oDbConnection->createCommand($sql);
+        $oCDbDataReader = $oCommand->queryAll();
+        $sum = 0;
+        $values_arr = array();
+       
+        foreach($oCDbDataReader as $data){
+            $sum+=$data['total'];
+            $values_arr[] = $data['total'];
+        }
+        
+        return array("total"=>round($sum/count($oCDbDataReader)),"values"=>implode(",",$values_arr));
     }
 
 }
