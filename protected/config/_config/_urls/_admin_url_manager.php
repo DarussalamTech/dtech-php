@@ -215,7 +215,7 @@ $rules_admin = array(
     '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/notification/get-total-notifications' => '/notifcation/getTotalNotifications',
     
     //dashboard
-    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/dash-board/index' => '/DashBoard/index',
+    '<country:[\w-\.]+>/<city:[\w-\.]+>/<city_id:[\w-\.]+>/dash-board/index' => '/dashBoard/index',
     
     
     //log 

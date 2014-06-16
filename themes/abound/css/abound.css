@@ -580,3 +580,15 @@ div.errorMessage {
     top: 0;
 
 }
+ul.operations {
+    margin-top: 40px;
+}
+ul.operations li:first-child a{
+    cursor: default;
+    color:black;
+    font-weight: bold;
+}
+ul.operations li:first-child a:hover{
+    cursor: default;
+    color:black;
+}
