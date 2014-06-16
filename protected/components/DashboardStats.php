@@ -64,9 +64,9 @@ class DashboardStats extends CComponent {
      * customer who gives order
      */
     public static function getOrderedCustomers() {
-         $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria;
         $criteria->distinct = "t.user_id";
-        
+
         if (!Yii::app()->user->getIsSuperuser()) {
             $criteria->addCondition("city_id = :city_id");
             $criteria->params['city_id'] = Yii::app()->request->getQuery("city_id");
@@ -185,6 +185,31 @@ class DashboardStats extends CComponent {
         }
 
         return array("total" => round($sum / count($oCDbDataReader)), "values" => implode(",", $values_arr));
+    }
+
+    /**
+     * get most ordered users
+     * @return type
+     */
+    public static function getMostOrderUser() {
+        $oDbConnection = Yii::app()->db;
+
+        $conidition = "";
+        $conidition_whr = "";
+        if (!Yii::app()->user->getIsSuperuser()) {
+           // $conidition_whr = " WHERE t.city_id = " . Yii::app()->request->getQuery("city_id");
+            $conidition = " t.city_id = " . Yii::app()->request->getQuery("city_id");
+        }
+        $sql = "SET @serial=0;Select @serial= @serial+1 AS `serial_number`,DISTINCT(user.user_id),user_name,count(o.order_id) FROM user
+            INNER JOIN `order`  o
+            ON o.user_id = user.user_id " . $conidition_whr . " 
+            GROUP BY user.user_id
+            ORDER BY count(o.order_id) DESC LIMIT 5";
+
+        $oCommand = $oDbConnection->createCommand($sql);
+        $oCDbDataReader = $oCommand->queryAll();
+
+        return $oCDbDataReader;
     }
 
 }
