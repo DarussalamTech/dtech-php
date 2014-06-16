@@ -39,6 +39,20 @@ class DashboardStats extends CComponent {
     }
 
     /**
+     * get last 10 days ordes
+     */
+    public static function getLastTenDaysOrders() {
+        $criteria = new CDbCriteria;
+        if (!Yii::app()->user->getIsSuperuser()) {
+            $criteria->addCondition("city_id = :city_id");
+            $criteria->params['city_id'] = Yii::app()->request->getQuery("city_id");
+        }
+        $criteria->order = "create_time DESC"; 
+        $criteria->limit = 10;
+        return Order::model()->count($criteria);
+    }
+
+    /**
      * 
      * get Total Items
      * @param type $category
@@ -77,7 +91,7 @@ class DashboardStats extends CComponent {
     public static function getSalesByType($type = "WEEK") {
 
         $oDbConnection = Yii::app()->db;
-        
+
         $sql = "SELECT SUM(`total_price`) as total,create_time 
                 FROM `order` GROUP BY WEEK(`create_time`) ORDER BY create_time DESC LIMIT 7 ";
         if ($type == "DAY") {
@@ -95,12 +109,10 @@ class DashboardStats extends CComponent {
         if ($type == "WEEK") {
             $sql = "SELECT SUM(`total_price`) as total,create_time 
                 FROM `order` GROUP BY WEEK(`create_time`)  ORDER BY create_time DESC LIMIT 7";
-        }
-        else if ($type =="MONTH"){
+        } else if ($type == "MONTH") {
             $sql = "SELECT SUM(`total_price`) as total,create_time 
                 FROM `order` GROUP BY MONTH(`create_time`) ORDER BY create_time DESC LIMIT 7";
-        }
-        else if ($type =="YEAR"){
+        } else if ($type == "YEAR") {
             $sql = "SELECT SUM(`total_price`) as total,create_time  
                 FROM `order` GROUP BY YEAR(`create_time`)  ORDER BY create_time DESC LIMIT 7";
         }
@@ -109,13 +121,34 @@ class DashboardStats extends CComponent {
         $oCDbDataReader = $oCommand->queryAll();
         $sum = 0;
         $values_arr = array();
-       
-        foreach($oCDbDataReader as $data){
+
+        foreach ($oCDbDataReader as $data) {
             $sum+=$data['total'];
             $values_arr[] = $data['total'];
         }
-        
-        return array("total"=>round($sum/count($oCDbDataReader)),"values"=>implode(",",$values_arr));
+
+        return array("total" => round($sum / count($oCDbDataReader)), "values" => implode(",", $values_arr));
+    }
+
+    /**
+     * get monthly income for dash board
+     */
+    public static function getMonthlyIncome() {
+        $oDbConnection = Yii::app()->db;
+        $sql = "SELECT SUM(`total_price`) as total,create_time 
+                FROM `order` GROUP BY MONTH(`create_time`) ORDER BY create_time DESC ";
+
+        $oCommand = $oDbConnection->createCommand($sql);
+        $oCDbDataReader = $oCommand->queryAll();
+        $sum = 0;
+        $values_arr = array();
+
+        foreach ($oCDbDataReader as $data) {
+            $sum+=$data['total'];
+            $values_arr[] = $data['total'];
+        }
+
+        return array("total" => round($sum / count($oCDbDataReader)), "values" => implode(",", $values_arr));
     }
 
 }
