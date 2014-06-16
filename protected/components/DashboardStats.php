@@ -20,6 +20,14 @@ class DashboardStats extends CComponent {
         return User::model()->count($criteria);
     }
 
+    /*
+     * 
+     */
+
+    public static function getPurchasers() {
+        
+    }
+
     /**
      * 
      * @return type
@@ -47,8 +55,22 @@ class DashboardStats extends CComponent {
             $criteria->addCondition("city_id = :city_id");
             $criteria->params['city_id'] = Yii::app()->request->getQuery("city_id");
         }
-        $criteria->order = "create_time DESC"; 
+        $criteria->order = "create_time DESC";
         $criteria->limit = 10;
+        return Order::model()->count($criteria);
+    }
+
+    /**
+     * customer who gives order
+     */
+    public static function getOrderedCustomers() {
+         $criteria = new CDbCriteria;
+        $criteria->distinct = "t.user_id";
+        
+        if (!Yii::app()->user->getIsSuperuser()) {
+            $criteria->addCondition("city_id = :city_id");
+            $criteria->params['city_id'] = Yii::app()->request->getQuery("city_id");
+        }
         return Order::model()->count($criteria);
     }
 
@@ -91,16 +113,24 @@ class DashboardStats extends CComponent {
     public static function getSalesByType($type = "WEEK") {
 
         $oDbConnection = Yii::app()->db;
+        $conidition = "";
+        $conidition_whr = "";
+        $conidition_and = "";
+        if (!Yii::app()->user->getIsSuperuser()) {
+            $conidition_whr = " WHERE t.city_id = " . Yii::app()->request->getQuery("city_id");
+            $conidition = " t.city_id = " . Yii::app()->request->getQuery("city_id");
+            $conidition_and = " AND t.city_id = " . Yii::app()->request->getQuery("city_id");
+        }
 
         $sql = "SELECT SUM(`total_price`) as total,create_time 
-                FROM `order` GROUP BY WEEK(`create_time`) ORDER BY create_time DESC LIMIT 7 ";
+                FROM `order` " . $conidition_whr . " GROUP BY WEEK(`create_time`) ORDER BY create_time DESC LIMIT 7 ";
         if ($type == "DAY") {
             $sql = "SELECT (
                     `total_price`
                     ) AS total, create_time, NOW( ) , DATE_SUB( NOW( ) , INTERVAL 100
                     DAY )
-                    FROM `order`
-                    WHERE create_time <= NOW( )
+                    FROM `order` 
+                    WHERE create_time <= NOW( ) " . $conidition_and . " 
                     AND create_time >= DATE_SUB( NOW( ) , INTERVAL 30
                     DAY )
                     ORDER BY create_time DESC
@@ -108,13 +138,13 @@ class DashboardStats extends CComponent {
         }
         if ($type == "WEEK") {
             $sql = "SELECT SUM(`total_price`) as total,create_time 
-                FROM `order` GROUP BY WEEK(`create_time`)  ORDER BY create_time DESC LIMIT 7";
+                FROM `order` " . $conidition_whr . " GROUP BY WEEK(`create_time`)  ORDER BY create_time DESC LIMIT 7";
         } else if ($type == "MONTH") {
             $sql = "SELECT SUM(`total_price`) as total,create_time 
-                FROM `order` GROUP BY MONTH(`create_time`) ORDER BY create_time DESC LIMIT 7";
+                FROM `order` " . $conidition_whr . " GROUP BY MONTH(`create_time`) ORDER BY create_time DESC LIMIT 7";
         } else if ($type == "YEAR") {
             $sql = "SELECT SUM(`total_price`) as total,create_time  
-                FROM `order` GROUP BY YEAR(`create_time`)  ORDER BY create_time DESC LIMIT 7";
+                FROM `order` " . $conidition_whr . " GROUP BY YEAR(`create_time`)  ORDER BY create_time DESC LIMIT 7";
         }
 
         $oCommand = $oDbConnection->createCommand($sql);
@@ -135,8 +165,14 @@ class DashboardStats extends CComponent {
      */
     public static function getMonthlyIncome() {
         $oDbConnection = Yii::app()->db;
+        $conidition = "";
+        $conidition_whr = "";
+        if (!Yii::app()->user->getIsSuperuser()) {
+            $conidition_whr = " WHERE t.city_id = " . Yii::app()->request->getQuery("city_id");
+            $conidition = " t.city_id = " . Yii::app()->request->getQuery("city_id");
+        }
         $sql = "SELECT SUM(`total_price`) as total,create_time 
-                FROM `order` GROUP BY MONTH(`create_time`) ORDER BY create_time DESC ";
+                FROM `order` " . $conidition_whr . " GROUP BY MONTH(`create_time`) ORDER BY create_time DESC ";
 
         $oCommand = $oDbConnection->createCommand($sql);
         $oCDbDataReader = $oCommand->queryAll();
