@@ -156,8 +156,13 @@ class DashboardStats extends CComponent {
             $sum+=$data['total'];
             $values_arr[] = $data['total'];
         }
-
-        return array("total" => round($sum / count($oCDbDataReader)), "values" => implode(",", $values_arr));
+        if (count($oCDbDataReader) > 0) {
+            $total = round($sum / count($oCDbDataReader));
+        }
+        else {
+            $total = 0;
+        }
+        return array("total" =>$total, "values" => implode(",", $values_arr));
     }
 
     /**
@@ -186,6 +191,7 @@ class DashboardStats extends CComponent {
 
         return array("total" => round($sum / count($oCDbDataReader)), "values" => implode(",", $values_arr));
     }
+
     /**
      * use for line charts
      * @return type
@@ -213,6 +219,7 @@ class DashboardStats extends CComponent {
 
         return array("total" => round($sum / count($oCDbDataReader)), "values" => implode(",", $values_arr));
     }
+
     /**
      * use for line charts
      * @return type
