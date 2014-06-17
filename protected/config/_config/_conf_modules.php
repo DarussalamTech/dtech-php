@@ -163,6 +163,10 @@ $modules = array(
             'Log.View',
             'Log.Robote',
             'Log.HtAccess',
+            
+            //Dashboard
+            'DashBoard.*',
+            'DashBoard.Index'
 
         ),
         'debug' => false, // Whether to enable debug mode.
