@@ -194,7 +194,10 @@ class DTWebUser extends CWebUser {
             /**
              * removing space and @ sign from user name if it has
              */
-            return array_shift(explode(" ", array_shift(explode('@', Yii::app()->user->name))));
+            $user = explode('@', Yii::app()->user->name);
+            $user = $user[0];
+            $user = explode(" ", $user);
+            return $user[0];
         }
     }
 
