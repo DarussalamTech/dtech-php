@@ -776,12 +776,13 @@ $(document).ready(function() {
         $(function() {
             // we use an inline data source in the example, usually data would
             // be fetched from a server
-            var data = [], totalPoints = 500;
+            var data = [], totalPoints = monthly_income.length;
             function getRandomData() {
                 if (data.length > 0)
                     data = data.slice(1);
 
                 // do a random walk
+                counter = 0;
                 while (data.length < totalPoints) {
                     var prev = data.length > 0 ? data[data.length - 1] : 50;
                     var y = prev + Math.random() * 10 - 5;
@@ -789,7 +790,10 @@ $(document).ready(function() {
                         y = 0;
                     if (y > 100)
                         y = 100;
-                    data.push(y);
+                   
+                     data.push(monthly_income[counter]);
+                    counter++;
+                   
                 }
 
                 // zip the generated y values with the x values
@@ -837,7 +841,7 @@ $(document).ready(function() {
                         y: -50
                     }
                 },
-                yaxis: {min: 0, max: 100},
+                yaxis: {min: 0, max: max_month_value},
                 xaxis: {show: true}
             };
             var plot = $.plot($(".auto-update-chart"), [getRandomData()], options);
@@ -850,7 +854,7 @@ $(document).ready(function() {
                 setTimeout(update, updateInterval);
             }
 
-            update();
+            //update();
         });
     }//end if
 
