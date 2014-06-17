@@ -146,6 +146,20 @@ $(document).ready(function() {
             var d1 = [[1, 3 + randNum()], [2, 6 + randNum()], [3, 9 + randNum()], [4, 12 + randNum()], [5, 15 + randNum()], [6, 18 + randNum()], [7, 21 + randNum()], [8, 15 + randNum()], [9, 18 + randNum()], [10, 21 + randNum()], [11, 24 + randNum()], [12, 27 + randNum()], [13, 30 + randNum()], [14, 33 + randNum()], [15, 24 + randNum()], [16, 27 + randNum()], [17, 30 + randNum()], [18, 33 + randNum()], [19, 36 + randNum()], [20, 39 + randNum()], [21, 42 + randNum()], [22, 45 + randNum()], [23, 36 + randNum()], [24, 39 + randNum()], [25, 42 + randNum()], [26, 45 + randNum()], [27, 38 + randNum()], [28, 51 + randNum()], [29, 55 + randNum()], [30, 60 + randNum()]];
             var d2 = [[1, randNum() - 5], [2, randNum() - 4], [3, randNum() - 4], [4, randNum()], [5, 4 + randNum()], [6, 4 + randNum()], [7, 5 + randNum()], [8, 5 + randNum()], [9, 6 + randNum()], [10, 6 + randNum()], [11, 6 + randNum()], [12, 2 + randNum()], [13, 3 + randNum()], [14, 4 + randNum()], [15, 4 + randNum()], [16, 4 + randNum()], [17, 5 + randNum()], [18, 5 + randNum()], [19, 2 + randNum()], [20, 2 + randNum()], [21, 3 + randNum()], [22, 3 + randNum()], [23, 3 + randNum()], [24, 2 + randNum()], [25, 4 + randNum()], [26, 4 + randNum()], [27, 5 + randNum()], [28, 2 + randNum()], [29, 2 + randNum()], [30, 3 + randNum()]];
             //define placeholder class
+            var dor = [];
+            counter = 1
+            for(obj in monthlygrp_order_data){
+                dor.push([counter,parseInt(monthlygrp_order_data[obj])]);
+                counter++;
+            }
+            
+            var dwl = [];
+            counter = 1
+            for(obj in monthlygrp_wishlist_data){
+                dwl.push([counter,parseInt(monthlygrp_wishlist_data[obj])]);
+                counter++;
+            }
+            
             var placeholder = $(".visitors-chart");
             //graph options
             var options = {
@@ -194,7 +208,7 @@ $(document).ready(function() {
                         return label + '&nbsp;&nbsp;';
                     }
                 },
-                yaxis: {min: 0},
+                yaxis: {min: 0,max:max_order_wishlist},
                 xaxis: {ticks: 11, tickDecimals: 0},
                 colors: chartColours,
                 shadowSize: 1,
@@ -210,14 +224,14 @@ $(document).ready(function() {
 
             $.plot(placeholder,[
                 {
-                    label: "Visits",
-                    data: d1,
+                    label: "Monthy Orders",
+                    data: dor,
                     lines: {fillColor: "#f2f7f9"},
                     points: {fillColor: "#88bbc8"}
                 },
                 {
-                    label: "Unique Visits",
-                    data: d2,
+                    label: "Monthly Wishlists",
+                    data: dwl,
                     lines: {fillColor: "#fff8f2"},
                     points: {fillColor: "#ed7a53"}
                 }
@@ -776,12 +790,13 @@ $(document).ready(function() {
         $(function() {
             // we use an inline data source in the example, usually data would
             // be fetched from a server
-            var data = [], totalPoints = 500;
+            var data = [], totalPoints = monthly_income.length;
             function getRandomData() {
                 if (data.length > 0)
                     data = data.slice(1);
 
                 // do a random walk
+                counter = 0;
                 while (data.length < totalPoints) {
                     var prev = data.length > 0 ? data[data.length - 1] : 50;
                     var y = prev + Math.random() * 10 - 5;
@@ -789,7 +804,10 @@ $(document).ready(function() {
                         y = 0;
                     if (y > 100)
                         y = 100;
-                    data.push(y);
+                   
+                     data.push(monthly_income[counter]);
+                    counter++;
+                   
                 }
 
                 // zip the generated y values with the x values
@@ -837,7 +855,7 @@ $(document).ready(function() {
                         y: -50
                     }
                 },
-                yaxis: {min: 0, max: 100},
+                yaxis: {min: 0, max: max_month_value},
                 xaxis: {show: true}
             };
             var plot = $.plot($(".auto-update-chart"), [getRandomData()], options);
@@ -850,7 +868,7 @@ $(document).ready(function() {
                 setTimeout(update, updateInterval);
             }
 
-            update();
+            //update();
         });
     }//end if
 
