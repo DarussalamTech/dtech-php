@@ -200,7 +200,7 @@ class DashboardStats extends CComponent {
            // $conidition_whr = " WHERE t.city_id = " . Yii::app()->request->getQuery("city_id");
             $conidition = " t.city_id = " . Yii::app()->request->getQuery("city_id");
         }
-        $sql = "SET @serial=0;Select @serial= @serial+1 AS `serial_number`,DISTINCT(user.user_id),user_name,count(o.order_id) FROM user
+        $sql = "Select DISTINCT(user.user_id),user_name,count(o.order_id) total_orders,@num := @num + 1 as row_number FROM user
             INNER JOIN `order`  o
             ON o.user_id = user.user_id " . $conidition_whr . " 
             GROUP BY user.user_id
