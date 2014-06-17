@@ -197,14 +197,39 @@ class DashboardStats extends CComponent {
         $conidition = "";
         $conidition_whr = "";
         if (!Yii::app()->user->getIsSuperuser()) {
-           // $conidition_whr = " WHERE t.city_id = " . Yii::app()->request->getQuery("city_id");
+            $conidition_whr = " WHERE t.city_id = " . Yii::app()->request->getQuery("city_id");
             $conidition = " t.city_id = " . Yii::app()->request->getQuery("city_id");
         }
-        $sql = "Select DISTINCT(user.user_id),user_name,count(o.order_id) total_orders,@num := @num + 1 as row_number FROM user
+        $sql = "Select DISTINCT(user.user_id),user_name,count(o.order_id) total_orders,@num := @num + 1 as id FROM user
             INNER JOIN `order`  o
             ON o.user_id = user.user_id " . $conidition_whr . " 
             GROUP BY user.user_id
             ORDER BY count(o.order_id) DESC LIMIT 5";
+
+        $oCommand = $oDbConnection->createCommand($sql);
+        $oCDbDataReader = $oCommand->queryAll();
+
+        return $oCDbDataReader;
+    }
+
+    /**
+     * get most ordered users
+     * @return type
+     */
+    public static function getMostPurchasedUser() {
+        $oDbConnection = Yii::app()->db;
+
+        $conidition = "";
+        $conidition_whr = "";
+        if (!Yii::app()->user->getIsSuperuser()) {
+            $conidition_whr = " WHERE t.city_id = " . Yii::app()->request->getQuery("city_id");
+            $conidition = " t.city_id = " . Yii::app()->request->getQuery("city_id");
+        }
+        $sql = "Select DISTINCT(user.user_id),user_name,ROUND(SUM(o.total_price),2) total_purchased,@num := @num + 1 as id FROM user
+            INNER JOIN `order`  o
+            ON o.user_id = user.user_id " . $conidition_whr . " 
+            GROUP BY user.user_id
+            ORDER BY SUM(o.total_price) DESC LIMIT 5";
 
         $oCommand = $oDbConnection->createCommand($sql);
         $oCDbDataReader = $oCommand->queryAll();
