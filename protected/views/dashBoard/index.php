@@ -25,9 +25,6 @@ $weekly_analysis = DashboardStats::getSalesByType("WEEK");
 $month_analysis = DashboardStats::getSalesByType("MONTH");
 $year_analysis = DashboardStats::getSalesByType("YEAR");
 $gridDataProvider = new CArrayDataProvider($top_orders);
-
-
-
 ?>
 
 <div class="row-fluid">
@@ -89,7 +86,7 @@ $gridDataProvider = new CArrayDataProvider($top_orders);
     <div class="span3">
         <?php
         $monthly_income = DashboardStats::getMonthlyIncome();
-     
+
 
         $total_items = DashboardStats::getTotalItems();
         $total_books = DashboardStats::getTotalItems("Books");
@@ -109,9 +106,15 @@ $gridDataProvider = new CArrayDataProvider($top_orders);
 
         $total_orders_ref = DashboardStats::getTotalOrders("Refunded");
         $total_orders_ref_perc = ($total_orders > 0) ? ($total_orders_ref * 100) / $total_orders : 0;
-        
+
         $customers_who_ordered = DashboardStats::getOrderedCustomers();
         $total_customers = DashboardStats::getTotalCustomers();
+
+        /**
+         * get wish list and orders by monthly groups
+         */
+        $monthly_group_orders = DashboardStats::getMonthlyOrderLists();
+        $monthly_group_wishlist = DashboardStats::getMonthlyWishLists();
         ?>
         <div class="summary">
             <ul>
@@ -184,7 +187,6 @@ $gridDataProvider = new CArrayDataProvider($top_orders);
             'dataProvider' => $gridDataProvider,
             'template' => "{items}",
             'columns' => array(
-             
                 array('name' => 'user_name', 'header' => 'User Name'),
                 array('name' => 'total_purchased', 'header' => 'Total Purchased'),
 //                array('name' => 'language', 'header' => 'Language'),
@@ -200,7 +202,7 @@ $gridDataProvider = new CArrayDataProvider($top_orders);
     <div class="span6">
         <?php
         $this->beginWidget('zii.widgets.CPortlet', array(
-            'title' => '<span class="icon-th-large"></span>Income Chart',
+            'title' => '<span class="icon-th-large"></span>Wish List & Orders',
             'titleCssClass' => ''
         ));
         ?>
@@ -231,11 +233,21 @@ $gridDataProvider = new CArrayDataProvider($top_orders);
      <input class="knob" data-width="100" data-min="-100" data-fgColor="#F89406" data-displayPrevious=true value="44">     	
     </div><!--/span-->
 </div><!--/row-->
-
+<?php
+/*
+ * merge arr for wishlist and orders
+ */
+$merge_arr = array_merge(explode(",", $monthly_group_orders['values']), explode(",", $monthly_group_wishlist['values']));
+$max_orders_wishlist = max($merge_arr);
+?>
 <script>
-    var visitor_charts = <?php echo CJSON::encode(array(round($total_customers),round($customers_who_ordered))) ?>;
-    var monthly_income = <?php echo CJSON::encode(explode(",",$monthly_income['values'])); ?>;
-    var max_month_value = <?php echo max(explode(",",$monthly_income['values'])); ?>;
+    var visitor_charts = <?php echo CJSON::encode(array(round($total_customers), round($customers_who_ordered))) ?>;
+    var monthly_income = <?php echo CJSON::encode(explode(",", $monthly_income['values'])); ?>;
+    var max_month_value = <?php echo max(explode(",", $monthly_income['values'])); ?>;
+
+    var monthlygrp_order_data = <?php echo CJSON::encode((array) explode(",", $monthly_group_orders['values'])); ?>;
+    var monthlygrp_wishlist_data = <?php echo CJSON::encode((array) explode(",", $monthly_group_wishlist['values'])); ?>;
+    var max_order_wishlist = <?php echo $max_orders_wishlist; ?>;
 </script>
 <script>
     jQuery(function() {

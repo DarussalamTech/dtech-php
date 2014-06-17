@@ -186,6 +186,60 @@ class DashboardStats extends CComponent {
 
         return array("total" => round($sum / count($oCDbDataReader)), "values" => implode(",", $values_arr));
     }
+    /**
+     * use for line charts
+     * @return type
+     */
+    public static function getMonthlyWishLists() {
+        $oDbConnection = Yii::app()->db;
+        $conidition = "";
+        $conidition_whr = "";
+        if (!Yii::app()->user->getIsSuperuser()) {
+            $conidition_whr = " WHERE t.city_id = " . Yii::app()->request->getQuery("city_id");
+            $conidition = " t.city_id = " . Yii::app()->request->getQuery("city_id");
+        }
+        $sql = "SELECT COUNT(`id`) as total,create_time 
+                FROM `wish_list` " . $conidition_whr . " GROUP BY MONTH(`create_time`) ORDER BY create_time DESC LIMIT 12";
+
+        $oCommand = $oDbConnection->createCommand($sql);
+        $oCDbDataReader = $oCommand->queryAll();
+        $sum = 0;
+        $values_arr = array();
+
+        foreach ($oCDbDataReader as $data) {
+            $sum+=$data['total'];
+            $values_arr[] = $data['total'];
+        }
+
+        return array("total" => round($sum / count($oCDbDataReader)), "values" => implode(",", $values_arr));
+    }
+    /**
+     * use for line charts
+     * @return type
+     */
+    public static function getMonthlyOrderLists() {
+        $oDbConnection = Yii::app()->db;
+        $conidition = "";
+        $conidition_whr = "";
+        if (!Yii::app()->user->getIsSuperuser()) {
+            $conidition_whr = " WHERE t.city_id = " . Yii::app()->request->getQuery("city_id");
+            $conidition = " t.city_id = " . Yii::app()->request->getQuery("city_id");
+        }
+        $sql = "SELECT COUNT(`order_id`) as total,create_time 
+                FROM `order` " . $conidition_whr . " GROUP BY MONTH(`create_time`) ORDER BY create_time DESC LIMIT 12";
+
+        $oCommand = $oDbConnection->createCommand($sql);
+        $oCDbDataReader = $oCommand->queryAll();
+        $sum = 0;
+        $values_arr = array();
+
+        foreach ($oCDbDataReader as $data) {
+            $sum+=$data['total'];
+            $values_arr[] = $data['total'];
+        }
+
+        return array("total" => round($sum / count($oCDbDataReader)), "values" => implode(",", $values_arr));
+    }
 
     /**
      * get most ordered users
