@@ -367,6 +367,14 @@ class MenusController extends Controller {
         $ary[] = array("id" => "57", "pid" => "55", "root_parent" => "55", "controller" => "notifcation", "action" => "create", "default_title" => "Compose New", "user_title" => "Compose New", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "2");
 
 
+        
+        /* product Template module */
+
+        $ary[] = array("id" => "58", "pid" => "0", "root_parent" => "58", "controller" => "productTemplate", "action" => "index", "default_title" => "Product Template", "user_title" => "Product Template", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "3");
+        $ary[] = array("id" => "59", "pid" => "58", "root_parent" => "58", "controller" => "productTemplate", "action" => "index", "default_title" => "List All", "user_title" => "List All", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "0");
+        $ary[] = array("id" => "60", "pid" => "58", "root_parent" => "58", "controller" => "productTemplate", "action" => "create", "default_title" => "Create", "user_title" => "Create", "is_assigned" => "Yes", "min_permission" => "View", "weight" => "2");
+        
+        
         foreach ($ary as $attr) {
             $model = new Menu();
             $model->attributes = $attr;

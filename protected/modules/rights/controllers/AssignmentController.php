@@ -18,8 +18,8 @@ class AssignmentController extends Controller {
     public function beforeAction($action) {
         parent::beforeAction($action);
         Yii::app()->user->SiteSessions;
-        Yii::app()->theme = "admin";
-
+        Yii::app()->theme = "abound";
+unset(Yii::app()->clientScript->scriptMap['jquery.js']);
         return true;
     }
 
@@ -30,6 +30,7 @@ class AssignmentController extends Controller {
         $this->_authorizer = $this->module->getAuthorizer();
         $this->layout = $this->module->layout;
         $this->defaultAction = 'view';
+       
 
         // Register the scripts
         $this->module->registerScripts();

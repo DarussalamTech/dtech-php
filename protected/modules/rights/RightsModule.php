@@ -83,7 +83,7 @@ class RightsModule extends CWebModule
 	/**
 	* @property string the path to the application layout file.
 	*/
-	public $appLayout = 'application.views.layouts.main';
+	public $appLayout = 'application.themes.abound.views.layout.main';
 	/**
 	* @property string the style sheet file to use for Rights.
 	*/
@@ -157,9 +157,9 @@ class RightsModule extends CWebModule
 
 		// Register the necessary scripts
 		$cs = Yii::app()->getClientScript();
-		$cs->registerCoreScript('jquery');
-		$cs->registerCoreScript('jquery.ui');
-		$cs->registerScriptFile($assetsUrl.'/js/rights.js');
+		$cs->registerCoreScript('jquery',CClientScript::POS_END);
+		$cs->registerCoreScript('jquery.ui',CClientScript::POS_END);
+		$cs->registerScriptFile($assetsUrl.'/js/rights.js',CClientScript::POS_END);
 		$cs->registerCssFile($assetsUrl.'/css/core.css');
 
 		// Make sure we want to register a style sheet.

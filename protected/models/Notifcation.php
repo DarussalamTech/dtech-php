@@ -16,12 +16,15 @@
  * @property integer $related_id
  * @property integer $email_sent
  * @property integer $is_read
+ * @property integer $deleted
  * @property string $create_time
  * @property string $create_user_id
  * @property string $update_time
  * @property string $update_user_id
  */
 class Notifcation extends DTActiveRecord {
+
+    public $_source, $_related_to;
 
     /**
      * Returns the static model of the specified AR class.
@@ -52,7 +55,7 @@ class Notifcation extends DTActiveRecord {
             array('to', 'length', 'max' => 255),
             array('to', 'validateEmailTo'),
             array('type', 'length', 'max' => 5),
-            array('is_read,folder,email_sent,related_id,related_to,subject,body,attachment', 'safe'),
+            array('_related_to,deleted,_source,is_read,folder,email_sent,related_id,related_to,subject,body,attachment', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, from, to, type, folder,subject,body,attachment, create_time, create_user_id, update_time, update_user_id', 'safe', 'on' => 'search'),
@@ -68,6 +71,8 @@ class Notifcation extends DTActiveRecord {
         return array(
             'from_rel' => array(self::BELONGS_TO, 'User', 'from'),
             'folder_rel' => array(self::BELONGS_TO, 'NotificationFolder', 'folder'),
+            'product' => array(self::BELONGS_TO, 'Product', 'related_id'),
+            'order' => array(self::BELONGS_TO, 'Order', 'related_id'),
         );
     }
 
@@ -75,13 +80,30 @@ class Notifcation extends DTActiveRecord {
      * validate email 
      */
     public function validateEmailTo() {
-        $explode = explode(",", $this->to);
+        if(is_string($this->to)){
+            $explode = explode(",", $this->to);
+        }
+        else if(is_array($this->to)) {
+            $explode = $this->to;
+        }
         foreach ($explode as $email) {
             $email_validate = new CEmailValidator();
             if (!$email_validate->validateValue($email)) {
                 $this->addError("to", "One or more email is not valid");
             }
         }
+        
+    }
+    /**
+     * 
+     * @return type
+     */
+    public function beforeValidate() {
+        if(is_array($this->to)){
+            $this->to = implode(",", $this->to);
+        }
+        
+        return parent::beforeValidate();
     }
 
     /**
@@ -97,10 +119,13 @@ class Notifcation extends DTActiveRecord {
             'subject' => 'Subject',
             'attachment' => 'Attachment',
             'body' => 'Body',
+            '_source' => '',
             'related_id' => 'Related',
             'related_to' => 'Related To',
+            '_related_to' => 'Related Record',
             'email_sent' => 'Send as email',
             'is_read' => 'Viewed',
+            'deleted' => 'Deleted',
             'create_time' => 'Create Time',
             'create_user_id' => 'Create User',
             'update_time' => 'Update Time',
@@ -130,10 +155,38 @@ class Notifcation extends DTActiveRecord {
         $criteria->compare('related_to', $this->related_to);
         $criteria->compare('email_sent', $this->email_sent);
         $criteria->compare('is_read', $this->is_read);
+        $criteria->compare('deleted', $this->deleted);
         $criteria->compare('create_time', $this->create_time, true);
         $criteria->compare('create_user_id', $this->create_user_id, true);
         $criteria->compare('update_time', $this->update_time, true);
         $criteria->compare('update_user_id', $this->update_user_id, true);
+
+
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+            'pagination' => array(
+                'pageSize' => 40,
+            ),
+            'sort' => array(
+                "defaultOrder" => "id DESC",
+            )
+        ));
+    }
+
+    /**
+     * get Deleted items
+     */
+    public function getDeletedItems() {
+
+        $criteria = new CDbCriteria;
+
+        $criteria->condition = '(t.from =:user OR t.to LiKE  :to) ';
+        $criteria->params = array(
+            "user" => Yii::app()->user->id,
+            "to" => Yii::app()->user->user->user_email
+        );
+
+        $criteria->compare('deleted', 1);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -141,6 +194,25 @@ class Notifcation extends DTActiveRecord {
                 'pageSize' => 40,
             ),
         ));
+    }
+
+    /**
+     * get unread count
+     */
+    public function getUnreadInboxNotifcationCount() {
+
+        $criteria = new CDbCriteria;
+
+        $criteria->condition = '( t.to LiKE :to AND is_read=:is_read AND t.type=:type AND deleted =:deleted) ';
+        $criteria->params = array(
+            "to" => Yii::app()->user->user->user_email,
+            "is_read" => "0",
+            "type" => "inbox",
+            "deleted" => "0",
+        );
+
+
+        return $this->count($criteria);
     }
 
     /**
@@ -156,13 +228,45 @@ class Notifcation extends DTActiveRecord {
             $user = User::model()->get('user_email = "' . $user_email . '"');
             $notify = new Notifcation;
             $notify->attributes = $this->attributes;
+            $notify->to = $user_email;
 
 
             $notify->type = "inbox";
+            $notify->is_read = 0;
 
             $notify->save();
         }
         return true;
+    }
+
+
+    /**
+     * 
+     * @return type
+     */
+    public function afterFind() {
+        if ($this->type == "inbox") {
+            $this->_source = "From : " . $this->from_rel->user_email;
+        } else if ($this->type == "sent") {
+            $this->_source = "To : " . str_replace(",", ", ", $this->to);
+        }
+
+        //set related to
+        if (!empty($this->related_to) && !empty($this->related_to)) {
+            switch ($this->related_to) {
+                case "ProductTemplate":
+                    if (isset($this->product)) {
+                        $this->_related_to = CHtml::link($this->product->product_name, Yii::app()->controller->createUrl("/productTemplate/view", array("id" => $this->related_id)));
+                    }
+      
+                case "Order":
+                    if (isset($this->order)) {
+                        $this->_related_to = CHtml::link($this->order->user->user_name." [".$this->order->order_date."]", Yii::app()->controller->createUrl("/order/view", array("id" => $this->related_id)));
+                    }
+                    break;
+            }
+        }
+        return parent::afterFind();
     }
 
 }

@@ -30,8 +30,8 @@ class ShippingClassController extends Controller {
 
     public function beforeAction($action) {
         parent::beforeAction($action);
-        Yii::app()->theme = "admin";
-
+        Yii::app()->theme = "abound";
+        unset(Yii::app()->clientScript->scriptMap['jquery.js']);
         $operations = array('create', 'update', 'index', 'delete');
         parent::setPermissions($this->id, $operations);
         return true;
@@ -50,7 +50,6 @@ class ShippingClassController extends Controller {
             'is_pirce_range' => array(1 => "Yes", "0" => "No", "" => "All"),
             'is_weight_based' => array(1 => "Yes", "0" => "No", "" => "All"),
             'class_status' => array(1 => "Enable", "0" => "Disable", "" => "All"),
-        
         );
     }
 
@@ -100,7 +99,7 @@ class ShippingClassController extends Controller {
 
         if (isset($_POST['ShippingClass'])) {
             $model->attributes = $_POST['ShippingClass'];
-          
+
             if ($model->save())
                 $this->redirect(array('view', 'id' => $model->id));
         }

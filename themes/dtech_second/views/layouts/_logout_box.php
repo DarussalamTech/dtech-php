@@ -1,7 +1,7 @@
 
 <a href="javascript:void(0)" 
    class="button logout-btn" style="margin-top: 9px;">
-       <?php echo array_shift(explode('@', Yii::app()->user->name)); ?>
+       <?php echo Yii::app()->user->UserDisplayName; ?>
 </a>
 <div style="clear:both"></div>  
 <div class="logout logoutPopup">

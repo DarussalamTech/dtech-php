@@ -84,6 +84,7 @@ class ProductProfile extends DTActiveRecord {
         // class name for the relations automatically generated below.
         return array(
             'product' => array(self::BELONGS_TO, 'Product', 'product_id'),
+            'cart_products' => array(self::HAS_MANY, 'Cart', 'product_profile_id'),
             'orderDetails' => array(self::HAS_MANY, 'OrderDetail', 'product_profile_id'),
             'productLanguage' => array(self::BELONGS_TO, 'Language', 'language_id'),
             'productImages' => array(self::HAS_MANY, 'ProductImage', 'product_profile_id', 'order' => 'is_default DESC'),
@@ -233,7 +234,7 @@ class ProductProfile extends DTActiveRecord {
             'edition' => Yii::t('model_labels', 'Edition', array(), NULL, Yii::app()->controller->currentLang),
             'compiler_id' => Yii::t('model_labels', 'Compiler', array(), NULL, Yii::app()->controller->currentLang),
             'translator_id' => Yii::t('model_labels', 'Translator', array(), NULL, Yii::app()->controller->currentLang),
-            'slag' => Yii::t('model_labels', 'Slag', array(), NULL, Yii::app()->controller->currentLang),
+            'slag' => Yii::t('model_labels', 'Slug', array(), NULL, Yii::app()->controller->currentLang),
             'color' => Yii::t('model_labels', 'Color', array(), NULL, Yii::app()->controller->currentLang),
             'arabic_name' => Yii::t('model_labels', 'Arabic Name', array(), NULL, Yii::app()->controller->currentLang),
         );

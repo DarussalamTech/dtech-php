@@ -5,7 +5,7 @@
 $user_id = Yii::app()->user->id;
 //$this->layout='column2';
 if (Yii::app()->user->isAdmin || Yii::app()->user->isSuperAdmin) {
-   $this->renderPartial("/common/_left_menu");
+   $this->renderPartial("/common/_left_single_menu");
 }
 
 Yii::app()->clientScript->registerScript('search', "

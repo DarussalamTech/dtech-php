@@ -17,3 +17,9 @@
 /protected/extensions/PHPExcel/Documentation/
 /protected/extensions/PHPExcel/Examples/
 .uploads.zip
+
+
+/superadmin/protected/runtime/
+/superadmin/assets/
+/superadmin/*
+index.php

@@ -3,7 +3,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/log
 
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'login-form',
-    'action' => Yii::app()->createUrl('/site/login'),
+    'action' => $this->createUrl('/site/login'),
     'enableClientValidation' => true,
     'clientOptions' => array(
         'validateOnSubmit' => true,

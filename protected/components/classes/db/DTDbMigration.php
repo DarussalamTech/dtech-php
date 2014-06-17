@@ -278,6 +278,16 @@ class DTDbMigration extends CDbMigration {
         $column = $command->queryColumn();
         return $column;
     }
+    /**
+     *  Get Riyadh city id
+     */
+    public function getSuperCityId() {
+        $connection = $this->getConnection();
+        $sql="SELECT city_id FROM `city` WHERE city_name='Super'";
+        $command = $connection->createCommand($sql);
+        $column = $command->queryColumn();
+        return $column;
+    }
 
 }
 

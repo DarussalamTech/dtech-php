@@ -16,17 +16,42 @@ if (!(Yii::app()->user->isGuest)) {
 
 
 <?php
+
 /**
  * for differntitating parent and childs
  */
 if ($this->action->id != "createParent") {
-    echo '<h1>Create Categories</h1>';
+
+    echo '<div class="pading-bottom-5">
+    <div class="left_float">
+        <h1>Create Category</h1>
+    </div>
+
+    <?php /* Convert to Monitoring Log Buttons */ ?>
+    <div class = "right_float">
+
+    </div>
+</div>
+<div class="clear"></div>';
     echo $this->renderPartial('_form', array('model' => $model,
         'categoriesList' => $categoriesList,
         'cityList' => $cityList));
 } else {
-    echo '<h1>Create Parent Categories</h1>';
-    echo $this->renderPartial('_form_parent', array('model' => $model,
+   
+    echo '<div class="pading-bottom-5">
+    <div class="left_float">
+        <h1>Create Parent Categories</h1>
+    </div>
+
+    <?php /* Convert to Monitoring Log Buttons */ ?>
+    <div class = "right_float">
+
+    </div>
+</div>
+<div class="clear"></div>';
+    echo $this->renderPartial('_form_parent', array(
+        'model' => $model,
+        'cityList' => $cityList
     ));
 }
 ?>

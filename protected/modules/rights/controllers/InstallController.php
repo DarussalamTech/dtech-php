@@ -19,7 +19,7 @@ class InstallController extends Controller {
 
         parent::beforeAction($action);
         Yii::app()->user->SiteSessions;
-        Yii::app()->theme = "admin";
+        Yii::app()->theme = "abound";
         return true;
     }
 

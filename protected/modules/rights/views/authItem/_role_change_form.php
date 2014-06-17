@@ -29,7 +29,7 @@
 
 </div>
 <div class="row buttons">
-    <?php echo CHtml::submitButton(Rights::t('core', 'Save'), array("class" => "btn")); ?> | <?php echo CHtml::link(Rights::t('core', 'Cancel'), Yii::app()->user->rightsReturnUrl); ?>
+    <?php echo CHtml::submitButton(Rights::t('core', 'Go'), array("class" => "btn")); ?> | <?php echo CHtml::link(Rights::t('core', 'Cancel'), Yii::app()->user->rightsReturnUrl); ?>
 </div>
 
 <?php $this->endWidget(); ?>

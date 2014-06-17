@@ -41,6 +41,7 @@
             ),
         ),
     ));
+
     ?>
 </div>
 
@@ -56,6 +57,7 @@
         'order_id' =>$model->order_id,
         'user_name' => $model->user->user_email,
     ));
+
     ?>
 </div>
 

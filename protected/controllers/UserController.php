@@ -25,9 +25,9 @@ class UserController extends Controller {
     }
 
     public function beforeAction($action) {
-        Yii::app()->theme = "admin";
+        Yii::app()->theme = "abound";
         parent::beforeAction($action);
-
+        unset(Yii::app()->clientScript->scriptMap['jquery.js']);
         $operations = array('create', 'update', 'index', 'delete');
         parent::setPermissions($this->id, $operations);
 
@@ -62,8 +62,8 @@ class UserController extends Controller {
             $model->attributes = $_POST['User'];
             $pass = $model->user_password;
 
-            $model->site_id = !empty($model->site_id)?$model->site_id:Yii::app()->session['site_id'];
-           
+            $model->site_id = !empty($model->site_id) ? $model->site_id : Yii::app()->session['site_id'];
+
 
             if ($model->save()) {
                 /**
@@ -128,7 +128,7 @@ class UserController extends Controller {
 
         if (isset($_POST['UserUpdate'])) {
             $model->attributes = $_POST['UserUpdate'];
-            $model->site_id = !empty($model->site_id)?$model->site_id:Yii::app()->session['site_id'];
+            $model->site_id = !empty($model->site_id) ? $model->site_id : Yii::app()->session['site_id'];
             if ($model->save())
                 $this->redirect(array('view', 'id' => $model->user_id));
         }
@@ -145,7 +145,12 @@ class UserController extends Controller {
      * @param integer $id the ID of the model to be deleted
      */
     public function actionDelete($id) {
-        $this->loadModel($id)->delete();
+        $model = $this->loadModel($id);
+
+        Yii::app()->db->createCommand("SET FOREIGN_KEY_CHECKS=0;")->execute();
+
+        $model->deleteByPk($id);
+        Yii::app()->db->createCommand("SET FOREIGN_KEY_CHECKS=1;")->execute();
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if (!isset($_GET['ajax']))
@@ -248,10 +253,10 @@ class UserController extends Controller {
 
 
             $emails = explode("|", $_POST['ids']);
-         
+
             foreach ($emails as $_id) {
                 $model = User::model()->findFromPrimerkey($_id);
-                    
+
                 if (!empty($model)) {
 
                     $dt = new DTFunctions();

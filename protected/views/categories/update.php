@@ -39,7 +39,9 @@ if ($this->action->id != "updateParent") {
                         'cityList'=>$cityList)); 
 } else {
    
-    echo $this->renderPartial('_form_parent', array('model' => $model,
+    echo $this->renderPartial('_form_parent', array(
+        'model' => $model,
+        'cityList'=>$cityList
     ));
 }
 ?>

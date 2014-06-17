@@ -793,21 +793,21 @@ class ETinyMce extends CInputWidget {
         $jsToggleLabels = CJavaScript::encode($this->switchLabels);
 
         $cs = Yii::app()->getClientScript();
-        $cs->registerCoreScript('jquery');
+      
 
         if ($this->useCompression) {
-            $cs->registerScriptFile($assets . '/tiny_mce/tiny_mce_gzip.js');
+            $cs->registerScriptFile($assets . '/tiny_mce/tiny_mce_gzip.js',  CClientScript::POS_END);
             $gzOptions = $this->makeCompressor();
             $js = <<<EOP
 tinyMCE_GZ.init({$gzOptions});
 EOP;
-            $cs->registerScript('Yii.' . get_class($this) . '#' . $id . '_gz', $js, CClientScript::POS_HEAD);
+            $cs->registerScript('Yii.' . get_class($this) . '#' . $id . '_gz', $js, CClientScript::POS_END);
         } else {
-            $cs->registerScriptFile($assets . '/tiny_mce/tiny_mce.js');
+            $cs->registerScriptFile($assets . '/tiny_mce/tiny_mce.js',CClientScript::POS_END);
         }
 
-        $cs->registerScriptFile($assets . '/jquery/jquery.tinymce.js');
-        $cs->registerScriptFile($assets . '/embedmedia/embed.js');
+        $cs->registerScriptFile($assets . '/jquery/jquery.tinymce.js',CClientScript::POS_END);
+        $cs->registerScriptFile($assets . '/embedmedia/embed.js',CClientScript::POS_END);
 
         $this->htmlOptions['id'] = $id;
         if (!array_key_exists('style', $this->htmlOptions)) {

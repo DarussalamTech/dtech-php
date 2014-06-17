@@ -13,6 +13,16 @@ if(!(Yii::app()->user->isGuest)) {
 }
 ?>
 
-<h1>Update Language <?php echo $model->language_id; ?></h1>
 
+<div class="pading-bottom-5">
+    <div class="left_float">
+        <h1>Update Language <?php echo $model->language_id; ?></h1>
+    </div>
+
+    <?php /* Convert to Monitoring Log Buttons */ ?>
+    <div class = "right_float">
+
+    </div>
+</div>
+<div class="clear"></div>
 <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>

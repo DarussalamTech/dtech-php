@@ -48,6 +48,10 @@ $this->widget('zii.widgets.CDetailView', array(
             'name' => 'site_id',
             'value' => !empty($model->site_id) ? $model->site->site_name : "",
         ),
+        array(
+            'name' => 'role',
+            'value' => !empty($model->role) ? $model->role->itemname : "",
+        ),
     ),
 ));
 ?>

@@ -99,7 +99,7 @@ $relationName = "productProfile";
 
 
 
-    <div class="del del-icon" >
+    <div class="del del-icon span12" >
         <?php
         echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . '/images/icons/plus.gif', 'Add'), '#', array(
             'class' => 'plus',

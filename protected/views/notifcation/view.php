@@ -6,7 +6,15 @@ $this->breadcrumbs = array(
     'Notifcations' => array('index'),
     $model->id,
 );
-
+$this->PcmWidget['filter'] = array('name' => 'ItstLeftFilter',
+    'attributes' => array(
+        'model' => $model,
+        'filters' => $this->filters,
+        'keyUrl' => true,
+        "view" => "index",
+        'action' => Yii::app()->createUrl($this->route),
+        'grid_id' => 'product-grid',
+        ));
 ?>
 
 
@@ -44,7 +52,7 @@ $this->widget('zii.widgets.CDetailView', array(
         ),
         array(
             'name' => 'to',
-            'value' => $model->to
+            'value' => str_replace(",",", ",$model->to)
         ),
         array(
             'name' => 'subject',
@@ -53,6 +61,11 @@ $this->widget('zii.widgets.CDetailView', array(
         array(
             'name' => 'body',
             'value' => $model->body,
+            "type" => 'raw',
+        ),
+        array(
+            'name' => '_related_to',
+            'value' => $model->_related_to,
             "type" => 'raw',
         ),
     ),

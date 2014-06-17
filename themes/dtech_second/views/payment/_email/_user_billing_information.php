@@ -5,6 +5,7 @@
     $criteria->order = "id DESC";
 
     $model = UserOrderBilling::model()->find($criteria);
+ 
     ?>
     Billing Address 
 

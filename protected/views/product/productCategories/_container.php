@@ -8,20 +8,21 @@ $mName = "ProductCategories";
 $relationName = $dir;
 echo '<a name="' . $relationName . '"></a>';
 
-$plusImage = "<div class='left_float' style='padding-top:2px'>" .
+$plusImage = "<div class='small_left_float' style='padding-top:2px'>" .
         CHtml::image(Yii::app()->theme->baseUrl . '/images/icons/plus.gif', 'bingo', array('class' => 'rotate_iamge', 'id' => $relationName . '-plus', 'class' => 'plus')) .
         "</div>";
 ?>
 
-<div class="child-container" id ="<?php echo $dir; ?>">
-    <div class="subsection-header">
+<div class="child-container portlet" id ="<?php echo $dir; ?>">
+    <div class="subsection-header portlet-decoration">
         <div class="left_float">
             <?php
             if ($this->action->id == 'view') {
                 echo CHtml::link($plusImage . ' ' . $heading, 'javascript:;', array('class' => $relationName . '-buttonsc'));
             }
             else
-                echo $plusImage . " " . $heading;
+                echo $plusImage;
+            echo "<div class='portlet-title'>" . $heading . "</div>";
             ?>
         </div>
         <div class="right_float">
@@ -73,7 +74,7 @@ $plusImage = "<div class='left_float' style='padding-top:2px'>" .
             <div class="form_body">
                 <div class="grid_title">
                     <div class="title" style="width:400px"><?php echo CHtml::activeLabel($relateModelobj, 'category_name'); ?></div>
-                    
+
 
                 </div>
                 <div class="clear"></div>
@@ -91,7 +92,6 @@ $plusImage = "<div class='left_float' style='padding-top:2px'>" .
                 ?>
                 <div id="<?php echo $fields_div_id; ?>" class="form">
                     <?php
-                    
                     /* for loading with js */
                     $relationName_index_sc = -1;
                     if (isset($_POST[$mName]) || ($this->action->id == 'create' && count($model->$relationName) > 0)) {
@@ -101,7 +101,7 @@ $plusImage = "<div class='left_float' style='padding-top:2px'>" .
                                 "load_for" => $this->action->id,
                                 'display' => 'block',
                                 'dir' => $dir,
-                                "parent_category"=> $model->parent_cateogry_id,
+                                "parent_category" => $model->parent_cateogry_id,
                                 'fields_div_id' => $fields_div_id));
                             $relationName_index_sc = $key;
                         }

@@ -12,14 +12,14 @@ $mName = "Other";
 $relationName = $dir;
 echo '<a name="' . $relationName . '"></a>';
 
-$plusImage = "<div class='left_float' style='padding-top:2px'>" .
+$plusImage = "<div class='small_left_float' style='padding-top:2px'>" .
         CHtml::image(Yii::app()->theme->baseUrl . '/images/icons/plus.gif', 'bingo', array('class' => 'rotate_iamge', 'id' => $relationName . '-plus', 'class' => 'plus')) .
         "</div>";
 
 /* Hide or show this div */
 $basic_feature_div = "none";
 $basic_cont_div = "none";
-if (isset($_POST[$mName]) || ($this->action->id == 'create' && count($model->$relationName) > 0)) {
+if (isset($_POST[$mName]) || (($this->action->id == 'create' || $this->action->id == 'createFromTemplate') && count($model->$relationName) > 0)) {
     $basic_feature_div = "block";
     $basic_cont_div = "block";
 } else if ($this->action->id == 'view') {
@@ -27,15 +27,16 @@ if (isset($_POST[$mName]) || ($this->action->id == 'create' && count($model->$re
 }
 ?>
 
-<div class="child-container" id ="<?php echo $dir; ?>" style="display:<?php echo $basic_cont_div ?>">
-    <div class="subsection-header">
+<div class="child-container portlet" id ="<?php echo $dir; ?>" style="display:<?php echo $basic_cont_div ?>">
+    <div class="subsection-header portlet-decoration">
         <div class="left_float">
             <?php
             if ($this->action->id == 'view') {
                 echo CHtml::link($plusImage . ' ' . $heading, 'javascript:;', array('class' => $relationName . '-buttonsc'));
             }
             else
-                echo $plusImage . " " . $heading;
+                echo $plusImage;
+            echo "<div class='portlet-title'>" . $heading . "</div>";
             ?>
         </div>
         <div class="right_float">
@@ -53,7 +54,7 @@ if (isset($_POST[$mName]) || ($this->action->id == 'create' && count($model->$re
                     " . $relationName . "_index_sc++;
                         
                     return false;
-                    ", "class" => "plus_bind","style"=>"display:none"
+                    ", "class" => "plus_bind", "style" => "display:none"
             ))
             ?>
         </div>
@@ -68,12 +69,12 @@ if (isset($_POST[$mName]) || ($this->action->id == 'create' && count($model->$re
             <!--        <div class="head">Field Force Labors</div>-->
             <div class="form_body">
                 <div class="grid_title">
-                    <div class="title" style="width:100px"><?php echo CHtml::activeLabel($relateModelobj, 'price'); ?></div>
-                    <div class="title" style="width:100px"><?php echo CHtml::activeLabel($relateModelobj, 'quantity'); ?></div>
-                    <div class="title" style="width:100px"><?php echo CHtml::activeLabel($relateModelobj, 'weight'); ?></div>
-                    <div class="title" style="width:50px"><?php echo CHtml::activeLabel($relateModelobj, 'is_shippable'); ?></div>
-                    <div class="title" style="width:100px"><?php echo CHtml::activeLabel($relateModelobj, 'slag'); ?></div>
-                    <div class="title" style="width:100px"><?php echo CHtml::activeLabel($relateModelobj, 'language_id'); ?></div>
+                    <div class="title" style="width:15%"><?php echo CHtml::activeLabel($relateModelobj, 'price'); ?></div>
+                    <div class="title" style="width:15%"><?php echo CHtml::activeLabel($relateModelobj, 'quantity'); ?></div>
+                    <div class="title" style="width:15%"><?php echo CHtml::activeLabel($relateModelobj, 'weight'); ?></div>
+                    <div class="title" style="width:10%"><?php echo CHtml::activeLabel($relateModelobj, 'is_shippable'); ?></div>
+                    <div class="title" style="width:15%"><?php echo CHtml::activeLabel($relateModelobj, 'slag'); ?></div>
+                    <div class="title" style="width:15%"><?php echo CHtml::activeLabel($relateModelobj, 'language_id'); ?></div>
 
 
 
@@ -95,7 +96,7 @@ if (isset($_POST[$mName]) || ($this->action->id == 'create' && count($model->$re
                     <?php
                     /* for loading with js */
                     $relationName_index_sc = -1;
-                    if (isset($_POST[$mName]) || ($this->action->id == 'create' && count($model->$relationName) > 0)) {
+                    if (isset($_POST[$mName]) || (($this->action->id == 'create' || $this->action->id == 'createFromTemplate') && count($model->$relationName) > 0)) {
                         foreach ($model->$relationName as $key => $relationModel) {
 
                             $this->renderPartial($dir . '/_fields_row', array('index' => $key, 'model' => $relationModel,

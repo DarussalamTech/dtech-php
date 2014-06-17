@@ -154,7 +154,9 @@ class RDbAuthManager extends CDbAuthManager {
                     }
                 } else if ($type == 2) {
                     if (!empty($this->_roleModel->role)) {
-                        $cond = " AND ( name  = '$this->_roleModel->role') ";
+                       
+                        $cond = " AND ( name  = '".$this->_roleModel->role."') ";
+                       
                     }
                 }
 

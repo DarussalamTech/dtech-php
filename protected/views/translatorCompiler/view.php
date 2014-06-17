@@ -14,7 +14,7 @@ if (!(Yii::app()->user->isGuest)) {
 
 <div class="pading-bottom-5">
     <div class="left_float">
-        <h1>View Author #<?php echo $model->id; ?></h1>
+        <h1>View <?php echo $model->type; ?> #<?php echo $model->id; ?></h1>
     </div>
 
     <?php /* Convert to Monitoring Log Buttons */ ?>

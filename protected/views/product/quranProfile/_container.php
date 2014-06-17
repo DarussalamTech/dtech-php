@@ -8,13 +8,13 @@ $mName = "Quran";
 $relationName = $dir;
 echo '<a name="' . $relationName . '"></a>';
 
-$plusImage = "<div class='left_float' style='padding-top:2px'>" .
+$plusImage = "<div class='small_left_float' style='padding-top:2px'>" .
         CHtml::image(Yii::app()->theme->baseUrl . '/images/icons/plus.gif', 'bingo', array('class' => 'rotate_iamge', 'id' => $relationName . '-plus', 'class' => 'plus')) .
         "</div>";
 
 $basic_feature_div = "none";
 $basic_cont_div = "none";
-if (isset($_POST[$mName]) || ($this->action->id == 'create' && count($model->$relationName) > 0)) {
+if (isset($_POST[$mName]) || (($this->action->id == 'create' || $this->action->id == 'createFromTemplate') && count($model->$relationName) > 0)) {
     $basic_feature_div = "block";
     $basic_cont_div = "block";
 }
@@ -23,8 +23,8 @@ else if($this->action->id == 'view'){
 }
 ?>
 
-<div class="child-container" id ="<?php echo $dir; ?>" style="display:<?php echo $basic_cont_div; ?>">
-    <div class="subsection-header">
+<div class="child-container portlet" id ="<?php echo $dir; ?>" style="display:<?php echo $basic_cont_div; ?>">
+    <div class="subsection-header portlet-decoration">
         <div class="left_float">
             <?php
             if ($this->action->id == 'view') {
@@ -83,7 +83,7 @@ else if($this->action->id == 'view'){
                     <?php
                     /* for loading with js */
                     $relationName_index_sc = -1;
-                    if (isset($_POST[$mName]) || ($this->action->id == 'create' && count($model->$relationName) > 0)) {
+                    if (isset($_POST[$mName]) || (($this->action->id == 'create' || $this->action->id == 'createFromTemplate') && count($model->$relationName) > 0)) {
                         foreach ($model->$relationName as $key => $relationModel) {
 
                             $this->renderPartial($dir . '/_fields_row', array('index' => $key, 'model' => $relationModel,

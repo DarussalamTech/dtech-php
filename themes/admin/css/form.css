@@ -624,3 +624,8 @@ input.order {
 .tag-it-row .tagit {
     width: 75%;
 }
+input[readonly="readonly"] {
+    background-color:#f0f0f0 !important;
+    color:#7f7f84 !important;
+   
+}

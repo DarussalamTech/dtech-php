@@ -1,8 +1,10 @@
 <?php
+
 /**
  * Paypall controller class Paypall payment method
  */
 class PaypalController extends Controller {
+
     /**
      * request is here to recive her for buy of paypall like payment quantity , total
      */
@@ -35,6 +37,7 @@ class PaypalController extends Controller {
 
         $amount_xml = ConfPaymentMethods::model()->convertToDollar($totalPrice);
 
+
         //in case of payment error in conversion
         //error hre
         if (isset($amount_xml->errors)) {
@@ -50,9 +53,7 @@ class PaypalController extends Controller {
         }
 
 
-//        CVarDumper::dump(Yii::app()->Paypal, 10, true);
-//        CVarDumper::dump($paymentInfo, 10, true);
-//        die;
+
         // call paypal 
         $result = Yii::app()->Paypal->SetExpressCheckout($paymentInfo);
         //Detect Errors 
@@ -78,6 +79,7 @@ class PaypalController extends Controller {
             $this->redirect($payPalURL);
         }
     }
+
     /**
      * here is confirming process of payypall will be redirect to success
      */
@@ -94,9 +96,23 @@ class PaypalController extends Controller {
 
         $result['PAYERID'] = $payerId;
         $result['TOKEN'] = $token;
-        $result['ORDERTOTAL'] = $totalPrice;
+
+        $amount_xml = ConfPaymentMethods::model()->convertToDollar($totalPrice);
 
 
+        //in case of payment error in conversion
+        //error hre
+        if (isset($amount_xml->errors)) {
+            $error['status'] = true;
+            $error['message'] = $amount_xml->reason;
+            echo $error['message'];
+            Yii::app()->end();
+        }
+        //currency will be converted to 
+        if (isset($amount_xml['convert_webxcurrency']['convert_webxcurrency']['exch_amount'])) {
+
+            $result['ORDERTOTAL'] = ceil((double) $amount_xml['convert_webxcurrency']['convert_webxcurrency']['exch_amount']);
+        }
 
         //Detect errors 
         if (!Yii::app()->Paypal->isCallSucceeded($result)) {
@@ -131,17 +147,40 @@ class PaypalController extends Controller {
                  */
                 $creditCardModel->payment_method = "Pay Pal";
                 $order_id = $creditCardModel->saveOrder($result['TOKEN']);
+                //$order_id = 117;
 
+
+                /**
+                 * Saving information in user biling model
+                 * Now by retrieving information of most new record
+                 */
+                if (!empty(Yii::app()->session['billing_id'])) {
+                    $model = UserOrderBilling::model()->findByPk(Yii::app()->session['billing_id']);
+                } else {
+                    $criteria = new CDbCriteria();
+                    $criteria->select = "id";
+                    $criteria->addCondition("user_id = " . Yii::app()->user->id);
+                    $criteria->order = "id DESC";
+                    $model = UserOrderBilling::model()->find($criteria);
+                }
+
+                $model->updateByPk($model->id, array("order_id" => $order_id));
                 /**
                  * Saving information in userShipping model
                  * Now by retrieving information of most new record
                  */
-                $criteria = new CDbCriteria();
-                $criteria->select = "id";
-                $criteria->addCondition("user_id = " . Yii::app()->user->id);
-                $criteria->order = "id DESC";
-                $model = UserOrderShipping::model()->find($criteria);
+                if (!empty(Yii::app()->session['shipping_id'])) {
+                    $model = UserOrderShipping::model()->findByPk(Yii::app()->session['shipping_id']);
+                } else {
+                    $criteria = new CDbCriteria();
+                    $criteria->select = "id";
+                    $criteria->addCondition("user_id = " . Yii::app()->user->id);
+                    $criteria->order = "id DESC";
+                    $model = UserOrderShipping::model()->find($criteria);
+                }
+
                 $model->updateByPk($model->id, array("order_id" => $order_id));
+
                 //sending email
                 $this->customer0rderDetailMailer($model, $order_id);
                 $this->admin0rderDetailMailer($model, $order_id);
@@ -151,6 +190,7 @@ class PaypalController extends Controller {
             }
         }
     }
+
     /**
      * method to send email to user
      * @param type $customerInfo
@@ -174,13 +214,27 @@ class PaypalController extends Controller {
 
         $email['From'] = Yii::app()->params['adminEmail'];
 
-        $email['To'] = User::model()->getCityAdmin();
+        $email['To'] = User::model()->getCityAdmin(false, true);
         $email['Subject'] = "New Order Placement";
         $email['Body'] = $this->renderPartial('//payment/_order_email_template_admin', array('customerInfo' => $customerInfo, "order_id" => $order_id), true, false);
         $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
 
+
+        $notification = new Notifcation;
+        $notification->from = Yii::app()->user->id;
+        $notification->to = User::model()->getCityAdmin(false, true);
+        $notification->subject = "New Order Placement";
+        $notification->is_read = 0;
+        $notification->type = "inbox";
+
+        $notification->body = $email['Body'];
+        $notification->related_id = $order_id;
+        $notification->related_to = "Order";
+        $notification->save();
+
         $this->sendEmail2($email);
     }
+
     /**
      * Cancel will be redirect here
      */
@@ -191,6 +245,7 @@ class PaypalController extends Controller {
 
         $this->render('//paypall/cancel');
     }
+
     /**
      * A test method for payment gateway of paypall
      */

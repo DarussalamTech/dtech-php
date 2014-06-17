@@ -65,11 +65,15 @@ class City extends DTActiveRecord {
         // class name for the relations automatically generated below.
         return array(
             'categories' => array(self::HAS_MANY, 'Categories', 'city_id'),
+            'products' => array(self::HAS_MANY, 'Product', 'city_id'),
+            'orders' => array(self::HAS_MANY, 'Order', 'city_id'),
+            'shippments' => array(self::HAS_MANY, 'ShippingClass', 'source_city'),
             'layout' => array(self::BELONGS_TO, 'Layout', 'layout_id'),
             'country' => array(self::BELONGS_TO, 'Country', 'country_id'),
             'layout1' => array(self::HAS_ONE, 'Layout', 'layout_id'),
-            'products' => array(self::HAS_MANY, 'Product', 'city_id'),
+            
             'currency' => array(self::BELONGS_TO, 'ConfCurrency', 'currency_id'),
+            'site' => array(self::HAS_ONE, 'SelfSite', 'site_headoffice', 'condition' => 'site_headoffice <>0'),
         );
     }
 
@@ -112,19 +116,61 @@ class City extends DTActiveRecord {
     }
 
     /**
-     * 
-     * @return boolean
+     * get city id from from city
+     * @param type $name
      */
-    public function afterSave() {
-        parent::afterSave();
-        return true;
+    public function getCityId($name) {
+        $criteria = new CDbCriteria;
+        $criteria->condition = 't.city_name = :city_name';
+        $criteria->params = array(":city_name" => $name);
+
+        return City::model()->get($criteria);
+    }
+
+    /**
+     * get product avaiability for particular city
+     * @param type $universal_name
+     * @param type $city_id
+     * @return type
+     */
+    public function getProductAvailability($universal_name, $city_id = 0) {
+        $criteria = new CDbCriteria;
+        $criteria->condition = "city_id = :city_id AND universal_name = :universal_name";
+        $criteria->params = array(":universal_name" => $universal_name, "city_id" => $this->city_id);
+        if ($product = Product::model()->get($criteria)) {
+            $url = Yii::app()->controller->createUrl("/product/view", array("id" => $product->product_id));
+            $image = CHtml::image(Yii::app()->baseUrl . "/images/enable.png");
+            return CHtml::link($image . " Already Available", $url, array("class" => "link_btn"));
+        } else {
+            //adding access control for this 
+            if (Yii::app()->controller->checkViewAccess("Product.CreateFromTemplate")) {
+                $url = Yii::app()->controller->createUrl("/product/createFromTemplate", array("id" => Yii::app()->request->getQuery("id"), "to_city" => $city_id));
+                return CHtml::link("Make Available", $url, array('class' => " print_link_btn"), array("height" => "400", "width" => "600"));
+            }
+        }
     }
 
     /**
      * 
+     * @param type $universal_name
+     *   product universal name
+     *   under this product template
      */
-    public function installConfiguration() {
-        $model = new ConfMisc;
+    public function getAvailableCities($universal_name) {
+        $criteria = new CDbCriteria;
+        $criteria->addCondition("universal_name= :universal_name AND city_id <> :city_id");
+        $criteria->params = array(
+            ':universal_name' => $universal_name,
+            ':city_id' => $this->getCityId("Super")->city_id,
+        );
+        $criteria->distinct = "city_id";
+        $products = ProductTemplate::model()->getAll($criteria);
+        $cities = array();
+        foreach($products as $product){
+            $cities[$product->city->city_name] = $product->city->city_name;
+        }
+        
+        return implode(", ",$cities);
     }
 
 }

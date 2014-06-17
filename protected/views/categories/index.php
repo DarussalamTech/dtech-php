@@ -31,10 +31,23 @@ $this->PcmWidget['filter'] = array('name' => 'ItstLeftFilter',
         'action' => Yii::app()->createUrl($this->route),
         'grid_id' => 'product-grid',
         ));
+
+       
+       
 ?>
 
-<h1>Add Product Categories</h1>
 
+<div class="pading-bottom-5">
+    <div class="left_float">
+        <h1>Manage Product Categories</h1>
+    </div>
+
+    <?php /* Convert to Monitoring Log Buttons */ ?>
+    <div class = "right_float">
+
+    </div>
+</div>
+<div class="clear"></div>
 <?php
 echo CHtml::openTag("div", array(
     "class" => "flash-success",
@@ -68,7 +81,7 @@ $grid_array = array(
     'id' => 'categories-grid',
     'dataProvider' => $model->search(),
     'filter' => $model,
-    'sortUrl'=> $this->createUrl("/categories/updateOrder"),
+    'sortUrl' => $this->createUrl("/categories/updateOrder"),
     'rowCssClassExpression' => '"items[]_{$data->category_id}"',
     'columns' => array(
         array(
@@ -96,7 +109,7 @@ $grid_array = array(
             )
         ),
         array(
-             'header' => 'City',
+            'header' => 'City',
             'type' => 'Raw',
             'value' => '!empty($data->city)?$data->city->city_name:""',
             'headerHtmlOptions' => array(

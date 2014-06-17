@@ -258,7 +258,7 @@ var dtech = {
                 async: false,
                 data:
                         {
-                            resource_elem_id: jQuery("#" + resource_elem_id).val(),
+                            resource_elem_id: resource_elem_id !=""?jQuery("#" + resource_elem_id).val():"",
                         }
             }).done(function(response) {
                 jQuery("#" + update_element_id).html(response);
@@ -286,7 +286,6 @@ var dtech = {
             }).done(function(response) {
                 jQuery("#" + update_element_id).html(response);
                 if (jQuery("#LandingModel_city").attr("type") != "hidden") {
-//jQuery("#LandingModel_city").msDropdown();
                 }
 
                 jQuery("#country_selection_form").submit();
@@ -325,15 +324,18 @@ var dtech = {
             }).done(function(response) {
                 jQuery("#loading").hide();
                 if (response.search("success") != -1) {
-                    alert("Notifications has been moved");
+                    dtech.custom_alert("Notifications has been moved", "Success");
                     location.reload();
                 }
 
             });
         }
         else {
-            alert("Nothing has been selected");
+
+            dtech.custom_alert("Nothing has been selected", "Alert");
         }
+        
+        return false;
     },
     //related to notification
     markNotifStatus: function(obj) {
@@ -352,14 +354,20 @@ var dtech = {
             }).done(function(response) {
                 jQuery("#loading").hide();
                 if (response.search("success") != -1) {
-                    alert("Status has been updated");
+                    if (jQuery(obj).attr('class') == 'mark-deleted') {
+                        dtech.custom_alert("Successfully has been deleted", "Success");
+                    }
+                    else {
+                        dtech.custom_alert("Status has been updated", "Success");
+                    }
+
                     location.reload();
                 }
 
             });
         }
         else {
-            alert("Nothing has been selected");
+            dtech.custom_alert("Nothing has been selected", "Alert");
         }
     },
     increaseQuantity: function(obj) {

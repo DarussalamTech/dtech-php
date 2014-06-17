@@ -11,7 +11,8 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
     <?php
     echo CHtml::submitButton("Next", array(
         "class" => "secure_button",
-        ))
+        ));
+
     ?>
     <div class="secure_input">
         <div class="secure_text">
@@ -186,3 +187,11 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
     </div>
 
 </div>
+<?php
+
+     if(!$model->hasErrors()){
+        Yii::app()->clientScript->registerScript('change_billing_country', "
+            jQuery('#UserOrderBilling_billing_country').trigger('change');
+       ",  CClientScript::POS_READY);
+     }         
+?>

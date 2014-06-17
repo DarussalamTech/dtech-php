@@ -13,6 +13,12 @@ if(!(Yii::app()->user->isGuest)) {
 }
 ?>
 
-<h1>Update TranslatorCompiler <?php echo $model->id; ?></h1>
 
+<div class="pading-bottom-5">
+    <div class="left_float">
+      <h1>Update Translator Compiler <?php echo $model->id; ?></h1>
+    </div>
+</div>
+
+<div class="clear"></div>
 <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>

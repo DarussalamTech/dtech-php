@@ -15,7 +15,7 @@ class ZoneController extends Controller {
         return array(
             'rights',
             'postOnly + delete', // we only allow deletion via POST request
-            'https + index + view + update + create + delete + toggleEnabled',
+            'https + index + view + update + create + delete + uploadRates',
         );
     }
 
@@ -29,8 +29,8 @@ class ZoneController extends Controller {
 
     public function beforeAction($action) {
         parent::beforeAction($action);
-        Yii::app()->theme = "admin";
-
+        Yii::app()->theme = "abound";
+        unset(Yii::app()->clientScript->scriptMap['jquery.js']);
         $operations = array('create', 'update', 'index', 'delete');
         parent::setPermissions($this->id, $operations);
         return true;
@@ -126,6 +126,13 @@ class ZoneController extends Controller {
     public function actionUploadRates() {
         $model = new ZoneImportRates();
 
+        $criteria = new CDbCriteria;
+        $criteria->condition = ' t.c_status = :status AND site.site_headoffice<>0';
+        $criteria->with = array("site" => array('joinType' => 'INNER JOIN'));
+        $criteria->params = array(':status' => 1);
+
+        $cityList = CHtml::listData(City::model()->findAll($criteria), 'city_id', 'city_name');
+
         if (isset($_POST['ZoneImportRates'])) {
             $model->attributes = $_POST['ZoneImportRates'];
             //making instance of the uploaded image 
@@ -143,7 +150,7 @@ class ZoneController extends Controller {
             }
         }
 
-        $this->render("uploadRates", array("model" => $model));
+        $this->render("uploadRates", array("model" => $model, 'cityList' => $cityList));
     }
 
     /**

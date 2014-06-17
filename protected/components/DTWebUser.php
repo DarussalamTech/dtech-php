@@ -38,6 +38,7 @@ class DTWebUser extends CWebUser {
 
         return ($this->user && $this->user->role_id == User::LEVEL_CUSTOMER);
     }
+
     //is user a customer
     function getWebCity() {
 
@@ -151,11 +152,11 @@ class DTWebUser extends CWebUser {
      */
     public function saveDTSessions($cityModel, $site_info = array()) {
 
-        
+
         $theme = SelfSite::model()->findLayout($site_info['site_id']);
-        
+
         Yii::app()->session['layout'] = $theme;
-       
+
         Yii::app()->session['country_short_name'] = $cityModel->country->short_name;
         Yii::app()->session['city_short_name'] = $cityModel->short_name;
         Yii::app()->session['city_id'] = $cityModel->city_id;
@@ -179,6 +180,22 @@ class DTWebUser extends CWebUser {
         $_REQUEST['city_id'] = $cityModel->city_id;
 
         return true;
+    }
+
+    /**
+     * get User display name after login
+     * 
+     */
+    public function getUserDisplayName() {
+        
+        if (!empty(Yii::app()->user->user->userProfiles->first_name)) {
+            return Yii::app()->user->user->userProfiles->first_name;
+        } else {
+            /**
+             * removing space and @ sign from user name if it has
+             */
+            return array_shift(explode(" ", array_shift(explode('@', Yii::app()->user->name))));
+        }
     }
 
 }

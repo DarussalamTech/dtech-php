@@ -16,7 +16,7 @@ class CustomerController extends Controller {
         return array(
             // 'accessControl', // perform access control for CRUD operations
             'rights',
-            'https + index + view + update + create',
+            'https + index + view + update + create + orderDetail + ordersList',
         );
     }
 
@@ -25,9 +25,9 @@ class CustomerController extends Controller {
     }
 
     public function beforeAction($action) {
-        Yii::app()->theme = "admin";
+        Yii::app()->theme = "abound";
         parent::beforeAction($action);
-
+        unset(Yii::app()->clientScript->scriptMap['jquery.js']);
         $operations = array('create', 'update', 'index', 'delete');
         parent::setPermissions($this->id, $operations);
 
@@ -74,11 +74,32 @@ class CustomerController extends Controller {
      * @param integer $id the ID of the model to be deleted
      */
     public function actionDelete($id) {
-        $this->loadModel($id)->delete();
+        $model = $this->loadModel($id);
+
+        $delete = 1;
+
+        if (count($model->orders) > 0) {
+            $delete = 0;
+        }
+        if (count($model->userProfiles) > 0) {
+            $delete = 0;
+        }
+
+        if ($delete == 1) {
+            Yii::app()->db->createCommand("SET FOREIGN_KEY_CHECKS=0;")->execute();
+
+            $model->deleteByPk($id);
+            Yii::app()->db->createCommand("SET FOREIGN_KEY_CHECKS=1;")->execute();
+
+            Yii::app()->user->setFlash('success', "Customer has been deleted successfully");
+        } else {
+            Yii::app()->user->setFlash('errorIntegrity', "Customer cannot be deleted because its related with orders or profile");
+        }
+
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if (!isset($_GET['ajax']))
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
     }
 
     /**

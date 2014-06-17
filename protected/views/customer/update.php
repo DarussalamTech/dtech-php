@@ -8,9 +8,22 @@ $this->breadcrumbs = array(
     'Update',
 );
 
-$this->renderPartial("/common/_left_menu");
+$this->renderPartial("/common/_left_single_menu");
 ?>
 
-<h1>Update User <?php echo $model->user_id; ?></h1>
+
+<div class="pading-bottom-5">
+    <div class="left_float">
+        <h1>Update User <?php echo $model->user_id; ?></h1>
+
+        <?php /* Convert to Monitoring Log Buttons */ ?>
+        <div class = "right_float">
+            <span class="creatdate">
+
+            </span>
+        </div>
+    </div>
+</div>    
+<div class="clear"></div> 
 
 <?php echo $this->renderPartial('_form', array('model' => $model, 'cityList' => $cityList,)); ?>

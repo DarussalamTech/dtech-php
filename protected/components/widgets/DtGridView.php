@@ -128,7 +128,7 @@ class DtGridView extends CGridView
     {
         
         $cs = Yii::app()->clientScript;
-        $cs->registerScriptFile(Yii::app()->request->baseUrl . '/packages/jui/js/jquery-ui.min.js');
+        $cs->registerScriptFile(Yii::app()->request->baseUrl . '/packages/jui/js/jquery-ui.min.js',  CClientScript::POS_END);
         $str_js = "
         var fixHelper = function(e, ui) {
             ui.children().each(function() {

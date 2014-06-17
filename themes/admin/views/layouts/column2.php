@@ -8,6 +8,7 @@
         <?php // echo CHtml::image(Yii::app()->request->baseUrl . "/images/hide.png", "Hide") ?>
         <!--        <a href="#" onclick="" class="hideShow hideImage"></a>-->
     </div>
+
     <div class="span-5 last">
         <div id="sidebar">
             <?php
@@ -15,14 +16,13 @@
              * If configuration controller is called
              * 
              */
-       
+
             if ($this->id == "configurations" ||
                     $this->id == "cmm" ||
                     $this->id == "confProducts" || $this->id == "dtMessages") {
                 $link_array = array(
                     'Settings' => '<ul class="accordion-ul">' .
-                    '<li>' . CHtml::link('General Misc', $this->createUrl('/configurations/general',
-                        array("m" => "Misc", 'type' => 'general')),array("style"=>!Yii::app()->user->IsSuperuser?"display:none":"")) .
+                    '<li>' . CHtml::link('General Misc', $this->createUrl('/configurations/general', array("m" => "Misc", 'type' => 'general')), array("style" => !Yii::app()->user->IsSuperuser ? "display:none" : "")) .
                     '</li>' .
                     '<li>' . CHtml::link('Branch Misc', array('/configurations/load',
                         "m" => "Misc", "type" => 'other')) .
@@ -48,9 +48,9 @@
                     '<li>' . CHtml::link('Weight', array('/configurations/load',
                         "m" => "Products", "type" => "weight")) . '</li>' .
                     '<li>' . CHtml::link('Author', array('/author/index',
-                    ),array("style"=>Yii::app()->user->IsSuperuser?"display:none":"")) . '</li>' .
+                            ), array("style" => Yii::app()->user->IsSuperuser ? "display:none" : "")) . '</li>' .
                     '<li>' . CHtml::link('Translator Compiler', array('/translatorCompiler/index',
-                    ),array("style"=>Yii::app()->user->IsSuperuser?"display:none":"")) . '</li>' .
+                            ), array("style" => Yii::app()->user->IsSuperuser ? "display:none" : "")) . '</li>' .
                     '<li>' . CHtml::link('Product Custom Attributes', array('/configurations/load',
                         "m" => "ProductAttributes", "type" => "")) . '</li>' .
                     '</ul>',
@@ -67,8 +67,8 @@
 //                            "category" => "product_category")) . '</li>' .
                     '</ul>',
                 );
-                
-                if(!Yii::app()->user->IsSuperuser){
+
+                if (!Yii::app()->user->IsSuperuser) {
                     unset($link_array['Translation']);
                 }
                 $this->widget('zii.widgets.jui.CJuiAccordion', array(
@@ -97,6 +97,14 @@
         </div><!-- sidebar -->
     </div>
     <div class="span-18">
+        <?php if (isset($this->breadcrumbs)): ?>
+            <?php
+            $this->widget('zii.widgets.CBreadcrumbs', array(
+                'links' => $this->breadcrumbs,
+            ));
+            ?><!-- breadcrumbs -->
+        <?php endif ?>
+        <div class="clear"></div>
         <div id="content">
             <?php echo $content; ?>
         </div><!-- content -->

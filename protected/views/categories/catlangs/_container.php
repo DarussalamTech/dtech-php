@@ -8,13 +8,13 @@ $mName = "CategoriesLang";
 $relationName = $dir;
 echo '<a name="' . $relationName . '"></a>';
 
-$plusImage = "<div class='left_float' style='padding-top:2px'>" .
+$plusImage = "<div class='small_left_float' style='padding-top:2px'>" .
         CHtml::image(Yii::app()->theme->baseUrl . '/images/icons/plus.gif', 'bingo', array('class' => 'rotate_iamge', 'id' => $relationName . '-plus', 'class' => 'plus')) .
         "</div>";
 ?>
 
-<div class="child-container" id ="<?php echo $dir; ?>">
-    <div class="subsection-header">
+<div class="child-container portlet" id ="<?php echo $dir; ?>">
+    <div class="subsection-header portlet-decoration">
         <div class="left_float">
             <?php
             if ($this->action->id == 'view') {
@@ -22,6 +22,7 @@ $plusImage = "<div class='left_float' style='padding-top:2px'>" .
             }
             else
                 echo $plusImage . " " . $heading;
+            echo "<div class='portlet-title'>" . "</div>";
             ?>
         </div>
         <div class="right_float">

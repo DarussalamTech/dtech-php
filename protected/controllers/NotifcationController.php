@@ -16,7 +16,8 @@ class NotifcationController extends Controller {
         return array(
             // 'accessControl', // perform access control for CRUD operations
             'rights',
-            'https + index + view + copy + create + createFolder + moveTo + markStatus',
+            'https + index + view + copy + create + createFolder + moveTo 
+                + markStatus + deletedItems + delete + manageFolders +deleteFolder + getTotalNotifications',
         );
     }
 
@@ -34,9 +35,9 @@ class NotifcationController extends Controller {
      * @return boolean
      */
     public function beforeAction($action) {
-        Yii::app()->theme = "admin";
+        Yii::app()->theme = "abound";
         parent::beforeAction($action);
-
+        unset(Yii::app()->clientScript->scriptMap['jquery.js']);
         $operations = array('view');
         parent::setPermissions($this->id, $operations);
 
@@ -52,7 +53,7 @@ class NotifcationController extends Controller {
         /* Set filters and default active */
         $this->filters = array(
             'type' => array("inbox" => "Inbox", "sent" => "Sent",),
-            'is_read' => array("0" => "Un-Read", "1" => "Read",),
+            //'is_read' => array("0" => "Un-Read", "1" => "Read",),
             'folder' => CHtml::listData(NotificationFolder::model()->getUserFolders(), "id", "name"),
         );
     }
@@ -158,12 +159,30 @@ class NotifcationController extends Controller {
      * If deletion is successful, the browser will be redirected to the 'admin' page.
      * @param integer $id the ID of the model to be deleted
      */
-    public function actionDelete($id) {
-        $this->loadModel($id)->delete();
+    public function actionDelete($id = "") {
 
-        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-        if (!isset($_GET['ajax']))
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+        if ($id != "") {
+            $this->loadModel($id)->delete();
+
+            // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+            if (!isset($_GET['ajax']))
+                $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
+        }
+        else {
+
+
+            if (isset($_POST['notifications'])) {
+                $notifications = explode(",", $_POST['notifications']);
+
+                foreach ($notifications as $notif) {
+
+                    Notifcation::model()->deleteByPk($notif);
+                }
+
+                echo "success";
+            }
+            return true;
+        }
     }
 
     /**
@@ -184,12 +203,32 @@ class NotifcationController extends Controller {
             
         } else if ($model->type == "" || $model->type == "inbox") {
             $model->type = "inbox";
-
             $model->to = Yii::app()->user->user->user_email;
         } else if ($model->type == "sent") {
             $model->from = Yii::app()->user->id;
         }
+        $model->deleted = 0;
+        $this->render('index', array(
+            'model' => $model,
+        ));
+    }
+    /**
+     * get Notifcation count
+     */
+    public function actionGetTotalNotifications(){
+        $criteria = new CDbCriteria;
+        $criteria->compare("t.to", Yii::app()->user->user->user_email,true);
+        $criteria->addCondition(" is_read =:is_read ");
+        $criteria->params  = $criteria->params+array("is_read"=>0);
+      
+        echo "<i class='icon icon-envelope'></i>Notification <span class='badge badge-success pull-right'>(".Notifcation::model()->count($criteria).") </span>";
+    }
 
+    /**
+     * show deleted items
+     */
+    public function actionDeletedItems() {
+        $model = new Notifcation();
         $this->render('index', array(
             'model' => $model,
         ));
@@ -198,12 +237,20 @@ class NotifcationController extends Controller {
     /**
      * create new folder
      */
-    public function actionCreateFolder() {
+    public function actionCreateFolder($id = "") {
         $model = new NotificationFolder;
+        if ($id != "") {
+            $model = NotificationFolder::model()->findByPk($id);
+        }
         if (isset($_POST['NotificationFolder'])) {
             $model->attributes = $_POST['NotificationFolder'];
             if ($model->save()) {
-                Yii::app()->user->setFlash("status", "Folder has been added");
+                if ($id == "") {
+                    Yii::app()->user->setFlash("status", "Folder has been added");
+                }
+                else {
+                     Yii::app()->user->setFlash("status", "Folder has been updated");
+                }
             }
         }
         $this->renderPartial("_createfolder", array("model" => $model));
@@ -216,7 +263,7 @@ class NotifcationController extends Controller {
         if (isset($_POST['folder_id']) && isset($_POST['notifications'])) {
             $notifications = explode(",", $_POST['notifications']);
             foreach ($notifications as $notif) {
-                Notifcation::model()->updateByPk($notif, array("folder" => $_POST['folder_id']));
+                Notifcation::model()->updateByPk($notif, array("folder" => $_POST['folder_id'], "deleted" => 0));
             }
             echo "success";
         }
@@ -230,10 +277,41 @@ class NotifcationController extends Controller {
         if (isset($_POST['notifications'])) {
             $notifications = explode(",", $_POST['notifications']);
             foreach ($notifications as $notif) {
-                Notifcation::model()->updateByPk($notif, array("is_read" => $status));
+                if ($status == "deleted") {
+                    $model = Notifcation::model()->findByPk($notif);
+                    $model->markDeleted();
+                } else {
+                    Notifcation::model()->updateByPk($notif, array("is_read" => $status));
+                }
             }
             echo "success";
         }
+    }
+
+    /**
+     * manage folders
+     */
+    public function actionManageFolders() {
+        $model = new NotificationFolder('search');
+        $model->create_user_id = Yii::app()->user->id;
+
+        $this->render("manage_folders", array("model" => $model));
+    }
+
+    /**
+     * Notification folders will be deleted here
+     */
+    public function actionDeleteFolder($id) {
+        NotificationFolder::model()->findByPk($id)->delete();
+
+        $notifications = Notifcation::model()->findAll("folder = " . $id);
+        foreach ($notifications as $notif) {
+            $notifications = Notifcation::model()->updateByPk($notif, array("folder" => ""));
+        }
+
+        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+        if (!isset($_GET['ajax']))
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('manageFolders'));
     }
 
     /**
@@ -245,12 +323,12 @@ class NotifcationController extends Controller {
      */
     public function loadModel($id) {
         $model = Notifcation::model()->findByPk($id);
-
+      
         if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
         } else if ($model->type == "sent" && $model->from != Yii::app()->user->id) {
             throw new CHttpException(404, 'The requested page does not exist.');
-        } else if ($model->type == "inbox" && !strstr(Yii::app()->user->user->user_email, $model->to)) {
+        } else if ($model->type == "inbox" && !strstr($model->to,Yii::app()->user->User->user_email)) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
         return $model;

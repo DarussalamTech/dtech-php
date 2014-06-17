@@ -205,6 +205,7 @@ class UserProfile extends DTActiveRecord {
         $shippingInfo->order_id = $order_id;
 
         $shippingInfo->save();
+        return $shippingInfo->id;
     }
 
     /**

@@ -189,6 +189,7 @@ class Controller extends RController {
             "ShippingClass" => "View",
             "Zone" => "View",
             "Notifcation" => "View",
+            "ProductTemplate" => "View",
                 //"Assignment" => "View",
         );
     }
@@ -482,7 +483,7 @@ class Controller extends RController {
 
                 $childCount = Menu::model()->count("pid = $menu->id");
                 if (
-                        $menu->min_permission == "" || ($menu->min_permission != "" && $this->getPermission(ucfirst($menu->controller) . "." . ucfirst($operation)))
+                        $menu->min_permission == "" || ($menu->min_permission != "" && $this->checkViewAccess(ucfirst($menu->controller) . "." . ucfirst($operation)))
                 ) {
                     $foundAny = true;
 
@@ -533,7 +534,7 @@ class Controller extends RController {
 
                 $mailer->SMTPAuth = true;
                 $mailer->SMTPSecure = Yii::app()->params['mailSecuity'];
-                $mailer->SMTPDebug = 2;
+                //$mailer->SMTPDebug = 2;
                 $mailer->Host = Yii::app()->params['mailHost'];
                 $mailer->Port = Yii::app()->params['mailPort'];
                 $mailer->Username = Yii::app()->params['mailUsername'];
@@ -585,14 +586,18 @@ class Controller extends RController {
         return true;
     }
 
-    /**
-     * It is extend url will take now easy to make url in ciy and country
-     * @param type $route
-     * @param type $params
-     * @param type $ampersand
-     * @return boolean
-     */
-    public function createUrl($route, $params = array(), $ampersand = '&') {
+   /**
+    * It is extend url will take now easy to make url in ciy and country
+    * @param type $route
+    * @param type $params
+    * @param type $ampersand
+    *   merge param means if it is true then it preffers user parameters otherwise
+    *   it takes session
+    * @param type $merge
+    * 
+    * @return type
+    */
+    public function createUrl($route, $params = array(), $ampersand = '&',$merge = false) {
 
         $conCate = array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id']);
         /**
@@ -601,7 +606,8 @@ class Controller extends RController {
         if (!$this->isAdminSite) {
             $conCate['lang'] = $this->currentLang;
         }
-        $params = array_merge($params, $conCate);
+        $params = $merge ==false?array_merge($params, $conCate):array_merge($conCate,$params);
+       
         return parent::createUrl($route, $params, $ampersand);
     }
 

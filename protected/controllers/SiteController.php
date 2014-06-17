@@ -6,6 +6,7 @@ class SiteController extends Controller {
      * Declares class-based actions.
      */
     public function actions() {
+        Yii::app()->theme = "abound";
         return array(
             // captcha action renders the CAPTCHA image displayed on the contact page
             'captcha' => array(
@@ -280,7 +281,7 @@ class SiteController extends Controller {
                 }
 
                 //$email['To'] = "akram.khan@darussalampk.com"; //User::model()->getCityAdmin();
-                $email['To'] =  User::model()->getCityAdmin();
+                $email['To'] = User::model()->getCityAdmin(false,true);
                 $email['From'] = $model->email; 
                 $email['Reply'] = $model->email; 
                 $email['FromName'] = $model->name; 
@@ -322,7 +323,11 @@ class SiteController extends Controller {
 
         Yii::app()->controller->layout = "//layouts/column2";
         Yii::app()->user->SiteSessions;
-       
+        
+        if (empty(Yii::app()->theme)) {
+            $this->redirect($this->createUrl("/site/index"));
+        }
+
         $model = new LoginForm;
         $ip = getenv("REMOTE_ADDR");
         // if it is ajax validation request
@@ -341,7 +346,7 @@ class SiteController extends Controller {
 
                 if (Yii::app()->user->isSuperAdmin) {
                     $_REQUEST['city_id'] = Yii::app()->user->user->city_id;
-                    
+
                     Yii::app()->user->SiteSessions;
                     Yii::app()->session['isSuper'] = 1;
                     $this->isAdminSite = true;
@@ -376,7 +381,7 @@ class SiteController extends Controller {
         $model->password = "";
         // display the login form
 
-        $this->render('login', array('model' => $model));
+        $this->render('//site/login', array('model' => $model));
     }
 
     /**
@@ -386,8 +391,8 @@ class SiteController extends Controller {
         if (!Yii::app()->user->isGuest) {
             $this->redirect($this->createUrl('/product/index'));
         }
-        Yii::app()->controller->layout = "//layouts/login_admin";
-        Yii::app()->theme = "admin";
+        //Yii::app()->controller->layout = "//layouts/login_admin";
+        Yii::app()->theme = "abound";
 
         $model = new LoginForm;
 
@@ -414,7 +419,7 @@ class SiteController extends Controller {
                         $_REQUEST['city_id'] = Yii::app()->user->user->city_id;
                         Yii::app()->user->SiteSessions;
                         Yii::app()->session['isSuper'] = 1;
-                        
+
                         $this->redirect($this->createUrl('/user/index'));
                     } else if (Yii::app()->user->isAdmin) {
 
@@ -427,7 +432,7 @@ class SiteController extends Controller {
             }
         }
         // display the login form
-        $this->render('login_admin', array('model' => $model));
+        $this->render('//site/login', array('model' => $model));
     }
 
     /**

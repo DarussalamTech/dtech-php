@@ -187,12 +187,12 @@ class Order extends DTActiveRecord {
      * and admin order module
      */
     public function manangeAdminElements() {
-        if ($this->isAdmin) {
+        if ($this->isAdmin && Yii::app()->controller->id!="dashBoard") {
             $this->all_status = Status::model()->gettingOrderStatus();
             $dropDownStatus = $this->all_status;
             $this->service_charges = $this->lastServiceCharges();
             /*             * *
-             * current status shudnt be the part
+             * c/urrent status shudnt be the part
              * of dropdown
              */
             unset($dropDownStatus[$this->status]);

@@ -1,4 +1,4 @@
-<?php $this->beginContent(Rights::module()->appLayout); ?>
+<?php $this->beginContent("//layouts/column2"); ?>
 
 <div id="rights" class="container">
     <div class="span-5 last">

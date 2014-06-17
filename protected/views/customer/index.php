@@ -6,7 +6,7 @@
 $user_id = Yii::app()->user->id;
 //$this->layout='column2';
 if (Yii::app()->user->isAdmin || Yii::app()->user->isSuperAdmin) {
-    $this->renderPartial("/common/_left_menu");
+    $this->renderPartial("/common/_left_single_menu");
 }
 
 Yii::app()->clientScript->registerScript('search', "
@@ -23,8 +23,35 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Manage Customers</h1>
 
+<div class="pading-bottom-5">
+    <div class="left_float">
+        <h1>Manage Customers</h1>
+
+        <?php /* Convert to Monitoring Log Buttons */ ?>
+        <div class = "right_float">
+            <span class="creatdate">
+
+            </span>
+        </div>
+    </div>
+</div>    
+<div class="clear"></div> 
+<?php
+if (Yii::app()->user->hasFlash('success')) {
+    echo CHtml::openTag("div", array("class" => "flash-success"));
+    echo Yii::app()->user->getFlash("success");
+    echo CHtml::closeTag("div");
+}
+echo '<div class="clear"></div>';
+if (Yii::app()->user->hasFlash('errorIntegrity')) {
+    echo CHtml::openTag("div", array("class" => "flash-error"));
+    echo Yii::app()->user->getFlash("errorIntegrity");
+    echo CHtml::closeTag("div");
+}
+echo '<div class="clear"></div>';
+
+?>
 <p>
     You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
     or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
@@ -45,7 +72,9 @@ $button_template = ' ';
 if (isset($this->OpPermission[ucfirst($this->id) . ".Update"]) && $this->OpPermission[ucfirst($this->id) . ".Update"]) {
     $button_template.= "{enableimg} {disableimg} {enable} {disable}";
 }
-
+if (isset($this->OpPermission[ucfirst($this->id) . ".Delete"]) && $this->OpPermission[ucfirst($this->id) . ".Delete"]) {
+    $button_template.= "{delete}";
+}
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'user-grid',
     'dataProvider' => $model->searchCustomer(),
@@ -102,6 +131,8 @@ $this->widget('zii.widgets.grid.CGridView', array(
         array(
             'class' => 'CButtonColumn',
             'template' => $button_template,
+            'deleteConfirmation' => 'Are You Sure? You Want to delete this profile and orders',
+            'afterDelete' => 'window.location.reload()',
             'buttons' => array(
                 'enable' => array(
                     'label' => '[ Disable ]',
@@ -145,9 +176,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
             ),
             'htmlOptions' => array('style' => 'width:144px;text-align:center')
         ),
-        array(
-            'class' => 'CButtonColumn',
-        ),
+       
     ),
 ));
 ?>

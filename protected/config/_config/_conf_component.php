@@ -25,9 +25,9 @@ $conf_email_user = array(
 
 $conf_payPall_user = array(
     'class' => 'application.components.Paypal',
-    'apiUsername' => 'zahid.nadeem-facilitator_api1.darussalampk.com',
-    'apiPassword' => '1366199236',
-    'apiSignature' => 'AFcWxV21C7fd0v3bYYYRCpSSRl31AsZ74UA0FGC.aXRCRZeTDD1bRWiS',
+    'apiUsername' => 'waseem-developer_api1.darussalampk.com',
+    'apiPassword' => '1400841145',
+    'apiSignature' => 'AgZ3RW-PX6fp5AIDbvMljvyR1LFwAInpN2LDx6P9258e-eeCa2X0irbF',
     'apiLive' => false,
     'returnUrl' => '/web/paypal/confirm/', //regardless of url management component
     'cancelUrl' => '/web/paypal/cancel/', //regardless of url management component

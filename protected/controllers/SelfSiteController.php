@@ -24,9 +24,9 @@ class SelfSiteController extends Controller {
     }
 
     public function beforeAction($action) {
-        Yii::app()->theme = "admin";
+        Yii::app()->theme = "abound";
         parent::beforeAction($action);
-
+        unset(Yii::app()->clientScript->scriptMap['jquery.js']);
         $operations = array('create', 'update', 'index', 'delete');
         parent::setPermissions($this->id, $operations);
 
@@ -51,9 +51,8 @@ class SelfSiteController extends Controller {
             foreach ($cityList as $value => $name) {
                 echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
             }
-        }
-        else {
-             echo CHtml::tag('option', array('value' => ""), CHtml::encode(""), true);
+        } else {
+            echo CHtml::tag('option', array('value' => ""), CHtml::encode(""), true);
         }
     }
 
@@ -101,7 +100,7 @@ class SelfSiteController extends Controller {
 
         if (isset($_POST['SelfSite'])) {
             $model->attributes = $_POST['SelfSite'];
-            
+
             if ($model->save())
                 $this->redirect(array('view', 'id' => $model->site_id));
         }

@@ -9,9 +9,11 @@
  * @property integer $city_id
  * @property string $is_featured
  * @property string $product_price
+ * @property string $universal_name
  * @property string $parent_cateogry_id
  * @property string $status
  * @property string $shippable_countries
+ * @property string $parent_id
  *
  * The followings are the available model relations:
  * @property Cart[] $carts
@@ -58,8 +60,8 @@ class Product extends DTActiveRecord {
             array('parent_cateogry_id,product_name, city_id, is_featured', 'required'),
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
             array('product_id,authors,product_rating', 'safe'),
-            array('discount_type,discount_type,parent_cateogry_id,no_image,authors,product_description,product_overview', 'safe'),
-            array('shippable_countries,is_slider,status,slag', 'safe'),
+            array('parent_cateogry_id,no_image,authors,product_description,product_overview', 'safe'),
+            array('parent_id,universal_name,shippable_countries,is_slider,status,slag', 'safe'),
             array('city_id', 'numerical', 'integerOnly' => true),
             array('product_name', 'length', 'max' => 255),
             array('is_featured', 'length', 'max' => 1),
@@ -103,6 +105,7 @@ class Product extends DTActiveRecord {
             'language' => array(self::BELONGS_TO, 'Language', 'languages'),
             'productlangs' => array(self::HAS_MANY, 'ProductLang', 'product_id'),
             'related_product' => array(self::HAS_ONE, 'RelatedProduct', 'related_product_id', 'condition' => 'product_id = ' . Yii::app()->request->getParam('id')),
+            'parent'=>array(self::BELONGS_TO, 'Product', 'parent_id'),
         );
     }
 
@@ -160,6 +163,8 @@ class Product extends DTActiveRecord {
             'is_featured' => Yii::t('model_labels', 'Is Featured', array(), NULL, Yii::app()->controller->currentLang),
             'shippable_countries' => Yii::t('model_labels', 'Shippable Countries', array(), NULL, Yii::app()->controller->currentLang),
             'slag' => Yii::t('model_labels', 'Slug', array(), NULL, Yii::app()->controller->currentLang),
+            'universal_name' => Yii::t('model_labels', 'Universal Name', array(), NULL, Yii::app()->controller->currentLang),
+            'parent_id' => Yii::t('model_labels', 'Parent Product', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 
@@ -422,6 +427,7 @@ class Product extends DTActiveRecord {
         $criteria->compare('product_id', $this->product_id);
         $criteria->compare('parent_cateogry_id', $this->parent_cateogry_id);
         $criteria->compare('product_name', $this->product_name, true);
+        $criteria->compare('universal_name', $this->universal_name, true);
         $criteria->compare('product_description', $this->product_description, true);
         $criteria->compare('city_id', $this->city_id);
         $criteria->compare('is_featured', $this->is_featured, true);
@@ -535,9 +541,9 @@ class Product extends DTActiveRecord {
      */
     public function saveSlug() {
         if (!empty($this->slag)) {
-            $this->slag = str_replace(" ", "-", $this->slag);
+            $this->slag = MyHelper::convert_no_sign($this->slag);
         } else {
-            $this->slag = str_replace(" ", "-", $this->product_name);
+            $this->slag = MyHelper::convert_no_sign($this->product_name);
         }
     }
 
