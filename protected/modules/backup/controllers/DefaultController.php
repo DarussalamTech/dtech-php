@@ -34,7 +34,8 @@ class DefaultController extends Controller {
     public function beforeAction($action) {
         Yii::app()->theme = "abound";
         parent::beforeAction($action);
-
+        unset(Yii::app()->clientScript->scriptMap['jquery.js']);
+       
         $operations = array('create', 'update', 'index', 'delete');
         parent::setPermissions($this->id, $operations);
         return true;
