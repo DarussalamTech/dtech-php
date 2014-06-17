@@ -117,9 +117,9 @@ class DashboardStats extends CComponent {
         $conidition_whr = "";
         $conidition_and = "";
         if (!Yii::app()->user->getIsSuperuser()) {
-            $conidition_whr = " WHERE t.city_id = " . Yii::app()->request->getQuery("city_id");
-            $conidition = " t.city_id = " . Yii::app()->request->getQuery("city_id");
-            $conidition_and = " AND t.city_id = " . Yii::app()->request->getQuery("city_id");
+            $conidition_whr = " WHERE city_id = " . Yii::app()->request->getQuery("city_id");
+            $conidition = " city_id = " . Yii::app()->request->getQuery("city_id");
+            $conidition_and = " AND city_id = " . Yii::app()->request->getQuery("city_id");
         }
 
         $sql = "SELECT SUM(`total_price`) as total,create_time 
@@ -168,8 +168,8 @@ class DashboardStats extends CComponent {
         $conidition = "";
         $conidition_whr = "";
         if (!Yii::app()->user->getIsSuperuser()) {
-            $conidition_whr = " WHERE t.city_id = " . Yii::app()->request->getQuery("city_id");
-            $conidition = " t.city_id = " . Yii::app()->request->getQuery("city_id");
+            $conidition_whr = " WHERE city_id = " . Yii::app()->request->getQuery("city_id");
+            $conidition = " city_id = " . Yii::app()->request->getQuery("city_id");
         }
         $sql = "SELECT SUM(`total_price`) as total,create_time 
                 FROM `order` " . $conidition_whr . " GROUP BY MONTH(`create_time`) ORDER BY create_time DESC ";
@@ -195,8 +195,8 @@ class DashboardStats extends CComponent {
         $conidition = "";
         $conidition_whr = "";
         if (!Yii::app()->user->getIsSuperuser()) {
-            $conidition_whr = " WHERE t.city_id = " . Yii::app()->request->getQuery("city_id");
-            $conidition = " t.city_id = " . Yii::app()->request->getQuery("city_id");
+            $conidition_whr = " WHERE city_id = " . Yii::app()->request->getQuery("city_id");
+            $conidition = " city_id = " . Yii::app()->request->getQuery("city_id");
         }
         $sql = "SELECT COUNT(`id`) as total,create_time 
                 FROM `wish_list` " . $conidition_whr . " GROUP BY MONTH(`create_time`) ORDER BY create_time DESC LIMIT 12";
@@ -222,8 +222,8 @@ class DashboardStats extends CComponent {
         $conidition = "";
         $conidition_whr = "";
         if (!Yii::app()->user->getIsSuperuser()) {
-            $conidition_whr = " WHERE t.city_id = " . Yii::app()->request->getQuery("city_id");
-            $conidition = " t.city_id = " . Yii::app()->request->getQuery("city_id");
+            $conidition_whr = " WHERE city_id = " . Yii::app()->request->getQuery("city_id");
+            $conidition = " city_id = " . Yii::app()->request->getQuery("city_id");
         }
         $sql = "SELECT COUNT(`order_id`) as total,create_time 
                 FROM `order` " . $conidition_whr . " GROUP BY MONTH(`create_time`) ORDER BY create_time DESC LIMIT 12";
@@ -251,8 +251,8 @@ class DashboardStats extends CComponent {
         $conidition = "";
         $conidition_whr = "";
         if (!Yii::app()->user->getIsSuperuser()) {
-            $conidition_whr = " WHERE t.city_id = " . Yii::app()->request->getQuery("city_id");
-            $conidition = " t.city_id = " . Yii::app()->request->getQuery("city_id");
+            $conidition_whr = " WHERE o.city_id = " . Yii::app()->request->getQuery("city_id");
+            $conidition = " o.city_id = " . Yii::app()->request->getQuery("city_id");
         }
         $sql = "Select DISTINCT(user.user_id),user_name,count(o.order_id) total_orders,@num := @num + 1 as id FROM user
             INNER JOIN `order`  o
@@ -276,8 +276,8 @@ class DashboardStats extends CComponent {
         $conidition = "";
         $conidition_whr = "";
         if (!Yii::app()->user->getIsSuperuser()) {
-            $conidition_whr = " WHERE t.city_id = " . Yii::app()->request->getQuery("city_id");
-            $conidition = " t.city_id = " . Yii::app()->request->getQuery("city_id");
+            $conidition_whr = " WHERE o.city_id = " . Yii::app()->request->getQuery("city_id");
+            $conidition = " o.city_id = " . Yii::app()->request->getQuery("city_id");
         }
         $sql = "Select DISTINCT(user.user_id),user_name,ROUND(SUM(o.total_price),2) total_purchased,@num := @num + 1 as id FROM user
             INNER JOIN `order`  o
