@@ -28,10 +28,10 @@ $('.search-form form').submit(function(){
     <div class="left_float">
         <h1>Manage  Messages</h1>
     </div>
-
+    <div class="clear"></div>
     <?php /* Convert to Monitoring Log Buttons */ ?>
-    <div class = "right_float">
-        <span class="creatdate">
+    <div class = "">
+        <span class="creatdate no-clear">
             <?php
             echo CHtml::link("Generate Common Cache", $this->createUrl("/dtMessages/generate", array("category" => "common")), array(
                 'class' => "print_link_btn",

@@ -43,6 +43,8 @@ $modules = array(
             'Backup.*',
             'Configurations.Load',
             'Configurations.General',
+            'Configurations.DeleteGeneral',
+            'Configurations.DeleteOther',
             'Language.*', 'DtMessages.*',
             'User.View', 'Country.View',
             'City.View', 'SelfSite.View',

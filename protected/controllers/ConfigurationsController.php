@@ -178,11 +178,16 @@ class ConfigurationsController extends Controller {
 
 
         $model = $model_name::model()->findByPk($id);
-        $model->delete();
-
+        if($model->delete()){
+            Yii::app()->user->setFlash("success","Record has been deleted successfully");
+        }
+        else {
+            Yii::app()->user->setFlash("errorIntegrity","Record cannot be deleted its associated with city and prodcucts");
+        }
+        
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if (!isset($_GET['ajax']))
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('load'));
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('load', 'm' => $m, 'module' => $module,"type"=>$type));
     }
 
 }

@@ -1,5 +1,19 @@
 <h1>Tax Rates</h1>
 <?php
+echo '<div class="clear"></div>';
+if (Yii::app()->user->hasFlash('success')) {
+    echo CHtml::openTag("div", array("class" => "flash-success"));
+    echo Yii::app()->user->getFlash("success");
+    echo CHtml::closeTag("div");
+}
+echo '<div class="clear"></div>';
+if (Yii::app()->user->hasFlash('errorIntegrity')) {
+    echo CHtml::openTag("div", array("class" => "flash-error"));
+    echo Yii::app()->user->getFlash("errorIntegrity");
+    echo CHtml::closeTag("div");
+}
+echo '<div class="clear"></div>';
+
 $this->renderPartial("confTaxRates/_form", array("model" => $model));
 ?>
 <?php
