@@ -64,7 +64,7 @@ class LogController extends Controller {
      */
     public function actionHtAccess() {
         $criteria = new CDbCriteria;
-        $criteria->condition = "htaccess_rule <> NULL AND htaccess_rule !=''";
+        $criteria->condition = "htaccess_rule <> NULL OR htaccess_rule !=''";
         $model = Log::model()->findAll($criteria);
         $txt_data = "";
         foreach($model as $data){
@@ -79,9 +79,10 @@ class LogController extends Controller {
      */
     public function actionRobote() {
         $criteria = new CDbCriteria;
-        $criteria->condition = "robots_txt_rule <> NULL AND robots_txt_rule !=''";
+        $criteria->condition = "robots_txt_rule <> NULL OR robots_txt_rule <>''";
         $model = Log::model()->findAll($criteria);
         $txt_data = "";
+        CVarDumper::dump($criteria,10,true);
         foreach($model as $data){
             $txt_data.= $data->robots_txt_rule."\n";
         }
