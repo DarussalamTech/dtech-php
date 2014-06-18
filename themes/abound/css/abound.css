@@ -629,3 +629,12 @@ div.flash-success a
 {
     color:#264409;
 }
+#quick_filter>ul li label {
+    font-weight: bold;
+}
+#quick_filter ul li {
+    line-height: 5px;
+}
+.sidebar-nav .portlet {
+    margin-top: 20px;
+}
