@@ -72,6 +72,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
     'filter' => $model,
     'columns' => array(
         'id',
+        'create_time',
         'ip',
         'line',
         'type',
@@ -86,3 +87,8 @@ $this->widget('zii.widgets.grid.CGridView', array(
     ),
 ));
 ?>
+<style>
+    ul.yiiPager .first, ul.yiiPager .last {
+        display: inline-block;
+    }
+</style>        
