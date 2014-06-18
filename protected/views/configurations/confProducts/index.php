@@ -9,7 +9,7 @@ $this->breadcrumbs = array(
 ?>
 <div class="pading-bottom-5">
     <div class="left_float">
-        <h1>[Product Or Book] <?php echo $_GET['type']; ?></h1>
+        <h1>[Product Or Book] <?php echo isset($_GET['type'])?$_GET['type']:""; ?></h1>
     </div>
 
     <?php /* Convert to Monitoring Log Buttons */ ?>
@@ -18,8 +18,20 @@ $this->breadcrumbs = array(
     </div>
 </div>
 <div class="clear"></div>
-
 <?php
+if (Yii::app()->user->hasFlash('success')) {
+    echo CHtml::openTag("div", array("class" => "flash-success"));
+    echo Yii::app()->user->getFlash("success");
+    echo CHtml::closeTag("div");
+}
+echo '<div class="clear"></div>';
+if (Yii::app()->user->hasFlash('errorIntegrity')) {
+    echo CHtml::openTag("div", array("class" => "flash-error"));
+    echo Yii::app()->user->getFlash("errorIntegrity");
+    echo CHtml::closeTag("div");
+}
+echo '<div class="clear"></div>';
+
 $this->renderPartial("confProducts/_form", array("model" => $model));
 ?>
 <?php
