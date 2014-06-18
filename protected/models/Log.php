@@ -53,7 +53,7 @@ class Log extends DTActiveRecord {
             array('robots_txt_rule, htaccess_rule', 'length', 'max' => 300),
             array('message', 'length', 'max' => 200),
             array('create_user_id, update_user_id', 'length', 'max' => 11),
-            array('trace', 'safe'),
+            array('robots_txt_rule, htaccess_rule,trace', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, ip, browser, url, line, file, robots_txt_rule, htaccess_rule, message, type, trace, create_time, create_user_id, update_time, update_user_id', 'safe', 'on' => 'search'),
