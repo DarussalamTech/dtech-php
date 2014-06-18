@@ -72,6 +72,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
     'filter' => $model,
     'columns' => array(
         'id',
+        'create_time',
         'ip',
         'line',
         'type',
