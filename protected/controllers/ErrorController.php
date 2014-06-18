@@ -61,7 +61,7 @@ class ErrorController extends Controller {
            
             if (stristr($log->browser, "bot.htm")) {
                 $log->htaccess_rule = "RedirectMatch 301 " . Yii::app()->request->url . " " . Yii::app()->request->hostInfo . Yii::app()->request->baseUrl;
-                $log->robots_txt_rule = "User-agent: * \n";
+                $log->robots_txt_rule = "\n";
                 $log->robots_txt_rule.=" Disallow:" . Yii::app()->request->url;
             }
 

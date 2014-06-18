@@ -82,7 +82,7 @@ class LogController extends Controller {
         $criteria->condition = "robots_txt_rule <> NULL OR robots_txt_rule <>''";
         $model = Log::model()->findAll($criteria);
         $txt_data = "";
-        CVarDumper::dump($criteria,10,true);
+       
         foreach($model as $data){
             $txt_data.= $data->robots_txt_rule."\n";
         }
