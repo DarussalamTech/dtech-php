@@ -121,6 +121,14 @@ class Log extends DTActiveRecord {
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
+             'sort' => array(
+                'defaultOrder' => array(
+                    'id' => true,
+                ),
+            ),
+            'pagination' => array(
+                'pageSize' => 50,
+            ),
         ));
     }
 
