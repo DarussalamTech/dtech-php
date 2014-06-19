@@ -121,8 +121,8 @@ class City extends DTActiveRecord {
      */
     public function getCityId($name) {
         $criteria = new CDbCriteria;
-        $criteria->condition = 't.city_name = :city_name';
-        $criteria->params = array(":city_name" => $name);
+        $criteria->condition = 'LOWER(t.city_name) = :city_name';
+        $criteria->params = array(":city_name" => strtolower($name));
 
         return City::model()->get($criteria);
     }
