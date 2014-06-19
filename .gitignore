@@ -25,4 +25,5 @@
 index.php
 !/protected/views/dashBoard/index.php
 !/protected/views/log/index.php
-push_all.sh
+push_master.sh
+push_demo.sh
