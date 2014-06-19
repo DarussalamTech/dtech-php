@@ -69,16 +69,16 @@ class LogController extends Controller {
         $txt_data = "";
         foreach ($model as $data) {
             if (strstr($data['url'], "darussalampk")) {
-                $data->htaccess_rule = str_replace("http://www.darussalampk.com", "", $data->htaccess_rule);
+                $data->htaccess_rule = str_replace("http://www.darussalampk.com/", "/", $data->htaccess_rule);
                 $txt_data.= $data->htaccess_rule . "\n";
             } else if (strstr($data['url'], "darussalamksa")) {
-                $data->htaccess_rule = str_replace("http://www.darussalamksa.com", "", $data->htaccess_rule);
+                $data->htaccess_rule = str_replace("http://www.darussalamksa.com/", "/", $data->htaccess_rule);
                 $txt_data.= $data->htaccess_rule . "\n";
             } else if (strstr($data['url'], "darussalampub")) {
-                $data->htaccess_rule = str_replace("http://demoecom.darussalampublishers.com", "", $data->htaccess_rule);
+                $data->htaccess_rule = str_replace("http://demoecom.darussalampublishers.com/", "/", $data->htaccess_rule);
                 $txt_data.= $data->htaccess_rule . "\n";
             } else {
-                $data->htaccess_rule = str_replace("http://localhost/darussalam", "", $data->htaccess_rule);
+                $data->htaccess_rule = str_replace("http://localhost/darussalam/", "/", $data->htaccess_rule);
                 $txt_data.= $data->htaccess_rule . "\n";
             }
         }
@@ -98,18 +98,18 @@ class LogController extends Controller {
         foreach ($model as $data) {
 
             if (strstr($data['url'], "darussalampk")) {
-                $data->robots_txt_rule = str_replace("http://www.darussalampk.com", "", $data->robots_txt_rule);               
+                $data->robots_txt_rule = str_replace("http://www.darussalampk.com/", "/", $data->robots_txt_rule);               
             } else if (strstr($data['url'], "darussalamksa")) {
-                $data->robots_txt_rule = str_replace("http://www.darussalamksa.com", "", $data->robots_txt_rule);
+                $data->robots_txt_rule = str_replace("http://www.darussalamksa.com/", "/", $data->robots_txt_rule);
             } else if (strstr($data['url'], "darussalampub")) {
-                $data->robots_txt_rule = str_replace("http://demoecom.darussalampublishers.com", "", $data->robots_txt_rule);
+                $data->robots_txt_rule = str_replace("http://demoecom.darussalampublishers.com/", "/", $data->robots_txt_rule);
             } else {
-                $data->robots_txt_rule = str_replace("http://localhost/darussalam", "", $data->robots_txt_rule);
+                $data->robots_txt_rule = str_replace("http://localhost/darussalam/", "/", $data->robots_txt_rule);
             }
             
             $txt_data.= $data->robots_txt_rule . "\n";
         }
-
+        $txt_data = str_replace("Disallow:","Disallow: ",$txt_data);
         CVarDumper::dump($txt_data, 10, true);
     }
 
