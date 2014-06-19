@@ -215,8 +215,7 @@ RedirectMatch 301 /arabic/product_list.aspx?category_id=2  http://www.darussalam
 RedirectMatch 301 /arabic/product_list.aspx?category_id=19  http://www.darussalamksa.com
 RedirectMatch 301 /arabic/product_list.aspx  http://www.darussalamksa.com
 RedirectMatch 301 /arabic/about_us.aspx  http://www.darussalamksa.com
-RedirectMatch 301 /5  http://www.darussalamksa.com
-RedirectMatch 301 /2  http://www.darussalamksa.com
+
 RedirectMatch 301 /www.discoverislamcentre.com  http://www.darussalamksa.com
 RedirectMatch 301 /registeration.aspx  http://www.darussalamksa.com
 RedirectMatch 301 /product_list.aspx?category_id=6  http://www.darussalamksa.com
@@ -247,7 +246,7 @@ RedirectMatch 301 /en/ksa/ria/5/Children/From-Fajar-to-Morning-Urdu---3170/detai
 RedirectMatch 301 /default.aspx?aspxerrorpath=/arabic/product_list.aspx  http://www.darussalamksa.com
 RedirectMatch 301 /en/ksa/ria/5/History/History-of-Madinah-Munawwarah--3138/detail  http://www.darussalamksa.com
 RedirectMatch 301 /en/ksa/ria/5/Dawa/Nafaz-E-Shariat-Urdu---3107/detail  http://www.darussalamksa.com
-RedirectMatch 301 en/ksa/ria/5/Books/-2582/detail?ProductProfile_sort=language_id.desc  http://www.darussalamksa.com
+RedirectMatch 301 /en/ksa/ria/5/Books/-2582/detail?ProductProfile_sort=language_id.desc  http://www.darussalamksa.com
 RedirectMatch 301 /en/ksa/ria/5/Books/Bayad-ul-Al-Arbaeen-Urdu---3076/detail  http://www.darussalamksa.com
 RedirectMatch 301 /en/ksa/ria/5/Books/Manners-of-Prophet-PBUH---urdu-3419/detail  http://www.darussalamksa.com
 RedirectMatch 301 /en/ksa/ria/5/Books/The-Noble-Life-of-the-Prophet--3395/detail  http://www.darussalamksa.com
@@ -275,7 +274,7 @@ RedirectMatch 301 /en/ksa/ria/5/General/Islamic-Etiquette--Eng---3255/detail  ht
 RedirectMatch 301 /en/ksa/ria/5/Seerah/Golden-Story-of-Hazrat-Hadija--3373/detail  http://www.darussalamksa.com
 RedirectMatch 301 /en/ksa/ria/5/Children/From-Asar-to-Maghrib-Urdu---3171/detail  http://www.darussalamksa.com
 RedirectMatch 301 /en/ksa/ria/5/Books/Fatawa-Islamiyah---Urdu----Vol-3141/detail  http://www.darussalamksa.com
-RedirectMatch 301 product_detail.aspx?product_id=1166  http://www.darussalamksa.com
+RedirectMatch 301 /product_detail.aspx?product_id=1166  http://www.darussalamksa.com
 RedirectMatch 301 /en/ksa/ria/5/General/Ureedu-un-Atuba-Walakin-Urdu---3073/detail  http://www.darussalamksa.com
 RedirectMatch 301 /en/ksa/ria/5/Worships/Fadal-Saum-Ramadan-wa-Qiam---U-3154/detail  http://www.darussalamksa.com
 RedirectMatch 301 /en/ksa/ria/5/Children/Talash--Urdu--3384/detail  http://www.darussalamksa.com
