@@ -199,7 +199,6 @@ RedirectMatch 301 /arabic/product_list.aspx?category_id=3  http://www.darussalam
 RedirectMatch 301 /arabic/mycart.aspx  http://www.darussalamksa.com
 RedirectMatch 301 /arabic/login.aspx  http://www.darussalamksa.com
 RedirectMatch 301 /arabic/index.aspx  http://www.darussalamksa.com
-RedirectMatch 301 /3  http://www.darussalamksa.com
 RedirectMatch 301 /shopping_returns.aspx  http://www.darussalamksa.com
 RedirectMatch 301 /reward_program.aspx  http://www.darussalamksa.com
 RedirectMatch 301 /product_list.aspx?category_id=7  http://www.darussalamksa.com
