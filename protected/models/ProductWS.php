@@ -148,7 +148,7 @@ class ProductWS extends Product {
         $category_info = array();
 
         //Criteria building
-
+        //".$book_category->category_id."  AND t.parent_id = 0
         $criteria = new CDbCriteria(array(
             'select' => 't.is_featured,t.product_id,t.create_time,t.update_time,t.product_name,t.product_description,t.slag,t.parent_cateogry_id ',
             'with' => array(
@@ -156,7 +156,7 @@ class ProductWS extends Product {
                 'author' => array('type' => 'INNER JOIN')
             ),
 //            'with' => array('productProfile' => array('select' => 'price'), 'productCategories', 'author'),
-            'condition' => " t.parent_cateogry_id=".$book_category->category_id."  AND t.parent_id = 0 " . $condition,
+            'condition' => " t.parent_cateogry_id= 57" . $condition,
             'order' => $orderby,
             'distinct' => true,
             'together' => true,
