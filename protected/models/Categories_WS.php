@@ -46,5 +46,19 @@ class Categories_WS extends Categories {
         $cate = $this->with(array('productCategories' => array("select" => ""), 'productCategories.product' => array('alias' => 'product', 'joinType' => "INNER JOIN ", "select" => "")))->findAll($criteriaC);
         return $cate;
     }
+    /**
+     * book category model for webservice use
+     */
+    public function getBookCategory($city_id = 0){
+        $criteria = new CDbCriteria;
+        $criteria->addCondition("LOWER(category_name) = :category AND parent_id = :parent_id");
+        $criteria->params = array("category"=>"book","parent_id"=>0);
+        if($city_id!=0){
+             $criteria->addCondition("t.city_id :city_id");
+             $criteria->params['city_id'] = $city_id;
+        }
+        
+        return $this->get($criteria);
+    }
    
 }

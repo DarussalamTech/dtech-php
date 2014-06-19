@@ -86,6 +86,7 @@ class ProductWS extends Product {
     /*
      * Get All Categories with relevant books
      * for webservice
+     * to darussalam publishers.com
      */
 
     public function getWsAllBooksByCategory($page = "", $category = "", $popular = "", $price_max = "", $price_min = "", $pages = "", $lowrangeprice = "", $highrangeprice = "", $asc = "", $desc = "") {//,$price="",$price_max="") {
@@ -99,9 +100,10 @@ class ProductWS extends Product {
         // Getting the Authors for drop downs
 
         $authors = Author::model()->findAll();
+        
+        $lahore_city = City::model()->getCityId("Lahore");
+        $book_category = Categories_WS::model()->getBookCategory($lahore_city->city_id);
 
-
-//SELECT p.id ,count(t.quantity) as sold  FROM `order_detail` as t  inner join product_profile as p on t.product_profile_id=p.id group by p.id
         // making dynamic string according to the requirements
         $orderby = "";
 
@@ -154,7 +156,7 @@ class ProductWS extends Product {
                 'author' => array('type' => 'INNER JOIN')
             ),
 //            'with' => array('productProfile' => array('select' => 'price'), 'productCategories', 'author'),
-            'condition' => " t.parent_cateogry_id=57  " . $condition,
+            'condition' => " t.parent_cateogry_id=".$book_category->category_id."  AND t.parent_id = 0 " . $condition,
             'order' => $orderby,
             'distinct' => true,
             'together' => true,
@@ -176,8 +178,6 @@ class ProductWS extends Product {
             ),
             'criteria' => $criteria,
         ));
-
-//CVarDumper::dump($criteria,10,true);
 
         //Getting data from the data provider according to criteria
         $data = $dataProvider->getData();
