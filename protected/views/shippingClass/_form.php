@@ -167,18 +167,18 @@
                             <?php
                             //this process is done for gettting parent category
                             $categories = CHtml::listData(Categories::model()->getMenuParentCategories(), "category_id", "category_name");
-                            
-                            $books_quran = array_search("Books", $categories).",".array_search("Quran", $categories);
+
+                            $books_quran = array_search("Books", $categories) . "," . array_search("Quran", $categories);
                             //this function is setting to make two major cateogories
                             unset($categories[array_search("Books", $categories)]);
                             unset($categories[array_search("Quran", $categories)]);
-                            $others = implode(",",array_keys($categories));
+                            $others = implode(",", array_keys($categories));
                             //this process is done for gettting parent category
-                            
-                            if(!$model->isNewRecord){
-                                $model->categories = implode(",",$model->categories);
+
+                            if (!$model->isNewRecord) {
+                                $model->categories = implode(",", $model->categories);
                             }
-                            echo $form->dropDownList($model, 'categories', array($books_quran=>"Books and Quran",$others=>"Others Items"));
+                            echo $form->dropDownList($model, 'categories', array($books_quran => "Books and Quran", $others => "Others Items"));
                             ?>
                         </div>
                         <div class="field" style="width:300px">
@@ -197,6 +197,10 @@
 
     <div class="row buttons">
         <?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save', array("class" => "btn")); ?>
+        <?php
+        echo " or ";
+        echo CHtml::link('Cancel', '#', array('onclick' => 'dtech.go_history()'));
+        ?>
     </div>
 
     <?php
