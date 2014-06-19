@@ -1,4 +1,4 @@
-
+User-agent: *
 Disallow:/en/ksa/ria/5/Children/-2264/detail?ProductProfile_sort=price
 Disallow:/en/ksa/ria/5/Books/Qurani-Qaida-Urdu---3229/detail
 Disallow:/en/ksa/ria/5/General/15-principles-of-leadership-gu-3357/detail
@@ -23,65 +23,41 @@ Disallow:/en/ksa/ria/5/Seerah/The-Noble-Life-of-the-Prophet--3395/detail
 Disallow:/en/ksa/ria/5/General/Biog--Umar-bin-Khattab---Urdu--3089/detail
 Disallow:/en/ksa/ria/5/Books/Qurani-Qaida-Urdu---3229/detail
 Disallow:/en/ksa/ria/5/category/Seerah-171
-Disallow:http://www.darussalamksa.com/product_detail.aspx?product_id=1209
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Children/Our-Home-Urdu---3168/detail
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/General/Bayad-ul-Al-Arbaeen-Urdu---3076/detail
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/General/Islamic-Manners-of-Life-Urdu---3273/detail
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Children/Hasad-ki-Aag-Urdu---3110/detail
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Children/Bagh-Nabowatt-Kay-Phool---2-Ur-3200/detail
-Disallow:http://darussalampk.com/en/pak/lahore/1//Huqooq-Zojain-1171/detail
-Disallow:http://darussalampk.com/en/pak/lahore/1//Ammaar-in-Makkah-713/detail
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Women/If-you-become-a-mother--Urdu---3376/detail
-Disallow:http://darussalampk.com/en/pak/lahore/1//Musalman-Bachon-Ki-Subah-Shaam-1261/detail
+Disallow:/product_detail.aspx?product_id=1209
+Disallow:/en/ksa/ria/5/Children/Our-Home-Urdu---3168/detail
+Disallow:/en/ksa/ria/5/General/Bayad-ul-Al-Arbaeen-Urdu---3076/detail
+Disallow:/en/ksa/ria/5/General/Islamic-Manners-of-Life-Urdu---3273/detail
+Disallow:/en/ksa/ria/5/Children/Hasad-ki-Aag-Urdu---3110/detail
+Disallow:/en/ksa/ria/5/Children/Bagh-Nabowatt-Kay-Phool---2-Ur-3200/detail
+Disallow:/en/pak/lahore/1//Huqooq-Zojain-1171/detail
+Disallow:/en/pak/lahore/1//Ammaar-in-Makkah-713/detail
+Disallow:/en/ksa/ria/5/Women/If-you-become-a-mother--Urdu---3376/detail
+Disallow:/en/pak/lahore/1//Musalman-Bachon-Ki-Subah-Shaam-1261/detail
 Disallow:http://www.darussalampk.com/index2.php?option=com_virtuemart&page=shop.pdf_output&showpage=shop.product_details&pop=1&output=pdf&product_id=467&category_id=26&pop=1
-Disallow:http://darussalampk.com/en/pak/lahore/1//Riaz-Us-Saliheen-1130/detail
-
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Aqeeda/Seek-Help-except-Allah--Urdu---3105/detail
-
-Disallow:http://darussalampk.com/assets/c0207557/jui/js/jquery-ui.min.js
-
-Disallow:http://darussalampk.com/assets/c0207557/jui/css/base/jquery-ui.css
-
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Worships/Alignment-in-Prayer-Urdu---3195/detail
-
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Stories/Story-of-Unus-Urdu----3301/detail
-
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Fiqh/From-Monogamy-to-polygany-Urdu-3226/detail
-
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/The-Battle-of-Qadisiyyah---Urd-3411/detail
-
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Stories/Story-of-Ibrahim-Urdu----3296/detail
-
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/Rasool-Allah-ki-Namaz-Urdu---3109/detail
-
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/Sharah-Kitab-ut-Towheed---Urdu-3157/detail
-
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/Salat-Un-Nabi-Urdu----3097/detail
-
+Disallow:/en/pak/lahore/1//Riaz-Us-Saliheen-1130/detail
+Disallow:/en/ksa/ria/5/Aqeeda/Seek-Help-except-Allah--Urdu---3105/detail
+Disallow:/assets/c0207557/jui/js/jquery-ui.min.js
+Disallow:/assets/c0207557/jui/css/base/jquery-ui.css
+Disallow:/en/ksa/ria/5/Worships/Alignment-in-Prayer-Urdu---3195/detail
+Disallow:/en/ksa/ria/5/Stories/Story-of-Unus-Urdu----3301/detail
+Disallow:/en/ksa/ria/5/Fiqh/From-Monogamy-to-polygany-Urdu-3226/detail
+Disallow:/en/ksa/ria/5/Books/The-Battle-of-Qadisiyyah---Urd-3411/detail
+Disallow:/en/ksa/ria/5/Stories/Story-of-Ibrahim-Urdu----3296/detail
+Disallow:/en/ksa/ria/5/Books/Rasool-Allah-ki-Namaz-Urdu---3109/detail
+Disallow:/en/ksa/ria/5/Books/Sharah-Kitab-ut-Towheed---Urdu-3157/detail
+Disallow:/en/ksa/ria/5/Books/Salat-Un-Nabi-Urdu----3097/detail
 Disallow:http://www.darussalampk.com/en/pak/lahore/1/Learning/Jadeed-Arabi-Sekhye-3432/detail
-
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Seerah/Beauty-of-Muhammad--Urdu----3069/detail
-
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Children/Azeem-Shahsawar---for-Childern-3186/detail
-
+Disallow:/en/ksa/ria/5/Seerah/Beauty-of-Muhammad--Urdu----3069/detail
+Disallow:/en/ksa/ria/5/Children/Azeem-Shahsawar---for-Childern-3186/detail
 Disallow:http://darussalamksa.com/en/ksa/ria/5/Hadith/-2411/detail?ProductProfile_sort=title
-
 Disallow:http://darussalamksa.com/en/ksa/ria/5/Books/-2436/detail?ProductProfile_sort=printing
-
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/Islamic-Prayers-and-Supplicati-3364/detail
-
+Disallow:/en/ksa/ria/5/Books/Islamic-Prayers-and-Supplicati-3364/detail
 Disallow:http://www.darussalampk.com/assets/c0207557/jui/css/base/jquery-ui.css
-
 Disallow:http://www.darussalampk.com/assets/ba39da23/pager.css
-
 Disallow:http://www.darussalampk.com/assets/c0207557/jui/js/jquery-ui.min.js
-
-Disallow:http://darussalampk.com/index.php/index2.php?page=shop.product_details&flypage=flypage.tpl&product_id=714&category_id=26&option=com_virtuemart&Itemid=60
-
+Disallow:/index.php/index2.php?page=shop.product_details&flypage=flypage.tpl&product_id=714&category_id=26&option=com_virtuemart&Itemid=60
 Disallow:http://darussalamksa.com/product_detail.aspx?product_id=1194
-
 Disallow:http://darussalamksa.com/product_detail.aspx?product_id=\"%20+%20product_id%20+%20\"
-
 Disallow:http://darussalamksa.com/arabic/product_detail.aspx?product_id=1173
 
 Disallow:http://darussalamksa.com/arabic/product_detail.aspx?product_id=1174
@@ -128,89 +104,89 @@ Disallow:http://darussalamksa.com/product_list.aspx
 
 Disallow:http://darussalamksa.com/arabic/product_detail.aspx?product_id=1177
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/Three-Divers-at-a-Time-Urdu----3276/detail
+Disallow:/en/ksa/ria/5/Books/Three-Divers-at-a-Time-Urdu----3276/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/A-Misunderstanding-Urdu---3163/detail
+Disallow:/en/ksa/ria/5/Books/A-Misunderstanding-Urdu---3163/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/The-Old-Book-Urdu---3230/detail
+Disallow:/en/ksa/ria/5/Books/The-Old-Book-Urdu---3230/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Seerah/Manner-and-Guide-Urdu---3307/detail
+Disallow:/en/ksa/ria/5/Seerah/Manner-and-Guide-Urdu---3307/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Stories/Story-of-Usuf-Urdu----3299/detail
+Disallow:/en/ksa/ria/5/Stories/Story-of-Usuf-Urdu----3299/detail
 
-Disallow:http://www.darussalamksa.com/product_detail.aspx?product_id=1209
+Disallow:/product_detail.aspx?product_id=1209
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Children/From-Breakfast-to-School-Urdu--3173/detail
+Disallow:/en/ksa/ria/5/Children/From-Breakfast-to-School-Urdu--3173/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/Jadoo-ka-Ilaj-Urdu---3146/detail
+Disallow:/en/ksa/ria/5/Books/Jadoo-ka-Ilaj-Urdu---3146/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/Umar-Faruque-Urdu----3210/detail
+Disallow:/en/ksa/ria/5/Books/Umar-Faruque-Urdu----3210/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/Rain-of-stones-Urdu---3232/detail
+Disallow:/en/ksa/ria/5/Books/Rain-of-stones-Urdu---3232/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/Makkar-Dushman-Urdu---3113/detail
+Disallow:/en/ksa/ria/5/Books/Makkar-Dushman-Urdu---3113/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Children/Bagh-Nabowatt-Kay-Phool---1-Ur-3199/detail
+Disallow:/en/ksa/ria/5/Children/Bagh-Nabowatt-Kay-Phool---1-Ur-3199/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/Golden-Stories-of-Abu-Bakr--ur-3372/detail
+Disallow:/en/ksa/ria/5/Books/Golden-Stories-of-Abu-Bakr--ur-3372/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/The-Horrific-Storm-Urdu---3231/detail
+Disallow:/en/ksa/ria/5/Books/The-Horrific-Storm-Urdu---3231/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Supplications/Islamic-Prayers-and-Supplicati-3364/detail
+Disallow:/en/ksa/ria/5/Supplications/Islamic-Prayers-and-Supplicati-3364/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Children/Badsha-kay-Darbar-main-Urdu---3111/detail
+Disallow:/en/ksa/ria/5/Children/Badsha-kay-Darbar-main-Urdu---3111/detail
 
-Disallow:http://darussalampk.com/en/pak/lahore/1//Rasool-Allah-Ki-Namaz-1152/detail
+Disallow:/en/pak/lahore/1//Rasool-Allah-Ki-Namaz-1152/detail
 
-Disallow:http://www.darussalamksa.com/upload/product/Arkan%20ul%20Qiyada(3).jpg
+Disallow:/upload/product/Arkan%20ul%20Qiyada(3).jpg
 
-Disallow:http://www.darussalamksa.com/upload/product/TAFSIR%20AHSAN%20AL%20BAYYAN%20A044.jpg
+Disallow:/upload/product/TAFSIR%20AHSAN%20AL%20BAYYAN%20A044.jpg
 
 Disallow:http://darussalamksa.com/images/addcart.png
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/General/Rules--Merits-of-Repents-Urdu-3348/detail
+Disallow:/en/ksa/ria/5/General/Rules--Merits-of-Repents-Urdu-3348/detail
 
-Disallow:http://darussalampk.com/en/pak/lahore/1//Huqooq-Allah-1176/detail
+Disallow:/en/pak/lahore/1//Huqooq-Allah-1176/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/Sunahri-Kerne-Urdu-----3223/detail
+Disallow:/en/ksa/ria/5/Books/Sunahri-Kerne-Urdu-----3223/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/Fatawa-Islamiyah---Urdu----Vol-3141/detail
+Disallow:/en/ksa/ria/5/Books/Fatawa-Islamiyah---Urdu----Vol-3141/detail
 
 Disallow:http://darussalamksa.com/images/contact.png
 
-Disallow:http://darussalampk.com/en/pak/lahore/1//The-Beautiful-Names-and-Attrib-727/detail
+Disallow:/en/pak/lahore/1//The-Beautiful-Names-and-Attrib-727/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/Fatawa-Islamiyah---Urdu----Vol-3141/detail
+Disallow:/en/ksa/ria/5/Books/Fatawa-Islamiyah---Urdu----Vol-3141/detail
 
 Disallow:http://www.darussalampk.com/assets/d5ca964c/tiny_mce/plugins/legacyoutput/
 
 Disallow:http://darussalamksa.com/en/ksa/ria/5/Books/-2265/detail?ProductProfile_sort=dimension
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Children/Akhri-Dawat---Urdu------for-Ch-3191/detail
+Disallow:/en/ksa/ria/5/Children/Akhri-Dawat---Urdu------for-Ch-3191/detail
 
-Disallow:http://www.darussalamksa.com/upload/product/surat%20al-ardh%20front.jpg
+Disallow:/upload/product/surat%20al-ardh%20front.jpg
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/What-is-Shirk-and-Urdu-10x15---3228/detail
+Disallow:/en/ksa/ria/5/Books/What-is-Shirk-and-Urdu-10x15---3228/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/Qurani-Du-a-for-Children-Urdu--3101/detail
+Disallow:/en/ksa/ria/5/Books/Qurani-Du-a-for-Children-Urdu--3101/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/A-Cruel-Joke-Urdu---3159/detail
+Disallow:/en/ksa/ria/5/Books/A-Cruel-Joke-Urdu---3159/detail
 
 Disallow:http://darussalamksa.com/4
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/Riights-of-Children-Urdu---3236/detail
+Disallow:/en/ksa/ria/5/Books/Riights-of-Children-Urdu---3236/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/Our-Home-Urdu---3168/detail
+Disallow:/en/ksa/ria/5/Books/Our-Home-Urdu---3168/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/Story-of-Sulaiman-Urdu----3304/detail
+Disallow:/en/ksa/ria/5/Books/Story-of-Sulaiman-Urdu----3304/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/Aqeedah-Ahl-Sunatt-Wal-Jamaah--3144/detail
+Disallow:/en/ksa/ria/5/Books/Aqeedah-Ahl-Sunatt-Wal-Jamaah--3144/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/Lulu-wal-Maknon---Urdu-Vol--3-3388/detail
+Disallow:/en/ksa/ria/5/Books/Lulu-wal-Maknon---Urdu-Vol--3-3388/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/A-day-in-the-life-of-Muslim-ch-3412/detail
+Disallow:/en/ksa/ria/5/Books/A-day-in-the-life-of-Muslim-ch-3412/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Women/Love-Marriage--Urdu---3106/detail
+Disallow:/en/ksa/ria/5/Women/Love-Marriage--Urdu---3106/detail
 
 Disallow:http://darussalamksa.com/en/ksa/ria/5/Worship/-2136/detail?ProductProfile_sort=paper
 
@@ -220,271 +196,271 @@ Disallow:http://www.darussalampk.com/assets/c0207557/jui/css/base/jquery-ui.css
 
 Disallow:http://www.darussalampk.com/assets/c0207557/jui/js/jquery-ui.min.js
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Children/Akhari-Azab--Urdu--3385/detail
+Disallow:/en/ksa/ria/5/Children/Akhari-Azab--Urdu--3385/detail
 
-Disallow:http://darussalampk.com/en/pak/lahore/1//Qawaid-Al-Nahw-Part-Two-1201/detail
+Disallow:/en/pak/lahore/1//Qawaid-Al-Nahw-Part-Two-1201/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Children/puri-Dunia-ik-Taraff---Urdu----3192/detail
+Disallow:/en/ksa/ria/5/Children/puri-Dunia-ik-Taraff---Urdu----3192/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Women/Risalat-ul-Hijab-Urdu----3081/detail
+Disallow:/en/ksa/ria/5/Women/Risalat-ul-Hijab-Urdu----3081/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Encyclopedia/Atlas-of-Victoies-in-Islam-Eng-3324/detail
+Disallow:/en/ksa/ria/5/Encyclopedia/Atlas-of-Victoies-in-Islam-Eng-3324/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/General/Qiyamat-Urdu---3334/detail
+Disallow:/en/ksa/ria/5/General/Qiyamat-Urdu---3334/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Children/A-Cruel-Joke-Urdu---3159/detail
+Disallow:/en/ksa/ria/5/Children/A-Cruel-Joke-Urdu---3159/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Children/Searching-for-the-right-Urdu---3164/detail
+Disallow:/en/ksa/ria/5/Children/Searching-for-the-right-Urdu---3164/detail
 
-Disallow:http://darussalampk.com/en/pak/lahore/1//Faiz-ul-Bari-Farsi-1297/detail
+Disallow:/en/pak/lahore/1//Faiz-ul-Bari-Farsi-1297/detail
 
-Disallow:http://darussalampk.com/en/pak/lahore/1//Ghazwat-e-Nabi-Series-1260/detail
+Disallow:/en/pak/lahore/1//Ghazwat-e-Nabi-Series-1260/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Children/From-Fajar-to-Morning-Urdu---3170/detail
+Disallow:/en/ksa/ria/5/Children/From-Fajar-to-Morning-Urdu---3170/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/History/Imam-Muhammad-bin-abdul-Wahhab-3153/detail
+Disallow:/en/ksa/ria/5/History/Imam-Muhammad-bin-abdul-Wahhab-3153/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/Sahih-Bukhari-vol-5---urdu---3416/detail
+Disallow:/en/ksa/ria/5/Books/Sahih-Bukhari-vol-5---urdu---3416/detail
 
-Disallow:http://www.darussalamksa.com/product_list.aspx?manufacturer_id=342
+Disallow:/product_list.aspx?manufacturer_id=342
 
-Disallow:http://www.darussalamksa.com/product_detail.aspx?product_id=1213
+Disallow:/product_detail.aspx?product_id=1213
 
-Disallow:http://www.darussalamksa.com/product_list.aspx?manufacturer_id=421
+Disallow:/product_list.aspx?manufacturer_id=421
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Women/Sunahri-Kerne-Urdu-----3223/detail
+Disallow:/en/ksa/ria/5/Women/Sunahri-Kerne-Urdu-----3223/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Women/Sunahri-Kerne-Urdu-----3223/detail
+Disallow:/en/ksa/ria/5/Women/Sunahri-Kerne-Urdu-----3223/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Children/Azam--Urdu--3386/detail
+Disallow:/en/ksa/ria/5/Children/Azam--Urdu--3386/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Seerah/Seerat-Encyclopedia-vol--6-urd-3420/detail
+Disallow:/en/ksa/ria/5/Seerah/Seerat-Encyclopedia-vol--6-urd-3420/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Children/From-Assembly-to-Classroom-Urd-3169/detail
+Disallow:/en/ksa/ria/5/Children/From-Assembly-to-Classroom-Urd-3169/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Aqeeda/What-is-Shirk-and-Urdu-10x15---3228/detail
+Disallow:/en/ksa/ria/5/Aqeeda/What-is-Shirk-and-Urdu-10x15---3228/detail
 
-Disallow:http://www.darussalamksa.com/arabic/shopping_returns.aspx
+Disallow:/arabic/shopping_returns.aspx
 
-Disallow:http://www.darussalamksa.com/arabic/product_list.aspx?category_id=6
+Disallow:/arabic/product_list.aspx?category_id=6
 
-Disallow:http://www.darussalamksa.com/arabic/privacy_policy.aspx
+Disallow:/arabic/privacy_policy.aspx
 
-Disallow:http://www.darussalamksa.com/arabic/help_desk.aspx
+Disallow:/arabic/help_desk.aspx
 
-Disallow:http://www.darussalamksa.com/about_us.aspx
+Disallow:/about_us.aspx
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/viewPage/FAQ%27s-28
+Disallow:/en/ksa/ria/5/viewPage/FAQ%27s-28
 
-Disallow:http://www.darussalamksa.com/product_list.aspx?category_id=5
+Disallow:/product_list.aspx?category_id=5
 
-Disallow:http://www.darussalamksa.com/product_list.aspx?category_id=18
+Disallow:/product_list.aspx?category_id=18
 
-Disallow:http://www.darussalamksa.com/product_list.aspx?category_id=14
+Disallow:/product_list.aspx?category_id=14
 
-Disallow:http://www.darussalamksa.com/product_list.aspx?category_id=13
+Disallow:/product_list.aspx?category_id=13
 
-Disallow:http://www.darussalamksa.com/product_list.aspx
+Disallow:/product_list.aspx
 
-Disallow:http://www.darussalamksa.com/help_desk.aspx
+Disallow:/help_desk.aspx
 
-Disallow:http://www.darussalamksa.com/en_index.aspx
+Disallow:/en_index.aspx
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/category/%23N-A-184
+Disallow:/en/ksa/ria/5/category/%23N-A-184
 
-Disallow:http://www.darussalamksa.com/contact_us.aspx
+Disallow:/contact_us.aspx
 
-Disallow:http://www.darussalamksa.com/arabic/submit_contact_us.aspx
+Disallow:/arabic/submit_contact_us.aspx
 
-Disallow:http://www.darussalamksa.com/arabic/product_list.aspx?category_id=8
+Disallow:/arabic/product_list.aspx?category_id=8
 
-Disallow:http://www.darussalamksa.com/arabic/product_list.aspx?category_id=4
+Disallow:/arabic/product_list.aspx?category_id=4
 
-Disallow:http://www.darussalamksa.com/arabic/product_list.aspx?category_id=3
+Disallow:/arabic/product_list.aspx?category_id=3
 
-Disallow:http://www.darussalamksa.com/arabic/mycart.aspx
+Disallow:/arabic/mycart.aspx
 
-Disallow:http://www.darussalamksa.com/arabic/login.aspx
+Disallow:/arabic/login.aspx
 
-Disallow:http://www.darussalamksa.com/arabic/index.aspx
+Disallow:/arabic/index.aspx
 
-Disallow:http://www.darussalamksa.com/3
+Disallow:/3
 
-Disallow:http://www.darussalamksa.com/shopping_returns.aspx
+Disallow:/shopping_returns.aspx
 
-Disallow:http://www.darussalamksa.com/reward_program.aspx
+Disallow:/reward_program.aspx
 
-Disallow:http://www.darussalamksa.com/product_list.aspx?category_id=7
+Disallow:/product_list.aspx?category_id=7
 
-Disallow:http://www.darussalamksa.com/product_list.aspx?category_id=16
+Disallow:/product_list.aspx?category_id=16
 
-Disallow:http://www.darussalamksa.com/product_detail.aspx?product_id=1218
+Disallow:/product_detail.aspx?product_id=1218
 
-Disallow:http://www.darussalamksa.com/mycart.aspx
+Disallow:/mycart.aspx
 
-Disallow:http://www.darussalamksa.com/my_profile.aspx
+Disallow:/my_profile.aspx
 
-Disallow:http://www.darussalamksa.com/login.aspx
+Disallow:/login.aspx
 
-Disallow:http://www.darussalamksa.com/index.aspx
+Disallow:/index.aspx
 
-Disallow:http://www.darussalamksa.com/arabic/view_all_categories.aspx
+Disallow:/arabic/view_all_categories.aspx
 
-Disallow:http://www.darussalamksa.com/arabic/product_list.aspx?category_id=9
+Disallow:/arabic/product_list.aspx?category_id=9
 
-Disallow:http://www.darussalamksa.com/arabic/product_list.aspx?category_id=5
+Disallow:/arabic/product_list.aspx?category_id=5
 
-Disallow:http://www.darussalamksa.com/arabic/product_list.aspx?category_id=2
+Disallow:/arabic/product_list.aspx?category_id=2
 
-Disallow:http://www.darussalamksa.com/arabic/product_list.aspx?category_id=19
+Disallow:/arabic/product_list.aspx?category_id=19
 
-Disallow:http://www.darussalamksa.com/arabic/product_list.aspx
+Disallow:/arabic/product_list.aspx
 
-Disallow:http://www.darussalamksa.com/arabic/about_us.aspx
+Disallow:/arabic/about_us.aspx
 
-Disallow:http://www.darussalamksa.com/5
+Disallow:/5
 
-Disallow:http://www.darussalamksa.com/2
+Disallow:/2
 
-Disallow:http://www.darussalamksa.com/www.discoverislamcentre.com
+Disallow:/www.discoverislamcentre.com
 
-Disallow:http://www.darussalamksa.com/registeration.aspx
+Disallow:/registeration.aspx
 
-Disallow:http://www.darussalamksa.com/product_list.aspx?category_id=6
+Disallow:/product_list.aspx?category_id=6
 
-Disallow:http://www.darussalamksa.com/product_list.aspx?category_id=17
+Disallow:/product_list.aspx?category_id=17
 
-Disallow:http://www.darussalamksa.com/product_list.aspx?category_id=1
+Disallow:/product_list.aspx?category_id=1
 
-Disallow:http://www.darussalamksa.com/privacy_policy.aspx
+Disallow:/privacy_policy.aspx
 
-Disallow:http://www.darussalamksa.com/arabic/reward_program.aspx
+Disallow:/arabic/reward_program.aspx
 
-Disallow:http://www.darussalamksa.com/arabic/registeration.aspx
+Disallow:/arabic/registeration.aspx
 
-Disallow:http://www.darussalamksa.com/arabic/product_list.aspx?category_id=7
+Disallow:/arabic/product_list.aspx?category_id=7
 
-Disallow:http://www.darussalamksa.com/arabic/product_detail.aspx?product_id=1186
+Disallow:/arabic/product_detail.aspx?product_id=1186
 
-Disallow:http://www.darussalamksa.com/arabic/forgot_password.aspx
+Disallow:/arabic/forgot_password.aspx
 
-Disallow:http://www.darussalamksa.com/arabic/ar_index.aspx
+Disallow:/arabic/ar_index.aspx
 
-Disallow:http://www.darussalamksa.com/arabic/contact_us.aspx
+Disallow:/arabic/contact_us.aspx
 
-Disallow:http://www.darussalamksa.com/view_all_categories.aspx
+Disallow:/view_all_categories.aspx
 
-Disallow:http://www.darussalamksa.com/product_list.aspx?category_id=4
+Disallow:/product_list.aspx?category_id=4
 
-Disallow:http://www.darussalamksa.com/product_list.aspx?category_id=3
+Disallow:/product_list.aspx?category_id=3
 
-Disallow:http://www.darussalamksa.com/product_list.aspx?category_id=15
+Disallow:/product_list.aspx?category_id=15
 
-Disallow:http://www.darussalamksa.com/product_list.aspx?category_id=12
+Disallow:/product_list.aspx?category_id=12
 
-Disallow:http://www.darussalamksa.com/product_detail.aspx?product_id=385
+Disallow:/product_detail.aspx?product_id=385
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/Sunahri-Kerne-Urdu-----3223/detail
+Disallow:/en/ksa/ria/5/Books/Sunahri-Kerne-Urdu-----3223/detail
 
 Disallow:http://www.darussalampk.com/contact.php
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/Fatawa-Islamiyah---Urdu----Vol-3141/detail
+Disallow:/en/ksa/ria/5/Books/Fatawa-Islamiyah---Urdu----Vol-3141/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/Fatawa-Islamiyah---Urdu----Vol-3141/detail
+Disallow:/en/ksa/ria/5/Books/Fatawa-Islamiyah---Urdu----Vol-3141/detail
 
-Disallow:http://darussalampk.com/en/pak/lahore/1//Haywanat-e-Qurani-Series-1263/detail
+Disallow:/en/pak/lahore/1//Haywanat-e-Qurani-Series-1263/detail
 
-Disallow:http://darussalampk.com/en/pak/lahore/1//Khwabon-Ki-Tabeerain-1257/detail
+Disallow:/en/pak/lahore/1//Khwabon-Ki-Tabeerain-1257/detail
 
-Disallow:http://darussalampk.com/en/pak/lahore/1//Haqooq-Walidain-1174/detail
+Disallow:/en/pak/lahore/1//Haqooq-Walidain-1174/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Children/From-Fajar-to-Morning-Urdu---3170/detail
+Disallow:/en/ksa/ria/5/Children/From-Fajar-to-Morning-Urdu---3170/detail
 
-Disallow:http://www.darussalamksa.com/default.aspx?aspxerrorpath=/arabic/product_list.aspx
+Disallow:/default.aspx?aspxerrorpath=/arabic/product_list.aspx
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/History/History-of-Madinah-Munawwarah--3138/detail
+Disallow:/en/ksa/ria/5/History/History-of-Madinah-Munawwarah--3138/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Dawa/Nafaz-E-Shariat-Urdu---3107/detail
+Disallow:/en/ksa/ria/5/Dawa/Nafaz-E-Shariat-Urdu---3107/detail
 
 Disallow:http://darussalamksa.com/en/ksa/ria/5/Books/-2582/detail?ProductProfile_sort=language_id.desc
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/Bayad-ul-Al-Arbaeen-Urdu---3076/detail
+Disallow:/en/ksa/ria/5/Books/Bayad-ul-Al-Arbaeen-Urdu---3076/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/Manners-of-Prophet-PBUH---urdu-3419/detail
+Disallow:/en/ksa/ria/5/Books/Manners-of-Prophet-PBUH---urdu-3419/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/The-Noble-Life-of-the-Prophet--3395/detail
+Disallow:/en/ksa/ria/5/Books/The-Noble-Life-of-the-Prophet--3395/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/Al-Jmai-Al-Farid-Urdu---3068/detail
+Disallow:/en/ksa/ria/5/Books/Al-Jmai-Al-Farid-Urdu---3068/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/Excellent-Merits-of-Qur-an-Urd-3088/detail
+Disallow:/en/ksa/ria/5/Books/Excellent-Merits-of-Qur-an-Urd-3088/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/What-should-be-done-in-Ramadha-3214/detail
+Disallow:/en/ksa/ria/5/Books/What-should-be-done-in-Ramadha-3214/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/General/Islamy-Muasharat---Urdu--3131/detail
+Disallow:/en/ksa/ria/5/General/Islamy-Muasharat---Urdu--3131/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/embark-with-us--Urdu---3379/detail
+Disallow:/en/ksa/ria/5/Books/embark-with-us--Urdu---3379/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/Story-of-son--Urdu--3383/detail
+Disallow:/en/ksa/ria/5/Books/Story-of-son--Urdu--3383/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/Azam--Urdu--3386/detail
+Disallow:/en/ksa/ria/5/Books/Azam--Urdu--3386/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Dawa/Ma-arfat-Din-Kai-Teen-Asool-Ur-3115/detail
+Disallow:/en/ksa/ria/5/Dawa/Ma-arfat-Din-Kai-Teen-Asool-Ur-3115/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Seerah/Beauty-of-Muhammad--Urdu----3069/detail
+Disallow:/en/ksa/ria/5/Seerah/Beauty-of-Muhammad--Urdu----3069/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/Story-of-Unus-Urdu----3301/detail
+Disallow:/en/ksa/ria/5/Books/Story-of-Unus-Urdu----3301/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Children/Tears-of-Sensation-Urdu---3162/detail
+Disallow:/en/ksa/ria/5/Children/Tears-of-Sensation-Urdu---3162/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Aqeeda/Kashaf-Ush-Shubhat-Urdu---3121/detail
+Disallow:/en/ksa/ria/5/Aqeeda/Kashaf-Ush-Shubhat-Urdu---3121/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Stories/Story-of-Esa-Urdu----3305/detail
+Disallow:/en/ksa/ria/5/Stories/Story-of-Esa-Urdu----3305/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/Man-a-strange-Creature-Urdu---3263/detail
+Disallow:/en/ksa/ria/5/Books/Man-a-strange-Creature-Urdu---3263/detail
 
-Disallow:http://www.darussalamksa.com/product_detail.aspx?product_id=1219
+Disallow:/product_detail.aspx?product_id=1219
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/O-Passanger-of-Life--Urdu----3279/detail
+Disallow:/en/ksa/ria/5/Books/O-Passanger-of-Life--Urdu----3279/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Stories/Our-Experiences-Urdu----3284/detail
+Disallow:/en/ksa/ria/5/Stories/Our-Experiences-Urdu----3284/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/General/Hisn-ul-Muslim-Urdu---3124/detail
+Disallow:/en/ksa/ria/5/General/Hisn-ul-Muslim-Urdu---3124/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/O-Passanger-of-Life--Urdu----3279/detail
+Disallow:/en/ksa/ria/5/Books/O-Passanger-of-Life--Urdu----3279/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Biography/Bio-Imam-Bukhar--Urdu---3393/detail
+Disallow:/en/ksa/ria/5/Biography/Bio-Imam-Bukhar--Urdu---3393/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/General/Islamic-Etiquette--Eng---3255/detail
+Disallow:/en/ksa/ria/5/General/Islamic-Etiquette--Eng---3255/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Seerah/Golden-Story-of-Hazrat-Hadija--3373/detail
+Disallow:/en/ksa/ria/5/Seerah/Golden-Story-of-Hazrat-Hadija--3373/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Children/From-Asar-to-Maghrib-Urdu---3171/detail
+Disallow:/en/ksa/ria/5/Children/From-Asar-to-Maghrib-Urdu---3171/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Books/Fatawa-Islamiyah---Urdu----Vol-3141/detail
+Disallow:/en/ksa/ria/5/Books/Fatawa-Islamiyah---Urdu----Vol-3141/detail
 
 Disallow:http://darussalamksa.com/product_detail.aspx?product_id=1166
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/General/Ureedu-un-Atuba-Walakin-Urdu---3073/detail
+Disallow:/en/ksa/ria/5/General/Ureedu-un-Atuba-Walakin-Urdu---3073/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Worships/Fadal-Saum-Ramadan-wa-Qiam---U-3154/detail
+Disallow:/en/ksa/ria/5/Worships/Fadal-Saum-Ramadan-wa-Qiam---U-3154/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Children/Talash--Urdu--3384/detail
+Disallow:/en/ksa/ria/5/Children/Talash--Urdu--3384/detail
 
-Disallow:http://www.darussalamksa.com/product_detail.aspx?product_id=1176
+Disallow:/product_detail.aspx?product_id=1176
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Children/Life-is-valuable--Urdu-3175/detail
+Disallow:/en/ksa/ria/5/Children/Life-is-valuable--Urdu-3175/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/General/How-can-u-go-in-Paradise-Urdu--3260/detail
+Disallow:/en/ksa/ria/5/General/How-can-u-go-in-Paradise-Urdu--3260/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Worships/Is-Womens-Prayer-Different-fr-3225/detail
+Disallow:/en/ksa/ria/5/Worships/Is-Womens-Prayer-Different-fr-3225/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Aqeeda/Kitab-Ut-Tuaheed-Urdu---3091/detail
+Disallow:/en/ksa/ria/5/Aqeeda/Kitab-Ut-Tuaheed-Urdu---3091/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Stories/Story-of-Musa-Urdu----3302/detail
+Disallow:/en/ksa/ria/5/Stories/Story-of-Musa-Urdu----3302/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Stories/Stories-in-Obey-and-Disobey-of-3356/detail
+Disallow:/en/ksa/ria/5/Stories/Stories-in-Obey-and-Disobey-of-3356/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Children/Qurani-Du-a-for-Children-Urdu--3101/detail
+Disallow:/en/ksa/ria/5/Children/Qurani-Du-a-for-Children-Urdu--3101/detail
 
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Aqeeda/Bina-ul-Qubab-Wal-Mazarat-Urdu-3104/detail
-Disallow:http://www.darussalamksa.com/en/ksa/ria/5/Dawa/Ittaba-Sunnat-Urdu---3095/detail
+Disallow:/en/ksa/ria/5/Aqeeda/Bina-ul-Qubab-Wal-Mazarat-Urdu-3104/detail
+Disallow:/en/ksa/ria/5/Dawa/Ittaba-Sunnat-Urdu---3095/detail
