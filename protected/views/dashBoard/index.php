@@ -239,15 +239,14 @@ $gridDataProvider = new CArrayDataProvider($top_orders);
  */
 $merge_arr = array_merge(explode(",", $monthly_group_orders['values']), explode(",", $monthly_group_wishlist['values']));
 $max_orders_wishlist = max($merge_arr);
-$month_max_value_arr = explode(",", $monthly_income['values']);
+$month_max_value_arr = array_filter(explode(",", $monthly_income['values']));
 $month_grp_order_data_val = explode(",", $monthly_group_orders['values']);
 $monthly_group_wishlist_val = explode(",", $monthly_group_wishlist['values']);
-
 ?>
 <script>
     var visitor_charts = <?php echo CJSON::encode(array(round($total_customers), round($customers_who_ordered))) ?>;
     var monthly_income = <?php echo CJSON::encode(explode(",", $monthly_income['values'])); ?>;
-    var max_month_value = <?php echo !empty($month_max_value_arr)?max($month_max_value_arr):0; ?>;
+    var max_month_value = <?php echo!empty($month_max_value_arr) ? max($month_max_value_arr) : 0; ?>;
 
     var monthlygrp_order_data = <?php echo CJSON::encode((array) $month_grp_order_data_val); ?>;
     var monthlygrp_wishlist_data = <?php echo CJSON::encode((array) $monthly_group_wishlist_val); ?>;
@@ -325,33 +324,35 @@ $monthly_group_wishlist_val = explode(",", $monthly_group_wishlist['values']);
             $idir.show().html("-").fadeOut();
             $ival.html(i);
         };
-        $("input.infinite").knob(
-                {
-                    min: 0
-                            , max: 20
-                            , stopper: false
-                            , change: function() {
-                        if (v > this.cv) {
-                            if (up) {
-                                decr();
-                                up = 0;
-                            } else {
-                                up = 1;
-                                down = 0;
-                            }
-                        } else {
-                            if (v < this.cv) {
-                                if (down) {
-                                    incr();
-                                    down = 0;
-                                } else {
-                                    down = 1;
+        if (jQuery("input.infinite").length > 0) {
+            jQuery("input.infinite").knob(
+                    {
+                        min: 0
+                                , max: 20
+                                , stopper: false
+                                , change: function() {
+                            if (v > this.cv) {
+                                if (up) {
+                                    decr();
                                     up = 0;
+                                } else {
+                                    up = 1;
+                                    down = 0;
+                                }
+                            } else {
+                                if (v < this.cv) {
+                                    if (down) {
+                                        incr();
+                                        down = 0;
+                                    } else {
+                                        down = 1;
+                                        up = 0;
+                                    }
                                 }
                             }
+                            v = this.cv;
                         }
-                        v = this.cv;
-                    }
-                });
+                    });
+        }
     });
 </script>
