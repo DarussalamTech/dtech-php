@@ -299,12 +299,12 @@ class ProductController extends Controller {
                 ));
             } else {
                 Yii::app()->theme = 'landing_page_theme';
-                throw new CHttpException(200, "   Sorry ! Record Not found ");
+                throw new CHttpException(400, "   Sorry ! Record Not found ");
             }
         } catch (Exception $e) {
 
             Yii::app()->theme = 'landing_page_theme';
-            throw new CHttpException(500, "   Sorry ! Record Not found in this language");
+            throw new CHttpException(400, "   Sorry ! Record Not found in this language");
         }
     }
 
