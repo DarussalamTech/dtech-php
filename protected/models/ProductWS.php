@@ -147,7 +147,7 @@ class ProductWS extends Product {
         
         ///get city for loading products
         
-        $city_id = City::model()->getCityId("Lahore");
+        $city_id = City::model()->getCityId("Lahore")->city_id;
 
         //Criteria building
 
