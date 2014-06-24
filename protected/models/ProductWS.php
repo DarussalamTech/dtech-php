@@ -144,6 +144,10 @@ class ProductWS extends Product {
 
 
         $category_info = array();
+        
+        ///get city for loading products
+        
+        $city_id = City::model()->getCityId("Lahore");
 
         //Criteria building
 
@@ -154,7 +158,7 @@ class ProductWS extends Product {
                 'author' => array('type' => 'INNER JOIN')
             ),
 //            'with' => array('productProfile' => array('select' => 'price'), 'productCategories', 'author'),
-            'condition' => " t.parent_cateogry_id=57  " . $condition,
+            'condition' => " t.parent_cateogry_id=57  AND t.city_id = ".$city_id." ". $condition,
             'order' => $orderby,
             'distinct' => true,
             'together' => true,
