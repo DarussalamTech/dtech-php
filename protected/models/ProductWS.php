@@ -175,7 +175,7 @@ class ProductWS extends Product {
         // Making data Provider for front end with pagination
         $dataProvider = new DTActiveDataProvider($this, array(
             'pagination' => array(
-                'pageSize' => 6,
+                'pageSize' => 20,
                 'currentPage' => $page,
             ),
             'criteria' => $criteria,
