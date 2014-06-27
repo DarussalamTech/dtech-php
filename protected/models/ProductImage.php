@@ -10,6 +10,7 @@
  * @property string $is_default
  * @property string $image_large
  * @property string $image_detail
+ * @property string $image_gallery
  * @property string $image_cart
  *
  * The followings are the available model relations:
@@ -37,6 +38,7 @@ class ProductImage extends DTActiveRecord {
     public $oldSmallImg = "";
     public $oldCartImg = "";
     public $oldDetailImg = "";
+    public $oldGalleryImg = "";
     public $image_url = array();
 
     /**
@@ -77,8 +79,8 @@ class ProductImage extends DTActiveRecord {
             //array('product_profile_id, image_small, image_large', 'required'),
             array('product_profile_id', 'numerical', 'integerOnly' => true),
             array('create_time,create_user_id,update_time,update_user_id', 'required'),
-            array('id,_is_copy,upload_index,no_image,image_url,oldLargeImg,oldSmallImg,upload_key,is_default', 'safe'),
-            array('image_cart,image_detail,image_small, image_large', 'length', 'max' => 255),
+            array('id,_is_copy,upload_index,no_image,image_url,oldGalleryImg,oldLargeImg,oldSmallImg,upload_key,is_default', 'safe'),
+            array('image_gallery,image_cart,image_detail,image_small, image_large', 'length', 'max' => 255),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, product_profile_id, image_small, image_large', 'safe', 'on' => 'search'),
@@ -106,6 +108,7 @@ class ProductImage extends DTActiveRecord {
             'is_default' => Yii::t('model_labels', 'Default', array(), NULL, Yii::app()->controller->currentLang),
             'image_small' => Yii::t('model_labels', 'Image Small', array(), NULL, Yii::app()->controller->currentLang),
             'image_large' => Yii::t('model_labels', 'Image Large', array(), NULL, Yii::app()->controller->currentLang),
+            'image_gallery' => Yii::t('model_labels', 'Image Gallery', array(), NULL, Yii::app()->controller->currentLang),
         );
     }
 
@@ -126,6 +129,7 @@ class ProductImage extends DTActiveRecord {
         $criteria->compare('image_large', $this->image_large, true);
         $criteria->compare('image_detail', $this->image_large, true);
         $criteria->compare('image_cart', $this->image_large, true);
+        $criteria->compare('image_gallery', $this->image_gallery, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -137,6 +141,7 @@ class ProductImage extends DTActiveRecord {
         $this->oldSmallImg = $this->image_small;
         $this->oldCartImg = $this->image_cart;
         $this->oldDetailImg = $this->image_detail;
+        $this->oldGalleryImg = $this->image_gallery;
 
 
         /**
@@ -169,6 +174,15 @@ class ProductImage extends DTActiveRecord {
             $this->image_url['image_cart'].= "/product_images/" . $this->id . "/" . $this->image_cart;
         } else {
             $this->image_url['image_cart'] = Yii::app()->baseUrl . "/images/product_images/noimages.jpeg";
+        }
+        echo $this->image_gallery;
+        
+        if (!empty($this->image_gallery)) {
+
+            $this->image_url['image_gallery'] = Yii::app()->baseUrl . "/uploads/product/" . $this->product_profile_id;
+            $this->image_url['image_gallery'].= "/product_images/" . $this->id . "/" . $this->image_gallery;
+        } else {
+            $this->image_url['image_gallery'] = Yii::app()->baseUrl . "/images/product_images/noimages.jpeg";
         }
 
         parent::afterFind();
@@ -211,11 +225,13 @@ class ProductImage extends DTActiveRecord {
             $this->image_small = str_replace(" ", "_", "small_" . $this->image_large);
             $this->image_cart = str_replace(" ", "_", "cart_" . $this->image_large);
             $this->image_detail = str_replace(" ", "_", "detail_" . $this->image_large);
+            $this->image_gallery = str_replace(" ", "_", "gallery_" . $this->image_large);
         } else {
             $this->image_large = $this->oldLargeImg;
             $this->image_small = $this->oldSmallImg;
             $this->image_detail = $this->oldDetailImg;
             $this->image_cart = $this->oldCartImg;
+            $this->image_gallery = $this->oldGalleryImg;
         }
     }
 
@@ -236,6 +252,7 @@ class ProductImage extends DTActiveRecord {
             DTUploadedFile::createThumbs($upload_path . $this->image_large, $upload_path, 130, str_replace(" ", "_", "small_" . $this->image_large));
             DTUploadedFile::createThumbs($upload_path . $this->image_large, $upload_path, 75, str_replace(" ", "_", "cart_" . $this->image_large));
             DTUploadedFile::createThumbs($upload_path . $this->image_large, $upload_path, 180, str_replace(" ", "_", "detail_" . $this->image_large));
+            DTUploadedFile::createThumbs($upload_path . $this->image_large, $upload_path, 400, str_replace(" ", "_", "gallery_" . $this->image_large));
             $this->deleteldImage();
         }
     }
@@ -257,6 +274,7 @@ class ProductImage extends DTActiveRecord {
             DTUploadedFile::createThumbs($upload_path . $this->image_large, $upload_path, 130, str_replace(" ", "_", "small_" . $this->image_large));
             DTUploadedFile::createThumbs($upload_path . $this->image_large, $upload_path, 75, str_replace(" ", "_", "cart_" . $this->image_large));
             DTUploadedFile::createThumbs($upload_path . $this->image_large, $upload_path, 180, str_replace(" ", "_", "detail_" . $this->image_large));
+            DTUploadedFile::createThumbs($upload_path . $this->image_large, $upload_path, 400, str_replace(" ", "_", "gallery_" . $this->image_large));
             $this->deleteldImage();
         }
     }
@@ -296,6 +314,14 @@ class ProductImage extends DTActiveRecord {
             $path.= "uploads" . DIRECTORY_SEPARATOR . "product" . DIRECTORY_SEPARATOR . $this->productProfile->primaryKey . DIRECTORY_SEPARATOR . "product_images";
 
             $detail_path = $path . DIRECTORY_SEPARATOR . $this->id . DIRECTORY_SEPARATOR . $this->oldDetailImg;
+
+            DTUploadedFile::deleteExistingFile($detail_path);
+        }
+        if (!empty($this->oldGalleryImg) && $this->oldGalleryImg != $this->image_gallery) {
+            $path = Yii::app()->basePath . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR;
+            $path.= "uploads" . DIRECTORY_SEPARATOR . "product" . DIRECTORY_SEPARATOR . $this->productProfile->primaryKey . DIRECTORY_SEPARATOR . "product_images";
+
+            $detail_path = $path . DIRECTORY_SEPARATOR . $this->id . DIRECTORY_SEPARATOR . $this->oldGalleryImg;
 
             DTUploadedFile::deleteExistingFile($detail_path);
         }
