@@ -175,8 +175,7 @@ class ProductImage extends DTActiveRecord {
         } else {
             $this->image_url['image_cart'] = Yii::app()->baseUrl . "/images/product_images/noimages.jpeg";
         }
-        echo $this->image_gallery;
-        
+      
         if (!empty($this->image_gallery)) {
 
             $this->image_url['image_gallery'] = Yii::app()->baseUrl . "/uploads/product/" . $this->product_profile_id;
