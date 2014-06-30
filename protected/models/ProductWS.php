@@ -152,9 +152,9 @@ class ProductWS extends Product {
         //Criteria building
 
         $criteria = new CDbCriteria(array(
-            'select' => 't.is_featured,t.product_id,t.create_time,t.update_time,t.product_name,t.product_description,t.slag,t.parent_cateogry_id ',
+            'select' => 't.is_featured,t.product_overview,t.product_id,t.create_time,t.update_time,t.product_name,t.product_description,t.slag,t.parent_cateogry_id ',
             'with' => array(
-                'productProfile' => array('select' => 'price', 'type' => 'INNER JOIN'),
+                'productProfile' => array('select' => 'price,isbn,is_shippable,quantity', 'type' => 'INNER JOIN'),
                 'author' => array('type' => 'INNER JOIN')
             ),
 //            'with' => array('productProfile' => array('select' => 'price'), 'productCategories', 'author'),
@@ -225,15 +225,19 @@ class ProductWS extends Product {
             }
             //echo $products->is_featured;
             // Array is filled with all the products
-            $all_products[] = array(
+            $all_products[$products->product_id] = array(
                 'product_id' => $products->product_id,
                 'product_name' => $products->product_name,
+                'product_overview' => $products->product_overview,
                 'is_featured' => $products->is_featured,
                 'product_description' => $products->product_description,
                 'product_author' => !empty($products->author) ? $products->author->author_name : "",
                 'product_author_id' => !empty($products->author) ? $products->author->author_id : "",
                 'currencySymbol' => '$',
                 'product_price' => $products->productProfile[0]->price,
+                'isbn' => $products->productProfile[0]->isbn,
+                'quantity' => $products->productProfile[0]->quantity,
+                'shipping' => $products->productProfile[0]->is_shippable,
                 'new' => $new,
                 'image' => $images,
                 'category_id' => !empty($products->productCategories[0]->category_id) ? $products->productCategories[0]->category_id : 57,
