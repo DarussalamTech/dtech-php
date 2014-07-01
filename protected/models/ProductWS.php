@@ -233,7 +233,7 @@ class ProductWS extends Product {
                 'product_description' => $products->product_description,
                 'product_author' => !empty($products->author) ? $products->author->author_name : "",
                 'product_author_id' => !empty($products->author) ? $products->author->author_id : "",
-                'currencySymbol' => '$',
+                'currencySymbol' => 'PKR',
                 'product_price' => $products->productProfile[0]->price,
                 'isbn' => $products->productProfile[0]->isbn,
                 'quantity' => $products->productProfile[0]->quantity,
@@ -370,14 +370,14 @@ class ProductWS extends Product {
                 'product_overview' => $products->product_overview,
                 'product_author' => !empty($products->author) ? $products->author->author_name : "",
                 'product_author_id' => !empty($products->author) ? $products->author->author_id : "",
-                'currencySymbol' => '$',
+                'currencySymbol' => 'PKR',
                 'product_price' => $products->productProfile[0]->price,
                 'image' => $images,
                 'category_id' => !empty($products->productCategories[0]->category_id) ? $products->productCategories[0]->category_id : 57,
                 'product_url' => "http://www.darussalampk.com/en/pak/lahore/1/Books/" . $products->slag . "/detail"
             );
         }
-
+      
         // Products To return to the front end
 
         $products = array(
