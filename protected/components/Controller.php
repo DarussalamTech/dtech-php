@@ -141,7 +141,7 @@ class Controller extends RController {
                 //'jquery-ui.min.js' => false,
                 //'jquery-ui.css' => false
         );
-    
+
 //        die;
         return true;
     }
@@ -521,15 +521,39 @@ class Controller extends RController {
     public function sendEmail2($email = array()) {
         if (isset($email['To'])) {
 
+
             $mailer = Yii::createComponent('application.extensions.mailer.EMailer');
 
-
-
-            //echo $email['From'];
             $mailer->FromName = (isset($email['FromName']) && !empty($email['FromName']) ? $email['FromName'] : Yii::app()->name); //Yii::app()->user->name;
-            //print_r($mailer->FromName);
+
             Yii::app()->params['smtp'] = ConfMisc::model()->get("param = 'smtp'")->value;
-            // print_r(Yii::app()->params['smtp']);
+            //this check for those user who are not related with gmail
+            //thats need google authentication to send email
+
+            if (is_array($email['To'])) {
+                foreach ($email['To'] as $emailAdd) {
+                    if (strstr($emailAdd, "hotmail") 
+                       || strstr($emailAdd, "yahoo")
+                       || strstr($emailAdd, "live")
+                       || strstr($emailAdd, "ymail")
+                       || strstr($emailAdd, "rocket")
+                      ) {
+                        Yii::app()->params['smtp'] = 1;
+                    }
+                    $mailer->AddAddress($emailAdd);
+                }
+            } else {
+                 if (strstr($email['To'], "hotmail") 
+                       || strstr($email['To'], "yahoo")
+                       || strstr($email['To'], "live")
+                       || strstr($email['To'], "ymail")
+                       || strstr($email['To'], "rocket")
+                      ) {
+                        Yii::app()->params['smtp'] = 1;
+                    }
+                $mailer->AddAddress($email['To']);
+            }
+
             if (Yii::app()->params['smtp'] == 1) {
                 $mailer->IsSMTP();
 
@@ -540,42 +564,30 @@ class Controller extends RController {
                 $mailer->Port = Yii::app()->params['mailPort'];
                 $mailer->Username = Yii::app()->params['mailUsername'];
                 $mailer->Password = Yii::app()->params['mailPassword'];
-
-                // CVarDumper::dump($mailer,10,true); die;
             }
 
             $mailer->IsHTML(true);
             /**
              * if email address is array then add multiple emails
              */
-            if (is_array($email['To'])) {
-                foreach ($email['To'] as $emailAdd) {
-                    $mailer->AddAddress($emailAdd);
-                }
-            } else {
-                $mailer->AddAddress($email['To']);
-            }
-
             $mailer->From = $email['From'];
             if (isset($email['Reply'])) {
                 $mailer->AddReplyTo($email['Reply']);
-            }
-            else {
-                 $mailer->AddReplyTo($email['From']);
+            } else {
+                $mailer->AddReplyTo($email['From']);
             }
             $mailer->Subject = $email['Subject'];
             $mailer->Body = $email['Body'];
 
 
 
-            if(!$mailer->Send()){
-               //echo "NOt sent ".$mailer->ErrorInfo;
-            }
-            else {
+            if (!$mailer->Send()) {
+                //echo "NOt sent ".$mailer->ErrorInfo;
+            } else {
                 //echo " sent";
             }
             $mailer->ClearAddresses();
-          
+
 
 
             //$mailer->Send();
@@ -587,18 +599,18 @@ class Controller extends RController {
         return true;
     }
 
-   /**
-    * It is extend url will take now easy to make url in ciy and country
-    * @param type $route
-    * @param type $params
-    * @param type $ampersand
-    *   merge param means if it is true then it preffers user parameters otherwise
-    *   it takes session
-    * @param type $merge
-    * 
-    * @return type
-    */
-    public function createUrl($route, $params = array(), $ampersand = '&',$merge = false) {
+    /**
+     * It is extend url will take now easy to make url in ciy and country
+     * @param type $route
+     * @param type $params
+     * @param type $ampersand
+     *   merge param means if it is true then it preffers user parameters otherwise
+     *   it takes session
+     * @param type $merge
+     * 
+     * @return type
+     */
+    public function createUrl($route, $params = array(), $ampersand = '&', $merge = false) {
 
         $conCate = array('country' => Yii::app()->session['country_short_name'], 'city' => Yii::app()->session['city_short_name'], 'city_id' => Yii::app()->session['city_id']);
         /**
@@ -607,8 +619,8 @@ class Controller extends RController {
         if (!$this->isAdminSite) {
             $conCate['lang'] = $this->currentLang;
         }
-        $params = $merge ==false?array_merge($params, $conCate):array_merge($conCate,$params);
-       
+        $params = $merge == false ? array_merge($params, $conCate) : array_merge($conCate, $params);
+
         return parent::createUrl($route, $params, $ampersand);
     }
 
@@ -626,7 +638,7 @@ class Controller extends RController {
      * 
      * @param type $shipping
      */
-    public function setShippingCost($shipping,$shipping_rate_id = 0) {
+    public function setShippingCost($shipping, $shipping_rate_id = 0) {
         Yii::app()->session['shipping_price'] = round($shipping, 2);
         Yii::app()->session['shipping_rate_id'] = $shipping_rate_id;
     }
@@ -639,6 +651,7 @@ class Controller extends RController {
     public function setTaxAmount($tax) {
         Yii::app()->session['tax_amount'] = round($tax, 2);
     }
+
     /**
      * set Converted currency total cost
      * 
