@@ -271,6 +271,20 @@ class User extends DTActiveRecord {
 
     /**
      * 
+     * @param type $password
+     * @param type $old_password
+     * @return type bool
+     * 
+     * this will validate the already hashed passwords 
+     * used for placing book_orders placed from webservice
+     */
+    public function validatePasswordHashed($password, $old_password) {
+
+        return $password === $old_password;        
+    }
+    
+    /**
+     * 
      * @param type $attribute
      * @param type $params
      */

@@ -91,8 +91,9 @@ class Status extends DTActiveRecord {
         $criteria = new CDbCriteria;
         $criteria->addCondition("module = 'User'");
         $status = Status::model()->findAll($criteria);
-        return CHtml::listData($status, "id","title");
+        return CHtml::listData($status, "id", "title");
     }
+
     /**
      * getting Order status
      * 
@@ -101,7 +102,7 @@ class Status extends DTActiveRecord {
         $criteria = new CDbCriteria;
         $criteria->addCondition("module = 'Order'");
         $status = Status::model()->findAll($criteria);
-        return CHtml::listData($status, "id","title");
+        return CHtml::listData($status, "id", "title");
     }
 
     /**
@@ -114,6 +115,18 @@ class Status extends DTActiveRecord {
         $status = Status::model()->find($criteria);
         return $status->id;
     }
+
+    /**
+     * getting user status
+     * 
+     */
+    public function getActive() {
+        $criteria = new CDbCriteria;
+        $criteria->addCondition("module = 'User' AND title ='active'");
+        $status = Status::model()->find($criteria);
+        return $status->id;
+    }
+
     /**
      * getting pending order status
      * 

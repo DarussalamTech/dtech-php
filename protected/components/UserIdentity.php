@@ -64,11 +64,48 @@ class UserIdentity extends CUserIdentity {
             
             $this->errorCode = self::ERROR_NONE;
         }
-
-
         return $this->errorCode == self::ERROR_NONE;
     }
 
+    /**
+     * 
+     * @return type bool whether user is authenticated or not
+     * This will authenticate the user having password that is already in the
+     * hashed formate
+     */
+    public function authenticateHashed()
+    {
+        
+        $criteria = new CDbCriteria();
+        $condition = 'LOWER(user_email)="'.strtolower($this->username).'" OR user_name ="'.strtolower($this->username).'"';
+        $criteria->addCondition($condition);
+       
+        $user = User::model()->find($criteria);
+
+        if ($user === null)       
+            $this->errorCode = self::ERROR_USERNAME_INVALID;             
+        else if (!$user->validatePasswordHashed($this->password, $user->user_password))        
+            $this->errorCode = self::ERROR_PASSWORD_INVALID;
+        else if ($user->status_id != '1')            
+            $this->errorCode = self::ERROR_PASSWORD_INVALID;
+        else {
+            
+            $this->id = $user->user_id;
+            //$this->username=$user->user_name;
+            $this->setState('user_email', $user->user_email);
+            $this->setState('name', $user->user_name);
+            $this->setState('user_id', $user->user_id);
+            $this->setState('role_id', $user->role_id);
+            $this->setState('status_id', $user->status_id);
+            $this->setState('city_id', $user->city_id);
+            $this->setState('site_id', $user->site_id);
+            $this->setState('is_active', $user->is_active);
+
+            $this->errorCode = self::ERROR_NONE;
+        } 
+        return $this->errorCode == self::ERROR_NONE;
+    }  
+    
     public function getId() {
         return $this->id;
     }

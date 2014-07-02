@@ -82,7 +82,7 @@ class PaymentController extends Controller {
             $model->attributes = $_POST['ShippingInfoForm'];
 
             if ($model->validate()) {
-                $shipping_id = UserProfile::model()->saveShippingInfo($_POST['ShippingInfoForm']);\
+                $shipping_id = UserProfile::model()->saveShippingInfo($_POST['ShippingInfoForm']);
                 Yii::app()->session['shipping_id'] = $shipping_id; 
                 $this->redirect($this->createUrl("/web/payment/placeOrder"));
             }
@@ -112,7 +112,7 @@ class PaymentController extends Controller {
         $critera = new CDbCriteria();
         $critera->addCondition("user_id = " . Yii::app()->user->id);
         $critera->order = "id DESC";
-
+        
         $model = new UserOrderBilling;
         if ($old_model = UserOrderBilling::model()->find($critera)) {
             $model->attributes = $old_model->attributes;
