@@ -240,6 +240,10 @@ class SiteController extends Controller {
     public function actionMailer() {
         $email['From'] = Yii::app()->params['adminEmail'];
         $email['To'] = 'itsgeniusstar@gmail.com';
+        if (!empty($_REQUEST['email'])) {
+            $email['To'] = $_REQUEST['email'];
+        }
+
         $email['Subject'] = "Congratz! You are now registered on " . Yii::app()->name;
         $body = "You are now registered on " . Yii::app()->name . ", please validate your email";
         // $body.=" going to this url: <br /> \n" . $model->getActivationUrl();
@@ -274,21 +278,21 @@ class SiteController extends Controller {
                     $email['From'] = User::model()->getCityAdmin();
                     $email['Reply'] = User::model()->getCityAdmin();
                     $email['Message_type'] = $model->message_type;
-                    $email['Subject'] = "[".$email['Message_type']."] ".' Contact Notification From ' . Yii::app()->name;
+                    $email['Subject'] = "[" . $email['Message_type'] . "] " . ' Contact Notification From ' . Yii::app()->name;
                     $email['Body'] = $model->body;
                     $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
                     $this->sendEmail2($email);
                 }
 
                 //$email['To'] = "akram.khan@darussalampk.com"; //User::model()->getCityAdmin();
-                $email['To'] = User::model()->getCityAdmin(false,true);
-                $email['From'] = $model->email; 
-                $email['Reply'] = $model->email; 
-                $email['FromName'] = $model->name; 
+                $email['To'] = User::model()->getCityAdmin(false, true);
+                $email['From'] = $model->email;
+                $email['Reply'] = $model->email;
+                $email['FromName'] = $model->name;
                 $email['Message_type'] = $model->message_type;
                 $email['Subject'] = "[" . $email['Message_type'] . "] " . $model->subject . ' From Mr/Mrs: ' . $model->name;
 
-                $email['Body'] = '<strong> From Email address: </strong>'. $email['From'] ."<br>".$model->body;
+                $email['Body'] = '<strong> From Email address: </strong>' . $email['From'] . "<br>" . $model->body;
                 $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
 
                 $this->sendEmail2($email);
@@ -323,7 +327,7 @@ class SiteController extends Controller {
 
         Yii::app()->controller->layout = "//layouts/column2";
         Yii::app()->user->SiteSessions;
-        
+
         if (empty(Yii::app()->theme)) {
             $this->redirect($this->createUrl("/site/index"));
         }
