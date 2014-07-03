@@ -11,6 +11,7 @@
 $conf_component_user = array(
     /* enable cookie-based authentication */
     'allowAutoLogin' => true,
+    'class' => 'DTWebUser',
 );
 
 

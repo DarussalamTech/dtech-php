@@ -173,5 +173,19 @@ class ConfPaymentMethods extends DTActiveRecord {
         
         return ceil($converted);
     }
+    /**
+     * get payment method name from its city
+     * @param type $city_id
+     * @return type
+     */
+    public function getPaymentMethod($city_id = 0,$name ){
+        $criteria = new CDbCriteria();
+        if($city_id!=0){
+            $criteria->addCondition("name = :name AND city_id = :city_id");
+            $criteria->params = array("name"=>$name,"city_id"=>$city_id);
+        }
+       
+        return $this->get($criteria);
+    }
 
 }

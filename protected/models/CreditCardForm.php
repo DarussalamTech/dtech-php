@@ -213,49 +213,73 @@ class CreditCardForm extends CFormModel {
      * save web service order
      * @return string
      */
-    public function saveWebServiceOrder($shiping_price,$product,$request) {
+    public function saveWebServiceOrder($shiping_price, $product, $request,$cityModel) {
         $error['status'] = false;
         $error['message'] = 'Payment successfully';
+        $grand_total = 0;
 
+ 
 
+        Yii::app()->session['total_price'] = round($product->productProfile[0]->price * $request['quantity'], 2);
 
         //payment was completed successfully
         $order = new Order;
         $order->user_id = Yii::app()->user->id;
         $order->total_price = Yii::app()->session['total_price'];
         $order->shipping_price = $shiping_price;
-        
+
+        $grand_total = $grand_total + ($product->productProfile[0]->price * $request['quantity']);
         $grand_total = ($grand_total + (double) $shiping_price);
-                    $tax_rate = ConfTaxRates::model()->getTaxRate($grand_total);
-                    
+        $tax_rate = ConfTaxRates::model()->getTaxRate($grand_total);
+
+        Yii::app()->session['total_price'] = round($grand_total, 2);
+        Yii::app()->session['quantity'] = $request['quantity'];
+        Yii::app()->session['description'] = "";
+
+        Yii::app()->session['shipping_price'] = round($shiping_price, 2);
+        Yii::app()->session['shipping_rate_id'] = 0;
+        Yii::app()->session['tax_amount'] = round($tax_rate, 2);
+
+     
+        Yii::app()->session['currency'] = $cityModel->currency->symbol;
+
+        $criteria = new CDbCriteria;
+        $criteria->order = "id DESC";
+        $criteria->addCondition("user_id = " . Yii::app()->user->id);
+        $userShipping = UserOrderShipping::model()->find($criteria);
+
+        $useCurrency = "";
+        if (!empty($userShipping->country->currency_code) && $userShipping->country->currency_code != Yii::app()->session['currency']) {
+            $useCurrency = $userShipping->country->currency_code;
+        }
+        $converted_total = 0;
+        if ($useCurrency != "") {
+            $converted_total = ConfPaymentMethods::model()->convertCurrency(($grand_total + (double) $tax_rate), Yii::app()->session['currency'], $useCurrency);
+            Yii::app()->session['currency_amount'] = round($converted_total, 2);
+             $order->currency_amount = Yii::app()->session['currency_amount'];
+        }
         $order->tax_amount = $tax_rate;
         if (isset(Yii::app()->session['currency_amount'])) {
-            $order->currency_amount = Yii::app()->session['currency_amount'];
+           
         }
         //saving dhl_history_id for international
         $order->dhl_history_id = Yii::app()->session['shipping_rate_id'];
         $order->order_date = date('Y-m-d');
-        $order->city_id = $city_id;
+        $order->city_id = $cityModel->city_id;
         $order->transaction_id = "";
 
 
-        $confM = ConfPaymentMethods::model()->find("name = '" . $this->payment_method . "'");
+        $confM = ConfPaymentMethods::model()->getPaymentMethod($cityModel->city_id,"Cash on Delievery");
+        
         $order->payment_method_id = $confM->id;
-        $ordetail = array();
-        $cart_model = new Cart();
-        $cart = $cart_model->findAll('user_id=' . Yii::app()->user->id);
 
 
-
-        foreach ($cart as $pro) {
-            $ordetail['OrderDetail'][] = array(
-                'product_profile_id' => $pro->product_profile_id,
-                'quantity' => $pro->quantity,
-                'cart_id' => $pro->cart_id,
-                'product_price' => round($pro->productProfile->price, 2),
-                'total_price' => round($pro->productProfile->price * $pro->quantity, 2),
-            );
-        }
+        $ordetail['OrderDetail'][] = array(
+            'product_profile_id' => $product->productProfile[0]->id,
+            'quantity' => $request['quantity'],
+            'product_price' => round($product->productProfile[0]->price, 2),
+            'total_price' => round($product->productProfile[0]->price * $request['quantity'], 2),
+        );
 
         $order->setRelationRecords('orderDetails', is_array($ordetail['OrderDetail']) ? $ordetail['OrderDetail'] : array());
 

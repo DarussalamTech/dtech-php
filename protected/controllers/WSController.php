@@ -10,7 +10,7 @@ class WSController extends Controller {
     public $layout = '';
 
     public function actionIndex() {
-
+        $this->layout = "";
         if (!isset($_REQUEST['record_set'])) {
 
             echo CJSON::encode(array("No Selection"));
@@ -44,23 +44,22 @@ class WSController extends Controller {
             $allBooks = ProductWS::model()->getWsAllBooksByCategory(
                     $_REQUEST['page'], $_REQUEST['category'], $_REQUEST['popular'], $_REQUEST['largest_price'], $_REQUEST['lowest_price'], $pages, $_REQUEST['lowrangeprice'], $_REQUEST['highrangeprice'], $_REQUEST['asc'], $_REQUEST['desc']
             );
+
+            echo CJSON::encode($allBooks, true);
         }
         else if ($_REQUEST['record_set'] == 'product_catalogue') {
             // If the request is set to product category 
             //containg all books return by the Model
 
             $allBooks = ProductWS::model()->getWsAllBooksByCatalogue($_REQUEST['page'], $_REQUEST['limit'], $_REQUEST['category'], $_REQUEST['author'], $_REQUEST['search'], $_REQUEST['lang']);
+            echo CJSON::encode($allBooks, true);
         } else if ($_REQUEST['record_set'] == 'book_order') {
             /* This will get book order info and place order in current system */
 
             $response = $this->placeOrderFromPublisher($_REQUEST);
             echo $response;
-            die;
+            
         }
-
-        $this->layout = "";
-
-        echo CJSON::encode($allBooks, true);
     }
 
     /*
@@ -158,9 +157,7 @@ class WSController extends Controller {
         $existing_user = User::model()->find($criteria);
         $model = !empty($existing_user) ? $existing_user : $this->createUser($request_list);
 
-
         $this->loginWithWs($model);
-
 
         if (!empty(Yii::app()->user)) {
 
@@ -248,7 +245,6 @@ class WSController extends Controller {
         $full_name = $this->get_separated_name($request_list['name']);
         $country_info = $this->get_country_state_name($request_list);
 
-
         /* Saving Billing Information */
         $model = new UserOrderBilling;
         $billing_info['UserOrderBilling'] = array(
@@ -280,9 +276,11 @@ class WSController extends Controller {
         //$model->setAttributeByDefault();
 
         $creditCardModel = new CreditCardForm;
+        $phone = str_replace(' ', '+', $request_list['phone']);
 
         $shipping_info['ShippingInfoForm'] = array(
             'shipping_first_name' => $full_name['first_name'],
+            'shipping_prefix' => 'Mr.',
             'shipping_last_name' => $full_name['last_name'],
             'shipping_address1' => $request_list['address'],
             'shipping_address2' => $request_list['address'],
@@ -290,8 +288,8 @@ class WSController extends Controller {
             'shipping_state' => $country_info['state'],
             'shipping_city' => $request_list['city'],
             'shipping_zip' => '',
-            'shipping_phone' => $request_list['phone'],
-            'shipping_mobile' => $request_list['phone'],
+            'shipping_phone' => $phone,
+            'shipping_mobile' => $phone,
             'payment_method' => "Cash On Delievery",
         );
 
@@ -308,43 +306,91 @@ class WSController extends Controller {
      *  This is the last step in the order placement procedure on the darussalamPK
      */
     public function finalizeOrderPlacement($request_list) {
-       
+
         $pro = Product::model()->findByPk($request_list['product_id_pk']);
-      
         $books_range = array();
-        
+
         $prod_weight = (double) (isset($pro->productProfile[0]->weight) ? $pro->productProfile[0]->weight : 0);
 
-        $books_range['price_range'] =  ($request_list['quantity'] * $pro->productProfile[0]->price);
-        $books_range['weight_range'] =  $prod_weight;
-        //if unit is gram then it converted to kg
-
+        $books_range['price_range'] = ($request_list['quantity'] * $pro->productProfile[0]->price);
+        $books_range['weight_range'] = $prod_weight;
 
         $books_range['categories'][$pro->parent_cateogry_id] = $pro->parent_cateogry_id;
 
         $creditCardModel = new CreditCardForm();
         $city = City::model()->getCityId("Lahore");
         Yii::app()->session['city_id'] = $city->city_id;
-        
-        
-        //may be change in future when product will be purchased form 
+
+
+        //$request_list['city'] may be change in future when product will be purchased form 
         //multiple stores
         $is_source = 0;
-        if(strtolower($request_list['city']) =="lahore" || strtolower($request_list['city'])=="lhr"){
-            $is_source = 1;
+        if (strtolower($request_list['city']) == "lahore" || strtolower($request_list['city']) == "lhr") {
+            $is_source = 1; // haed office city of pakistan country
         }
 
         $shipping_price_books = ShippingClass::model()->calculateShippingCost($books_range['categories'], $books_range['price_range'], "price", $is_source);
-    
-        $order_id = $creditCardModel->saveWebServiceOrder($shipping_price_books,$pro,$request_list);
+
+        $order_id = $creditCardModel->saveWebServiceOrder($shipping_price_books, $pro, $request_list, $city);
+
 
         $shippingInfo = UserProfile::model()->updateShippingInfo($order_id);
         $billingInfo = UserProfile::model()->updateBillingInfo($order_id);
+
+        Yii::import('application.modules.web.controllers.PaymentController');
+
+        Yii::app()->theme = "dtech_second";
 
         $this->customer0rderDetailMailer($shippingInfo, $order_id);
         $this->admin0rderDetailMailer($shippingInfo, $order_id);
 
         return true;
+    }
+
+    /*
+     * method to send order detail to customer
+     */
+
+    public function customer0rderDetailMailer($customerInfo, $order_id) {
+
+        $email['From'] = Yii::app()->params['adminEmail'];
+
+        $email['To'] = Yii::app()->user->user->user_email;
+        $email['Subject'] = "Your Order Detail";
+        $email['Body'] = $this->renderPartial('//payment/_order_email_template2', array('customerInfo' => $customerInfo, 'order_id' => $order_id), true, false);
+        $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
+
+        $this->sendEmail2($email);
+    }
+
+    /*
+     * method to send order detail to Admin
+     */
+
+    public function admin0rderDetailMailer($customerInfo, $order_id) {
+
+        $email['From'] = Yii::app()->params['adminEmail'];
+
+        $email['To'] = User::model()->getCityAdmin(false, true);
+        $email['Subject'] = "New Order Placement";
+        $email['Body'] = $this->renderPartial('//payment/_order_email_template_admin', array('customerInfo' => $customerInfo, "order_id" => $order_id), true, false);
+        $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
+
+
+        $notification = new Notifcation;
+        $notification->from = Yii::app()->user->id;
+        $notification->to = $email['To'];
+        $notification->subject = $email['Subject'];
+        $notification->is_read = 0;
+        $notification->type = "inbox";
+
+        $notification->body = $email['Body'];
+        $notification->related_id = $order_id;
+        $notification->related_to = "Order";
+        $notification->save();
+
+
+        $this->sendEmail2($email);
     }
 
     /**
@@ -375,18 +421,12 @@ class WSController extends Controller {
      */
     public function get_country_state_name($request_list) {
         /* country name */
-        $criteria = new CDbCriteria();
-        $criteria->condition = "id = :id";
-        $criteria->params = array("id" => $request_list['country_id']);
-        $model = Region::model()->find($criteria);
-        $country_info['country'] = $model['attributes']['name'];
+        $model = Region::model()->findByPk($request_list['country_id']);
+        $country_info['country'] = $model->attributes['name'];
 
         /* state name */
-        $criteria = new CDbCriteria();
-        $criteria->condition = "id = :id";
-        $criteria->params = array("id" => $request_list['state_id']);
-        $model = Subregion::model()->find($criteria);
-        $country_info['state'] = $model['attributes']['name'];
+        $model = Subregion::model()->find($request_list['state_id']);
+        $country_info['state'] = $model->attributes['name'];
 
         return $country_info;
     }

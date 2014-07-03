@@ -306,15 +306,18 @@ class Controller extends RController {
              */
             if (!isset($this->menu_categories)) {
                 Yii::app()->user->SiteSessions;
-                ;
+                
             }
             $this->currentLang = isset(Yii::app()->session['current_lang']) ? Yii::app()->session['current_lang'] : "en";
             //$this->configureTheme();
+        } else if($this->id =="wS"){
+            //for web service
         } else {
             /**
              * for admin site
              */
             $this->currentLang = "en";
+            
             $this->isAdminSite = true;
             $this->setPermissions();
         }
