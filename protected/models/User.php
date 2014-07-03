@@ -280,9 +280,9 @@ class User extends DTActiveRecord {
      */
     public function validatePasswordHashed($password, $old_password) {
 
-        return $password === $old_password;        
+        return $password === $old_password;
     }
-    
+
     /**
      * 
      * @param type $attribute
@@ -329,9 +329,10 @@ class User extends DTActiveRecord {
      * Temporray
      * if all is true then get all city admins
      * @param type $all
+     * @param type $city_id
      * @return type
      */
-    public function getCityAdmin($all = false, $to = false) {
+    public function getCityAdmin($all = false, $to = false, $city_id = 0) {
         $criteria = new CDbCriteria();
         $criteria->select = "user_email";
         $criteria->condition = "role_id =:role";
@@ -342,10 +343,14 @@ class User extends DTActiveRecord {
             } else {
                 //in case of city of particular city admins
                 $criteria->addCondition("t.city_id =:city_id");
-                $criteria->params = array("city_id" => Yii::app()->request->getQuery("city_id"), "role" => 2);
-
+                if ($city_id == 0) {
+                    $criteria->params = array("city_id" => Yii::app()->request->getQuery("city_id"), "role" => 2);
+                }
+                else {
+                    $criteria->params = array("city_id" => $city_id, "role" => 2);
+                }
                 $user = CHtml::listData(User::model()->findAll($criteria), "user_email", "user_email");
-               
+
                 return $user;
             }
 
