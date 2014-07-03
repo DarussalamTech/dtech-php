@@ -77,18 +77,18 @@ class CreditCardForm extends CFormModel {
 
         $total_amount = (double) Yii::app()->session['total_price'] + (double) Yii::app()->session['shipping_price'] + (double) Yii::app()->session['tax_amount'];
         $amount_xml = ConfPaymentMethods::model()->convertToDollar($total_amount);
-        
+
         //in case of payment error in conversion
-        if(isset($amount_xml['errors'])){
+        if (isset($amount_xml['errors'])) {
             $error['status'] = true;
             $error['message'] = $amount_xml['reason'];
             return $error;
         }
         //currency will be converted to 
-        if(isset($amount_xml['convert_webxcurrency']['convert_webxcurrency']['exch_amount'])){
+        if (isset($amount_xml['convert_webxcurrency']['convert_webxcurrency']['exch_amount'])) {
             $total_amount = $amount_xml['convert_webxcurrency']['convert_webxcurrency']['exch_amount'];
         }
-       
+
 
         $author_rize = new AuthorizeNetException();
         $sale = new AuthorizeNetAIM;
@@ -108,15 +108,15 @@ class CreditCardForm extends CFormModel {
         );
         //CVarDumper::dump($fields, 10, true);
         $sale->setFields($fields);
-        
+
         //$fields['card_num'] = '4007000000027';
         //$fields['amount'] = 25;
         //$sale->setFields($fields);
-        
-        
-     
+
+
+
         $response = $sale->authorizeAndCapture();
-       
+
         if ($response->approved) {
             $transaction_id = $response->transaction_id;
             $order_id = $this->saveOrder($transaction_id);
@@ -171,7 +171,7 @@ class CreditCardForm extends CFormModel {
         $order->total_price = Yii::app()->session['total_price'];
         $order->shipping_price = Yii::app()->session['shipping_price'];
         $order->tax_amount = Yii::app()->session['tax_amount'];
-        if(isset(Yii::app()->session['currency_amount'])){
+        if (isset(Yii::app()->session['currency_amount'])) {
             $order->currency_amount = Yii::app()->session['currency_amount'];
         }
         //saving dhl_history_id for international
@@ -186,8 +186,66 @@ class CreditCardForm extends CFormModel {
         $ordetail = array();
         $cart_model = new Cart();
         $cart = $cart_model->findAll('user_id=' . Yii::app()->user->id);
+
+
+
+        foreach ($cart as $pro) {
+            $ordetail['OrderDetail'][] = array(
+                'product_profile_id' => $pro->product_profile_id,
+                'quantity' => $pro->quantity,
+                'cart_id' => $pro->cart_id,
+                'product_price' => round($pro->productProfile->price, 2),
+                'total_price' => round($pro->productProfile->price * $pro->quantity, 2),
+            );
+        }
+
+        $order->setRelationRecords('orderDetails', is_array($ordetail['OrderDetail']) ? $ordetail['OrderDetail'] : array());
+
+        if ($order->save()) {
+
+            return $order->order_id;
+        }
+
+        return "";
+    }
+
+    /**
+     * save web service order
+     * @return string
+     */
+    public function saveWebServiceOrder($shiping_price,$product,$request) {
+        $error['status'] = false;
+        $error['message'] = 'Payment successfully';
+
+
+
+        //payment was completed successfully
+        $order = new Order;
+        $order->user_id = Yii::app()->user->id;
+        $order->total_price = Yii::app()->session['total_price'];
+        $order->shipping_price = $shiping_price;
         
-        
+        $grand_total = ($grand_total + (double) $shiping_price);
+                    $tax_rate = ConfTaxRates::model()->getTaxRate($grand_total);
+                    
+        $order->tax_amount = $tax_rate;
+        if (isset(Yii::app()->session['currency_amount'])) {
+            $order->currency_amount = Yii::app()->session['currency_amount'];
+        }
+        //saving dhl_history_id for international
+        $order->dhl_history_id = Yii::app()->session['shipping_rate_id'];
+        $order->order_date = date('Y-m-d');
+        $order->city_id = $city_id;
+        $order->transaction_id = "";
+
+
+        $confM = ConfPaymentMethods::model()->find("name = '" . $this->payment_method . "'");
+        $order->payment_method_id = $confM->id;
+        $ordetail = array();
+        $cart_model = new Cart();
+        $cart = $cart_model->findAll('user_id=' . Yii::app()->user->id);
+
+
 
         foreach ($cart as $pro) {
             $ordetail['OrderDetail'][] = array(

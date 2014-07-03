@@ -64,6 +64,7 @@ class Country extends DTActiveRecord {
         return array(
             'cities' => array(self::HAS_MANY, 'City', 'country_id'),
             'site' => array(self::BELONGS_TO, 'SelfSite', 'site_id'),
+            'site_headOffice' => array(self::BELONGS_TO, 'SelfSite', 'site_id','condition'=>'site_headoffice <>0'),
         );
     }
 
@@ -116,6 +117,17 @@ class Country extends DTActiveRecord {
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
         ));
+    }
+
+    /**
+     * get country name
+     * @param type $name
+     */
+    public function getHeadOffice($name) {
+        $criteria = new CDbCriteria;
+        $criteria->addCondition("LOWER(country_name) = :country_name");
+        $criteria->params = array("country_name" => strtolower($name));
+        return $this->get($criteria);
     }
 
 }

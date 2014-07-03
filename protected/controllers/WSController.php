@@ -147,25 +147,33 @@ class WSController extends Controller {
      *   update the user by calling processManual function
      */
     public function placeOrderFromPublisher($request_list) {
+        //if the user is already login the logout
+        if (!empty(Yii::app()->user)) {
+            Yii::app()->user->logout();
+        }
         $criteria = new CDbCriteria();
         $criteria->condition = "user_email = :user_email";
-        $criteria->params = array("user_email" => $request_list['email']);        
-        
+        $criteria->params = array("user_email" => $request_list['email']);
+
         $existing_user = User::model()->find($criteria);
-        $model =  $existing_user ? $existing_user : $this->createUser($request_list);
-        
-        if($this->loginWithWs($model)) {
-            $this->saveShippingBillingAddress($request_list,$model);
+        $model = !empty($existing_user) ? $existing_user : $this->createUser($request_list);
+
+
+        $this->loginWithWs($model);
+
+
+        if (!empty(Yii::app()->user)) {
+
+            $this->saveShippingBillingAddress($request_list, $model);
+            Yii::app()->user->logout();
         }
-        
+
         // when we have to save product id and product name i the order table
         /*
          * *
          * *
          */
-        
-        Yii::app()->user->logout();
-        //CVarDumper::dump(Yii::app()->user,10,true);
+
 
         $response = array('msg' => "Your Order has placed successfully!");
         return CJSON::encode($response);
@@ -186,13 +194,17 @@ class WSController extends Controller {
 
         $model->user_email = $request_list['email'];
         $model->user_name = $request_list['email'];
-        $model->user_password = $password;
+        $model->user_password = md5($password);
+        $model->user_password2 = md5($password);
+        $model->agreement_status = 1;
+
         if ($model->save()) {
 
             //Sending email part - For Successfully created user
 
             $subject = "Your user on darussalampk has been created ";
             $message = "<br /><br />You can login by going darussalampk.com <br /><br /> Thanks you ";
+            $message.= "<br/><br/> Your password is : " . $password;
 
             $email['From'] = Yii::app()->params['adminEmail'];
             $email['To'] = $model->user_email;
@@ -203,8 +215,10 @@ class WSController extends Controller {
             $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
 
             $this->sendEmail2($email);
+            return $model;
         }
-        return $model;
+
+        return "";
     }
 
     /**
@@ -229,11 +243,12 @@ class WSController extends Controller {
      * This will save the billing and shipping information and save order 
      * against the user and notify the user the his/her order has placed
      */
-    public function saveShippingBillingAddress($request_list,$user_model) {
-        
+    public function saveShippingBillingAddress($request_list, $user_model) {
+
         $full_name = $this->get_separated_name($request_list['name']);
         $country_info = $this->get_country_state_name($request_list);
-       
+
+
         /* Saving Billing Information */
         $model = new UserOrderBilling;
         $billing_info['UserOrderBilling'] = array(
@@ -251,15 +266,16 @@ class WSController extends Controller {
             'billing_phone' => $request_list['phone'],
             'billing_mobile' => $request_list['phone'],
         );
-        
+
         if (isset($billing_info['UserOrderBilling'])) {
             $model->attributes = $billing_info['UserOrderBilling'];
             $model->user_id = Yii::app()->user->id;
-        }    
+        }
         $model->save();
 
+
         /* Saving Shipping Information */
-        
+
         $model = new ShippingInfoForm();
         //$model->setAttributeByDefault();
 
@@ -276,34 +292,61 @@ class WSController extends Controller {
             'shipping_zip' => '',
             'shipping_phone' => $request_list['phone'],
             'shipping_mobile' => $request_list['phone'],
+            'payment_method' => "Cash On Delievery",
         );
-        
+
         if (isset($shipping_info['ShippingInfoForm'])) {
             $model->attributes = $shipping_info['ShippingInfoForm'];
-            
+
             $shipping_id = UserProfile::model()->saveShippingInfo($shipping_info['ShippingInfoForm']);
         }
-        
-        return $this->finalizeOrderPlacement();
+
+        return $this->finalizeOrderPlacement($request_list);
     }
 
     /**
      *  This is the last step in the order placement procedure on the darussalamPK
      */
-    public function finalizeOrderPlacement()
-    {
-        $creditCardModel = new CreditCardForm();    
-        $order_id = $creditCardModel->saveOrder("");
+    public function finalizeOrderPlacement($request_list) {
+       
+        $pro = Product::model()->findByPk($request_list['product_id_pk']);
+      
+        $books_range = array();
+        
+        $prod_weight = (double) (isset($pro->productProfile[0]->weight) ? $pro->productProfile[0]->weight : 0);
+
+        $books_range['price_range'] =  ($request_list['quantity'] * $pro->productProfile[0]->price);
+        $books_range['weight_range'] =  $prod_weight;
+        //if unit is gram then it converted to kg
+
+
+        $books_range['categories'][$pro->parent_cateogry_id] = $pro->parent_cateogry_id;
+
+        $creditCardModel = new CreditCardForm();
+        $city = City::model()->getCityId("Lahore");
+        Yii::app()->session['city_id'] = $city->city_id;
+        
+        
+        //may be change in future when product will be purchased form 
+        //multiple stores
+        $is_source = 0;
+        if(strtolower($request_list['city']) =="lahore" || strtolower($request_list['city'])=="lhr"){
+            $is_source = 1;
+        }
+
+        $shipping_price_books = ShippingClass::model()->calculateShippingCost($books_range['categories'], $books_range['price_range'], "price", $is_source);
+    
+        $order_id = $creditCardModel->saveWebServiceOrder($shipping_price_books,$pro,$request_list);
 
         $shippingInfo = UserProfile::model()->updateShippingInfo($order_id);
         $billingInfo = UserProfile::model()->updateBillingInfo($order_id);
 
         $this->customer0rderDetailMailer($shippingInfo, $order_id);
         $this->admin0rderDetailMailer($shippingInfo, $order_id);
-        
+
         return true;
     }
-    
+
     /**
      * 
      * @param type $name
@@ -311,47 +354,43 @@ class WSController extends Controller {
      * 
      * This will formated name as, first_name, last_name
      */
-    public function get_separated_name($name)
-    {
-        $arr  = explode(' ', $name);
-	if(count($arr) <2)
-	{
+    public function get_separated_name($name) {
+        $arr = explode(' ', $name);
+        if (count($arr) < 2) {
             $arr[] = 'Dear';
             $first_name = $arr[1];
             $last_name = $arr[0];
-	}
-	else
-	{
+        } else {
             $first_name = $arr[0];
-            $last_name = $arr[1];		
-	}
-        return array('first_name'=>$first_name,'last_name'=>$last_name);
+            $last_name = $arr[1];
+        }
+        return array('first_name' => $first_name, 'last_name' => $last_name);
     }
-    
+
     /**
      * 
      * @param type $request_list
      * 
      * This will get country_id and state_id and return their names
      */
-    public function get_country_state_name($request_list)
-    {
+    public function get_country_state_name($request_list) {
         /* country name */
         $criteria = new CDbCriteria();
         $criteria->condition = "id = :id";
-        $criteria->params = array("id"=>$request_list['country_id']);
+        $criteria->params = array("id" => $request_list['country_id']);
         $model = Region::model()->find($criteria);
         $country_info['country'] = $model['attributes']['name'];
-        
+
         /* state name */
         $criteria = new CDbCriteria();
         $criteria->condition = "id = :id";
-        $criteria->params = array("id"=>$request_list['state_id']);
+        $criteria->params = array("id" => $request_list['state_id']);
         $model = Subregion::model()->find($criteria);
         $country_info['state'] = $model['attributes']['name'];
-        
+
         return $country_info;
     }
+
 }
 
 ?>
