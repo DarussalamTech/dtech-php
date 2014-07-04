@@ -45,20 +45,19 @@ class WSController extends Controller {
                     $_REQUEST['page'], $_REQUEST['category'], $_REQUEST['popular'], $_REQUEST['largest_price'], $_REQUEST['lowest_price'], $pages, $_REQUEST['lowrangeprice'], $_REQUEST['highrangeprice'], $_REQUEST['asc'], $_REQUEST['desc']
             );
 
-            echo CJSON::encode($allBooks, true);
+            echo CJSON::encode($allBooks);
         }
         else if ($_REQUEST['record_set'] == 'product_catalogue') {
             // If the request is set to product category 
             //containg all books return by the Model
 
             $allBooks = ProductWS::model()->getWsAllBooksByCatalogue($_REQUEST['page'], $_REQUEST['limit'], $_REQUEST['category'], $_REQUEST['author'], $_REQUEST['search'], $_REQUEST['lang']);
-            echo CJSON::encode($allBooks, true);
+            echo CJSON::encode($allBooks);
         } else if ($_REQUEST['record_set'] == 'book_order') {
             /* This will get book order info and place order in current system */
-
             $response = $this->placeOrderFromPublisher($_REQUEST);
-            echo $response;
-            
+                       
+            echo CJSON::encode($response);
         }
     }
 
@@ -158,22 +157,15 @@ class WSController extends Controller {
         $model = !empty($existing_user) ? $existing_user : $this->createUser($request_list);
 
         $this->loginWithWs($model);
-
-        if (!empty(Yii::app()->user)) {
-
-            $this->saveShippingBillingAddress($request_list, $model);
+        
+        
+        if (!empty(Yii::app()->user) && $this->saveShippingBillingAddress($request_list, $model)) {
+            $response = array('msg' => "Your Order has placed successfully!");
             Yii::app()->user->logout();
+        } else {
+            $response = array('msg' => "Error");
         }
-
-        // when we have to save product id and product name i the order table
-        /*
-         * *
-         * *
-         */
-
-
-        $response = array('msg' => "Your Order has placed successfully!");
-        return CJSON::encode($response);
+        return $response;
     }
 
     /**
@@ -342,7 +334,7 @@ class WSController extends Controller {
         Yii::app()->theme = "dtech_second";
 
         $this->customer0rderDetailMailer($shippingInfo, $order_id);
-        $this->admin0rderDetailMailer($shippingInfo, $order_id);
+        $this->admin0rderDetailMailer($shippingInfo, $order_id, $city->city_id);
 
         return true;
     }
@@ -367,11 +359,12 @@ class WSController extends Controller {
      * method to send order detail to Admin
      */
 
-    public function admin0rderDetailMailer($customerInfo, $order_id) {
+    public function admin0rderDetailMailer($customerInfo, $order_id, $city_id) {
 
         $email['From'] = Yii::app()->params['adminEmail'];
 
-        $email['To'] = User::model()->getCityAdmin(false, true);
+        $email['To'] = User::model()->getCityAdmin(false, true, $city_id);
+     
         $email['Subject'] = "New Order Placement";
         $email['Body'] = $this->renderPartial('//payment/_order_email_template_admin', array('customerInfo' => $customerInfo, "order_id" => $order_id), true, false);
         $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
