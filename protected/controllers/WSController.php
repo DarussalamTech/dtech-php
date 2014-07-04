@@ -54,6 +54,9 @@ class WSController extends Controller {
             $allBooks = ProductWS::model()->getWsAllBooksByCatalogue($_REQUEST['page'], $_REQUEST['limit'], $_REQUEST['category'], $_REQUEST['author'], $_REQUEST['search'], $_REQUEST['lang']);
             echo CJSON::encode($allBooks);
         } else if ($_REQUEST['record_set'] == 'book_order') {
+            
+           // CVarDumper::dump($_REQUEST,10,true);
+            //die;
             /* This will get book order info and place order in current system */
             $response = $this->placeOrderFromPublisher($_REQUEST);
                        
@@ -145,6 +148,10 @@ class WSController extends Controller {
      *   update the user by calling processManual function
      */
     public function placeOrderFromPublisher($request_list) {
+        
+        //CVarDumper::dump($request_list,10,true);
+        //CVarDumper::dump(ErrorController::STATE_INPUT_NAME,10,true);
+      
         //if the user is already login the logout
         if (!empty(Yii::app()->user)) {
             Yii::app()->user->logout();
@@ -183,8 +190,8 @@ class WSController extends Controller {
 
         $model->user_email = $request_list['email'];
         $model->user_name = $request_list['email'];
-        $model->user_password = md5($password);
-        $model->user_password2 = md5($password);
+        $model->user_password = $password;
+        $model->user_password2 = $password;
         $model->agreement_status = 1;
 
         if ($model->save()) {
