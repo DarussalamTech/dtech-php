@@ -60,12 +60,10 @@
  */
 Yii::import('zii.widgets.grid.CGridView');
 
-class DtGridView extends CGridView
-{
+class DtGridView extends CGridView {
     /* ---it will be used for access control   --- */
 
     /* User access */
-  
 
     public $user_acccess;
     public $totalHeading = ""; //used for calculation of total of celss
@@ -82,6 +80,7 @@ class DtGridView extends CGridView
     /* If sort url is given than this component will enable dragable rows. */
     public $sortUrl;
     public $rowCssClass = array('even', 'odd');
+
     /**
      * Footer html 
      * will be part if u want to append extra html
@@ -92,16 +91,14 @@ class DtGridView extends CGridView
     /**
      * Init Par grid view. 
      */
-    public function init()
-    {
+    public function init() {
 
         /**
          * set the colorBox
          * variable true
          * in document liking
          */
-        if (!empty($_GET['colorbox']))
-        {
+        if (!empty($_GET['colorbox'])) {
             $this->colorBox = true;
             /**
              * setting checBox at header
@@ -112,10 +109,13 @@ class DtGridView extends CGridView
 
         parent::init();
 
+        $jqueryPath = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('system.web.js.source'));
+        Yii::app()->clientScript->registerScriptFile($jqueryPath . '/jquery.ba-bbq.min.js', CClientScript::POS_END);
+
+
 
         /* If sort url is given then register dragable row script */
-        if (isset($this->sortUrl))
-        {
+        if (isset($this->sortUrl)) {
             $this->registerDragableScript();
         }
     }
@@ -124,11 +124,10 @@ class DtGridView extends CGridView
      * Register Drabable Row JS Script
      * @author Mohsin Shoaib 
      */
-    public function registerDragableScript()
-    {
-        
+    public function registerDragableScript() {
+
         $cs = Yii::app()->clientScript;
-        $cs->registerScriptFile(Yii::app()->request->baseUrl . '/packages/jui/js/jquery-ui.min.js',  CClientScript::POS_END);
+        $cs->registerScriptFile(Yii::app()->request->baseUrl . '/packages/jui/js/jquery-ui.min.js', CClientScript::POS_END);
         $str_js = "
         var fixHelper = function(e, ui) {
             ui.children().each(function() {
@@ -169,11 +168,10 @@ class DtGridView extends CGridView
             helper: fixHelper
         }).disableSelection();
     ";
-        Yii::app()->clientScript->registerScript('sortable-project', $str_js,  CClientScript::POS_READY);
+        Yii::app()->clientScript->registerScript('sortable-project', $str_js, CClientScript::POS_READY);
     }
 
-    public function renderTableHeader()
-    {
+    public function renderTableHeader() {
         //$this->renderSummary();
         $this->renderPager();
         echo "<div class=clear></div>";
@@ -182,69 +180,51 @@ class DtGridView extends CGridView
         /**
          * in case of when document liking
          */
-        //if($this->colorBox==true)
-        {
-
-            // $this->generateHeaderCheckBox();
-        }
+        //if($this->colorBox==true) {
+        // $this->generateHeaderCheckBox();
     }
 
-    public function renderSummary()
-    {
+    public function renderSummary() {
         //if  page size of grid greater than total items 
-        if ((int) $this->dataProvider->pagination->itemCount >= $this->dataProvider->pagination->pageSize)
-        {
+        if ((int) $this->dataProvider->pagination->itemCount >= $this->dataProvider->pagination->pageSize) {
 
             $this->summaryText = 'Displaying {start}-{end} of ' . $this->dataProvider->pagination->itemCount . ' result(s).';
-        }
-        else if(count($this->dataProvider->getData ())==0)
-        {
+        } else if (count($this->dataProvider->getData()) == 0) {
             $this->summaryText = 'No Record Found';
-        }
-        else {
+        } else {
             $this->summaryText = '';
         }
         parent::renderSummary();
     }
 
-    public function renderEmptyText()
-    {
-        if (isset($this->user_acccess) && $this->user_acccess != 0)
-        {
+    public function renderEmptyText() {
+        if (isset($this->user_acccess) && $this->user_acccess != 0) {
             parent::renderEmptyText();
-        }
-        else
-        {
+        } else {
             echo "No record ";
         }
     }
 
-    public function renderTableFooter()
-    {
+    public function renderTableFooter() {
         $colspan = count($this->columns) - 1;
         $alltotal = 0;
         $hasFilter = $this->filter !== null && $this->filterPosition === self::FILTER_POS_FOOTER;
         $hasFooter = $this->getHasFooter();
         $count = 0;
-        if ($hasFilter || $hasFooter)
-        {
+        if ($hasFilter || $hasFooter) {
             echo "<tfoot>\n";
-            if ($hasFooter)
-            {
+            if ($hasFooter) {
                 echo "<tr>\n";
-                foreach ($this->columns as $column)
-                {
+                foreach ($this->columns as $column) {
                     $total = $column->renderFooterCell();
-                    if ($this->totalHeading != "" && isset($column->grid->columns[$count]->_total))
-                    {
+                    if ($this->totalHeading != "" && isset($column->grid->columns[$count]->_total)) {
                         $alltotal+=$column->grid->columns[$count]->_total;
                     }
                     $count++;
                 }
 
                 echo "</tr>\n";
-                if ($this->totalHeading != "")
-                {
+                if ($this->totalHeading != "") {
                     $htmlOptions['colspan'] = $colspan;
                     $htmlOptions['style'] = 'font-weight:bold;font-style:italic';
                     echo "<tr>";
@@ -261,12 +241,12 @@ class DtGridView extends CGridView
                     echo "</tr>";
                 }
             }
-            if ($hasFilter){
+            if ($hasFilter) {
                 $this->renderFilter();
             }
-            echo $this->footerHtml;;
+            echo $this->footerHtml;
+            ;
             echo "</tfoot>\n";
-            
         }
     }
 
@@ -277,16 +257,12 @@ class DtGridView extends CGridView
      * @param type $total 
      * 
      */
-    private function setTotalOfAllTotals($total)
-    {
-        if (Yii::app()->user->hasFlash('totalGridcount'))
-        {
+    private function setTotalOfAllTotals($total) {
+        if (Yii::app()->user->hasFlash('totalGridcount')) {
 
             $totalFlashCount = Yii::app()->user->getFlash('totalGridcount') + $total;
             Yii::app()->user->setFlash('totalGridcount', $totalFlashCount);
-        }
-        else
-        {
+        } else {
             Yii::app()->user->setFlash('totalGridcount', $total);
         }
     }
@@ -295,35 +271,29 @@ class DtGridView extends CGridView
      * Renders a table body row.
      * @param integer $row the row number (zero-based).
      */
-    public function renderTableRow($row)
-    {
+    public function renderTableRow($row) {
         /**
          * this area belongs to document liking 
          * where extram column will be displayed
          * of check box
          * 
          */
-        
-           $data = $this->dataProvider->data[$row];
-    
-        if ($this->colorBox == true)
-        {
+        $data = $this->dataProvider->data[$row];
+
+        if ($this->colorBox == true) {
             $this->generateChecBoxCol($this->dataProvider->data[$row]->id);
         }
-        if ($this->rowCssClassExpression !== null && ($n = count($this->rowCssClass)) > 0)
-        {
+        if ($this->rowCssClassExpression !== null && ($n = count($this->rowCssClass)) > 0) {
             $data = $this->dataProvider->data[$row];
-           
+
             echo '<tr class="' . $this->evaluateExpression($this->rowCssClassExpression, array('row' => $row, 'data' => $data)) . ' ' . $this->rowCssClass[$row % $n] . '">';
-        }
-        else if (is_array($this->rowCssClass) && ($n = count($this->rowCssClass)) > 0)
+        } else if (is_array($this->rowCssClass) && ($n = count($this->rowCssClass)) > 0)
             echo '<tr class="' . $this->rowCssClass[$row % $n] . '">';
         else
             echo '<tr>';
         foreach ($this->columns as $column)
             $column->renderDataCell($row);
         echo "</tr>\n";
-       
     }
 
     /**
@@ -335,8 +305,7 @@ class DtGridView extends CGridView
      * (this function is not used now )
      * @param type $id 
      */
-    private function generateChecBoxCol($id)
-    {
+    private function generateChecBoxCol($id) {
         //echo '<td>' . Chtml::checkBox("document[" . $id . "]", false, array("value" => $id, "class" => "document_checkbox")) . '</td>';
     }
 
@@ -347,9 +316,8 @@ class DtGridView extends CGridView
      * then the problem will be resolved
      *  
      */
-    private function generateHeaderCheckBox()
-    {
-        
+    private function generateHeaderCheckBox() {
+
         $column = array(
             'header' => '<input type="checkbox" value="0" id="checkallassociation" onclick="getGridId(this)" />',
             'type' => 'Raw',
@@ -361,5 +329,4 @@ class DtGridView extends CGridView
     }
 
 }
-
 ?>
