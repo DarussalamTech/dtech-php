@@ -47,7 +47,7 @@ $config = array(
 );
 $provider = new CActiveDataProvider("ConfProducts", $config);
 
-$this->widget('zii.widgets.grid.CGridView', array(
+$this->widget('DtGridView', array(
     'id' => 'conf-products-grid',
     'dataProvider' => $provider,
     'columns' => array(

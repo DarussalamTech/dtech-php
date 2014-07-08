@@ -42,7 +42,7 @@ $('.search-form form').submit(function(){
 </div><!-- search-form -->
 
 <?php
-$this->widget('zii.widgets.grid.CGridView', array(
+$this->widget('DtGridView', array(
     'id' => 'layout-grid',
     'dataProvider' => $model->search(),
     'filter' => $model,

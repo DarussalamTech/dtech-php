@@ -7,7 +7,7 @@ $this->breadcrumbs = array(
 if (Yii::app()->user->isAdmin || Yii::app()->user->isSuperAdmin) {
     $this->renderPartial("/common/_left_menu");
 }
-$this->widget('zii.widgets.grid.CGridView', array(
+$this->widget('DtGridView', array(
     'id' => 'zone-grid',
     'dataProvider' => $dataProvider,
     'columns' => array(

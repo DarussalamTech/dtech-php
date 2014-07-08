@@ -1,5 +1,5 @@
 <?php
-$this->widget('zii.widgets.grid.CGridView', array(
+$this->widget('DtGridView', array(
     'id' => 'order-grid',
     'dataProvider' => $model->search(),
     'columns' => array(

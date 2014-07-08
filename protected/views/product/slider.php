@@ -48,7 +48,7 @@ $this->PcmWidget['filter'] = array('name' => 'ItstLeftFilter',
 </div><!-- search-form -->
 
 <?php
-$this->widget('zii.widgets.grid.CGridView', array(
+$this->widget('DtGridView', array(
     'id' => 'product-grid',
     'dataProvider' => $model->search(),
     'filter' => $model,

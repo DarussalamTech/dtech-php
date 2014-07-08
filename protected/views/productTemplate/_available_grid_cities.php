@@ -35,7 +35,7 @@
         }
 
         $mName_provider = new CActiveDataProvider("City", $config);
-        $this->widget('zii.widgets.grid.CGridView', array(
+        $this->widget('DtGridView', array(
             'id' => 'cities-grid',
             'dataProvider' => $mName_provider,
             'columns' => array(

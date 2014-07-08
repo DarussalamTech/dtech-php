@@ -36,7 +36,7 @@ if (Yii::app()->user->hasFlash('status')) {
         )
     ));
 
-    $this->widget('zii.widgets.grid.CGridView', array(
+    $this->widget('DtGridView', array(
         'id' => 'product-grid',
         'dataProvider' => $dataProvider,
         'pager' => array(

@@ -61,7 +61,7 @@ $this->PcmWidget['filter'] = array('name' => 'ItstLeftFilter',
         'grid_id' => 'shipping-class-grid',
         ));
 
-$this->widget('zii.widgets.grid.CGridView', array(
+$this->widget('DtGridView', array(
     'id' => 'shipping-class-grid',
     'dataProvider' => $model->search(),
     'filter' => $model,

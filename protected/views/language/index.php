@@ -63,7 +63,7 @@ echo CHtml::link('Advanced Search', '#', array('class' => 'search-button'));
 </div><!-- search-form -->
 
 <?php
-$this->widget('zii.widgets.grid.CGridView', array(
+$this->widget('DtGridView', array(
     'id' => 'language-grid',
     'dataProvider' => $model->search(),
     'filter' => $model,

@@ -12,7 +12,7 @@ $config = array(
 
 $mName_provider = new CActiveDataProvider('OrderHistory', $config);
 
-$this->widget('zii.widgets.grid.CGridView', array(
+$this->widget('DtGridView', array(
     'id' => 'OrderHistory-grid',
     'dataProvider' => $mName_provider,
     

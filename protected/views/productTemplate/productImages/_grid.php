@@ -19,7 +19,7 @@ $this->renderPartial("_view_profile", array("model" => $model));
     if ($this->checkViewAccess(ucfirst($this->id) . ".DeleteChildByAjax")) {
         $btn_template.="{delete}";
     }
-    $this->widget('zii.widgets.grid.CGridView', array(
+    $this->widget('DtGridView', array(
         'id' => $mName . '-grid',
         'dataProvider' => $mName_provider,
         'columns' => array(

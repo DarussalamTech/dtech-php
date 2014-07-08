@@ -7,7 +7,7 @@
 </div>
 <div class="clear"></div>
 <?php
-$this->widget('zii.widgets.grid.CGridView', array(
+$this->widget('DtGridView', array(
     'id' => 'shipping-class-grid',
     'dataProvider' => $model->search(),
     'filter' => $model,

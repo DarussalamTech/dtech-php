@@ -30,7 +30,7 @@ $('.search-form form').submit(function(){
 </p>
 
 <?php
-$this->widget('zii.widgets.grid.CGridView', array(
+$this->widget('DtGridView', array(
     'id' => 'order-grid',
     'dataProvider' => $model->search(),
     //'filter' => $model,
