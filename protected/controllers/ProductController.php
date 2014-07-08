@@ -558,7 +558,7 @@ class ProductController extends Controller {
      * @param <type> $mName
      * @param <type> $dir 
      */
-    public function actionEditChild($id, $mName, $dir) {
+    public function actionEditChild($id, $mName, $dir,$upload_index = 0) {
         /* Get regarding model */
         $model = new $mName;
         $render_view = $dir . '/_fields_row';
@@ -568,6 +568,7 @@ class ProductController extends Controller {
         $this->renderPartial($render_view, array('index' => 1, 'model' => $model,
             "load_for" => "view", 'dir' => $dir, "displayd" => "block",
             'fields_div_id' => $dir . '_fields',
+            'upload_index' => $upload_index,
                 ), false, true);
     }
 

@@ -40,7 +40,7 @@ $this->renderPartial("productProfile/_view", array("model" => $model));
                         (
                         'label' => 'update',
 //                                'url' => 'Yii::app()->controller->createUrl("laborForm",array("id"=> $data->id, "daily_report_id"=>' . $model->id . '))',
-                        'url' => 'Yii::app()->controller->createUrl("editChild", array("id"=> $data->id, "mName"=>get_class($data), "dir" => "' . $dir . '"))',
+                        'url' => 'Yii::app()->controller->createUrl("editChild", array("upload_index"=>"0","id"=> $data->id, "mName"=>get_class($data), "dir" => "' . $dir . '"))',
                         'click' => "js:function() {
                                             $('#loading').toggle();
                                             $.ajax({
