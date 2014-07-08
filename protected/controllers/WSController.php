@@ -54,12 +54,12 @@ class WSController extends Controller {
             $allBooks = ProductWS::model()->getWsAllBooksByCatalogue($_REQUEST['page'], $_REQUEST['limit'], $_REQUEST['category'], $_REQUEST['author'], $_REQUEST['search'], $_REQUEST['lang']);
             echo CJSON::encode($allBooks);
         } else if ($_REQUEST['record_set'] == 'book_order') {
-            
-           // CVarDumper::dump($_REQUEST,10,true);
+
+            // CVarDumper::dump($_REQUEST,10,true);
             //die;
             /* This will get book order info and place order in current system */
             $response = $this->placeOrderFromPublisher($_REQUEST);
-                       
+
             echo CJSON::encode($response);
         }
     }
@@ -148,10 +148,17 @@ class WSController extends Controller {
      *   update the user by calling processManual function
      */
     public function placeOrderFromPublisher($request_list) {
-        
-        //CVarDumper::dump($request_list,10,true);
-        //CVarDumper::dump(ErrorController::STATE_INPUT_NAME,10,true);
-      
+
+        /* Here needs to check whether order is placed to particular PK and KSA email addresses or other email address */
+        $emails = explode(',', $request_list['branch_emails']);
+
+        if (strpos($request_list['branch_name'], 'Pakistan') != FALSE) {
+            $order_city = 'Lahore';
+        } elseif (strpos($request_list['branch_name'], 'KSA') != FALSE) {
+            $order_city = 'Riyadh';
+        } else {
+            return $this->emailOrderToOthers($request_list, $emails);
+        }
         //if the user is already login the logout
         if (!empty(Yii::app()->user)) {
             Yii::app()->user->logout();
@@ -161,12 +168,12 @@ class WSController extends Controller {
         $criteria->params = array("user_email" => $request_list['email']);
 
         $existing_user = User::model()->find($criteria);
-        $model = !empty($existing_user) ? $existing_user : $this->createUser($request_list);
+        $model = !empty($existing_user) ? $existing_user : $this->createUser($request_list, $order_city);
 
         $this->loginWithWs($model);
-        
-        
-        if (!empty(Yii::app()->user) && $this->saveShippingBillingAddress($request_list, $model)) {
+
+
+        if (!empty(Yii::app()->user) && $this->saveShippingBillingAddress($request_list, $model, $order_city)) {
             $response = array('msg' => "Your Order has placed successfully!");
             Yii::app()->user->logout();
         } else {
@@ -178,13 +185,13 @@ class WSController extends Controller {
     /**
      * 
      */
-    public function createUser($request_list) {
+    public function createUser($request_list, $order_city) {
 
         $model = new User;
         $model->site_id = 1;
         $model->role_id = '3';
         $model->status_id = Status::model()->getActive();
-        $model->city_id = City::model()->getCityId("Lahore")->city_id;
+        $model->city_id = City::model()->getCityId($order_city)->city_id;
 
         $password = sha1(mt_rand(10000, 99999) . time() . $model->user_email);
 
@@ -239,7 +246,7 @@ class WSController extends Controller {
      * This will save the billing and shipping information and save order 
      * against the user and notify the user the his/her order has placed
      */
-    public function saveShippingBillingAddress($request_list, $user_model) {
+    public function saveShippingBillingAddress($request_list, $user_model, $order_city) {
 
         $full_name = $this->get_separated_name($request_list['name']);
         $country_info = $this->get_country_state_name($request_list);
@@ -298,13 +305,13 @@ class WSController extends Controller {
             $shipping_id = UserProfile::model()->saveShippingInfo($shipping_info['ShippingInfoForm']);
         }
 
-        return $this->finalizeOrderPlacement($request_list);
+        return $this->finalizeOrderPlacement($request_list, $order_city);
     }
 
     /**
      *  This is the last step in the order placement procedure on the darussalamPK
      */
-    public function finalizeOrderPlacement($request_list) {
+    public function finalizeOrderPlacement($request_list, $order_city) {
 
         $pro = Product::model()->findByPk($request_list['product_id_pk']);
         $books_range = array();
@@ -317,7 +324,7 @@ class WSController extends Controller {
         $books_range['categories'][$pro->parent_cateogry_id] = $pro->parent_cateogry_id;
 
         $creditCardModel = new CreditCardForm();
-        $city = City::model()->getCityId("Lahore");
+        $city = City::model()->getCityId($order_city);
         Yii::app()->session['city_id'] = $city->city_id;
 
 
@@ -326,6 +333,8 @@ class WSController extends Controller {
         $is_source = 0;
         if (strtolower($request_list['city']) == "lahore" || strtolower($request_list['city']) == "lhr") {
             $is_source = 1; // haed office city of pakistan country
+        } elseif (strtolower($request_list['city']) == "riyadh") {
+            $is_source = 1; // haed office city Riyadh, of UAE country
         }
 
         $shipping_price_books = ShippingClass::model()->calculateShippingCost($books_range['categories'], $books_range['price_range'], "price", $is_source);
@@ -354,7 +363,7 @@ class WSController extends Controller {
 
         $email['From'] = Yii::app()->params['adminEmail'];
 
-        $email['To'] = Yii::app()->user->user->user_email;
+        $email['To'] = Yii::app()->user->user_email;
         $email['Subject'] = "Your Order Detail";
         $email['Body'] = $this->renderPartial('//payment/_order_email_template2', array('customerInfo' => $customerInfo, 'order_id' => $order_id), true, false);
         $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
@@ -371,7 +380,7 @@ class WSController extends Controller {
         $email['From'] = Yii::app()->params['adminEmail'];
 
         $email['To'] = User::model()->getCityAdmin(false, true, $city_id);
-     
+
         $email['Subject'] = "New Order Placement";
         $email['Body'] = $this->renderPartial('//payment/_order_email_template_admin', array('customerInfo' => $customerInfo, "order_id" => $order_id), true, false);
         $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
@@ -429,6 +438,58 @@ class WSController extends Controller {
         $country_info['state'] = $model->attributes['name'];
 
         return $country_info;
+    }
+
+    /**
+     * This will send email having order description that an order is placed to their email
+     * @param type $request_list
+     * @param type $emails
+     */
+    public function emailOrderToOthers($request_list, $emails) {
+        $subject = "New Order Placement";
+        $message = "<br /><br />An Order has placed to you store through darussalamPublisher<br /><br /> Thanks you ";
+
+
+        $email['From'] = Yii::app()->params['adminEmail'];
+        $email['To'] = $emails;
+        $email['Subject'] = "New Order Detail from DaurssalamPublisher";
+        $body = "An order has placed to your store through DarussalamPublisher.<br /><br /> Here is the Order Detail:";
+
+        $body .= "Customer Name : " . $request_list['name'] . "<br />";
+        $body .= "Customer Email : " . $request_list['email'] . "<br />";
+        $body .= "Customer Address : " . $request_list['address'] . "<br />";
+        $body .= "Customer Phone : " . $request_list['phone'] . "<br />";
+        $body .= "Customer City : " . $request_list['city'] . "<br />";
+        $body .= "Customer Country : " . $request_list['country'] . "<br />";
+        $body .= "Product Name : " . $request_list['product_name_pk'] . "<br />";
+        $body .= "Product Quantity : " . $request_list['quantity'] . "<br />";
+        $body .= "Thank You";
+
+        $email['Body'] = $body;
+
+        $this->sendEmail2($email);
+
+        $email['Subject'] = "Your Order Detail ";
+
+        //send email to user now
+        $body = "Your order placed on  DarussalamPublisher.<br /><br /> Here is your the Order Detail:";
+
+        $body .= "Customer Name : " . $request_list['name'] . "<br />";
+        $body .= "Customer Email : " . $request_list['email'] . "<br />";
+        $body .= "Customer Address : " . $request_list['address'] . "<br />";
+        $body .= "Customer Phone : " . $request_list['phone'] . "<br />";
+        $body .= "Customer City : " . $request_list['city'] . "<br />";
+        $body .= "Customer Country : " . $request_list['country'] . "<br />";
+        $body .= "Product Name : " . $request_list['product_name_pk'] . "<br />";
+        $body .= "Product Quantity : " . $request_list['quantity'] . "<br />";
+        $body .= "Thank You";
+
+        $email['To'] = $request_list['email'];
+        $this->sendEmail2($email);
+
+
+
+        return $response = array('msg' => "Your Order has placed successfully!");
     }
 
 }
