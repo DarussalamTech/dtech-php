@@ -89,7 +89,7 @@ if ($this->checkViewAccess(ucfirst($this->id) . ".Delete")) {
 }
 
 
-$this->widget('zii.widgets.grid.CGridView', array(
+$this->widget('DtGridView', array(
     'id' => 'product-template-grid',
     'dataProvider' => $model->search(),
     'filter' => $model,

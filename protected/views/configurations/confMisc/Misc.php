@@ -90,7 +90,7 @@ if (Yii::app()->user->isAdmin) {
 }
 $provider = new CActiveDataProvider("ConfMisc", $config);
 /* Show Grid */
-$this->widget('zii.widgets.grid.CGridView', array(
+$this->widget('DtGridView', array(
     'id' => 'misc-grid',
     'itemsCssClass' => 'table table-bordered',
     'dataProvider' => $provider, //ConfMisc::model()->search(),

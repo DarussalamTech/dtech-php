@@ -66,7 +66,7 @@ if ($this->checkViewAccess(ucfirst($this->id) . ".View")) {
 
 
 
-$this->widget('zii.widgets.grid.CGridView', array(
+$this->widget('DtGridView', array(
     'id' => 'log-grid',
     'dataProvider' => $model->search(),
     'filter' => $model,

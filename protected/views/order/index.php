@@ -82,7 +82,7 @@ if (isset($this->OpPermission[ucfirst($this->id) . ".Update"]) && $this->OpPermi
 if (isset($this->OpPermission[ucfirst($this->id) . ".Delete"]) && $this->OpPermission[ucfirst($this->id) . ".Delete"]) {
     //$template.= "{delete}";
 }
-$this->widget('zii.widgets.grid.CGridView', array(
+$this->widget('DtGridView', array(
     'id' => 'order-grid',
     'dataProvider' => $model->search(),
     'filter' => $model,

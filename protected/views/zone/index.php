@@ -62,7 +62,7 @@ if (isset($this->OpPermission[ucfirst($this->id) . ".Update"]) && $this->OpPermi
 }
 
 
-$this->widget('zii.widgets.grid.CGridView', array(
+$this->widget('DtGridView', array(
     'id' => 'zone-grid',
     'dataProvider' => $model->search(),
     'filter' => $model,

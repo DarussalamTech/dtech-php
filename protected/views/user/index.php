@@ -1,4 +1,7 @@
 <?php
+//for grid ajax filteration
+
+
 /* @var $this UserController */
 /* @var $model User */
 
@@ -6,7 +9,9 @@ $this->breadcrumbs = array(
     'Users' => array('index'),
     'Manage',
 );
+?>
 
+<?php
 $user_id = Yii::app()->user->id;
 //$this->layout='column2';
 if (Yii::app()->user->isAdmin || Yii::app()->user->isSuperAdmin) {
@@ -39,7 +44,7 @@ $('.search-form form').submit(function(){
 
     <?php /* Convert to Monitoring Log Buttons */ ?>
     <div class = "right_float">
-  
+
     </div>
 </div>
 <div class="clear"></div>
@@ -59,7 +64,7 @@ $('.search-form form').submit(function(){
 
 <?php
 $button_template = ' {enableimg} {disableimg} {enable} {disable} &nbsp;&nbsp;&nbsp; {view} {update} {delete}';
-$this->widget('zii.widgets.grid.CGridView', array(
+$this->widget('DtGridView', array(
     'id' => 'user-grid',
     'dataProvider' => $model->search(),
     'filter' => $model,
@@ -72,7 +77,6 @@ $this->widget('zii.widgets.grid.CGridView', array(
                 'style' => "text-align:left"
             )
         ),
-
         array(
             'name' => 'status_id',
             'type' => 'Raw',
@@ -90,11 +94,10 @@ $this->widget('zii.widgets.grid.CGridView', array(
                 'style' => "text-align:left"
             )
         ),
-         array(
+        array(
             'name' => 'role',
             'value' => '!empty($data->role) ? $data->role->itemname : ""',
         ),
-
         array(
             'class' => 'CButtonColumn',
             'template' => $button_template,
@@ -138,9 +141,8 @@ $this->widget('zii.widgets.grid.CGridView', array(
                     'imageUrl' => Yii::app()->request->baseUrl . '/images/disable.png',
                     'visible' => '$data->status_id==2',
                 ),
-                
             ),
-             'htmlOptions' => array('style'=>'width:144px;')    
+            'htmlOptions' => array('style' => 'width:144px;')
         ),
     ),
 ));

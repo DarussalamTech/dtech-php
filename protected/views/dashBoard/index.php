@@ -163,7 +163,7 @@ $gridDataProvider = new CArrayDataProvider($top_orders);
 <div class="row-fluid">
     <div class="span6">
         <?php
-        $this->widget('zii.widgets.grid.CGridView', array(
+        $this->widget('DtGridView', array(
             /* 'type'=>'striped bordered condensed', */
             'htmlOptions' => array('class' => 'table table-striped table-bordered table-condensed'),
             'dataProvider' => $gridDataProvider,
@@ -181,7 +181,7 @@ $gridDataProvider = new CArrayDataProvider($top_orders);
     <div class="span6">
         <?php
         $gridDataProvider = new CArrayDataProvider(DashboardStats::getMostPurchasedUser());
-        $this->widget('zii.widgets.grid.CGridView', array(
+        $this->widget('DtGridView', array(
             /* 'type'=>'striped bordered condensed', */
             'htmlOptions' => array('class' => 'table table-striped table-bordered table-condensed'),
             'dataProvider' => $gridDataProvider,

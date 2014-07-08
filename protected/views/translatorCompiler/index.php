@@ -64,7 +64,7 @@ if (isset($this->OpPermission[ucfirst($this->id) . ".Delete"]) && $this->OpPermi
     $template.= "{delete}";
 }
 
-$this->widget('zii.widgets.grid.CGridView', array(
+$this->widget('DtGridView', array(
     'dataProvider' => $model->search(),
     'id' => 'translator-compiler-grid',
     'filter' => $model,

@@ -12,7 +12,7 @@ $mName = "ProductAttributes";
     );
     $mNameobj = new $mName;
     $mName_provider = new CActiveDataProvider($mName, $config);
-    $this->widget('zii.widgets.grid.CGridView', array(
+    $this->widget('DtGridView', array(
         'id' => $mName . '-grid',
         'dataProvider' => $mName_provider,
         'columns' => array(

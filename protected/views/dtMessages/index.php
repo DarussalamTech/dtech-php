@@ -78,7 +78,7 @@ $this->renderPartial('_search', array(
     <?php
     $template = "{view}";
 
-    $this->widget('zii.widgets.grid.CGridView', array(
+    $this->widget('DtGridView', array(
         'id' => 'dt-messages-grid',
         'dataProvider' => $model->search(),
         'filter' => $model,
