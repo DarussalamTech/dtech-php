@@ -32,7 +32,9 @@ class DashBoardController extends Controller {
 
         return true;
     }
-
+    /**
+     * Dashbaord action call  from here
+     */
     public function actionIndex() {
         $this->render("index");
     }

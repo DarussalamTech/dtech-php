@@ -1,21 +1,31 @@
+$.noConflict();
+var $ = jQuery;
+
 $(function() {
     /** This code runs when everything has been loaded on the page */
     /* Inline sparklines take their values from the contents of the tag */
-    $('.inlinesparkline').sparkline('html', {width: 80, height: 30});
-
+    if (jQuery('.inlinesparkline').length > 0) {
+        jQuery('.inlinesparkline').sparkline('html', {width: 80, height: 30});
+    }
     /* Sparklines can also take their values from the first argument 
      passed to the sparkline() function */
     var myvalues = [[1, 3 + randNum()], [2, 5 + randNum()], [3, 8 + randNum()], [4, 11 + randNum()], [5, 14 + randNum()], [6, 17 + randNum()], [7, 20 + randNum()], [8, 15 + randNum()], [9, 18 + randNum()], [10, 22 + randNum()]];
-    $('.dynamicsparkline').sparkline(myvalues, {width: 80, height: 30, type: 'line'});
-
+    if (jQuery('.dynamicsparkline').length > 0) {
+        $('.dynamicsparkline').sparkline(myvalues, {width: 80, height: 30, type: 'line'});
+    }
     /* The second argument gives options such as chart type */
-    $('.dynamicbar').sparkline(myvalues, {width: 80, height: 30, type: 'bar', barColor: 'green', width: '80'});
-
+    if (jQuery('.dynamicbar').length > 0) {
+        $('.dynamicbar').sparkline(myvalues, {width: 80, height: 30, type: 'bar', barColor: 'green', width: '80'});
+    }
     /* Use 'html' instead of an array of values to pass options 
      to a sparkline with data in the tag */
-    $('.inlinebar').sparkline('html', {width: 80, type: 'bar', barColor: 'red', width: '80'});
+    if (jQuery('.dynamicbar').length > 0) {
+        $('.dynamicbar').sparkline('html', {width: 80, type: 'bar', barColor: 'red', width: '80'});
+    }
+    if (jQuery('.pie').length > 0) {
+        $(".pie").sparkline([1, 1, 2], {width: 80, height: 30, type: 'pie'});
 
-    $(".pie").sparkline([1, 1, 2], {width: 80, height: 30, type: 'pie'});
+    }
 
 });
 
@@ -102,39 +112,46 @@ $(document).ready(function() {
     //circular progrress bar
     $(function() {
 
-        $(".greenCircle").knob({
-            'min': 0,
-            'max': 100,
-            'readOnly': true,
-            'width': 80,
-            'height': 80,
-            'fgColor': '#9FC569',
-            'dynamicDraw': true,
-            'thickness': 0.2,
-            'tickColorizeValues': true
-        })
-        $(".redCircle").knob({
-            'min': 0,
-            'max': 100,
-            'readOnly': true,
-            'width': 80,
-            'height': 80,
-            'fgColor': '#ED7A53',
-            'dynamicDraw': true,
-            'thickness': 0.2,
-            'tickColorizeValues': true
-        })
-        $(".blueCircle").knob({
-            'min': 0,
-            'max': 100,
-            'readOnly': true,
-            'width': 80,
-            'height': 80,
-            'fgColor': '#88BBC8',
-            'dynamicDraw': true,
-            'thickness': 0.2,
-            'tickColorizeValues': true
-        })
+        if ($(".greenCircle").length > 0) {
+            $(".greenCircle").knob({
+                'min': 0,
+                'max': 100,
+                'readOnly': true,
+                'width': 80,
+                'height': 80,
+                'fgColor': '#9FC569',
+                'dynamicDraw': true,
+                'thickness': 0.2,
+                'tickColorizeValues': true
+            })
+        }
+        if ($(".redCircle").length > 0) {
+            $(".redCircle").knob({
+                'min': 0,
+                'max': 100,
+                'readOnly': true,
+                'width': 80,
+                'height': 80,
+                'fgColor': '#ED7A53',
+                'dynamicDraw': true,
+                'thickness': 0.2,
+                'tickColorizeValues': true
+            })
+        }
+        if ($(".blueCircle").length > 0) {
+            $(".blueCircle").knob({
+                'min': 0,
+                'max': 100,
+                'readOnly': true,
+                'width': 80,
+                'height': 80,
+                'fgColor': '#88BBC8',
+                'dynamicDraw': true,
+                'thickness': 0.2,
+                'tickColorizeValues': true
+            })
+
+        }
 
     });
 
@@ -148,18 +165,18 @@ $(document).ready(function() {
             //define placeholder class
             var dor = [];
             counter = 1
-            for(obj in monthlygrp_order_data){
-                dor.push([counter,parseInt(monthlygrp_order_data[obj])]);
+            for (obj in monthlygrp_order_data) {
+                dor.push([counter, parseInt(monthlygrp_order_data[obj])]);
                 counter++;
             }
-            
+
             var dwl = [];
             counter = 1
-            for(obj in monthlygrp_wishlist_data){
-                dwl.push([counter,parseInt(monthlygrp_wishlist_data[obj])]);
+            for (obj in monthlygrp_wishlist_data) {
+                dwl.push([counter, parseInt(monthlygrp_wishlist_data[obj])]);
                 counter++;
             }
-            
+
             var placeholder = $(".visitors-chart");
             //graph options
             var options = {
@@ -208,7 +225,7 @@ $(document).ready(function() {
                         return label + '&nbsp;&nbsp;';
                     }
                 },
-                yaxis: {min: 0,max:max_order_wishlist},
+                yaxis: {min: 0, max: max_order_wishlist},
                 xaxis: {ticks: 11, tickDecimals: 0},
                 colors: chartColours,
                 shadowSize: 1,
@@ -222,7 +239,7 @@ $(document).ready(function() {
                 }
             };
 
-            $.plot(placeholder,[
+            $.plot(placeholder, [
                 {
                     label: "Monthy Orders",
                     data: dor,
@@ -250,8 +267,8 @@ $(document).ready(function() {
             var normal_visitors = Math.round((parseInt(visitor_charts[0]) * 100) / total_visitors);
             var ordered_visitors = Math.round((parseInt(visitor_charts[1]) * 100) / total_visitors);
             var data = [
-                {label: "%"+normal_visitors+" Normal Visitor", data: normal_visitors, color: "#88bbc8"},
-                {label: "%"+ordered_visitors+" Visitors Who orderd", data: ordered_visitors, color: "#ed7a53"}
+                {label: "%" + normal_visitors + " Normal Visitor", data: normal_visitors, color: "#88bbc8"},
+                {label: "%" + ordered_visitors + " Visitors Who orderd", data: ordered_visitors, color: "#ed7a53"}
             ];
 
 
@@ -679,7 +696,7 @@ $(document).ready(function() {
                 }
             };
 
-            $.plot(placeholder,[
+            $.plot(placeholder, [
                 {
                     label: "Visits",
                     data: d1,
@@ -804,10 +821,10 @@ $(document).ready(function() {
                         y = 0;
                     if (y > 100)
                         y = 100;
-                   
-                     data.push(monthly_income[counter]);
+
+                    data.push(monthly_income[counter]);
                     counter++;
-                   
+
                 }
 
                 // zip the generated y values with the x values
