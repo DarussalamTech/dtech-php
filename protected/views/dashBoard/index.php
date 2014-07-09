@@ -12,6 +12,9 @@ $cs->registerScriptFile($baseUrl . '/js/plugins/jquery.masonry.min.js', CClientS
 $this->pageTitle = Yii::app()->name;
 ?>
 <?php
+//get default city
+
+
 $gridDataProvider = new CArrayDataProvider(array(
     array('id' => 1, 'firstName' => 'Mark', 'lastName' => 'Otto', 'language' => 'CSS', 'usage' => '<span class="inlinebar">1,3,4,5,3,5</span>'),
     array('id' => 2, 'firstName' => 'Jacob', 'lastName' => 'Thornton', 'language' => 'JavaScript', 'usage' => '<span class="inlinebar">1,3,16,5,12,5</span>'),
@@ -26,7 +29,29 @@ $month_analysis = DashboardStats::getSalesByType("MONTH");
 $year_analysis = DashboardStats::getSalesByType("YEAR");
 $gridDataProvider = new CArrayDataProvider($top_orders);
 ?>
-
+<div class="row-fluid">
+    <div class="span12">
+        <?php
+            //get available citeis
+            
+            $criteria = new CDbCriteria;
+            $criteria->addInCondition("LOWER(city_name)", array(strtolower("lahore"),strtolower("riyadh")));
+            $city_stores = City::model()->getAll($criteria);
+            $stor_city = !empty($_GET['store_city'])?$_GET['store_city']:"1";
+            $current_url = $this->createUrl("/dashBoard/index");
+            echo "Switch Store : ";
+            echo CHtml::dropDownList(
+                    "city_select", $stor_city, 
+                    CHtml::listData($city_stores,"city_id","city_name"),
+                    array("onchange"=>"
+                            current_city = jQuery(this).val();
+                            window.location = '".$current_url."?store_city='+current_city;
+                    ")
+                );
+           ?>
+        
+    </div>
+</div> 
 <div class="row-fluid">
     <div class="span3 ">
         <div class="stat-block">
@@ -116,6 +141,7 @@ $gridDataProvider = new CArrayDataProvider($top_orders);
         $monthly_group_orders = DashboardStats::getMonthlyOrderLists();
         $monthly_group_wishlist = DashboardStats::getMonthlyWishLists();
         ?>
+
         <div class="summary">
             <ul>
                 <li>

@@ -12,11 +12,13 @@ $this->beginContent('//layouts/main');
 
                 <?php
                 $notifications = Notifcation::model()->getUnreadInboxNotifcationCount();
+                //default city will be need to show data base
+                $lahore_city = City::model()->getCityId("lahore");
                 $this->widget('zii.widgets.CMenu', array(
                     /* 'type'=>'list', */
                     'encodeLabel' => false,
                     'items' => array(
-                        array('label' => '<i class="icon icon-home"></i>  Dashboard <span class="label label-info pull-right">Dash</span>', 'url' => array('/dashBoard/index'), 'itemOptions' => array('class' => '')),
+                        array('label' => '<i class="icon icon-home"></i>  Dashboard <span class="label label-info pull-right">Dash</span>', 'url' => array('/dashBoard/index',"store_city"=>$lahore_city->city_id), 'itemOptions' => array('class' => '')),
                         array("type" => "raw", 'label' => 'Notification', 'url' => $this->createUrl('/notifcation/index'), 'visible' => (Yii::app()->user->isAdmin || Yii::app()->user->isSuperAdmin) ? 1 : 0, 'linkOptions' => array("id" => "notifcations"), 'itemOptions' => array('style' => $notifications > 0 ? "font-weight:bold" : "")),
                         array('label' => 'Access Control', 'url' => $this->createUrl('/rights'), 'visible' => (Yii::app()->user->isAdmin || Yii::app()->user->isSuperAdmin) ? 1 : 0, 'itemOptions' => array('class' => '')),
                         array('label' => 'Change Password', 'url' => $this->createUrl('/user/changePassword'), 'visible' => (Yii::app()->user->isGuest) ? 0 : 1, 'itemOptions' => array('class' => '')),
