@@ -16,6 +16,9 @@ class DashboardStats extends CComponent {
         if (!Yii::app()->user->getIsSuperuser()) {
             $criteria->addCondition("city_id = :city_id");
             $criteria->params['city_id'] = Yii::app()->request->getQuery("city_id");
+        } else if (!empty($_GET['store_city'])) {
+            $criteria->addCondition("city_id = :city_id");
+            $criteria->params['city_id'] = $_GET['store_city'];
         }
         return User::model()->count($criteria);
     }
@@ -37,12 +40,17 @@ class DashboardStats extends CComponent {
         if (!Yii::app()->user->getIsSuperuser()) {
             $criteria->addCondition("city_id = :city_id");
             $criteria->params['city_id'] = Yii::app()->request->getQuery("city_id");
+        } else if (!empty($_GET['store_city'])) {
+            $criteria->addCondition("city_id = :city_id");
+            $criteria->params['city_id'] = $_GET['store_city'];
         }
         if (!empty($status)) {
             $all_statuses = Status::model()->gettingOrderStatus();
             $criteria->addCondition("status = :status");
             $criteria->params['status'] = array_search($status, $all_statuses);
         }
+
+
         return Order::model()->count($criteria);
     }
 
@@ -54,6 +62,9 @@ class DashboardStats extends CComponent {
         if (!Yii::app()->user->getIsSuperuser()) {
             $criteria->addCondition("city_id = :city_id");
             $criteria->params['city_id'] = Yii::app()->request->getQuery("city_id");
+        } else if (!empty($_GET['store_city'])) {
+            $criteria->addCondition("city_id = :city_id");
+            $criteria->params['city_id'] = $_GET['store_city'];
         }
         $criteria->order = "create_time DESC";
         $criteria->limit = 10;
@@ -70,6 +81,9 @@ class DashboardStats extends CComponent {
         if (!Yii::app()->user->getIsSuperuser()) {
             $criteria->addCondition("city_id = :city_id");
             $criteria->params['city_id'] = Yii::app()->request->getQuery("city_id");
+        } else if (!empty($_GET['store_city'])) {
+            $criteria->addCondition("city_id = :city_id");
+            $criteria->params['city_id'] = $_GET['store_city'];
         }
         return Order::model()->count($criteria);
     }
@@ -87,6 +101,11 @@ class DashboardStats extends CComponent {
         if (Yii::app()->user->getIsSuperuser()) {
             $criteria->addCondition("parent_id = :parent_id");
             $criteria->params['parent_id'] = 0;
+
+            if (!empty($_GET['store_city'])) {
+                $criteria->addCondition("city_id = :city_id");
+                $criteria->params['city_id'] = $_GET['store_city'];
+            }
         } else {
             $criteria->addCondition("city_id = :city_id");
             $criteria->params['city_id'] = Yii::app()->request->getQuery("city_id");
@@ -120,8 +139,12 @@ class DashboardStats extends CComponent {
             $conidition_whr = " WHERE city_id = " . Yii::app()->request->getQuery("city_id");
             $conidition = " city_id = " . Yii::app()->request->getQuery("city_id");
             $conidition_and = " AND city_id = " . Yii::app()->request->getQuery("city_id");
-        }
+        } else if (!empty($_GET['store_city'])) {
 
+            $conidition_whr = " WHERE city_id = " . $_GET['store_city'];
+            $conidition = " city_id = " . $_GET['store_city'];
+            $conidition_and = " AND city_id = " . $_GET['store_city'];
+        }
         $sql = "SELECT SUM(`total_price`) as total,create_time 
                 FROM `order` " . $conidition_whr . " GROUP BY WEEK(`create_time`) ORDER BY create_time DESC LIMIT 7 ";
         if ($type == "DAY") {
@@ -158,11 +181,10 @@ class DashboardStats extends CComponent {
         }
         if (count($oCDbDataReader) > 0) {
             $total = round($sum / count($oCDbDataReader));
-        }
-        else {
+        } else {
             $total = 0;
         }
-        return array("total" =>$total, "values" => implode(",", $values_arr));
+        return array("total" => $total, "values" => implode(",", $values_arr));
     }
 
     /**
@@ -175,6 +197,9 @@ class DashboardStats extends CComponent {
         if (!Yii::app()->user->getIsSuperuser()) {
             $conidition_whr = " WHERE city_id = " . Yii::app()->request->getQuery("city_id");
             $conidition = " city_id = " . Yii::app()->request->getQuery("city_id");
+        } else if (!empty($_GET['store_city'])) {
+            $conidition_whr = " WHERE city_id = " . $_GET['store_city'];
+            $conidition = " city_id = " . $_GET['store_city'];
         }
         $sql = "SELECT SUM(`total_price`) as total,create_time 
                 FROM `order` " . $conidition_whr . " GROUP BY MONTH(`create_time`) ORDER BY create_time DESC ";
@@ -188,11 +213,10 @@ class DashboardStats extends CComponent {
             $sum+=$data['total'];
             $values_arr[] = $data['total'];
         }
-        
+
         if (count($oCDbDataReader) > 0) {
             $total = round($sum / count($oCDbDataReader));
-        }
-        else {
+        } else {
             $total = 0;
         }
 
@@ -210,6 +234,9 @@ class DashboardStats extends CComponent {
         if (!Yii::app()->user->getIsSuperuser()) {
             $conidition_whr = " WHERE city_id = " . Yii::app()->request->getQuery("city_id");
             $conidition = " city_id = " . Yii::app()->request->getQuery("city_id");
+        } else if (!empty($_GET['store_city'])) {
+            $conidition_whr = " WHERE city_id = " . $_GET['store_city'];
+            $conidition = " city_id = " . $_GET['store_city'];
         }
         $sql = "SELECT COUNT(`id`) as total,create_time 
                 FROM `wish_list` " . $conidition_whr . " GROUP BY MONTH(`create_time`) ORDER BY create_time DESC LIMIT 12";
@@ -223,11 +250,10 @@ class DashboardStats extends CComponent {
             $sum+=$data['total'];
             $values_arr[] = $data['total'];
         }
-        
+
         if (count($oCDbDataReader) > 0) {
             $total = round($sum / count($oCDbDataReader));
-        }
-        else {
+        } else {
             $total = 0;
         }
 
@@ -245,6 +271,9 @@ class DashboardStats extends CComponent {
         if (!Yii::app()->user->getIsSuperuser()) {
             $conidition_whr = " WHERE city_id = " . Yii::app()->request->getQuery("city_id");
             $conidition = " city_id = " . Yii::app()->request->getQuery("city_id");
+        } else if (!empty($_GET['store_city'])) {
+            $conidition_whr = " WHERE city_id = " . $_GET['store_city'];
+            $conidition = " city_id = " . $_GET['store_city'];
         }
         $sql = "SELECT COUNT(`order_id`) as total,create_time 
                 FROM `order` " . $conidition_whr . " GROUP BY MONTH(`create_time`) ORDER BY create_time DESC LIMIT 12";
@@ -260,8 +289,7 @@ class DashboardStats extends CComponent {
         }
         if (count($oCDbDataReader) > 0) {
             $total = round($sum / count($oCDbDataReader));
-        }
-        else {
+        } else {
             $total = 0;
         }
         return array("total" => $total, "values" => implode(",", $values_arr));
@@ -279,6 +307,9 @@ class DashboardStats extends CComponent {
         if (!Yii::app()->user->getIsSuperuser()) {
             $conidition_whr = " WHERE o.city_id = " . Yii::app()->request->getQuery("city_id");
             $conidition = " o.city_id = " . Yii::app()->request->getQuery("city_id");
+        } else if (!empty($_GET['store_city'])) {
+            $conidition_whr = " WHERE o.city_id = " . $_GET['store_city'];
+            $conidition = " o.city_id = " . $_GET['store_city'];
         }
         $sql = "Select DISTINCT(user.user_id),user_name,count(o.order_id) total_orders,@num := @num + 1 as id FROM user
             INNER JOIN `order`  o
@@ -304,6 +335,9 @@ class DashboardStats extends CComponent {
         if (!Yii::app()->user->getIsSuperuser()) {
             $conidition_whr = " WHERE o.city_id = " . Yii::app()->request->getQuery("city_id");
             $conidition = " o.city_id = " . Yii::app()->request->getQuery("city_id");
+        } else if (!empty($_GET['store_city'])) {
+            $conidition_whr = " WHERE o.city_id = " . $_GET['store_city'];
+            $conidition = " o.city_id = " . $_GET['store_city'];
         }
         $sql = "Select DISTINCT(user.user_id),user_name,ROUND(SUM(o.total_price),2) total_purchased,@num := @num + 1 as id FROM user
             INNER JOIN `order`  o
