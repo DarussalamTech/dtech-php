@@ -59,9 +59,9 @@ $this->widget('zii.widgets.CDetailView', array(
 <div class="clear"></div>
 <div id="progressbar"></div>
 <script>
-    jQuery(function() {
-        jQuery("#progressbar").progressbar({
-            value: parseFloat(jQuery("#perc_comp_imp").html())
-        });
-    })
+//    jQuery(function() {
+//        jQuery("#progressbar").progressbar({
+//            value: parseFloat(jQuery("#perc_comp_imp").html())
+//        });
+//    })
 </script>
