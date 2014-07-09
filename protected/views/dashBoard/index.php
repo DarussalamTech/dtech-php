@@ -192,7 +192,7 @@ $gridDataProvider = new CArrayDataProvider($top_orders);
          * Very Important dont user here DTGridView
          * for making js conflicts avoid
          */
-        $this->widget('zii.widgets.grid.CGridView', array(
+        $this->widget('DtGridView', array(
             /* 'type'=>'striped bordered condensed', */
             'htmlOptions' => array('class' => 'table table-striped table-bordered table-condensed'),
             'dataProvider' => $gridDataProvider,
@@ -213,7 +213,7 @@ $gridDataProvider = new CArrayDataProvider($top_orders);
          * Very Important dont user here DTGridView
          */
         $gridDataProvider = new CArrayDataProvider(DashboardStats::getMostPurchasedUser());
-        $this->widget('zii.widgets.grid.CGridView', array(
+        $this->widget('DtGridView', array(
             /* 'type'=>'striped bordered condensed', */
             'htmlOptions' => array('class' => 'table table-striped table-bordered table-condensed'),
             'dataProvider' => $gridDataProvider,
@@ -227,7 +227,7 @@ $gridDataProvider = new CArrayDataProvider($top_orders);
         ));
 
         $baseScriptUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('zii.widgets.assets')) . '/gridview';
-        Yii::app()->getClientScript()->registerScriptFile($baseScriptUrl . '/jquery.yiigridview.js', CClientScript::POS_BEGIN);
+        //Yii::app()->getClientScript()->registerScriptFile($baseScriptUrl . '/jquery.yiigridview.js', CClientScript::POS_BEGIN);
         ?>
 
     </div><!--/span-->
