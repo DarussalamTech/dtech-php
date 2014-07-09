@@ -159,11 +159,14 @@ $gridDataProvider = new CArrayDataProvider($top_orders);
     </div>
 </div>
 
-
 <div class="row-fluid">
     <div class="span6">
         <?php
-        $this->widget('DtGridView', array(
+        /*
+         * Very Important dont user here DTGridView
+         * for making js conflicts avoid
+         */
+        $this->widget('zii.widgets.grid.CGridView', array(
             /* 'type'=>'striped bordered condensed', */
             'htmlOptions' => array('class' => 'table table-striped table-bordered table-condensed'),
             'dataProvider' => $gridDataProvider,
@@ -180,8 +183,11 @@ $gridDataProvider = new CArrayDataProvider($top_orders);
     </div><!--/span-->
     <div class="span6">
         <?php
+        /*
+         * Very Important dont user here DTGridView
+         */
         $gridDataProvider = new CArrayDataProvider(DashboardStats::getMostPurchasedUser());
-        $this->widget('DtGridView', array(
+        $this->widget('zii.widgets.grid.CGridView', array(
             /* 'type'=>'striped bordered condensed', */
             'htmlOptions' => array('class' => 'table table-striped table-bordered table-condensed'),
             'dataProvider' => $gridDataProvider,
@@ -193,10 +199,14 @@ $gridDataProvider = new CArrayDataProvider($top_orders);
 //                array('name' => 'usage', 'header' => 'Usage', 'type' => 'raw'),
             ),
         ));
+
+        $baseScriptUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('zii.widgets.assets')) . '/gridview';
+        Yii::app()->getClientScript()->registerScriptFile($baseScriptUrl . '/jquery.yiigridview.js', CClientScript::POS_BEGIN);
         ?>
 
     </div><!--/span-->
 </div><!--/row-->
+
 
 <div class="row-fluid">
     <div class="span6">
