@@ -412,25 +412,44 @@ class SiteController extends Controller {
             // validate user input and redirect to the previous page if valid
             if ($model->validate() && $model->login()) {
 
+                $allowed_actions = RightsModule::getAllowedActions();
+
+
                 /**
                  * for pop up login
                  * when user want to login 
                  */
                 if (!empty($model->route) && $model->route != Yii::app()->request->getUrl()) {
+                    die('here');
                     $this->redirect($model->route);
                 } else {
                     if (Yii::app()->user->isSuperAdmin) {
                         $_REQUEST['city_id'] = Yii::app()->user->user->city_id;
                         Yii::app()->user->SiteSessions;
                         Yii::app()->session['isSuper'] = 1;
-
                         $this->redirect($this->createUrl('/user/index'));
-                    } else if (Yii::app()->user->isAdmin) {
-
+                    }
+//                    } else if (Yii::app()->user->isAdmin) {
+//
+//                        $_REQUEST['city_id'] = Yii::app()->user->user->city_id;
+//                        Yii::app()->user->SiteSessions;
+//                        
+//                        $this->redirect($this->createUrl('/product/index'));
+//                    }
+                    else if (!empty($allowed_actions)) {
                         $_REQUEST['city_id'] = Yii::app()->user->user->city_id;
                         Yii::app()->user->SiteSessions;
+                        $url = reset($allowed_actions);
 
-                        $this->redirect($this->createUrl('/product/index'));
+                        if (strpos($url, '*') !== false) {
+                            $controller = lcfirst(substr($url, 0, -2));                           
+                            $this->redirect($this->createUrl($controller . "/index"));
+                        } else {
+                            $controller = explode('.', $url);
+                            if ($controller[1] != 'View') {
+                                $this->redirect($this->createUrl('/' . lcfirst($controller[0]) . '/' . lcfirst($controller[1])));
+                            }
+                        }
                     }
                 }
             }
@@ -444,9 +463,13 @@ class SiteController extends Controller {
      */
     public function actionLogout() {
         unset(Yii::app()->user->isSuper);
-        Yii::app()->user->logout();
-
-        $this->redirect(Yii::app()->homeUrl);
+        if (Yii::app()->user->isSuperAdmin || Yii::app()->user->isAdmin) {
+             Yii::app()->user->logout();
+            $this->redirect($this->createUrl('/site/loginAdmin'));
+        } else {
+             Yii::app()->user->logout();
+            $this->redirect(Yii::app()->homeUrl);
+        }
     }
 
     /**
