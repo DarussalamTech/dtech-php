@@ -3,7 +3,7 @@
  * register script jquery ui
  */
 Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/packages/jui/css/base/jquery-ui.css');
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/packages/jui/js/jquery-ui.min.js');
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/packages/jui/js/jquery-ui.min.js', CClientScript::POS_END);
 /**
  * register script for multiselect
  */
