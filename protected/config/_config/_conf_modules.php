@@ -168,8 +168,20 @@ $modules = array(
             
             //Dashboard
             'DashBoard.*',
-            'DashBoard.Index'
-
+            'DashBoard.Index',
+            
+            //Order Module
+            'Order.*',
+            'Order.Index',
+            'Order.View',
+            'Order.Print',
+            'Order.Update',
+            'Order.Delete',
+            'Order.OrderDetail',
+            'Order.OrderProductQuantity',
+            'Order.RevertLineItem',
+            'Order.UpdateUserAddress',
+            'Order.HisotryLineItems',
         ),
         'debug' => false, // Whether to enable debug mode.
     ),

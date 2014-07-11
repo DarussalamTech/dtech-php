@@ -288,7 +288,7 @@ class DTDbMigration extends CDbMigration {
         $column = $command->queryColumn();
         return $column;
     }
-
+    
 }
 
 ?>

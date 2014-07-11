@@ -34,6 +34,29 @@ $this->PcmWidget['filter'] = array('name' => 'ItstLeftFilter',
 ?>
 
 <h1>Manage Orders</h1>
+<div class="row-fluid">
+    <div class="span12">
+        <?php
+            //get available citeis
+            
+            $criteria = new CDbCriteria;
+            $criteria->addInCondition("LOWER(city_name)", array(strtolower("lahore"),strtolower("riyadh")));
+            $city_stores = City::model()->getAll($criteria);
+            $stor_city = !empty($_GET['store_city'])?$_GET['store_city']:1;
+            $current_url = $this->createUrl("/order/index");
+            echo "Switch Store : ";
+            echo CHtml::dropDownList(
+                    "city_select", $stor_city, 
+                    CHtml::listData($city_stores,"city_id","city_name"),
+                    array("onchange"=>"
+                            current_city = jQuery(this).val();
+                            window.location = '".$current_url."?store_city='+current_city;
+                    ")
+                );
+           ?>
+        
+    </div>
+</div>
 
 <p>
     <b>Information:</b>

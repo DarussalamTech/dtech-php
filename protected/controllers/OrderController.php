@@ -42,8 +42,16 @@ class OrderController extends Controller {
 
         $criteria = new CDbCriteria();
         $criteria->select = "id,name";
+        
+        
+        /*checking the currently logged in user is SuperAdmin or not*/
+        if (Yii::app()->user->getIsSuperuser()) {
+            $city_id = !empty($_REQUEST['store_city']) ? $_REQUEST['store_city'] : 1;
+            $criteria->condition = "city_id= :city_id";
+            $criteria->params = array("city_id" => $city_id);
+        }
+        
         $paymentModels = ConfPaymentMethods::model()->findAll($criteria);
-
         /* Set filters and default active */
         $this->filters = array(
             'status' => Status::model()->gettingOrderStatus() + array("" => "All"),
@@ -355,10 +363,14 @@ class OrderController extends Controller {
     public function actionIndex() {
         $model = new Order('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Order']))
+        if (isset($_GET['Order'])) {
             $model->attributes = $_GET['Order'];
-
-
+        }
+        /*here filter orders only related to a particular city */
+        if (Yii::app()->user->getIsSuperuser()) {
+            $model->city_id = !empty($_REQUEST['store_city']) ? $_REQUEST['store_city'] : "1";
+        }
+        
         $this->render('index', array(
             'model' => $model,
         ));

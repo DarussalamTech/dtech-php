@@ -153,17 +153,17 @@ $gridDataProvider = new CArrayDataProvider($top_orders);
                 </li>
                 <li>
                     <span class="summary-icon">
-                        <img src="<?php echo $baseUrl; ?>/img/page_white_edit.png" width="36" height="36" alt="Open Invoices">
+                        <a href="<?php echo $this->createUrl('/order/index',array("Order[status]"=>5))?>"><img src="<?php echo $baseUrl; ?>/img/page_white_edit.png" width="36" height="36" alt="Open Invoices"></a>
                     </span>
                     <span class="summary-number"><?php echo $total_orders_ship; ?></span>
-                    <span class="summary-title"> Shipped Orders</span>
+                    <a href="<?php echo $this->createUrl('/order/index',array("Order[status]"=>5))?>"><span class="summary-title"> Shipped Orders</span></a>
                 </li>
                 <li>
                     <span class="summary-icon">
-                        <img src="<?php echo $baseUrl; ?>/img/page_white_excel.png" width="36" height="36" alt="Open Quotes<">
+                        <a href="<?php echo $this->createUrl('/order/index',array("Order[status]"=>3))?>"><img src="<?php echo $baseUrl; ?>/img/page_white_excel.png" width="36" height="36" alt="Open Quotes"></a>
                     </span>
                     <span class="summary-number"><?php echo $total_orders_pend; ?></span>
-                    <span class="summary-title"> Pending Orders</span>
+                    <a href="<?php echo $this->createUrl('/order/index',array("Order[status]"=>3))?>"><span class="summary-title"> Pending Orders</span></a>
                 </li>
                 <li>
                     <span class="summary-icon">
