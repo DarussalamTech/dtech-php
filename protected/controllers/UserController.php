@@ -16,7 +16,7 @@ class UserController extends Controller {
         return array(
             // 'accessControl', // perform access control for CRUD operations
             'rights',
-            'https + index + view + update + create + changePassword'
+            'https + index + view + update + create '
         );
     }
 
@@ -184,26 +184,7 @@ class UserController extends Controller {
         User::model()->updateByPk($id, array("status_id" => $model->status_id));
     }
 
-    /**
-     * Change Password
-     */
-    public function actionChangePassword() {
-        $model = new ChangePassword;
-        if (Yii::app()->user->id) {
-            if (isset($_POST['ChangePassword'])) {
-                $model->attributes = $_POST['ChangePassword'];
-                if ($model->validate()) {
-                    if ($model->updatePassword()) {
-                        /*
-                         * here we will add sending email module to inform user for password change..
-                         */
-                        $this->redirect($this->createUrl('/user/changePassword'));
-                    }
-                }
-            }
-            $this->render('change_password', array('model' => $model));
-        }
-    }
+   
 
     /**
      * Returns the data model based on the primary key given in the GET variable.

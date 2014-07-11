@@ -42,7 +42,7 @@
         <link rel="alternate stylesheet" type="text/css" media="screen" title="style7" href="<?php echo $baseUrl; ?>/css/style-red.css" />
         <?php
         $cs->registerScriptFile($baseUrl . '/js/bootstrap.min.js');
-        
+
 
         $cs->registerScriptFile($baseUrl . '/js/styleswitcher.js');
         ?>
@@ -167,6 +167,7 @@
         //used for save and send to prevent reloading message
         var color_box_open = false;
         var submitbutton = false;
+        var page_action = "<?php echo $this->action->id ?>";
 
 
         function getquerystring()
@@ -208,8 +209,10 @@
                 window.onbeforeunload = null;
             }
             )
-            updateNotifcations();
-            setInterval(updateNotifcations, 80000); //300000 MS == 5 minutes
+            if (page_action != "loginAdmin") {
+                updateNotifcations();
+                setInterval(updateNotifcations, 80000); //300000 MS == 5 minutes
+            }
         });
 
 

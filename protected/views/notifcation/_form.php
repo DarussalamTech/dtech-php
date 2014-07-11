@@ -7,9 +7,9 @@ $admin_users = User::model()->getAll(" (role_id = 2 OR role_id = 1 ) AND  user_i
 $admin_users = CHtml::listData($admin_users, "user_email", "user_email");
 $admin_users = CJSON::encode($admin_users);
 
-Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/media/tag/css/jquery.tagit.css');
+Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/media/tag/css/jquery.tagit.css',  CClientScript::POS_END);
 Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/media/tag/css/tagit.ui-zendesk.css');
-Yii::app()->clientScript->registerScriptFile(Yii::app()->request->baseUrl . '/packages/jui/js/jquery-ui.min.js');
+Yii::app()->clientScript->registerScriptFile(Yii::app()->request->baseUrl . '/packages/jui/js/jquery-ui.min.js',CClientScript::POS_END);
 Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/media/tag/js/tag-it.js', CClientScript::POS_END);
 Yii::app()->clientScript->registerScript('tag', "
         
@@ -19,18 +19,18 @@ Yii::app()->clientScript->registerScript('tag', "
             emails_arr.push(user)
         }
             
-        $(function(){
-             $('#Notifcation_to').tagit({
+        jQuery(function(){
+             jQuery('#Notifcation_to').tagit({
                 availableTags: emails_arr
             });
         })
 
 ", CClientScript::POS_END);
 
-    Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/media/editor/redactor.css');
-    Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/media/editor/redactor.js', CClientScript::POS_END);
-    Yii::app()->clientScript->registerScript('editor_rel', "
-      $('#Notifcation_body').redactor({
+Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/media/editor/redactor.css');
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/media/editor/redactor.js', CClientScript::POS_END);
+Yii::app()->clientScript->registerScript('editor_rel', "
+      jQuery('#Notifcation_body').redactor({
                 focus: true,
                 autoresize: false,
                 initCallback: function()
@@ -69,8 +69,8 @@ if (Yii::app()->user->hasFlash('status')) {
         <?php echo $form->hiddenField($model, 'type', array('value' => 'sent')); ?>
     </div>
     <div class="clear_from_tag_five"></div>
-    <div class="row <?php echo $model->hasErrors("to")?"error_row":""; ?>">
-        
+    <div class="row <?php echo $model->hasErrors("to") ? "error_row" : ""; ?>">
+
         <?php echo $form->labelEx($model, 'to'); ?>
         <?php echo $form->textField($model, 'to', array('size' => 60, 'maxlength' => 255)); ?>
         <?php echo $form->error($model, 'to'); ?>
@@ -86,8 +86,8 @@ if (Yii::app()->user->hasFlash('status')) {
     <div class="clear_from_tag_ten"></div>
     <div class="row">
         <?php echo $form->labelEx($model, 'body'); ?>
-        <?php echo $form->textArea($model, 'body',array("style"=>"height:300px")); ?>
-       
+        <?php echo $form->textArea($model, 'body', array("style" => "height:300px")); ?>
+
         <?php echo $form->error($model, 'body'); ?>
     </div>
 

@@ -227,7 +227,7 @@ $gridDataProvider = new CArrayDataProvider($top_orders);
         ));
 
         $baseScriptUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('zii.widgets.assets')) . '/gridview';
-        //Yii::app()->getClientScript()->registerScriptFile($baseScriptUrl . '/jquery.yiigridview.js', CClientScript::POS_BEGIN);
+        Yii::app()->getClientScript()->registerScriptFile($baseScriptUrl . '/jquery.yiigridview.js', CClientScript::POS_BEGIN);
         ?>
 
     </div><!--/span-->

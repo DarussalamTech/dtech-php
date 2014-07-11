@@ -23,9 +23,9 @@ class ImportController extends Controller {
     }
 
     public function beforeAction($action) {
-        Yii::app()->theme = "admin";
+         Yii::app()->theme = "abound";
         parent::beforeAction($action);
-
+unset(Yii::app()->clientScript->scriptMap['jquery.js']);
         $operations = array('status');
         parent::setPermissions($this->id, $operations);
 

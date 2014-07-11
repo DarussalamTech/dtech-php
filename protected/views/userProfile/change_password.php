@@ -1,6 +1,10 @@
 <div class="form wide">
 
     <?php
+    $jqueryPath = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('system.web.js.source'));
+    Yii::app()->clientScript->registerScriptFile($jqueryPath . '/jquery.yiiactiveform', CClientScript::POS_BEGIN);
+    
+    
     $form = $this->beginWidget('CActiveForm', array(
         'id' => 'user-change-form',
         'enableClientValidation' => true,
