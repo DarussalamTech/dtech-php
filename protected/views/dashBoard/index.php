@@ -1,19 +1,5 @@
 <?php
-$baseUrl = Yii::app()->theme->baseUrl;
-/* @var $this SiteController */
-$cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/plugins/jquery.sparkline.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/plugins/jquery.flot.min.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/plugins/jquery.flot.pie.min.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/charts.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/plugins/jquery.knob.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/plugins/jquery.masonry.min.js', CClientScript::POS_END);
-
-$this->pageTitle = Yii::app()->name;
-?>
-<?php
 //get default city
-
 
 $gridDataProvider = new CArrayDataProvider(array(
     array('id' => 1, 'firstName' => 'Mark', 'lastName' => 'Otto', 'language' => 'CSS', 'usage' => '<span class="inlinebar">1,3,4,5,3,5</span>'),
@@ -29,34 +15,65 @@ $month_analysis = DashboardStats::getSalesByType("MONTH");
 $year_analysis = DashboardStats::getSalesByType("YEAR");
 $gridDataProvider = new CArrayDataProvider($top_orders);
 ?>
+
+<script type="text/javascript">
+
+    var day_analysis = "<?php echo $day_analysis['values']; ?>";
+    var day_analysis = strToArray(day_analysis);
+    var weekly_analysis = "<?php echo $weekly_analysis['values']; ?>";
+    var weekly_analysis = strToArray(weekly_analysis);
+    var month_analysis = "<?php echo $month_analysis['values']; ?>";
+    var month_analysis = strToArray(month_analysis);
+    var year_analysis = "<?php echo $year_analysis['values']; ?>";
+    var year_analysis = strToArray(year_analysis);
+    
+    /*This will convert comma-separated string to array*/
+    function strToArray(str)
+    {
+        return str.split(",");
+    }
+
+</script>
+
+<?php
+$baseUrl = Yii::app()->theme->baseUrl;
+/* @var $this SiteController */
+$cs = Yii::app()->getClientScript();
+$cs->registerScriptFile($baseUrl . '/js/plugins/jquery.sparkline.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/plugins/jquery.flot.min.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/plugins/jquery.flot.pie.min.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/charts.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/plugins/jquery.knob.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/plugins/jquery.masonry.min.js', CClientScript::POS_END);
+
+$this->pageTitle = Yii::app()->name;
+?>
 <div class="row-fluid">
     <div class="span12">
         <?php
-            //get available citeis
-            
-            $criteria = new CDbCriteria;
-            $criteria->addInCondition("LOWER(city_name)", array(strtolower("lahore"),strtolower("riyadh")));
-            $city_stores = City::model()->getAll($criteria);
-            $stor_city = !empty($_GET['store_city'])?$_GET['store_city']:"1";
-            $current_url = $this->createUrl("/dashBoard/index");
-            echo "Switch Store : ";
-            echo CHtml::dropDownList(
-                    "city_select", $stor_city, 
-                    CHtml::listData($city_stores,"city_id","city_name"),
-                    array("onchange"=>"
+        //get available citeis
+
+        $criteria = new CDbCriteria;
+        $criteria->addInCondition("LOWER(city_name)", array(strtolower("lahore"), strtolower("riyadh")));
+        $city_stores = City::model()->getAll($criteria);
+        $stor_city = !empty($_GET['store_city']) ? $_GET['store_city'] : "1";
+        $current_url = $this->createUrl("/dashBoard/index");
+        echo "Switch Store : ";
+        echo CHtml::dropDownList(
+                "city_select", $stor_city, CHtml::listData($city_stores, "city_id", "city_name"), array("onchange" => "
                             current_city = jQuery(this).val();
-                            window.location = '".$current_url."?store_city='+current_city;
+                            window.location = '" . $current_url . "?store_city='+current_city;
                     ")
-                );
-           ?>
-        
+        );
+        ?>
+
     </div>
 </div> 
 <div class="row-fluid">
     <div class="span3 ">
         <div class="stat-block">
             <ul>
-                <li class="stat-graph inlinebar" id="weekly-visit"><?php echo $day_analysis['values']; ?></li>
+                <li class="stat-graph inlinebar" id="daily-visit"><?php echo $day_analysis['values']; ?></li>
                 <li class="stat-count"><span><?php echo $day_analysis['total']; ?></span><span>Daily Sales (Last 7)</span></li>
                 <li class="stat-percent"><span class="text-success stat-percent"></span></li>
             </ul>
@@ -131,6 +148,9 @@ $gridDataProvider = new CArrayDataProvider($top_orders);
 
         $total_orders_ref = DashboardStats::getTotalOrders("Refunded");
         $total_orders_ref_perc = ($total_orders > 0) ? ($total_orders_ref * 100) / $total_orders : 0;
+        
+        $total_orders_comp = DashboardStats::getTotalOrders("Completed");
+        $total_orders_comp_perc = ($total_orders > 0) ? ($total_orders_comp * 100) / $total_orders : 0;
 
         $customers_who_ordered = DashboardStats::getOrderedCustomers();
         $total_customers = DashboardStats::getTotalCustomers();
@@ -144,34 +164,48 @@ $gridDataProvider = new CArrayDataProvider($top_orders);
 
         <div class="summary">
             <ul>
-                <li>
+                <!--<li>
                     <span class="summary-icon">
-                        <img src="<?php echo $baseUrl; ?>/img/credit.png" width="36" height="36" alt="Monthly Income">
+                        <img src="<?php //echo $baseUrl; ?>/img/credit.png" width="36" height="36" alt="Monthly Income">
                     </span>
-                    <span class="summary-number"><?php echo $monthly_income['total']; ?></span>
+                    <span class="summary-number"><?php //echo $monthly_income['total']; ?></span>
                     <span class="summary-title"> Monthly Income</span>
-                </li>
+                </li>-->
                 <li>
                     <span class="summary-icon">
-                        <a href="<?php echo $this->createUrl('/order/index',array("Order[status]"=>5))?>"><img src="<?php echo $baseUrl; ?>/img/page_white_edit.png" width="36" height="36" alt="Open Invoices"></a>
+                        <a href="<?php echo $this->createUrl('/order/index', array("Order[status]" => 5)) ?>"><img src="<?php echo $baseUrl; ?>/img/page_white_edit.png" width="36" height="36" alt="Open Invoices"></a>
                     </span>
                     <span class="summary-number"><?php echo $total_orders_ship; ?></span>
-                    <a href="<?php echo $this->createUrl('/order/index',array("Order[status]"=>5))?>"><span class="summary-title"> Shipped Orders</span></a>
+                    <a href="<?php echo $this->createUrl('/order/index', array("Order[status]" => 5)) ?>"><span class="summary-title"> Shipped Orders</span></a>
                 </li>
                 <li>
                     <span class="summary-icon">
-                        <a href="<?php echo $this->createUrl('/order/index',array("Order[status]"=>3))?>"><img src="<?php echo $baseUrl; ?>/img/page_white_excel.png" width="36" height="36" alt="Open Quotes"></a>
+                        <a href="<?php echo $this->createUrl('/order/index', array("Order[status]" => 3)) ?>"><img src="<?php echo $baseUrl; ?>/img/page_white_excel.png" width="36" height="36" alt="Open Quotes"></a>
                     </span>
                     <span class="summary-number"><?php echo $total_orders_pend; ?></span>
-                    <a href="<?php echo $this->createUrl('/order/index',array("Order[status]"=>3))?>"><span class="summary-title"> Pending Orders</span></a>
+                    <a href="<?php echo $this->createUrl('/order/index', array("Order[status]" => 3)) ?>"><span class="summary-title"> Pending Orders</span></a>
                 </li>
                 <li>
+                    <span class="summary-icon">
+                        <a href="<?php echo $this->createUrl('/order/index', array("Order[status]" => 7)) ?>"><img src="<?php echo $baseUrl; ?>/img/page_white_excel.png" width="36" height="36" alt="Cancelled Invoices"></a>
+                    </span>
+                    <span class="summary-number"><?php echo $total_orders_canc; ?></span>
+                    <a href="<?php echo $this->createUrl('/order/index', array("Order[status]" => 7)) ?>"><span class="summary-title"> Cancelled Orders</span></a>
+                </li>
+                <li>
+                    <span class="summary-icon">
+                        <a href="<?php echo $this->createUrl('/order/index', array("Order[status]" => 6)) ?>"><img src="<?php echo $baseUrl; ?>/img/page_white_edit.png" width="36" height="36" alt="Closed Invoices"></a>
+                    </span>
+                    <span class="summary-number"><?php echo $total_orders_comp; ?></span>
+                    <a href="<?php echo $this->createUrl('/order/index', array("Order[status]" => 6)) ?>"><span class="summary-title"> Completed Orders</span></a>
+                </li>
+                <!--<li>
                     <span class="summary-icon">
                         <img src="<?php echo $baseUrl; ?>/img/group.png" width="36" height="36" alt="Active Members">
                     </span>
                     <span class="summary-number"><?php echo $total_customers; ?></span>
                     <span class="summary-title"> Total Customers</span>
-                </li>
+                </li>-->
                 <li>
                     <span class="summary-icon">
                         <img src="<?php echo $baseUrl; ?>/img/folder_page.png" width="36" height="36" alt="Recent Conversions">

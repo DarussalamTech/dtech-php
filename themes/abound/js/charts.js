@@ -104,6 +104,33 @@ $('#stat6').sparkline(positive, {
     lineWidth: 2//In pixels (default: 1) - Integer
 });
 
+/*This will create the bar charts displaying the income related information */
+$('#daily-visit').sparkline(day_analysis, {
+    //height: 15,
+    //spotRadius: 0,
+    barColor: '#9FC569',
+    type: 'bar'
+});
+$('#weekly-visit').sparkline(weekly_analysis, {
+    //height: 15,
+    //spotRadius: 0,
+    barColor: '#9FC569',
+    type: 'bar'
+});
+$('#new-visits').sparkline(month_analysis, {
+    //height: 15,
+    //spotRadius: 0,
+    barColor: '#9FC569',
+    type: 'bar'
+});
+$('#unique-visits').sparkline(year_analysis, {
+    //height: 15,
+    //spotRadius: 0,
+    barColor: '#9FC569',
+    type: 'bar'
+});
+
+
 // document ready function
 $(document).ready(function() {
 
