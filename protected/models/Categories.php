@@ -294,7 +294,7 @@ class Categories extends DTActiveRecord {
             $return_arr[]['category_name'] = $cat['category_name'];
             $return_arr[]['category_slug'] = $cat['slug'];
         }
-        return $cate;
+        return $return_arr;
     }
 
     /**
