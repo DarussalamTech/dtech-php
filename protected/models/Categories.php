@@ -289,10 +289,12 @@ class Categories extends DTActiveRecord {
         ));
         $cate = $this->with(array('productCategories' => array("select" => ""), 'productCategories.product' => array('alias' => 'product', 'joinType' => "INNER JOIN ", "select" => "")))->findAll($criteriaC);
         $return_arr = array();
+        $count = 0;
         foreach($cate as $cat){
-            $return_arr[]['category_id'] = $cat['category_id'];
-            $return_arr[]['category_name'] = $cat['category_name'];
-            $return_arr[]['category_slug'] = $cat['slug'];
+            $return_arr[$count]['category_id'] = $cat['category_id'];
+            $return_arr[$count]['category_name'] = $cat['category_name'];
+            $return_arr[$count]['category_slug'] = $cat['slug'];
+            $count++;
         }
         return $return_arr;
     }
