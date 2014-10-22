@@ -4,7 +4,7 @@
  * @author Ali Abbas
  * @abstract use for 
  *  setting extra param
- *  
+ * @updated NaeemChoudhary
  */
 $params = array(
     // this is used in contact page
@@ -30,6 +30,13 @@ $params = array(
         'apiLive' => false,
         'returnUrl' => 'paypal/confirm/', //regardless of url management component
         'cancelUrl' => 'paypal/cancel/', //regardless of url management component
+    ),
+    'TwoCheckout'=> array(
+        'sellerId' => '202363463',
+        'publishableKey' => 'C3E17998-5986-11E4-81C5-FB713A5D4FFE',
+        'privateKey' => 'C3E17A38-5986-11E4-81C5-FB713A5D4FFE',
+        'twocheckoutPaymentUrlProduction' => 'https://www.2checkout.com/checkout/purchase',
+        'twocheckoutPaymentUrlSandbox' => 'https://www.2checkout.com/checkout/spurchase',
     ),
     'adminEmail' => 'no_reply@darussalam.com',
     'default_admin' => 'webmaster@darussalampk.com',

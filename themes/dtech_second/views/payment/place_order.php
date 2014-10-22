@@ -44,8 +44,21 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
         $count = 1;
         $css_alternat = "";
         $cart_html = "";
+        /*edited by Niki Choudhary*/
+        $buying_products = array(); /* this will contain all the products information to send to 2CO for payment*/
+        $buyer_info = array();
+        
         $cart = $cart->getData();
-
+        /*Saving Shipppin information in the 2Checkout FOrm to submit on 2CO payment environment*/
+        $buyer_info['order_id'] = $userShipping['order_id'];
+        $buyer_info['user_full_name'] = $userShipping['shipping_first_name']." ".$userShipping['shipping_last_name'];
+        $buyer_info['shipping_address1'] = $userShipping['shipping_address1'];
+        $buyer_info['shipping_country'] = $userShipping->country['name'];
+        $buyer_info['shipping_state'] = $userShipping['shipping_state'];
+        $buyer_info['shipping_city'] = $userShipping['shipping_city'];
+        $buyer_info['shipping_zip'] = $userShipping['shipping_zip'];
+        $buyer_info['shipping_phone'] = $userShipping['shipping_phone'];
+        $buyer_info['shipping_mobile'] = $userShipping['shipping_mobile'];
         //set the presentation for user to display his amount on his/her country
         $useCurrency = "";
         if (!empty($userShipping->country->currency_code) && $userShipping->country->currency_code != Yii::app()->session['currency']) {
@@ -58,6 +71,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
         $cart_html .= "<span class='p-title'>Product Title</span>";
         $cart_html .= "<span class='p-title'>Quantity</span> ";
         $cart_html .="<b class='p-title'>Item Price</b>";
+        
         if ($useCurrency != "") {
            // $cart_html .="<b class='p-title'>Item Price in " . $useCurrency . "</b>";
         }
@@ -72,6 +86,12 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
         foreach ($cart as $pro) {
             $grand_total = $grand_total + ($pro->quantity * $pro->productProfile->price);
             $total_quantity+=$pro->quantity;
+            
+            $buying_products[$count]['product_quantity'] = $pro->quantity;
+            $buying_products[$count]['product_price'] = ConfPaymentMethods::model()->convertCurrency(($pro->productProfile->price), Yii::app()->session['currency'], "USD");
+            $buying_products[$count]['product_name'] = $pro->productProfile->product->product_name;
+            $buying_products[$count]['product_id'] = $pro->productProfile->product->product_id;
+            
             if ($count % 2 == 0) {
                 $css_alternat = "alternate_row_cart";
             } else {
@@ -82,7 +102,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
              * it is check for pk darussalam
              * to whether they want to use this this
              */
-
+            
             $prod_weight = (double) (isset($pro->productProfile->weight) ? $pro->productProfile->weight : 0);
             //echo $pro->productProfile->weight_unit . "--=" . $prod_weight . "--" . $pro->productProfile->id;
 
@@ -127,6 +147,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
         ?> 
 
         <?php
+                
         echo $cart_html;
         $shipping_cost = 0;
         $shippingPresentation = "";
@@ -220,9 +241,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
                     <?php
                     $grand_total = ($grand_total + (double) $shipping_cost);
                     $tax_rate = ConfTaxRates::model()->getTaxRate($grand_total);
-
-
-
+                    
                     $this->setTaxAmount($tax_rate);
                     ?>
                 </b>
@@ -254,6 +273,9 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
                             echo "<b class='p-values'>" . $useCurrency . " " .$converted_total  . "</b>";
                             
                         }
+                        //$buyer_info['grand_total'] = ($grand_total + (double) $tax_rate);
+                        $buyer_info['grand_total'] = ConfPaymentMethods::model()->convertCurrency(($grand_total + (double) $tax_rate), Yii::app()->session['currency'], "USD");
+                        $buyer_info['total_quantity'] = $total_quantity;
                         ?>
                     </span>
                     <span class="p-right-full"><?php echo Yii::app()->session['currency'] . " " . ($grand_total + (double) $tax_rate); ?> </span></p>
@@ -261,12 +283,15 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
         </div>
         <div class="clear"></div>
         <?php
+       
         $form = $this->beginWidget('CActiveForm', array(
-            'id' => 'card-form',
-            'enableClientValidation' => true,
+           'id' => 'myCCForm',
+            'action' => Yii::app()->params['TwoCheckout']['twocheckoutPaymentUrlProduction'],
+            'method' => 'post',
+            /*'enableClientValidation' => true,
             'clientOptions' => array(
                 'validateOnSubmit' => false,
-            ),
+            ),*/
         ));
         echo $form->hiddenField($userShipping, 'payment_method');
 
@@ -276,10 +301,12 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
             $this->renderPartial("//payment/_credit_card", array(
                 "model" => $userShipping,
                 "form" => $form,
+                "buyer_info" => $buyer_info,
+                "buying_products" => $buying_products,
                 "creditCardModel" => $creditCardModel)
             );
         }
-        echo CHtml::submitButton('Submit', array('class' => 'secure_button'));
+        echo CHtml::submitButton('Order', array('class' => 'secure_button'));
         $this->endWidget();
         ?>
     </div>
