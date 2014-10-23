@@ -284,18 +284,23 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
         <div class="clear"></div>
         <?php
        
-        $form = $this->beginWidget('CActiveForm', array(
-           'id' => 'myCCForm',
-            'action' => Yii::app()->params['TwoCheckout']['twocheckoutPaymentUrlProduction'],
-            'method' => 'post',
-            /*'enableClientValidation' => true,
-            'clientOptions' => array(
-                'validateOnSubmit' => false,
-            ),*/
-        ));
+        if($userShipping->payment_method == "Credit Card"){        
+            $form = $this->beginWidget('CActiveForm', array(
+               'id' => 'myCCForm',
+                'action' => Yii::app()->params['TwoCheckout']['twocheckoutPaymentUrlProduction'],
+                'method' => 'post',
+            ));
+        }
+        else{
+            $form = $this->beginWidget('CActiveForm', array(
+                'id' => 'card-form',
+                'enableClientValidation' => true,
+                'clientOptions' => array(
+                    'validateOnSubmit' => false,
+                ),
+            ));
+        }
         echo $form->hiddenField($userShipping, 'payment_method');
-
-
         //if payment method is credit card then
         if ($userShipping->payment_method == "Credit Card") {
             $this->renderPartial("//payment/_credit_card", array(

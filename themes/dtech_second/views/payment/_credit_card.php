@@ -7,7 +7,7 @@
     <input type="hidden" name="total" value="<?php echo $buyer_info['grand_total']; ?>" />    
 
     <!--<input type="hidden" name="cart_order_id" value="<?php //echo $buyer_info['order_id'];?>" />-->
-    <input type="hidden" name="cart_order_id" value="<?php echo $buyer_info['order_id'];?>" />
+    <input type="hidden" name="cart_order_id" value="<?php echo ($buyer_info['order_id'] == 0)? 1 : $buyer_info['order_id'];?>" />
     <input type="hidden" name="card_holder_name" value="<?php echo $buyer_info['user_full_name'];?>" />
     <input type="hidden" name="street_address" value="<?php echo $buyer_info['shipping_address1'];?>" />
     <input type="hidden" name="city" value="<?php echo $buyer_info['shipping_city'];?>" />
@@ -31,16 +31,6 @@
     <?php $i++;
             }?>
 
-
-
-    <?php /* $i = 0; ?>
-      <?php foreach ($products as $product) { ?>
-      <input type="hidden" name="c_prod_<?php echo $i; ?>" value="<?php echo $product['product_id']; ?>,<?php echo $product['quantity']; ?>" />
-      <input type="hidden" name="c_name_<?php echo $i; ?>" value="<?php echo $product['name']; ?>" />
-      <input type="hidden" name="c_description_<?php echo $i; ?>" value="<?php echo $product['description']; ?>" />
-      <input type="hidden" name="c_price_<?php echo $i; ?>" value="<?php echo $product['price']; ?>" />
-      <?php $i++; ?>
-      <?php } */ ?>
     <input type="hidden" name="id_type" value="1" />
     <?php /* if ($demo) { ?>
       <input type="hidden" name="demo" value="<?php echo $demo; ?>" />
