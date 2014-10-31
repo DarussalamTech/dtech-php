@@ -19,6 +19,7 @@ class ShippingInfoForm extends CFormModel {
     public $shipping_phone;
     public $shipping_mobile;
     public $payment_method;
+    public $shipping_type;
     
     private $_identity;
     public $_states = array();
@@ -37,7 +38,7 @@ class ShippingInfoForm extends CFormModel {
             array('shipping_phone', 'length', 'max' => 255),
             array('shipping_phone', 'numerical', 'integerOnly' => true),
             array('shipping_phone, shipping_mobile', 'match', 'pattern'=>'/^[0-9-+]+$/'),
-            array('_states,payment_method', 'safe'),
+            array('_states,payment_method,shipping_type', 'safe'),
                 // rememberMe needs to be a boolean
                 //array('rememberMe', 'boolean'),
                 // password needs to be authenticated
@@ -65,6 +66,7 @@ class ShippingInfoForm extends CFormModel {
             'shipping_zip' => Yii::t('model_labels', 'Zip Code', array(), NULL, Yii::app()->controller->currentLang),
             'shipping_phone' => Yii::t('model_labels', 'Phone', array(), NULL, Yii::app()->controller->currentLang),
             'payment_method' => Yii::t('model_labels', 'Payment Method', array(), NULL, Yii::app()->controller->currentLang),
+            'shipping_type' => Yii::t('model_labels', 'Shipping Type', array(), NULL, Yii::app()->controller->currentLang),
             
         );
     }

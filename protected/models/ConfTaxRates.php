@@ -140,5 +140,27 @@ class ConfTaxRates extends DTActiveRecord {
         }
         return 0;
     }
-
+    
+    /**
+     * 
+     * @param type $grand_total ... amount upon which tax will be applied based upon the shipping_type
+     * @param type $shipping_type ... it will affect the final tax amount returned
+     * @param type $shipping_cost ... it will contian the Local and International shipping Cost information, to which tax rate will be applicable
+     * tax_rate(21%) => applicable on both local and international shipping_cost
+     * tax_rate(5%) => applicable on international grand_total alongwith on shipping_cost 
+     */
+    public function getTaxRateCreditCard($grand_total_us,$shipping_type = "local",$shipping_cost)
+    {
+        $tax_rate_local = 0;
+        $tax_rate_international = 0;
+        $tax_rate_on_shipping = 21; // this will be the 21% of the total shipping cost(local,international)
+        $tax_rate_on_grand_total = 5; // this will be the 5% of the total grand total for International shipping
+        
+        if($shipping_type == "local"){
+            $tax_rate_local = (double) (($shipping_cost['local'] / 100) * ($tax_rate_on_shipping));
+        }elseif ($shipping_type == "international") {
+            $tax_rate_international = (double) ((($shipping_cost['international']/100) * ($tax_rate_on_shipping)) + (($grand_total_us/100) * ($tax_rate_on_grand_total)));
+        }
+        return array('local'=>$tax_rate_local,"international"=>$tax_rate_international);;
+    }        
 }

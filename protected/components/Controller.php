@@ -647,6 +647,18 @@ class Controller extends RController {
     }
 
     /**
+     * this will set shipping cost information to the current user session
+     * @param type $shipping_cost
+     * @param type $is_international
+     */
+    public function setShippingCostCreditCard($shipping_cost,$is_international = 0)
+    {
+        $shipping_cost = !empty($shipping_cost["local"]) ? $shipping_cost["local"] : $shipping_cost["international"];
+            
+        $rounded_shipping_cost = round($shipping_cost,2);
+        Yii::app()->session['shipping_price'] = ($is_international == 1) ? "$".$rounded_shipping_cost : $rounded_shipping_cost;
+    }        
+    /**
      * set tax cost
      * 
      * @param type $tax
@@ -655,6 +667,16 @@ class Controller extends RController {
         Yii::app()->session['tax_amount'] = round($tax, 2);
     }
 
+    /**
+     * set tax cost in case of credit card
+     * @param type $tax_cc
+     */
+    public function setCreditCardTaxAmount($tax_cc,$is_international = 0)
+    {
+        $tax_cc = !empty($tax_cc['local']) ? $tax_cc['local'] : $tax_cc['international']; 
+        $rounded_tax_cc = round($tax_cc,2);
+        Yii::app()->sesssion['tax_amount'] = ($is_international == 1) ? "$ ".$rounded_tax_cc : $rounded_tax_cc;
+    }
     /**
      * set Converted currency total cost
      * 

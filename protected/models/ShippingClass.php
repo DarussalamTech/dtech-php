@@ -336,5 +336,43 @@ class ShippingClass extends DTActiveRecord {
         }
         return 0;
     }
+    
+    /**
+     * This will calculate the total shipping cost in case of "Credit Card" payment method 
+     * @param type $shipping_type
+     * @param type $total_weight
+     * @return type array : this will contain the amount of the shipping(local(PKR) or international($))
+     */
+    public function calculateShippingCostForCreditCard($shipping_type = 'local',$total_weight)
+    {
+        $shipping_amount_half_kg_local = 225;//this amount will be in PKR
+        $shipping_amount_one_kg_local = 250;//this amount will be in PKR
+        $shipping_amount_each_kg_local = 240;//this amount will be in PKR
+        
+        $shipping_amount_one_kg_international = 20;//this amount will be in US Dollar ($)
+        $shipping_amount_each_kg_international = 15;//this amount will be in US Dollar ($)
+        
+        
+        $local_shipping = 0; // this will be in PKR currency
+        $international_shipping = 0; // this will be in US dollar currency
+        
+        if($shipping_type == "local")
+        {
+            if($total_weight <= 0.5){
+                $local_shipping = (double)$shipping_amount_half_kg_local;
+            }elseif($total_weight > 0.5 && $total_weight <= 1.0){
+                $local_shipping = (double) $shipping_amount_one_kg_local;
+            }elseif($total_weight > 1.0){
+                $local_shipping = (double)($total_weight * $shipping_amount_each_kg_local);
+            }
+        }elseif ($shipping_type == "international") {
+            if($total_weight <= 1.0){
+                $international_shipping = (double) $shipping_amount_one_kg_international;
+            }elseif($total_weight > 1.0){
+                $international_shipping = (double) ($total_weight * $shipping_amount_each_kg_international);
+            } 
+        }
+        return array("local"=>$local_shipping,"international"=>$international_shipping);
+    }
 
 }
