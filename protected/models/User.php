@@ -332,11 +332,14 @@ class User extends DTActiveRecord {
      * @param type $city_id
      * @return type
      */
-    public function getCityAdmin($all = false, $to = false, $city_id = 0) {
+    public function getCityAdmin($all = false, $to = false, $city_id = 0,$main_admin = false) {
         $criteria = new CDbCriteria();
         $criteria->select = "user_email";
         $criteria->condition = "role_id =:role";
-        if ($all == false) {
+        
+        if($main_admin == true){
+            return "info@darussalampublishers.com";
+        }elseif ($all == false) {
             if ($to == false) {
                 $criteria->params = array("role" => 2);
                 $user = User::model()->find($criteria);
@@ -363,6 +366,16 @@ class User extends DTActiveRecord {
             $criteria->params = array("role" => 2);
             return User::model()->findAll($criteria);
         }
+    }
+    
+    /**
+     * This will return all emails that are main emil ids of the contact form
+     */
+    public function getMainContactEmails()
+    {
+        $emails = array("info@darussalampublishers.com","webmaster@darussalampk.com","support@darussalampk.com");
+        //return implode(",",$emails);
+        return $emails;
     }
 
 }

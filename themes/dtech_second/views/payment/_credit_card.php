@@ -35,7 +35,10 @@
     <?php /* if ($demo) { ?>
       <input type="hidden" name="demo" value="<?php echo $demo; ?>" />
       <?php } */ ?>
+    <!-- This is the url when user cancels the payment after going to 2checkout page then on clicking back button, user will be redirected to this url -->
     <input type="hidden" name="return_url" value="<?php echo $this->createUrl('/web/payment/placeOrder');?>" />
+    <!-- This is the url when user successfully purchased items from 2checkout then after completing the payment process, user wilb be redirected to this url to confirm order detail -->
+    <input type="hidden" name="x_receipt_link_url" value="<?php echo Yii::app()->params['TwoCheckout']['twocheckoutSuccessUrl'];?>" />
 
     <!--<script>
         // Called when token created successfully.

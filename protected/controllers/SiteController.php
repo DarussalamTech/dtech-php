@@ -264,7 +264,7 @@ class SiteController extends Controller {
         Yii::app()->user->SiteSessions;
         // Yii::app()->controller->layout = '//layouts/main';
         $model = new ContactForm;
-
+        
         if (isset($_POST['ContactForm'])) {
             $model->attributes = $_POST['ContactForm'];
             if ($model->validate()) {
@@ -275,17 +275,19 @@ class SiteController extends Controller {
                      * if the button is checked
                      */
                     $email['To'] = $model->email;
-                    $email['From'] = User::model()->getCityAdmin();
-                    $email['Reply'] = User::model()->getCityAdmin();
+                    /*$email['From'] = User::model()->getCityAdmin();
+                    $email['Reply'] = User::model()->getCityAdmin();*/
+                    $email['From'] = User::model()->getCityAdmin(false,false,0,true);
+                    $email['Reply'] = User::model()->getCityAdmin(false,false,0,true);
                     $email['Message_type'] = $model->message_type;
                     $email['Subject'] = "[" . $email['Message_type'] . "] " . ' Contact Notification From ' . Yii::app()->name;
                     $email['Body'] = $model->body;
                     $email['Body'] = $this->renderPartial('/common/_email_template', array('email' => $email), true, false);
                     $this->sendEmail2($email);
                 }
-
-                //$email['To'] = "akram.khan@darussalampk.com"; //User::model()->getCityAdmin();
-                $email['To'] = User::model()->getCityAdmin(false, true);
+                
+                //$email['To'] = User::model()->getCityAdmin(false, true);
+                $email['To'] = User::model()->getMainContactEmails(); //sending email to all main emails
                 $email['From'] = $model->email;
                 $email['Reply'] = $model->email;
                 $email['FromName'] = $model->name;

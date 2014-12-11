@@ -39,7 +39,8 @@
     <span style="color:#575757; font-size:13px;">
 
         <?php
-        echo CHtml::mailto("info@darussalampk.com", "info@darussalampk.com");
+        /*echo CHtml::mailto("info@darussalampk.com", "info@darussalampk.com");*/
+        echo CHtml::mailto("info@darussalamublishers.com", "info@darussalamublishers.com");
         ?>
     </span>
 </div>

@@ -69,34 +69,25 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/con
         </div>
         <div class="contact_info">
             <div class="business_contact">
-                <article>Business Development</article>
+                <article>General Information</article>
                 <section>
-                    <?php
-                    echo CHtml::mailto("bizdev@darussalam.com", "bizdev@darussalam.com")
-                    ?>
+                    <span><?php echo CHtml::mailto("info@darussalampublishers.com", "info@darussalampublishers.com");?></span>
+                    <span><?php echo CHtml::mailto("webmaster@darussalampk.com", "webmaster@darussalampk.com");?></span> 
                 </section>
             </div>
             <div class="business_contact">
                 <article>Careers</article>
                 <section>
                     <?php
-                    echo CHtml::mailto("jobs@darussalam.com", "jobs@darussalam.com")
+                    echo CHtml::mailto("jobs@darussalampk.com", "jobs@darussalampk.com");
                     ?>
                 </section>
             </div>
             <div class="business_contact">
-                <article>Public Relations</article>
+                <article>Support</article>
                 <section>
                     <?php
-                    echo CHtml::mailto("public@darussalam.com", "public@darussalam.com")
-                    ?>
-                </section>
-            </div>
-            <div class="business_contact">
-                <article>Sales, Billing and Support</article>
-                <section>
-                    <?php
-                    echo CHtml::mailto("support@darussalam.com", "support@darussalam.com")
+                    echo CHtml::mailto("support@darussalampk.com", "support@darussalampk.com");
                     ?>
                 </section>
             </div>
