@@ -55,7 +55,7 @@ class UserOrderBilling extends DTActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('user_id, create_time, create_user_id, update_time, update_user_id', 'required'),
+            array('user_id, create_time, create_user_id, update_time, update_user_id, billing_state',  'required'),
             array('user_id, order_id, billing_zip', 'numerical', 'integerOnly' => true),
             array('billing_prefix', 'length', 'max' => 4),
             array('billing_first_name, billing_last_name, billing_address1, billing_address2, billing_country, billing_state, billing_city', 'required'),

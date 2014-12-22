@@ -115,7 +115,8 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
             </article>
         </div>
         <div class="secure_input_type">
-            <?php echo $form->dropDownList($model, 'billing_state', $model->_states); ?>
+         
+            <?php echo $form->dropDownList($model, 'billing_state', $model->_states,array('empty' => 'Select State')); ?>
             <?php echo $form->error($model, 'billing_state'); ?>
         </div>
     </div>
