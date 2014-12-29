@@ -430,14 +430,13 @@ class SiteController extends Controller {
                         Yii::app()->user->SiteSessions;
                         Yii::app()->session['isSuper'] = 1;
                         $this->redirect($this->createUrl('/user/index'));
+                    }else if (Yii::app()->user->isAdmin) {
+
+                        $_REQUEST['city_id'] = Yii::app()->user->user->city_id;
+                        Yii::app()->user->SiteSessions;
+                        
+                        $this->redirect($this->createUrl('/product/index'));
                     }
-//                    } else if (Yii::app()->user->isAdmin) {
-//
-//                        $_REQUEST['city_id'] = Yii::app()->user->user->city_id;
-//                        Yii::app()->user->SiteSessions;
-//                        
-//                        $this->redirect($this->createUrl('/product/index'));
-//                    }
                     else if (!empty($allowed_actions)) {
                         $_REQUEST['city_id'] = Yii::app()->user->user->city_id;
                         Yii::app()->user->SiteSessions;
