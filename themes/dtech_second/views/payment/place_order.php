@@ -150,7 +150,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
         $shipping_cost = 0;
         $shippingPresentation = "";
         //$total_weight = 35;
-
+ 
         // this will calculate the shipping applied based upon the weight and shipping_type 
         //if($userShipping->shipping_type) && $userShipping->payment_method == "Credit Card"){
         if($userShipping->payment_method == "Credit Card"){
@@ -175,11 +175,18 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
             if (strtolower(Yii::app()->session['city_short_name']) != strtolower($userShipping->shipping_city)) {
                 $is_source = 0;
             }
-
             $shipping_price_books = ShippingClass::model()->calculateShippingCost($books_range['categories'], $books_range['price_range'], "price", $is_source);
-            $shipping_price_other = ShippingClass::model()->calculateShippingCost($other_range['categories'], $other_range['weight_range'], "weight", $is_source);
-            
-            $shipping_cost = $shipping_price_books + $shipping_price_other;
+
+            if($total_weight > 0){
+              $shipping_weight_books = ShippingClass::model()->calculateShippingCost($books_range['categories'], $total_weight, "weight", $is_source);
+            }
+            if($other_range['weight_range'] >0 ){
+                $shipping_price_other = ShippingClass::model()->calculateShippingCost($other_range['categories'], $other_range['weight_range'], "weight", $is_source);
+            }
+
+
+            $shipping_cost = $shipping_price_books + $shipping_price_other + $shipping_weight_books;
+//            $shipping_cost = $shipping_price_books  + $shipping_weight_books;
 
             $this->setShippingCost($shipping_cost);
         } else {

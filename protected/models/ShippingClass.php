@@ -61,11 +61,11 @@ class ShippingClass extends DTActiveRecord {
         // will receive user inputs.
         return array(
             array('categories,source_city, destination_city, title, min_weight_id, max_weight_id, categories, create_time, create_user_id, update_time, update_user_id', 'required'),
-            array('source_city, destination_city, is_fix_shpping, is_pirce_range, min_weight_id, max_weight_id', 'numerical', 'integerOnly' => true),
+            array('source_city, destination_city, is_fix_shpping, is_pirce_range ', 'numerical', 'integerOnly' => true),
             array('is_fix_shpping,is_weight_based,is_pirce_range', 'numerical'),
             array('is_fix_shpping,is_weight_based,is_pirce_range', 'validateIfNoShipType'),
             array('start_price,end_price', 'numerical', 'integerOnly' => FALSE),
-            array('min_weight_id,max_weight_id', 'numerical', 'integerOnly' => FALSE),
+            //array('min_weight_id,max_weight_id', 'numerical', 'integerOnly' => FALSE),
             array('price_range_shipping_cost,weight_range_shipping_cost,fix_shipping_cost',
                 'numerical', 'integerOnly' => FALSE),
             array('fix_shipping_cost', 'validateShippingFixScanario'),
@@ -197,8 +197,8 @@ class ShippingClass extends DTActiveRecord {
             'is_weight_based' => 'W Range based',
             'start_price' => 'Start Price',
             'end_price' => 'End Price',
-            'min_weight_id' => 'Min Weight',
-            'max_weight_id' => 'Max Weight',
+            'min_weight_id' => 'Min Weight (Kg)',
+            'max_weight_id' => 'Max Weight (Kg)',
             '_shipping_range' => 'Price/weight range',
             'categories' => 'Categories',
             'class_status' => 'Status',
@@ -305,7 +305,7 @@ class ShippingClass extends DTActiveRecord {
      * @param type $$is_source
      */
     public function calculateShippingCost($categories, $range, $range_type, $is_source = 1) {
-        $criteria = new CDbCriteria;
+         $criteria = new CDbCriteria;
         $criteria->addCondition("source_city =" . Yii::app()->session['city_id']);
         if ($is_source == 1) {
             $criteria->addCondition("destination_city =" . Yii::app()->session['city_id']);
@@ -313,7 +313,7 @@ class ShippingClass extends DTActiveRecord {
         else {
             $criteria->addCondition("destination_city = 0 ");
         }
-        $criteria->compare('categories', implode(",",$categories), true,"AND");
+        $criteria->compare('categories', implode(",",$categories), true, "AND");
         $criteria->order = 'id DESC';
         if ($range_type == "price") {
             $criteria->addCondition('class_status = 1 AND end_price >= ' . $range . ' AND start_price <= ' . $range);
@@ -325,15 +325,30 @@ class ShippingClass extends DTActiveRecord {
            
         }
 
+ 
+
         if ($ship_data = $this->find($criteria)) {
             
-            if ($range_type == "price")
+            if ($range_type == "price"){
                 return $ship_data->price_range_shipping_cost;
-            else if ($range_type == "weight")
-                return $ship_data->weight_range_shipping_cost;
-            else
-                return $ship_data->fix_shipping_cost;
-        }
+
+            }else if ($range_type == "weight"){
+
+                if($range >= 1){ //current implentation add whole 140 tax if exceed single gram. if not comapre it to 2kg.
+
+                    if(($range/(int)$range) == 1){ //if the calculated weight is exctly a whole number e.g if 3kg then calculate 2*140+215 if 3.xx then 3*140+215
+                        $range -= 1;
+                    }
+                    //$range -= 1; if not to include cost of extra gram.
+                    $additional_kg_weight_price = ( ( (int)$range ) * $ship_data->weight_range_shipping_cost ) + 215 ;
+                    return $additional_kg_weight_price;
+                }
+               return $ship_data->weight_range_shipping_cost;
+            }else{
+               return $ship_data->fix_shipping_cost;
+            }                
+          }
+        
         return 0;
     }
     
