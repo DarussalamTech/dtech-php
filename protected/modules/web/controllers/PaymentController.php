@@ -12,6 +12,8 @@ class PaymentController extends Controller {
      * @return array action filters
      */
     public function filters() {
+//                     echo 'filters';die;
+
         return array(
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
@@ -29,6 +31,10 @@ class PaymentController extends Controller {
      * @return array access control rules
      */
     public function accessRules() {
+ 
+        if(Yii::app()->user->isGuest){
+           $this->redirect($this->createUrl("/web/site/login"));
+        }
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('paymentmethod', 'confirmorder',
@@ -47,8 +53,9 @@ class PaymentController extends Controller {
      * Selection of payment method here
      */
     public function actionpaymentMethod() {
+    
         Yii::app()->user->SiteSessions;
-
+   
         /**
          * if cart is empty then it redirect to home page
          */
