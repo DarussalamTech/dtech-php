@@ -31,10 +31,18 @@ $params = array(
         'returnUrl' => 'paypal/confirm/', //regardless of url management component
         'cancelUrl' => 'paypal/cancel/', //regardless of url management component
     ),
-    'TwoCheckout'=> array(
+    /*'TwoCheckout'=> array(  // darussalamPK 2CO merchant account settings .. it was disabled as we will shift to only one 2CO account that is of Islamic Library or darussalamp ebooks
         'sellerId' => '202363463',
         'publishableKey' => 'C3E17998-5986-11E4-81C5-FB713A5D4FFE',
         'privateKey' => 'C3E17A38-5986-11E4-81C5-FB713A5D4FFE',
+        'twocheckoutPaymentUrlProduction' => 'https://www.2checkout.com/checkout/purchase',
+        'twocheckoutPaymentUrlSandbox' => 'https://sandbox.2checkout.com/checkout/purchase',
+        'twocheckoutSuccessUrl' => 'http://darussalampk.com/web/payment/placeOrder',
+    ),*/
+    'TwoCheckout'=> array( // 2CO merchant account settings of the daurssalampublishers ebooks or islamic-library payments or sales
+        'sellerId' => '202391468',
+        'publishableKey' => 'A0154622-6A0F-11E4-B171-45733A5D4FFE',
+        'privateKey' => 'A01546CC-6A0F-11E4-B171-45733A5D4FFE',
         'twocheckoutPaymentUrlProduction' => 'https://www.2checkout.com/checkout/purchase',
         'twocheckoutPaymentUrlSandbox' => 'https://sandbox.2checkout.com/checkout/purchase',
         'twocheckoutSuccessUrl' => 'http://darussalampk.com/web/payment/placeOrder',
