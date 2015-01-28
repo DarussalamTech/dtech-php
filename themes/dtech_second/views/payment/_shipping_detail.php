@@ -96,7 +96,8 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
                         'type' => 'POST',
                         'url' => $this->createUrl('/web/payment/statelist'),
                         'update' => '#ShippingInfoForm_shipping_state'
-                    )
+                    ),
+                    'onchange'=>'toggle_cod(this)'
                 ));
                 ?>
                 <?php echo $form->error($model, 'shipping_country'); ?>

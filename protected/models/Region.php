@@ -101,5 +101,17 @@ class Region extends DTActiveRecord {
             'criteria' => $criteria,
         ));
     }
-
+    
+    /**
+     * This will return coutry name on providing country id
+     * @param type $region_id : country id
+     */
+    public function getRegionName($region_id){
+        $criteria = new CDbCriteria();
+        $criteria->select = "name";
+        $criteria->condition = "id = :country_id";
+        $criteria->params = array("country_id" => $region_id );
+        
+        return $this->find($criteria)['name'];
+    }
 }
