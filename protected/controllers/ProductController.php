@@ -306,19 +306,24 @@ class ProductController extends Controller {
         $record = $this->loadModel($id);
         $delete = 1;
 
-        if (count($record->productProfile) > 0) {
-      
-            foreach ($record->productProfile as $child) {
-                if (count($child->cart_products) > 0) {
-                    $delete = 0;
-                    break;
-                }
-                if (count($child->orderDetails) > 0) {
-                    $delete = 0;
-                    break;
-                }
-            }
-        }
+         /**
+         * Delete in any case
+         * Asked Bt Waseem
+         */
+
+//        if (count($record->productProfile) > 0) {
+//
+//            foreach ($record->productProfile as $child) {
+//                if (count($child->cart_products) > 0) {
+//                    $delete = 0;
+//                    break;
+//                }
+//                if (count($child->orderDetails) > 0) {
+//                    $delete = 0;
+//                    break;
+//                }
+//            }
+//        }
       
         if ($delete == 1) {
             Yii::app()->db->createCommand("SET FOREIGN_KEY_CHECKS=0;")->execute();
