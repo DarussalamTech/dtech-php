@@ -145,25 +145,30 @@ class ProductTemplateController extends Controller {
         $record = $this->loadModel($id);
         $delete = 1;
 
-        if (count($record->productTemplatesChilderns) > 0) {
-            $delete = 0;
-            
-        }
+        /**
+         * Delete in any case
+         * Asked Bt Waseem
+         */
+ 
+//        if (count($record->productTemplatesChilderns) > 0) {
+//            $delete = 0;
+//
+//        }
 
-        if (count($record->productProfile) > 0 && $delete ==1) {
-
-            foreach ($record->productProfile as $child) {
-
-                if (count($child->cart_products) > 0) {
-                    $delete = 0;
-                    break;
-                }
-                if (count($child->orderDetails) > 0) {
-                    $delete = 0;
-                    break;
-                }
-            }
-        }
+//        if (count($record->productProfile) > 0 && $delete ==1) {
+//
+//            foreach ($record->productProfile as $child) {
+//
+//                if (count($child->cart_products) > 0) {
+//                    $delete = 0;
+//                    break;
+//                }
+//                if (count($child->orderDetails) > 0) {
+//                    $delete = 0;
+//                    break;
+//                }
+//            }
+//        }
 
         if ($delete == 1) {
             Yii::app()->db->createCommand("SET FOREIGN_KEY_CHECKS=0;")->execute();
