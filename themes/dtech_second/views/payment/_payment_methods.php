@@ -27,6 +27,8 @@
      */
     function load_shipping_detail(payment_method)
     {
+        //console.log(payment_method);
+        //alert("shipping info load");
         if(payment_method.value == "Credit Card")
         {
             $("#shipping_charges_info").css("display","block");
@@ -51,24 +53,42 @@
             return true;
         }
     }
+    
+    /*Toggleing the Cash on Delivery option on clicking country dropdown*/
+    function toggle_cod(dd_element){
+        var selectedValue = dd_element.options[dd_element.selectedIndex].innerHTML;
+        if(selectedValue == 'Pakistan'){
+            $("#ShippingInfoForm_payment_method").append('<option value="Cash On Delievery">Cash On Delievery</option>');
+        }else{
+            $("#ShippingInfoForm_payment_method option[value='Cash On Delievery']").remove();
+        }
+    }
 </script>
 
-<div class="secure_right_form" style="<?php echo empty($paymentMehtods) ? "display:none" : "" ?>">
+<div class="secure_right_form" style="<?php echo empty($paymentMethods) ? "display:none" : "" ?>">
     <article><span>*</span>Payment Method</article>
     <img src="<?php echo Yii::app()->theme->baseUrl ?>/images/norton_secured_03.png" />
 
     <div class="secure_input" id="peyment_methods_list">
         <?php
         $_ship_url = $this->createUrl("/web/payment/calculateShipping");
-        echo $form->dropDownList($model, 'payment_method', array("" => "Select") +
-                CHtml::listData($paymentMehtods, "name", "name"),  array("onchange"=>"load_shipping_detail(this)")
-        );
+        
+        if(strtolower($country_name) != "pakistan")
+        {
+            echo $form->dropDownList($model, 'payment_method', array("" => "Select") +
+                    CHtml::listData($paymentMethodsNonPakistan, "name", "name"),  array("onchange"=>"load_shipping_detail(this)")
+            );
+        }else{
+            echo $form->dropDownList($model, 'payment_method', array("" => "Select") +
+                    CHtml::listData($paymentMethods, "name", "name"),  array("onchange"=>"load_shipping_detail(this)")
+            );
+        }    
         ?>
         <?php echo $form->error($model, 'payment_method'); ?>
-        <div class="clear"></div>
-        <p style="display:none;" id="shipping_charges_info">Extra shipping and tax charges will be deducted on Credit Card Payment</p>
-        <div class="clear"></div>
-        <article style="display: none;" id="shipping_type_lbl"><span >*</span>Shipping Type</article>    
+            <div class="clear"></div>
+            <p style="display:none;" id="shipping_charges_info">Extra shipping and tax charges will be deducted on Credit Card Payment</p>
+            <div class="clear"></div>
+            <article style="display: none;" id="shipping_type_lbl"><span >*</span>Shipping Type</article>    
         <?php //echo CHtml::dropDownList("shipping_type", array("local"=>"Local(Within Pakistan)"), array("local"=>"Local(Within Pakistan)","international"=>"International(Other Country)"),array("style"=>"display:none;","id"=>"shipping_type"));?>
         <?php echo $form->dropDownList($model,"shipping_type", array("select"=>"Select","local"=>"Local(Within Pakistan)","international"=>"International(Other Country)"),array("style"=>"display:none"));?>
         

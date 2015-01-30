@@ -46,18 +46,27 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
          * 
          */
         echo '<div class="form_container">';
+        // criteria and payment methods for Pakistan Country
         $criteria = new CDbCriteria();
         $criteria->select = "name,status";
         $criteria->addInCondition("name", array("Cash On Delievery", "Pay Pal", "Credit Card"));
         $criteria->addCondition("status ='Enable'");
-
-        if ($paymentMehtods = ConfPaymentMethods::model()->findAll($criteria)) {
-            $this->renderPartial("//payment/_shipping_detail", array("model" => $model, "regionList" => $regionList, "form" => $form));
+        $paymentMethods = ConfPaymentMethods::model()->findAll($criteria);
+        
+        // criteria and payment methods for Other countries other than Pakistan
+        $criteria = new CDbCriteria();
+        $criteria->select = "name,status";
+        $criteria->addInCondition("name", array("Pay Pal", "Credit Card"));
+        $criteria->addCondition("status ='Enable'");
+        $paymentMethodsNonPakistan = ConfPaymentMethods::model()->findAll($criteria);
+        
+        if ($paymentMethods) {
+            $this->renderPartial("//payment/_shipping_detail", array("model" => $model, "regionList" => $regionList, "form" => $form,"country_name" => $country_name));
         } else {
             $this->renderPartial("//payment/_shipping_detail_temp", array("model" => $model, "regionList" => $regionList, "form" => $form));
         }
 
-        $this->renderPartial("//payment/_payment_methods", array("model" => $model, "form" => $form, "creditCardModel" => $creditCardModel, "paymentMehtods" => $paymentMehtods));
+        $this->renderPartial("//payment/_payment_methods", array("model" => $model, "form" => $form, "creditCardModel" => $creditCardModel, "paymentMethods" => $paymentMethods,"paymentMethodsNonPakistan" => $paymentMethodsNonPakistan, "country_name" => $country_name));
 
 
         echo '</div>';
@@ -77,3 +86,4 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/css/for
     }
     ?>
 </style>
+<!--ShippingInfoForm_shipping_country-->

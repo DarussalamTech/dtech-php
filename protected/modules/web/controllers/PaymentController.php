@@ -55,7 +55,7 @@ class PaymentController extends Controller {
     public function actionpaymentMethod() {
     
         Yii::app()->user->SiteSessions;
-   
+        
         /**
          * if cart is empty then it redirect to home page
          */
@@ -78,7 +78,7 @@ class PaymentController extends Controller {
      * 
      */
 
-    public function handleShipping() {
+    public function handleShipping() {        
         $error = array('status' => false);
         $model = new ShippingInfoForm();
         $model->setAttributeByDefault();
@@ -94,6 +94,11 @@ class PaymentController extends Controller {
                 $this->redirect($this->createUrl("/web/payment/placeOrder"));
             }
         }
+        
+        $shipping_country_name = "";
+        // getting shipping country name on behalf of country_id(region id) to disable the Cash On Delivery option for international customers
+        $shipping_country_name = Region::model()->getRegionName($model->shipping_country);
+        
         $criteria = new CDbCriteria;
         if ($country_list = Cart::model()->getCartCountryList()) {
 
@@ -105,6 +110,7 @@ class PaymentController extends Controller {
             'model' => $model,
             'regionList' => $regionList,
             'creditCardModel' => $creditCardModel,
+            'country_name' => $shipping_country_name,
             'error' => $error
         ));
     }
