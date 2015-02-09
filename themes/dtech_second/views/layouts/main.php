@@ -231,6 +231,34 @@
                         }
                         ?>
 
+                          <?php
+                            /**
+                             * Add catalog tab on main headers hardcoded.
+                             * Asked By: Waseem.
+                             */
+                                echo '<li class="nav_hover">';
+                                echo CHtml::link(Yii::t('common', "Catalog", array(), NULL, $this->currentLang), $this->createUrl(""), array("class" => "top_link_hover"));
+                                echo CHtml::openTag("div", array(
+                                    "class" => "nav_dropdown",
+                                    "style" => "display:none;"
+                                        )
+                                );
+                                    echo '<div class="nav_pointer"></div>';
+                                      echo "<ul>";
+                                            echo "<li class=''>";
+                                            echo CHtml::link("English", 'http://goo.gl/KCjc66');
+                                            echo "</li>";
+                                    
+                                            echo "<li class=''>";
+                                            echo CHtml::link("Urdu/Arabic", 'http://goo.gl/eLcozE');
+                                            echo "</li>";
+                                        echo "</ul>";
+                                  echo CHtml::closeTag("div");
+                               echo "</li>";
+                        ?>
+
+
+
                     </ul>
                 </nav>
                 <div class="wishlist">
