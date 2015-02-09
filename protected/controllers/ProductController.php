@@ -307,23 +307,23 @@ class ProductController extends Controller {
         $delete = 1;
 
          /**
-         * Delete in any case
+         * comment if condition if you want to Delete product any case
          * Asked Bt Waseem
          */
 
-//        if (count($record->productProfile) > 0) {
-//
-//            foreach ($record->productProfile as $child) {
-//                if (count($child->cart_products) > 0) {
-//                    $delete = 0;
-//                    break;
-//                }
-//                if (count($child->orderDetails) > 0) {
-//                    $delete = 0;
-//                    break;
-//                }
-//            }
-//        }
+        if (count($record->productProfile) > 0) {
+
+            foreach ($record->productProfile as $child) {
+                if (count($child->cart_products) > 0) {
+                    $delete = 0;
+                    break;
+                }
+                if (count($child->orderDetails) > 0) {
+                    $delete = 0;
+                    break;
+                }
+            }
+        }
       
         if ($delete == 1) {
             Yii::app()->db->createCommand("SET FOREIGN_KEY_CHECKS=0;")->execute();
@@ -399,7 +399,7 @@ class ProductController extends Controller {
         $this->init();
         $model = new Product('search');
         $model->unsetAttributes();  // clear any default values
-
+        var_dump($model);die;
         $model->city_id = Yii::app()->request->getQuery('city_id');
 
         if (isset($_GET['Product']))
